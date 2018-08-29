@@ -274,6 +274,10 @@ def XYZ_to_RGB(X, Y, Z, XN, YN, ZN):
             ( 0.055648 * X - 0.204043 * Y + 1.057311 * Z) / YN]   # B
 
 
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 
 
 ## ----- CIE-XYZ <-> sRGB -----
@@ -359,6 +363,12 @@ def XYZ_to_sRGB(X, Y, Z, XN, YN, ZN):
     return [R, G, B]
 
 
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+
 ## ----- CIE-XYZ <-> CIE-LAB ----- */
 
 ## Often approximated as 903.3 */
@@ -372,256 +382,493 @@ epsilon = 216.0/24389.0
 def LAB_to_XYZ(L, A, B, XN, YN, ZN):
     """TODO"""
 
-    kappa = 24389.0/27.0
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [L, A, B, XN, YN, ZN]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if not np.all([len(XN) == len(x) for x in [YN, ZN]]):
+        log.error("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(L) == len(x) for x in [A, B]]):
+        log.error("Inputs L/A/B to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if len(XN) == 1 and not len(XN) == len(L):
+        XN = np.repeat(XN, len(L))
+        YN = np.repeat(YN, len(L))
+        ZN = np.repeat(ZN, len(L))
+
+    kappa   = 24389.0/27.0
     epsilon = 216.0/24389.0
 
-    if L <= 0:
-        Y = 0.0
-    elif L <= 8.0:
-        Y = L * YN / kappa
-    elif L <= 100.:
-        Y = YN * np.power((L + 16.) / 116., 3.)
-    else:
-        Y = YN
+    # Result arrays
+    X = np.ndarray(len(L), dtype = "float"); X[:] = 0.
+    Y = np.ndarray(len(L), dtype = "float"); Y[:] = 0.
+    Z = np.ndarray(len(L), dtype = "float"); Z[:] = 0.
+
+    # Calculate Y
+    for i,val in np.ndenumerate(L):
+        if   val <= 0:    Y[i] = 0.
+        elif val <= 8.0:  Y[i] = val * YN[i] / kappa
+        elif val <= 100.: Y[i] = YN[i] * np.power((val + 16.) / 116., 3.)
+        else:             Y[i] = YN[i]
+
+    fy = np.ndarray(len(Y), dtype = "float")
+    for i,val in np.ndenumerate(Y):
+        if val <= (epsilon * YN[i]):
+            fy[i] = (kappa / 116.) * val / YN[i] + 16. / 116.
+        else:
+            fy[i] = np.power(val / YN[i], 1. / 3.)
     
-    if Y <= (epsilon * YN):
-        fy = (kappa / 116.) * Y / YN + 16. / 116.
-    else:
-        fy = np.power(Y / YN, 1./3.)
-    
+    # Calculate X
     fx = fy + (A / 500.)
-    if np.power(fx, 3.) <= epsilon:
-        X = XN * (fx - 16. / 116.) / (kappa / 116.)
-    else:
-        X = XN * np.power(fx, 3)
+    for i,val in np.ndenumerate(fx):
+        if np.power(val, 3.) <= epsilon:
+            X[i] = XN[i] * (val - 16. / 116.) / (kappa / 116.)
+        else:
+            X[i] = XN[i] * np.power(val, 3.)
     
+    # Calculate Z
     fz = fy - (B / 200.)
-    if np.power(fz, 3.) <= epsilon:
-        Z = ZN * (fz - 16. / 116.) / (kappa / 116.)
-    else:
-        Z = ZN * np.power(fz, 3)
+    for i,val in np.ndenumerate(fz):
+        if np.power(val, 3.) <= epsilon:
+            Z[i] = ZN[i] * (val - 16. / 116.) / (kappa / 116.)
+        else:
+            Z[i] = ZN[i] * np.power(val, 3)
 
     return [X, Y, Z]
 
-def f(t):
-    """TODO"""
-    kappa = 24389.0/27.0
-    epsilon = 216.0/24389.0
-    return np.power(t, 1./3.) if t > epsilon else (kappa / 116.) * t + 16. / 116.
-
 def XYZ_to_LAB(X, Y, Z, XN, YN, ZN):
     """TODO"""
-    kappa = 24389.0/27.0
-    epsilon = 216.0/24389.0
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [X, Y, Z, XN, YN, ZN]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if not np.all([len(XN) == len(x) for x in [YN, ZN]]):
+        log.error("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(X) == len(x) for x in [Y, Z]]):
+        log.error("Inputs X/Y/Z to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if len(XN) == 1 and not len(XN) == len(X):
+        XN = np.repeat(XN, len(X))
+        YN = np.repeat(YN, len(X))
+        ZN = np.repeat(ZN, len(X))
+
+    # Support function
+    def f(t, kappa, epsilon):
+        for i,val in np.ndenumerate(t):
+            if val > epsilon:
+                t[i] = np.power(val, 1./3.)
+            else:
+                t[i] = (kappa / 116.) * val + 16. / 116.
+        return t
+
+    kappa   = 24389.0 / 27.0
+    epsilon = 216.0 / 24389.0
 
     xr = X / XN;
     yr = Y / YN;
     zr = Z / ZN;
-    if yr > epsilon:
-        L = 116. * np.power(yr, 1./3.) - 16.
-    else:
-        L = kappa * yr
-    xt = f(xr);
-    yt = f(yr);
-    zt = f(zr);
-    A = 500.0 * (xt - yt)
-    B = 200.0 * (yt - zt)
-    return [L, A, B]
+
+    # Calculate L
+    L = np.ndarray(len(X), dtype = "float"); L[:] = 0.
+    for i,val in np.ndenumerate(yr):
+        if val > epsilon:
+            L[i] = 116. * np.power(val, 1./3.) - 16.
+        else:
+            L[i] = kappa * val
+
+    xt = f(xr, kappa, epsilon);
+    yt = f(yr, kappa, epsilon);
+    zt = f(zr, kappa, epsilon);
+    return [L, 500. * (xt - yt), 200. * (yt - zt)]  # [L, A, B]
 
 
-## ----- CIE-XYZ <-> Hunter LAB -----
-#### Hunter LAB is no longer part of the public API, but the code
-#### is still here in case it is needed.
-##static void XYZ_to_HLAB(double X, double Y, double Z,
-##                        double XN, double YN, double ZN,
-##                        double *L, double *A, double *B)
-##{
-##    X = X / XN;
-##    Y = Y / YN;
-##    Z = Z / ZN;
-##    *L = sqrt(Y);
-##    *A = 17.5 * (((1.02 * X) - Y) / *L);
-##    *B = 7 * ((Y - (0.847 * Z)) / *L);
-##    *L = 10 * *L;
-##}
-##
-##static void HLAB_to_XYZ(double L, double A, double B,
-##                        double XN, double YN, double ZN,
-##                        double *X, double *Y, double *Z)
-##{
-##    double vX, vY, vZ;
-##    vY = L / 10;
-##
-##    vX = (A / 17.5) * (L / 10);
-##    vZ = (B / 7) * (L / 10);
-##    vY = vY * vY;
-##
-##    *Y = vY;
-##    *X = (vX + vY) / 1.02;
-##    *Z = -(vZ - vY) / 0.847;
-##
-##    *X = *X * XN;
-##    *Y = *Y * YN;
-##    *Z = *Z * ZN;
-##}
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 
-## ----- LAB <-> polarLAB ----- */
+def XYZ_to_HLAB(X, Y, Z, XN, YN, ZN):
+    """CIE-XYZ to Hunter LAB.
+    Note that the Hunter LAB is no longer part of the public API,
+    but the code is still here in case needed.
+    @param X np.ndarray, CIE chromaticies.
+    @param Y np.ndarray, CIE chromaticies.
+    @param Z np.ndarray, CIE chromaticies.
+    @param XN, YN, ZN np.ndarray with chromaticity of the white point.
+        If of length 1 the white point specification will be recycled
+        if length of X/Y/Z is larger than one.
+    @return Returns corresponding Hunter L/A/B coordinates
+        a list of np.ndarray's of the same length as the inputs ([L, A, B]).
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [X, Y, Z, XN, YN, ZN]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if not np.all([len(XN) == len(x) for x in [YN, ZN]]):
+        log.error("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(X) == len(x) for x in [Y, Z]]):
+        log.error("Inputs X/Y/Z to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if len(XN) == 1 and not len(XN) == len(X):
+        XN = np.repeat(XN, len(X))
+        YN = np.repeat(YN, len(X))
+        ZN = np.repeat(ZN, len(X))
+
+    X = X / XN; Y = Y / YN; Z = Z / ZN;
+    l = np.sqrt(Y);
+    return [10. * l, 17.5 * (((1.02 * X) - Y) / l), 7. * ((Y - (0.847 * Z)) / l)] # [L, A, B]
+
+
+def HLAB_to_XYZ(L, A, B, XN, YN, ZN):
+    """Hunter LAB to CIE-XYZ.
+    Note that the Hunter LAB is no longer part of the public API,
+    but the code is still here in case needed.
+    @param L np.ndarray, Hunter LAB coordinate L.
+    @param A np.ndarray, Hunter LAB coordinate A.
+    @param B np.ndarray, Hunter LAB coordinate B.
+    @param XN, YN, ZN np.ndarray with chromaticity of the white point.
+        If of length 1 the white point specification will be recycled
+        if length of X/Y/Z is larger than one.
+    @return Returns corresponding Hunter CIE X/Z/Y coordinates as
+        a list of np.ndarray's of the same length as the inputs ([X, Y, Z]).
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [L, A, B, XN, YN, ZN]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if not np.all([len(XN) == len(x) for x in [YN, ZN]]):
+        log.error("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(L) == len(x) for x in [A, B]]):
+        log.error("Inputs L/A/B to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if len(XN) == 1 and not len(XN) == len(L):
+        XN = np.repeat(XN, len(L))
+        YN = np.repeat(YN, len(L))
+        ZN = np.repeat(ZN, len(L))
+
+    vY = L / 10.;
+    vX = (A / 17.5) * (L / 10);
+    vZ = (B / 7) * (L / 10);
+    vY = vY * vY;
+
+    Y = vY * XN
+    X = (vX + vY) / 1.02 * YN
+    Z = - (vZ - vY) / 0.847 * ZN
+
+    return [X, Y, Z]
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 
 def LAB_to_polarLAB(L, A, B):
-    vH = RAD2DEG(np.arctan2(B, A))
-    while vH > 360:
-        vH -= 360.
-    while vH < 0:
-        vH += 360.
-    l = L
-    c = sqrt(A * A + B * B)
-    h = vH
-    return [l, c, h]
+    """LAB to polarLAB.
+    Converts L/A/B coordinaes into polar LAB coordinates.
+    @param L np.ndarray with coordinates in the L dimension.
+    @param A np.ndarray with coordinates in the A dimension.
+    @param B np.ndarray with coordinates in the B dimension.
+    @return Returns a list of np.ndarrays of the same length
+        as the input arrays L/A/B with the coordinates in the
+        polarLAB colors space. Order [L, C, H].
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [L, A, B]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(L) == len(x) for x in [A, B]]):
+        log.error("Inputs L/A/B to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    # Compute H
+    H = RAD2DEG(np.arctan2(B, A))
+    for i,val in np.ndenumerate(H):
+        while val > 360.:   val -= 360.
+        while val <   0.:   val += 360.
+        H[i] = val
+    # Compute C
+    C = np.sqrt(A * A + B * B)
+
+    return [L, C, H]
 
 def polarLAB_to_LAB(L, C, H):
-    l = L
-    a = cos(DEG2RAD(H)) * C
-    b = sin(DEG2RAD(H)) * C
-    return [l, a, b]
+    """polarLAB to LAB.
+    Converts L/C/H from polar LAB to LAB coordinates.
+    @param L np.ndarray with coordinates in the L dimension.
+    @param C np.ndarray with coordinates in the C dimension.
+    @param H np.ndarray with coordinates in the H dimension.
+    @return Returns a list of np.ndarrays of the same length
+        as the input arrays L/A/B with the coordinates in the
+        polarLAB colors space. Order [L, C, H].
+    """
 
-## ----- RGB <-> HSV ----- */
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [L, C, H]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(L) == len(x) for x in [C, H]]):
+        log.error("Inputs L/C/H to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
 
-##def max3(a, b, c):
-##    return np.max([a,b,c])
+    A = np.cos(DEG2RAD(H)) * C
+    B = np.sin(DEG2RAD(H)) * C
 
-##def min3(a, b, c):
-##    return np.min([a,b,c])
+    return [L, A, B]
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 
 def RGB_to_HSV(r, g, b):
-    x = np.min(r,g,b)
-    y = np.max(r,g,b)
-    if y != x:
-        #DEL#f = (r == x) ? g - b : ((g == x) ? b - r : r - g)
-        f = g - b if r == x else b - r if g == x else r-g
-        #DEL# i = (r == x) ? 3 : ((g == x) ? 5 : 1)
-        i = 3 if r == x else 5 if g == x else 1
-        h = 60 * (i - f /(y - x))
-        s = (y - x)/y
-        v = y
-    else:
-        ####ifdef MONO
-        ### *h = NA_REAL; *s = 0; *v = y;
-        ####else
-        ### *h = 0; *s = 0; *v = y;
-        ####endif
-        h = 0
-        s = 0
-        v = y
+    """Convert RGB to HSV.
+    @param r np.ndarray with red intensities [0-1].
+    @param g np.ndarray with green intensities [0-1].
+    @param b np.ndarray with blue intensities [0-1].
+    @return Returns a list with the corresponding coordinates in the
+        HSV color space ([h, s, v]).
+    """
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [r, g, b]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(r) == len(x) for x in [g, b]]):
+        log.error("Inputs r/g/b to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    # Support function
+    def gethsv(r, g, b):
+        x = np.min([r, g, b])
+        y = np.max([r, g, b])
+        if y != x:
+            f = g - b if r == x else b - r if g == x else r - g
+            i = 3. if r == x else 5. if g == x else 1.
+            h = 60. * (i - f /(y - x))
+            s = (y - x)/y
+            v = y
+        else:
+            ####ifdef MONO
+            ### *h = NA_REAL; *s = 0; *v = y;
+            ####else
+            ### *h = 0; *s = 0; *v = y;
+            ####endif
+            h = 0.
+            s = 0.
+            v = y
+        return [h, s, v]
+
+    # Result arrays
+    h = np.ndarray(len(r), dtype = "float"); h[:] = 0.
+    s = np.ndarray(len(r), dtype = "float"); s[:] = 0.
+    v = np.ndarray(len(r), dtype = "float"); v[:] = 0.
+
+    # Calculate h/s/v
+    for i in range(0, len(r)):
+        tmp = gethsv(r[i], g[i], b[i])
+        h[i] = tmp[0]; s[i] = tmp[1]; v[i] = tmp[2]
+
     return [h, s, v]
 
 
 def HSV_to_RGB(h, s, v):
-    """TODO"""
-    if h == np.nan:
-        r = v
-        g = v
-        b = v
-    else:
-        h = h /60  ## convert to [0, 6]
-        i = floor(h)
+    """Convert HSV to RGB.
+    @param h np.ndarray with hue intensities [0-360].
+    @param s np.ndarray with saturation intensities [0-1].
+    @param v np.ndarray with value intensities [0-1].
+    @return Returns a list with the corresponding coordinates in the
+        RGB color space ([r, g, b], all in [0-1]).
+    """
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [h, s, v]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(h) == len(x) for x in [s, v]]):
+        log.error("Inputs h/s/v to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+
+    # Support function
+    def getrgb(h, s, v):
+
+        # If Hue is not defined:
+        if h == np.nan: return np.rep(v, 3)
+
+        # Convert to [0-6]
+        h = h / 60.
+        i = np.floor(h)
         f = h - i
-    if (i % 2) == 0:  # if i is even 
-        f = 1 - f
+
+        if (i % 2) == 0:  # if i is even 
+            f = 1 - f
+
         m = v * (1 - s)
         n = v * (1 - s * f)
-        if i in [0,6]:
-            RETURN_RGB(v, n, m)
-        elif i == 1:
-            RETURN_RGB(n, v, m)
-        elif i == 2:
-            RETURN_RGB(m, v, n)
-        elif i == 3:
-            RETURN_RGB(m, n, v)
-        elif i == 4:
-            RETURN_RGB(n, m, v)
-        elif i == 5:
-            RETURN_RGB(v, m, n)
+        if i in [0,6]:     return [v, n, m]
+        elif i == 1:       return [n, v, m]
+        elif i == 2:       return [m, v, n]
+        elif i == 3:       return [m, n, v]
+        elif i == 4:       return [n, m, v]
+        elif i == 5:       return [v, m, n]
         else:
             import sys;
             sys.exit("Ended up in a non-defined ifelse with i = %d".format(i))
+
+    # Result arrays
+    r = np.ndarray(len(h), dtype = "float"); r[:] = 0.
+    g = np.ndarray(len(h), dtype = "float"); g[:] = 0.
+    b = np.ndarray(len(h), dtype = "float"); b[:] = 0.
+
+    for i in range(0,len(h)):
+       tmp = getrgb(h[i], s[i], v[i])
+       r[i] = tmp[0]; g[i] = tmp[1]; b[i] = tmp[2]
+
     return [r, g, b]
 
-## rgb all in [0,1] 
-## h in [0, 360], ls in [0,1]
-##
-## From:
-## http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+
 def RGB_to_HLS(r, g, b):
+    """Convert RGB to HLS.
+    All r/g/b values in [0-1], h in [0, 360], l and s in [0, 1].
+    From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
 
-    min = np.min([r, g, b])
-    max = np.max([r, g, b])
+    @param r np.ndarray with red intensities [0-1].
+    @param g np.ndarray with green intensities [0-1].
+    @param b np.ndarray with blue intensities [0-1].
+    @return Returns a list with the corresponding coordinates in the
+        HSV color space ([h, s, v]).
+    """
 
-    l = (max + min)/2;
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [r, g, b]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(r) == len(x) for x in [g, b]]):
+        log.error("Inputs r/g/b to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
 
-    if max != min:
-        if l <  0.5:
-            s = (max - min) / (max + min)
-        if l >= 0.5:  
-            s = (max - min) / (2. - max - min)
+    # Support function
+    def gethls(r, g, b):
+        min = np.min([r, g, b])
+        max = np.max([r, g, b])
 
-        if r == max:
-            h = (g - b) / (max - min);
-        if g == max: 
-            h = 2. + (b - r) / (max - min);
-        if b == max: 
-            h = 4. + (r - g) / (max - min);
+        l = (max + min)/2.;
 
-        h = h * 60.;
-        if h < 0.: 
-           h = h + 360.;
-        if h > 360.: 
-           h = h - 360.;
-    else:
-        s = 0
-        ####ifdef MONO
-        ### *h = NA_REAL; 
-        ####else
-        ### *h = 0;
-        ####endif
-        h = 0;
+        if max != min:
+            if   l <  0.5: s = (max - min) / (max + min)
+            elif l >= 0.5: s = (max - min) / (2. - max - min)
+
+            if r == max:  h = (g - b) / (max - min);
+            if g == max:  h = 2. + (b - r) / (max - min);
+            if b == max:  h = 4. + (r - g) / (max - min);
+
+            h = h * 60.;
+            if h < 0.:    h = h + 360.;
+            if h > 360.:  h = h - 360.;
+        else:
+            s = 0
+            ####ifdef MONO
+            ### *h = NA_REAL; 
+            ####else
+            ### *h = 0;
+            ####endif
+            h = 0;
+
+        return [h, l, s]
+
+    # Result arrays
+    h = np.ndarray(len(r), dtype = "float"); h[:] = 0.
+    l = np.ndarray(len(r), dtype = "float"); l[:] = 0.
+    s = np.ndarray(len(r), dtype = "float"); s[:] = 0.
+
+    for i in range(0,len(h)):
+       tmp = gethls(r[i], g[i], b[i])
+       h[i] = tmp[0]; l[i] = tmp[1]; s[i] = tmp[2]
+
     return [h, l, s]
 
-def qtrans(q1, q2, hue):
-    """TODO"""
-
-    if hue > 360.:
-        hue = hue - 360.
-    if hue < 0: 
-        hue = hue + 360.
-
-    if hue < 60.:
-        result = q1 + (q2 - q1) * hue / 60.
-    elif hue < 180.:
-        result = q2
-    elif hue < 240.: 
-        result = q1 + (q2 - q1) * (240. - hue) / 60.
-    else:
-        result = q1
-
-    return result;
 
 def HLS_to_RGB(h, l, s):
-    """TODO"""
-    
-    if l <= 0.5: 
-        p2 = l * (1 + s);
-    else:
-        p2 = l + s - (l * s)
-    p1 = 2 * l - p2
+    """Convert HLS to RGB.
+    All r/g/b values in [0-1], h in [0, 360], l and s in [0, 1].
+    From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
 
-    if (s == 0):
-        r = l
-        g = l
-        b = l
-    else:
-        r = qtrans(p1, p2, h + 120.)
-        g = qtrans(p1, p2, h)
-        b = qtrans(p1, p2, h - 120.)
+    @param h np.ndarray with hue [0-1].
+    @param l np.ndarray with lightness [0-1]. TODO lightness?
+    @param s np.ndarray with value [0-1].
+    @return Returns a list with the corresponding coordinates in the
+        RGB color space ([r, g, b], all in [0-1]).
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [h, l, s]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(h) == len(x) for x in [l, s]]):
+        log.error("Inputs h/l/s to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    # Support function qtrans
+    def qtrans(q1, q2, hue):
+        if hue > 360.:   hue = hue - 360.
+        if hue < 0:      hue = hue + 360.
+    
+        if hue < 60.:    return q1 + (q2 - q1) * hue / 60.
+        elif hue < 180.: return q2
+        elif hue < 240.: return q1 + (q2 - q1) * (240. - hue) / 60.
+        else:            return q1
+    
+    # Support function
+    def getrgb(h, l, s):
+        p2 = l * (1. + s) if l <= 0.5 else 1 + s - (l * s)
+        p1 = 2 * l - p2
+
+        # If saturation is zero
+        if (s == 0):    return np.rep(l, 3)
+        # Else
+        return [qtrans(p1, p2, h + 120.),   # r
+                qtrans(p1, p2, h),          # g
+                qtrans(p1, p2, h - 120.)]   # b
+
+    # Result arrays
+    r = np.ndarray(len(h), dtype = "float"); r[:] = 0.
+    g = np.ndarray(len(h), dtype = "float"); g[:] = 0.
+    b = np.ndarray(len(h), dtype = "float"); b[:] = 0.
+
+    for i in range(0,len(r)):
+       tmp = getrgb(h[i], l[i], s[i])
+       r[i] = tmp[0]; g[i] = tmp[1]; b[i] = tmp[2]
+
     return [r, g, b]
 
 ## ----- CIE-XYZ <-> CIE-LUV ----- */

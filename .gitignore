@@ -2,3 +2,6 @@
 
 colorspace.egg-info
 build
+
+*/*.pyc
+*/*/*.pyc
