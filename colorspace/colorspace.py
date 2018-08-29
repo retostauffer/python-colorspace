@@ -1054,6 +1054,24 @@ def polarLUV_to_LUV(L, C, H):
     H = DEG2RAD(H)
     return [L, C * np.cos(H), C * np.sin(H)] # [L, U, V]
 
+
+
+
+def RGB_to_hex(R, G, B):
+
+    hex = []
+    for i in range(0, len(R)):
+        r = np.min([np.max([0, R[i]]), 1.0]) * 255
+        g = np.min([np.max([0, G[i]]), 1.0]) * 255
+        b = np.min([np.max([0, B[i]]), 1.0]) * 255
+        hex.append('#%02x%02x%02x' % (r, g, b))
+
+    return hex
+
+
+
+
+
 ## ----- Argument Checking -----
 #define CIEXYZ    0
 #define RGB       1
