@@ -3,23 +3,95 @@
 from Tkinter import *
 
 
+class ddObject(object):
+
+    def __init__(self, master, sliders, name, palettes):
+
+        self.master   = master
+        self.name     = name
+        self.palettes = palettes
+        self.sliders  = sliders
+
+        # Adding options menu
+        opts = palettes.get_palette_types()
+
+        dropOpts = StringVar(master)
+        dropOpts.set(opts[0]) # default value
+        self.selected(opts[0]) # Initialize palettes
+
+        #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
+        self.dd = OptionMenu(master, dropOpts, *opts,
+                   command = self.selected)
+        self.dd.config(width = 25, pady = 5, padx = 5)
+        self.dd.grid(column = 1, row = len(opts))
+        self.dd.place(x = 10, y = 30)
+    
+    def selected(self, val):
+
+        print("New item selected ({:s})".format(val))
+        pals = self.palettes.get_palettes(val)
+
+        self._set_sliders_(pals[0])
+
+
+    def _set_sliders_(self, pal):
+
+        pal.show()
+        for x in self.sliders:
+            slider_id = x.getid()
+            value     = pal.get(slider_id)
+            if not value is None:
+                x.setvalue(value)
+
+        print self.sliders
+
+    def _add_dropdown_palettes_(self):
+
+        opts = self.palettes.get_palette_types()
+
+        dropOpts = StringVar(self.master)
+        dropOpts.set(opts[0]) # default value
+
+        obj = ddObject("type")
+
+        #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
+        self.dd_type = OptionMenu(self.master, dropOpts, *opts,
+                        command = obj.selected)
+        self.dd_type.config(width = 25, pady = 5, padx = 5)
+        self.dd_type.grid(column = 1, row = len(opts))
+        self.dd_type.place(x = 10, y = 30)
+
+
 class sliderObject(object):
 
     def __init__(self, name):
 
         self.name = name
 
-    def callback(self, event):
+        # Store the tag
+        import re
+        mtch = re.match("^slider_(.*)$", name)
+        if not mtch:
+            log.error("Whoops, slider name does not match \"^slider_(.*)$\".")
+            sys.exit(9)
+        self.id = mtch.group(1).lower()
 
-        print("Callback received for {:s}!".format(self.name))
+    def callback(self, event):
 
         self.value.delete("1.0", END)
         self.value.insert(INSERT,event)
         self.value.tag_add("right", "1.0", "end")
 
-    def setvalue(self):
+    def getname(self):
+        return self.name
+
+    def getid(self):
+        return self.id
+
+    def setvalue(self, val = None):
         # Reading text value and adjust slider
-        val = self.value.get("1.0",END)
+        if not val:
+            val = self.value.get("1.0",END)
         self.slider.set(val)
 
     def bind(self, slider, label, value, button):
@@ -33,14 +105,20 @@ class gui(object):
     width = 300
     height = 500
 
-    # List to store the sliders
-    nsliders = 0
+    _sliders_ = []
 
     def __init__(self):
+
+        from . import palettes
+        self.palettes = palettes()
+
 
         # Initialize gui
         self._init_master_()
         self._add_sliders_()
+        self._add_demo_options_()
+        # Has to be called _after_ sliders have been added
+        self._add_dropdown_type_()
 
         mainloop()
 
@@ -48,9 +126,15 @@ class gui(object):
 
         # initialize mater TK interface
         self.master = Tk()
+        self.master.wm_title("Colorspace - Choose Color Palette")
         self.master.configure()
         self.master.resizable(width=False, height=False)
         self.master.geometry("{:d}x{:d}".format(self.width, self.height))
+
+
+    def _add_dropdown_type_(self):
+
+        self.dd_type = ddObject(self.master, self._sliders_, "type", self.palettes)
 
     def _add_sliders_(self):
 
@@ -67,7 +151,7 @@ class gui(object):
     def _add_slider_(self, name, from_, to, label, resolution = 1, orient = HORIZONTAL):
 
         # Position of the current slider
-        ypos = self.nsliders*40 + 100
+        ypos = len(self._sliders_) * 40 + 100
 
         # Object handling slider actions/callbacks
         obj = sliderObject(name)
@@ -97,7 +181,39 @@ class gui(object):
 
         obj.bind(h, lab, val, but)
 
-        self.nsliders += 1
-        #self._sliders_[name] = {"slider":h, "label":lab, "value":val}
+        # Append slider object
+        self._sliders_.append(obj)
 
 
+    def _add_demo_options_(self):
+
+        but = Button(self.master, text = "Demo", command = self._show_demo_,
+                pady = 5, padx = 5)
+        but.place(x = 30, y = 470)
+
+    def _show_demo_(self):
+
+        self.top = Toplevel()
+        self.top.geometry("{:d}x{:d}".format(400, 400))
+
+        from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+        from matplotlib.figure import Figure
+        import numpy as np
+
+        x = np.random.normal(0,2,100)
+        y = np.random.normal(0,2,100)
+
+        fig = Figure(figsize=(6,6))
+        a = fig.add_subplot(111)
+        a.scatter(x,y,color='red')
+        a.invert_yaxis()
+
+        a.set_title ("Estimation Grid", fontsize=16)
+        a.set_ylabel("Y", fontsize=14)
+        a.set_xlabel("X", fontsize=14)
+
+        canvas = FigureCanvasTkAgg(fig, master = self.top)
+        canvas.get_tk_widget().pack()
+        canvas.draw()
+
+        self.top.mainloop()

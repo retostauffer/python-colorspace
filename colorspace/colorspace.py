@@ -1057,14 +1057,33 @@ def polarLUV_to_LUV(L, C, H):
 
 
 
-def RGB_to_hex(R, G, B):
+def RGB_to_hex(R, G, B, fixup = True):
+
+    if not isinstance(fixup,bool):
+        import inspect
+        log.error("Input \"fixup\" to {:s} has to be boolean.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    def getrgb(r, g, b, fixup):
+        # Without fixup
+        if not fixup:
+            if r < 0 or r > 1: r = np.nan
+            if g < 0 or g > 1: g = np.nan
+            if b < 0 or b > 1: b = np.nan
+            return [r * 255, g * 255, b * 255]
+        # With fixup
+        return [np.min([np.max([0, R[i]]), 1.0]) * 255,
+                np.min([np.max([0, G[i]]), 1.0]) * 255,
+                np.min([np.max([0, B[i]]), 1.0]) * 255]
 
     hex = []
     for i in range(0, len(R)):
-        r = np.min([np.max([0, R[i]]), 1.0]) * 255
-        g = np.min([np.max([0, G[i]]), 1.0]) * 255
-        b = np.min([np.max([0, B[i]]), 1.0]) * 255
-        hex.append('#%02x%02x%02x' % (r, g, b))
+        r,g,b = getrgb(R[i], G[i], B[i], fixup)
+        if np.any([np.isnan(x) for x in [r,g,b]]):
+            h = np.nan
+        else:
+            h = '#%02x%02x%02x' % (r, g, b)
+        hex.append(h)
 
     return hex
 
