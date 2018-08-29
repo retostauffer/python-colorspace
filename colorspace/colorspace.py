@@ -871,43 +871,128 @@ def HLS_to_RGB(h, l, s):
 
     return [r, g, b]
 
-## ----- CIE-XYZ <-> CIE-LUV ----- */
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 
 def XYZ_to_uv(X, Y, Z):
-    """TODO"""
+    """CIE-XYZ to UV.
+    @param X np.ndarray, CIE chromaticies.
+    @param Y np.ndarray, CIE chromaticies.
+    @param Z np.ndarray, CIE chromaticies.
+    @return Returns corresponding U/V coordinates.
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [X, Y, Z]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(X) == len(x) for x in [Y, Z]]):
+        log.error("Inputs X/Y/Z to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    # Result array
+    x = np.ndarray(len(X), dtype = "float"); x[:] = 0.
+    y = np.ndarray(len(X), dtype = "float"); y[:] = 0.
 
     t = X + Y + Z
-    if t == 0.:
-        x = 0.
-        y = 0.
-    else:
-        x = X / t;
-        y = Y / t;
+    idx = np.where(t != 0)
+    x[idx] = X[idx] / t[idx];
+    y[idx] = Y[idx] / t[idx];
     
-    u = 2.0 * x / (6. * y - x + 1.5);
-    v = 4.5 * y / (6. * y - x + 1.5);
-
-    return [u, v]
+    return [2.0 * x / (6. * y - x + 1.5),    # u
+            4.5 * y / (6. * y - x + 1.5)]    # v
 
 def XYZ_to_LUV(X, Y, Z, XN, YN, ZN):
-    [u, v]   = XYZ_to_uv(X, Y, Z)
+    """CIE-XYZ to LUV.
+    @param X np.ndarray, CIE chromaticies.
+    @param Y np.ndarray, CIE chromaticies.
+    @param Z np.ndarray, CIE chromaticies.
+    @param XN, YN, ZN np.ndarray with chromaticity of the white point.
+        If of length 1 the white point specification will be recycled
+        if length of X/Y/Z is larger than one.
+    @return Returns corresponding Hunter L/U/B coordinates
+        a list of np.ndarray's of the same length as the inputs ([L, U, V]).
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [X, Y, Z, XN, YN, ZN]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if not np.all([len(XN) == len(x) for x in [YN, ZN]]):
+        log.error("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(X) == len(x) for x in [Y, Z]]):
+        log.error("Inputs X/Y/Z to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if len(XN) == 1 and not len(XN) == len(X):
+        XN = np.repeat(XN, len(X))
+        YN = np.repeat(YN, len(X))
+        ZN = np.repeat(ZN, len(X))
+
+    # Convert X/Y/Z and XN/YN/ZN to uv
+    [u,  v]  = XYZ_to_uv(X,  Y,  Z )
     [uN, vN] = XYZ_to_uv(XN, YN, ZN)
-    y = Y / YN;
-    #DEL# L = (y > epsilon) ? 116. * np.power(y, 1.0/3.0) - 16 : kappa * y;
-    L = 116. * np.power(y, 1.0/3.0) - 16 if y > epsilon else kappa * y
-    U = 13. * L * (u - uN);
-    V = 13. * L * (v - vN);
-    return [L, U, V]
+
+    kappa   = 24389.0 / 27.0
+    epsilon = 216.0 / 24389.0
+
+    # Calculate L
+    L = np.ndarray(len(X), dtype = "float"); L[:] = 0.
+    y = Y / YN
+    for i,val in np.ndenumerate(y):
+        if val > epsilon:
+            L[i] = 116. * np.power(val, 1./3.)
+        else:
+            L[i] = kappa * val
+
+    # Calculate U/V
+    return [L, 13. * L * (u - uN), 13. * L * (v - vN)]  # [L, U, V]
 
 def LUV_to_XYZ(L, U, V, XN, YN, ZN):
-    if L <= 0 and U == 0 and V == 0:
-        X = 0.
-        Y = 0.
-        Z = 0.
-    else:
-        ## 8 = kappa*epsilon 
-        #DEL# Y = YN * ((L > 8.) ? np.power((L + 16.)/116., 3.) : L / kappa)
-        Y = YN * (np.power((L + 16.)/116., 3.) if L > 8. else L / kappa)
+    """CIE-XYZ to LUV.
+    @param L np.ndarray, L.
+    @param U np.ndarray, U.
+    @param V np.ndarray, V.
+    @param XN, YN, ZN np.ndarray with chromaticity of the white point.
+        If of length 1 the white point specification will be recycled
+        if length of X/Y/Z is larger than one.
+    @return Returns corresponding Hunter X/Y/Z coordinates
+        a list of np.ndarray's of the same length as the inputs ([X, Y, Z]).
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [L, U, V, XN, YN, ZN]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if not np.all([len(XN) == len(x) for x in [YN, ZN]]):
+        log.error("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(L) == len(x) for x in [U, V]]):
+        log.error("Inputs L/U/V to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    if len(XN) == 1 and not len(XN) == len(L):
+        XN = np.repeat(XN, len(L))
+        YN = np.repeat(YN, len(L))
+        ZN = np.repeat(ZN, len(L))
+
+    # Result arrays
+    X = np.ndarray(len(L), dtype = "float"); X[:] = 0.
+    Y = np.ndarray(len(L), dtype = "float"); Y[:] = 0.
+    Z = np.ndarray(len(L), dtype = "float"); Z[:] = 0.
+
+    idx = np.where(np.logical_and(L > 0, U != 0, V != 0))
+    for i in idx[0]:
+        Y[i] = YN[i] * (np.power((L[i] + 16.)/116., 3.) if L[i] > 8. else L[i] / kappa)
+
     [uN, vN] = XYZ_to_uv(XN, YN, ZN)
     u = U / (13. * L) + uN
     v = V / (13. * L) + vN
@@ -920,22 +1005,54 @@ def LUV_to_XYZ(L, U, V, XN, YN, ZN):
 ## ----- LUV <-> polarLUV ----- */
 
 def LUV_to_polarLUV(L, U, V):
-    l = L
-    c = sqrt(U * U + V * V)
-    h = RAD2DEG(np.arctan2(V, U))
-    while h > 360:
-        h -= 360.
-    while h < 0.:
-        h += 360.
+    """LUV to polarLUV (HCL).
+    @param L np.ndarray, L.
+    @param U np.ndarray, U.
+    @param V np.ndarray, V.
+    @return Returns corresponding polar LUV coordinates as a list
+        of np.ndarrays with the same length as the inputs L/U/V.
+        Elements ordered as [L, C, H]
+    """
 
-    return [l, c, h]
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [L, U, V]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(L) == len(x) for x in [U, V]]):
+        log.error("Inputs L/U/V to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
 
-def polarLUV_to_LUV(l, c, h):
-    h = DEG2RAD(h)
-    L = l
-    U = c * np.cos(h)
-    V = c * np.sin(h)
-    return [L, U, V]
+    C = np.sqrt(U * U + V * V)
+    H = RAD2DEG(np.arctan2(V, U))
+    for i,val in np.ndenumerate(H):
+        while val > 360: val -= 360.
+        while val < 0.:  val += 360.
+        H[i] = val
+
+    return [L, C, H]
+
+def polarLUV_to_LUV(L, C, H):
+    """polarLUV (HCL) to LUV.
+    @param H np.ndarray, hue values H.
+    @param C np.ndarray, chroma values C.
+    @param L np.ndarray, luminance L.
+    @return Returns corresponding LUV coordinates as a list
+        of np.ndarrays with the same length as the inputs L/C/H.
+        Elements ordered as [L, U, V]
+    """
+
+    # Checking input
+    if not np.all(isinstance(x, np.ndarray) for x in [L, C, H]):
+        import inspect
+        log.error("Inputs to {:s} have to be of class np.ndarray.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+    if not np.all([len(L) == len(x) for x in [C, H]]):
+        log.error("Inputs L/C/H to {:s} have to be of the same length.".format(
+            inspect.stack()[0][3])); sys.exit(9)
+
+    H = DEG2RAD(H)
+    return [L, C * np.cos(H), C * np.sin(H)] # [L, U, V]
 
 ## ----- Argument Checking -----
 #define CIEXYZ    0
