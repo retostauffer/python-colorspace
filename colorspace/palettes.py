@@ -137,7 +137,11 @@ class palettes(object):
 
     def _load_palette_config_(self, file):
 
-        from ConfigParser import ConfigParser
+        import sys
+        if sys.version_info.major < 3:
+            from ConfigParser import ConfigParser
+        else:
+            from configparser import ConfigParsert
         import re
 
         CNF = ConfigParser()

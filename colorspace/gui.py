@@ -1,6 +1,10 @@
 
 
-from Tkinter import *
+import sys
+if sys.version_info.major < 3:
+    from Tkinter import *
+else:
+    from tkinter import *
 
 
 class ddObject(object):
