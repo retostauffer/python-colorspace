@@ -257,6 +257,8 @@ class gui(object):
         self._init_master_()
         self._add_sliders_()
         self._add_demo_options_()
+        self._add_close_button_()
+        self._add_return_button_()
         # Has to be called _after_ sliders have been added
         self._add_dropdown_type_(init_args = init_args)
         # Drawing default palettes
@@ -348,7 +350,19 @@ class gui(object):
 
         but = Button(self.master, text = "Demo", command = self._show_demo_,
                 pady = 5, padx = 5)
-        but.place(x = 30, y = 470)
+        but.place(x = 30, y = 460)
+
+    def _add_close_button_(self):
+
+        but = Button(self.master, text = "Cancel", command = sys.exit,
+                pady = 5, padx = 5)
+        but.place(x = 200, y = 460)
+
+    def _add_return_button_(self):
+
+        but = Button(self.master, text = "Ok", command = sys.exit,
+                pady = 5, padx = 5)
+        but.place(x = 150, y = 460)
 
     def _show_demo_(self):
 
