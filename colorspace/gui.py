@@ -251,11 +251,11 @@ class gui(object):
         # the correct dropdown entries
         init_args["name"] = pal.name()
         init_args["type"] = pal.type()
-        for key,val in pal.settings().iteritems():
+        for key,val in pal.settings().items():
             init_args[key] = val
 
         # Custom user arguments on top
-        for key,val in kwargs.iteritems(): init_args[key] = val
+        for key,val in kwargs.items(): init_args[key] = val
 
         # Initialize gui
         self._init_master_()

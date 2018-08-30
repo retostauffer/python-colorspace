@@ -58,7 +58,7 @@ class default_palette(object):
 
         print("Palette: {:s}".format(self.name()))
         print("         Type {:s}".format(self.type()))
-        for key,val in self._settings_.iteritems():
+        for key,val in self._settings_.items():
             if   isinstance(val,bool):   val = "   True" if val else "   False"
             elif isinstance(val,int):    val = "   {:d}".format(val)
             elif isinstance(val,float):  val = "   {:5.1f}".format(val)
@@ -103,7 +103,7 @@ class palettes(object):
 
         if not type_:
             all = []
-            for key,pals in self._palettes_.iteritems():
+            for key,pals in self._palettes_.items():
                 all += pals
             return all
 
@@ -118,7 +118,7 @@ class palettes(object):
 
         # Try to find the palette with the name 'name'
         take_pal = None
-        for type_,pals in self._palettes_.iteritems():
+        for type_,pals in self._palettes_.items():
             # Looping over palettes
             for pal in pals:
                 if pal.name() == name:
@@ -141,7 +141,7 @@ class palettes(object):
         if sys.version_info.major < 3:
             from ConfigParser import ConfigParser
         else:
-            from configparser import ConfigParsert
+            from configparser import ConfigParser
         import re
 
         CNF = ConfigParser()
@@ -295,7 +295,7 @@ class qualitative_hcl(hclpalette):
         # overwrite the settings if possible.
         if not kwargs is None:
             if "settings" in kwargs.keys():
-                for key,val in kwargs["settings"].iteritems():
+                for key,val in kwargs["settings"].items():
                     if key in settings.keys() and not val is None:
                         settings[key] = val
 
@@ -418,7 +418,7 @@ class diverge_hcl(hclpalette):
         # overwrite the settings if possible.
         if not kwargs is None:
             if "settings" in kwargs.keys():
-                for key,val in kwargs["settings"].iteritems():
+                for key,val in kwargs["settings"].items():
                     if key in settings.keys() and not val is None:
                         settings[key] = val
 

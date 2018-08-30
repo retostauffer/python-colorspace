@@ -127,7 +127,7 @@ class colorlib(object):
                 ", ".join(kwargs.keys()), __fname__)
 
         lengths = []
-        for key,val in kwargs.iteritems():
+        for key,val in kwargs.items():
 
             # Check object type
             if not isinstance(val, np.ndarray):
@@ -1039,7 +1039,7 @@ class colorlib(object):
             if np.any([np.isnan(x) for x in [r,g,b]]):
                 h = np.nan
             else:
-                h = '#%02x%02x%02x' % (r, g, b)
+                h = "#{:02x}{:02x}{:02x}".format(int(r), int(g), int(b))
             hex.append(h)
     
         return hex
