@@ -289,7 +289,8 @@ class qualitative_hcl(hclpalette):
             settings["fixup"] = fixup
             settings["alpha"] = alpha
             settings["rev"]   = rev
-            settings["n"]     = n
+
+        settings["n"] = n
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -391,7 +392,6 @@ class diverge_hcl(hclpalette):
 
             # Extending h2 if h1 = h2 (h2 None)
             if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
-                print(" ++++++++++++++++++++ ")
                 pal.set("h2", pal.get("h1") + 360)
                 if pal.get("h2") > 360:
                     pal.set("h1", pal.get("h1") - 360)
@@ -412,7 +412,8 @@ class diverge_hcl(hclpalette):
             settings["fixup"] = fixup
             settings["alpha"] = alpha
             settings["rev"]   = rev
-            settings["n"]     = n
+
+        settings["n"] = n
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -423,6 +424,7 @@ class diverge_hcl(hclpalette):
                         settings[key] = val
 
         # Save settings
+        print settings
         self.settings = settings
 
 
@@ -448,6 +450,13 @@ class diverge_hcl(hclpalette):
         H = ndarray(n, dtype = "float")
         for i,val in ndenumerate(rval):
             H[i] = self.get("h1") if val > 0 else self.get("h2")
+
+        HCL = HCL(H, C, L)
+
+        print(H)
+        print(C)
+        print(L)
+        print("ficken")
         if type_ == "HCL": return transpose(vstack([H,C,L]))
 
         # Convet polarLUV -> LUV -> XYZ -> RGB -> hex

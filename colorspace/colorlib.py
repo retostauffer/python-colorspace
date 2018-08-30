@@ -1958,20 +1958,187 @@ class colorlib(object):
     #  }
     #}
     #
-    #SEXP hex_to_RGB(SEXP hex, SEXP gamma)
-    #{
-    #    double r, g, b;
-    #    int i, n = 0;
-    #    SEXP ans;
-    #    CheckHex(hex, &n);
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #    for(i = 0; i < n; i++) {
-    #        decodeHexStr(CHAR(STRING_ELT(hex, i)), &r, &g, &b);
-    #        if (asLogical(gamma))
-    #            DEVRGB_to_RGB(r, g, b, 2.4, &r, &g, &b);
-    #        REAL(ans)[i] = r;
-    #        REAL(ans)[i+n] = g;
-    #        REAL(ans)[i+2*n] = b;
-    #    }
-    #    return ans;
-    #}
+#    class hex_to_RGB2(self, hex, gamma):
+#
+#        n = 0
+#        # Checking hex colors
+#        CheckHex(hex, &n);
+#
+#        # Return value
+#        ans = allocMatrix(REALSXP, n, 3);
+#        for i in range(0, n):
+#            decodeHexStr(CHAR(STRING_ELT(hex, i)), &r, &g, &b);
+#            if (asLogical(gamma))
+#                DEVRGB_to_RGB(r, g, b, 2.4, &r, &g, &b);
+#            REAL(ans)[i] = r;
+#            REAL(ans)[i+n] = g;
+#            REAL(ans)[i+2*n] = b;
+#
+#        return ans;
+
+
+
+class colorobject(object):
+
+    def _check_input_arrays_(self, __fname__, **kwargs):
+        """Checks if all inputs in **kwargs are of type np.ndarray OR lists
+        (will be converted to ndarrays) and that all are of the same length
+        If not, the script will drop some error messsages and stop.
+        @param __fname__ string, name of the method who called this check routine.
+            Only used to drop a useful error message if required.
+        @param **kwargs named keywords, objects to be checked.
+        @returns Returns True if everything is ok, else it simply stops.
+        """
+
+        # Message will be dropped if problems occur
+        msg = "Problem while checking inputs \"{:s}\" to class \"{:s}\":".format(
+                ", ".join(kwargs.keys()), __fname__)
+
+
+        res = []
+        lengths = []
+        for key,val in kwargs.items():
+            # If is list: convert to ndarray no matter how long the element is
+            if isinstance(val,float) or isinstance(val,int):
+                val = np.asarray([val])
+            elif isinstance(val,list):
+                val = np.asarray(val)
+
+            # Check object type
+            if not isinstance(val, np.ndarray):
+                log.error(msg)
+                log.error("Input \"{:s}\" is not of type np.ndarray.".format(key))
+                sys.exit(3)
+            # Else append length and proceed
+            lengths.append(len(val))
+            # Append to result vector
+            res.append(val)
+
+        # Check if all do have the same length
+        if not np.all([x == lengths[0] for x in lengths]):
+            log.error(msg)
+            log.error("Arguments of different lengths: {:s}".format(
+                ", ".join(["{:s} = {:d}".format(kwargs.keys()[i],lengths[i]) \
+                           for i in range(0,len(kwargs))])))
+            sys.exit(9)
+
+        return res
+
+    # ---------------------------------------------------------------
+    # Show content
+    # ---------------------------------------------------------------
+    def show(self, digits = 1):
+
+        dims = self._data_.keys()     # Dimensions
+        ncol = len(self._data_[dims[0]]) # Number of colors
+
+        # Show header
+        fmt = "".join(["{:>", "{:d}".format(digits+5), "s}"])
+        print(" ".join([fmt.format(x) for x in dims]))
+
+        # Show data
+        fmt = "".join(["{:", "{:d}.{:d}".format(5+digits, digits), "f}"])
+        for n in range(0, ncol):
+            for d in dims:
+                print(fmt.format(self._data_[d][n])),
+            print "\n",
+
+    def get(self, dimname):
+        if not dimname in self._data_.keys():
+            log.error("Whoops, dimension \"{:s}\" does not exist in {:s} object.".format(
+                dimname, self.__fname__))
+            sys.exit(9)
+        return self._data_[dimname]
+
+    def _cannot_(self, from_, to):
+        log.error("Cannot convert class \"{:s}\" to \"{:s}\".".format(
+            from_, to))
+        sys.exit(9)
+
+
+class polarLUV(colorobject):
+
+    def __init__(self, H, C, L):
+
+        self.__cname__ = "colorspace.HCL"
+        self._data_ = {}
+
+        # Checking inputs, save inputs on object
+        [self._data_["H"], self._data_["C"], self._data_["L"]] = \
+            self._check_input_arrays_(self.__cname__, H = H, C = C, L = L)
+
+    def LUV(self):
+        from . import colorlib
+        [L, U, V] = colorlib().polarLUV_to_LUV(self.get("H"), self.get("C"), self.get("L"))
+        return LUV(L, U, V)
+
+
+    def to(self, to):
+        """Converts the object into a colorobject of a different class, if possible.
+        """
+        from . import colorlib
+        if to == "LUV":
+            [L, U, V] = colorlib().polarLUV_to_LUV(self.get("H"), self.get("C"), self.get("L"))
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = LUV
+        elif to == "XYZ":
+            [L, U, V] = colorlib().polarLUV_to_LUV(self.get("H"), self.get("C"), self.get("L"))
+            [X, Y, Z] = colorlib().LUV_to_XYZ(L, U, V)
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self.__class__ = XYZ
+        else: self._cannot_(self.__cname__, space)
+
+
+
+                
+# polarLUV is HCL, make copy
+HCL = polarLUV
+
+class LUV(colorobject):
+
+    def __init__(self, L, U, V):
+
+        self.__cname__ = "colorspace.LUV"
+        self._data_ = {}
+
+        # checking inputs, save inputs on object
+        [self._data_["L"], self._data_["U"], self._data_["V"]] = \
+            self._check_input_arrays_(self.__cname__, L = L, U = U, V = V)
+
+
+    def to(self, space):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        from . import colorlib
+        if space == "notyetdefined":
+            aaaa = "fooo"
+        else: self._cannot_(self.__cname__, space)
+
+class XYZ(colorobject):
+
+    def __init__(self, X, Y, Z):
+
+        self.__cname__ = "colorspace.XYZ"
+        self._data_ = {}
+
+        # checking inputs, save inputs on object
+        [self._data_["X"], self._data_["u"], self._data_["v"]] = \
+            self._check_input_arrays_(self.__cname__, L = L, U = U, V = V)
+
+
+    def to(self, space):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        import sys
+        sys.exit("Conversion from XYZ not yet possible")
+        from . import colorlib
+        if space == "notyetdefined":
+            aaaa = "fooo"
+        else: self._cannot_(self.__cname__, space)
+
+
+
+
+
+
+
