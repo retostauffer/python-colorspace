@@ -5,7 +5,7 @@ from Tkinter import *
 
 class ddObject(object):
 
-    def __init__(self, master, sliders, name, palettes):
+    def __init__(self, master, sliders, name, palettes, init_args = None):
 
         self.master   = master
         self.name     = name
@@ -15,9 +15,22 @@ class ddObject(object):
         # Adding options menu
         opts = palettes.get_palette_types()
 
+        # If init args contain type: use this type
+        type_ = None # Default/not selected
+        if not init_args == None:
+            if "type" in init_args.keys():
+                type_ = init_args["type"]
+                if not type_ in opts:
+                    log.error("Selected palette type \"{:s}\" does not exist. Stop.".format(type_))
+                    sys.exit(9)
+        type_ = opts[0] if type_ is None else type_
+
+        # Adding dropdown menu with default arguments if init_args
+        # was empty, or the settings provided by the user stored on
+        # init_args (slider settings, selected dropdown item, ...)
         dropOpts = StringVar(master)
-        dropOpts.set(opts[0]) # default value
-        self.selected(opts[0]) # Initialize palettes
+        dropOpts.set(type_) # default value
+        self.selected(type_, init_args) # Initialize palettes
 
         #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
         self.dd = OptionMenu(master, dropOpts, *opts,
@@ -26,24 +39,26 @@ class ddObject(object):
         self.dd.grid(column = 1, row = len(opts))
         self.dd.place(x = 10, y = 30)
     
-    def selected(self, val):
+    def selected(self, val, args = None):
 
         print("New item selected ({:s})".format(val))
         pals = self.palettes.get_palettes(val)
 
-        self._set_sliders_(pals[0])
+        self._set_sliders_(pals[0], args)
 
 
-    def _set_sliders_(self, pal):
+    def _set_sliders_(self, pal, args = None):
 
-        pal.show()
+        if args is None: args = {}
+
         for x in self.sliders:
             slider_id = x.getid()
             value     = pal.get(slider_id)
-            if not value is None:
-                x.setvalue(value)
+            # Take value from "args" if specified, else
+            # the one from the palette.
+            if slider_id in args.keys():  value = args[slider_id]
+            if not value is None:         x.setvalue(value)
 
-        print self.sliders
 
     def _add_dropdown_palettes_(self):
 
@@ -107,18 +122,35 @@ class gui(object):
 
     _sliders_ = []
 
-    def __init__(self):
+    def __init__(self, **kwargs):
 
         from . import palettes
         self.palettes = palettes()
 
+        # Initialization arguments, if any
+        init_args = {}
+        # Default if no inputs are set
+        if not "palette" in kwargs.keys():  palette = "Blue-Red"
+        else:                               palette = kwargs["palette"]
+
+        # Find initial values
+        pal = self.palettes.get_palette(palette)
+        # Store palette name and palette type to select
+        # the correct dropdown entries
+        init_args["name"] = pal.name()
+        init_args["type"] = pal.type()
+        for key,val in pal.settings().iteritems():
+            init_args[key] = val
+
+        # Custom user arguments on top
+        for key,val in kwargs.iteritems(): init_args[key] = val
 
         # Initialize gui
         self._init_master_()
         self._add_sliders_()
         self._add_demo_options_()
         # Has to be called _after_ sliders have been added
-        self._add_dropdown_type_()
+        self._add_dropdown_type_(init_args = init_args)
 
         mainloop()
 
@@ -132,9 +164,10 @@ class gui(object):
         self.master.geometry("{:d}x{:d}".format(self.width, self.height))
 
 
-    def _add_dropdown_type_(self):
+    def _add_dropdown_type_(self, init_args = None):
 
-        self.dd_type = ddObject(self.master, self._sliders_, "type", self.palettes)
+        self.dd_type = ddObject(self.master, self._sliders_, "type",
+                                self.palettes, init_args = init_args)
 
     def _add_sliders_(self):
 
@@ -170,10 +203,10 @@ class gui(object):
         # Button to change the value
         but = Button(self.master, text = "SET", command = obj.setvalue,
                 pady = 0, padx = 0)
-        but.place(x = 190, y = ypos)
+        but.place(x = 200, y = ypos)
 
         # Value (shows current slider value)
-        val = Text(self.master, bd = 0, height = 1, width = 3)
+        val = Text(self.master, bd = 0, height = 1, width = 4)
         val.insert(INSERT, 0)
         val.tag_configure("right", justify="right")
         val.place(x = 160, y = ypos) 

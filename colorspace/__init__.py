@@ -1,6 +1,6 @@
 
 
-from .colorspace import *
+from .colorlib import colorlib
 from .palettes import palettes
 from .palettes import qualitative_hcl
 from .gui import gui

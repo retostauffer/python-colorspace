@@ -99,6 +99,26 @@ class palettes(object):
         # Else return list with palettes
         return self._palettes_[type_]
 
+    def get_palette(self, name):
+
+        # Try to find the palette with the name 'name'
+        take_pal = None
+        for type_,pals in self._palettes_.iteritems():
+            # Looping over palettes
+            for pal in pals:
+                if pal.name() == name:
+                    take_pal = pal
+                    break;
+            # If already found: break outer loop
+            if take_pal: break;
+
+        # Else reutnr palette if available
+        if not take_pal:
+            log.error("No palettes named \"{:s}\".".format(name)); sys.exit(9)
+
+        # Else return list with palettes
+        return take_pal
+
 
     def _load_palette_config_(self, file):
 
@@ -216,12 +236,21 @@ class qualitative_hcl(hclpalette):
 
             # Else pick the palette
             pal = default_palettes[default_names.index(palette)]
-            settings = pal.settings()
 
             # Allow to overule few things
             for key,value in kwargs.items():
-                if key in ["h1", "c1", "l1"]:
-                    settings[key] = value
+                if key in ["h1", "c1", "l1"]: pal.set(key, value)
+
+            # Extending h2 if h1 = h2 (h2 None)
+            if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
+                print(" ++++++++++++++++++++ ")
+                pal.set("h2", pal.get("h1") + 360)
+                if pal.get("h2") > 360:
+                    pal.set("h1", pal.get("h1") - 360)
+                    pal.set("h2", pal.get("h2") - 360)
+
+            # Getting settings
+            settings = pal.settings()
         else:
             settings = {}
 
