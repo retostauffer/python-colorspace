@@ -37,7 +37,7 @@ class default_palette(object):
     def set(self, key, val):
         self._settings_[key] = val
 
-    def settings(self):
+    def get_settings(self):
         return self._settings_
 
     def parameters(self):
@@ -52,7 +52,7 @@ class default_palette(object):
         # Calling color method with arguments of this object. 
         args = {}
         for key in self._parameter_: args[key] = self.get(key)
-        return cfun(n, settings = args).colors(n)
+        return cfun(n, settings = args).colors(n, fixup = True)
 
     def show(self):
 
@@ -222,6 +222,105 @@ class hclpalette(object):
             return None
         return self.settings[key]
 
+    def show_settings(self):
+
+        def get(key):
+            val = self.get(key)
+            if val is None:
+                return " ------"
+            elif isinstance(val, int):
+                return "{:7d}".format(val)
+            elif isinstance(val, bool):
+                return "{:7s}".format("True" if val else "False")
+            else:
+                return "{:7.1f}".format(val)
+
+        print("Class:  {:s}".format(self.__class__.__name__))
+        print("h1    {:s}    ".format(get("h1"))),
+        print("h2    {:s}    ".format(get("h2")))
+        print("c1    {:s}    ".format(get("c1"))),
+        print("c2    {:s}    ".format(get("c2")))
+        print("l1    {:s}    ".format(get("l1"))),
+        print("l2    {:s}    ".format(get("l2")))
+        print("p1    {:s}    ".format(get("p1"))),
+        print("p2    {:s}    ".format(get("p2")))
+        print("fixup {:s}    ".format(get("fixup")))
+
+    def _check_inputs_(self, n, h, c, l, p, palette):
+
+        # Class name for the error messages, if necessary.
+        cls = self.__class__.__name__
+
+        from numpy import all
+
+        # Convert input x into a list with elements of type
+        # "totype".
+        def tolist(x, totype, n, cls):
+            # Converting inputs to list
+            if not x:
+                return None
+            elif isinstance(x, float) or isinstance(x, int):
+                x = [totype(x)]
+            elif isinstance(x, list):
+                x = [totype(e) for e in x]
+            else:
+                log.error("Error in \"tolist\", don't know what to do.")
+                sys.exit(9)
+            if not all([isinstance(e, totype) for e in x]):
+                log.error("In \"tolist\"")
+                log.error(x)
+                log.error("Problems with inputs for {:s}".format(cls)); sys.exit(9)
+            # Checking length
+            if len(x) < n:   x = x * n
+            elif len(x) > n: x = x[0:2]
+            return x
+
+        # Converts inputs to single values of "totype".
+        def tovalue(x, totype, cls):
+            if not x:
+                return None
+            elif isinstance(x, float) or isinstance(x, int):
+                return totype(x)
+            else:
+                log.error("In \"tovalue\"")
+                log.error(x)
+                log.error("Problems with inputs for {:s}.".format(cls)); sys.exit(9)
+
+        # If "h" is a string this is ment to be the palette
+        # argument, switch "palette" and "h"
+        if isinstance(h, str):
+            palette = h; h = None 
+
+        if isinstance(n, int) or isinstance(n, float):
+            n = int(n)
+        else:
+            log.error("Input \"n\" to {:s} has to be a single integer.".format(cls))
+
+        # For sequential hcl palettes
+        if isinstance(self, sequential_hcl):
+            n = tovalue(n, int, cls)
+            h = tolist(h, int, 2, cls)
+            c = tolist(c, int, 2, cls)
+            l = tolist(l, int, 2, cls)
+            p = tolist(p, float, 2, cls)
+        # For sequential hcl palettes
+        elif isinstance(self, diverge_hcl):
+            n = tovalue(n, int, cls)
+            h = tolist(h, int, 2, cls)
+            c = tovalue(c, int, cls)
+            l = tolist(l, int, 2, cls)
+            p = tovalue(p, float, cls)
+
+        # If "n" is set to small: exit
+        if n <= 0:
+            log.error("Input \"n\" has to be a positive integer."); sys.exit(9)
+
+        return [n, h, c, l, p, palette]
+
+
+    def data(self):
+        return self._data_
+
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -277,7 +376,7 @@ class qualitative_hcl(hclpalette):
                     pal.set("h2", pal.get("h2") - 360)
 
             # Getting settings
-            settings = pal.settings()
+            settings = pal.get_settings()
         else:
             settings = {}
 
@@ -320,25 +419,14 @@ class qualitative_hcl(hclpalette):
         L = repeat(self.get("l1"), n)
         C = repeat(self.get("c1"), n)
         H = linspace(self.get("h1"), self.get("h2"), n)
-        if type_ == "HCL": return transpose(vstack([H,C,L]))
 
-        # Convet polarLUV -> LUV -> XYZ -> RGB -> hex
-        colorlib = colorlib()
+        # Create new HCL color object
+        from colorlib import HCL
+        HCL = HCL(H, C, L)
 
-        L, U, V = colorlib.polarLUV_to_LUV(L, C, H)
-        if type_ == "LUV": return transpose(vstack([L,U,V]))
+        # Return hex colors
+        return HCL.gethex(fixup = fixup)
 
-        X, Y, Z = colorlib.LUV_to_XYZ(L, U, V)
-        if type_ == "XYZ": return transpose(vstack([X,Y,Z]))
-
-        R, G, B = colorlib.XYZ_to_RGB(X, Y, Z)
-        if type_ == "RGB": return transpose(vstack([R,G,B]))
-        if type_ == "rgb": return transpose(vstack([R / 255.,G / 255. ,B / 255.]))
-
-        hex = colorlib.RGB_to_hex(R, G, B, self.get("fixup"))
-        if self.get("rev"): hex.reverse()
-
-        return hex 
 
 
 # -------------------------------------------------------------------
@@ -348,31 +436,7 @@ class diverge_hcl(hclpalette):
     def __init__(self, n, h = [260, 0], c = 80, l = [30, 90],
         power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, **kwargs):
 
-        # Input checks
-        for key in ["n", "c"]:
-            if not isinstance(eval(key), int):
-                log.error("Input \"{:s}\" has to be of type integer.".format(key)); sys.exit(9)
-        for key in ["l"]:
-            if not isinstance(eval(key), list):
-                log.error("Input \"{:s}\" has to be a list with two values.".format(key)); sys.exit(9)
-        for key in ["fixup", "rev"]:
-            if not isinstance(eval(key), bool):
-                log.error("Input \"{:s}\" has to be of type bool.".format(key)); sys.exit(9)
-        if n < 1:
-            log.error("Input \"n\" has a positive integer."); sys.exit(9)
-
-        # For handy use of the function
-        if isinstance(h,str):
-            palette = h; h = None
-
-        # Correcting "h" if set
-        if not h is None and not isinstance(h, str):
-            if not len(h) == 2:
-                log.error("Input \"h\" has to be of length 2 for diverging color maps.")
-                sys.exit(9)
-        if not len(l) == 2:
-            log.error("Input \"l\" has to be of length 2 for diverging color maps.")
-            sys.exit(9)
+        [n, h, c, l, power, palette] = self._check_inputs_(n, h, c, l, power, palette)
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
@@ -398,7 +462,7 @@ class diverge_hcl(hclpalette):
                     pal.set("h2", pal.get("h2") - 360)
 
             # Getting settings
-            settings = pal.settings()
+            settings = pal.get_settings()
         else:
             settings = {}
 
@@ -428,7 +492,11 @@ class diverge_hcl(hclpalette):
         self.settings = settings
 
 
-    def colors(self, n = None, type_ = "hex", fixup = None):
+    def data(self):
+        return self._data_
+
+    # Return hex colors
+    def colors(self, n = None, fixup = True):
 
         if n is None: n = self.get("n")
         if n < 1:     return None
@@ -451,30 +519,134 @@ class diverge_hcl(hclpalette):
         for i,val in ndenumerate(rval):
             H[i] = self.get("h1") if val > 0 else self.get("h2")
 
+        # Create new HCL color object
+        from colorlib import HCL
         HCL = HCL(H, C, L)
 
-        print(H)
-        print(C)
-        print(L)
-        print("ficken")
-        if type_ == "HCL": return transpose(vstack([H,C,L]))
+        # Return hex colors
+        return HCL.gethex(fixup = fixup)
 
-        # Convet polarLUV -> LUV -> XYZ -> RGB -> hex
-        colorlib = colorlib()
 
-        L, U, V = colorlib.polarLUV_to_LUV(L, C, H)
-        if type_ == "LUV": return transpose(vstack([L,U,V]))
 
-        X, Y, Z = colorlib.LUV_to_XYZ(L, U, V)
-        if type_ == "XYZ": return transpose(vstack([X,Y,Z]))
 
-        R, G, B = colorlib.XYZ_to_RGB(X, Y, Z)
-        if type_ == "RGB": return transpose(vstack([R,G,B]))
-        if type_ == "rgb": return transpose(vstack([R / 255.,G / 255. ,B / 255.]))
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+class sequential_hcl(hclpalette):
 
-        hex = colorlib.RGB_to_hex(R, G, B, self.get("fixup"))
+    def __init__(self, n, h = 260, c = [80, 30], l = [30, 90],
+        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, **kwargs):
 
-        return hex
+        [n, h, c, l, power, palette] = self._check_inputs_(n, h, c, l, power, palette)
+
+        # For handy use of the function
+        if isinstance(h,str):
+            palette = h; h = None
+
+        # If user selected a named palette: load palette settings
+        if isinstance(palette, str):
+            default_palettes = palettes().get_palettes("Sequential (single-hue)")
+            default_names    = [x.name() for x in default_palettes]
+            if not palette in default_names:
+                log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
+                log.error("Choose one of: {:s}".format(", ".join(default_names)))
+                sys.exit(9)
+
+            # Else pick the palette
+            pal = default_palettes[default_names.index(palette)]
+            sys.exit("x")
+
+            # Allow to overule few things
+            for key,value in kwargs.items():
+                if key in pal.parameters(): pal.set(key, value)
+
+            # Extending h2 if h1 = h2 (h2 None)
+            if not pal.get("h2"):  pal.set("h2", pal.get("h1"))
+
+            # Getting settings
+            settings = pal.get_settings()
+        else:
+            settings = {}
+
+            # User settings
+            settings["h1"]    = h[0]
+            settings["h2"]    = h[0] if len(h) == 1 else h[1]
+            settings["c1"]    = c[0]
+            settings["c2"]    = c[1]
+            settings["l1"]    = l[0]
+            settings["l2"]    = l[1]
+            settings["p1"]    = power[0]
+            settings["p2"]    = power[1]
+            settings["fixup"] = fixup
+            settings["alpha"] = alpha
+            settings["rev"]   = rev
+
+        # Number of colors
+        settings["n"] = n
+
+        # If keyword arguments are set:
+        # overwrite the settings if possible.
+        if not kwargs is None:
+            if "settings" in kwargs.keys():
+                for key,val in kwargs["settings"].items():
+                    if key in settings.keys() and not val is None:
+                        settings[key] = val
+                # For single-hue palettes: set h2 to h1.
+                if "h1" in kwargs["settings"].keys() and not \
+                   "h2" in kwargs["settings"].keys() and len(h) == 1:
+                    settings["h2"] = kwargs["settings"]["h1"]
+
+        # Save settings
+        self.settings = settings
+
+        # Show settings
+        self.show_settings()
+
+
+    # Return hex colors
+    def colors(self, n = None, fixup = True):
+
+        if n is None: n = self.get("n")
+        if n < 1:     return None
+
+        if isinstance(fixup, bool): self.settings["fixup"] = fixup
+
+        from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
+        from numpy import vstack, transpose
+        from . import colorlib
+
+        # Calculate H/C/L
+        rval = linspace(1., 0., n)
+        p1   = self.get("p1")
+        p2   = p1 if not self.get("p2") else self.get("p2")
+        c1   = self.get("c1")
+        c2   = c1 if not self.get("c2") else self.get("c2")
+        l1   = self.get("l1")
+        l2   = l1 if not self.get("l2") else self.get("l2")
+        h1   = self.get("h1")
+        h2   = h1 if not self.get("h2") else self.get("h2")
+
+
+        print h2, h1
+        print h1, h2
+        print c1, c2
+
+        L = l2 - (l2 - l1) * power(rval, p2)
+        C = c2 - (c2 - c1) * power(rval, p1)
+        H = h2 - (h2 - h1) * rval
+
+        # Create new HCL color object
+        from colorlib import HCL
+        HCL = HCL(H, C, L)
+
+        HCL.show()
+
+        # Return hex colors
+        return HCL.gethex(fixup = fixup)
+
+
+
+
+
 
 
 

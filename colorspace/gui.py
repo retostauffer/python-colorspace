@@ -111,7 +111,7 @@ class paletteCanvas(object):
 
         # Loading settings of the current palette
         sliders  = self._parent_._sliders_
-        settings = self._pal_.settings()
+        settings = self._pal_.get_settings()
         for rec in sliders:
             sid = rec.getid()
             if sid in settings.keys(): rec.setvalue(settings[sid])
@@ -129,8 +129,10 @@ class paletteCanvas(object):
         a   = fig.add_subplot(111)
         a.set_xlim([0,1]); a.set_ylim([0,1])
 
+        colors.reverse()
         n = len(colors)
         for i in range(0, n):
+            if not isinstance(colors[i],str): continue
             r = Rectangle((0, i * 1. / n), 1, 1. / n, color = colors[i])
             a.add_patch(r)
 
@@ -251,7 +253,7 @@ class gui(object):
         # the correct dropdown entries
         init_args["name"] = pal.name()
         init_args["type"] = pal.type()
-        for key,val in pal.settings().items():
+        for key,val in pal.get_settings().items():
             init_args[key] = val
 
         # Custom user arguments on top
@@ -304,13 +306,15 @@ class gui(object):
 
         self._add_slider_("slider_H1", -360, 360, "H1")
         self._add_slider_("slider_H2", -360, 360, "H2")
-        self._add_slider_("slider_L1",    0, 100, "L1")
-        self._add_slider_("slider_L2",    0, 100, "L2")
 
         self._add_slider_("slider_C1",    0, 100, "C1")
         self._add_slider_("slider_C2",    0, 100, "C2")
-        self._add_slider_("slider_P1",    0,   3, "P1")
-        self._add_slider_("slider_P2",    0,   3, "P2")
+
+        self._add_slider_("slider_L1",    0, 100, "L1")
+        self._add_slider_("slider_L2",    0, 100, "L2")
+
+        self._add_slider_("slider_P1",    0,   3, "P1", resolution = 0.1)
+        self._add_slider_("slider_P2",    0,   3, "P2", resolution = 0.1)
 
     def _add_slider_(self, name, from_, to, label, resolution = 1, orient = HORIZONTAL):
 

@@ -1017,13 +1017,13 @@ class colorlib(object):
     def sRGB_to_hex(self, r, g, b, fixup = True):
 
         # Color fixup: limit r/g/b to [0-1]
-        def fixup(r, g, b):
+        def rgbfixup(r, g, b):
             def fun(x):
                 return np.asarray([np.max([0, np.min([1, e])]) \
                        if np.isfinite(e) else np.nan for e in x])
             return [fun(r), fun(g), fun(b)]
 
-        def cleanup(r, g, b):
+        def rgbcleanup(r, g, b):
             def fun(x):
                 return np.asarray([e if np.logical_and(e >= 0., e <= 1.)
                        else np.nan for e in x])
@@ -1049,8 +1049,8 @@ class colorlib(object):
             return np.apply_along_axis(applyfun, 1, h)
 
         # Let's do the conversion!
-        if fixup: [r, g, b] = fixup(r, g, b)
-        else:     [r, g, b] = cleanup(r, g, b)
+        if fixup: [r, g, b] = rgbfixup(r, g, b)
+        else:     [r, g, b] = rgbcleanup(r, g, b)
 
         # Create return array
         res = np.ndarray(len(r), dtype = "|S7"); res[:] = ""
@@ -1109,16 +1109,21 @@ class colorlib(object):
 # -------------------------------------------------------------------
 class colorobject(object):
 
-    # White spot definition (the default)
-    WHITEX =  95.047
-    WHITEY = 100.000
-    WHITEZ = 108.883
-    _data_ = {} # Dict to store the colors/color dimensions
-
     # Allowed/defined color spaces
     ALLOWED = ["CIEXYZ", "CIELUV", "CIELAB", "polarLUV", "polarLAB",
-               "RGB", "sRGB",
+               "RGB", "sRGB", "HCL",
                "HSV", "HLS", "hex"]
+
+    def get_whitepoint(self):
+        return {"X": self.WHITEX, "Y": self.WHITEY, "Z": self.WHITEZ}
+
+    def set_whitepoint(self, **kwargs):
+        for key,arg in kwargs.items():
+            if   key == "X":  self.WHITEX = float(arg)
+            elif key == "Y":  self.WHITEY = float(arg)
+            elif key == "Z":  self.WHITEZ = float(arg)
+            else: log.warning("Unknown argument \"{:s}\" to set_whitepoint.".format(key) + \
+                    " Will be ignored.")
 
     def _check_if_allowed_(self, x):
 
@@ -1126,6 +1131,11 @@ class colorobject(object):
             log.error("Transformation to \"{:s}\" unknown.".format(x))
             log.error("Has to be one of: {:s}".format(", ".join(self.ALLOWED)))
             sys.exit(9)
+
+    def _transform_via_path_(self, via, fixup):
+
+        # Transform along the path defined by "via" (list)
+        for v in via:   self.to(v, fixup = fixup)
 
     def _check_input_arrays_(self, __fname__, **kwargs):
         """Checks if all inputs in **kwargs are of type np.ndarray OR lists
@@ -1203,6 +1213,15 @@ class colorobject(object):
                 print(fmt.format(data[d][n])), #self._data_[d][n])),
             print "\n",
 
+
+    def gethex(self, n = 10, fixup = True):
+
+        from copy import copy
+        x = copy(self)
+        x.to("hex", fixup = fixup)
+        return x.get("hex_")
+
+
     def get(self, dimname):
         if not dimname in self._data_.keys():
             log.error("Whoops, dimension \"{:s}\" does not exist in {:s} object.".format(
@@ -1240,8 +1259,11 @@ class polarLUV(colorobject):
     def __init__(self, H, C, L):
 
         # Checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["H"], self._data_["C"], self._data_["L"]] = \
             self._check_input_arrays_(self.__class__.__name__, H = H, C = C, L = L)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def LUV(self):
         from . import colorlib
@@ -1256,51 +1278,44 @@ class polarLUV(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to in ["HCL", self.__class__.__name__]:
             return
-        elif to == "CIEXYZ":
-            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
-            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
-            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
-            self.__class__ = CIEXYZ
+
+        # This is the only transformation from polarLUV -> LUV
         elif to == "CIELUV":
             [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
             self._data_ = {"L" : L, "U" : U, "V" : V}
             self.__class__ = CIELUV
+
+        # The rest are transformations along a path
+        elif to == "CIEXYZ":
+            via = ["CIELUV", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "CIELAB":
-            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
-            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = CIELAB
+            via = ["CIELUV", "CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "RGB":
-            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
-            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = RGB
+            via = ["CIELUV", "CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "sRGB":
-            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
-            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
+            via = ["CIELUV", "CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "polarLAB":
-            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
-            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = polarLAB
+            via = ["CIELUV", "CIEXYZ", "CIELAB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "hex":
-            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
-            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+            via = ["CIELUV", "CIEXYZ", "sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
+
         else: self._cannot_(self.__class__.__name__, to)
 
 # polarLUV is HCL, make copy
@@ -1330,8 +1345,11 @@ class CIELUV(colorobject):
     def __init__(self, L, U, V):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["L"], self._data_["U"], self._data_["V"]] = \
             self._check_input_arrays_(self.__class__.__name__, L = L, U = U, V = V)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
 
     def to(self, to, fixup = True):
@@ -1341,52 +1359,46 @@ class CIELUV(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to == self.__class__.__name__:
             return
+        # Transformation from CIELUV -> CIEXYZ
         elif to == "CIEXYZ":
             [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ)
             self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
             self.__class__ = CIEXYZ
-        elif to == "CIELAB":
-            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = CIELAB
-        elif to == "RGB":
-            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = RGB
-        elif to == "sRGB":
-            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
-        elif to == "polarLAB":
-            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = polarLAB
-        elif to == "polarLUV":
-            [L, U, V] = clib.LUV_to_polarLUV(self.get("L"), self.get("U"), self.get("V"))
-            self._data_ = {"L" : L, "U" : U, "V" : V}
+
+        # Transformation from CIELUV -> polarLUV (HCL)
+        elif to in ["HCL","polarLUV"]:
+            [L, C, H] = clib.LUV_to_polarLUV(self.get("L"), self.get("U"), self.get("V"))
+            self._data_ = {"L" : L, "C" : C, "H" : H}
             self.__class__ = polarLUV
+
+        # The rest are transformations along a path
+        elif to == "CIELAB":
+            via = ["CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "RGB":
+            via = ["CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "sRGB":
+            via = ["CIEXYZ", "RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "polarLAB":
+            via = ["CIEXYZ", "CIELAB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "hex":
-            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+            via = ["CIEXYZ", "RGB", "sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
-            return
+
         else: self._cannot_(self.__class__.__name__, to)
 
 # -------------------------------------------------------------------
@@ -1411,8 +1423,11 @@ class CIEXYZ(colorobject):
     def __init__(self, X, Y, Z):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["X"], self._data_["Y"], self._data_["Z"]] = \
             self._check_input_arrays_(self.__class__.__name__, X = X, Y = Y, Z = Z)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1421,49 +1436,51 @@ class CIEXYZ(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to == self.__class__.__name__:
             return
+
+        # Transformation from CIEXYZ -> CIELUV
         elif to == "CIELUV":
             [L, U, V] = clib.XYZ_to_LUV(self.get("X"), self.get("Y"), self.get("Z"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
             self._data_ = {"L" : L, "U" : U, "V" : V}
             self.__class__ = CIELUV
+
+        # Transformation from CIEXYZ -> CIELAB
         elif to == "CIELAB":
             [L, A, B] = clib.XYZ_to_LAB(self.get("X"), self.get("Y"), self.get("Z"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
             self._data_ = {"L" : L, "A" : A, "B" : B}
             self.__class__ = CIELAB
+
+        # Transformation from CIEXYZ -> RGB
         elif to == "RGB":
             [R, G, B] = clib.XYZ_to_RGB(self.get("X"), self.get("Y"), self.get("Z"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
             self._data_ = {"R" : R, "G" : G, "B" : B}
             self.__class__ = RGB
-        elif to == "sRGB":
-            [R, G, B] = clib.XYZ_to_sRGB(self.get("X"), self.get("Y"), self.get("Z"),
-                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
+
+        # The rest are transformations along a path
         elif to == "polarLAB":
-            [L, A, B] = clib.XYZ_to_LAB(self.get("X"), self.get("Y"), self.get("Z"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = polarLAB
-        elif to == "polarLUV":
-            [L, U, V] = clib.XYZ_to_LUV(self.get("X"), self.get("Y"), self.get("Z"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = polarLUV
+            via = ["CIELAB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["HCL", "polarLUV"]:
+            via = ["CIELUV", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "sRGB":
+            via = ["RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "hex":
-            [R, G, B] = clib.XYZ_to_sRGB(self.get("X"), self.get("Y"), self.get("Z"),
-                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
-            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+            via = ["RGB", "sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
-            return
+
         else: self._cannot_(self.__class__.__name__, to)
 
 class RGB(colorobject):
@@ -1483,8 +1500,11 @@ class RGB(colorobject):
     def __init__(self, R, G, B):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["R"], self._data_["G"], self._data_["B"]] = \
             self._check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1493,55 +1513,52 @@ class RGB(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to == self.__class__.__name__:
             return
-        elif to == "CIEXYZ":
-            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
-            self.__class__ = CIEXYZ
-        elif to == "CIELUV":
-            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = CIELUV
-        elif to == "CIELAB":
-            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = CIELAB
-        elif to == "polarLUV":
-            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = CIELUV
-        elif to == "polarLAB":
-            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = CIELAB
-        elif to == "sRGB":
-            [R, G, B] = clib.RGB_to_DEVRGB(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
-        elif to == "hex":
-            hex_ = clib.sRGB_to_hex(self.get("R"), self.get("G"), self.get("B"), fixup)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+
+        # Transform from RGB -> HLS
         elif to == "HLS":
             [H, L, S] = clib.RGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
             self._data_ = {"H" : H, "L" : L, "S" : S}
             self.__class__ = HLS
+
+        # Transform from RGB -> HSV
         elif to == "HSV":
             [H, L, S] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
             self._data_ = {"H" : H, "L" : L, "S" : S}
             self.__class__ = HSV
+
+        # Transform from RGB -> sRGB
+        elif to == "sRGB":
+            [R, G, B] = clib.RGB_to_DEVRGB(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+
+        # Transform from RGB -> CIEXYZ
+        elif to == "CIEXYZ":
+            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self.__class__ = CIEXYZ
+
+        # The rest are transformations along a path
+        elif to in ["CIELUV", "CIELAB"]: 
+            via = ["CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["HCL","polarLUV"]:
+            via = ["CIEXYZ", "CIELUV", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "polarLAB":
+            via = ["CIEXYZ", "CIELAB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "hex":
+            via = ["sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         else: self._cannot_(self.__class__.__name__, to)
 
 class sRGB(colorobject):
@@ -1561,8 +1578,11 @@ class sRGB(colorobject):
     def __init__(self, R, G, B):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["R"], self._data_["G"], self._data_["B"]] = \
             self._check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1571,55 +1591,39 @@ class sRGB(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to == self.__class__.__name__:
             return
-        elif to == "CIEXYZ":
-            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
-            self.__class__ = CIEXYZ
-        elif to == "CIELUV":
-            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = CIELUV
-        elif to == "CIELAB":
-            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = CIELAB
-        elif to == "polarLUV":
-            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = CIELUV
-        elif to == "polarLAB":
-            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
-            self._data_ = {"L" : L, "A" : A, "B" : B}
-            self.__class__ = CIELAB
+
+        # Transformation sRGB -> RGB
         elif to == "RGB":
             [R, G, B] = clib.DEVRGB_to_RGB(self.get("R"), self.get("G"), self.get("B"))
             self._data_ = {"R" : R, "G" : G, "B" : B}
             self.__class__ = RGB
+
+        # Transformation sRGB -> hex
         elif to == "hex":
             hex_ = clib.sRGB_to_hex(self.get("R"), self.get("G"), self.get("B"), fixup)
             self._data_ = {"hex_": hex_}
             self.__class__ = hexcols
-        elif to == "HLS":
-            [H, L, S] = clib.RGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"H" : H, "L" : L, "S" : S}
-            self.__class__ = HLS
-        elif to == "HSV":
-            [H, L, S] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"H" : H, "L" : L, "S" : S}
-            self.__class__ = HSV
+
+        # The rest are transformations along a path
+        elif to in ["HSV", "HLS", "CIEXYZ"]:
+            via = ["RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["CIELUV", "CIELAB"]:
+            via = ["RGB", "CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["HCL","polarLUV"]:
+            via = ["RGB", "CIEXYZ", "CIELUV", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "polarLAB":
+            via = ["RGB", "CIEXYZ", "CIELAB", to] 
+            self._transform_via_path_(via, fixup = fixup)
+
         else: self._cannot_(self.__class__.__name__, to)
 
 class CIELAB(colorobject):
@@ -1642,8 +1646,11 @@ class CIELAB(colorobject):
     def __init__(self, L, A, B):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["L"], self._data_["A"], self._data_["B"]] = \
             self._check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1652,52 +1659,47 @@ class CIELAB(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to == self.__class__.__name__:
             return
+
+        # Transformations CIELAB -> CIEXYZ
         elif to == "CIEXYZ":
             [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ)
             self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
             self.__class__ = CIEXYZ
-        elif to == "CIELUV":
-            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = CIELUV
-        elif to == "RGB":
-            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = RGB
-        elif to == "sRGB":
-            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
+
+        # Transformation CIELAB -> polarLAB
         elif to == "polarLAB":
             [L, A, B] = clib.LAB_to_polarLAB(self.get("L"), self.get("A"), self.get("B"))
             self._data_ = {"L" : L, "A" : A, "B" : B}
             self.__class__ = polarLAB
-        elif to == "polarLUV":
-            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = polarLUV
+
+        # The rest are transformations along a path
+        elif to == "CIELUV":
+            via = ["CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["HCL","polarLUV"]:
+            via = ["CIEXYZ", "CIELUV", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "RGB":
+            via = ["CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to == "sRGB":
+            via = ["CIEXYZ", "RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "hex":
-            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+            via = ["CIEXYZ", "RGB", "sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
-            return
+
         else: self._cannot_(self.__class__.__name__, to)
 
 class polarLAB(colorobject):
@@ -1717,8 +1719,11 @@ class polarLAB(colorobject):
     def __init__(self, L, A, B):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["L"], self._data_["A"], self._data_["B"]] = \
             self._check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1727,51 +1732,44 @@ class polarLAB(colorobject):
         from . import colorlib
         clib = colorlib()
 
-        if to in ["HCL", self.__class__.__name__]:
+        # Nothing to do (converted to itself)
+        if to == self.__class__.__name__:
             return
-        elif to == "CIEXYZ":
-            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
-            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
-            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
-            self.__class__ = CIEXYZ
+
+        # The only transformation we need is from polarLAB -> LAB
         elif to == "CIELAB":
             [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
             self._data_ = {"L" : L, "A" : A, "B" : B}
             self.__class__ = CIELAB
+
+        # The rest are transformationas along a path
+        elif to == "CIEXYZ":
+            via = ["CIELAB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "CIELUV":
-            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
-            [X, Y, Z] = clib.LUV_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = CIELUV
+            via = ["CIELAB", "CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["HCL", "polarLUV"]:
+            via = ["CIELAB", "CIEXYZ", "CIELUV", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "RGB":
-            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
-            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = RGB
+            via = ["CIELAB", "CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "sRGB":
-            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
-            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
-        elif to == "polarLUV":
-            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
-            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = polarLUV
+            via = ["CIELAB", "CIEXYZ", "RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "hex":
-            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
-            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
-            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+            via = ["CIELAB", "CIEXYZ", "RGB", "sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
+
         else: self._cannot_(self.__class__.__name__, to)
 
 
@@ -1793,8 +1791,11 @@ class HSV(colorobject):
     def __init__(self, H, S, V):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["H"], self._data_["S"], self._data_["V"]] = \
             self._check_input_arrays_(self.__class__.__name__, H = H, S = S, V = V)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1803,28 +1804,32 @@ class HSV(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to == self.__class__.__name__:
             return
+
+        # The only transformation we need is back to RGB
         elif to == "RGB":
             [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
             self._data_ = {"R" : R, "G" : G, "B" : B}
             self.__class__ = RGB
+
+        # The rest are transformations along a path
         elif to == "sRGB":
-            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
+            via = ["RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "hex":
-            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
-            hex_ = clib.sRGB_to_hex(R, G, B)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+            via = ["RGB", "sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "HLS":
-            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
-            [H, L, S] = clib.RGB_to_HLS(R, G, B)
-            self._data_ = {"H" : H, "L" : L, "S" : S}
-            self.__class__ = HLS
-        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV","polarLAB"]:
+            via = ["RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV", "HCL","polarLAB"]:
             self._ambiguous_(self.__class__.__name__, to)
+
         else: self._cannot_(self.__class__.__name__, to)
 
 
@@ -1846,8 +1851,11 @@ class HLS(colorobject):
     def __init__(self, H, L, S):
 
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["H"], self._data_["L"], self._data_["S"]] = \
             self._check_input_arrays_(self.__class__.__name__, H = H, L = L, S = S)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1856,28 +1864,32 @@ class HLS(colorobject):
         from . import colorlib
         clib = colorlib()
 
+        # Nothing to do (converted to itself)
         if to == self.__class__.__name__:
             return
+
+        # The only transformation we need is back to RGB
         elif to == "RGB":
             [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
             self._data_ = {"R" : R, "G" : G, "B" : B}
             self.__class__ = RGB
+
+        # The rest are transformations along a path
         elif to == "sRGB":
-            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            self.__class__ = sRGB
+            via = ["RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "hex":
-            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
-            hex_ = clib.sRGB_to_hex(R, G, B)
-            self._data_ = {"hex_": hex_}
-            self.__class__ = hexcols
+            via = ["RGB", "sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to == "HSV":
-            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
-            [H, S, V] = clib.RGB_to_HSV(R, G, B)
-            self._data_ = {"H" : H, "S" : S, "V" : V}
-            self.__class__ = HSV
-        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV","polarLAB"]:
+            via = ["RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV","HCL","polarLAB"]:
             self._ambiguous_(self.__class__.__name__, to)
+
         else: self._cannot_(self.__class__.__name__, to)
 
 
@@ -1886,9 +1898,13 @@ class hexcols(colorobject):
 
     def __init__(self, hex_):
 
+        if isinstance(hex_,str): hex_ = np.asarray([hex_])
         # checking inputs, save inputs on object
+        self._data_ = {} # Dict to store the colors/color dimensions
         [self._data_["hex_"]] = \
             self._check_input_arrays_(self.__class__.__name__, hex_ = hex_)
+        # White spot definition (the default)
+        self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
@@ -1897,21 +1913,38 @@ class hexcols(colorobject):
         from . import colorlib
         clib = colorlib()
 
-        if to == "sRGB":
+        # Nothing to do (converted to itself)
+        if to in ["hex", self.__class__.__name__]:
+            return
+
+        # The only transformation we need is from hexcols -> sRGB
+        elif to == "sRGB":
             [R, G, B] = clib.hex_to_sRGB(self.get("hex_"))
             self._data_ = {"R": R, "G": G, "B": B}
             self.__class__ = sRGB
-        elif to == "CIEXYZ":
-            self.to("sRGB")
-            self.to("RGB")
-            self.to("CIEXYZ")
+
+        # The rest are transformations along a path
+        elif to == "RGB":
+            via = ["sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["CIEXYZ", "HLS", "HSV"]:
+            via = ["sRGB", "RGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["CIELUV", "CIELAB"]:
+            via = ["sRGB", "RGB", "CIEXYZ", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["HCL", "polarLUV"]:
+            via = ["sRGB", "RGB", "CIEXYZ", "CIELUV", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in "polarLAB":
+            via = ["sRGB", "RGB", "CIEXYZ", "CIELAB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         else: self._cannot_(self.__class__.__name__, to)
-
-
-
-
-
-
 
 
 
