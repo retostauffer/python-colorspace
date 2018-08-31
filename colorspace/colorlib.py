@@ -93,6 +93,10 @@ class colorlib(object):
         if not YN: YN = self.YN
         if not ZN: ZN = self.ZN
 
+        if isinstance(XN,float): XN = np.asarray([XN])
+        if isinstance(YN,float): YN = np.asarray([YN])
+        if isinstance(ZN,float): ZN = np.asarray([ZN])
+
         # Checking type
         if not np.all(isinstance(x, np.ndarray) for x in [XN, YN, ZN]):
             log.error("Inputs to {:s} have to be of class np.ndarray.".format(
@@ -1014,65 +1018,65 @@ class colorlib(object):
     
     
     
-    def RGB_to_hex(self, R, G, B, fixup = True):
-    
-        if not isinstance(fixup,bool):
-            import inspect
-            log.error("Input \"fixup\" to {:s} has to be boolean.".format(
-                inspect.stack()[0][3])); sys.exit(9)
-    
-        def getrgb(r, g, b, fixup):
-            # Without fixup
-            if not fixup:
-                if r < 0 or r > 1: r = np.nan
-                if g < 0 or g > 1: g = np.nan
-                if b < 0 or b > 1: b = np.nan
-                return [r * 255, g * 255, b * 255]
-            # With fixup
-            return [np.min([np.max([0, R[i]]), 1.0]) * 255,
-                    np.min([np.max([0, G[i]]), 1.0]) * 255,
-                    np.min([np.max([0, B[i]]), 1.0]) * 255]
-    
-        hex = []
-        for i in range(0, len(R)):
-            r,g,b = getrgb(R[i], G[i], B[i], fixup)
-            if np.any([np.isnan(x) for x in [r,g,b]]):
-                h = np.nan
-            else:
-                h = "#{:02x}{:02x}{:02x}".format(int(r), int(g), int(b))
-            hex.append(h)
-    
-        return hex
-    
-    
-    def hex_to_RGB(self, hex):
-        """Convert hex colors to RGB.
-        Alpha values are ignored.
-        @param hex list of hex colors, can contain np.nan values.
-        @return Returns a list of [r, g, b] with three np.ndarrays
-            of the same length as the input vector hex. Contains
-            np.nans if the input vector hex contained nan or if
-            non-hex conform colors were found.
-        """
-    
-        # Result arrays
-        r = np.ndarray(len(hex), dtype = "float"); r[:] = np.nan
-        g = np.ndarray(len(hex), dtype = "float"); g[:] = np.nan
-        b = np.ndarray(len(hex), dtype = "float"); b[:] = np.nan
-    
-        import re
-        for i in range(0, len(hex)):
-            # Is no string: skip
-            if not isinstance(hex[i], str): continue
-            # Remove "#" and cut off alpha values if specified
-            val = hex[i].lstrip('#')[0:6]
-            # Non-conform hex color input
-            if not re.match("^[a-zA-Z0-9]{6}$", val): continue
-            lv  = len(val)
-            ri, gi, bi  = list(int(val[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-            r[i] = ri / 255.; g[i] = gi/255.; b[i] = bi/255.
-    
-        return [r, g, b]
+    ###def RGB_to_hex(self, R, G, B, fixup = True):
+    ###
+    ###    if not isinstance(fixup,bool):
+    ###        import inspect
+    ###        log.error("Input \"fixup\" to {:s} has to be boolean.".format(
+    ###            inspect.stack()[0][3])); sys.exit(9)
+    ###
+    ###    def getrgb(r, g, b, fixup):
+    ###        # Without fixup
+    ###        if not fixup:
+    ###            if r < 0 or r > 1: r = np.nan
+    ###            if g < 0 or g > 1: g = np.nan
+    ###            if b < 0 or b > 1: b = np.nan
+    ###            return [r * 255, g * 255, b * 255]
+    ###        # With fixup
+    ###        return [np.min([np.max([0, R[i]]), 1.0]) * 255,
+    ###                np.min([np.max([0, G[i]]), 1.0]) * 255,
+    ###                np.min([np.max([0, B[i]]), 1.0]) * 255]
+    ###
+    ###    hex = []
+    ###    for i in range(0, len(R)):
+    ###        r,g,b = getrgb(R[i], G[i], B[i], fixup)
+    ###        if np.any([np.isnan(x) for x in [r,g,b]]):
+    ###            h = np.nan
+    ###        else:
+    ###            h = "#{:02x}{:02x}{:02x}".format(int(r), int(g), int(b))
+    ###        hex.append(h)
+    ###
+    ###    return hex
+    ###
+    ###
+    ###def hex_to_RGB(self, hex):
+    ###    """Convert hex colors to RGB.
+    ###    Alpha values are ignored.
+    ###    @param hex list of hex colors, can contain np.nan values.
+    ###    @return Returns a list of [r, g, b] with three np.ndarrays
+    ###        of the same length as the input vector hex. Contains
+    ###        np.nans if the input vector hex contained nan or if
+    ###        non-hex conform colors were found.
+    ###    """
+    ###
+    ###    # Result arrays
+    ###    r = np.ndarray(len(hex), dtype = "float"); r[:] = np.nan
+    ###    g = np.ndarray(len(hex), dtype = "float"); g[:] = np.nan
+    ###    b = np.ndarray(len(hex), dtype = "float"); b[:] = np.nan
+    ###
+    ###    import re
+    ###    for i in range(0, len(hex)):
+    ###        # Is no string: skip
+    ###        if not isinstance(hex[i], str): continue
+    ###        # Remove "#" and cut off alpha values if specified
+    ###        val = hex[i].lstrip('#')[0:6]
+    ###        # Non-conform hex color input
+    ###        if not re.match("^[a-zA-Z0-9]{6}$", val): continue
+    ###        lv  = len(val)
+    ###        ri, gi, bi  = list(int(val[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+    ###        r[i] = ri / 255.; g[i] = gi/255.; b[i] = bi/255.
+    ###
+    ###    return [r, g, b]
     
     
     
@@ -1113,15 +1117,6 @@ class colorlib(object):
     #  *spacecode = POLARLAB;
     #    else
     #  error("invalid color space in C routine \"CheckSpace\" (2)");
-    #}
-    #
-    #static void CheckColor(SEXP color, int *n)
-    #{
-    #    if (!isNumeric(color))
-    #        error("color error - numeric values required");
-    #    if (!isMatrix(color) || ncols(color) != 3)
-    #        error("color error - a matrix with 3 columns required");
-    #    *n = nrows(color);
     #}
     #
     #static void CheckHex(SEXP hex, int *n)
@@ -1876,49 +1871,47 @@ class colorlib(object):
     #    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     #};
     #
-    #SEXP sRGB_to_RColor(SEXP rgb, SEXP fixup)
-    #{
-    #    double r, g, b;
-    #    int fixupvalue, i, ir, ig, ib, n, nagen;
-    #    char hex[8];
-    #    SEXP ans;
-    #
-    #    CheckColor(rgb, &n);
-    #    CheckFixup(fixup, &fixupvalue);
-    #
-    #    PROTECT(ans = allocVector(STRSXP, n));
-    #    nagen = 0;
-    #
-    #    for (i = 0; i < n; i++) {
-    #  r = REAL(rgb)[i];
-    #  g = REAL(rgb)[i+n];
-    #  b = REAL(rgb)[i+2*n];
-    #        if (R_FINITE(r) && R_FINITE(g) && R_FINITE(b)) {
-    #      /* Hardware color representation */
-    #      ir = 255 * r + .5;
-    #      ig = 255 * g + .5;
-    #      ib = 255 * b + .5;
-    #      if (FixupColor(&ir, &ig, &ib) && !fixupvalue) {
-    #     SET_STRING_ELT(ans, i, NA_STRING);
-    #      }
-    #      else {
-    #     hex[0] = '#';
-    #     hex[1] = HEXDIG[(ir / 16) % 16];
-    #     hex[2] = HEXDIG[ir % 16];
-    #     hex[3] = HEXDIG[(ig / 16) % 16];
-    #     hex[4] = HEXDIG[ig % 16];
-    #     hex[5] = HEXDIG[(ib / 16) % 16];
-    #     hex[6] = HEXDIG[ib % 16];
-    #     hex[7] = '\0';
-    #     SET_STRING_ELT(ans, i, mkChar(hex));
-    #      }
-    #  }
-    #  else
-    #            SET_STRING_ELT(ans, i, NA_STRING);
-    #    }
-    #    UNPROTECT(1);
-    #    return ans;
-    #}
+
+    def sRGB_to_hex(self, r, g, b, fixup = True):
+
+        # Color fixup: limit r/g/b to [0-1]
+        def fixup(r, g, b):
+            return [np.fmax(0, np.fmin(1, r)),
+                    np.fmax(0, np.fmin(1, g)),
+                    np.fmax(0, np.fmin(1, b))]
+
+        # Checking which r/g/b values are outside limits.
+        # This only happens if fixup = FALSE.
+        def validrgb(r, g, b):
+            idxr = np.logical_and(r >= 0, r <= 1)
+            idxg = np.logical_and(g >= 0, g <= 1)
+            idxb = np.logical_and(b >= 0, b <= 1)
+            return np.where(idxr * idxg * idxb)
+
+        # Support function to create hex coded colors
+        def gethex(r, g, b):
+
+            # Converts integers to hex string
+            def applyfun(x):
+                x = np.asarray(x * 255. + .5, dtype = np.int)
+                return "#{:02x}{:02x}{:02x}".format(x[0], x[1], x[2]).upper()
+
+            h = np.vstack([r,g,b]).transpose().flatten().reshape([len(r),3])
+            return np.apply_along_axis(applyfun, 1, h)
+
+        # Let's do the conversion!
+        if fixup: [r, g, b] = fixup(r, g, b)
+        # Check valid r/g/b coordinates
+        valid = validrgb(r,g,b)
+        # Create return array
+        res = np.ndarray(len(r), dtype = "|S7"); res[:] = ""
+        # Convert valid colors to hex
+        res[valid] = gethex(r[valid], g[valid], b[valid])
+        # Create return list with NAN's for invalid colors
+        ans = [np.nan if len(x) == 0 else x for x in res]
+
+        return ans;
+
     #
     #static int decodeHexDigit(int x)
     #{
@@ -1980,6 +1973,12 @@ class colorlib(object):
 
 class colorobject(object):
 
+    # White spot definition (the default)
+    WHITEX =  95.047
+    WHITEY = 100.000
+    WHITEZ = 108.883
+    _data_ = {} # Dict to store the colors/color dimensions
+
     def _check_input_arrays_(self, __fname__, **kwargs):
         """Checks if all inputs in **kwargs are of type np.ndarray OR lists
         (will be converted to ndarrays) and that all are of the same length
@@ -2027,17 +2026,24 @@ class colorobject(object):
     # ---------------------------------------------------------------
     # Show content
     # ---------------------------------------------------------------
-    def show(self, digits = 1):
+    def show(self, digits = 4):
 
         dims = self._data_.keys()     # Dimensions
         ncol = len(self._data_[dims[0]]) # Number of colors
+
+        print("# Content of {:s} object".format(self.__class__.__name__))
 
         # Show header
         fmt = "".join(["{:>", "{:d}".format(digits+5), "s}"])
         print(" ".join([fmt.format(x) for x in dims]))
 
         # Show data
-        fmt = "".join(["{:", "{:d}.{:d}".format(5+digits, digits), "f}"])
+        if self.__class__.__name__ == "hexcols":
+            fmt = "  {:>7s}"
+        else:
+            fmt = "".join(["{:", "{:d}.{:d}".format(5+digits, digits), "f}"])
+
+        # Print object content
         for n in range(0, ncol):
             for d in dims:
                 print(fmt.format(self._data_[d][n])),
@@ -2046,7 +2052,7 @@ class colorobject(object):
     def get(self, dimname):
         if not dimname in self._data_.keys():
             log.error("Whoops, dimension \"{:s}\" does not exist in {:s} object.".format(
-                dimname, self.__fname__))
+                dimname, self.__class__.__name__))
             sys.exit(9)
         return self._data_[dimname]
 
@@ -2055,17 +2061,33 @@ class colorobject(object):
             from_, to))
         sys.exit(9)
 
+    def _ambiguous_(self, from_, to):
+        log.error("Ambiguous conversion from \"{:s}\" to \"{:s}\" (object unchanged).".format(from_, to))
 
+
+# -------------------------------------------------------------------
+# PolarLUV or HCL object
+# -------------------------------------------------------------------
 class polarLUV(colorobject):
+    """PolarLUV color object.
+    Allowes conversions:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - RGB
+    - sRGB
+    - polarLAB
+    - hex
+    Conversions not allowed to:
+    - HSV
+    - HLS
+    """
 
     def __init__(self, H, C, L):
 
-        self.__cname__ = "colorspace.HCL"
-        self._data_ = {}
-
         # Checking inputs, save inputs on object
         [self._data_["H"], self._data_["C"], self._data_["L"]] = \
-            self._check_input_arrays_(self.__cname__, H = H, C = C, L = L)
+            self._check_input_arrays_(self.__class__.__name__, H = H, C = C, L = L)
 
     def LUV(self):
         from . import colorlib
@@ -2073,72 +2095,287 @@ class polarLUV(colorobject):
         return LUV(L, U, V)
 
 
-    def to(self, to):
+    def to(self, to, fixup = True):
         """Converts the object into a colorobject of a different class, if possible.
         """
         from . import colorlib
-        if to == "LUV":
-            [L, U, V] = colorlib().polarLUV_to_LUV(self.get("H"), self.get("C"), self.get("L"))
-            self._data_ = {"L" : L, "U" : U, "V" : V}
-            self.__class__ = LUV
-        elif to == "XYZ":
-            [L, U, V] = colorlib().polarLUV_to_LUV(self.get("H"), self.get("C"), self.get("L"))
-            [X, Y, Z] = colorlib().LUV_to_XYZ(L, U, V)
+        clib = colorlib()
+
+        if to in ["HCL", self.__class__.__name__]:
+            return
+        elif to == "CIEXYZ":
+            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
+            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
             self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
-            self.__class__ = XYZ
-        else: self._cannot_(self.__cname__, space)
+            self.__class__ = CIEXYZ
+        elif to == "CIELUV":
+            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "CIELAB":
+            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
+            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "RGB":
+            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
+            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "sRGB":
+            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
+            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "polarLAB":
+            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
+            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = polarLAB
+        elif to == "hex":
+            [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
+            [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
+            self._data_ = {"hex": hex_}
+            self.__class__ = hexcols
+        elif to in ["HLS", "HSV"]:
+            self._ambiguous_(self.__class__.__name__, to)
+        else: self._cannot_(self.__class__.__name__, to)
 
-
-
-                
 # polarLUV is HCL, make copy
 HCL = polarLUV
 
-class LUV(colorobject):
+
+# -------------------------------------------------------------------
+# CIELUV color object
+# -------------------------------------------------------------------
+class CIELUV(colorobject):
+    """CIELUV color object.
+    Allowes conversions:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - RGB
+    - sRGB
+    - polarLUV
+    - polarLAB
+    Conversions not allowed to:
+    - HSV
+    - HLS
+    """
+
 
     def __init__(self, L, U, V):
 
-        self.__cname__ = "colorspace.LUV"
-        self._data_ = {}
-
         # checking inputs, save inputs on object
         [self._data_["L"], self._data_["U"], self._data_["V"]] = \
-            self._check_input_arrays_(self.__cname__, L = L, U = U, V = V)
+            self._check_input_arrays_(self.__class__.__name__, L = L, U = U, V = V)
 
 
-    def to(self, space):
+    def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
         from . import colorlib
-        if space == "notyetdefined":
-            aaaa = "fooo"
-        else: self._cannot_(self.__cname__, space)
+        clib = colorlib()
 
-class XYZ(colorobject):
+        if to == self.__class__.__name__:
+            return
+        elif to == "CIEXYZ":
+            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self.__class__ = CIEXYZ
+        elif to == "CIELAB":
+            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "RGB":
+            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "sRGB":
+            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "polarLAB":
+            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = polarLAB
+        elif to == "polarLUV":
+            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = polarLUV
+        elif to == "hex":
+            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
+            self._data_ = {"hex": hex_}
+            self.__class__ = hexcols
+        elif to in ["HLS", "HSV"]:
+            self._ambiguous_(self.__class__.__name__, to)
+            return
+        else: self._cannot_(self.__class__.__name__, to)
+
+# -------------------------------------------------------------------
+# CIEXYZ color object
+# -------------------------------------------------------------------
+class CIEXYZ(colorobject):
+    """CIEXYZ color object.
+    Allowes conversions:
+    Conversions not allowed to:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - polarLUV
+    - polarLAB
+    - RGB
+    - sRGB
+    - hex
+    Conversions not allowed to:
+    - HSV
+    - HLS
+    """
 
     def __init__(self, X, Y, Z):
 
-        self.__cname__ = "colorspace.XYZ"
-        self._data_ = {}
-
         # checking inputs, save inputs on object
-        [self._data_["X"], self._data_["u"], self._data_["v"]] = \
-            self._check_input_arrays_(self.__cname__, L = L, U = U, V = V)
+        [self._data_["X"], self._data_["Y"], self._data_["Z"]] = \
+            self._check_input_arrays_(self.__class__.__name__, X = X, Y = Y, Z = Z)
 
-
-    def to(self, space):
+    def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
-        import sys
-        sys.exit("Conversion from XYZ not yet possible")
         from . import colorlib
-        if space == "notyetdefined":
-            aaaa = "fooo"
-        else: self._cannot_(self.__cname__, space)
+        clib = colorlib()
 
+        if to == self.__class__.__name__:
+            return
+        elif to == "CIELUV":
+            [L, U, V] = clib.XYZ_to_LUV(self.get("X"), self.get("Y"), self.get("Z"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "CIELAB":
+            [L, A, B] = clib.XYZ_to_LAB(self.get("X"), self.get("Y"), self.get("Z"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "RGB":
+            [R, G, B] = clib.XYZ_to_RGB(self.get("X"), self.get("Y"), self.get("Z"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "sRGB":
+            [R, G, B] = clib.XYZ_to_sRGB(self.get("X"), self.get("Y"), self.get("Z"),
+                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "polarLAB":
+            [L, A, B] = clib.XYZ_to_LAB(self.get("X"), self.get("Y"), self.get("Z"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = polarLAB
+        elif to == "polarLUV":
+            [L, U, V] = clib.XYZ_to_LUV(self.get("X"), self.get("Y"), self.get("Z"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = polarLUV
+        elif to == "hex":
+            [R, G, B] = clib.XYZ_to_sRGB(self.get("X"), self.get("Y"), self.get("Z"),
+                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
+            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
+            self._data_ = {"hex": hex_}
+            self.__class__ = hexcols
+        elif to in ["HLS", "HSV"]:
+            self._ambiguous_(self.__class__.__name__, to)
+            return
+        else: self._cannot_(self.__class__.__name__, to)
 
+class RGB(colorobject):
 
+    def __init__(self, R, G, B):
 
+        # checking inputs, save inputs on object
+        [self._data_["R"], self._data_["G"], self._data_["B"]] = \
+            self._check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+
+    def to(self, to, fixup = True):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+
+class sRGB(colorobject):
+
+    def __init__(self, R, G, B):
+
+        # checking inputs, save inputs on object
+        [self._data_["R"], self._data_["G"], self._data_["B"]] = \
+            self._check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+
+    def to(self, to, fixup = True):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+
+class CIELAB(colorobject):
+
+    def __init__(self, L, A, B):
+
+        # checking inputs, save inputs on object
+        [self._data_["L"], self._data_["A"], self._data_["B"]] = \
+            self._check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+
+    def to(self, to, fixup = True):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+
+class polarLAB(colorobject):
+
+    def __init__(self, L, A, B):
+
+        # checking inputs, save inputs on object
+        [self._data_["L"], self._data_["A"], self._data_["B"]] = \
+            self._check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+
+    def to(self, to, fixup = True):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+
+class hexcols(colorobject):
+
+    def __init__(self, hex_):
+
+        # checking inputs, save inputs on object
+        [self._data_["hex"]] = \
+            self._check_input_arrays_(self.__class__.__name__, hex_)
+
+    def to(self, to, fixup = True):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
 
 
 
