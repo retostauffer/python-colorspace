@@ -1,8 +1,6 @@
 
 # Ignore compiled docs
 _build
-_static
-_templates
 
 # Ignore makefile output
 make.bat
