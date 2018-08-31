@@ -241,7 +241,7 @@ class colorlib(object):
     
         return u
     
-    def DEVRGB_to_RGB(self, R, G, B, gamma):
+    def DEVRGB_to_RGB(self, R, G, B, gamma = 2.4):
         """TODO"""
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -257,7 +257,7 @@ class colorlib(object):
         # Apply gamma correction
         return [self.ftrans(x, gamma) for x in [R, G, B]]
     
-    def RGB_to_DEVRGB(self, R, G, B, gamma):
+    def RGB_to_DEVRGB(self, R, G, B, gamma = 2.4):
         """TODO"""
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -971,8 +971,6 @@ class colorlib(object):
     
     
     ## ----- LUV <-> polarLUV ----- */
-
-    
     def LUV_to_polarLUV(self, L, U, V):
         """LUV to polarLUV (HCL).
         @param L np.ndarray, L.
@@ -1016,877 +1014,28 @@ class colorlib(object):
         return [L, C * np.cos(H), C * np.sin(H)] # [L, U, V]
     
     
-    
-    
-    ###def RGB_to_hex(self, R, G, B, fixup = True):
-    ###
-    ###    if not isinstance(fixup,bool):
-    ###        import inspect
-    ###        log.error("Input \"fixup\" to {:s} has to be boolean.".format(
-    ###            inspect.stack()[0][3])); sys.exit(9)
-    ###
-    ###    def getrgb(r, g, b, fixup):
-    ###        # Without fixup
-    ###        if not fixup:
-    ###            if r < 0 or r > 1: r = np.nan
-    ###            if g < 0 or g > 1: g = np.nan
-    ###            if b < 0 or b > 1: b = np.nan
-    ###            return [r * 255, g * 255, b * 255]
-    ###        # With fixup
-    ###        return [np.min([np.max([0, R[i]]), 1.0]) * 255,
-    ###                np.min([np.max([0, G[i]]), 1.0]) * 255,
-    ###                np.min([np.max([0, B[i]]), 1.0]) * 255]
-    ###
-    ###    hex = []
-    ###    for i in range(0, len(R)):
-    ###        r,g,b = getrgb(R[i], G[i], B[i], fixup)
-    ###        if np.any([np.isnan(x) for x in [r,g,b]]):
-    ###            h = np.nan
-    ###        else:
-    ###            h = "#{:02x}{:02x}{:02x}".format(int(r), int(g), int(b))
-    ###        hex.append(h)
-    ###
-    ###    return hex
-    ###
-    ###
-    ###def hex_to_RGB(self, hex):
-    ###    """Convert hex colors to RGB.
-    ###    Alpha values are ignored.
-    ###    @param hex list of hex colors, can contain np.nan values.
-    ###    @return Returns a list of [r, g, b] with three np.ndarrays
-    ###        of the same length as the input vector hex. Contains
-    ###        np.nans if the input vector hex contained nan or if
-    ###        non-hex conform colors were found.
-    ###    """
-    ###
-    ###    # Result arrays
-    ###    r = np.ndarray(len(hex), dtype = "float"); r[:] = np.nan
-    ###    g = np.ndarray(len(hex), dtype = "float"); g[:] = np.nan
-    ###    b = np.ndarray(len(hex), dtype = "float"); b[:] = np.nan
-    ###
-    ###    import re
-    ###    for i in range(0, len(hex)):
-    ###        # Is no string: skip
-    ###        if not isinstance(hex[i], str): continue
-    ###        # Remove "#" and cut off alpha values if specified
-    ###        val = hex[i].lstrip('#')[0:6]
-    ###        # Non-conform hex color input
-    ###        if not re.match("^[a-zA-Z0-9]{6}$", val): continue
-    ###        lv  = len(val)
-    ###        ri, gi, bi  = list(int(val[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-    ###        r[i] = ri / 255.; g[i] = gi/255.; b[i] = bi/255.
-    ###
-    ###    return [r, g, b]
-    
-    
-    
-    
-    
-    ## ----- Argument Checking -----
-    #define CIEXYZ    0
-    #define RGB       1
-    #define HSV       2
-    #define CIELUV    3
-    #define POLARLUV  4
-    #define CIELAB    5
-    #define POLARLAB  6
-    #define HLS       7
-    #define sRGB      8
-    
-    #static void CheckSpace(SEXP space, int *spacecode)
-    #{
-    #    if (!isString(space) || length(space) != 1)
-    #  error("invalid color space in C routine \"CheckSpace\" (1)");
-    #    if (!strcmp(CHAR(STRING_ELT(space, 0)), "XYZ"))
-    #  *spacecode = CIEXYZ;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "RGB"))
-    #  *spacecode = RGB;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "sRGB"))
-    #  *spacecode = sRGB;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "HSV"))
-    #  *spacecode = HSV;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "HLS"))
-    #  *spacecode = HLS;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "LUV"))
-    #  *spacecode = CIELUV;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "polarLUV"))
-    #  *spacecode = POLARLUV;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "LAB"))
-    #  *spacecode = CIELAB;
-    #    elif (!strcmp(CHAR(STRING_ELT(space, 0)), "polarLAB"))
-    #  *spacecode = POLARLAB;
-    #    else
-    #  error("invalid color space in C routine \"CheckSpace\" (2)");
-    #}
-    #
-    #static void CheckHex(SEXP hex, int *n)
-    #{
-    #    int i, j;
-    #    if (!isString(hex))
-    #        goto badhex;
-    #    *n = length(hex);
-    #    for (i = 0; i < *n; i++) {
-    #        if (strlen(CHAR(STRING_ELT(hex, i))) != 7 ||
-    #                CHAR(STRING_ELT(hex, i))[0] != '#')
-    #            goto badhex;
-    #        for (j = 1; j < 7; j++) {
-    #            if (!isxdigit(CHAR(STRING_ELT(hex, i))[j]))
-    #                goto badhex;
-    #        }
-    #    }
-    #    return;
-    #badhex:
-    #    error("color error - hex values required");
-    #}
-    #
-    #static void CheckWhite(SEXP white, double *Xn, double *Yn, double *Zn)
-    #{
-    #    int n;
-    #    if (isNull(white)) {
-    #  /* Use D65 by default. */
-    #  *Xn =  95.047;
-    #  *Yn = 100.000;
-    #  *Zn = 108.883;
-    #    }
-    #    else {
-    #  CheckColor(white, &n);
-    #  if (n != 1 ||
-    #      REAL(white)[0] <= 0 ||
-    #      REAL(white)[1] <= 0 ||
-    #      REAL(white)[2] <= 0)
-    #      error("color error || invalid white point");
-    #  *Xn = REAL(white)[0];
-    #  *Yn = REAL(white)[1];
-    #  *Zn = REAL(white)[2];
-    #    }
-    #}
-    #
-    #static void CheckGamma(SEXP gamma, double *gammaval)
-    #{
-    #    *gammaval = asReal(gamma);
-    #    if (!R_FINITE(*gammaval) || *gammaval <= 0)
-    #  error("invalid gamma value");
-    #}
-    #
-    #static void CheckFixup(SEXP fixup, int *fixupval)
-    #{
-    #    *fixupval = asLogical(fixup);
-    #    if (*fixupval == NA_LOGICAL)
-    #  *fixupval = 1;
-    #}
-    #
-    #
-    #/* ----- Entry Points for Coersion Methods ----- */
-    #
-    #SEXP as_XYZ(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    case RGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      sRGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #    case HLS:
-    #        error("Ambiguous conversion");
-    #  break;
-    #    case CIELUV:
-    #  for(i = 0; i < n; i++) {
-    #      LUV_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLUV:
-    #  for(i = 0; i < n; i++) {
-    #      polarLUV_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case CIELAB:
-    #  for(i = 0; i < n; i++) {
-    #      LAB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLAB:
-    #  for(i = 0; i < n; i++) {
-    #      polarLAB_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #SEXP as_RGB(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #  for(i = 0; i < n; i++) {
-    #      XYZ_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case RGB:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      DEVRGB_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #                          2.4,
-    #                          &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #  for(i = 0; i < n; i++) {
-    #      HSV_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HLS:
-    #  for(i = 0; i < n; i++) {
-    #      HLS_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case CIELUV:
-    #  for(i = 0; i < n; i++) {
-    #      LUV_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_RGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLUV:
-    #  for(i = 0; i < n; i++) {
-    #      polarLUV_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_RGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case CIELAB:
-    #  for(i = 0; i < n; i++) {
-    #      LAB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_RGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLAB:
-    #  for(i = 0; i < n; i++) {
-    #      polarLAB_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_RGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #SEXP as_sRGB(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #  for(i = 0; i < n; i++) {
-    #      XYZ_to_sRGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #                        &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case RGB: 
-    #  for(i = 0; i < n; i++) {
-    #            RGB_to_DEVRGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #                          2.4,
-    #                          &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #        }
-    #        break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    case HSV:
-    #  for(i = 0; i < n; i++) {
-    #      HSV_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HLS:
-    #  for(i = 0; i < n; i++) {
-    #      HLS_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case CIELUV:
-    #  for(i = 0; i < n; i++) {
-    #      LUV_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_sRGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #                        &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLUV:
-    #  for(i = 0; i < n; i++) {
-    #      polarLUV_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_sRGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case CIELAB:
-    #  for(i = 0; i < n; i++) {
-    #      LAB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_sRGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLAB:
-    #  for(i = 0; i < n; i++) {
-    #      polarLAB_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_sRGB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #SEXP as_HSV(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #    case CIELUV:
-    #    case POLARLUV:
-    #    case CIELAB:
-    #    case POLARLAB:
-    #        error("Ambiguous conversion");
-    #  break;
-    #    case RGB:
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_HSV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    case HLS:
-    #  for(i = 0; i < n; i++) {
-    #      HLS_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      RGB_to_HSV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #SEXP as_HLS(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #    case CIELUV:
-    #    case POLARLUV:
-    #    case CIELAB:
-    #    case POLARLAB:
-    #        error("Ambiguous conversion");
-    #  break;
-    #    case RGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_HLS(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_HLS(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #  for(i = 0; i < n; i++) {
-    #      HSV_to_RGB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      RGB_to_HLS(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #        break;
-    #    case HLS:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #
-    #SEXP as_LUV(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #  for(i = 0; i < n; i++) {
-    #      XYZ_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case RGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      sRGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #    case HLS:
-    #        error("Ambiguous conversion");
-    #  break;
-    #    case CIELUV:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    case POLARLUV:
-    #  for(i = 0; i < n; i++) {
-    #      polarLUV_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]); 
-    #  }
-    #  break;
-    #    case CIELAB:
-    #  for(i = 0; i < n; i++) {
-    #      LAB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLAB:
-    #  for(i = 0; i < n; i++) {
-    #      polarLAB_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #SEXP as_polarLUV(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #  for(i = 0; i < n; i++) {
-    #      XYZ_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_polarLUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case RGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_polarLUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      sRGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_polarLUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #    case HLS:
-    #        error("Ambiguous conversion");
-    #  break;
-    #    case CIELUV:
-    #  for(i = 0; i < n; i++) {
-    #      LUV_to_polarLUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLUV:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    case CIELAB:
-    #  for(i = 0; i < n; i++) {
-    #      LAB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_polarLUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLAB:
-    #  for(i = 0; i < n; i++) {
-    #      polarLAB_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_polarLUV(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #SEXP as_LAB(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #  for(i = 0; i < n; i++) {
-    #      XYZ_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case RGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      sRGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #    case HLS:
-    #        error("Ambiguous conversion");
-    #  break;
-    #    case CIELUV:
-    #  for(i = 0; i < n; i++) {
-    #      LUV_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLUV:
-    #  for(i = 0; i < n; i++) {
-    #      polarLUV_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case CIELAB:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    case POLARLAB:
-    #  for(i = 0; i < n; i++) {
-    #      polarLAB_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space");
-    #    }
-    #    return ans;
-    #}
-    #
-    #SEXP as_polarLAB(SEXP color, SEXP space, SEXP white)
-    #{
-    #    double Xn, Yn, Zn;
-    #    int spacecode;
-    #    int i, n;
-    #    SEXP ans;
-    #
-    #    CheckColor(color, &n);
-    #    CheckSpace(space, &spacecode);
-    #    CheckWhite(white, &Xn, &Yn, &Zn);
-    #
-    #    ans = allocMatrix(REALSXP, n, 3);
-    #
-    #    switch(spacecode) {
-    #    case CIEXYZ:
-    #  for(i = 0; i < n; i++) {
-    #      XYZ_to_LAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_polarLAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case RGB:
-    #  for(i = 0; i < n; i++) {
-    #      RGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_polarLAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case sRGB:
-    #  for(i = 0; i < n; i++) {
-    #      sRGB_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_polarLAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case HSV:
-    #    case HLS:
-    #        error("Ambiguous conversion");
-    #  break;
-    #    case CIELUV:
-    #  for(i = 0; i < n; i++) {
-    #      LUV_to_XYZ(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_polarLAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLUV:
-    #  for(i = 0; i < n; i++) {
-    #      polarLUV_to_LUV(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LUV_to_XYZ(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      XYZ_to_LAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n], Xn, Yn, Zn,
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #      LAB_to_polarLAB(REAL(ans)[i], REAL(ans)[i+n], REAL(ans)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case CIELAB:
-    #  for(i = 0; i < n; i++) {
-    #      LAB_to_polarLAB(REAL(color)[i], REAL(color)[i+n], REAL(color)[i+2*n],
-    #            &REAL(ans)[i], &REAL(ans)[i+n], &REAL(ans)[i+2*n]);
-    #  }
-    #  break;
-    #    case POLARLAB:
-    #  for(i = 0; i < n; i++) {
-    #      REAL(ans)[i] = REAL(color)[i];
-    #      REAL(ans)[i+n] = REAL(color)[i+n];
-    #      REAL(ans)[i+2*n] = REAL(color)[i+2*n];
-    #  }
-    #  break;
-    #    default:
-    #  error("unimplemented colour space (3)");
-    #    }
-    #    return ans;
-    #}
-    #
-    #static int FixupColor(int *r, int *g, int *b)
-    #{
-    #    int fix = 0;
-    #    if (*r < 0) { *r = 0; fix = 1; } elif (*r > 255) { *r = 255; fix = 1; }
-    #    if (*g < 0) { *g = 0; fix = 1; } elif (*g > 255) { *g = 255; fix = 1; }
-    #    if (*b < 0) { *b = 0; fix = 1; } elif (*b > 255) { *b = 255; fix = 1; }
-    #    return fix;
-    #}
-    #
-    #static const char HEXDIG[] = {
-    #    '0', '1', '2', '3', '4', '5', '6', '7',
-    #    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    #};
-    #
-
     def sRGB_to_hex(self, r, g, b, fixup = True):
 
         # Color fixup: limit r/g/b to [0-1]
         def fixup(r, g, b):
-            return [np.fmax(0, np.fmin(1, r)),
-                    np.fmax(0, np.fmin(1, g)),
-                    np.fmax(0, np.fmin(1, b))]
+            def fun(x):
+                return np.asarray([np.max([0, np.min([1, e])]) \
+                       if np.isfinite(e) else np.nan for e in x])
+            return [fun(r), fun(g), fun(b)]
+
+        def cleanup(r, g, b):
+            def fun(x):
+                return np.asarray([e if np.logical_and(e >= 0., e <= 1.)
+                       else np.nan for e in x])
+            return [fun(r), fun(g), fun(b)]
 
         # Checking which r/g/b values are outside limits.
         # This only happens if fixup = FALSE.
         def validrgb(r, g, b):
-            idxr = np.logical_and(r >= 0, r <= 1)
-            idxg = np.logical_and(g >= 0, g <= 1)
-            idxb = np.logical_and(b >= 0, b <= 1)
-            return np.where(idxr * idxg * idxb)
+            idxr = np.isfinite(r)
+            idxg = np.isfinite(g)
+            idxb = np.isfinite(b)
+            return np.where(idxr * idxg * idxb)[0]
 
         # Support function to create hex coded colors
         def gethex(r, g, b):
@@ -1901,76 +1050,63 @@ class colorlib(object):
 
         # Let's do the conversion!
         if fixup: [r, g, b] = fixup(r, g, b)
-        # Check valid r/g/b coordinates
-        valid = validrgb(r,g,b)
+        else:     [r, g, b] = cleanup(r, g, b)
+
         # Create return array
         res = np.ndarray(len(r), dtype = "|S7"); res[:] = ""
-        # Convert valid colors to hex
-        res[valid] = gethex(r[valid], g[valid], b[valid])
+
+        # Check valid r/g/b coordinates
+        valid = validrgb(r,g,b)
+        if len(valid) > 0:
+            # Convert valid colors to hex
+            res[valid] = gethex(r[valid], g[valid], b[valid])
+
         # Create return list with NAN's for invalid colors
         ans = [np.nan if len(x) == 0 else x for x in res]
 
         return ans;
 
-    #
-    #static int decodeHexDigit(int x)
-    #{
-    #  switch(x) {
-    #  case '0': case '1': case '2': case '3': case '4':
-    #  case '5': case '6': case '7': case '8': case '9':
-    #  return x - '0';
-    #  case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-    #  return x - 'A' + 10;
-    #  case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-    #  return x - 'a' + 10;
-    #  default:
-    #  return -1;
-    #  }
-    #}
-    #
-    #static void decodeHexStr(const char * const x, double *r, double *g, double *b)
-    #{
-    #  int d1, d2, d3, d4, d5, d6;
-    #  d1 = decodeHexDigit(x[1]);
-    #  d2 = decodeHexDigit(x[2]);
-    #  d3 = decodeHexDigit(x[3]);
-    #  d4 = decodeHexDigit(x[4]);
-    #  d5 = decodeHexDigit(x[5]);
-    #  d6 = decodeHexDigit(x[6]);
-    #  if (d1 >= 0 && d2 >= 0 &&
-    #      d3 >= 0 && d4 >= 0 &&
-    #      d5 >= 0 && d6 >= 0) {
-    #      *r = (16 *d1 + d2)/255.;
-    #      *g = (16 *d3 + d4)/255.;
-    #      *b = (16 *d5 + d6)/255.;
-    #  }
-    #  else {
-    #    *r = NA_REAL;
-    #    *g = NA_REAL;
-    #    *b = NA_REAL;
-    #  }
-    #}
-    #
-#    class hex_to_RGB2(self, hex, gamma):
-#
-#        n = 0
-#        # Checking hex colors
-#        CheckHex(hex, &n);
-#
-#        # Return value
-#        ans = allocMatrix(REALSXP, n, 3);
-#        for i in range(0, n):
-#            decodeHexStr(CHAR(STRING_ELT(hex, i)), &r, &g, &b);
-#            if (asLogical(gamma))
-#                DEVRGB_to_RGB(r, g, b, 2.4, &r, &g, &b);
-#            REAL(ans)[i] = r;
-#            REAL(ans)[i+n] = g;
-#            REAL(ans)[i+2*n] = b;
-#
-#        return ans;
+    # RETO RETO RETO
+    def hex_to_sRGB(self, hex_, gamma = 2.4):
+
+        if isinstance(hex_,str): hex_ = [hex_]
+        hex_ = np.asarray(hex_)
+
+        # Check for valid hex colors
+        def validhex(hex_):
+            from re import match
+            return np.where([match("^#[A-Za-z0-9]{6}([0-9]{2})?$", x) is not None for x in hex_])[0]
+
+        # Convert hex to rgb
+        def getrgb(x):
+            def applyfun(x):
+                return np.asarray([int(x[i:i+2], 16) for i in (1, 3 ,5)])
+            rgb = [applyfun(e) for e in x]
+            rgb = np.vstack(rgb).transpose().flatten().reshape([3,len(x)])
+            return [rgb[0] / 255., rgb[1] / 255., rgb[2] / 255.]
+
+        # Result arrays
+        r = np.ndarray(len(hex_), dtype = "float"); r[:] = np.nan 
+        g = np.ndarray(len(hex_), dtype = "float"); g[:] = np.nan 
+        b = np.ndarray(len(hex_), dtype = "float"); b[:] = np.nan 
+
+        # Check valid hex colors
+        valid = validhex(hex_)
+        if not len(valid) == 0:
+
+            # Decode valid hex strings
+            rgb = getrgb(hex_[valid])
+            r[valid] = rgb[0]
+            g[valid] = rgb[1]
+            b[valid] = rgb[2]
+
+        return [r, g, b]
 
 
-
+# -------------------------------------------------------------------
+# Color object base class
+# will be extended by the different color classes.
+# -------------------------------------------------------------------
 class colorobject(object):
 
     # White spot definition (the default)
@@ -1978,6 +1114,18 @@ class colorobject(object):
     WHITEY = 100.000
     WHITEZ = 108.883
     _data_ = {} # Dict to store the colors/color dimensions
+
+    # Allowed/defined color spaces
+    ALLOWED = ["CIEXYZ", "CIELUV", "CIELAB", "polarLUV", "polarLAB",
+               "RGB", "sRGB",
+               "HSV", "HLS", "hex"]
+
+    def _check_if_allowed_(self, x):
+
+        if not x in self.ALLOWED:
+            log.error("Transformation to \"{:s}\" unknown.".format(x))
+            log.error("Has to be one of: {:s}".format(", ".join(self.ALLOWED)))
+            sys.exit(9)
 
     def _check_input_arrays_(self, __fname__, **kwargs):
         """Checks if all inputs in **kwargs are of type np.ndarray OR lists
@@ -2038,15 +1186,21 @@ class colorobject(object):
         print(" ".join([fmt.format(x) for x in dims]))
 
         # Show data
+        # In case of a hexcols object: string formatting and
+        # nan-replacement beforehand.
         if self.__class__.__name__ == "hexcols":
             fmt = "  {:>7s}"
+            data = {}
+            for d in self._data_.keys():
+                data[d] = [x if isinstance(x,str) else "nan" for x in self._data_[d]]
         else:
             fmt = "".join(["{:", "{:d}.{:d}".format(5+digits, digits), "f}"])
+            data = self._data_
 
         # Print object content
         for n in range(0, ncol):
             for d in dims:
-                print(fmt.format(self._data_[d][n])),
+                print(fmt.format(data[d][n])), #self._data_[d][n])),
             print "\n",
 
     def get(self, dimname):
@@ -2098,6 +1252,7 @@ class polarLUV(colorobject):
     def to(self, to, fixup = True):
         """Converts the object into a colorobject of a different class, if possible.
         """
+        self._check_if_allowed_(to)
         from . import colorlib
         clib = colorlib()
 
@@ -2142,7 +1297,7 @@ class polarLUV(colorobject):
             [X, Y, Z] = clib.LUV_to_XYZ(L, U, V, self.WHITEX, self.WHITEY, self.WHITEZ)
             [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
             hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex": hex_}
+            self._data_ = {"hex_": hex_}
             self.__class__ = hexcols
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
@@ -2165,6 +1320,7 @@ class CIELUV(colorobject):
     - sRGB
     - polarLUV
     - polarLAB
+    - hex
     Conversions not allowed to:
     - HSV
     - HLS
@@ -2181,6 +1337,7 @@ class CIELUV(colorobject):
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
+        self._check_if_allowed_(to)
         from . import colorlib
         clib = colorlib()
 
@@ -2217,10 +1374,7 @@ class CIELUV(colorobject):
             self._data_ = {"L" : L, "A" : A, "B" : B}
             self.__class__ = polarLAB
         elif to == "polarLUV":
-            [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
-                                        self.WHITEX, self.WHITEY, self.WHITEZ)
-            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
-            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
+            [L, U, V] = clib.LUV_to_polarLUV(self.get("L"), self.get("U"), self.get("V"))
             self._data_ = {"L" : L, "U" : U, "V" : V}
             self.__class__ = polarLUV
         elif to == "hex":
@@ -2228,7 +1382,7 @@ class CIELUV(colorobject):
                                         self.WHITEX, self.WHITEY, self.WHITEZ)
             [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
             hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex": hex_}
+            self._data_ = {"hex_": hex_}
             self.__class__ = hexcols
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
@@ -2241,7 +1395,6 @@ class CIELUV(colorobject):
 class CIEXYZ(colorobject):
     """CIEXYZ color object.
     Allowes conversions:
-    Conversions not allowed to:
     - CIEXYZ
     - CIELUV
     - CIELAB
@@ -2264,6 +1417,7 @@ class CIEXYZ(colorobject):
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
+        self._check_if_allowed_(to)
         from . import colorlib
         clib = colorlib()
 
@@ -2305,7 +1459,7 @@ class CIEXYZ(colorobject):
             [R, G, B] = clib.XYZ_to_sRGB(self.get("X"), self.get("Y"), self.get("Z"),
                                          self.WHITEX, self.WHITEY, self.WHITEZ) 
             hex_ = clib.sRGB_to_hex(R, G, B, fixup)
-            self._data_ = {"hex": hex_}
+            self._data_ = {"hex_": hex_}
             self.__class__ = hexcols
         elif to in ["HLS", "HSV"]:
             self._ambiguous_(self.__class__.__name__, to)
@@ -2313,6 +1467,18 @@ class CIEXYZ(colorobject):
         else: self._cannot_(self.__class__.__name__, to)
 
 class RGB(colorobject):
+    """RGB color object.
+    Allowes conversions:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - sRGB
+    - HSV
+    - HLS
+    - polarLUV
+    - polarLAB
+    - hex
+    """
 
     def __init__(self, R, G, B):
 
@@ -2323,9 +1489,74 @@ class RGB(colorobject):
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
-        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+        self._check_if_allowed_(to)
+        from . import colorlib
+        clib = colorlib()
+
+        if to == self.__class__.__name__:
+            return
+        elif to == "CIEXYZ":
+            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self.__class__ = CIEXYZ
+        elif to == "CIELUV":
+            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "CIELAB":
+            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "polarLUV":
+            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "polarLAB":
+            [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "sRGB":
+            [R, G, B] = clib.RGB_to_DEVRGB(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "hex":
+            hex_ = clib.sRGB_to_hex(self.get("R"), self.get("G"), self.get("B"), fixup)
+            self._data_ = {"hex_": hex_}
+            self.__class__ = hexcols
+        elif to == "HLS":
+            [H, L, S] = clib.RGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "L" : L, "S" : S}
+            self.__class__ = HLS
+        elif to == "HSV":
+            [H, L, S] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "L" : L, "S" : S}
+            self.__class__ = HSV
+        else: self._cannot_(self.__class__.__name__, to)
 
 class sRGB(colorobject):
+    """sRGB color object.
+    Allowes conversions:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - RGB
+    - HSV
+    - HLS
+    - polarLUV
+    - polarLAB
+    - hex
+    """
 
     def __init__(self, R, G, B):
 
@@ -2336,9 +1567,77 @@ class sRGB(colorobject):
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
-        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+        self._check_if_allowed_(to)
+        from . import colorlib
+        clib = colorlib()
+
+        if to == self.__class__.__name__:
+            return
+        elif to == "CIEXYZ":
+            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self.__class__ = CIEXYZ
+        elif to == "CIELUV":
+            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "CIELAB":
+            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "polarLUV":
+            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "polarLAB":
+            [X, Y, Z] = clib.sRGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.XYZ_to_LAB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, A, B] = clib.LAB_to_polarLAB(L, A, B)
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "RGB":
+            [R, G, B] = clib.DEVRGB_to_RGB(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "hex":
+            hex_ = clib.sRGB_to_hex(self.get("R"), self.get("G"), self.get("B"), fixup)
+            self._data_ = {"hex_": hex_}
+            self.__class__ = hexcols
+        elif to == "HLS":
+            [H, L, S] = clib.RGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "L" : L, "S" : S}
+            self.__class__ = HLS
+        elif to == "HSV":
+            [H, L, S] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "L" : L, "S" : S}
+            self.__class__ = HSV
+        else: self._cannot_(self.__class__.__name__, to)
 
 class CIELAB(colorobject):
+    """CIELAB color object.
+    Allowes conversions:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - RGB
+    - sRGB
+    - polarLUV
+    - polarLAB
+    - hex
+    Conversions not allowed to:
+    - HSV
+    - HSL
+    """
+
 
     def __init__(self, L, A, B):
 
@@ -2349,9 +1648,71 @@ class CIELAB(colorobject):
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
-        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+        self._check_if_allowed_(to)
+        from . import colorlib
+        clib = colorlib()
+
+        if to == self.__class__.__name__:
+            return
+        elif to == "CIEXYZ":
+            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self.__class__ = CIEXYZ
+        elif to == "CIELUV":
+            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "RGB":
+            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "sRGB":
+            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "polarLAB":
+            [L, A, B] = clib.LAB_to_polarLAB(self.get("L"), self.get("A"), self.get("B"))
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = polarLAB
+        elif to == "polarLUV":
+            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = polarLUV
+        elif to == "hex":
+            [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
+                                        self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
+            self._data_ = {"hex_": hex_}
+            self.__class__ = hexcols
+        elif to in ["HLS", "HSV"]:
+            self._ambiguous_(self.__class__.__name__, to)
+            return
+        else: self._cannot_(self.__class__.__name__, to)
 
 class polarLAB(colorobject):
+    """CIELAB color object.
+    Allowes conversions:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - RGB
+    - sRGB
+    - polarLUV
+    Conversions not allowed to:
+    - HSV
+    - HLS
+    """
 
     def __init__(self, L, A, B):
 
@@ -2362,20 +1723,198 @@ class polarLAB(colorobject):
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
-        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+        self._check_if_allowed_(to)
+        from . import colorlib
+        clib = colorlib()
+
+        if to in ["HCL", self.__class__.__name__]:
+            return
+        elif to == "CIEXYZ":
+            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
+            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self.__class__ = CIEXYZ
+        elif to == "CIELAB":
+            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
+            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self.__class__ = CIELAB
+        elif to == "CIELUV":
+            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
+            [X, Y, Z] = clib.LUV_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = CIELUV
+        elif to == "RGB":
+            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
+            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_RGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "sRGB":
+            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
+            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "polarLUV":
+            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
+            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [L, U, V] = clib.XYZ_to_LUV(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            [L, U, V] = clib.LUV_to_polarLUV(L, U, V)
+            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self.__class__ = polarLUV
+        elif to == "hex":
+            [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
+            [X, Y, Z] = clib.LAB_to_XYZ(L, A, B, self.WHITEX, self.WHITEY, self.WHITEZ)
+            [R, G, B] = clib.XYZ_to_sRGB(X, Y, Z, self.WHITEX, self.WHITEY, self.WHITEZ) 
+            hex_ = clib.sRGB_to_hex(R, G, B, fixup)
+            self._data_ = {"hex_": hex_}
+            self.__class__ = hexcols
+        elif to in ["HLS", "HSV"]:
+            self._ambiguous_(self.__class__.__name__, to)
+        else: self._cannot_(self.__class__.__name__, to)
+
+
+class HSV(colorobject):
+    """
+    Allowes conversions:
+    - RGB
+    - sRGB
+    - HSV
+    - hex
+    Conversions not allowed to:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - polarLUV
+    - polarLAB
+    """
+
+    def __init__(self, H, S, V):
+
+        # checking inputs, save inputs on object
+        [self._data_["H"], self._data_["S"], self._data_["V"]] = \
+            self._check_input_arrays_(self.__class__.__name__, H = H, S = S, V = V)
+
+    def to(self, to, fixup = True):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        self._check_if_allowed_(to)
+        from . import colorlib
+        clib = colorlib()
+
+        if to == self.__class__.__name__:
+            return
+        elif to == "RGB":
+            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "sRGB":
+            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "hex":
+            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
+            hex_ = clib.sRGB_to_hex(R, G, B)
+            self._data_ = {"hex_": hex_}
+            self.__class__ = hexcols
+        elif to == "HLS":
+            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
+            [H, L, S] = clib.RGB_to_HLS(R, G, B)
+            self._data_ = {"H" : H, "L" : L, "S" : S}
+            self.__class__ = HLS
+        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV","polarLAB"]:
+            self._ambiguous_(self.__class__.__name__, to)
+        else: self._cannot_(self.__class__.__name__, to)
+
+
+class HLS(colorobject):
+    """
+    Allowes conversions:
+    - RGB
+    - sRGB
+    - HSV
+    - hex
+    Conversions not allowed to:
+    - CIEXYZ
+    - CIELUV
+    - CIELAB
+    - polarLUV
+    - polarLAB
+    """
+
+    def __init__(self, H, L, S):
+
+        # checking inputs, save inputs on object
+        [self._data_["H"], self._data_["L"], self._data_["S"]] = \
+            self._check_input_arrays_(self.__class__.__name__, H = H, L = L, S = S)
+
+    def to(self, to, fixup = True):
+        """converts the object into a colorobject of a different class, if possible.
+        """
+        self._check_if_allowed_(to)
+        from . import colorlib
+        clib = colorlib()
+
+        if to == self.__class__.__name__:
+            return
+        elif to == "RGB":
+            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = RGB
+        elif to == "sRGB":
+            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
+            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self.__class__ = sRGB
+        elif to == "hex":
+            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
+            hex_ = clib.sRGB_to_hex(R, G, B)
+            self._data_ = {"hex_": hex_}
+            self.__class__ = hexcols
+        elif to == "HSV":
+            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
+            [H, S, V] = clib.RGB_to_HSV(R, G, B)
+            self._data_ = {"H" : H, "S" : S, "V" : V}
+            self.__class__ = HSV
+        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV","polarLAB"]:
+            self._ambiguous_(self.__class__.__name__, to)
+        else: self._cannot_(self.__class__.__name__, to)
+
+
 
 class hexcols(colorobject):
 
     def __init__(self, hex_):
 
         # checking inputs, save inputs on object
-        [self._data_["hex"]] = \
-            self._check_input_arrays_(self.__class__.__name__, hex_)
+        [self._data_["hex_"]] = \
+            self._check_input_arrays_(self.__class__.__name__, hex_ = hex_)
 
     def to(self, to, fixup = True):
         """converts the object into a colorobject of a different class, if possible.
         """
-        sys.exit("Conversion from {:s} not coded.".format(self.__class__.__name__))
+        self._check_if_allowed_(to)
+        from . import colorlib
+        clib = colorlib()
+
+        if to == "sRGB":
+            [R, G, B] = clib.hex_to_sRGB(self.get("hex_"))
+            self._data_ = {"R": R, "G": G, "B": B}
+            self.__class__ = sRGB
+        elif to == "CIEXYZ":
+            self.to("sRGB")
+            self.to("RGB")
+            self.to("CIEXYZ")
+        else: self._cannot_(self.__class__.__name__, to)
+
+
+
+
+
+
+
+
+
 
 
 
