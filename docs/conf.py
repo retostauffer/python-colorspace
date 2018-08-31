@@ -45,7 +45,13 @@ extlinks = {'issue': ('https://github.com/retostauffer/python-colorspace/issues/
             'pull':  ('https://github.com/retostauffer/python-colorspace/pull/%s', 'PR'),
             }
 
+def setup(app):
+    app.add_stylesheet('css/colorspace.css')    
 
+html_context = {
+    'css_files': ['_static/css/colorspace.css'],
+}
+    
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

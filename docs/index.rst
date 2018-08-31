@@ -11,6 +11,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+Example code from python-markdown
+==================================
+
+.. cssclass:: foo
+.. raw:: html
+    :file: example.rst
 
 
 Indices and tables
