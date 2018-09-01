@@ -3,34 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to python-colorspace's documentation!
-=============================================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
-Example code from python-markdown
-==================================
-
-.. cssclass:: cscode
-.. raw:: html
-    :file: example.rst
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-.. _index-known-issues:
-
-
 .. toctree::
     :maxdepth: 1
+    :hidden:
     :caption: Modules
 
     modules/colorlib.rst
@@ -44,3 +19,38 @@ Indices and tables
 
     examples/colorlib.rst
     examples/transform.rst
+
+Welcome to python-colorspace's documentation!
+=============================================
+
+Hy :)
+
+.. Contents:
+   .. toctree::
+       :maxdepth: 2
+   .. Indices and tables
+   ==================
+   
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`
+
+Known issues
+============
+
+.. _index-known-issues:
+
+.. warning::
+    Gamma and alpha handling not yet implemented.
+
+.. warning::
+    White point implemented but might require some additional testing.
+
+
+Full TODO list
+==============
+
+.. todolist::
+
+
+

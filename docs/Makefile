@@ -193,16 +193,28 @@ pseudoxml:
 
 
 .PHONY: pyexamples
+##pyexamples:
+##	for file in `ls pyexamples/*.py` ; do \
+##        printf "[py] Processing %s\n" $$file ; \
+##		name=`basename $$file | sed -e s/\.py$$//g` ;\
+##		(cd pyexamples && \
+##			python -m markdown $$name.py > $$name.rst && \
+##			sed -i "s/<h1>/<comment>/g; s/<\/h1>/<\/comment>/g; s/$$/<br>/g" $$name.rst) ; \
+##    done
+
+
+
 pyexamples:
-	for file in `ls pyexamples/*.py` ; do \
-        printf "[py] Processing %s\n" $$file ; \
-		name=`basename $$file | sed -e s/\.py$$//g` ;\
+	(cd pyexamples && echo "$$body$$" > plain.html)
+	for file in `ls pyexamples/*.Rmd` ; do \
+        printf "[pyRmd] Processing %s\n" $$file ; \
+		file=`basename $$file` ; \
+		name=`echo $$file | sed "s/\.Rmd//g"` ; \
 		(cd pyexamples && \
-			python -m markdown $$name.py > $$name.rst && \
-			sed -i "s/<h1>/<comment>/g; s/<\/h1>/<\/comment>/g; s/$$/<br>/g" $$name.rst) ; \
+			Rscript -e "rmarkdown::render('$$file')" && \
+			python prepare_html_output.py $$name.html) ;\
     done
-
-
+	(cd pyexamples && rm plain.html)
 
 
 

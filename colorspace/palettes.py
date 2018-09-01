@@ -370,6 +370,100 @@ class hclpalette(object):
         print("p2    {:s}    ".format(get("p2")))
         print("fixup {:s}    ".format(get("fixup")))
 
+
+    # Better input handling
+    def _checkinput_(self, dtype, length = None, recycle = False,
+            nansallowed = False, **kwargs):
+        """Used to check/convert/extend input arguments to the
+        palette functions.
+
+        Parameters:
+            dtype (object): e.g. int or float, the type in which the
+                inputs should be converted.
+            length (int): optional. If set the script checks the length
+                of the input argument and, if necessary and allowed,
+                converts the data. If more values than required are
+                provided by the user only the first few elements
+                will be used (as specified by `length`). If the
+                user gave less arguments than expected the user
+                arguments are recycled if `recycle = True`, see
+                parameter `recycle`. If `recycle = False` and the
+                length of the input is shorter than expected an
+                error will be raised.
+            recycle (bool): if set to `True` the user inputs will
+                be recycled to match the expected number of inputs.
+            nansallowed (bool): if False an error will be raised
+                if the final arguments contain `nan` values. Else
+                `nan`s are passed trough and will be returned.
+            **kwargs: list of named arguments, the ones to be
+                checked. If only one is given the function returns
+                the values of this specific input. If multiple
+                arguments are handed over a dict will be returned
+                with the names corresponding to the user input.
+
+        Returns:
+            If `**kwargs` is of length one the values of this
+                specific variable will be returned. If multiple
+                `**kwargs` arguments are set a dict is returned.
+                Note that `None` will simply stay `None`.
+                The function raises errors if the user inputs
+                do not match the required specifications.
+        """
+
+        def fun(key, value, dtype, length, recycle, nansallowed):
+
+            from numpy import vstack, asarray, isnan, nan, any
+
+            # If None
+            if value == None: return value
+
+            # Converting the data
+            try:
+                value = asarray([value], dtype = dtype).flatten()
+            except Exception as e:
+                msg = "wrong input for \"{:s}\" to {:s}: {:s}".format(key, self.__class__.__name__, e)
+                raise ValueError(msg)
+
+            # Not enough input values, check if we are allowed to
+            # recycle.
+            if length and len(value) < length:
+                # Input was too short: check if we are allowed to
+                # recycle the value or not.
+                if not recycle:
+                    msg = "wrong length of input \"{:s}\", ".format(key) + \
+                          "expected {:d} elements, got {:d} ".format(length, len(value)) + \
+                          "when calling {:s}".format(self.__class__.__name__)
+                    raise ValueError(msg)
+                else:
+                    value = vstack([value] * length).flatten()[0:length]
+            # Cropping data if too much elements are given.
+            elif length and len(value) > length:
+                value = value[0:length]
+
+            # Checking nan's
+            if not nansallowed and any(isnan(value)):
+                msg = "arguments for \"{:s}\" ".format(key) + \
+                      "to function calling {:s} ".format(self.__class__.__name__) + \
+                      "contain nan values: not allowed"
+                raise ValueError(msg)
+
+            # Return single value if length is set to 1.
+            if len(value) == 1: value = value[0]
+
+            return value
+
+        # Looping over all kwargs
+        for key,value in kwargs.items():
+            kwargs[key] = fun(key, value, dtype, length, recycle, nansallowed)
+
+        # If only one kwarg was given: return values, else return dict.
+        if len(kwargs) == 1:
+            return kwargs[kwargs.keys()[0]]
+        else:
+            return kwargs
+
+
+
     def _check_inputs_(self, n, h, c, l, p, palette):
 
         # Class name for the error messages, if necessary.
@@ -549,27 +643,168 @@ class qualitative_hcl(hclpalette):
         HCL = HCL(H, C, L)
 
         # Return hex colors
-        return HCL.gethex(fixup = fixup)
+        return HCL.colors(fixup = fixup)
 
 
+# -------------------------------------------------------------------
+# The rainbow class extends the qualitative_hcl class.
+# -------------------------------------------------------------------
+class rainbow_hcl(qualitative_hcl):
+    """HCL rainbow, a qualitative cyclic rainbow color palette
+    with uniform luminance and chroma.
+
+    Parameters:
+        n (:class:`int`): number of colors you want to have.
+        c (:class:`int`): chroma of the color map [0-100+].
+        l (:class:`int`): luminance of the color map [0-100].
+        start (:class:`int`): hue at which the rainbow should start,
+            default is `start = 0` which corresponds to red.
+        end (:class:`int`): hue at which the rainbow should stop. By default
+            this is a function `360 * (n - 1) / n` such that the `n` colors
+            are uniformly distributed across [0, 360].
+        gamma (:class:`float`): default is `None`.
+        fixup (:class:`bool`): should the colors be corrected to valid RGB
+            when returned as hex colors? Default is `True`, if set to
+            `False` colors outside the defined RGB color space will be
+            set to :class:`np.nan`.
+        alpha (:class:`alpha`): currently not implemented.
+
+    Examples:
+        >>> from colorspace.palettes import rainbow_hcl
+        >>> pal = rainbow_hcl(100)
+        >>> pal.colors(3); pal.colors(20)
+
+    .. todo::
+        Implement functionality for alpha, either here or
+        in the colors method (and maybe even remove `n` from the
+        class definition, but then we would also have to
+        pass `end` trough the object.
+
+    """
+    def __init__(self, n, c = 50, l = 70, start = 0, end = lambda n: 360 * (n - 1)/n,
+                 gamma = None, fixup = True, alpha = 1, *args, **kwargs):
+
+        # Checking input "n"
+        try:
+            n     = self._checkinput_(int,   1, False, False, n = n)
+        except Exception as e:
+            raise ValueError(e)
+
+        # Evaluate "end" if it is a function
+        end = end(n) if callable(end) else end
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            c     = self._checkinput_(int,   1, False, False, c = c)
+            l     = self._checkinput_(int,   1, False, False, l = l)
+            start = self._checkinput_(int,   1, False, False, start = start)
+            end   = self._checkinput_(int,   1, False, False, end = end)
+        except Exception as e:
+            raise ValueError(e)
+
+        # Save settins
+        try:
+            self.settings = {"h1": int(start), "h2": int(end),
+                             "c1": int(c), "l1": int(l), "n": int(n),
+                             "fixup": bool(fixup), "alpha": float(alpha)}
+        except ValueError as e:
+            raise ValueError("wrong inputs to {:s}: {:s}".format(
+                self.__class__.__name__, e))
+        except Exception as e:
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+
+        # If keyword arguments are set:
+        # overwrite the settings if possible.
+        if not kwargs is None:
+            if "settings" in kwargs.keys():
+                for key,val in kwargs["settings"].items():
+                    if key in settings.keys() and not val is None:
+                        self.settings[key] = val
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class diverge_hcl(hclpalette):
+    """Diverging HCL color palette.
+
+    Parameters:
+        palette (str): optional. Can be set to load a specific default
+            palette by name.
+        n (inteter): number of values to be returned later.
+        h (numeric): hue values, diverging color palettes should have
+            different hues for both ends of the palette. If only one
+            value is present it will be recycled ending up in a
+            diverging color palette with the same colors on both ends.
+            If more than two values are provided the first two will
+            be used while the rest is ignored.
+            If input `h` is a string this argument acts like the
+            `palette` argument (see `palette` input parameter).
+        c (numeric): chroma value, a single numeric value. If multiple
+            values are provided only the first one will be used.
+        l (numeric): luminance values. The first value is for the two
+            ends of the color palette, the second one for the neutral
+            center point. If only one value is given this value will
+            be recycled.
+        power (numeric): power parameter for non-linear behaviour of the
+            color palette.
+        fixup (boolean): only used when converting the HCL colors to hex.
+            Should RGB values outside the defined RGB color space be
+            corrected?
+        alpha (numeric): Not yet implemented.
+        palette (string): can be used to load a default diverging color palette
+            specification. If the palette does not exist an exception will be raised.
+            Else the settings of the palette as defined will be used to create
+            the color palette.
+        rev (boolean): should the color map be reversed.
+
+        *args: unused.
+        **kwargs: unused.
+
+    Returns:
+        No return. Raises a ValueError if a palette specified by input argument
+            `palette` does not exist.
+
+    Examples:
+        >>> from colorspace.palettes import diverge_hcl
+        >>> a = diverge_hcl(10)
+        >>> a.colors(10)
+        >>> b = diverge_hcl(10, "Blue-Yellow 3")
+        >>> b.colors(10)
+
+    .. todo::
+        Write documentation.
+        Input handling (not yet like documented!)
+        Rev implemented?
+    """
+
+
 
     def __init__(self, n, h = [260, 0], c = 80, l = [30, 90],
-        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, **kwargs):
+        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
+        *args, **kwargs):
 
-        [n, h, c, l, power, palette] = self._check_inputs_(n, h, c, l, power, palette)
+        if isinstance(h, str):
+            palette = h; h = None
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            n     = self._checkinput_(int,   1, False, False, n = n)
+            h     = self._checkinput_(int,   2, True,  False, h = h)
+            c     = self._checkinput_(int,   1, False, False, c = c)
+            l     = self._checkinput_(int,   2, True,  False, l = l)
+            power = self._checkinput_(float, 1, True,  False, power = power)
+        except Exception as e:
+            raise ValueError(e)
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
             defaultpalettes = palettes().get_palettes("Diverging")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
-                log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
-                log.error("Choose one of: {:s}".format(", ".join(default_names)))
-                sys.exit(9)
+                msg = "palette \"{:s}\" is not a valid qualitative palette.".format(palette) + \
+                      "Choose one of: {:s}".format(", ".join(default_names))
+                raise ValueError(msg)
 
             # Else pick the palette
             pal = defaultpalettes[default_names.index(palette)]
@@ -648,7 +883,7 @@ class diverge_hcl(hclpalette):
         HCL = HCL(H, C, L)
 
         # Return hex colors
-        return HCL.gethex(fixup = fixup)
+        return HCL.colors(fixup = fixup)
 
 
 
@@ -765,7 +1000,7 @@ class sequential_hcl(hclpalette):
         HCL.show()
 
         # Return hex colors
-        return HCL.gethex(fixup = fixup)
+        return HCL.colors(fixup = fixup)
 
 
 

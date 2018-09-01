@@ -5,4 +5,4 @@ Color transformation
 
 .. cssclass:: cscode
 .. raw:: html
-    :file: ../pyexamples/transform.rst
+    :file: ../pyexamples/transform.html

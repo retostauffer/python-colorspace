@@ -1268,7 +1268,9 @@ class colorobject(object):
         return self._data_
 
 
-    def gethex(self, n = 10, fixup = True):
+    def colors(self, fixup = True):
+        """Always returns hex colors of the color object.
+        """
 
         from copy import copy
         x = copy(self)

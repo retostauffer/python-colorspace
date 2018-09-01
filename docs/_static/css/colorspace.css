@@ -20,3 +20,9 @@
 .cscode comment:before {
     content: "#";
 }
+pre.python code { color red; }
+code {
+    white-space: pre !important;
+    padding: 0px !important;
+    border: none !important;
+}
