@@ -543,31 +543,78 @@ class hclpalette(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class qualitative_hcl(hclpalette):
+    """Qualitative HCL color palette.
 
-    def __init__(self, n, h = None, c = 50, l = 70,
+    Parameters:
+        palette (str): optional. Can be set to load a specific default
+            palette by name.
+        n (inteter): number of values to be returned later.
+        h (numeric): hue values, qualitative color palettes require
+            two hues.  If more than two values are provided the first two will
+            be used while the rest is ignored.  If input `h` is a string this
+            argument acts like the `palette` argument (see `palette` input
+            parameter).
+            Default is [0-360] with respect to the number of colors "n".
+        c (numeric): chroma value, a single numeric value. If multiple
+            values are provided only the first one will be used.
+        l (numeric): luminance value, a single numeric value. If multiple
+            values are provided only the first one will be used.
+        fixup (boolean): only used when converting the HCL colors to hex.
+            Should RGB values outside the defined RGB color space be
+            corrected?
+        alpha (numeric): Not yet implemented.
+        palette (string): can be used to load a default diverging color palette
+            specification. If the palette does not exist an exception will be raised.
+            Else the settings of the palette as defined will be used to create
+            the color palette.
+        rev (boolean): should the color map be reversed.
+
+        *args: unused.
+        **kwargs: Additional arguments to overwrite the h/c/l settings.
+            @TODO has to be documented.
+
+    Returns:
+        No return. Raises a ValueError if a palette specified by input argument
+            `palette` does not exist.
+
+    Examples:
+        >>> from colorspace.palettes import diverge_hcl
+        >>> a = diverge_hcl(10)
+        >>> a.colors(10)
+        >>> b = diverge_hcl(10, "Blue-Yellow 3")
+        >>> b.colors(10)
+
+    .. todo::
+        Try to make the code nicer (the part loading/overwriting settings).
+        Looks messy and is extremely hard to debug. Rev implemented?
+    """
+
+    def __init__(self, n, h = lambda n: [0, 360. / (n + 1.) * n], c = 50, l = 70,
         fixup = True, alpha = 1, palette = None, rev = False, **kwargs):
 
-        # Input checks
-        for key in ["n", "c", "l"]:
-            if not isinstance(eval(key), int):
-                log.error("Input \"{:s}\" has to be of type integer.".format(key)); sys.exit(9)
-        for key in ["fixup", "rev"]:
-            if not isinstance(eval(key), bool):
-                log.error("Input \"{:s}\" has to be of type bool.".format(key)); sys.exit(9)
-        if n < 1:
-            log.error("Input \"n\" has a positive integer."); sys.exit(9)
-
-        # For handy use of the function
-        if isinstance(h,str):
+        # If a string is given on "h": exchange with "palette".
+        if isinstance(h, str):
             palette = h; h = None
 
-        # Correcting "h" if set
-        if not h is None and not isinstance(h, str):
-            if not isinstance(h, list): h = [h]
-            if len(h) == 1:  h = [h[0]] * 2
-            if len(h) > 2:   h = h[0:2]
-        elif h is None:
-            h = [0, 360 / (n + 1) * n]
+        # Checking input "n"
+        try:
+            n     = self._checkinput_(int,   1, False, False, n = n)
+        except Exception as e:
+            raise ValueError(e)
+
+        # Evaluate "end" if it is a function
+        h = h(n) if callable(h) else h
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            n     = self._checkinput_(int,   1, False, False, n = n)
+            h     = self._checkinput_(int,   2, False, False, h = h)
+            c     = self._checkinput_(int,   1, False, False, c = c)
+            l     = self._checkinput_(int,   1, False, False, l = l)
+        except Exception as e:
+            raise ValueError(e)
+
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
@@ -728,8 +775,6 @@ class diverge_hcl(hclpalette):
     """Diverging HCL color palette.
 
     Parameters:
-        palette (str): optional. Can be set to load a specific default
-            palette by name.
         n (inteter): number of values to be returned later.
         h (numeric): hue values, diverging color palettes should have
             different hues for both ends of the palette. If only one
@@ -758,7 +803,8 @@ class diverge_hcl(hclpalette):
         rev (boolean): should the color map be reversed.
 
         *args: unused.
-        **kwargs: unused.
+        **kwargs: Additional arguments to overwrite the h/c/l settings.
+            @TODO has to be documented.
 
     Returns:
         No return. Raises a ValueError if a palette specified by input argument
@@ -772,9 +818,8 @@ class diverge_hcl(hclpalette):
         >>> b.colors(10)
 
     .. todo::
-        Write documentation.
-        Input handling (not yet like documented!)
-        Rev implemented?
+        Try to make the code nicer (the part loading/overwriting settings).
+        Looks messy and is extremely hard to debug. Rev implemented?
     """
 
 
