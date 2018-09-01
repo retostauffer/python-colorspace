@@ -1,5 +1,22 @@
 
 
-.foo {
-    border: 3px solid red;
+.cscode {
+    border: 1px solid #e3e3e3;
+    padding: 10px;
+}
+
+.cscode, .cscode comment, .cscode p {
+    font-family: Courier New, Lucida Console, Monospace, sans-serif;
+}
+
+/* Comments */
+.cscode comment {
+    font-size: 1em !important;
+    line-height: 1em;
+    color: #A8A8A8;
+    font-weight: normal;
+    text-decoration: none;
+}
+.cscode comment:before {
+    content: "#";
 }

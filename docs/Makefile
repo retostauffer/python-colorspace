@@ -192,6 +192,22 @@ pseudoxml:
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
 
-.PHONY: example
-example:
-	python -m markdown -x codehilite example.py > example.rst
+.PHONY: pyexamples
+pyexamples:
+	for file in `ls pyexamples/*.py` ; do \
+        printf "[py] Processing %s\n" $$file ; \
+		name=`basename $$file | sed -e s/\.py$$//g` ;\
+		(cd pyexamples && \
+			python -m markdown $$name.py > $$name.rst && \
+			sed -i "s/<h1>/<comment>/g; s/<\/h1>/<\/comment>/g; s/$$/<br>/g" $$name.rst) ; \
+    done
+
+
+
+
+
+
+
+
+
+

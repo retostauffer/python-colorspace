@@ -59,7 +59,16 @@ class colorlib(object):
 
     # Conversion function
     def DEG2RAD(self, x):
-        """Conver degrees into radiant.
+        """
+        ParameterConver degrees into radiant.
+
+        :param arg1: description
+        :param arg2: description
+        :type arg1: type description
+        :type arg1: type description
+        :return: return description
+        :rtype: the return type description
+
         @param x float in degrees.
         @return Returns input x in radiants."""
         return np.pi / 180. * x
@@ -1108,6 +1117,10 @@ class colorlib(object):
 # will be extended by the different color classes.
 # -------------------------------------------------------------------
 class colorobject(object):
+    """
+    This is the base class of all color objects and provides some
+    default methods.
+    """
 
     # Allowed/defined color spaces
     ALLOWED = ["CIEXYZ", "CIELUV", "CIELAB", "polarLUV", "polarLAB",
@@ -1115,9 +1128,45 @@ class colorobject(object):
                "HSV", "HLS", "hex"]
 
     def get_whitepoint(self):
+        """
+        A white point definition is used to adjust the colors.
+        If not explicitly set via :py:func:`set_whitepoint`
+        default values are used. This method returns the definition of the
+        white point in use.
+
+        Returns:
+            Returns a dict with `X`, `Y`, `Z`, the white point specification
+            for the three dimensions.
+
+        Examples:
+            >>> from colorspace.colorlib import hexcols
+            >>> c = hexcols("#ff0000")
+            >>> c.get_whitepoint()
+        """
         return {"X": self.WHITEX, "Y": self.WHITEY, "Z": self.WHITEZ}
 
     def set_whitepoint(self, **kwargs):
+        """
+        A white point definition is used to adjust the colors.
+        This method allows to set custom values. If not explicitly
+        set a default specification is used.
+
+        Parameters:
+            X (:class:`float`): White specification for dimension X.
+            Y (:class:`float`): White specification for dimension Y.
+            Z (:class:`float`): White specification for dimension Z.
+
+        Returns:
+            No return, stores the new definition on the object.
+            :py:func:`get_whitepoint` can be used to
+            get the current specification.
+
+        Examples:
+            >>> from colorspace.colorlib import hexcols
+            >>> c = hexcols("#ff0000")
+            >>> c.set_whitepoint(X = 100., Y = 100., Z = 101.)
+            >>> c.get_whitepoint()
+        """
         for key,arg in kwargs.items():
             if   key == "X":  self.WHITEX = float(arg)
             elif key == "Y":  self.WHITEY = float(arg)
@@ -1242,18 +1291,30 @@ class colorobject(object):
 # PolarLUV or HCL object
 # -------------------------------------------------------------------
 class polarLUV(colorobject):
-    """PolarLUV color object.
-    Allowes conversions:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - RGB
-    - sRGB
-    - polarLAB
-    - hex
-    Conversions not allowed to:
-    - HSV
-    - HLS
+    """polarLUV or HCL color object. The polar representation of the
+    CIELUV (:class:`colorspace.CIELUV`) color space is also known as
+    Hue-Chroma-Luminance (HCL) color space.
+    polarLUV colors can be converted into: CIEXYZ , CIELUV , CIELAB , RGB , sRGB , polarLAB , hex.
+    Not allowed (ambiguous) to convert into: HSV, HLS.
+
+    Parameters:
+        L: Single value or multiple values for hue dimension [-360,360].
+        U: Single value or multiple values for chroma dimension [0, 100+].
+        V: Single value or multiple values for luminance dimension [0, 100].
+
+    Examples:
+        >>> from colorspace.colorlib import polarLUV, HCL
+        >>> c = polarLUV(100., 30, 50.)
+        >>> c = HCL(100., 30, 50.) # Equivalent to the command above
+        >>> c = HCL([100.], [30.], [50.])
+        >>> c = HCL([100, 80], [30,50], [30,80])
+        >>> from numpy import asarray
+        >>> c = HCL(asarray([100,80]), asarray([30,50]), asarray([30,80]))
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
     def __init__(self, H, C, L):
@@ -1265,14 +1326,18 @@ class polarLUV(colorobject):
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
-    def LUV(self):
-        from . import colorlib
-        [L, U, V] = colorlib().polarLUV_to_LUV(self.get("H"), self.get("C"), self.get("L"))
-        return LUV(L, U, V)
-
-
     def to(self, to, fixup = True):
-        """Converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1327,21 +1392,27 @@ HCL = polarLUV
 # -------------------------------------------------------------------
 class CIELUV(colorobject):
     """CIELUV color object.
-    Allowes conversions:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - RGB
-    - sRGB
-    - polarLUV
-    - polarLAB
-    - hex
-    Conversions not allowed to:
-    - HSV
-    - HLS
+
+    polarLUV colors can be converted into: CIEXYZ, CIELUV, CIELAB, RGB, sRGB,
+    polarLAB, hex. Not allowed (ambiguous) to convert into: HSV, HLS.
+
+    Parameters:
+        L: Single value or multiple values for L-dimension.
+        U: Single value or multiple values for U-dimension.
+        V: Single value or multiple values for V-dimension.
+
+    Examples:
+        >>> from colorspace.colorlib import CIELUV
+        >>> c = CIELUV(0, 10, 10)
+        >>> c = CIELUV([10, 30], [20, 80], [100, 40])
+        >>> from numpy import asarray
+        >>> c = CIELUV(asarray([10, 30]), asarray([20, 80]), asarray([100, 40]))
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
-
-
     def __init__(self, L, U, V):
 
         # checking inputs, save inputs on object
@@ -1353,7 +1424,17 @@ class CIELUV(colorobject):
 
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1406,18 +1487,28 @@ class CIELUV(colorobject):
 # -------------------------------------------------------------------
 class CIEXYZ(colorobject):
     """CIEXYZ color object.
-    Allowes conversions:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - polarLUV
-    - polarLAB
-    - RGB
-    - sRGB
-    - hex
-    Conversions not allowed to:
-    - HSV
-    - HLS
+    Allowes conversions to:
+    :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
+    :py:class:`RGB`, :py:class:`polarLUV`, :py:class:`polarLAB`,
+    :py:class:`hexcols`.
+    Not possible are conversions to (ambiguous): :py:class:`HSV`, :py:class:`HLS`.
+
+    Parameters:
+        X: Single value or multiple values for X-dimension of the CIEXYZ color space.
+        Y: Single value or multiple values for Y-dimension of the CIEXYZ color space.
+        Z: Single value or multiple values for Z-dimension of the CIEXYZ color space.
+
+    Examples:
+        >>> from colorspace.colorlib import CIEXYZ
+        >>> c = CIEXYZ(80, 30, 10)
+        >>> c = CIEXYZ([10, 0], [20, 80], [40, 40])
+        >>> from numpy import asarray
+        >>> c = CIEXYZ(asarray([10, 0]), asarray([20, 80]), asarray([40, 40]))
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
     def __init__(self, X, Y, Z):
@@ -1430,7 +1521,17 @@ class CIEXYZ(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1485,16 +1586,28 @@ class CIEXYZ(colorobject):
 
 class RGB(colorobject):
     """RGB color object.
-    Allowes conversions:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - sRGB
-    - HSV
-    - HLS
-    - polarLUV
-    - polarLAB
-    - hex
+    Allowes conversions to:
+    :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
+    :py:class:`sRGB`, :py:class:`HSV`, :py:class:`HLS`, :py:class:`polarLUV`,
+    :py:class:`polarLAB`, `"hex"` (:py:class:`hexcols`).
+
+    Parameters:
+        R: Single value or multiple values, intensity of red [0,1].
+        G: Single value or multiple values, intensity of green [0,1].
+        B: Single value or multiple values, intensity of blue [0,1].
+
+    Examples:
+        >>> from colorspace.colorlib import sRGB
+        >>> c = sRGB(1., 0.3, 0.5)
+        >>> c = sRGB([1.,0.8], [0.5,0.5], [0.0,0.2])
+        >>> 
+        >>> from numpy import asarray
+        >>> c = sRGB(asarray([1.,0.8]), asarray([0.5,0.5]), asarray([0.0,0.2]))
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
     def __init__(self, R, G, B):
@@ -1507,7 +1620,17 @@ class RGB(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1563,16 +1686,28 @@ class RGB(colorobject):
 
 class sRGB(colorobject):
     """sRGB color object.
-    Allowes conversions:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - RGB
-    - HSV
-    - HLS
-    - polarLUV
-    - polarLAB
-    - hex
+    Allowes conversions to:
+    :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
+    :py:class:`RGB`, :py:class:`HSV`, :py:class:`HLS`, :py:class:`polarLUV`,
+    :py:class:`polarLAB`, `"hex"` (:py:class:`hexcols`).
+
+    Parameters:
+        R: Single value or multiple values, intensity of red [0,1].
+        G: Single value or multiple values, intensity of green [0,1].
+        B: Single value or multiple values, intensity of blue [0,1].
+
+    Examples:
+        >>> from colorspace.colorlib import sRGB
+        >>> c = sRGB(1., 0.3, 0.5)
+        >>> c = sRGB([1.,0.8], [0.5,0.5], [0.0,0.2])
+        >>> 
+        >>> from numpy import asarray
+        >>> c = sRGB(asarray([1.,0.8]), asarray([0.5,0.5]), asarray([0.0,0.2]))
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
     def __init__(self, R, G, B):
@@ -1585,7 +1720,17 @@ class sRGB(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1628,18 +1773,28 @@ class sRGB(colorobject):
 
 class CIELAB(colorobject):
     """CIELAB color object.
-    Allowes conversions:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - RGB
-    - sRGB
-    - polarLUV
-    - polarLAB
-    - hex
-    Conversions not allowed to:
-    - HSV
-    - HSL
+    Allowes conversions to:
+    :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
+    :py:class:`RGB`, :py:class:`polarLUV`, :py:class:`polarLAB`,
+    `"hex"` (:py:class:`hexcols`).
+    Not possible are conversions to (ambiguous): :py:class:`HSV`, :py:class:`HLS`.
+
+    Parameters:
+        L: Single value or multiple values for L-dimension of the CIELAB color space.
+        A: Single value or multiple values for A-dimension of the CIELAB color space.
+        B: Single value or multiple values for B-dimension of the CIELAB color space.
+
+    Examples:
+        >>> from colorspace.colorlib import CIELAB
+        >>> c = CIELAB(-30, 10, 10)
+        >>> c = CIELAB([-30, 30], [20, 80], [40, 40])
+        >>> from numpy import asarray
+        >>> c = CIELAB(asarray([-30, 30]), asarray([20, 80]), asarray([40, 40]))
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
 
@@ -1653,7 +1808,17 @@ class CIELAB(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1703,17 +1868,22 @@ class CIELAB(colorobject):
         else: self._cannot_(self.__class__.__name__, to)
 
 class polarLAB(colorobject):
-    """CIELAB color object.
-    Allowes conversions:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - RGB
-    - sRGB
-    - polarLUV
-    Conversions not allowed to:
-    - HSV
-    - HLS
+    """polarLAB color object.
+    Allowes conversions to:
+    :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
+    :py:class:`RGB`, :py:class:`polarLUV`, :py:class:`polarLAB`,
+    `"hex"` (:py:class:`hexcols`).
+    Not possible are conversions to (ambiguous): :py:class:`HSV`, :py:class:`HLS`.
+
+    Parameters:
+        L: Single value or multiple values for L-dimension of the CIELAB color space.
+        A: Single value or multiple values for A-dimension of the CIELAB color space.
+        B: Single value or multiple values for B-dimension of the CIELAB color space.
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
     def __init__(self, L, A, B):
@@ -1726,7 +1896,17 @@ class polarLAB(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1774,18 +1954,23 @@ class polarLAB(colorobject):
 
 
 class HSV(colorobject):
-    """
-    Allowes conversions:
-    - RGB
-    - sRGB
-    - HSV
-    - hex
-    Conversions not allowed to:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - polarLUV
-    - polarLAB
+    """HSV (Hue-Saturation-Value) color object.
+    Allowes conversions to: :py:class:`RGB`, :py:class:`sRGB`, :py:class:`HLS`,
+    and `"hex"` (:py:class:`hexcols`).  Not possible are conversions to
+    (ambiguous): :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
+    :py:class:`polarLUV`, :py:class:`polarLAB`,
+
+    Parameters:
+        H: Single value or multiple values for the hue dimension.
+        S: Single value or multiple values for the saturation dimension.
+        V: Single value or multiple values for the value dimension.
+
+    Examples:
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
     def __init__(self, H, S, V):
@@ -1798,7 +1983,17 @@ class HSV(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1834,18 +2029,23 @@ class HSV(colorobject):
 
 
 class HLS(colorobject):
-    """
-    Allowes conversions:
-    - RGB
-    - sRGB
-    - HSV
-    - hex
-    Conversions not allowed to:
-    - CIEXYZ
-    - CIELUV
-    - CIELAB
-    - polarLUV
-    - polarLAB
+    """HLS (Hue-Lightness-Saturation) color space.
+    Allowes conversions to: :py:class:`RGB`, :py:class:`sRGB`, :py:class:`HLS`,
+    and `"hex"` (:py:class:`hexcols`).  Not possible are conversions to
+    (ambiguous): :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
+    :py:class:`polarLUV`, :py:class:`polarLAB`,
+
+    Parameters:
+        H: Single value or multiple values for the hue dimension.
+        L: Single value or multiple values for the lightness dimension.
+        S: Single value or multiple values for the saturation dimension.
+
+    Examples:
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
     """
 
     def __init__(self, H, L, S):
@@ -1858,7 +2058,17 @@ class HLS(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -1895,6 +2105,32 @@ class HLS(colorobject):
 
 
 class hexcols(colorobject):
+    """Color object for hex colors.
+    Takes up a set of hex colors. Can be converted to all other color spaces
+    including :py:class:`RGB`, :py:class:`sRGB`, :py:class:`HLS`, and `"hex"`
+    (:py:class:`hexcols`), :py:class:`CIEXYZ`, :py:class:`CIELUV`,
+    :py:class:`CIELAB`, :py:class:`polarLUV`, :py:class:`polarLAB`,
+
+    Parameters:
+        hex_ (:class:`str`, :class:`numpy.ndarray`): Input can be a single
+            string, a list of strings, or a :class:`numpy.ndarray` containing
+            a set of hex colors. Invalid hex colors will be handled as
+            :class:`np.nan`, alpha values can be provided but will be ignored.
+
+    Examples:
+        >>> from colorspace.colorlib import hexcols
+        >>> c = hexcols("#cecece")
+        >>> c = hexcols(["#ff0000", "#00ff00"])
+        >>> from numpy import asarray
+        >>> c = hexcols(asarray(["#ff000030", "#00ff0030"], dtype = "|S9"))
+        >>> #Convert hex colors to another color space (CIEXYZ for example):
+        >>> c.to("CIEXYZ")
+
+    .. seealso::
+        This object extens the :py:class:`colorlib.colorobject` which
+        provides some methods to e.g., extract color or to modify the
+        whitepoint.
+    """
 
     def __init__(self, hex_):
 
@@ -1907,7 +2143,17 @@ class hexcols(colorobject):
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
     def to(self, to, fixup = True):
-        """converts the object into a colorobject of a different class, if possible.
+        """
+        Transforms the colors into a new color space, if possible.
+
+        Parameters:
+            to (:class:`str`): Name of the target color space.
+                fixup (:class:`bool`): Default is `True`. If `True` R/G/B values
+                will be corrected to lie within the defined range [0,1] when
+                converting colors to `to = "hex"`. Without effect if `to` is
+                not `"hex"`.
+        Returns:
+            No return, converts the object itself.
         """
         self._check_if_allowed_(to)
         from . import colorlib

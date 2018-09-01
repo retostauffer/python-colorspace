@@ -14,7 +14,7 @@ Contents:
 Example code from python-markdown
 ==================================
 
-.. cssclass:: foo
+.. cssclass:: cscode
 .. raw:: html
     :file: example.rst
 
@@ -31,7 +31,16 @@ Indices and tables
 
 .. toctree::
     :maxdepth: 1
-    :hidden:
     :caption: Modules
 
-    colorlib.rst
+    modules/colorlib.rst
+    modules/palettes.rst
+    modules/gui.rst
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+    :caption: Examples
+
+    examples/colorlib.rst
+    examples/transform.rst

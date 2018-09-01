@@ -8,7 +8,22 @@ log.basicConfig(format="[%(levelname)s] %(message)s", level=log.DEBUG)
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class default_palette(object):
+class defaultpalette(object):
+    """
+    Default color palette object. This object is not intended to be
+    used by the user itself but is used to store the pre-defined
+    color palettes contained in the package.
+
+    Parameters:
+        type (:class:`str`): Palette type.
+        method (:class:`str`): Name of the method which has to be called
+            to retrieve colors (e.g., :py:func:`diverge_hcl`).
+        parameter (:class:`list`): A list of strings which define the
+            allowed/valid parameters for this color palette.
+        name (:class:`str`): Name of the color palette.
+        settings (:class:`dict`): A dict object containing the
+            parameter settings.
+    """
 
     def __init__(self, type, method, parameter, name, settings):
 
@@ -19,31 +34,95 @@ class default_palette(object):
         self._settings_  = settings
 
     def type(self):
+        """
+        Return:
+            Returns the type (:class:`str`) of the palette.
+        """
         return self._type_
 
+    def name(self):
+        """
+        Return:
+            Returns the name (:class:`str`) of the palette.
+        """
+        return self._name_
+
+    def rename(self, name):
+        """Allows to rename the palette.
+
+        Parameters:
+            name (:class:`str`): New palette name.
+        """
+        self.name = name
+
     def get(self, what):
+        """Allows to load the settings of the palette for the
+        different parameters (e.g., `h1`, `h2`, ...). Returns
+        :class:`None` if the parameter does not exist.
+        Another method (:py:func:`set`) allows to set the
+        parameters.
+
+        Parameters:
+            what (:class:`str`): Name of the parameter which
+                should be extracted and returned from the settings
+                of this color palette.
+
+        Return:
+            Returns the type (:class:`str`) of the palette.
+        """
 
         if what in self._settings_.keys():
             return self._settings_[what]
         else:
             return None
 
-    def name(self):
-        return self._name_
-
-    def rename(self, name):
-        self.name = name
 
     def set(self, key, val):
+        """Allows to set/overwrite color palette parameters (e.g., `h1`, `h2`,
+        ...).  Another method (:py:func:`get`) allows to retrieve the
+        parameters.
+
+        Parameters:
+            key (:class:`str`): Name of the parameter to be set.
+            val (:class:`int`, :class:`float`): The value to be stored.
+        """
         self._settings_[key] = val
 
     def get_settings(self):
+        """Returns a :class:`dict` with all parameters of this color palette.
+        To retrieve single parameters use :py:func:`get`.
+
+        Returns:
+            Returns a :class:`dict` object with all parameter specification
+            of this palette.
+        """
         return self._settings_
 
     def parameters(self):
+        """Returns a :class:`list` with the names of all parameters
+        specified. The parameters themselves can be retrieved by calling
+        the :py:func:`get_settings` method.
+
+        Returns:
+            Returns a :class:`list` object with all parameter names.
+        """
         return self._parameter_
 
     def colors(self, n = 10):
+        """Load `n` colors from this palette. 
+        This method evaluates the `method` argument to generate
+        a set of hex colors which will be returned.
+        Please note that it is possible that none-values will
+        be returned if the fixup-setting is set to `False`
+        (see :py:class:`colorlib.hexcols`).
+        
+        Parameters:
+            n (:class:`int`): Number of colors to be returned.
+                The default is `10`.
+
+        Returns:
+            Returns a :class:`list` object with all parameter names.
+        """
 
         # Dynamically load color function
         mod  = __import__("colorspace")
@@ -55,6 +134,8 @@ class default_palette(object):
         return cfun(n, settings = args).colors(n, fixup = True)
 
     def show(self):
+        """Prints the current settings on stdout.
+        Development method."""
 
         print("Palette: {:s}".format(self.name()))
         print("         Type {:s}".format(self.type()))
@@ -68,7 +149,21 @@ class default_palette(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class palettes(object):
+    """Prepares the pre-specified palettes.
+    Reads the config files and creates a set of :py:class:`defaultpalette`
+    objects.
 
+    Parameters:
+        files (:class:`None` or :class:`list`): If `None` (default)
+            the default color palette configuration from within the
+            package will be loaded. Technically a list of file names
+            (:class:`str`) can be provided to load user-defined color
+            palettes. Not yet tested!
+
+    .. todo::
+        Check if the files option is useful. If so, provide some
+        more information about the config files and where/how to use.
+    """
     def __init__(self, files = None):
 
 
@@ -96,10 +191,27 @@ class palettes(object):
             #DEMO# for p in pals: p.show()
 
     def get_palette_types(self):
+        """Get palette types.
+
+        Returns:
+            Returns a :class:`list` of strings (:class:`str`)
+                with the names of all palette types or groups.
+        """
 
         return self._palettes_.keys()
 
     def get_palettes(self, type_ = None):
+        """Get all palettes of a specific type.
+
+        Parmaeters:
+            type_ (:class:`None` or :class:`str`): Name of the palettes which should
+                be returned. If set to `None` (default) all palettes
+                will be returned.
+
+        Returns:
+            Returns a :class:`list` containing :py:class:`defaultpalette`
+            objects.
+        """
 
         if not type_:
             all = []
@@ -115,6 +227,17 @@ class palettes(object):
         return self._palettes_[type_]
 
     def get_palette(self, name):
+        """Get a palette with a specific name.
+
+        Parameters:
+            name (:class:`str`): Name of the color palette which should
+                be returned.
+
+        Returns:
+            Returns an object of class :py:class:`defaultpalette` if
+            a palette with the name as specified can be found.
+            Else an error will be dropped.
+        """
 
         # Try to find the palette with the name 'name'
         take_pal = None
@@ -135,6 +258,7 @@ class palettes(object):
         return take_pal
 
 
+    # Helper method to load the palette config files.
     def _load_palette_config_(self, file):
 
         import sys
@@ -186,7 +310,7 @@ class palettes(object):
                 else:
                     settings[key] = int(val)
 
-            pals.append(default_palette(palette_type, palette_method,
+            pals.append(defaultpalette(palette_type, palette_method,
                         palette_parameter, name, settings))
 
 
@@ -353,15 +477,15 @@ class qualitative_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            default_palettes = palettes().get_palettes("Qualitative")
-            default_names    = [x.name() for x in default_palettes]
+            defaultpalettes = palettes().get_palettes("Qualitative")
+            default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
                 log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
                 log.error("Choose one of: {:s}".format(", ".join(default_names)))
                 sys.exit(9)
 
             # Else pick the palette
-            pal = default_palettes[default_names.index(palette)]
+            pal = defaultpalettes[default_names.index(palette)]
 
             # Allow to overule few things
             for key,value in kwargs.items():
@@ -440,15 +564,15 @@ class diverge_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            default_palettes = palettes().get_palettes("Diverging")
-            default_names    = [x.name() for x in default_palettes]
+            defaultpalettes = palettes().get_palettes("Diverging")
+            default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
                 log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
                 log.error("Choose one of: {:s}".format(", ".join(default_names)))
                 sys.exit(9)
 
             # Else pick the palette
-            pal = default_palettes[default_names.index(palette)]
+            pal = defaultpalettes[default_names.index(palette)]
 
             # Allow to overule few things
             for key,value in kwargs.items():
@@ -544,15 +668,15 @@ class sequential_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            default_palettes = palettes().get_palettes("Sequential (single-hue)")
-            default_names    = [x.name() for x in default_palettes]
+            defaultpalettes = palettes().get_palettes("Sequential (single-hue)")
+            default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
                 log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
                 log.error("Choose one of: {:s}".format(", ".join(default_names)))
                 sys.exit(9)
 
             # Else pick the palette
-            pal = default_palettes[default_names.index(palette)]
+            pal = defaultpalettes[default_names.index(palette)]
             sys.exit("x")
 
             # Allow to overule few things
