@@ -130,8 +130,10 @@ class defaultpalette(object):
 
         # Calling color method with arguments of this object. 
         args = {}
-        for key in self._parameter_: args[key] = self.get(key)
-        return cfun(n, settings = args).colors(n, fixup = True)
+        for key in self._parameter_:
+            args[key] = self.get(key)
+        pal = cfun(n, settings = args)
+        return pal.colors(n, fixup = True)
 
     def show(self):
         """Prints the current settings on stdout.
@@ -328,6 +330,7 @@ class palettes(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalette(object):
+    """Hy, I am the base class"""
 
     n     = None
     h1    = None
@@ -338,15 +341,40 @@ class hclpalette(object):
     p2    = None
     fixup = True
 
-    def hello():
-        print("Hello!")
-
     def get(self, key):
+        """Returns one specific item of the palette settings,
+        e.g., the current value for "n" or "h1" or "l2".
+        If not existing a `None` will be returned.
+
+        Parameters:
+            key (str): name of the setting to be returned.
+
+        Returns:
+            None if `key` does ont exist, else the current
+                value will be returned.
+
+        Examples:
+            >>> from colorspace.palettes import rainbow_hcl
+            >>> a = rainbow_hcl(10)
+            >>> a.get("h1")
+            >>> a.get("c1")
+            >>> a.get("l1")
+            >>> a.get("not_defined")
+        """
         if not key in self.settings.keys():
             return None
         return self.settings[key]
 
     def show_settings(self):
+        """Shows the current settings (table like print
+        to stdout). Should more be seen as a development
+        method than a very useful thing.
+
+        Examples:
+            >>> from colorspace.palettes import rainbow_hcl
+            >>> a = rainbow_hcl(10)
+            >>> a.show_settings()
+        """
 
         def get(key):
             val = self.get(key)
@@ -936,11 +964,72 @@ class diverge_hcl(hclpalette):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class sequential_hcl(hclpalette):
+    """Sequential HCL color palette.
+
+    Parameters:
+        n (inteter): number of values to be returned later.
+        h (numeric): hue values. If only one value is given the
+            value is recycled which yields a single-hue sequential
+            color palette.
+            If input `h` is a string this argument acts like the
+            `palette` argument (see `palette` input parameter).
+        c (numeric): chroma values, numeric of length to. If multiple
+            values are provided only the first one will be used.
+        l (numeric): luminance values, numeric of length to. If multiple
+            values are provided only the first one will be used.
+        power (numeric): power parameter for non-linear behaviour of the
+            color palette. One or two values can be provided.
+        fixup (boolean): only used when converting the HCL colors to hex.
+            Should RGB values outside the defined RGB color space be
+            corrected?
+        alpha (numeric): Not yet implemented.
+        palette (string): can be used to load a default diverging color palette
+            specification. If the palette does not exist an exception will be raised.
+            Else the settings of the palette as defined will be used to create
+            the color palette.
+        rev (boolean): should the color map be reversed.
+
+        *args: unused.
+        **kwargs: Additional arguments to overwrite the h/c/l settings.
+            @TODO has to be documented.
+
+    Returns:
+        No return. Raises a ValueError if a palette specified by input argument
+            `palette` does not exist.
+
+    Examples:
+        >>> from colorspace.palettes import sequential_hcl
+        >>> a = sequential_hcl(10)
+        >>> a.colors(10)
+        >>> b = sequential_hcl(10, "Reds")
+        >>> b.colors(10)
+
+    .. todo::
+        Try to make the code nicer (the part loading/overwriting settings).
+        Looks messy and is extremely hard to debug. Rev implemented?
+
+    .. todo::
+        And there is definitively something wrong with the default palettes.
+    """
 
     def __init__(self, n, h = 260, c = [80, 30], l = [30, 90],
-        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, **kwargs):
+        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
+        *args, **kwargs):
 
-        [n, h, c, l, power, palette] = self._check_inputs_(n, h, c, l, power, palette)
+        # If input "h" is a string: exchange with "palette"
+        if isinstance(h, str):
+            palette = h; h = None
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            n     = self._checkinput_(int,   1, False, False, n = n)
+            h     = self._checkinput_(int,   2, True,  False, h = h)
+            c     = self._checkinput_(int,   2, True,  False, c = c)
+            l     = self._checkinput_(int,   2, True,  False, l = l)
+            power = self._checkinput_(float, 2, True,  False, power = power)
+        except Exception as e:
+            raise ValueError(e)
 
         # For handy use of the function
         if isinstance(h,str):
@@ -957,7 +1046,6 @@ class sequential_hcl(hclpalette):
 
             # Else pick the palette
             pal = defaultpalettes[default_names.index(palette)]
-            sys.exit("x")
 
             # Allow to overule few things
             for key,value in kwargs.items():
@@ -1002,9 +1090,6 @@ class sequential_hcl(hclpalette):
         # Save settings
         self.settings = settings
 
-        # Show settings
-        self.show_settings()
-
 
     # Return hex colors
     def colors(self, n = None, fixup = True):
@@ -1029,11 +1114,6 @@ class sequential_hcl(hclpalette):
         h1   = self.get("h1")
         h2   = h1 if not self.get("h2") else self.get("h2")
 
-
-        print h2, h1
-        print h1, h2
-        print c1, c2
-
         L = l2 - (l2 - l1) * power(rval, p2)
         C = c2 - (c2 - c1) * power(rval, p1)
         H = h2 - (h2 - h1) * rval
@@ -1041,8 +1121,6 @@ class sequential_hcl(hclpalette):
         # Create new HCL color object
         from colorlib import HCL
         HCL = HCL(H, C, L)
-
-        HCL.show()
 
         # Return hex colors
         return HCL.colors(fixup = fixup)
