@@ -929,10 +929,7 @@ class colorlib(object):
         L = np.ndarray(len(X), dtype = "float"); L[:] = 0.
         y = Y / YN
         for i,val in np.ndenumerate(y):
-            if val > self.EPSILON:
-                L[i] = 116. * np.power(val, 1./3.)
-            else:
-                L[i] = self.KAPPA * val
+            L[i] = 116. * np.power(val, 1./3.) - 16. if val > self.EPSILON else self.KAPPA * val
     
         # Calculate U/V
         return [L, 13. * L * (u - uN), 13. * L * (v - vN)]  # [L, U, V]
@@ -964,9 +961,14 @@ class colorlib(object):
         Y = np.ndarray(len(L), dtype = "float"); Y[:] = 0.
         Z = np.ndarray(len(L), dtype = "float"); Z[:] = 0.
     
-        # Calculate Y
-        idx = np.where(np.logical_and(L > 0, U != 0, V != 0))
-        for i in idx[0]:
+        # Check for which values we do have to do the transformation
+        def fun(L, U, V):
+            return False if L <= 0. and U == 0. and V == 0. else True
+        idx = np.where([fun(L[i], U[i], V[i]) for i in range(0, len(L))])[0]
+        if len(idx) == 0: return [X, Y, Z]
+
+        # Compute Y
+        for i in idx:
             Y[i] = YN[i] * (np.power((L[i] + 16.)/116., 3.) if L[i] > 8. else L[i] / self.KAPPA)
     
         # Calculate X/Z
@@ -974,7 +976,7 @@ class colorlib(object):
         u = U / (13. * L) + uN
         v = V / (13. * L) + vN
         X =  9.0 * Y * u / (4 * v)
-        Z =  -X / 3 - 5 * Y + 3 * Y / v
+        Z =  -X / 3. - 5. * Y + 3. * Y / v
     
         return [X, Y, Z]
     
@@ -1261,6 +1263,9 @@ class colorobject(object):
             for d in dims:
                 print(fmt.format(data[d][n])), #self._data_[d][n])),
             print "\n",
+
+    def data(self):
+        return self._data_
 
 
     def gethex(self, n = 10, fixup = True):

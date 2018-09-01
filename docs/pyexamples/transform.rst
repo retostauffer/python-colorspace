@@ -14,9 +14,9 @@
 <comment>(4) convert hex colors to RGB,</comment><br>
 <comment>(5) convert RGB to polarLAB,</comment><br>
 <comment>(6) and finally back to HCL.</comment><br>
-<p>c.to("CIEXYZ"); c.show()    # (1)<br>
-c.to("sRGB");   c.show()    # (2)<br>
-c.to("hex");    c.show()    # (3)<br>
-c.to("RGB");    c.show()    # (4)<br>
-c.to("polarLAB"); c.show()  # (5)<br>
-c.to("HCL");       c.show() # (6)</p><br>
+<p>c.to("CIEXYZ");    c.show()  # (1)<br>
+c.to("sRGB");      c.show()  # (2)<br>
+c.to("hex");       c.show()  # (3)<br>
+c.to("RGB");       c.show()  # (4)<br>
+c.to("polarLAB");  c.show()  # (5)<br>
+c.to("HCL");       c.show()  # (6)</p><br>
