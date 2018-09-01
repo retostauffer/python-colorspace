@@ -4,6 +4,7 @@ output:
   html_document:
       mathjax: NULL
       self_contained: FALSE
+      highlight: monochrome
 ---
 
 

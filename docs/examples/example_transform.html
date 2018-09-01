@@ -1,0 +1,68 @@
+
+
+<div class="container-fluid main-container">
+<!-- tabsets -->
+
+<!-- code folding -->
+<div class="fluid-row" id="header">
+</div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL
+<span class="co"># Let's specify a set of HCL colors.</span>
+<span class="co"># These three colors are a bright blue (260, 100, 50),</span>
+<span class="co"># a neutral light gray (310, 0, 90) and a bright red (360, 100, 50)</span>
+<span class="co"># from the "Red-Blue 2" diverging color palette.</span>
+c <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">260</span>, <span class="dv">310</span>, <span class="dv">360</span>], C <span class="op">=</span> [<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">100</span>], L <span class="op">=</span> [<span class="dv">50</span>, <span class="dv">90</span>, <span class="dv">50</span>])
+<span class="co"># Show current values, as "c" is a HCL object the method</span>
+<span class="co"># prints the H, C, L color coordinates.</span>
+c.show()
+<span class="co"># Following the image above we would like to do the following:</span>
+<span class="co"># (1) convert HCL to CIEXYZ,</span>
+<span class="co"># (2) convert CIEXYZ to sRGB,</span>
+<span class="co"># (3) convert sRGB to hex colors,</span>
+<span class="co"># (4) convert hex colors to RGB,</span>
+<span class="co"># (5) convert RGB to polarLAB,</span>
+<span class="co"># (6) and finally back to HCL.</span></code></pre></div>
+<pre><code>## # Content of polarLUV object
+##         H         C         L
+##  260.0000  100.0000   50.0000 
+##  310.0000    0.0000   90.0000 
+##  360.0000  100.0000   50.0000</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c.to(<span class="st">"CIEXYZ"</span>)<span class="op">;</span>    c.show()  <span class="co"># (1)</span></code></pre></div>
+<pre><code>## # Content of CIEXYZ object
+##         Y         X         Z
+##   18.4187   22.3836   74.8495 
+##   76.3034   72.5240   83.0814 
+##   18.4187   31.1199   15.5170</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c.to(<span class="st">"sRGB"</span>)<span class="op">;</span>      c.show()  <span class="co"># (2)</span></code></pre></div>
+<pre><code>## # Content of sRGB object
+##         B         R         G
+##    0.8892    0.2914    0.4362 
+##    0.8876    0.8876    0.8876 
+##    0.4152    0.8255    0.2487</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c.to(<span class="st">"hex"</span>)<span class="op">;</span>       c.show()  <span class="co"># (3)</span></code></pre></div>
+<pre><code>## # Content of hexcols object
+##      hex_
+##   #4A6FE3 
+##   #E2E2E2 
+##   #D33F6A</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c.to(<span class="st">"RGB"</span>)<span class="op">;</span>       c.show()  <span class="co"># (4)</span></code></pre></div>
+<pre><code>## # Content of RGB object
+##         B         R         G
+##    0.7682    0.0685    0.1590 
+##    0.7605    0.7605    0.7605 
+##    0.1441    0.6514    0.0497</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c.to(<span class="st">"polarLAB"</span>)<span class="op">;</span>  c.show()  <span class="co"># (5)</span></code></pre></div>
+<pre><code>## # Content of polarLAB object
+##         A         B         L
+##   67.5449  291.2430   49.9397 
+##    0.0048  117.8141   89.8837 
+##   61.1569    8.7651   50.0356</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">c.to(<span class="st">"HCL"</span>)<span class="op">;</span>       c.show()  <span class="co"># (6)</span></code></pre></div>
+<pre><code>## # Content of polarLUV object
+##         H         C         L
+##  260.0327  100.3359   49.9397 
+##   94.0993    0.0069   89.8837 
+##  359.9555  100.5628   50.0356</code></pre>
+</div>
+
+

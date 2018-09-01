@@ -1,28 +1,23 @@
 
 
-.cscode {
-    border: 1px solid #e3e3e3;
+.container-fluid pre {
+    border: 1px solid black;
     padding: 10px;
+    border-color: #c5cdd2;
+    background-color: #f1f3f4;
 }
-
-.cscode, .cscode comment, .cscode p {
-    font-family: Courier New, Lucida Console, Monospace, sans-serif;
+.container-fluid pre.sourceCode.python {
+    background-color: #eaf5fb;
+    border-color: #abd5f0;
 }
-
-/* Comments */
-.cscode comment {
-    font-size: 1em !important;
-    line-height: 1em;
-    color: #A8A8A8;
-    font-weight: normal;
-    text-decoration: none;
+.container-fluid pre code {
+    background: none;
+    white-space: pre;
+    border: none;
+    padding: 0;
+    color: gray;
 }
-.cscode comment:before {
-    content: "#";
-}
-pre.python code { color red; }
-code {
-    white-space: pre !important;
-    padding: 0px !important;
-    border: none !important;
+.container-fluid pre code.sourceCode.python {
+    /*color: black;*/
+    color: #04639f;
 }
