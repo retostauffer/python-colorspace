@@ -194,6 +194,11 @@ pseudoxml:
 
 .PHONY: examples
 examples:
+	# Currently facing a problem with the python logging package
+	# and rmarkdown when using virtualenv. Thus, installing
+	# colorspace and reinstall it again at the end.
+	#(cd ../ && sudo python setup.py install)
+	export CSLOGLEVEL=ERROR
 	for file in `ls examples/example_*.Rmd` ; do \
         printf "[pyRmd] Processing %s\n" $$file ; \
 		file=`basename $$file` ; \
@@ -201,7 +206,13 @@ examples:
 		(cd examples && \
 			Rscript -e "rmarkdown::render('$$file')" && \
 			python prepare_html_output.py $$name.html) ;\
+		##(cd examples && \
+		##	Rscript -e "reticulate::use_python('/usr/bin/python'); rmarkdown::render('$$file')" && \
+		##	python prepare_html_output.py $$name.html) ;\
     done
+	#(cd ../ && sudo pip uninstall colorspace)
+	make html
+	chromium-browser _build/html/index.html
 
 
 

@@ -2,8 +2,8 @@
 import os
 import sys
 
-import logging as log
-log.basicConfig(format="[%(levelname)s] %(message)s", level=log.DEBUG)
+from .logger import logger
+log = logger(__name__)
 
 
 # -------------------------------------------------------------------
@@ -33,6 +33,28 @@ class defaultpalette(object):
         self._parameter_ = parameter
         self._settings_  = settings
 
+    # Default representation of defaultpalette objects.
+    def __repr__(self):
+        """Prints the current settings on stdout.
+        Development method."""
+
+        res = []
+        res.append("Palette Name: {:s}".format(self.name()))
+        res.append("        Type: {:s}".format(self.type()))
+        res.append("        Inspired by: {:s}".format(self.get("desc")))
+        #for key,val in self._settings_.items():
+        keys = self.get_settings().keys()
+        keys.sort()
+        for key in keys:
+            if key in ["desc"]: continue
+            val = self.get(key)
+            if   isinstance(val,bool):   val = " True" if val else "False"
+            elif isinstance(val,int):    val = "{:5d}".format(val)
+            elif isinstance(val,float):  val = "{:5.1f}".format(val)
+            res.append("         {:10s} {:s}".format(key,val))
+
+        return "\n".join(res)
+
     def type(self):
         """
         Return:
@@ -53,7 +75,7 @@ class defaultpalette(object):
         Parameters:
             name (:class:`str`): New palette name.
         """
-        self.name = name
+        self._name_ = name
 
     def get(self, what):
         """Allows to load the settings of the palette for the
@@ -77,15 +99,38 @@ class defaultpalette(object):
             return None
 
 
-    def set(self, key, val):
+    def set(self, **kwargs):
         """Allows to set/overwrite color palette parameters (e.g., `h1`, `h2`,
         ...).  Another method (:py:func:`get`) allows to retrieve the
         parameters.
 
         Parameters:
-            key (:class:`str`): Name of the parameter to be set.
-            val (:class:`int`, :class:`float`): The value to be stored.
+            kwargs: a set of key=value pairs where the key defines the
+                parameter which should be overruled, value the corresponding
+                value. Allowed value types are bool, int, and float.
         """
+        print self._parameter_
+        for key,val in kwargs.items():
+            if not key in self._settings_.keys():
+                raise ValueError("{:s} named {:s}".format(self.__class__.__name__, self.name()) + \
+                        "has no parameter called {:s}".format(key))
+            # Else check current type specification and append
+            # if possible (and convert to the new type).
+            if not isinstance(val, int) and \
+               not isinstance(val, float) and \
+               not isinstance(val, bool):
+                raise ValueError("input {:s} to {:s}".format(key, self.__class__.__name__) + \
+                        " is of type {:s}. Only bool, int, and float allowed.".format(type(val)))
+            if isinstance(val, bool):
+                val = 1 if val else 0
+            if isinstance(self._settings_[key],int):
+                self._settings_[key] = int(val)
+            elif isinstance(self._settings_[key],float):
+                self._settings_[key] = int(val)
+            else:
+                raise Exception("whoops, some code needed here in {:s}.set".format(
+                    self.__class__.__name__))
+
         self._settings_[key] = val
 
     def get_settings(self):
@@ -132,26 +177,31 @@ class defaultpalette(object):
         args = {}
         for key in self._parameter_:
             args[key] = self.get(key)
-        pal = cfun(n, settings = args)
+
+        # If Remove h1/h2 and store them in h
+        for dim in ["h", "c", "l", "p"]:
+            dim1 = "{:s}1".format(dim)
+            dim2 = "{:s}2".format(dim)
+            dim = "power" if dim == "p" else dim
+            if dim1 in args.keys() and dim2 in args.keys():
+                args[dim] = [args[dim1], args[dim2]]
+                del args[dim1]; del args[dim2]
+            elif dim1 in args.keys():
+                args[dim] = args[dim1]
+                del args[dim1]
+            elif dim2 in args.keys():
+                args[dim] = args[dim2]
+                del args[dim2]
+
+        pal = cfun(n, **args)
         return pal.colors(n, fixup = True)
 
-    def show(self):
-        """Prints the current settings on stdout.
-        Development method."""
-
-        print("Palette: {:s}".format(self.name()))
-        print("         Type {:s}".format(self.type()))
-        for key,val in self._settings_.items():
-            if   isinstance(val,bool):   val = "   True" if val else "   False"
-            elif isinstance(val,int):    val = "   {:d}".format(val)
-            elif isinstance(val,float):  val = "   {:5.1f}".format(val)
-            print("         {:s} {:s}".format(key,val))
 
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class palettes(object):
-    """Prepares the pre-specified palettes.
+class hclpalettes(object):
+    """Prepares the pre-specified hclpalettes.
     Reads the config files and creates a set of :py:class:`defaultpalette`
     objects.
 
@@ -168,7 +218,6 @@ class palettes(object):
     """
     def __init__(self, files = None):
 
-
         if files is None:
             resource_package = os.path.dirname(__file__)
             log.debug("Package path is \"{0:s}\"".format(resource_package))
@@ -184,6 +233,11 @@ class palettes(object):
         # Else trying to read the files. Returns a list with
         # palette configs.
         self._palettes_ = {}
+        if len(files) == 0:
+            raise ValueError("No palette config files found ({:s}.".format(self.__class__.__name__))
+
+        # Else print debug message and read the config files
+        log.debug("Palette config files: {:s}".format(", ".join(files)))
         for file in files:
             [palette_type, pals] = self._load_palette_config_(file)
             if not pals: continue
@@ -191,6 +245,32 @@ class palettes(object):
             # Append
             self._palettes_[palette_type] = pals
             #DEMO# for p in pals: p.show()
+
+    def __repr__(self):
+        """Standard representation of the object."""
+
+        res = ["HCL palettes"]
+
+        for type_ in self.get_palette_types():
+            res.append("") # Blank line
+            res.append("Type:  {:s}".format(type_))
+            nchar = 0
+            for pal in self.get_palettes(type_):
+                # Initialize new line
+                if nchar == 0:
+                    tmp = "Names: {:s}".format(pal.name())
+                elif (len(pal.name()) + nchar) > 60:
+                    res.append(tmp)
+                    tmp = "       {:s}".format(pal.name())
+                    nchar = len(tmp)
+                # Append
+                else:
+                    tmp += ", {:s}".format(pal.name())
+                    nchar += len(pal.name()) + 2
+            res.append(tmp)
+
+        return "\n".join(res)
+
 
     def get_palette_types(self):
         """Get palette types.
@@ -208,22 +288,32 @@ class palettes(object):
         Parmaeters:
             type_ (:class:`None` or :class:`str`): Name of the palettes which should
                 be returned. If set to `None` (default) all palettes
-                will be returned.
+                will be returned. Names have to match but are not case sensitive.
 
         Returns:
             Returns a :class:`list` containing :py:class:`defaultpalette`
             objects.
         """
+        if not isinstance(type_, str) and not type_ is None:
+            raise ValueError("input type_ to {:s} has to be None or a single string.".format(
+                self.__class__.__name__))
 
         if not type_:
             all = []
             for key,pals in self._palettes_.items():
                 all += pals
             return all
-
         # Else reutnr palette if available
-        if not type_ in self._palettes_.keys():
-            log.error("No palettes for type \"{:s}\".".format(type_)); sys.exit(9)
+        else:
+            found = None
+            for t in self._palettes_.keys():
+                if t.upper() == type_.upper():
+                    found = t
+                    break
+            if not found:
+                raise ValueError("No palettes for type \"{:s}\".".format(type_))
+            else:
+                type_ = found
 
         # Else return list with palettes
         return self._palettes_[type_]
@@ -321,8 +411,6 @@ class palettes(object):
             return [None, None]
         else:
             return [palette_type, pals]
-
-
 
 
 
@@ -646,7 +734,7 @@ class qualitative_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            defaultpalettes = palettes().get_palettes("Qualitative")
+            defaultpalettes = hclpalettes().get_palettes("Qualitative")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
                 log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
@@ -756,6 +844,9 @@ class rainbow_hcl(qualitative_hcl):
         pass `end` trough the object.
 
     """
+
+    _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
+
     def __init__(self, n, c = 50, l = 70, start = 0, end = lambda n: 360 * (n - 1)/n,
                  gamma = None, fixup = True, alpha = 1, *args, **kwargs):
 
@@ -791,11 +882,10 @@ class rainbow_hcl(qualitative_hcl):
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
-        if not kwargs is None:
-            if "settings" in kwargs.keys():
-                for key,val in kwargs["settings"].items():
-                    if key in settings.keys() and not val is None:
-                        self.settings[key] = val
+        if kwargs:
+            for key,val in kwargs.items():
+                if key in self._allowed_parameters_:
+                    settings[key] = val
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -850,7 +940,7 @@ class diverge_hcl(hclpalette):
         Looks messy and is extremely hard to debug. Rev implemented?
     """
 
-
+    _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
 
     def __init__(self, n, h = [260, 0], c = 80, l = [30, 90],
         power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
@@ -872,7 +962,7 @@ class diverge_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            defaultpalettes = palettes().get_palettes("Diverging")
+            defaultpalettes = hclpalettes().get_palettes("Diverging")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
                 msg = "palette \"{:s}\" is not a valid qualitative palette.".format(palette) + \
@@ -913,14 +1003,12 @@ class diverge_hcl(hclpalette):
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
-        if not kwargs is None:
-            if "settings" in kwargs.keys():
-                for key,val in kwargs["settings"].items():
-                    if key in settings.keys() and not val is None:
-                        settings[key] = val
+        if kwargs:
+            for key,val in kwargs.items():
+                if key in self._allowed_parameters_:
+                    settings[key] = val
 
         # Save settings
-        print settings
         self.settings = settings
 
 
@@ -1012,6 +1100,9 @@ class sequential_hcl(hclpalette):
         And there is definitively something wrong with the default palettes.
     """
 
+    # Allowed to overwrite via **kwargs
+    _allowed_parameters_ = ["h1", "c1", "c2", "l1", "l2", "p1", "p2"]
+
     def __init__(self, n, h = 260, c = [80, 30], l = [30, 90],
         power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
         *args, **kwargs):
@@ -1037,7 +1128,7 @@ class sequential_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            defaultpalettes = palettes().get_palettes("Sequential (single-hue)")
+            defaultpalettes = hclpalettes().get_palettes("Sequential (single-hue)")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
                 log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
@@ -1050,9 +1141,6 @@ class sequential_hcl(hclpalette):
             # Allow to overule few things
             for key,value in kwargs.items():
                 if key in pal.parameters(): pal.set(key, value)
-
-            # Extending h2 if h1 = h2 (h2 None)
-            if not pal.get("h2"):  pal.set("h2", pal.get("h1"))
 
             # Getting settings
             settings = pal.get_settings()
@@ -1077,15 +1165,10 @@ class sequential_hcl(hclpalette):
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
-        if not kwargs is None:
-            if "settings" in kwargs.keys():
-                for key,val in kwargs["settings"].items():
-                    if key in settings.keys() and not val is None:
-                        settings[key] = val
-                # For single-hue palettes: set h2 to h1.
-                if "h1" in kwargs["settings"].keys() and not \
-                   "h2" in kwargs["settings"].keys() and len(h) == 1:
-                    settings["h2"] = kwargs["settings"]["h1"]
+        if kwargs:
+            for key,val in kwargs.items():
+                if key in self._allowed_parameters_:
+                    settings[key] = val
 
         # Save settings
         self.settings = settings

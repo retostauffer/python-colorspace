@@ -31,13 +31,12 @@ POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-import logging as log
-log.basicConfig(format="[%(levelname)s] %(message)s", level=log.DEBUG)
-
 import sys
 import numpy as np
 import inspect
 
+from .logger import logger
+log = logger(__name__)
 
 class colorlib(object):
 
@@ -1129,6 +1128,51 @@ class colorobject(object):
                "RGB", "sRGB", "HCL",
                "HSV", "HLS", "hex"]
 
+
+    # Standard representation of colorspace colorobject objects.
+    def __repr__(self, digits = 2):
+
+        dims = self._data_.keys()     # Dimensions
+
+        # Sorting the dimensions
+        from re import match
+        if   match("^[R,G,B]{3}", "".join(dims)): dims = ["R", "G", "B"]
+        elif match("^[L,A,B]{3}", "".join(dims)): dims = ["L", "A", "B"]
+        elif match("^[L,U,V]{3}", "".join(dims)): dims = ["L", "U", "V"]
+        elif match("^[H,C,L]{3}", "".join(dims)): dims = ["H", "C", "L"]
+        elif match("^[X,Y,Z]{3}", "".join(dims)): dims = ["X", "Y", "Z"]
+        elif match("^[H,S,V]{3}", "".join(dims)): dims = ["H", "S", "V"]
+        elif match("^[H,L,S]{3}", "".join(dims)): dims = ["H", "L", "S"]
+        ncol = len(self._data_[dims[0]]) # Number of colors
+
+        # Start creating the string:
+        res = ["{:s} color object".format(self.__class__.__name__)]
+
+        # Show header
+        fmt = "".join(["{:>", "{:d}".format(digits+5), "s}"])
+        res.append("".join([fmt.format(x) for x in dims]))
+
+        # Show data
+        # In case of a hexcols object: string formatting and
+        # nan-replacement beforehand.
+        if self.__class__.__name__ == "hexcols":
+            fmt = "  {:>7s}"
+            data = {}
+            for d in self._data_.keys():
+                data[d] = [x if isinstance(x,str) else "nan" for x in self._data_[d]]
+        else:
+            fmt = "".join(["{:", "{:d}.{:d}".format(5+digits, digits), "f}"])
+            data = self._data_
+
+        # Print object content
+        for n in range(0, ncol):
+            tmp = ""
+            for d in dims:
+                tmp += fmt.format(data[d][n])
+            res.append(tmp)
+
+        return "\n".join(res)
+
     def get_whitepoint(self):
         """
         A white point definition is used to adjust the colors.
@@ -1232,37 +1276,18 @@ class colorobject(object):
 
         return res
 
-    # ---------------------------------------------------------------
-    # Show content
-    # ---------------------------------------------------------------
-    def show(self, digits = 4):
 
-        dims = self._data_.keys()     # Dimensions
-        ncol = len(self._data_[dims[0]]) # Number of colors
 
-        print("# Content of {:s} object".format(self.__class__.__name__))
+    def specplot(self, **kwargs):
 
-        # Show header
-        fmt = "".join(["{:>", "{:d}".format(digits+5), "s}"])
-        print(" ".join([fmt.format(x) for x in dims]))
+        from copy import copy
+        cols = copy(self)
+        cols.to("hex")
 
-        # Show data
-        # In case of a hexcols object: string formatting and
-        # nan-replacement beforehand.
-        if self.__class__.__name__ == "hexcols":
-            fmt = "  {:>7s}"
-            data = {}
-            for d in self._data_.keys():
-                data[d] = [x if isinstance(x,str) else "nan" for x in self._data_[d]]
-        else:
-            fmt = "".join(["{:", "{:d}.{:d}".format(5+digits, digits), "f}"])
-            data = self._data_
+        if isinstance(cols, hexcols):
+            from specplot import specplot
+            specplot(cols.colors(), **kwargs)
 
-        # Print object content
-        for n in range(0, ncol):
-            for d in dims:
-                print(fmt.format(data[d][n])), #self._data_[d][n])),
-            print "\n",
 
     def data(self):
         return self._data_
@@ -1655,8 +1680,8 @@ class RGB(colorobject):
 
         # Transform from RGB -> HSV
         elif to == "HSV":
-            [H, L, S] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"H" : H, "L" : L, "S" : S}
+            [H, S, V] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "S" : S, "V" : V}
             self.__class__ = HSV
 
         # Transform from RGB -> sRGB

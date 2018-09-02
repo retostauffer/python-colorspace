@@ -121,6 +121,7 @@ class paletteCanvas(object):
 
     def _draw_canvas_(self, colors, figwidth):
 
+        import matplotlib
         from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
         from matplotlib.figure import Figure
         from matplotlib.patches import Rectangle
@@ -238,8 +239,8 @@ class gui(object):
 
     def __init__(self, **kwargs):
 
-        from . import palettes
-        self.palettes = palettes()
+        from . import hclpalettes
+        self.palettes = hclpalettes()
 
         # Initialization arguments, if any
         init_args = {}

@@ -2,8 +2,8 @@
 import os
 import sys
 
-import logging as log
-log.basicConfig(format="[%(levelname)s] %(message)s", level=log.DEBUG)
+from .logger import logger
+log = logger(__name__)
 
 
 def specplot(hex_, rgb = True, hcl = True, palette = True):
@@ -37,7 +37,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
     # Check if matplotlib is installed or not (as it is not
     # a package requirement but a suggested package).
     try:
-        import matplotlib.pyplot as plt
+        import matplotlib
     except:
         log.error("Requires matplotlib to be installed!. Stop.")
         sys.exit(9)
@@ -72,7 +72,9 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
 
 
     from colorlib import hexcols
+    print hex_
     cols = hexcols(hex_)
+    print cols
     cols.to("RGB")
     if rgb:
         [R, G, B] = [cols.get("R"), cols.get("G"), cols.get("B")]
@@ -93,6 +95,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
     import matplotlib.ticker as ticker
     
     # Create plot
+    fig = plt.figure()
     if rgb and hcl and palette:
         ax1 = plt.subplot2grid((7, 1), (0, 0), rowspan = 3)
         ax2 = plt.subplot2grid((7, 1), (3, 0))
@@ -111,7 +114,10 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
     elif hcl:
         ax3 = plt.subplot2grid((1, 1), (0, 0))
     elif palette:
+        # Adjusting outer margins
         ax2 = plt.subplot2grid((1, 1), (0, 0))
+        fig.subplots_adjust(left = 0., bottom = 0., right  = 1.,
+                            top  = 1., wspace = 0., hspace = 0.)
     else:
         import inspect
         log.error("Unexpected condition in \"{:s}\". Sorry.".format(inspect.stack()[0][3]))
