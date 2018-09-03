@@ -1,5 +1,9 @@
 
+from .logger import logger
+log = logger(__name__)
 
+# Tkinter was renamed to tkinter Py2->Py3,
+# make sure the correct module is loaded.
 import sys
 if sys.version_info.major < 3:
     from Tkinter import *
@@ -46,8 +50,6 @@ class ddObject(object):
     
     def selected(self, val, args = None):
 
-        print("New item selected ({:s})".format(val))
-
         self._selected_ = val
         pals = self.palettes.get_palettes(val)
 
@@ -57,6 +59,12 @@ class ddObject(object):
 
     def get(self):
         return self._selected_
+    
+    def getmethod(self):
+        # Simply return the method of the first palette
+        # in the list of palettes given the current selection.
+        tmp = self.palettes.get_palettes(self.get())
+        return tmp[0]._method_
 
     def _set_sliders_(self, pal, args = None):
 
@@ -97,15 +105,15 @@ class ddObject(object):
         self.dd_type.place(x = 10, y = 30)
 
 
-class paletteCanvas(object):
+class defaultpalettecanvas(object):
 
-    def __init__(self, parent, pal, n = 5, figwidth = 0.2):  
+    def __init__(self, parent, pal, n, xpos, figwidth, figheight):  
 
         self._parent_ = parent
         self._pal_    = pal
 
         colors = pal.colors(n)
-        self._draw_canvas_(colors, figwidth)
+        self._draw_canvas_(colors, xpos, figwidth, figheight)
 
     def _activate_(self, event):
 
@@ -119,34 +127,50 @@ class paletteCanvas(object):
         # Change slider settings
         parent = self._parent_
 
-    def _draw_canvas_(self, colors, figwidth):
+    def _draw_canvas_(self, colors, xpos, figwidth, figheight):
 
-        import matplotlib
-        from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-        from matplotlib.figure import Figure
-        from matplotlib.patches import Rectangle
-
-        fig = Figure(figsize=(figwidth, 1), frameon = False)
-        a   = fig.add_subplot(111)
-        a.set_xlim([0,1]); a.set_ylim([0,1])
-
-        colors.reverse()
+        offset = 3 # White frame around the palettes
         n = len(colors)
+        h = (figheight - 2. * offset) / len(colors)
+        w = figwidth  - 2. * offset
+
+        # A set of frames with different colors and _activate_
+        # callback behaviour.
         for i in range(0, n):
-            if not isinstance(colors[i],str): continue
-            r = Rectangle((0, i * 1. / n), 1, 1. / n, color = colors[i])
-            a.add_patch(r)
+            frame = Frame(self._parent_._palframe_,
+                    bg = colors[i],
+                    height = h, width = w)
+            frame.bind("<Button-1>", self._activate_)
+            frame.place(x  = xpos + offset, y = offset + h * i)
 
-        # Adjusting outer margins
-        fig.subplots_adjust(left = .05, bottom = 0.01, right = .95,
-                            top = .99, wspace = 0, hspace = 0)
-        a.axis("off")
+class currentpalettecanvas(object):
 
-        canvas = FigureCanvasTkAgg(fig, master = self._parent_._palframe_)
-        canvas.get_tk_widget().pack(side = LEFT)
-        def callback(event): self._activate_(event)
-        canvas.mpl_connect('button_press_event', callback) #self._activate_)
-        canvas.draw()
+    def __init__(self, parent, x, y, width, height):
+
+        self.parent = parent
+        self.x      = x
+        self.y      = y
+        self.width  = width
+        self.height = height
+
+    def _draw_canvas_(self, colors):
+
+        mainframe = Frame(self.parent,
+                height = self.height, width = self.width)
+        mainframe.place(x  = self.x, y = self.y)
+
+        n = len(colors)
+        w = float(self.width) / float(len(colors))
+        h = self.height
+        from numpy import isnan, nan
+        for i in range(0, n):
+            if len(str(colors[i])) < 7: continue
+            frame = Frame(mainframe,
+                    bg = colors[i],
+                    height = h, width = w)
+            frame.place(x = w * i, y = 0.)
+
+
 
 
 class sliderObject(object):
@@ -162,10 +186,11 @@ class sliderObject(object):
     DISABLED  = "#b0b0b0"
     BGDEFAULT   = "#d9d9d9"
 
-    def __init__(self, name, bgcolor = "#d9d9d9"):
+    def __init__(self, name, parent, bgcolor = "#d9d9d9"):
 
-        self.name    = name
+        self.name      = name
         self.BGDEFAULT = bgcolor
+        self.parent    = parent
 
         # Store the tag
         import re
@@ -180,6 +205,28 @@ class sliderObject(object):
         self.value.insert(INSERT,event)
         self.value.tag_add("right", "1.0", "end")
 
+
+        self._plot_current_colormap_()
+
+    def _plot_current_colormap_(self):
+
+        # Getting current arguments
+        params = {}
+        for elem in self.parent._sliders_:
+            params[elem.getid()] = float(elem.getvalue())
+
+        colorfun = self.parent.dd_type.getmethod()
+
+        # Craw colors from current color map
+        import palettes
+        fun = getattr(palettes, colorfun)
+        params["n"] = 10
+        colors = fun(**params)
+        colors = colors.colors()
+
+        # Re-draw the canvas.
+        self.parent._curpalcanvas_._draw_canvas_(colors)
+
     def getname(self):
         return self.name
 
@@ -191,6 +238,10 @@ class sliderObject(object):
         if not val:
             val = self.value.get("1.0",END)
         self.slider.set(val)
+
+    def getvalue(self):
+        # Reading text value and adjust slider
+        return self.value.get("1.0", END)
 
     def bind(self, slider, label, value, button):
         self.slider = slider
@@ -228,12 +279,12 @@ class sliderObject(object):
                 fg = "#000000", bg = self.BGDEFAULT)
 
 
-class gui(object):
+class choose_palette(object):
 
     FRAMEHEIGHT = 100
     FRAMEWIDTH  = 280
     WIDTH = 300
-    HEIGHT = 500
+    HEIGHT = 600
 
     _sliders_ = []
 
@@ -262,6 +313,10 @@ class gui(object):
 
         # Initialize gui
         self._init_master_()
+        # Adding current palette has to be before the sliders
+        # as they need the current palette canvas for the
+        # to be able to be reactive.
+        self._add_current_palette_canvas_()
         self._add_sliders_()
         self._add_demo_options_()
         self._add_close_button_()
@@ -270,6 +325,7 @@ class gui(object):
         self._add_dropdown_type_(init_args = init_args)
         # Drawing default palettes
         self._add_palette_frame_()
+
 
         mainloop()
 
@@ -295,8 +351,16 @@ class gui(object):
         # Loading palettes of currently selected palette type
         from numpy import min
         pals = self.palettes.get_palettes(self.dd_type.get())
+        figwidth = max([30, self.FRAMEWIDTH / len(pals)])
+        xpos = 0
         for pal in pals:
-            paletteCanvas(self, pal, figwidth = min([0.3, 2.8 / len(pals)]))
+            defaultpalettecanvas(self, pal, 5, xpos, figwidth, self.FRAMEHEIGHT)
+            xpos += figwidth
+
+    def _add_current_palette_canvas_(self):
+
+        self._curpalcanvas_ = currentpalettecanvas(self.master,
+               x = 20, y = 500, width = 260, height = 30) 
 
 
     def _add_dropdown_type_(self, init_args = None):
@@ -323,7 +387,7 @@ class gui(object):
         ypos = len(self._sliders_) * 30 + 100 + self.FRAMEHEIGHT
 
         # Object handling slider actions/callbacks
-        obj = sliderObject(name, self.master.cget("bg"))
+        obj = sliderObject(name, self, self.master.cget("bg"))
 
         # Slider element
         scale = Scale(self.master, var = name, from_ = from_, to = to,
@@ -359,43 +423,75 @@ class gui(object):
 
         but = Button(self.master, text = "Demo", command = self._show_demo_,
                 pady = 5, padx = 5)
-        but.place(x = 30, y = 460)
+        but.place(x = 30, y = 560)
 
     def _add_close_button_(self):
 
         but = Button(self.master, text = "Cancel", command = sys.exit,
                 pady = 5, padx = 5)
-        but.place(x = 200, y = 460)
+        but.place(x = 200, y = 560)
 
     def _add_return_button_(self):
 
         but = Button(self.master, text = "Ok", command = sys.exit,
                 pady = 5, padx = 5)
-        but.place(x = 150, y = 460)
+        but.place(x = 150, y = 560)
 
     def _show_demo_(self):
 
         self.top = Toplevel()
         self.top.geometry("{:d}x{:d}".format(400, 400))
 
-        from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-        from matplotlib.figure import Figure
-        import numpy as np
+        try:
+            from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+            from matplotlib.figure import Figure
+            hasmatplotlib = True
+        except:
+            hasmatplotlib = False
 
-        x = np.random.normal(0,2,100)
-        y = np.random.normal(0,2,100)
+        # If has matplotlib: plot
+        if hasmatplotlib:
 
-        fig = Figure(figsize=(6,6))
-        a = fig.add_subplot(111)
-        a.scatter(x,y,color='red')
-        a.invert_yaxis()
+            import numpy as np
 
-        a.set_title ("Estimation Grid", fontsize=16)
-        a.set_ylabel("Y", fontsize=14)
-        a.set_xlabel("X", fontsize=14)
+            x = np.random.normal(0,2,100)
+            y = np.random.normal(0,2,100)
 
-        canvas = FigureCanvasTkAgg(fig, master = self.top)
-        canvas.get_tk_widget().pack()
-        canvas.draw()
+            fig = Figure(figsize=(6,6))
+            a = fig.add_subplot(111)
+            a.scatter(x,y,color='red')
+            a.invert_yaxis()
 
-        self.top.mainloop()
+            a.set_title ("Estimation Grid", fontsize=16)
+            a.set_ylabel("Y", fontsize=14)
+            a.set_xlabel("X", fontsize=14)
+
+            canvas = FigureCanvasTkAgg(fig, master = self.top)
+            canvas.get_tk_widget().pack()
+            canvas.draw()
+
+            self.top.mainloop()
+
+        else:
+
+            info = [""]
+            info.append("To be able to run the demo plots")
+            info.append("the python matplotlib package has to be")
+            info.append("installed.")
+            info.append("")
+            info.append("Install matplotlib and try again!")
+
+            txt = Text(self.top, height=10, width=45)
+            txt.pack()
+            txt.insert(END, "\n".join(info))
+
+
+
+
+
+
+
+
+
+
+

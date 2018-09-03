@@ -1,7 +1,6 @@
 
 import os
 import sys
-
 from .logger import logger
 log = logger(__name__)
 
