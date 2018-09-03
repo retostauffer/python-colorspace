@@ -138,14 +138,15 @@ class colorlib(object):
         msg = "Problem while checking inputs \"{:s}\" to method \"{:s}\":".format(
                 ", ".join(kwargs.keys()), __fname__)
 
+        from numpy import asarray
         lengths = []
         for key,val in kwargs.items():
 
-            # Check object type
-            if not isinstance(val, np.ndarray):
-                log.error(msg)
-                log.error("Input \"{:s}\" is not of type np.ndarray.".format(key))
-                sys.exit(3)
+            try:
+                val = asarray(val)
+            except Exception as e:
+                raise ValueError("input {:s} to {:s}".format(key, self.__class__.__name__) + \
+                        " could not have been converted to numpy.ndarray")
             # Else append length and proceed
             lengths.append(len(val))
 
@@ -1263,10 +1264,13 @@ class colorobject(object):
                 val = np.asarray(val)
 
             # Check object type
-            if not isinstance(val, np.ndarray):
-                log.error(msg)
-                log.error("Input \"{:s}\" is not of type np.ndarray.".format(key))
-                sys.exit(3)
+            from numpy import asarray
+            try:
+                val = asarray(val)
+            except Exception as e:
+                print val
+                raise ValueError("input {:s} to {:s}".format(key, self.__class__.__name__) + \
+                        " could not have been converted to numpy.ndarray: {:s}".format(e))
             # Else append length and proceed
             lengths.append(len(val))
             # Append to result vector
@@ -1295,10 +1299,6 @@ class colorobject(object):
             specplot(cols.colors(), **kwargs)
 
 
-    def data(self):
-        return self._data_
-
-
     def colors(self, fixup = True):
         """Always returns hex colors of the color object.
         """
@@ -1309,12 +1309,37 @@ class colorobject(object):
         return x.get("hex_")
 
 
-    def get(self, dimname):
+    def get(self, dimname = None):
+        # Return all coordinates
+        if dimname is None:
+            return self._data_
+        # Else only the requested dimension
         if not dimname in self._data_.keys():
-            log.error("Whoops, dimension \"{:s}\" does not exist in {:s} object.".format(
-                dimname, self.__class__.__name__))
-            sys.exit(9)
+            raise ValueError("{:s} has no dimension {:s}".format(self.__class__.__name__, dimname))
         return self._data_[dimname]
+
+    def set(self, **kwargs):
+
+        # Looping over inputs
+        for key,vals in kwargs.items():
+            key.upper()
+            # Return all coordinates
+            if not key in self._data_.keys():
+                raise ValueError("{:s} has no dimension {:s}".format(self.__class__.__name__, key))
+
+            # New values do have to have the same length as the old ones,
+            n = len(self.get(key))
+            t = type(self.get(key)[0])
+            from numpy import asarray
+            try:
+                vals = asarray(vals, dtype = t)
+            except Exception as e:
+                raise ValueError("problems converting new data to {:s} ".format(t) + \
+                    " in {:s}: {:s}".format(self.__class__.__name__, e))
+            if not len(vals) == n:
+                raise ValueError("number of values to be stored on the object " + \
+                    "{:s} have to match the current dimension".format(self.__class__.__name__))
+            self._data_[key] = vals
 
     def _cannot_(self, from_, to):
         log.error("Cannot convert class \"{:s}\" to \"{:s}\".".format(
@@ -2229,7 +2254,6 @@ class hexcols(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         else: self._cannot_(self.__class__.__name__, to)
-
 
 
 

@@ -1,4 +1,35 @@
 
+BUG in python-colorspace
+------------------------
+[ ] Integer inputs yeild 0-colors in sRGB! Why?
+```
+from colorspace.colorlib import RGB
+cols = RGB([1,0,0],[0,1,0],[0,0,1])
+print cols
+cols.to("sRGB")
+print cols
+```
+
+BUG in R colorspace
+-------------------
+[ ] specplot uses equidistant rectangles, but having
+    the two most outer ones only half of the width of the
+    ones in the middle might be more appropriate.
+
+BUG in R colorspace
+-------------------
+[ ] Bug in interpolate_cvd_transform.
+    The second case statement should for sure be >= 11. Report
+
+```
+if ( severity <= 0 ) {
+    cvd[[1]]
+} else if ( severity >= 1 ) {
+    cvd[[11]]
+} else {
+    ...
+}
+```
 
 logging
 -------

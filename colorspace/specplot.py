@@ -72,13 +72,26 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
 
 
     from colorlib import hexcols
-    cols = hexcols(hex_)
-    cols.to("RGB")
-    if rgb:
-        [R, G, B] = [cols.get("R"), cols.get("G"), cols.get("B")]
-    if hcl:
-        cols.to("HCL")
-        [H, C, L] = [cols.get("H"), cols.get("C"), cols.get("L")]
+    coords = {} 
+    if not isinstance(hex_, dict):
+        hex_ = {"colors": hex_}
+
+    # Calculate coordinates
+    coords = {}
+    for key,vals in hex_.items():
+        cols = hexcols(vals)
+        cols.to("RGB")
+        coords[key] = {"hex":vals}
+        if rgb:
+            coords[key]["RGB"] = [cols.get("R"), cols.get("G"), cols.get("B")]
+        if hcl:
+            cols.to("HCL")
+            coords[key]["HCL"] = [cols.get("H"), cols.get("C"), cols.get("L")]
+
+    # If we have multiple color maps: disable palette
+    if len(coords) > 1:
+        palette = False
+
 
     from colorlib import sRGB
     from palettes import rainbow_hcl
@@ -89,13 +102,12 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
 
     # Create figure
     from numpy import linspace, arange
-    import matplotlib.pyplot as plt
     import matplotlib.ticker as ticker
+    import matplotlib.pyplot as plt
+    from matplotlib import pyplot as plt
     
-    print hex_
     # Create plot
-    fig = plt.figure()
-    ax  = fig.add_subplot(111)
+    fig = plt.figure() 
     if rgb and hcl and palette:
         ax1 = plt.subplot2grid((7, 1), (0, 0), rowspan = 3)
         ax2 = plt.subplot2grid((7, 1), (3, 0))
@@ -139,21 +151,39 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
         ax33 = ax3.twinx()
         ax33.set_ylim(-360,360)
 
+    # Linestyles (used in case multiple palettes are handed over)
+    linestyles = ["-", "--", "-.", ":"]
+
     # Plotting RGB spectrum
-    x = linspace(0., 1., len(hex_))
     if rgb:
-        ax1.plot(x, R, color = rgbcols.colors()[0], linestyle = "solid")
-        ax1.plot(x, G, color = rgbcols.colors()[1], linestyle = "solid")
-        ax1.plot(x, B, color = rgbcols.colors()[2], linestyle = "solid")
+        count = 0
+        for key,val in coords.items():
+            print count
+            [R, G, B] = val["RGB"]
+            x = linspace(0., 1., len(R))
+            linestyle = linestyles[count % len(linestyles)] 
+            LR, = ax1.plot(x, R, color = rgbcols.colors()[0], linestyle = linestyle)
+            LG, = ax1.plot(x, G, color = rgbcols.colors()[1], linestyle = linestyle)
+            LB, = ax1.plot(x, B, color = rgbcols.colors()[2], linestyle = linestyle)
+            count += 1
+        #ax1.legend([LR, LG, LB], ["R", "G", "B"],
+        #    bbox_to_anchor = (0., 1., .3, 0.), ncol = 3, frameon = False)
 
     # Plotting the color map
-    if palette: cmap(ax2, hex_)
+    if palette:
+        cmap(ax2, coords[coords.keys()[0]]["hex"])
 
     # Plotting HCL spectrum
     if hcl:
-        ax3.plot(x, C, color = hclcols.colors()[1], linestyle = "solid")
-        ax3.plot(x, L, color = hclcols.colors()[2], linestyle = "solid")
-        ax33.plot(x, H, color = hclcols.colors()[0], linestyle = "solid")
+        count = 0
+        for key,val in coords.items():
+            [H, C, L] = val["HCL"]
+            x = linspace(0., 1., len(H))
+            linestyle = linestyles[count % len(linestyles)] 
+            ax3.plot(x,  C, color = hclcols.colors()[1], linestyle = linestyle)
+            ax3.plot(x,  L, color = hclcols.colors()[2], linestyle = linestyle)
+            ax33.plot(x, H, color = hclcols.colors()[0], linestyle = linestyle)
+            count += 1
         ax33.set_yticks(arange(-360, 361, 120))
         ax33.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.0f'))
     
@@ -165,39 +195,12 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
                  verticalalignment = "bottom")
     if hcl:
         ax3.set_ylabel("Chroma/Luminance")
-        ax3.set_ylabel("Hue")
+        ax33.set_ylabel("Hue")
         ax3.text(0.5,  -10, "HCL Spectrum", horizontalalignment = "center",
                  verticalalignment = "top")
     
-    if not "fig" in kwargs.keys():
-        fig.show()
-    else:
-        return fig
+    plt.show()
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
