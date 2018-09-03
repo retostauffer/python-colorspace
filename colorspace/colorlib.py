@@ -152,11 +152,11 @@ class colorlib(object):
 
         # Check if all do have the same length
         if not np.all([x == lengths[0] for x in lengths]):
-            log.error(msg)
-            log.error("Arguments of different lengths: {:s}".format(
-                ", ".join(["{:s} = {:d}".format(kwargs.keys()[i],lengths[i]) \
-                           for i in range(0,len(kwargs))])))
-            sys.exit(9)
+            msg += " Arguments of different lengths: {:s}".format(
+                   ", ".join(["{:s} = {:d}".format(kwargs.keys()[i],lengths[i]) \
+                   for i in range(0,len(kwargs))]))
+            raise ValueError(msg)
+
 
         return True
 
@@ -1239,7 +1239,7 @@ class colorobject(object):
         # Transform along the path defined by "via" (list)
         for v in via:   self.to(v, fixup = fixup)
 
-    def _check_input_arrays_(self, __fname__, **kwargs):
+    def _colorobject_check_input_arrays_(self, __fname__, **kwargs):
         """Checks if all inputs in **kwargs are of type np.ndarray OR lists
         (will be converted to ndarrays) and that all are of the same length
         If not, the script will drop some error messsages and stop.
@@ -1254,7 +1254,7 @@ class colorobject(object):
                 ", ".join(kwargs.keys()), __fname__)
 
 
-        res = []
+        res = {}
         lengths = []
         for key,val in kwargs.items():
             # If is list: convert to ndarray no matter how long the element is
@@ -1274,15 +1274,14 @@ class colorobject(object):
             # Else append length and proceed
             lengths.append(len(val))
             # Append to result vector
-            res.append(val)
+            res[key] = val
 
         # Check if all do have the same length
         if not np.all([x == lengths[0] for x in lengths]):
-            log.error(msg)
-            log.error("Arguments of different lengths: {:s}".format(
-                ", ".join(["{:s} = {:d}".format(kwargs.keys()[i],lengths[i]) \
-                           for i in range(0,len(kwargs))])))
-            sys.exit(9)
+            msg += "Arguments of different lengths: {:s}".format(
+                   ", ".join(["{:s} = {:d}".format(kwargs.keys()[i],lengths[i]) \
+                    for i in range(0,len(kwargs))]))
+            raise ValueError(msg)
 
         return res
 
@@ -1311,12 +1310,13 @@ class colorobject(object):
 
     def get(self, dimname = None):
         # Return all coordinates
+        from copy import copy
         if dimname is None:
-            return self._data_
+            return copy(self._data_)
         # Else only the requested dimension
         if not dimname in self._data_.keys():
             raise ValueError("{:s} has no dimension {:s}".format(self.__class__.__name__, dimname))
-        return self._data_[dimname]
+        return copy(self._data_[dimname])
 
     def set(self, **kwargs):
 
@@ -1384,8 +1384,8 @@ class polarLUV(colorobject):
 
         # Checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["H"], self._data_["C"], self._data_["L"]] = \
-            self._check_input_arrays_(self.__class__.__name__, H = H, C = C, L = L)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, H = H, C = C, L = L)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -1480,8 +1480,8 @@ class CIELUV(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["L"], self._data_["U"], self._data_["V"]] = \
-            self._check_input_arrays_(self.__class__.__name__, L = L, U = U, V = V)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, L = L, U = U, V = V)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -1578,8 +1578,8 @@ class CIEXYZ(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["X"], self._data_["Y"], self._data_["Z"]] = \
-            self._check_input_arrays_(self.__class__.__name__, X = X, Y = Y, Z = Z)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, X = X, Y = Y, Z = Z)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -1677,8 +1677,8 @@ class RGB(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["R"], self._data_["G"], self._data_["B"]] = \
-            self._check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -1777,10 +1777,12 @@ class sRGB(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["R"], self._data_["G"], self._data_["B"]] = \
-            self._check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+        for key,val in tmp.items(): self._data_[key] = val
+        print self._data_["R"]
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
+
 
     def to(self, to, fixup = True):
         """
@@ -1865,8 +1867,8 @@ class CIELAB(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["L"], self._data_["A"], self._data_["B"]] = \
-            self._check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -1953,8 +1955,8 @@ class polarLAB(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["L"], self._data_["A"], self._data_["B"]] = \
-            self._check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -2040,8 +2042,8 @@ class HSV(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["H"], self._data_["S"], self._data_["V"]] = \
-            self._check_input_arrays_(self.__class__.__name__, H = H, S = S, V = V)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, H = H, S = S, V = V)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -2115,8 +2117,8 @@ class HLS(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["H"], self._data_["L"], self._data_["S"]] = \
-            self._check_input_arrays_(self.__class__.__name__, H = H, L = L, S = S)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, H = H, L = L, S = S)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -2200,8 +2202,8 @@ class hexcols(colorobject):
         if isinstance(hex_,str): hex_ = np.asarray([hex_])
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        [self._data_["hex_"]] = \
-            self._check_input_arrays_(self.__class__.__name__, hex_ = hex_)
+        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, hex_ = hex_)
+        for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 

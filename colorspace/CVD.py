@@ -1,6 +1,6 @@
 # All matrices in this file are adapted from https://github.com/njsmith/colorspacious/blob/master/colorspacious/cvd.py
 
-#' Color Vision Deficiency (CVD) Conversion Tables
+#' Color Vision Deficiency (CVD) Conversion Functions.
 #' 
 #' Conversion tables for simulating different types of color vision deficiency (CVD):
 #' Protanomaly, deutanomaly, tritanomaly.
@@ -12,6 +12,24 @@
 #' 
 
 def deutan(cols, severity = 1.):
+    """
+    Transformation of R colors by simulating color vision
+    deficiencies, based on a CVD transform matrix.
+    This function is a interface to the CVD object and
+    returns simulated colors for deuteranope vision
+    (green-yellow-red weakness).
+
+    Parameters:
+        cols: a colorobject (such as RGB, HCL, CIEXYZ) or
+            a list of hex colors.
+        severity (float): a number in [0., 1.]. Zero means
+            no deficiency, one maximum deficiency.
+
+    Returns:
+        Returns an object of the same type as the input
+        object `cols` with simulated colors.
+
+    """
 
     from .CVD import CVD
 
@@ -22,14 +40,14 @@ def protan(cols, severity = 1.):
 
     from .CVD import CVD
 
-    CVD = CVD(cols, "deutan", severity)
+    CVD = CVD(cols, "protan", severity)
     return CVD.colors()
 
 def tritan(cols, severity = 1.):
 
     from .CVD import CVD
 
-    CVD = CVD(cols, "deutan", severity)
+    CVD = CVD(cols, "tritan", severity)
     return CVD.colors()
 
 
@@ -50,15 +68,39 @@ class CVD(object):
         self._type_     = type_.lower()
         self._severity_ = severity
 
+        # Checking input `cols`:
+        if isinstance(cols, list) or isinstance(cols, tuple):
+            cols = list(cols)
+            from numpy import all
+            from re import match, compile
+            pat = compile("^(#\w{6}([0-9]{2})?)$")
+            if not all([match(pat, x) for x in cols]):
+                raise ValueError("got non-hex colors in {:s}. ".format(self.__class__.__name__) + \
+                        "If you use hex colors (or a list of hex colors) as input all elements " + \
+                        "have to be valid")
+
+            # Internally: create a hexcols object and store
+            # self._hexinput_ = True. Will be used to also return
+            # a hex color list at the end.
+            from .colorlib import hexcols
+            cols = hexcols(cols)
+            self._hexinput_ = True
+        else:
+            self._hexinput_ = False
+            from .colorlib import hexcols
+            if not isinstance(cols, colorobject):
+                raise ValueError("input cols to {:s} has to be ".format(self.__class__.__name__) + \
+                        "a colorobject (e.g., HCL, RGB, CIEXYZ)")
+
         # Convert
         from copy import deepcopy
-        self._colors_   = deepcopy(cols)
+        self._colors_ = deepcopy(cols)
 
     def _tomat_(self, x):
         from numpy import reshape, asarray
-        return asarray(x, dtype = float).reshape((3,3))
+        return asarray(x, dtype = float).reshape((3,3), order = "F")
 
-    def protan(self, s):
+    def protan_cvd_matrizes(self, s):
         # Protan CVD
         x = []
         x.append(self._tomat_(( 1.000000,  0.000000, -0.000000, 0.000000,  1.000000,  0.000000, -0.000000, -0.000000,  1.000000)))
@@ -76,7 +118,7 @@ class CVD(object):
 
 
     # deutan CVD
-    def deutan(self, s):
+    def deutan_cvd_matrizes(self, s):
         x = []
         x.append(self._tomat_(( 1.000000,  0.000000, -0.000000, 0.000000,  1.000000,  0.000000, -0.000000, -0.000000,  1.000000)))
         x.append(self._tomat_(( 0.866435,  0.177704, -0.044139, 0.049567,  0.939063,  0.011370, -0.003453,  0.007233,  0.996220)))
@@ -93,7 +135,7 @@ class CVD(object):
 
 
     # tritanomaly CVD
-    def tritan(self, s):
+    def tritan_cvd_matrizes(self, s):
         x = []
         x.append(self._tomat_(( 1.000000,  0.000000, -0.000000,  0.000000,  1.000000,  0.000000, -0.000000, -0.000000,  1.000000)))
         x.append(self._tomat_(( 0.926670,  0.092514, -0.019184,  0.021191,  0.964503,  0.014306,  0.008437,  0.054813,  0.936750)))
@@ -111,7 +153,7 @@ class CVD(object):
     def _interpolate_cvd_transform_(self):
 
         # Getting severity
-        fun = getattr(self, self._type_)
+        fun = getattr(self, "{:s}_cvd_matrizes".format(self._type_.lower()))
         severity = self._severity_
         if severity <= 0.:
             cvd = fun(0)
@@ -153,10 +195,19 @@ class CVD(object):
         RGB = vstack([cols.get("R"), cols.get("G"), cols.get("B")])
         CVD = self._interpolate_cvd_transform_()
 
-        [R, G, B] = dot(RGB, CVD)
-        cols.set(R = R, G = G, B = B)
+        # Apply coefficients/CVD transformation matrix
+        [R, G, B] = [RGB[i] for i in [0,1,2]]
+        RGB = RGB.transpose().dot(CVD).transpose()
 
-        return cols
+        # Save simulated data
+        cols.set(R = RGB[0], G = RGB[1], B = RGB[2])
+
+        # User provided hex colors?
+        from copy import copy
+        if self._hexinput_:
+            return copy(cols.colors())
+        else:
+            return copy(cols)
 
     def colors(self):
 
@@ -226,6 +277,7 @@ def desaturate(col, amount = 1.):
         col.set(C = C, H = H)
 
     col.to(original_class)
+    if self._hexinput_: col = col.colors()
 
     # Return color object
     return col

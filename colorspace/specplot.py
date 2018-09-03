@@ -80,10 +80,10 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
     coords = {}
     for key,vals in hex_.items():
         cols = hexcols(vals)
-        cols.to("RGB")
+        cols.to("sRGB")
         coords[key] = {"hex":vals}
         if rgb:
-            coords[key]["RGB"] = [cols.get("R"), cols.get("G"), cols.get("B")]
+            coords[key]["sRGB"] = [cols.get("R"), cols.get("G"), cols.get("B")]
         if hcl:
             cols.to("HCL")
             coords[key]["HCL"] = [cols.get("H"), cols.get("C"), cols.get("L")]
@@ -158,8 +158,8 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
     if rgb:
         count = 0
         for key,val in coords.items():
-            print count
-            [R, G, B] = val["RGB"]
+            [R, G, B] = val["sRGB"]
+            print B
             x = linspace(0., 1., len(R))
             linestyle = linestyles[count % len(linestyles)] 
             LR, = ax1.plot(x, R, color = rgbcols.colors()[0], linestyle = linestyle)
