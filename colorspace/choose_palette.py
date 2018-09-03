@@ -73,19 +73,19 @@ class ddObject(object):
         # Allowed parameter
         parameter = pal.parameters()
 
-        for x in self.sliders:
-            slider_id = x.getid()
+        for key,elem in self.sliders.items():
+            slider_id = elem.getid()
             value     = pal.get(slider_id)
             # Disable slider if not in paramter, enable
             # if it is.
-            if not slider_id in parameter:
-                x.disable()
+            if not slider_id in parameter + ["n"]:
+                elem.disable()
             else:
-                x.enable()
+                elem.enable()
             # Take value from "args" if specified, else
             # the one from the palette.
             if slider_id in args.keys():  value = args[slider_id]
-            if not value is None:         x.setvalue(value)
+            if not value is None:         elem.setvalue(value)
 
 
     def _add_dropdown_palettes_(self):
@@ -120,12 +120,13 @@ class defaultpalettecanvas(object):
         # Loading settings of the current palette
         sliders  = self._parent_._sliders_
         settings = self._pal_.get_settings()
-        for rec in sliders:
-            sid = rec.getid()
-            if sid in settings.keys(): rec.setvalue(settings[sid])
+        for key,elem in sliders.items():
+            sid = elem.getid()
+            if sid in settings.keys(): elem.setvalue(settings[sid])
 
         # Change slider settings
         parent = self._parent_
+
 
     def _draw_canvas_(self, colors, xpos, figwidth, figheight):
 
@@ -134,14 +135,16 @@ class defaultpalettecanvas(object):
         h = (figheight - 2. * offset) / len(colors)
         w = figwidth  - 2. * offset
 
-        # A set of frames with different colors and _activate_
-        # callback behaviour.
+        canvas = Canvas(self._parent_._palframe_, width = figwidth,
+                        height = figheight, bg = "#ffffff")
+        canvas.place(x = xpos, y = 0)
+        # Binding for interaction
+        canvas.bind("<Button-1>", self._activate_)
+
         for i in range(0, n):
-            frame = Frame(self._parent_._palframe_,
-                    bg = colors[i],
-                    height = h, width = w)
-            frame.bind("<Button-1>", self._activate_)
-            frame.place(x  = xpos + offset, y = offset + h * i)
+            canvas.create_rectangle(0, i*h, w, (i+1)*h,
+                                    width = 0, fill = colors[i])
+            
 
 class currentpalettecanvas(object):
 
@@ -153,24 +156,20 @@ class currentpalettecanvas(object):
         self.width  = width
         self.height = height
 
-    def _draw_canvas_(self, colors):
+        self.canvas = Canvas(self.parent, width = self.width, height = self.height)
+        self.canvas.place(x = self.x, y = self.y + 20)
 
-        mainframe = Frame(self.parent,
-                height = self.height, width = self.width)
-        mainframe.place(x  = self.x, y = self.y)
+
+    def _draw_canvas_(self, colors):
 
         n = len(colors)
         w = float(self.width) / float(len(colors))
         h = self.height
-        from numpy import isnan, nan
         for i in range(0, n):
+            # Dropping Nan's
             if len(str(colors[i])) < 7: continue
-            frame = Frame(mainframe,
-                    bg = colors[i],
-                    height = h, width = w)
-            frame.place(x = w * i, y = 0.)
-
-
+            self.canvas.create_rectangle(i*w, 0, (i+1)*w, h,
+                    width = 0, fill = colors[i])
 
 
 class sliderObject(object):
@@ -205,27 +204,11 @@ class sliderObject(object):
         self.value.insert(INSERT,event)
         self.value.tag_add("right", "1.0", "end")
 
-
         self._plot_current_colormap_()
 
     def _plot_current_colormap_(self):
 
-        # Getting current arguments
-        params = {}
-        for elem in self.parent._sliders_:
-            params[elem.getid()] = float(elem.getvalue())
-
-        colorfun = self.parent.dd_type.getmethod()
-
-        # Craw colors from current color map
-        import palettes
-        fun = getattr(palettes, colorfun)
-        params["n"] = 10
-        colors = fun(**params)
-        colors = colors.colors()
-
-        # Re-draw the canvas.
-        self.parent._curpalcanvas_._draw_canvas_(colors)
+        self.parent._curpalcanvas_draw_()
 
     def getname(self):
         return self.name
@@ -278,6 +261,10 @@ class sliderObject(object):
                 relief = RAISED, 
                 fg = "#000000", bg = self.BGDEFAULT)
 
+    def is_active(self):
+
+        return self.slider.config()["state"][4] == "active"
+
 
 class choose_palette(object):
 
@@ -286,7 +273,8 @@ class choose_palette(object):
     WIDTH = 300
     HEIGHT = 600
 
-    _sliders_ = []
+    _sliders_ = {}
+    _demoTk_ = None
 
     def __init__(self, **kwargs):
 
@@ -351,6 +339,10 @@ class choose_palette(object):
         # Loading palettes of currently selected palette type
         from numpy import min
         pals = self.palettes.get_palettes(self.dd_type.get())
+        for child in self._palframe_.winfo_children():
+            child.destroy()
+
+        # Adding new canvas
         figwidth = max([30, self.FRAMEWIDTH / len(pals)])
         xpos = 0
         for pal in pals:
@@ -361,6 +353,49 @@ class choose_palette(object):
 
         self._curpalcanvas_ = currentpalettecanvas(self.master,
                x = 20, y = 500, width = 260, height = 30) 
+
+    def _curpalcanvas_draw_(self):
+
+        # Re-draw the canvas.
+        self._curpalcanvas_._draw_canvas_(self.get_colors())
+        # Is the demo running?
+
+        if self._demoTk_ is None:        return
+        if self._demoTk_.winfo_exists(): self._show_demo_(True)
+
+    def get_colors(self):
+
+        # Getting current arguments
+        params = {}
+        for key,elem in self._sliders_.items():
+            if elem.is_active():
+                params[elem.getid()] = float(elem.getvalue())
+
+        # Manipulate params
+        for dim in ["h", "c", "l","p"]:
+            dim1 = "{:s}1".format(dim)
+            dim2 = "{:s}2".format(dim)
+            dim = "power" if dim == "p" else dim
+            check = [dim1 in params.keys(), dim2 in params.keys()]
+            if check[0] and check[1]:
+                params[dim] = [params[dim1], params[dim2]]
+                del params[dim1]
+                del params[dim2]
+            elif check[0]:
+                params[dim] = params[dim1]
+                del params[dim1]
+
+        n = self._sliders_["slider_N"].getvalue()
+        if "n" in params: del params["n"]
+
+        # Craw colors from current color map
+        import palettes
+        # Color function
+        colorfun = self.dd_type.getmethod()
+        fun      = getattr(palettes, colorfun)
+        print "Params",; print params
+        colors   = fun(n, **params)
+        return colors.colors()
 
 
     def _add_dropdown_type_(self, init_args = None):
@@ -380,6 +415,9 @@ class choose_palette(object):
 
         self._add_slider_("slider_P1",    0,   3, "P1", resolution = 0.1)
         self._add_slider_("slider_P2",    0,   3, "P2", resolution = 0.1)
+
+        self._add_slider_("slider_N",     1,  30, "N")
+        self._sliders_["slider_N"].setvalue(7)
 
     def _add_slider_(self, name, from_, to, label, resolution = 1, orient = HORIZONTAL):
 
@@ -416,7 +454,7 @@ class choose_palette(object):
         obj.bind(scale, lab, val, but)
 
         # Append slider object
-        self._sliders_.append(obj)
+        self._sliders_[name] = obj #.append(obj)
 
 
     def _add_demo_options_(self):
@@ -437,13 +475,17 @@ class choose_palette(object):
                 pady = 5, padx = 5)
         but.place(x = 150, y = 560)
 
-    def _show_demo_(self):
 
-        self.top = Toplevel()
-        self.top.geometry("{:d}x{:d}".format(400, 400))
+    def bing(self):
+
+        print "BING"
+
+    def _show_demo_(self, update = False):
+
 
         try:
-            from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+            from matplotlib.backends.backend_tkagg import FigureCanvasAgg
+            import matplotlib.backends.tkagg as tkagg
             from matplotlib.figure import Figure
             hasmatplotlib = True
         except:
@@ -452,25 +494,70 @@ class choose_palette(object):
         # If has matplotlib: plot
         if hasmatplotlib:
 
-            import numpy as np
+            def draw_figure(canvas, figure, loc=(0, 0)):
+                """ Draw a matplotlib figure onto a Tk canvas
+            
+                loc: location of top-left corner of figure on canvas in pixels.
+            
+                Inspired by matplotlib source: lib/matplotlib/backends/backend_tkagg.py
+                """
+                figure_canvas_agg = FigureCanvasAgg(figure)
+                figure_canvas_agg.draw()
+                figure_x, figure_y, figure_w, figure_h = figure.bbox.bounds
+                figure_w, figure_h = int(figure_w), int(figure_h)
+                photo = PhotoImage(master=canvas, width=figure_w, height=figure_h)
 
-            x = np.random.normal(0,2,100)
-            y = np.random.normal(0,2,100)
+                print photo
+            
+                # Position: convert from top-left anchor to center anchor
+                canvas.create_image(loc[0] + figure_w/2, loc[1] + figure_h/2, image=photo)
+            
+                # Unfortunately, there's no accessor for the pointer to the native renderer
+                tkagg.blit(photo, figure_canvas_agg.get_renderer()._renderer, colormode=2)
+            
+                # Return a handle which contains a reference to the photo object
+                # which must be kept live or else the picture disappears
+                return photo
 
-            fig = Figure(figsize=(6,6))
-            a = fig.add_subplot(111)
-            a.scatter(x,y,color='red')
-            a.invert_yaxis()
+            if not update:
+                self._demoTk_ = Tk()#Toplevel()
+                self._demoTk_.title("Demo Plot")
+                self._demoTk_.geometry("{:d}x{:d}".format(500, 500))
+                self._democanvas_ = Canvas(self._demoTk_, width=500, height=500)
+                self._democanvas_.pack()
 
-            a.set_title ("Estimation Grid", fontsize=16)
-            a.set_ylabel("Y", fontsize=14)
-            a.set_xlabel("X", fontsize=14)
 
-            canvas = FigureCanvasTkAgg(fig, master = self.top)
-            canvas.get_tk_widget().pack()
-            canvas.draw()
+            # Create the figure we desire to add to an existing canvas
+            import matplotlib as mpl
+            if not update:
+                self._demofig_ = mpl.figure.Figure(figsize=(2, 1))
+            ## Keep this handle alive, or else figure will disappear
+            from .specplot import specplot
+            self._demofig_ = specplot(self.get_colors(), fig = "dummy")
+            fig_photo = draw_figure(self._democanvas_, self._demofig_, loc=(0, 0))
+            print " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx "
+            
+            # Let Tk take over
+            mainloop()
 
-            self.top.mainloop()
+            #canvas = Canvas(self._demowindow_, width = 400, height = 400)
+            #canvas.pack()
+
+            #from .specplot import specplot
+            #fig = specplot(self.get_colors(), fig = "foo")
+            #draw_figure(canvas, fig)
+            #canvas.pack()
+            #mainloop()
+
+            #fig = Figure(figsize=(6,6))
+            #ax  = fig.add_subplot(111)
+            #if update: ax.clear()
+            #print "Update figure"
+            #from .specplot import specplot
+            #fig = specplot(self.get_colors(), fig = fig)
+            #canvas = FigureCanvasTkAgg(fig, master = self._demowindow_)
+            #canvas.get_tk_widget().pack()
+            #canvas.draw()
 
         else:
 
@@ -481,7 +568,7 @@ class choose_palette(object):
             info.append("")
             info.append("Install matplotlib and try again!")
 
-            txt = Text(self.top, height=10, width=45)
+            txt = Text(self._demowindow_, height=10, width=45)
             txt.pack()
             txt.insert(END, "\n".join(info))
 

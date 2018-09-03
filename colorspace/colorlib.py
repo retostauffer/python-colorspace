@@ -971,6 +971,12 @@ class colorlib(object):
             Y[i] = YN[i] * (np.power((L[i] + 16.)/116., 3.) if L[i] > 8. else L[i] / self.KAPPA)
     
         # Calculate X/Z
+        from numpy import finfo, fmax
+
+        # Avoiding division by zero
+        eps = np.finfo(float).eps*10
+        L = fmax(eps, L)
+
         [uN, vN] = self.XYZ_to_uv(XN, YN, ZN)
         u = U / (13. * L) + uN
         v = V / (13. * L) + vN

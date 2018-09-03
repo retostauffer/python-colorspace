@@ -6,7 +6,7 @@ from .logger import logger
 log = logger(__name__)
 
 
-def specplot(hex_, rgb = True, hcl = True, palette = True):
+def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
     """Visualization of the RGB and HCL spectrum given a set of
     hex colors.
 
@@ -50,10 +50,10 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
         from matplotlib.patches import Rectangle
 
         n = len(hex_)
-        delta = 2 / float(n + 1.)
-        x = linspace(-delta / 2., 1. + delta / 2, n + 1)
+        w = 1. / float(n - 1)
+        x = linspace(-w / 2., 1. + w / 2, n + 1)
         for i in range(0,n):
-            rect = Rectangle((x[i],0.), delta, 1., color = hex_[i]) 
+            rect = Rectangle((x[i],0.), w, 1., color = hex_[i]) 
             ax.add_patch(rect)
 
     # Try to convert inputs to boolean.
@@ -72,9 +72,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
 
 
     from colorlib import hexcols
-    print hex_
     cols = hexcols(hex_)
-    print cols
     cols.to("RGB")
     if rgb:
         [R, G, B] = [cols.get("R"), cols.get("G"), cols.get("B")]
@@ -94,8 +92,10 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
     import matplotlib.pyplot as plt
     import matplotlib.ticker as ticker
     
+    print hex_
     # Create plot
     fig = plt.figure()
+    ax  = fig.add_subplot(111)
     if rgb and hcl and palette:
         ax1 = plt.subplot2grid((7, 1), (0, 0), rowspan = 3)
         ax2 = plt.subplot2grid((7, 1), (3, 0))
@@ -169,7 +169,10 @@ def specplot(hex_, rgb = True, hcl = True, palette = True):
         ax3.text(0.5,  -10, "HCL Spectrum", horizontalalignment = "center",
                  verticalalignment = "top")
     
-    plt.show()
+    if not "fig" in kwargs.keys():
+        fig.show()
+    else:
+        return fig
     
 
 
