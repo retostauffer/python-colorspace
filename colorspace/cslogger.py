@@ -1,6 +1,6 @@
 
 
-def logger(name):
+def cslogger(name):
 
     import logging
 

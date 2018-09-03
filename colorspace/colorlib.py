@@ -1,42 +1,42 @@
-"""
-Copyright 2005, Ross Ihaka. All Rights Reserved.
-Ported to python: Copyright 2018, Reto Stauffer.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-
-   1. Redistributions of source code must retain the above copyright notice,
-      this list of conditions and the following disclaimer.
-
-   2. Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-   3. The name of the Ross Ihaka may not be used to endorse or promote
-      products derived from this software without specific prior written
-      permission.
-
-THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ROSS IHAKA BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
-"""
+# """
+# Copyright 2005, Ross Ihaka. All Rights Reserved.
+# Ported to python: Copyright 2018, Reto Stauffer.
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 
+#    1. Redistributions of source code must retain the above copyright notice,
+#       this list of conditions and the following disclaimer.
+# 
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+# 
+#    3. The name of the Ross Ihaka may not be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ROSS IHAKA BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+# IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+# """
 
 
 import sys
 import numpy as np
 import inspect
 
-from .logger import logger
-log = logger(__name__)
+from cslogger import cslogger
+log = cslogger(__name__)
 
 class colorlib(object):
 
@@ -1135,6 +1135,10 @@ class colorobject(object):
                "RGB", "sRGB", "HCL",
                "HSV", "HLS", "hex"]
 
+    # Used to store alpha if needed. Will only be used for some of
+    # the colorobject objects as only few color spaces allow alpha
+    # values.
+    ALPHA = None
 
     # Standard representation of colorspace colorobject objects.
     def __repr__(self, digits = 2):
@@ -1143,21 +1147,23 @@ class colorobject(object):
 
         # Sorting the dimensions
         from re import match
-        if   match("^[R,G,B]{3}", "".join(dims)): dims = ["R", "G", "B"]
-        elif match("^[L,A,B]{3}", "".join(dims)): dims = ["L", "A", "B"]
-        elif match("^[L,U,V]{3}", "".join(dims)): dims = ["L", "U", "V"]
-        elif match("^[H,C,L]{3}", "".join(dims)): dims = ["H", "C", "L"]
-        elif match("^[X,Y,Z]{3}", "".join(dims)): dims = ["X", "Y", "Z"]
-        elif match("^[H,S,V]{3}", "".join(dims)): dims = ["H", "S", "V"]
-        elif match("^[H,L,S]{3}", "".join(dims)): dims = ["H", "L", "S"]
+        if   match("^(R|G|B|alpha){4}", "".join(dims)):
+            dims = ["R", "G", "B", "alpha"]
+        elif match("^(R|G|B){3}", "".join(dims)): dims = ["R", "G", "B"]
+        elif match("^(L|A|B){3}", "".join(dims)): dims = ["L", "A", "B"]
+        elif match("^(L|U|V){3}", "".join(dims)): dims = ["L", "U", "V"]
+        elif match("^(H|C|L){3}", "".join(dims)): dims = ["H", "C", "L"]
+        elif match("^(X|Y|Z){3}", "".join(dims)): dims = ["X", "Y", "Z"]
+        elif match("^(H|S|V){3}", "".join(dims)): dims = ["H", "S", "V"]
+        elif match("^(H|L|S){3}", "".join(dims)): dims = ["H", "L", "S"]
         ncol = len(self._data_[dims[0]]) # Number of colors
 
         # Start creating the string:
-        res = ["{:s} color object".format(self.__class__.__name__)]
+        res = ["{:s} color object ({:d} colors)".format(self.__class__.__name__, ncol)]
 
         # Show header
         fmt = "".join(["{:>", "{:d}".format(digits+5), "s}"])
-        res.append("".join([fmt.format(x) for x in dims]))
+        res.append("    " + "".join([fmt.format(x) for x in dims]))
 
         # Show data
         # In case of a hexcols object: string formatting and
@@ -1172,11 +1178,21 @@ class colorobject(object):
             data = self._data_
 
         # Print object content
+        count = 0
         for n in range(0, ncol):
-            tmp = ""
+            if (n % 10) == 0: 
+                tmp = "{:3d}:".format(n+1)
+            else:
+                tmp = "    "
             for d in dims:
                 tmp += fmt.format(data[d][n])
+            count += 1
             res.append(tmp)
+
+            if count >= 30 and ncol > 40:
+                res.append("".join([" ......"]*len(dims)))
+                res.append("And {:d} more [truncated]".format(ncol - count))
+                break
 
         return "\n".join(res)
 
@@ -1653,11 +1669,14 @@ class RGB(colorobject):
     :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
     :py:class:`sRGB`, :py:class:`HSV`, :py:class:`HLS`, :py:class:`polarLUV`,
     :py:class:`polarLAB`, `"hex"` (:py:class:`hexcols`).
+    Allows additional alpha input. Note that the alpha channel will not be
+    modified but preserved.
 
     Parameters:
-        R: Single value or multiple values, intensity of red [0,1].
-        G: Single value or multiple values, intensity of green [0,1].
-        B: Single value or multiple values, intensity of blue [0,1].
+        R: intensity of red [0,1].
+        G: intensity of green [0,1].
+        B: intensity of blue [0,1].
+        alpha: optional, [0,1].
 
     Examples:
         >>> from colorspace.colorlib import sRGB
@@ -1673,11 +1692,17 @@ class RGB(colorobject):
         whitepoint.
     """
 
-    def __init__(self, R, G, B):
+    def __init__(self, R, G, B, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+
+        if not alpha is None:
+            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
+                    R = R, G = G, B = B)
+        else:
+            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
+                    R = R, G = G, B = B, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -1719,6 +1744,7 @@ class RGB(colorobject):
         elif to == "sRGB":
             [R, G, B] = clib.RGB_to_DEVRGB(self.get("R"), self.get("G"), self.get("B"))
             self._data_ = {"R" : R, "G" : G, "B" : B}
+            if not self.ALPHA is None: self._data_["alpha"] = self.ALPHA
             self.__class__ = sRGB
 
         # Transform from RGB -> CIEXYZ
@@ -1753,11 +1779,14 @@ class sRGB(colorobject):
     :py:class:`CIEXYZ`, :py:class:`CIELUV`, :py:class:`CIELAB`,
     :py:class:`RGB`, :py:class:`HSV`, :py:class:`HLS`, :py:class:`polarLUV`,
     :py:class:`polarLAB`, `"hex"` (:py:class:`hexcols`).
+    Allows additional alpha input. Note that the alpha channel will not be
+    modified but preserved.
 
     Parameters:
-        R: Single value or multiple values, intensity of red [0,1].
-        G: Single value or multiple values, intensity of green [0,1].
-        B: Single value or multiple values, intensity of blue [0,1].
+        R: intensity of red [0,1].
+        G: intensity of green [0,1].
+        B: intensity of blue [0,1].
+        alpha: optional, [0,1].
 
     Examples:
         >>> from colorspace.colorlib import sRGB
@@ -1773,13 +1802,22 @@ class sRGB(colorobject):
         whitepoint.
     """
 
-    def __init__(self, R, G, B):
+    PROVIDES_ALPHA = True
+
+    def __init__(self, R, G, B, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, R = R, G = G, B = B)
+        if alpha is None:
+            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
+                    R = R, G = G, B = B)
+        else:
+            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
+                    R = R, G = G, B = B, alpha = alpha)
+            # Store alpha to the object:
+            self.ALPHA = alpha
+
         for key,val in tmp.items(): self._data_[key] = val
-        print self._data_["R"]
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -1809,6 +1847,7 @@ class sRGB(colorobject):
         elif to == "RGB":
             [R, G, B] = clib.DEVRGB_to_RGB(self.get("R"), self.get("G"), self.get("B"))
             self._data_ = {"R" : R, "G" : G, "B" : B}
+            if not self.ALPHA is None: self._data_["alpha"] = self.ALPHA
             self.__class__ = RGB
 
         # Transformation sRGB -> hex

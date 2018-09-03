@@ -5,3 +5,4 @@ include colorspace/palconfig/sequential_multi.conf
 include colorspace/palconfig/qualitative.conf
 include colorspace/palconfig/sequential_single.conf
 
+include data/colorful.jpeg

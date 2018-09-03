@@ -2,6 +2,5 @@ colorlib Examples
 =================
 
 
-.. cssclass:: cscode
 .. raw:: html
-    :file: ../pyexamples/colorlib.rst
+    :file: example_transform.html

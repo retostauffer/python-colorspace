@@ -1,6 +1,6 @@
 
-from .logger import logger
-log = logger(__name__)
+from cslogger import cslogger
+log = cslogger(__name__)
 
 # Tkinter was renamed to tkinter Py2->Py3,
 # make sure the correct module is loaded.

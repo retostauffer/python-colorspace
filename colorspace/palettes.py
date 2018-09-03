@@ -1,8 +1,8 @@
 
 import os
 import sys
-from .logger import logger
-log = logger(__name__)
+from cslogger import cslogger
+log = cslogger(__name__)
 
 
 # -------------------------------------------------------------------

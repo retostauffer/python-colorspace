@@ -1,4 +1,13 @@
 
+Image
+-----
+
+Source: [@mariogogh](https://unsplash.com/@mariogogh) at [unsplash.com](https://unsplash.com)
+Fotographer: Mario Gogh
+Title: Sol LeWitt: Wall Drawing
+URL: https://unsplash.com/photos/WdNWrhdfKis
+
+
 BUG in python-colorspace
 ------------------------
 [ ] Integer inputs yeild 0-colors in sRGB! Why?
@@ -18,17 +27,17 @@ BUG in R colorspace
 
 BUG in R colorspace
 -------------------
-[ ] Bug in interpolate_cvd_transform.
+[X] Bug in interpolate_cvd_transform.
     The second case statement should for sure be >= 11. Report
 
 ```
-if ( severity <= 0 ) {
-    cvd[[1]]
-} else if ( severity >= 1 ) {
-    cvd[[11]]
-} else {
-    ...
-}
+    if ( severity <= 0 ) {
+        cvd[[1]]
+    } else if ( severity >= 1 ) {
+        cvd[[11]]
+    } else {
+        ...
+    }
 ```
 
 logging
@@ -57,3 +66,7 @@ Setting parameters
 [ ] hclpalette.set(**kwargs) to set all allowed parameters
     and a functionality to allow to set h = [h1,h2] if
     possible. Use _checkinputs_.
+
+
+
+

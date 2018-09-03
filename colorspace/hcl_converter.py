@@ -1,0 +1,154 @@
+
+from .logger import logger
+log = logger(__name__)
+
+# Tkinter was renamed to tkinter Py2->Py3,
+# make sure the correct module is loaded.
+#import sys
+#if sys.version_info.major < 3:
+#    from Tkinter import *
+#else:
+#    from tkinter import *
+
+
+def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = None):
+    """Simulate color deficiencies on png/jpg/jpeg figures.
+    Takes an existing pixel image and simulates different color vision
+    deficiencies.
+
+    Parameters:
+        image (str): name of the figure which should be converted (png/jpg/jpeg).
+            If `image = "DEMO"` the package demo figure will be used.
+        cvd (str): the color vision deficiency. Allowed types are
+            deutanope, protanope, tritanope, and desaturated.
+        severity (float): how severe the color vision deficiency is ([0.,1.]).
+            Also used as the amount of desaturation if `cvd = "desaturate"`.
+        output (string): optional. It None an interactive plotting window will
+            be opened. If a string is given the figure will be written to
+            `output`.
+
+    Examples:
+        >>> from colorspace.hcl_converter import hcl_converter
+        >>> hcl_converter("DEMO", "deutan", 0.5)
+        >>> hcl_converter("DEMO", "desaturate", 1.0, "output.png")
+    """
+    import os
+    import inspect
+
+    # Conver to ..?
+    allowed = ["protan", "tritan", "deutan", "desaturate", "original"]
+    tmp     = []
+    if isinstance(cvd, str): cvd = [cvd]
+    for c in cvd:
+        if c in allowed:
+            tmp.append(c)
+        else:
+            raise ValueError("cvd type {:s} not allowed. ".format(cvd) + \
+                    "Use {:s}".format(", ".join(allowed)))
+    if len(cvd) == 0:
+        raise ValueError("no valid \"cvd\" methods")
+    cvd = tmp; del tmp
+
+    # If image = "DEMO": use package demo image.
+    if image == "DEMO":
+        resource_package = os.path.dirname(__file__)
+        log.debug("Package path is \"{0:s}\"".format(resource_package))
+        image = os.path.join(resource_package, "..", "data", "colorful.png")
+
+    # Check if file exists
+    if not os.path.isfile(image):
+        raise Exception("method {:s}".format(inspect.stack()[0][3]) + \
+                "cannot find image file {:s}".format(image))
+
+    # Wrong input for output
+    if not output is None and not isinstance(output, str):
+        raise ValueError("output has to be None or a string (file name)")
+
+    # Import imageio
+    try:
+        import imageio
+    except Exception as e:
+        raise Exception("the {:s} requires the ".format(inspect.stack()[0][3]) + \
+                "python module imageio to be installed: {:s}".format(e))
+
+    
+    # Read image data
+    try:
+        img = imageio.imread(image)
+    except Exception as e:
+        raise Exception(e)
+
+    # Extracting colors (scale from [0,255] to [0.,1.])
+    data = {}
+    if img.shape[2] == 3:
+        [data["R"], data["G"], data["B"]] = \
+                [img[:,:,i].flatten() / 255. for i in [0,1,2]]
+    elif img.shape[2] == 4:
+        [data["R"], data["G"], data["B"], data["alpha"]] = \
+                [img[:,:,i].flatten() / 255. for i in [0,1,2,3]]
+    
+    # Create sRGB with or without
+    from .colorlib import sRGB
+    if not "alpha" in data.keys():
+        rgba = sRGB(data["R"], data["G"], data["B"])
+    else:
+        rgba = sRGB(data["R"], data["G"], data["B"], data["alpha"])
+
+    # Apply color deficiency
+    import CVD
+    import matplotlib.pyplot as plt
+
+    from numpy import ceil
+    if len(cvd) <= 3: [nrow, ncol] = [1, len(cvd)]
+    else:             [nrow, ncol] = [ceil(len(cvd)/2.), 2]
+
+    # Start plotting
+    for c in range(0, len(cvd)):
+
+        # Start plotting
+        fig = plt.subplot(nrow, ncol, c + 1)
+
+        if cvd[c] == "original":
+            cols = rgba
+        else:
+            fun  = getattr(CVD, cvd[c])
+            cols = fun(rgba, severity)
+        
+        # Convert RGB [0.-1.] to [0,255], uint8
+        def fun(x, shape):
+            from numpy import fmin, fmax
+            x = fmax(0, fmin(255, x*255))
+            return x.reshape(shape)
+        
+        # Shape of the new figure
+        if "alpha" in data.keys():  shape = [img.shape[0],img.shape[1],4]
+        else:                       shape = [img.shape[0],img.shape[1],3]
+
+        # Create new image matrix and fill in the data
+        from numpy import ndarray, uint8
+        imnew = ndarray(shape, dtype = uint8)
+        imnew[:,:,0] = fun(cols.get("R"), shape[0:2])
+        imnew[:,:,1] = fun(cols.get("G"), shape[0:2])
+        imnew[:,:,2] = fun(cols.get("B"), shape[0:2])
+        if "alpha" in data.keys():
+            imnew[:,:,3] = fun(data["alpha"], shape[0:2])
+        
+        import matplotlib.pyplot as plt
+        plt.imshow(imnew)
+        plt.axis("off")
+
+    # Adjusting outer margins
+    plt.subplots_adjust(left = 0., right = 1., top = 1., bottom = 0.1)
+
+    # Show or save image.
+    if output is None:
+        plt.show()
+    else:
+        imageio.imwrite(output, imnew)
+
+
+
+
+
+
+

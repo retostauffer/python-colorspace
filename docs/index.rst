@@ -6,48 +6,51 @@
 .. toctree::
     :maxdepth: 1
     :hidden:
-    :caption: Modules
+    :caption: Getting started
 
-    modules/colorlib.rst
-    modules/palettes.rst
-    modules/gui.rst
+    installation.rst
+    gettingstarted.rst
+    logenvir.rst
+    releasenotes.rst
 
 .. toctree::
     :maxdepth: 1
     :hidden:
-    :caption: Examples
 
-    examples/colorlib.rst
-    examples/transform.rst
     examples/hcl_palettes.rst
+    examples/transform.rst
+    examples/colorlib.rst
+    examples/hcl_converter.rst
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+    :caption: References
+
+    userapi.rst
+    modules/gui.rst
+    modules/palettes.rst
+
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+    :caption: Objects
+
+    modules/colorlib.rst
+
+
 
 Welcome to python-colorspace's documentation!
 =============================================
 
 Hy :)
 
-.. Contents:
-   .. toctree::
-       :maxdepth: 2
-   .. Indices and tables
-   ==================
-   
-   * :ref:`genindex`
-   * :ref:`modindex`
-   * :ref:`search`
-
-Logging
-=======
-
-The `python-colorspace` package uses `logging`, default log level is `WARNING`.
-The logging level can be controlled by setting an environment variable called
-`CSLOGLEVEL` (e.g, on unix systems `export CSLOGLEVEL=DEBUG`).
-
 Basic Objects
 =============
 
 There to types of objects: :class:`hclpalette`'s and :class:`colorobject`'s.
-:class:`hclpalettes` contain a set of parameters which specify the color palette
+:py:class:`hclpalettes` contain a set of parameters which specify the color palette
 and can be used to retrieve a set of `N` colors which can be defined by the user.
 A :class:`colorobject` contains a set of `N` colors, but `N` is fixed (depending
 on how the object has been created). :class:`colorobject`'s provide the methods

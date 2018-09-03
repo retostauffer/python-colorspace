@@ -2,8 +2,8 @@
 import os
 import sys
 
-from .logger import logger
-log = logger(__name__)
+from cslogger import cslogger
+log = cslogger(__name__)
 
 
 def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):

@@ -87,7 +87,7 @@ class CVD(object):
             self._hexinput_ = True
         else:
             self._hexinput_ = False
-            from .colorlib import hexcols
+            from .colorlib import colorobject
             if not isinstance(cols, colorobject):
                 raise ValueError("input cols to {:s} has to be ".format(self.__class__.__name__) + \
                         "a colorobject (e.g., HCL, RGB, CIEXYZ)")
@@ -240,6 +240,7 @@ def desaturate(col, amount = 1.):
     """
 
 
+    from .colorlib import colorobject
     if not isinstance(col, colorobject):
         import inspect
         raise ValueError("input to function {:s} ".format(inspect.stack()[0][3]) + \
@@ -267,7 +268,7 @@ def desaturate(col, amount = 1.):
     col.to("HCL")
     
     # Desaturation
-    col.set("C", (1. - amount) * col.get("C"))
+    col.set(C = (1. - amount) * col.get("C"))
 
     from numpy import where, logical_or
     idx = where(logical_or(col.get("L") <= 0, col.get("L") >= 100))[0]
@@ -277,7 +278,7 @@ def desaturate(col, amount = 1.):
         col.set(C = C, H = H)
 
     col.to(original_class)
-    if self._hexinput_: col = col.colors()
+    if original_class == "hex": col = col.colors()
 
     # Return color object
     return col
