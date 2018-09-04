@@ -700,16 +700,16 @@ class hclpalette(object):
         # For sequential hcl palettes
         if isinstance(self, sequential_hcl):
             n = tovalue(n, int, cls)
-            h = tolist(h, int, 2, cls)
-            c = tolist(c, int, 2, cls)
-            l = tolist(l, int, 2, cls)
-            p = tolist(p, float, 2, cls)
+            h = tolist(h,  int, 2, cls)
+            c = tolist(c,  int, 2, cls)
+            l = tolist(l,  int, 2, cls)
+            p = tolist(p,  float, 2, cls)
         # For sequential hcl palettes
         elif isinstance(self, diverge_hcl):
             n = tovalue(n, int, cls)
-            h = tolist(h, int, 2, cls)
+            h = tolist(h,  int, 2, cls)
             c = tovalue(c, int, cls)
-            l = tolist(l, int, 2, cls)
+            l = tolist(l,  int, 2, cls)
             p = tovalue(p, float, cls)
 
         # If "n" is set to small: exit
@@ -780,7 +780,7 @@ class qualitative_hcl(hclpalette):
 
     Examples
     --------
-    >>> from colorspace.palettes import diverge_hcl
+    >>> from colorspace import diverge_hcl
     >>> a = qualitative_hcl()
     >>> a.colors(10)
     >>> b = qualitative_hcl("Dynamic")
@@ -933,7 +933,7 @@ class rainbow_hcl(qualitative_hcl):
 
     Example
     -------
-    >>> from colorspace.palettes import rainbow_hcl
+    >>> from colorspace import rainbow_hcl
     >>> pal = rainbow_hcl()
     >>> pal.colors(3); pal.colors(20)
     >>> # The standard call of the object also returns hex colors. Thus,
@@ -1036,7 +1036,7 @@ class diverge_hcl(hclpalette):
 
     Examples
     --------
-    >>> from colorspace.palettes import diverge_hcl
+    >>> from colorspace import diverge_hcl
     >>> a = diverge_hcl()
     >>> a.colors(10)
     >>> b = diverge_hcl("Blue-Yellow 3")
@@ -1144,7 +1144,7 @@ class diverge_hcl(hclpalette):
         from . import colorlib
 
         # Calculate H/C/L
-        p2   = self.get("p1") if not self.get("p2") else self.get("p2")
+        p2   = self.get("p1") if self.get("p2") is None else self.get("p2")
         rval = linspace(1., -1., n)
 
         L = self.get("l2") - (self.get("l2") - self.get("l1")) * power(abs(rval), p2)
@@ -1217,7 +1217,7 @@ class sequential_hcl(hclpalette):
 
     Examples
     --------
-    >>> from colorspace.palettes import sequential_hcl
+    >>> from colorspace import sequential_hcl
     >>> a = sequential_hcl()
     >>> a.colors(10)
     >>> b = sequential_hcl("Reds")
@@ -1330,13 +1330,13 @@ class sequential_hcl(hclpalette):
         # Calculate H/C/L
         rval = linspace(1., 0., n)
         p1   = self.get("p1")
-        p2   = p1 if not self.get("p2") else self.get("p2")
+        p2   = p1 if self.get("p2") is None else self.get("p2")
         c1   = self.get("c1")
-        c2   = c1 if not self.get("c2") else self.get("c2")
+        c2   = c1 if self.get("c2") is None else self.get("c2")
         l1   = self.get("l1")
-        l2   = l1 if not self.get("l2") else self.get("l2")
+        l2   = l1 if self.get("l2") is None else self.get("l2")
         h1   = self.get("h1")
-        h2   = h1 if not self.get("h2") else self.get("h2")
+        h2   = h1 if self.get("h2") is None else self.get("h2")
 
         L = l2 - (l2 - l1) * power(rval, p2)
         C = c2 - (c2 - c1) * power(rval, p1)
@@ -1348,6 +1348,304 @@ class sequential_hcl(hclpalette):
 
         # Return hex colors
         return HCL.colors(fixup = fixup)
+
+
+# -------------------------------------------------------------------
+# The rainbow class extends the qualitative_hcl class.
+# -------------------------------------------------------------------
+class heat_hcl(sequential_hcl):
+    """heat_hcl(h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.], \
+               fixup = True, alpha = 1, *args, **kwargs):
+
+    HEAT hcl, a sequential palette.
+
+    Parameters
+    ----------
+    h : list of int
+        hue parameters (h1/h2).
+    c : list of int
+        chroma parameters (c1/c2).
+    l : int
+        luminance parameters (l1/l2).
+    power : list of float
+        power parameters (p1/p2).
+    gamma : float
+        gamma value used for transfiromation from/to sRGB.
+        @TODO implemented? Check!
+    fixup : bool 
+        only used when converting the HCL colors to hex.  Should RGB values
+        outside the defined RGB color space be corrected?
+    alpha : ...
+        currently not implemented.
+        @TODO Implement.
+    args : ...
+        unused.
+    kwargs : ...
+        Additional arguments to overwrite the h/c/l settings.
+        @TODO has to be documented.
+
+    Returns
+    -------
+    Initialize new object, no return. Raises a set of errors if the parameters
+    are misspecified. Note that the object is callable, the default object call
+    can be used to return hex colors (identical to the ``.colors()`` method),
+    see examples.
+
+    Example
+    -------
+    >>> from colorspace.palettes import heat_hcl
+    >>> pal = heat_hcl()
+    >>> pal.colors(3); pal.colors(20)
+
+    .. todo::
+        Alpha handling?
+    """
+
+
+    _allowed_parameters_ = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
+
+    def __init__(self, h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.],
+                 fixup = True, alpha = 1, *args, **kwargs):
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            h     = self._checkinput_(int,   2, False, False, h = h)
+            c     = self._checkinput_(int,   2, False, False, c = c)
+            l     = self._checkinput_(int,   2, False, False, l = l)
+            power = self._checkinput_(float, 2, False, False, power = power)
+        except Exception as e:
+            raise ValueError(e)
+
+        # Save settins
+        try:
+            self.settings = {"h1": int(h[0]), "h2": int(h[1]),
+                             "c1": int(c[0]), "c2": int(c[1]),
+                             "l1": int(l[0]), "l2": int(l[1]),
+                             "p1": power[0],  "p2": power[1],
+                             "fixup": bool(fixup), "alpha": float(alpha)}
+        except ValueError as e:
+            raise ValueError("wrong inputs to {:s}: {:s}".format(
+                self.__class__.__name__, e))
+        except Exception as e:
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+
+        # If keyword arguments are set:
+        # overwrite the settings if possible.
+        if kwargs:
+            for key,val in kwargs.items():
+                if key in self._allowed_parameters_:
+                    settings[key] = val
+
+
+# -------------------------------------------------------------------
+# The rainbow class extends the qualitative_hcl class.
+# -------------------------------------------------------------------
+class terrain_hcl(sequential_hcl):
+    """terrain_hcl(h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.], \
+               fixup = True, alpha = 1, *args, **kwargs):
+
+    HCL terrain colors, a sequential palette.
+
+    Parameters
+    ----------
+    h : list of int
+        hue parameters (h1/h2).
+    c : list of int
+        chroma parameters (c1/c2).
+    l : int
+        luminance parameters (l1/l2).
+    power : list of float
+        power parameters (p1/p2).
+    gamma : float
+        gamma value used for transfiromation from/to sRGB.
+        @TODO implemented? Check!
+    fixup : bool 
+        only used when converting the HCL colors to hex.  Should RGB values
+        outside the defined RGB color space be corrected?
+    alpha : ...
+        currently not implemented.
+        @TODO Implement.
+    args : ...
+        unused.
+    kwargs : ...
+        Additional arguments to overwrite the h/c/l settings.
+        @TODO has to be documented.
+
+    Returns
+    -------
+    Initialize new object, no return. Raises a set of errors if the parameters
+    are misspecified. Note that the object is callable, the default object call
+    can be used to return hex colors (identical to the ``.colors()`` method),
+    see examples.
+
+    Example
+    -------
+    >>> from colorspace import terrain_hcl
+    >>> pal = terrain_hcl()
+    >>> pal.colors(3); pal.colors(20)
+
+    .. todo::
+        Alpha handling?
+    """
+
+    _allowed_parameters_ = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
+
+    def __init__(self, h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.],
+                 fixup = True, alpha = 1, *args, **kwargs):
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            h     = self._checkinput_(int,   2, False, False, h = h)
+            c     = self._checkinput_(int,   2, False, False, c = c)
+            l     = self._checkinput_(int,   2, False, False, l = l)
+            power = self._checkinput_(float, 2, False, False, power = power)
+        except Exception as e:
+            raise ValueError(e)
+
+        # Save settins
+        try:
+            self.settings = {"h1": int(h[0]), "h2": int(h[1]),
+                             "c1": int(c[0]), "c2": int(c[1]),
+                             "l1": int(l[0]), "l2": int(l[1]),
+                             "p1": power[0],  "p2": power[1],
+                             "fixup": bool(fixup), "alpha": float(alpha)}
+        except ValueError as e:
+            raise ValueError("wrong inputs to {:s}: {:s}".format(
+                self.__class__.__name__, e))
+        except Exception as e:
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+
+        # If keyword arguments are set:
+        # overwrite the settings if possible.
+        if kwargs:
+            for key,val in kwargs.items():
+                if key in self._allowed_parameters_:
+                    settings[key] = val
+
+
+class diverge_hsv(hclpalette):
+    """diverge_hsv(h = [260, 0], s = 1., v = 1., power = 1., \
+        fixup = True, alpha = 1)
+
+    Diverging HSV color palette.
+
+    Parameters
+    ----------
+    h : numeric list
+        hue values, diverging color palettes should have different hues for
+        both ends of the palette. If only one value is present it will be
+        recycled ending up in a diverging color palette with the same colors on
+        both ends.  If more than two values are provided the first two will be
+        used while the rest is ignored.  If input ``h`` is a string this
+        argument acts like the ``palette`` argument (see ``palette`` input
+        parameter).
+    s : float
+        saturation value for the two ends of the palette.
+    v : float
+        value (the HSV value) of the two ends of the palette.
+    power : numeric
+        power parameter for non-linear behaviour of the color palette.
+    fixup : bool
+        only used when converting the HCL colors to hex.  Should RGB values
+        outside the defined RGB color space be corrected?
+    alpha : numeric
+        Not yet implemented.
+    args : ...
+        unused.
+    kwargs : ...
+        Additional arguments to overwrite the h/c/l settings.
+        @TODO has to be documented.
+
+    Returns
+    -------
+    Initialize new object, no return. Raises a set of errors if the parameters
+    are misspecified. Note that the object is callable, the default object call
+    can be used to return hex colors (identical to the ``.colors()`` method),
+    see examples.
+
+    Examples
+    --------
+    >>> from colorspace import diverge_hsv
+    >>> a = diverge_hsv()
+    >>> a.colors(10)
+
+    .. todo::
+        Try to make the code nicer (the part loading/overwriting settings).
+        Looks messy and is extremely hard to debug. Rev implemented?
+    """
+
+    _allowed_parameters_ = ["h1", "h2", "s", "v"]
+
+    def __init__(self, h = [240, 0], s = 1., v = 1., power = 1.,
+        fixup = True, alpha = 1., *args, **kwargs):
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            h     = self._checkinput_(int,   2, True,  False, h = h)
+            s     = self._checkinput_(float, 1, False, False, s = s)
+            v     = self._checkinput_(float, 1, False, False, v = v)
+            power = self._checkinput_(float, 1, True,  False, power = power)
+        except Exception as e:
+            raise ValueError(e)
+
+        # Save settins
+        try:
+            self.settings = {"h1": int(h[0]), "h2": int(h[1]),
+                             "s":  s,  "v": v,  "power": power,
+                             "fixup": bool(fixup), "alpha": float(alpha)}
+        except ValueError as e:
+            raise ValueError("wrong inputs to {:s}: {:s}".format(
+                self.__class__.__name__, e))
+        except Exception as e:
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+
+        # If keyword arguments are set:
+        # overwrite the settings if possible.
+        if kwargs:
+            for key,val in kwargs.items():
+                if key in self._allowed_parameters_:
+                    settings[key] = val
+
+
+
+    # Return hex colors
+    def colors(self, n = 11, fixup = True):
+        """colors(n = 11, type_ = "hex", fixup = None)
+
+        Returns the colors of the current color palette.
+
+        Parameters
+        ----------
+        n : int
+            number of colors which should be returned.
+        fixup : None, bool
+            should sRGB colors be corrected if they lie outside
+            the defined color space?
+            If ``None`` the ``fixup`` parameter from the object
+            will be used. Can be set to ``True`` or ``False``
+            to explicitly control the fixup here.
+        """
+
+        from numpy import linspace, power, abs, repeat
+        from numpy import ndarray, ndenumerate
+
+        # Calculate palette
+        rval = linspace(-self.get("s"), self.get("s"), n)
+        H = ndarray(n, dtype = "float")
+        for i,val in ndenumerate(rval):
+            H[i] = self.get("h1") if val > 0 else self.get("h2")
+        S = power(abs(rval), self.get("power"))
+        V = repeat(self.get("v"), n)
+
+        from .colorlib import HSV
+        HSV = HSV(H, S, V)
+
+        # Return hex colors
+        return HSV.colors(fixup = fixup)
+
 
 
 

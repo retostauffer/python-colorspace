@@ -4,9 +4,16 @@ from cslogger import cslogger
 log = cslogger(__name__)
 
 
-def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None, *args):
-    """TODO: write docstring.
+def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None):
+    """hcl_palettes(n = 7, type_ = None, names = None, plot = False, custom = None)
+    
+    Gives access to the default color palettes of the colorspace package.
 
+    The method can be used to display the default color palettes or subsets or
+    to get a :py:class:`palettes.hclpalettes` object. 
+    The inputs ``type_`` and ``name`` can be used to retrieve a custom subset,
+    ``custom`` can be used to add custom :py:class:`palettes.defaultpalette`
+    objects if needed.
 
     Parameters
     ----------
@@ -28,6 +35,8 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None, 
         Note that matplotlib has to be installed if plot is set to True.
     custom : :py:class:`palettes.defaultpalette`
         one or multiple defaultpalettes can be provided in addition.
+    args : ...
+        currently unused.
 
     Examples
     --------
@@ -58,7 +67,7 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None, 
     
     # Loading pre-defined palettes from within the package
     from . import hclpalettes
-    pals      = hclpalettes()                    # Loading palettes
+    pals = hclpalettes()                    # Loading palettes
 
     # If custom palettes have been added: add them as well (if
     # the types are correct, of course).

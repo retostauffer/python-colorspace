@@ -1,11 +1,14 @@
 
-Image
------
+To be implemented
+-----------------
 
-Source: [@mariogogh](https://unsplash.com/@mariogogh) at [unsplash.com](https://unsplash.com)
-Fotographer: Mario Gogh
-Title: Sol LeWitt: Wall Drawing
-URL: https://unsplash.com/photos/WdNWrhdfKis
+Based on colorspace Namespace
+
+* export(lighten)
+* export(darken)
+* export(max_chroma)
+* export(carto_hcl)
+* export(mixcolor)
 
 
 BUG in python-colorspace
@@ -66,7 +69,5 @@ Setting parameters
 [ ] hclpalette.set(**kwargs) to set all allowed parameters
     and a functionality to allow to set h = [h1,h2] if
     possible. Use _checkinputs_.
-
-
 
 
