@@ -7,28 +7,34 @@ log = cslogger(__name__)
 
 
 def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
-    """Visualization of the RGB and HCL spectrum given a set of
-    hex colors.
+    """specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs)
+    
+    Visualization of the RGB and HCL spectrum given a set of hex colors.
 
-    Parameters:
-        hex_ (:class:`list` or :class`numpy.ndarray`): containing the
-            color hex codes.
-        rgb (:class:`bool`): whether or not to plot the RGB color spectrum.
-            Default is `True`.
-        hcl (:class:`bool`): whether or not to plot the HCL color spectrum.
-            Default is `True`.
-        palette (:class:`bool`): whether or not to plot the colors as a 
-            color map. Default is `True`.
+    Parameters
+    ----------
+    hex_ : list or numpy.ndarray
+        hex color codes.
+    rgb : bool
+        whether or not to plot the RGB color spectrum.
+    hcl : bool
+        whether or not to plot the HCL color spectrum.
+    palette : bool
+        whether or not to plot the colors as a color map.
+    kwargs : ...
+        Currently not used.
 
-    Returns:
-        No return, creates an interactive figure.
+    Returns
+    -------
+    No return, creates an interactive figure.
 
-    Example:
-        >>> from colorspace.palettes import rainbow_hcl
-        >>> from colorspace import specplot
-        >>> pal = rainbow_hcl(100)
-        >>> specplot(pal.colors())
-        >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False)
+    Example
+    -------
+    >>> from colorspace import rainbow_hcl
+    >>> from colorspace import specplot
+    >>> pal = rainbow_hcl(100)
+    >>> specplot(pal.colors())
+    >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False)
 
     .. todo::
         Implement the smoothings to improve the look of the plots.

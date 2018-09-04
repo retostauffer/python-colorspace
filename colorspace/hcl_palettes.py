@@ -8,53 +8,53 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None, 
     """TODO: write docstring.
 
 
-    Parameters:
-        n (int): number of colors to be plotted, default is 7. Only used
+    Parameters
+    ----------
+    n : int
+        number of colors to be plotted, default is 7. Only used
             if plot = True.
-        type_: None (default), a string, or a list of strings. Can be used
-            to display only a subset of the palettes. If not set all default
-            palettes will be returned/plotted. Can be used in combination with
-            input argument name.
-        name: Similar to type_. If not specified all palettes will be returned.
-            Can be set to a string or a list of strings containing the names
-            of the palettes which should be returned/plotted.
-        plot (bool): if False (default) a hclpalettes object will be returned
-            containing the (subset) of default color palettes.
-            Note that matplotlib has to be installed if plot is set to True.
-        custom: one or multiple defaultpalettes can be provided in addition.
+    type_ : None, str, list of str
+        given a string or a list of strings only a subset of all available
+        default color maps will be displayed. If not set, all default
+        palettes will be returned/plotted. Can be used in combination with
+        input argument ``name``.
+    name : None, str, list of str
+        similar to ``type_``. If not specified all palettes will be returned.
+        Can be set to a string or a list of strings containing the names
+        of the palettes which should be returned/plotted.
+    plot : bool
+        if ``False`` (default) a hclpalettes object will be returned
+        containing the (subset) of default color palettes.
+        Note that matplotlib has to be installed if plot is set to True.
+    custom : :py:class:`palettes.defaultpalette`
+        one or multiple defaultpalettes can be provided in addition.
 
-    Examples:
-
-        >>> # Basic usage
-        >>> from colorspace.hcl_palettes import hcl_palettes
-
-        >>> print hcl_palettes()
-        >>> print hcl_palettes(type_ = "Diverging")
-        >>> print hcl_palettes(name = ["Oranges", "Tropic"]) 
-
-        >>> print hcl_palettes(type_ = "Diverging", plot = True)
-        >>> print hcl_palettes(name = ["Oranges", "Tropic"], plot = True) 
-        >>> 
-        >>> # Loading all available palettes (just to make custom palettes)
-        >>> from colorspace.palettes import hclpalettes
-        >>> pal = hclpalettes()
-        >>> c1 = pal.get_palette("Oranges")
-        >>> c2 = pal.get_palette("Greens")
-        >>> 
-        >>> # Modify the custom palettes
-        >>> c1.set(h1 = 99, l2 = 30, l1 = 30)
-        >>> c1.rename("Retos custom 1")
-        >>> c2.set(h1 = -30, l1 = 40, l2 = 30, c1 = 30, c2 = 40)
-        >>> c2.rename("Retos custom 1")
-
-        >>> hcl_palettes(type_ = "Custom", custom = [c1, c2], plot = True)
-
-
-    .. todo::
-        Allow to forward **kwargs files with custom pre-defined
-        palettes if this feature is getting a public thing.
+    Examples
+    --------
+    >>> # Basic usage
+    >>> from colorspace.hcl_palettes import hcl_palettes
+    >>>
+    >>> print hcl_palettes()
+    >>> print hcl_palettes(type_ = "Diverging")
+    >>> print hcl_palettes(name = ["Oranges", "Tropic"]) 
+    >>>
+    >>> print hcl_palettes(type_ = "Diverging", plot = True)
+    >>> print hcl_palettes(name = ["Oranges", "Tropic"], plot = True) 
+    >>> 
+    >>> # Loading all available palettes (just to make custom palettes)
+    >>> from colorspace.palettes import hclpalettes
+    >>> pal = hclpalettes()
+    >>> c1 = pal.get_palette("Oranges")
+    >>> c2 = pal.get_palette("Greens")
+    >>> 
+    >>> # Modify the custom palettes
+    >>> c1.set(h1 = 99, l2 = 30, l1 = 30)
+    >>> c1.rename("Retos custom 1")
+    >>> c2.set(h1 = -30, l1 = 40, l2 = 30, c1 = 30, c2 = 40)
+    >>> c2.rename("Retos custom 1")
+    >>>
+    >>> hcl_palettes(type_ = "Custom", custom = [c1, c2], plot = True)
     """
-
     
     # Loading pre-defined palettes from within the package
     from . import hclpalettes
@@ -224,6 +224,4 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None, 
 
 
     
-
-
 

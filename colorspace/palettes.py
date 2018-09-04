@@ -300,8 +300,8 @@ class hclpalettes(object):
                     nchar += len(pal.name()) + 2
             res.append(tmp)
 
-        return "\n".join(res)
 
+        return "\n".join(res)
 
     def get_palette_types(self):
         """get_palette_types()
@@ -472,6 +472,16 @@ class hclpalette(object):
     p1    = None
     p2    = None
     fixup = True
+
+    # Default call: return n hex colors
+    def __call__(self, n):
+        """__call__(n)
+
+        Default object call: return a set of n
+        hex colors.
+        """
+        return self.colors(n)
+
 
     def get(self, key):
         """get(key)
@@ -763,8 +773,10 @@ class qualitative_hcl(hclpalette):
 
     Returns
     -------
-    No return. Raises a ValueError if a palette specified by input argument
-    ``palette`` does not exist.
+    Initialize new object, no return. Raises a set of errors if the parameters
+    are misspecified. Note that the object is callable, the default object call
+    can be used to return hex colors (identical to the ``.colors()`` method),
+    see examples.
 
     Examples
     --------
@@ -773,6 +785,9 @@ class qualitative_hcl(hclpalette):
     >>> a.colors(10)
     >>> b = qualitative_hcl("Dynamic")
     >>> b.colors(10)
+    >>> # The standard call of the object also returns hex colors. Thus,
+    >>> # you can make your code slimmer by calling:
+    >>> qualitative_hcl("Dynamic")(10)
 
     .. todo::
         Try to make the code nicer (the part loading/overwriting settings).
@@ -909,11 +924,21 @@ class rainbow_hcl(qualitative_hcl):
         currently not implemented.
         @TODO Implement.
 
+    Returns
+    -------
+    Initialize new object, no return. Raises a set of errors if the parameters
+    are misspecified. Note that the object is callable, the default object call
+    can be used to return hex colors (identical to the ``.colors()`` method),
+    see examples.
+
     Example
     -------
     >>> from colorspace.palettes import rainbow_hcl
     >>> pal = rainbow_hcl()
     >>> pal.colors(3); pal.colors(20)
+    >>> # The standard call of the object also returns hex colors. Thus,
+    >>> # you can make your code slimmer by calling:
+    >>> rainbow_hcl("Dynamic")(10)
 
     .. todo::
         Implement functionality for alpha, either here or
@@ -1004,8 +1029,10 @@ class diverge_hcl(hclpalette):
 
     Returns
     -------
-    No return. Raises a ValueError if a palette specified by input argument
-    ``palette`` does not exist.
+    Initialize new object, no return. Raises a set of errors if the parameters
+    are misspecified. Note that the object is callable, the default object call
+    can be used to return hex colors (identical to the ``.colors()`` method),
+    see examples.
 
     Examples
     --------
@@ -1014,6 +1041,9 @@ class diverge_hcl(hclpalette):
     >>> a.colors(10)
     >>> b = diverge_hcl("Blue-Yellow 3")
     >>> b.colors(10)
+    >>> # The standard call of the object also returns hex colors. Thus,
+    >>> # you can make your code slimmer by calling:
+    >>> diverge_hcl("Dynamic")(10)
 
     .. todo::
         Try to make the code nicer (the part loading/overwriting settings).
@@ -1180,8 +1210,10 @@ class sequential_hcl(hclpalette):
 
     Returns
     -------
-    No return. Raises a ValueError if a palette specified by input argument
-    `palette` does not exist.
+    Initialize new object, no return. Raises a set of errors if the parameters
+    are misspecified. Note that the object is callable, the default object call
+    can be used to return hex colors (identical to the ``.colors()`` method),
+    see examples.
 
     Examples
     --------
@@ -1190,6 +1222,9 @@ class sequential_hcl(hclpalette):
     >>> a.colors(10)
     >>> b = sequential_hcl("Reds")
     >>> b.colors(10)
+    >>> # The standard call of the object also returns hex colors. Thus,
+    >>> # you can make your code slimmer by calling:
+    >>> sequential_hcl("Dynamic")(10)
 
     .. todo::
         Try to make the code nicer (the part loading/overwriting settings).
