@@ -52,6 +52,7 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 html:
+	make clean
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
@@ -200,6 +201,7 @@ examples:
 	#(cd ../ && sudo python setup.py install)
 	export CSLOGLEVEL=ERROR
 	for file in `ls examples/example_*.Rmd` ; do \
+		printf "\n\n\n============================================\n" \
         printf "[pyRmd] Processing %s\n" $$file ; \
 		file=`basename $$file` ; \
 		name=`echo $$file | sed "s/\.Rmd//g"` ; \
@@ -214,6 +216,18 @@ examples:
 	make html
 	chromium-browser _build/html/index.html
 
+
+%:
+	@:
+
+args=`arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
+
+.PHONY: example
+example:
+	(cd examples && \
+		Rscript -e "rmarkdown::render('example_$$x.Rmd')" && \
+		python prepare_html_output.py example_$$x.html)
+	make html
 
 
 

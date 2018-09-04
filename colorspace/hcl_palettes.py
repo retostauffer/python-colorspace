@@ -190,9 +190,6 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None, 
     ydelta = 1. / float(npals + 1.4 * float(len(pals.get_palette_types())))
     ypos   = 1. + ydelta / 2. # Initial value, starting top down
 
-    print ypos
-    print ydelta
-
     # Adjusting outer margins
     fig.subplots_adjust(left = 0., bottom = 0., right  = 1.,
                         top  = 1., wspace = 0., hspace = 0.)

@@ -267,6 +267,26 @@ class sliderObject(object):
 
 
 class choose_palette(object):
+    """choose_palette(**kwargs)
+
+    Graphical user interface to choose custom HCL-basec color palettes.
+
+    Parameters
+    ----------
+    kwargs
+        Optional, can be used to change the defaults when starting the
+        GUI. Currently a parameter called ``palette`` is allowed to
+        specify the initial color palette. If not set, ``palette = "Blue-Red"``
+        is used.
+
+    Example
+    -------
+    >>> colorspace.choose_palette()
+
+    .. todo::
+        Not yet well implemented. Currently no return, which makes
+        the GUI useless. Under development ...
+    """
 
     FRAMEHEIGHT = 100
     FRAMEWIDTH  = 280

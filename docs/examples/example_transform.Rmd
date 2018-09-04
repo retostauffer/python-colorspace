@@ -5,6 +5,8 @@ output:
       mathjax: NULL
 ---
 
+Create a new ``HCL`` color object with a set of
+(manually specified) colors:
 
 ```{r, engine = "python", fig.width = 6, fig.height = 0.5}
 from colorspace.colorlib import HCL
@@ -16,9 +18,10 @@ from colorspace.colorlib import HCL
 cols = HCL(H = [160, 210, 260, 310, 360],
            C = [ 70,  40,  10,  40,  70],
            L = [ 50,  70,  90,  70,  50])
-
 cols.specplot(rgb = False, hcl = False)
+```
 
+```{r, engine = "python", fig.width = 6, fig.height = 0.5}
 # Show current values, as "c" is a HCL object the method
 # prints the H, C, L color coordinates.
 print cols
@@ -40,7 +43,7 @@ cols.to("HCL");       print cols
 cols.specplot(rgb = False, hcl = False)
 ```
 
-As you can see the final object `cols` is, again, the one we have
+As you can see the final object ``cols`` is, again, the one we have
 specified at the beginning of the example - or at least mainly the
 same. The small differences between the initial values and the
 Hue-Chroma-Luminance values in our final object result from the
@@ -48,3 +51,8 @@ hex-transformation (to and from hex colors). Furthermore, for some
 colors having low chroma and high luminance the identification of
 the exact hue is not always unambiguous which can also yield
 differences when transforming the colors back and forth.
+
+
+
+
+

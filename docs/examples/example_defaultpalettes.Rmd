@@ -1,0 +1,12 @@
+---
+## Run with  Rscript -e "rmarkdown::render('file.Rmd')"
+output:
+  html_document:
+      mathjax: NULL
+---
+
+
+```{python, fig = TRUE, echo = FALSE, fig.height = 9}
+from colorspace.hcl_palettes import hcl_palettes
+hcl_palettes(plot = True)
+```

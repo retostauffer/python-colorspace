@@ -1,39 +1,55 @@
 
-from .logger import logger
-log = logger(__name__)
-
+from cslogger import cslogger
+log = cslogger(__name__)
 
 def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0,
         output = None, dropalpha = False):
-    """Simulate color deficiencies on png/jpg/jpeg figures.
+    """hcl_converter(image = "DEMO", cvd = "desaturate", \
+            severity = 1.0, output = None, dropalpha = False)
+
+    Simulate color deficiencies on png/jpg/jpeg figures.
     Takes an existing pixel image and simulates different color vision
     deficiencies.
 
     The function displays a matplotlib figure if output is set to None.
     If the parameter output is set, the converted figure will be stored.
-    If only one color vision deficiency is defined (e.g., `cvd = "desaturate"`)
+    If only one color vision deficiency is defined (e.g., ``cvd = "desaturate"``)
     a figure of the same type and size as the input figure will be saved to
     the disc. If multiple cvd's are specified a multi-panel plot will be
     stored under `output`.
 
-    Parameters:
-        image (str): name of the figure which should be converted (png/jpg/jpeg).
-            If `image = "DEMO"` the package demo figure will be used.
-        cvd (str): the color vision deficiency. Allowed types are
-            deutanope, protanope, tritanope, and desaturated.
-        severity (float): how severe the color vision deficiency is ([0.,1.]).
-            Also used as the amount of desaturation if `cvd = "desaturate"`.
-        output (string): optional. It None an interactive plotting window will
-            be opened. If a string is given the figure will be written to
-            `output`.
-        dropalpha (bool): whether or not to drop the alpha channel.
-            Only useful for figures having an alpha channel (png w/ alpha).
+    Parameters
+    ----------
+    image : str
+        name of the figure which should be converted (png/jpg/jpeg).
+        If ``image = "DEMO"`` the package demo figure will be used.
+    cvd : str, list
+        the color vision deficiency. Allowed types are
+        deutanope, protanope, tritanope, and desaturated.
+        Input is either a single string or a list of strings which
+        define the cvd's which should be simulated.
+    severity : float
+        how severe the color vision deficiency is (``[0.,1.]``).
+        Also used as the amount of desaturation if ``cvd = "desaturate"``.
+    output : string
+        optional. It None an interactive plotting window will
+        be opened. If a string is given the figure will be written to
+        ``output``.
+    dropalpha : bool
+        whether or not to drop the alpha channel.
+        Only useful for figures having an alpha channel (png w/ alpha).
 
-    Examples:
-        >>> from colorspace.hcl_converter import hcl_converter
-        >>> hcl_converter("DEMO", "deutan", 0.5)
-        >>> hcl_converter("DEMO", "desaturate", 1.0, "output.png")
+    Examples
+    --------
+    >>> from colorspace.hcl_converter import hcl_converter
+    >>> hcl_converter("DEMO", "deutan", 0.5)
+    >>> hcl_converter("DEMO", "desaturate", 1.0, "output.png")
+    >>> hcl_converter("DEMO", ["original", "deutan", "protan"], 0.5, dropalpha = True)
+
+    .. note::
+        Requires the modules ``matplotlib`` and ``imageio``.
     """
+
     import os
     import inspect
 
@@ -160,11 +176,6 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0,
         # Save matplotlib panel plot
         else:
             plt.savefig(output)
-
-
-
-
-
 
 
 

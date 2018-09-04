@@ -1,0 +1,42 @@
+---
+## Run with  Rscript -e "rmarkdown::render('file.Rmd')"
+output:
+  html_document:
+      mathjax: NULL
+---
+
+Color Palettes
+--------------
+
+In the R `colorspace <https://cran.r-project.org/package=colorspace>`_ package
+the palettes are functions returning a set of hex colors as a character list,
+the default method how colors are used in R.
+
+The python colorspace package does it slightly different. Palettes are objects
+rather than functions which allow to retrieve lists of hex colors using the
+``colors()`` method but also provide additiona methods which allow to use the
+palettes for plotting in python.
+
+### In R
+
+```{r, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+# Loading the library
+library("colorspace")
+# Loading a set of 11 colors
+colors <- diverge_hcl(11)
+# Plotting a simple color map
+par(mar = rep(0,4))
+image(matrix(1:11, ncol = 1), col = colors)
+```
+
+### In python
+
+```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+# Loading the module
+from colorspace import diverge_hcl, specplot
+pal = diverge_hcl()       # Initialize object
+colors = pal.colors(11)   # Retrieve colors
+# Plotting a simple color map
+specplot(colors, rgb = False, hcl = False)
+```
+

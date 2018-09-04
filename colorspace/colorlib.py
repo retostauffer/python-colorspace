@@ -39,12 +39,19 @@ from cslogger import cslogger
 log = cslogger(__name__)
 
 class colorlib(object):
+    """The colorlib class is a collection of methods
+    used to convert or transform colors between different
+    color spaces."""
+
+    def __init__(self):
+
+        print "foo"
 
     # No initialization method, but some constants are specified here
 
     # Often approximated as 903.3 */
     # static const double self.KAPPA = 24389.0/27.0;
-    KAPPA = 24389.0/27.0
+    KAPPA   = 24389.0/27.0
 
     # Often approximated as 0.08856
     # static const double EPSILON = 216.0/24389.0;
@@ -58,42 +65,69 @@ class colorlib(object):
 
     # Conversion function
     def DEG2RAD(self, x):
-        """
+        """DEG2RAD(x)
+
         ParameterConver degrees into radiant.
 
-        :param arg1: description
-        :param arg2: description
-        :type arg1: type description
-        :type arg1: type description
-        :return: return description
-        :rtype: the return type description
+        Parameters
+        ----------
+        x : float
+            values in degrees.
 
-        @param x float in degrees.
-        @return Returns input x in radiants."""
+        Returns
+        -------
+        Returns n object of the same length as input ``x``
+        with degrees in radiant.
+        """
         return np.pi / 180. * x
+
     
     # Conversion function
     def RAD2DEG(self, x):
-        """Conver radiant into degrees.
-        @param x float in radiant.
-        @return Returns input x in degrees."""
+        """RAD2DEG(x)
+        
+        ParameterConver radiant to degrees.
+
+        Parameters
+        ----------
+        x : float
+            values in radiant.
+
+        Returns
+        -------
+        Returns x in degrees.
+        """
         return 180. / np.pi * x
     
     
     def _get_white_(self, __fname__, n, XN = None, YN = None, ZN = None):
-        """For some color conversion functions the "white" definition (default
-        white color) has to be specified. This function checks and prepares
-        the XN, YN, ZN definition. Defaults are used if the user does not
-        specify a custom white splot. If set, XN, YN, ZN have to be of type
-        np.ndarray either of length one (will be expanded to length "n")
-        or of length n.
-        @param __fname__ string, name of the parent method, only used if 
-            errors are dropped.
-        @param n integer, number of colors to which NX, NY, NZ will be expanded.
-        @param XN, YN, XN either None (default) or an nd.array of length one
-            or length n.
-        @return Returns a list [XN, YN, ZN] with three np.ndarrays of length n.
-            If the inputs XN, YN, ZN (or some) were None: take class defaults.
+        """_get_white_(__fname__, n, XN = None, YN = None, ZN = None)
+        
+        For some color conversion functions the "white" definition (default
+        white color) has to be specified. This function checks and prepares the
+        XN, YN, ZN definition. Defaults are used if the user does not specify a
+        custom white splot. If set, XN, YN, ZN have to be of type np.ndarray
+        either of length one (will be expanded to length "n") or of length n.
+
+        Parameters
+        ----------
+        __fname__ : str
+            string, name of the parent method, only used if errors are dropped.
+            @TODO get rid of this thing and write a proper exception.
+        n : int
+            integer, number of colors to which NX, NY, NZ will be expanded.
+        XN : None, numpy.ndarray
+            either None (default) or an nd.array of length one
+            or length n. White point specification for dimension X.
+        YN : None, numpy.ndarray
+            see XN. White point specification for dimension Y.
+        YZ : None, numpy.ndarray
+            see XN. White point specification for dimension Z.
+
+        Returns
+        -------
+        Returns a list ``[XN, YN, ZN]`` with three ``numpy.ndarrays`` of length ``n``.
+        If the inputs XN, YN, ZN (or some) were None: take class defaults.
         """
 
         # Take defaults if not further specified
@@ -123,15 +157,24 @@ class colorlib(object):
         return [XN, YN, ZN]
     
 
-
     def _check_input_arrays_(self, __fname__, **kwargs):
-        """Checks if all inputs in **kwargs are of type np.ndarray and
+        """__check_input_arrays__(__fname__, **kwargs)
+        
+        Checks if all inputs in ``kwargs`` are of type ``numpy.ndarray`` and
         of the same length. If not, the script will drop some error messsages
         and stop.
-        @param __fname__ string, name of the method who called this check routine.
+
+        Parameters
+        ----------
+        __fname__ : str
+            name of the method who called this check routine.
             Only used to drop a useful error message if required.
-        @param **kwargs named keywords, objects to be checked.
-        @returns Returns True if everything is ok, else it simply stops.
+        kwargs : ...
+            named keywords, objects to be checked.
+
+        Returns
+        -------
+        Returns True if everything is ok, else it simply stops.
         """
 
         # Message will be dropped if problems occur
@@ -183,20 +226,29 @@ class colorlib(object):
     #  ftrans provides the inverse map.
     
     def gtrans(self, u, gamma):
-        """Gamma Correction
-        The following two functions provide gamma correction which
+        """gtrans(u, gamma)
+        
+        Gamma Correction.
+
+        Function ``gtrans`` and ``ftrans`` provide gamma correction which
         can be used to switch between sRGB and linearized sRGB (RGB).
     
-        The standard value of gamma for sRGB displays is approximately 2.2,
+        The standard value of gamma for sRGB displays is approximately ``2.2``,
         but more accurately is a combination of a linear transform and
-        a power transform with exponent 2.4
-    
+        a power transform with exponent ``2.4``
         gtrans maps linearized sRGB to sRGB, ftrans provides the inverse map.
     
-        @param u np.ndarray of length N.
-        @param gamma float or np.ndarray. If float or np.ndarray of length one
-            gamma will be recycled (if length u > 1).
-        @returns Returns np.ndarray of the same length as input \"u\".
+        Parameters
+        ----------
+        u : numpy.ndarray
+            float array of length N.
+        gamma : float or numpy.ndarray
+            gamma value. If float or `numpy.ndarray` of length one
+            gamma will be recycled (if length ``u > 1``).
+
+        Returns
+        -------
+        Returns np.ndarray of the same length as input ``u``.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -217,20 +269,29 @@ class colorlib(object):
         return u
     
     def ftrans(self, u, gamma):
-        """Gamma Correction
-        The following two functions provide gamma correction which
+        """ftrans(u, gamma)
+        
+        Gamma Correction.
+
+        Function ``gtrans`` and ``ftrans`` provide gamma correction which
         can be used to switch between sRGB and linearized sRGB (RGB).
     
-        The standard value of gamma for sRGB displays is approximately 2.2,
+        The standard value of gamma for sRGB displays is approximately ``2.2``,
         but more accurately is a combination of a linear transform and
-        a power transform with exponent 2.4
-    
+        a power transform with exponent ``2.4``
         gtrans maps linearized sRGB to sRGB, ftrans provides the inverse map.
     
-        @param u np.ndarray of length N.
-        @param gamma float or np.ndarray. If float or np.ndarray of length one
-            gamma will be recycled (if length u > 1).
-        @returns Returns np.ndarray of the same length as input \"u\".
+        Parameters
+        ----------
+        u : numpy.ndarray
+            float array of length N.
+        gamma : float or numpy.ndarray
+            gamma value. If float or `numpy.ndarray` of length one
+            gamma will be recycled (if length ``u > 1``).
+
+        Returns
+        -------
+        Returns np.ndarray of the same length as input ``u``.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -293,18 +354,30 @@ class colorlib(object):
     ## in the interval [0,1].  X, Y and Z give the CIE chromaticies.
     ## XN, YN, ZN gives the chromaticity of the white point.
     def RGB_to_XYZ(self, R, G, B, XN = None, YN = None, ZN = None):
-        """Device independent RGB.
+        """RGB_to_XYZ(R, G, B, XN = None, YN = None, ZN = None)
+        
+        Device independent RGB to XYZ.
+
         R, G, and B give the levels of red, green and blue as values
-        in the interval [0,1].  X, Y and Z give the CIE chromaticies.
-        @param R np.ndarray with indensities for red ([0-1]).
-        @param G np.ndarray with indensities for green ([0-1]).
-        @param B np.ndarray with indensities for blue ([0-1]).
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of R/G/B is larger than one. If not specified (all three
-            NA) default values will be used.
-        @return Returns corresponding X/Y/Z coordinates of CIE chromaticies,
-            a list of np.ndarray's of the same length as the inputs ([X, Y, Z]).
+        in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
+
+        Parameters
+        ----------
+        R : numpy.ndarray
+            indensities for red (``[0.,1.]``).
+        G : numpy.ndarray
+            indensities for green (``[0.,1.]``).
+        B : numpy.ndarray
+            indensities for blue  (``[0.,1.]``).
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -323,18 +396,30 @@ class colorlib(object):
                 YN * (0.019334 * R + 0.119193 * G + 0.950227 * B)]   # Z
     
     def XYZ_to_RGB(self, X, Y, Z, XN = None, YN = None, ZN = None):
-        """Device independent RGB.
+        """XYZ_to_RGB(X, Y, Z, XN = None, YN = None, ZN = None)
+        
+        CIEXYZ to device independent RGB.
+
         R, G, and B give the levels of red, green and blue as values
-        in the interval [0,1].  X, Y and Z give the CIE chromaticies.
-        @param X np.ndarray with CIE chromaticies ([0-1]).
-        @param Y np.ndarray with CIE chromaticies ([0-1]).
-        @param Z np.ndarray with CIE chromaticies ([0-1]).
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of X/Y/Z is larger than one. If one or all not set (default)
-            the class defaults will be used.
-        @return Returns corresponding R/G/B coordinates (in [0-1])
-            a list of np.ndarray's of the same length as the inputs ([R, G, B]).
+        in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            values for the Z dimension.
+        Y : numpy.ndarray
+            values for the Z dimension.
+        Z : numpy.ndarray
+            values for the Z dimension.
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[R, G, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -364,19 +449,30 @@ class colorlib(object):
     ## in the interval [0,1].  X, Y and Z give the CIE chromaticies.
     ## XN, YN, ZN gives the chromaticity of the white point.
     def sRGB_to_XYZ(self, R, G, B, XN = None, YN = None, ZN = None):
-        """sRGB to CIE-XYZ.
+        """sRGB_to_XYZ(R, G, B, XN = None, YN = None, ZN = None)
+        
+        sRGB to CIEXYZ.
+        
         R, G, and B give the levels of red, green and blue as values
-        in the interval [0,1].  X, Y and Z give the CIE chromaticies.
-        XN, YN, ZN gives the chromaticity of the white point.
-        @param R np.ndarray, intensity of red ([0-1]).
-        @param G np.ndarray, intensity of green ([0-1]).
-        @param B np.ndarray, intensity of blue ([0-1]).
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of X/Y/Z is larger than one. If one or all not set (default)
-            the class defaults will be used.
-        @return Returns corresponding X/Y/Z coordinates
-            a list of np.ndarray's of the same length as the inputs ([X, Y, Z]).
+        in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
+
+        Parameters
+        ----------
+        R : numpy.ndarray
+            indensities for red (``[0.,1.]``).
+        G : numpy.ndarray
+            indensities for green (``[0.,1.]``).
+        B : numpy.ndarray
+            indensities for blue  (``[0.,1.]``).
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -399,19 +495,30 @@ class colorlib(object):
                YN * (0.019334 * R + 0.119193 * G + 0.950227 * B)]   # Z
     
     def XYZ_to_sRGB(self, X, Y, Z, XN = None, YN = None, ZN = None):
-        """CIE-XYZ to sRGB.
+        """XYZ_to_sRGB(X, Y, Z, XN = None, YN = None, ZN = None)
+        
+        CIEXYZ to sRGB.
+
         R, G, and B give the levels of red, green and blue as values
-        in the interval [0,1].  X, Y and Z give the CIE chromaticies.
-        XN, YN, ZN gives the chromaticity of the white point.
-        @param X np.ndarray, CIE chromaticies.
-        @param Y np.ndarray, CIE chromaticies.
-        @param Z np.ndarray, CIE chromaticies.
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of X/Y/Z is larger than one. If one or all not set (default)
-            the class defaults will be used.
-        @return Returns corresponding G/R/B coordinates (in [0-1])
-            a list of np.ndarray's of the same length as the inputs ([R, G, B]).
+        in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            values for the Z dimension.
+        Y : numpy.ndarray
+            values for the Z dimension.
+        Z : numpy.ndarray
+            values for the Z dimension.
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[R, G, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -532,18 +639,31 @@ class colorlib(object):
     # -------------------------------------------------------------------
     # -------------------------------------------------------------------
     def XYZ_to_HLAB(self, X, Y, Z, XN = None, YN = None, ZN = None):
-        """CIE-XYZ to Hunter LAB.
-        Note that the Hunter LAB is no longer part of the public API,
-        but the code is still here in case needed.
-        @param X np.ndarray, CIE chromaticies.
-        @param Y np.ndarray, CIE chromaticies.
-        @param Z np.ndarray, CIE chromaticies.
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of X/Y/Z is larger than one. If one or all not set (default)
-            the class defaults are used.
-        @return Returns corresponding Hunter L/A/B coordinates
-            a list of np.ndarray's of the same length as the inputs ([L, A, B]).
+        """XYZ_to_HLAB(X, Y, Z, XN = None, YN = None, ZN = None)
+        
+        CIE-XYZ to Hunter LAB.
+
+        .. note::
+            Note that the Hunter LAB is no longer part of the public API,
+            but the code is still here in case needed.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            values for the Z dimension.
+        Y : numpy.ndarray
+            values for the Z dimension.
+        Z : numpy.ndarray
+            values for the Z dimension.
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns corresponding Hunter LAB chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -562,18 +682,31 @@ class colorlib(object):
     
     
     def HLAB_to_XYZ(self, L, A, B, XN = None, YN = None, ZN = None):
-        """Hunter LAB to CIE-XYZ.
-        Note that the Hunter LAB is no longer part of the public API,
-        but the code is still here in case needed.
-        @param L np.ndarray, Hunter LAB coordinate L.
-        @param A np.ndarray, Hunter LAB coordinate A.
-        @param B np.ndarray, Hunter LAB coordinate B.
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of X/Y/Z is larger than one. If one or all not set (default)
-            the class defaults will be used.
-        @return Returns corresponding Hunter CIE X/Z/Y coordinates as
-            a list of np.ndarray's of the same length as the inputs ([X, Y, Z]).
+        """HLAB_to_XYZ(L, A, B, XN = None, YN = None, ZN = None)
+
+        Hunter LAB to CIE-XYZ.
+
+        .. note::
+            Note that the Hunter LAB is no longer part of the public API,
+            but the code is still here in case needed.
+
+        Parameters
+        ----------
+        L : numpy.ndarray
+            values for the L dimension.
+        A : numpy.ndarray
+            values for the A dimension.
+        B : numpy.ndarray
+            values for the B dimension.
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns corresponding CIE-XYZ chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -604,14 +737,23 @@ class colorlib(object):
     # -------------------------------------------------------------------
     
     def LAB_to_polarLAB(self, L, A, B):
-        """LAB to polarLAB.
-        Converts L/A/B coordinaes into polar LAB coordinates.
-        @param L np.ndarray with coordinates in the L dimension.
-        @param A np.ndarray with coordinates in the A dimension.
-        @param B np.ndarray with coordinates in the B dimension.
-        @return Returns a list of np.ndarrays of the same length
-            as the input arrays L/A/B with the coordinates in the
-            polarLAB colors space. Order [L, C, H].
+        """LAB_to_polarLAB(L, A, B)
+
+        Convert from CIELAB to the polar representation polarLAB.
+
+        Parameters
+        ----------
+        L : numpy.ndarray
+            values for the L dimension of the CIELAB color space.
+        A : numpy.ndarray
+            values for the A dimension of the CIELAB color space.
+        B : numpy.ndarray
+            values for the B dimension of the CIELAB color space.
+
+        Returns
+        -------
+        Returns corresponding polar LAB chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -631,14 +773,23 @@ class colorlib(object):
         return [L, C, H]
     
     def polarLAB_to_LAB(self, L, C, H):
-        """polarLAB to LAB.
-        Converts L/C/H from polar LAB to LAB coordinates.
-        @param L np.ndarray with coordinates in the L dimension.
-        @param C np.ndarray with coordinates in the C dimension.
-        @param H np.ndarray with coordinates in the H dimension.
-        @return Returns a list of np.ndarrays of the same length
-            as the input arrays L/A/B with the coordinates in the
-            polarLAB colors space. Order [L, C, H].
+        """polarLAB_to_LAB(L, A, B)
+
+        Convert form polarLAB to onvert CIELAB.
+
+        Parameters
+        ----------
+        L : numpy.ndarray
+            values for the L dimension of the CIELAB color space.
+        A : numpy.ndarray
+            values for the A dimension of the CIELAB color space.
+        B : numpy.ndarray
+            values for the B dimension of the CIELAB color space.
+
+        Returns
+        -------
+        Returns corresponding polar LAB chromaticies,
+        a list of `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -657,12 +808,23 @@ class colorlib(object):
     # -------------------------------------------------------------------
     
     def RGB_to_HSV(self, r, g, b):
-        """Convert RGB to HSV.
-        @param r np.ndarray with red intensities [0-1].
-        @param g np.ndarray with green intensities [0-1].
-        @param b np.ndarray with blue intensities [0-1].
-        @return Returns a list with the corresponding coordinates in the
-            HSV color space ([h, s, v]).
+        """RGB_to_HSV(r, g, b)
+        
+        Convert RGB to HSV.
+
+        Parameters
+        ----------
+        r : numpy.ndarray
+            intensities for red (``[0.,1.]``).
+        g : numpy.ndarray
+            intensities for green (``[0.,1.]``).
+        b : numpy.ndarray
+            intensities for blue (``[0.,1.]``).
+
+        Returns
+        -------
+        Returns a `numpy.ndarray` with the corresponding coordinates in the
+        HSV color space (``[h, s, v]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -705,12 +867,23 @@ class colorlib(object):
     
     
     def HSV_to_RGB(self, h, s, v):
-        """Convert HSV to RGB.
-        @param h np.ndarray with hue intensities [0-360].
-        @param s np.ndarray with saturation intensities [0-1].
-        @param v np.ndarray with value intensities [0-1].
-        @return Returns a list with the corresponding coordinates in the
-            RGB color space ([r, g, b], all in [0-1]).
+        """HSV_to_RGB(r, g, b)
+        
+        Convert RGB to HSV.
+
+        Parameters
+        ----------
+        h : nympy.ndarray
+            hue values of.
+        s : numpy.ndarray
+            saturation.
+        v : numpy.ndarray
+            value (the value-dimension of HSV).
+
+        Returns
+        -------
+        Returns a `numpy.ndarray` with the corresponding coordinates in the
+        RGB color space (``[r, g, b]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -762,15 +935,26 @@ class colorlib(object):
     # -------------------------------------------------------------------
     
     def RGB_to_HLS(self, r, g, b):
-        """Convert RGB to HLS.
-        All r/g/b values in [0-1], h in [0, 360], l and s in [0, 1].
-        From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
+        """RGB_to_HLS(r, g, b)
+        
+        Convert RGB to HLS.
     
-        @param r np.ndarray with red intensities [0-1].
-        @param g np.ndarray with green intensities [0-1].
-        @param b np.ndarray with blue intensities [0-1].
-        @return Returns a list with the corresponding coordinates in the
-            HSV color space ([h, s, v]).
+        All r/g/b values in ``[0.,1.]``, h in ``[[0., 360.]``, l and s in ``[0., 1.]``.
+        From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
+
+        Parameters
+        ----------
+        r : numpy.ndarray
+            intensities for red (``[0.,1.]``).
+        g : numpy.ndarray
+            intensities for green (``[0.,1.]``).
+        b : numpy.ndarray
+            intensities for blue (``[0.,1.]``).
+
+        Returns
+        -------
+        Returns a `numpy.ndarray` with the corresponding coordinates in the
+        HLS color space (``[h, l, s]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -820,15 +1004,26 @@ class colorlib(object):
     
     
     def HLS_to_RGB(self, h, l, s):
-        """Convert HLS to RGB.
-        All r/g/b values in [0-1], h in [0, 360], l and s in [0, 1].
-        From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
+        """HLS_to_RGB(h, l, s)
+
+        Convert RLS to HLS.
     
-        @param h np.ndarray with hue [0-1].
-        @param l np.ndarray with lightness [0-1]. TODO lightness?
-        @param s np.ndarray with value [0-1].
-        @return Returns a list with the corresponding coordinates in the
-            RGB color space ([r, g, b], all in [0-1]).
+        All r/g/b values in ``[0.,1.]``, h in ``[[0., 360.]``, l and s in ``[0., 1.]``.
+        From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
+
+        Parameters
+        ----------
+        h : nympy.ndarray
+            hue values of.
+        l : numpy.ndarray
+            lightness.
+        s : numpy.ndarray
+            saturation.
+
+        Returns
+        -------
+        Returns a `numpy.ndarray` with the corresponding coordinates in the
+        RGB color space (``[r, g, b]``). Same length as the inputs.
         """
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -875,11 +1070,22 @@ class colorlib(object):
     # -------------------------------------------------------------------
     
     def XYZ_to_uv(self, X, Y, Z):
-        """CIE-XYZ to UV.
-        @param X np.ndarray, CIE chromaticies.
-        @param Y np.ndarray, CIE chromaticies.
-        @param Z np.ndarray, CIE chromaticies.
-        @return Returns corresponding U/V coordinates.
+        """XYZ_to_uv(X, Y, Z)
+        
+        CIE-XYZ to u and v.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            values for the Z dimension.
+        Y : numpy.ndarray
+            values for the Y dimension.
+        Z : numpy.ndarray
+            values for the Z dimension.
+
+        Returns
+        -------
+        Returns a list of `numpy.ndarrays` containing u and v (``[u, v]``). 
         """
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -900,16 +1106,27 @@ class colorlib(object):
                 4.5 * y / (6. * y - x + 1.5)]    # v
     
     def XYZ_to_LUV(self, X, Y, Z, XN = None, YN = None, ZN = None):
-        """CIE-XYZ to LUV.
-        @param X np.ndarray, CIE chromaticies.
-        @param Y np.ndarray, CIE chromaticies.
-        @param Z np.ndarray, CIE chromaticies.
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of X/Y/Z is larger than one. If one or all not set (default)
-            the class defaults are used.
-        @return Returns corresponding Hunter L/U/B coordinates
-            a list of np.ndarray's of the same length as the inputs ([L, U, V]).
+        """XYZ_to_LUV(X, Y, Z, XN = None, YN = None, ZN = None)
+
+        CIE-XYZ to CIE-LUV.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            values for the X dimension.
+        Y : numpy.ndarray
+            values for the Y dimension.
+        Z : numpy.ndarray
+            values for the Z dimension.
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns a list of CIE-LUV coordinates (``[L, U, V]``) with the same
+        length as the input arrays.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -935,16 +1152,27 @@ class colorlib(object):
         return [L, 13. * L * (u - uN), 13. * L * (v - vN)]  # [L, U, V]
     
     def LUV_to_XYZ(self, L, U, V, XN = None, YN = None, ZN = None):
-        """CIE-XYZ to LUV.
-        @param L np.ndarray, L.
-        @param U np.ndarray, U.
-        @param V np.ndarray, V.
-        @param XN, YN, ZN np.ndarray with chromaticity of the white point.
-            If of length 1 the white point specification will be recycled
-            if length of X/Y/Z is larger than one. If one or all not set (default)
-            the class defaults will be used.
-        @return Returns corresponding Hunter X/Y/Z coordinates
-            a list of np.ndarray's of the same length as the inputs ([X, Y, Z]).
+        """LUV_to_XYZ(L, U, V, XN = None, YN = None, ZN = None)
+
+        CIE-LUV to CIE-XYZ.
+
+        Parameters
+        ----------
+        L : numpy.ndarray
+            values for the L dimension.
+        U : numpy.ndarray
+            values for the U dimension.
+        V : numpy.ndarray
+            values for the V dimension.
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used.
+
+        Returns
+        -------
+        Returns a list of CIE-XYZ coordinates (``[X, Y, Z]``) with the same
+        length as the input arrays.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -989,13 +1217,24 @@ class colorlib(object):
     
     ## ----- LUV <-> polarLUV ----- */
     def LUV_to_polarLUV(self, L, U, V):
-        """LUV to polarLUV (HCL).
-        @param L np.ndarray, L.
-        @param U np.ndarray, U.
-        @param V np.ndarray, V.
-        @return Returns corresponding polar LUV coordinates as a list
-            of np.ndarrays with the same length as the inputs L/U/V.
-            Elements ordered as [L, C, H]
+        """LUV_to_polarLUV(L, U, V)
+        
+        LUV to polarLUV (HCL).
+
+        Parameters
+        ----------
+        L : numpy.ndarray
+            values for the X dimension.
+        U : numpy.ndarray
+            values for the Y dimension.
+        V : numpy.ndarray
+            values for the Z dimension.
+
+        Returns
+        -------
+        Returns a list of polarLUV or HCL coordinates (``[L, C, H]``) with the
+        same length as the input arrays. The HCL color space is simply the
+        polar representation of the CIE-LUV color space.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1013,13 +1252,23 @@ class colorlib(object):
         return [L, C, H]
     
     def polarLUV_to_LUV(self, L, C, H):
-        """polarLUV (HCL) to LUV.
-        @param H np.ndarray, hue values H.
-        @param C np.ndarray, chroma values C.
-        @param L np.ndarray, luminance L.
-        @return Returns corresponding LUV coordinates as a list
-            of np.ndarrays with the same length as the inputs L/C/H.
-            Elements ordered as [L, U, V]
+        """polarLUV_to_LUV(L, C, H)
+        
+        polarLUV (HCL) to LUV.
+
+        Parameters
+        ----------
+        L : numpy.ndarray
+            values for the L or luminance dimension.
+        C : numpy.ndarray
+            values for the C or chroma dimension.
+        H : numpy.ndarray
+            values for the H or hue dimension. 
+
+        Returns
+        -------
+        Returns a list of polarLUV or HCL coordinates (``[L, U, V]``) with the
+        same length as the input arrays.
         """
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1032,6 +1281,26 @@ class colorlib(object):
     
     
     def sRGB_to_hex(self, r, g, b, fixup = True):
+        """sRGB_to_hex(r, g, , fixup = True)
+
+        sRGB colors to hex colors.
+
+        Parameters
+        ----------
+        r : numpy.ndarray
+            intensities for red (``[0.,1.,]``).
+        g : numpy.ndarray
+            intensities for green (``[0.,1.,]``).
+        b : numpy.ndarray
+            intensities for blue (``[0.,1.,]``).
+        fixup : bool
+            whether or not the rgb values should be corrected if
+            they lie outside the defined RGB space (outside ``[0.,1.,]``).
+
+        Returns
+        -------
+        A list with hex colors as strings.
+        """
 
         # Color fixup: limit r/g/b to [0-1]
         def rgbfixup(r, g, b):
@@ -1085,6 +1354,22 @@ class colorlib(object):
 
     # RETO RETO RETO
     def hex_to_sRGB(self, hex_, gamma = 2.4):
+        """hex_to_sRGB(hex_, gamma = 2.4)
+
+        Convert hex colors to sRGB.
+
+        Parameters
+        ----------
+        hex_ : str, list of str
+            hex strings.
+        gamma : float
+            gamma correction factor.
+
+        Returns
+        -------
+        Returns a list of numpy.ndarrays with the corresponding
+        red, green, and blue intensities (``[0.,1.]``).
+        """
 
         if isinstance(hex_,str): hex_ = [hex_]
         hex_ = np.asarray(hex_)

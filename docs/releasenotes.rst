@@ -8,7 +8,7 @@ Availability
 -------------
 
 The software is published under the Gnu Public License
-on [github](https://github.com/retostauffer/python-colorspace).
+on `github <https://github.com/retostauffer/python-colorspace>`_.
 Please feel free to use, share, improve, and redistribute the
 software as long as the attribution is given correctly.
 
@@ -19,6 +19,8 @@ be very welcome)!
 
 Version 0.0.1 (Sept 2018)
 -------------------------
+
+Development version.
 
 First implementation of the ``colorspace`` package in python.
 This is still an early alpha version, I am currently working

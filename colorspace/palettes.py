@@ -8,20 +8,25 @@ log = cslogger(__name__)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class defaultpalette(object):
-    """
-    Default color palette object. This object is not intended to be
-    used by the user itself but is used to store the pre-defined
-    color palettes contained in the package.
+    """defaultpalette(type, method, parameter, name, settings)
 
-    Parameters:
-        type (:class:`str`): Palette type.
-        method (:class:`str`): Name of the method which has to be called
-            to retrieve colors (e.g., :py:func:`diverge_hcl`).
-        parameter (:class:`list`): A list of strings which define the
-            allowed/valid parameters for this color palette.
-        name (:class:`str`): Name of the color palette.
-        settings (:class:`dict`): A dict object containing the
-            parameter settings.
+    Default color palette object. This object is not intended to be used by the
+    user itself but is used to store the pre-defined color palettes contained
+    in the package.
+
+    Parameters
+    ----------
+    type : str
+        palette type.
+    method : str
+        name of the method which has to be called to retrieve colors (e.g.,
+        :py:class:`diverge_hcl`).
+    parameter : list
+        a list of strings which define the allowed/valid parameters for this
+        color palette.
+    name : str
+        name of the color palette.  settings (`dict`): A dict object containing
+        the parameter settings.
     """
 
     def __init__(self, type, method, parameter, name, settings):
@@ -34,7 +39,9 @@ class defaultpalette(object):
 
     # Default representation of defaultpalette objects.
     def __repr__(self):
-        """Prints the current settings on stdout.
+        """__repr__()
+        
+        Prints the current settings on stdout.
         Development method."""
 
         res = []
@@ -55,43 +62,54 @@ class defaultpalette(object):
         return "\n".join(res)
 
     def type(self):
-        """
-        Return:
-            Returns the type (:class:`str`) of the palette.
+        """type()
+
+        Return
+        ------
+        Returns the type (`str`) of the palette.
         """
         return self._type_
 
     def name(self):
-        """
-        Return:
-            Returns the name (:class:`str`) of the palette.
+        """name()
+        Return
+        ------
+        Returns the name (`str`) of the palette.
         """
         return self._name_
 
     def rename(self, name):
-        """Allows to rename the palette.
+        """rename(name)
+        
+        Allows to rename the palette.
 
-        Parameters:
-            name (:class:`str`): New palette name.
+        Parameters
+        ----------
+        name : str
+            new palette name.
         """
         self._name_ = name
 
     def get(self, what):
-        """Allows to load the settings of the palette for the
-        different parameters (e.g., `h1`, `h2`, ...). Returns
-        :class:`None` if the parameter does not exist.
+        """get(what)
+
+        Allows to load the settings of the palette for the
+        different parameters (e.g., ``h1``, ``h2``, ...). Returns
+        `None` if the parameter does not exist.
         Another method (:py:func:`set`) allows to set the
         parameters.
 
-        Parameters:
-            what (:class:`str`): Name of the parameter which
-                should be extracted and returned from the settings
-                of this color palette.
+        Parameters
+        ----------
+        what : str
+            Name of the parameter which should be extracted and returned from
+            the settings of this color palette.
 
-        Return:
-            Returns the type (:class:`str`) of the palette.
+        Return
+        ------
+        Returns `None` if the parameter ``what`` cannot be found,
+        else the value of the parameter ``what`` is returned.
         """
-
         if what in self._settings_.keys():
             return self._settings_[what]
         else:
@@ -99,16 +117,18 @@ class defaultpalette(object):
 
 
     def set(self, **kwargs):
-        """Allows to set/overwrite color palette parameters (e.g., `h1`, `h2`,
+        """set(**kwargs)
+
+        Allows to set/overwrite color palette parameters (e.g., ``h1``, ``h2``,
         ...).  Another method (:py:func:`get`) allows to retrieve the
         parameters.
 
-        Parameters:
-            kwargs: a set of key=value pairs where the key defines the
-                parameter which should be overruled, value the corresponding
-                value. Allowed value types are bool, int, and float.
+        Parameters
+        kwargs : ...
+            a set of named arguments (``key = value`` pairs) where the key
+            defines the parameter which should be overruled, value the
+            corresponding value. Allowed value types are bool, int, and float.
         """
-        print self._parameter_
         for key,val in kwargs.items():
             if not key in self._settings_.keys():
                 raise ValueError("{:s} named {:s}".format(self.__class__.__name__, self.name()) + \
@@ -133,39 +153,48 @@ class defaultpalette(object):
         self._settings_[key] = val
 
     def get_settings(self):
-        """Returns a :class:`dict` with all parameters of this color palette.
+        """get_settings()
+
+        Allows to get the current settings of the palette object.
         To retrieve single parameters use :py:func:`get`.
 
-        Returns:
-            Returns a :class:`dict` object with all parameter specification
-            of this palette.
+        Returns
+        -------
+        Returns a `dict` object with all parameter specification of this
+        palette.
         """
         return self._settings_
 
     def parameters(self):
-        """Returns a :class:`list` with the names of all parameters
+        """parameters()
+
+        Returns a :class:`list` with the names of all parameters
         specified. The parameters themselves can be retrieved by calling
         the :py:func:`get_settings` method.
 
-        Returns:
-            Returns a :class:`list` object with all parameter names.
+        Returns
+        -------
+        Returns a `list` object with all parameter names.
         """
         return self._parameter_
 
-    def colors(self, n = 10):
-        """Load `n` colors from this palette. 
-        This method evaluates the `method` argument to generate
-        a set of hex colors which will be returned.
-        Please note that it is possible that none-values will
-        be returned if the fixup-setting is set to `False`
-        (see :py:class:`colorlib.hexcols`).
+    def colors(self, n = 11):
+        """colors(n = 11)
         
-        Parameters:
-            n (:class:`int`): Number of colors to be returned.
-                The default is `10`.
+        Load a set of ``n`` colors from this palette.  This method evaluates
+        the `method` argument to generate a set of hex colors which will be
+        returned.  Please note that it is possible that none-values will be
+        returned if the fixup-setting is set to `False` (see
+        :py:class:`colorlib.hexcols`).
+        
+        Parameters
+        ----------
+        n : int
+            number of colors to be returned.
 
-        Returns:
-            Returns a :class:`list` object with all parameter names.
+        Returns
+        -------
+        Returns a `list` object with all parameter names.
         """
 
         # Dynamically load color function
@@ -192,7 +221,7 @@ class defaultpalette(object):
                 args[dim] = args[dim2]
                 del args[dim2]
 
-        pal = cfun(n, **args)
+        pal = cfun(**args)
         return pal.colors(n, fixup = True)
 
 
@@ -200,16 +229,17 @@ class defaultpalette(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalettes(object):
-    """Prepares the pre-specified hclpalettes.
-    Reads the config files and creates a set of :py:class:`defaultpalette`
-    objects.
+    """hclpalettes(files = None)
+    
+    Prepares the pre-specified hclpalettes.  Reads the config files and creates
+    a set of :py:class:`defaultpalette` objects.
 
-    Parameters:
-        files (:class:`None` or :class:`list`): If `None` (default)
-            the default color palette configuration from within the
-            package will be loaded. Technically a list of file names
-            (:class:`str`) can be provided to load user-defined color
-            palettes. Not yet tested!
+    Parameters
+    ----------
+    files : None, str list
+        If `None` (default) the default color palette configuration from within
+        the package will be loaded. Technically, a list of file names (`str`)
+        can be provided to load user-defined color palettes. Not yet tested!
 
     .. todo::
         Check if the files option is useful. If so, provide some
@@ -246,8 +276,10 @@ class hclpalettes(object):
             #DEMO# for p in pals: p.show()
 
     def __repr__(self):
-        """Standard representation of the object."""
+        """__repr__()
 
+        Standard representation of the object.
+        """
         res = ["HCL palettes"]
 
         for type_ in self.get_palette_types():
@@ -272,26 +304,33 @@ class hclpalettes(object):
 
 
     def get_palette_types(self):
-        """Get palette types.
+        """get_palette_types()
 
-        Returns:
-            Returns a :class:`list` of strings (:class:`str`)
-                with the names of all palette types or groups.
+        Get all palette types.
+
+        Returns
+        -------
+        Returns a `list` of strings (`str`) with the names of all palette types
+        or groups.
         """
 
         return self._palettes_.keys()
 
     def get_palettes(self, type_ = None):
-        """Get all palettes of a specific type.
+        """get_palettes(type_ = None)
 
-        Parmaeters:
-            type_ (:class:`None` or :class:`str`): Name of the palettes which should
-                be returned. If set to `None` (default) all palettes
-                will be returned. Names have to match but are not case sensitive.
+        Get all palettes of a specific type.
 
-        Returns:
-            Returns a :class:`list` containing :py:class:`defaultpalette`
-            objects.
+        Parmaeters
+        ----------
+        type_ : None, str
+            Name of the palettes which should be returned. If set to `None`
+            (default) all palettes will be returned. Names have to match but
+            are not case sensitive.
+
+        Returns
+        -------
+        Returns a `list` containing :py:class:`defaultpalette` objects.
         """
         if not isinstance(type_, str) and not type_ is None:
             raise ValueError("input type_ to {:s} has to be None or a single string.".format(
@@ -318,16 +357,19 @@ class hclpalettes(object):
         return self._palettes_[type_]
 
     def get_palette(self, name):
-        """Get a palette with a specific name.
+        """get_palette(name)
+        
+        Get a palette with a specific name.
 
-        Parameters:
-            name (:class:`str`): Name of the color palette which should
-                be returned.
+        Parameters
+        ----------
+        name : str
+            name of the color palette which should be returned.
 
-        Returns:
-            Returns an object of class :py:class:`defaultpalette` if
-            a palette with the name as specified can be found.
-            Else an error will be dropped.
+        Returns
+        -------
+        Returns an object of class :py:class:`defaultpalette` if a palette with
+        the name as specified can be found.  Else an error will be dropped.
         """
 
         # Try to find the palette with the name 'name'
@@ -417,7 +459,10 @@ class hclpalettes(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalette(object):
-    """Hy, I am the base class"""
+    """Hy, I am the base class.
+    Is extended by the different HCL based color palettes such as
+    the classes diverge_hcl, qualitative_hcl, rainbow_hcl, sequential_hcl,
+    and maybe more in the future."""
 
     n     = None
     h1    = None
@@ -429,38 +474,46 @@ class hclpalette(object):
     fixup = True
 
     def get(self, key):
-        """Returns one specific item of the palette settings,
-        e.g., the current value for "n" or "h1" or "l2".
+        """get(key)
+        
+        Returns one specific item of the palette settings,
+        e.g., the current value for ``h1`` or ``l2``.
         If not existing a `None` will be returned.
 
-        Parameters:
-            key (str): name of the setting to be returned.
+        Parameters
+        ----------
+        key : str
+            name of the setting to be returned.
 
-        Returns:
-            None if `key` does ont exist, else the current
-                value will be returned.
+        Returns
+        -------
+        None if ``key`` does ont exist, else the current value will be
+        returned.
 
-        Examples:
-            >>> from colorspace.palettes import rainbow_hcl
-            >>> a = rainbow_hcl(10)
-            >>> a.get("h1")
-            >>> a.get("c1")
-            >>> a.get("l1")
-            >>> a.get("not_defined")
+        Examples
+        --------
+        >>> from colorspace.palettes import rainbow_hcl
+        >>> a = rainbow_hcl()
+        >>> a.get("h1")
+        >>> a.get("c1")
+        >>> a.get("l1")
+        >>> a.get("not_defined")
         """
         if not key in self.settings.keys():
             return None
         return self.settings[key]
 
     def show_settings(self):
-        """Shows the current settings (table like print
-        to stdout). Should more be seen as a development
-        method than a very useful thing.
+        """show_settings()
+        
+        Shows the current settings (table like print to stdout). Should more be
+        seen as a development method than a very useful thing.
 
-        Examples:
-            >>> from colorspace.palettes import rainbow_hcl
-            >>> a = rainbow_hcl(10)
-            >>> a.show_settings()
+        Examples
+        --------
+        >>> from colorspace.palettes import rainbow_hcl
+        >>> a = rainbow_hcl(10)
+        >>> a.show_settings()
         """
 
         def get(key):
@@ -489,42 +542,47 @@ class hclpalette(object):
     # Better input handling
     def _checkinput_(self, dtype, length = None, recycle = False,
             nansallowed = False, **kwargs):
-        """Used to check/convert/extend input arguments to the
-        palette functions.
+        """_checkinput_(dtype, length = None, recycle = False,
+            nansallowed = False, **kwargs)
+            
+        Used to check/convert/extend input arguments to the palette functions.
 
-        Parameters:
-            dtype (object): e.g. int or float, the type in which the
-                inputs should be converted.
-            length (int): optional. If set the script checks the length
-                of the input argument and, if necessary and allowed,
-                converts the data. If more values than required are
-                provided by the user only the first few elements
-                will be used (as specified by `length`). If the
-                user gave less arguments than expected the user
-                arguments are recycled if `recycle = True`, see
-                parameter `recycle`. If `recycle = False` and the
-                length of the input is shorter than expected an
-                error will be raised.
-            recycle (bool): if set to `True` the user inputs will
-                be recycled to match the expected number of inputs.
-            nansallowed (bool): if False an error will be raised
-                if the final arguments contain `nan` values. Else
-                `nan`s are passed trough and will be returned.
-            **kwargs: list of named arguments, the ones to be
-                checked. If only one is given the function returns
-                the values of this specific input. If multiple
-                arguments are handed over a dict will be returned
-                with the names corresponding to the user input.
+        Parameters
+        ----------
+        dtype : object
+            e.g. int or float, the type in which the inputs should be
+            converted.
+        length : None, int
+            optional. If set the script checks the length of the input argument
+            and, if necessary and allowed, converts the data. If more values
+            than required are provided by the user only the first few elements
+            will be used (as specified by ``length``). If the user gave less
+            arguments than expected the user arguments are recycled if
+            ``recycle = True``. If ``recycle = False`` and the
+            length of the input is shorter than expected an error will be
+            raised.
+        recycle : bool
+            if set to ``True`` the user inputs will be recycled to match the
+            expected number of inputs.
+        nansallowed : bool
+            if False an error will be raised if the final arguments contain
+            ``numpy.nan`` values. Else ``numpy.nan``s are passed trough and will be returned.
+        kwargs : ...
+            list of named arguments, the ones to be checked. If only one is
+            given the function returns the values of this specific input. If
+            multiple arguments are handed over a dict will be returned with the
+            names corresponding to the user input.
 
-        Returns:
-            If `**kwargs` is of length one the values of this
-                specific variable will be returned. If multiple
-                `**kwargs` arguments are set a dict is returned.
-                Note that `None` will simply stay `None`.
-                The function raises errors if the user inputs
-                do not match the required specifications.
+        Returns
+        -------
+        If ``kwargs`` is of length one the values of this specific variable
+        will be returned. If multiple ``kwargs`` arguments are set a dict is
+        returned.  Note that ``None`` will simply stay ``None``.  The function
+        raises errors if the user inputs do not match the required
+        specifications.
         """
 
+        # Support function
         def fun(key, value, dtype, length, recycle, nansallowed):
 
             from numpy import vstack, asarray, isnan, nan, any
@@ -651,79 +709,86 @@ class hclpalette(object):
         return [n, h, c, l, p, palette]
 
 
-    def data(self):
-        return self._data_
+    #####def data(self):
+    #####    """data()
+
+    #####    Returns
+    #####    -------
+    #####    Returns the data of the object which is a ... a ... what is it?
+    #####    @TODO Check if I even use this method.
+    #####    """
+    #####    return self._data_
 
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class qualitative_hcl(hclpalette):
-    """Qualitative HCL color palette.
+    """qualitative_hcl(h = [0, 360.], c = 50, l = 70, \
+            fixup = True, alpha = 1, palette = None, rev = False, **kwargs)
+    
+    
+    Qualitative HCL color palette.
 
-    Parameters:
-        palette (str): optional. Can be set to load a specific default
-            palette by name.
-        n (inteter): number of values to be returned later.
-        h (numeric): hue values, qualitative color palettes require
-            two hues.  If more than two values are provided the first two will
-            be used while the rest is ignored.  If input `h` is a string this
-            argument acts like the `palette` argument (see `palette` input
-            parameter).
-            Default is [0-360] with respect to the number of colors "n".
-        c (numeric): chroma value, a single numeric value. If multiple
-            values are provided only the first one will be used.
-        l (numeric): luminance value, a single numeric value. If multiple
-            values are provided only the first one will be used.
-        fixup (boolean): only used when converting the HCL colors to hex.
-            Should RGB values outside the defined RGB color space be
-            corrected?
-        alpha (numeric): Not yet implemented.
-        palette (string): can be used to load a default diverging color palette
-            specification. If the palette does not exist an exception will be raised.
-            Else the settings of the palette as defined will be used to create
-            the color palette.
-        rev (boolean): should the color map be reversed.
+    Parameters
+    ----------
+    h : numeric list
+        hue values, qualitative color palettes require
+        two hues.  If more than two values are provided the first two will
+        be used while the rest is ignored.  If input `h` is a string this
+        argument acts like the `palette` argument (see `palette` input
+        parameter).
+    c : numeric
+        chroma value, a single numeric value. If multiple values are provided
+        only the first one will be used.
+    l : numeric
+        luminance value, a single numeric value. If multiple values are
+        provided only the first one will be used.
+    fixup : bool 
+        only used when converting the HCL colors to hex.  Should RGB values
+        outside the defined RGB color space be corrected?
+    alpha : numeric
+        Not yet implemented.
+    palette : None, string
+        can be used to load a default diverging color palette
+        specification. If the palette does not exist an exception will be raised.
+        Else the settings of the palette as defined will be used to create
+        the color palette.
+    rev : bool
+        should the color map be reversed.
+    args : ...
+        unused.
+    kwargs : ...
+        Additional arguments to overwrite the h/c/l settings.
+        @TODO has to be documented.
 
-        *args: unused.
-        **kwargs: Additional arguments to overwrite the h/c/l settings.
-            @TODO has to be documented.
+    Returns
+    -------
+    No return. Raises a ValueError if a palette specified by input argument
+    ``palette`` does not exist.
 
-    Returns:
-        No return. Raises a ValueError if a palette specified by input argument
-            `palette` does not exist.
-
-    Examples:
-        >>> from colorspace.palettes import diverge_hcl
-        >>> a = diverge_hcl(10)
-        >>> a.colors(10)
-        >>> b = diverge_hcl(10, "Blue-Yellow 3")
-        >>> b.colors(10)
+    Examples
+    --------
+    >>> from colorspace.palettes import diverge_hcl
+    >>> a = qualitative_hcl()
+    >>> a.colors(10)
+    >>> b = qualitative_hcl("Dynamic")
+    >>> b.colors(10)
 
     .. todo::
         Try to make the code nicer (the part loading/overwriting settings).
         Looks messy and is extremely hard to debug. Rev implemented?
     """
 
-    def __init__(self, n, h = lambda n: [0, 360. / (n + 1.) * n], c = 50, l = 70,
+    def __init__(self, h = [0, 360.], c = 50, l = 70,
         fixup = True, alpha = 1, palette = None, rev = False, **kwargs):
 
         # If a string is given on "h": exchange with "palette".
         if isinstance(h, str):
             palette = h; h = None
 
-        # Checking input "n"
-        try:
-            n     = self._checkinput_(int,   1, False, False, n = n)
-        except Exception as e:
-            raise ValueError(e)
-
-        # Evaluate "end" if it is a function
-        h = h(n) if callable(h) else h
-
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            n     = self._checkinput_(int,   1, False, False, n = n)
             h     = self._checkinput_(int,   2, False, False, h = h)
             c     = self._checkinput_(int,   1, False, False, c = c)
             l     = self._checkinput_(int,   1, False, False, l = l)
@@ -749,7 +814,6 @@ class qualitative_hcl(hclpalette):
 
             # Extending h2 if h1 = h2 (h2 None)
             if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
-                print(" ++++++++++++++++++++ ")
                 pal.set("h2", pal.get("h1") + 360)
                 if pal.get("h2") > 360:
                     pal.set("h1", pal.get("h1") - 360)
@@ -758,9 +822,8 @@ class qualitative_hcl(hclpalette):
             # Getting settings
             settings = pal.get_settings()
         else:
-            settings = {}
-
             # User settings
+            settings = {}
             settings["h1"]    = h[0]
             settings["h2"]    = h[1]
             settings["c1"]    = c
@@ -768,8 +831,6 @@ class qualitative_hcl(hclpalette):
             settings["fixup"] = fixup
             settings["alpha"] = alpha
             settings["rev"]   = rev
-
-        settings["n"] = n
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -779,16 +840,26 @@ class qualitative_hcl(hclpalette):
                     if key in settings.keys() and not val is None:
                         settings[key] = val
 
-
-
         # Save settings
         self.settings = settings
 
 
-    def colors(self, n = None, type_ = "hex", fixup = None):
+    def colors(self, n = 11, fixup = None):
+        """colors(n = 11, type_ = "hex", fixup = None)
 
-        if n is None: n = self.get("n")
-        if n < 1:     return None
+        Returns the colors of the current color palette.
+
+        Parameters
+        ----------
+        n : int
+            number of colors which should be returned.
+        fixup : None, bool
+            should sRGB colors be corrected if they lie outside
+            the defined color space?
+            If ``None`` the ``fixup`` parameter from the object
+            will be used. Can be set to ``True`` or ``False``
+            to explicitly control the fixup here.
+        """
 
         if isinstance(fixup, bool): self.settings["fixup"] = fixup
 
@@ -812,29 +883,37 @@ class qualitative_hcl(hclpalette):
 # The rainbow class extends the qualitative_hcl class.
 # -------------------------------------------------------------------
 class rainbow_hcl(qualitative_hcl):
-    """HCL rainbow, a qualitative cyclic rainbow color palette
-    with uniform luminance and chroma.
+    """rainbow_hcl(c = 50, l = 70, start = 0, end = 360, \
+                 gamma = None, fixup = True, alpha = 1, *args, **kwargs):
 
-    Parameters:
-        n (:class:`int`): number of colors you want to have.
-        c (:class:`int`): chroma of the color map [0-100+].
-        l (:class:`int`): luminance of the color map [0-100].
-        start (:class:`int`): hue at which the rainbow should start,
-            default is `start = 0` which corresponds to red.
-        end (:class:`int`): hue at which the rainbow should stop. By default
-            this is a function `360 * (n - 1) / n` such that the `n` colors
-            are uniformly distributed across [0, 360].
-        gamma (:class:`float`): default is `None`.
-        fixup (:class:`bool`): should the colors be corrected to valid RGB
-            when returned as hex colors? Default is `True`, if set to
-            `False` colors outside the defined RGB color space will be
-            set to :class:`np.nan`.
-        alpha (:class:`alpha`): currently not implemented.
+    HCL rainbow, a qualitative cyclic rainbow color palette with uniform
+    luminance and chroma.
 
-    Examples:
-        >>> from colorspace.palettes import rainbow_hcl
-        >>> pal = rainbow_hcl(100)
-        >>> pal.colors(3); pal.colors(20)
+    Parameters
+    ----------
+    c : int
+        chroma of the color map [0-100+].
+    l : int
+        luminance of the color map [0-100].
+    start : int
+        hue at which the rainbow should start.
+    end : int
+        hue at which the rainbow should end.
+    gamma : float
+        gamma value used for transfiromation from/to sRGB.
+        @TODO implemented? Check!
+    fixup : bool 
+        only used when converting the HCL colors to hex.  Should RGB values
+        outside the defined RGB color space be corrected?
+    alpha : ...
+        currently not implemented.
+        @TODO Implement.
+
+    Example
+    -------
+    >>> from colorspace.palettes import rainbow_hcl
+    >>> pal = rainbow_hcl()
+    >>> pal.colors(3); pal.colors(20)
 
     .. todo::
         Implement functionality for alpha, either here or
@@ -846,17 +925,8 @@ class rainbow_hcl(qualitative_hcl):
 
     _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
 
-    def __init__(self, n, c = 50, l = 70, start = 0, end = lambda n: 360 * (n - 1)/n,
+    def __init__(self, c = 50, l = 70, start = 0, end = 360,
                  gamma = None, fixup = True, alpha = 1, *args, **kwargs):
-
-        # Checking input "n"
-        try:
-            n     = self._checkinput_(int,   1, False, False, n = n)
-        except Exception as e:
-            raise ValueError(e)
-
-        # Evaluate "end" if it is a function
-        end = end(n) if callable(end) else end
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -871,7 +941,7 @@ class rainbow_hcl(qualitative_hcl):
         # Save settins
         try:
             self.settings = {"h1": int(start), "h2": int(end),
-                             "c1": int(c), "l1": int(l), "n": int(n),
+                             "c1": int(c), "l1": int(l),
                              "fixup": bool(fixup), "alpha": float(alpha)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
@@ -889,50 +959,61 @@ class rainbow_hcl(qualitative_hcl):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class diverge_hcl(hclpalette):
-    """Diverging HCL color palette.
+    """diverge_hcl(h = [260, 0], c = 80, l = [30, 90], \
+        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, \
+        *args, **kwargs)
 
-    Parameters:
-        n (inteter): number of values to be returned later.
-        h (numeric): hue values, diverging color palettes should have
-            different hues for both ends of the palette. If only one
-            value is present it will be recycled ending up in a
-            diverging color palette with the same colors on both ends.
-            If more than two values are provided the first two will
-            be used while the rest is ignored.
-            If input `h` is a string this argument acts like the
-            `palette` argument (see `palette` input parameter).
-        c (numeric): chroma value, a single numeric value. If multiple
-            values are provided only the first one will be used.
-        l (numeric): luminance values. The first value is for the two
-            ends of the color palette, the second one for the neutral
-            center point. If only one value is given this value will
-            be recycled.
-        power (numeric): power parameter for non-linear behaviour of the
-            color palette.
-        fixup (boolean): only used when converting the HCL colors to hex.
-            Should RGB values outside the defined RGB color space be
-            corrected?
-        alpha (numeric): Not yet implemented.
-        palette (string): can be used to load a default diverging color palette
-            specification. If the palette does not exist an exception will be raised.
-            Else the settings of the palette as defined will be used to create
-            the color palette.
-        rev (boolean): should the color map be reversed.
+    Diverging HCL color palette.
 
-        *args: unused.
-        **kwargs: Additional arguments to overwrite the h/c/l settings.
-            @TODO has to be documented.
+    Parameters
+    ----------
+    h : numeric list
+        hue values, diverging color palettes should have different hues for
+        both ends of the palette. If only one value is present it will be
+        recycled ending up in a diverging color palette with the same colors on
+        both ends.  If more than two values are provided the first two will be
+        used while the rest is ignored.  If input ``h`` is a string this
+        argument acts like the ``palette`` argument (see ``palette`` input
+        parameter).
+    c : numeric
+        chroma value, a single numeric value. If multiple values are provided
+        only the first one will be used.
+    l : numeric list
+        luminance values. The first value is for the two ends of the color
+        palette, the second one for the neutral center point. If only one value
+        is given this value will be recycled.
+    power : numeric
+        power parameter for non-linear behaviour of the color palette.
+    fixup : bool
+        only used when converting the HCL colors to hex.  Should RGB values
+        outside the defined RGB color space be corrected?
+    alpha : numeric
+        Not yet implemented.
+    palette : string
+        can be used to load a default diverging color palette
+        specification. If the palette does not exist an exception will be raised.
+        Else the settings of the palette as defined will be used to create
+        the color palette.
+    rev : bool
+        should the color map be reversed.
+    args : ...
+        unused.
+    kwargs : ...
+        Additional arguments to overwrite the h/c/l settings.
+        @TODO has to be documented.
 
-    Returns:
-        No return. Raises a ValueError if a palette specified by input argument
-            `palette` does not exist.
+    Returns
+    -------
+    No return. Raises a ValueError if a palette specified by input argument
+    ``palette`` does not exist.
 
-    Examples:
-        >>> from colorspace.palettes import diverge_hcl
-        >>> a = diverge_hcl(10)
-        >>> a.colors(10)
-        >>> b = diverge_hcl(10, "Blue-Yellow 3")
-        >>> b.colors(10)
+    Examples
+    --------
+    >>> from colorspace.palettes import diverge_hcl
+    >>> a = diverge_hcl()
+    >>> a.colors(10)
+    >>> b = diverge_hcl("Blue-Yellow 3")
+    >>> b.colors(10)
 
     .. todo::
         Try to make the code nicer (the part loading/overwriting settings).
@@ -941,7 +1022,7 @@ class diverge_hcl(hclpalette):
 
     _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
 
-    def __init__(self, n, h = [260, 0], c = 80, l = [30, 90],
+    def __init__(self, h = [260, 0], c = 80, l = [30, 90],
         power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
         *args, **kwargs):
 
@@ -951,7 +1032,6 @@ class diverge_hcl(hclpalette):
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            n     = self._checkinput_(int,   1, False, False, n = n)
             h     = self._checkinput_(int,   2, True,  False, h = h)
             c     = self._checkinput_(int,   1, False, False, c = c)
             l     = self._checkinput_(int,   2, True,  False, l = l)
@@ -998,8 +1078,6 @@ class diverge_hcl(hclpalette):
             settings["alpha"] = alpha
             settings["rev"]   = rev
 
-        settings["n"] = n
-
         # If keyword arguments are set:
         # overwrite the settings if possible.
         if kwargs:
@@ -1011,14 +1089,23 @@ class diverge_hcl(hclpalette):
         self.settings = settings
 
 
-    def data(self):
-        return self._data_
-
     # Return hex colors
-    def colors(self, n = None, fixup = True):
+    def colors(self, n = 11, fixup = True):
+        """colors(n = 11, type_ = "hex", fixup = None)
 
-        if n is None: n = self.get("n")
-        if n < 1:     return None
+        Returns the colors of the current color palette.
+
+        Parameters
+        ----------
+        n : int
+            number of colors which should be returned.
+        fixup : None, bool
+            should sRGB colors be corrected if they lie outside
+            the defined color space?
+            If ``None`` the ``fixup`` parameter from the object
+            will be used. Can be set to ``True`` or ``False``
+            to explicitly control the fixup here.
+        """
 
         if isinstance(fixup, bool): self.settings["fixup"] = fixup
 
@@ -1051,45 +1138,58 @@ class diverge_hcl(hclpalette):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class sequential_hcl(hclpalette):
-    """Sequential HCL color palette.
+    """sequential_hcl(h = 260, c = [80, 30], l = [30, 90], \
+        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, \
+        *args, **kwargs)
 
-    Parameters:
-        n (inteter): number of values to be returned later.
-        h (numeric): hue values. If only one value is given the
-            value is recycled which yields a single-hue sequential
-            color palette.
-            If input `h` is a string this argument acts like the
-            `palette` argument (see `palette` input parameter).
-        c (numeric): chroma values, numeric of length to. If multiple
-            values are provided only the first one will be used.
-        l (numeric): luminance values, numeric of length to. If multiple
-            values are provided only the first one will be used.
-        power (numeric): power parameter for non-linear behaviour of the
-            color palette. One or two values can be provided.
-        fixup (boolean): only used when converting the HCL colors to hex.
-            Should RGB values outside the defined RGB color space be
-            corrected?
-        alpha (numeric): Not yet implemented.
-        palette (string): can be used to load a default diverging color palette
-            specification. If the palette does not exist an exception will be raised.
-            Else the settings of the palette as defined will be used to create
-            the color palette.
-        rev (boolean): should the color map be reversed.
+    Sequential HCL color palette.
 
-        *args: unused.
-        **kwargs: Additional arguments to overwrite the h/c/l settings.
-            @TODO has to be documented.
+    Parameters
+    ----------
+    h : numeric
+        hue values. If only one value is given the value is recycled which
+        yields a single-hue sequential color palette.  If input `h` is a string
+        this argument acts like the `palette` argument (see `palette` input
+        parameter).
+    c : numeric list
+        chroma values, numeric of length two. If multiple values are provided
+        only the first one will be used.
+    l : numeric list
+        luminance values, numeric of length two. If multiple values are
+        provided only the first one will be used.
+    power : numeric, numeric list
+        power parameter for non-linear behaviour of the
+        color palette. One or two values can be provided.
+    fixup : bool
+        only used when converting the HCL colors to hex.  Should RGB values
+        outside the defined RGB color space be corrected?
+    alpha : numeric
+        not yet implemented. @TODO Implement.
+    palette : string
+        can be used to load a default diverging color palette specification. If
+        the palette does not exist an exception will be raised.  Else the
+        settings of the palette as defined will be used to create the color
+        palette.
+    rev : bool 
+        should the color map be reversed.
+    args : ...
+        unused.
+    kwargs : ...
+        Additional arguments to overwrite the h/c/l settings.
+        @TODO has to be documented.
 
-    Returns:
-        No return. Raises a ValueError if a palette specified by input argument
-            `palette` does not exist.
+    Returns
+    -------
+    No return. Raises a ValueError if a palette specified by input argument
+    `palette` does not exist.
 
-    Examples:
-        >>> from colorspace.palettes import sequential_hcl
-        >>> a = sequential_hcl(10)
-        >>> a.colors(10)
-        >>> b = sequential_hcl(10, "Reds")
-        >>> b.colors(10)
+    Examples
+    --------
+    >>> from colorspace.palettes import sequential_hcl
+    >>> a = sequential_hcl()
+    >>> a.colors(10)
+    >>> b = sequential_hcl("Reds")
+    >>> b.colors(10)
 
     .. todo::
         Try to make the code nicer (the part loading/overwriting settings).
@@ -1102,7 +1202,7 @@ class sequential_hcl(hclpalette):
     # Allowed to overwrite via **kwargs
     _allowed_parameters_ = ["h1", "c1", "c2", "l1", "l2", "p1", "p2"]
 
-    def __init__(self, n, h = 260, c = [80, 30], l = [30, 90],
+    def __init__(self, h = 260, c = [80, 30], l = [30, 90],
         power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
         *args, **kwargs):
 
@@ -1113,7 +1213,6 @@ class sequential_hcl(hclpalette):
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            n     = self._checkinput_(int,   1, False, False, n = n)
             h     = self._checkinput_(int,   2, True,  False, h = h)
             c     = self._checkinput_(int,   2, True,  False, c = c)
             l     = self._checkinput_(int,   2, True,  False, l = l)
@@ -1144,9 +1243,8 @@ class sequential_hcl(hclpalette):
             # Getting settings
             settings = pal.get_settings()
         else:
-            settings = {}
-
             # User settings
+            settings = {}
             settings["h1"]    = h[0]
             settings["h2"]    = h[0] if len(h) == 1 else h[1]
             settings["c1"]    = c[0]
@@ -1158,9 +1256,6 @@ class sequential_hcl(hclpalette):
             settings["fixup"] = fixup
             settings["alpha"] = alpha
             settings["rev"]   = rev
-
-        # Number of colors
-        settings["n"] = n
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -1174,10 +1269,22 @@ class sequential_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = None, fixup = True):
+    def colors(self, n = 11, fixup = True):
+        """colors(n = 11, type_ = "hex", fixup = None)
 
-        if n is None: n = self.get("n")
-        if n < 1:     return None
+        Returns the colors of the current color palette.
+
+        Parameters
+        ----------
+        n : int
+            number of colors which should be returned.
+        fixup : None, bool
+            should sRGB colors be corrected if they lie outside
+            the defined color space?
+            If ``None`` the ``fixup`` parameter from the object
+            will be used. Can be set to ``True`` or ``False``
+            to explicitly control the fixup here.
+        """
 
         if isinstance(fixup, bool): self.settings["fixup"] = fixup
 
@@ -1206,36 +1313,6 @@ class sequential_hcl(hclpalette):
 
         # Return hex colors
         return HCL.colors(fixup = fixup)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

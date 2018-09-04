@@ -1,5 +1,5 @@
-Color Palettes
-==============
+Palettes
+========
 
 The `palettes` module provides a user-friendly interface
 to HCL based color palettes.

@@ -5,6 +5,7 @@
     padding: 10px;
     border-color: #c5cdd2;
     background-color: #f1f3f4;
+    overflow: hidden;
 }
 .container-fluid pre.sourceCode.python {
     background-color: #eaf5fb;

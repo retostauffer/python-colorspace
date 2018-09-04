@@ -1,5 +1,5 @@
-The colorlib
-============
+The color objects
+=================
 
 The `colorlib` module is handling the transformation between different
 color spaces. A set of different color spaces is available including
@@ -17,6 +17,6 @@ color spaces. A set of different color spaces is available including
 .. image:: ../_static/img_colorlib.jpeg
 
 
-.. autoclass:: colorlib.colorlib
-    :members:
+.. automodule:: colorlib
+    :members: colorobject, hexcols, sRGB, RGB, polarLUV, HCL, CIELUV, CIEXYZ, CIELAB, polarLAB, HLS, HSV
 

@@ -2,65 +2,42 @@
    sphinx-quickstart on Fri Aug 31 21:18:17 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
-
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-    :caption: Getting started
-
-    installation.rst
-    gettingstarted.rst
-    logenvir.rst
-    releasenotes.rst
-
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-
-    examples/hcl_palettes.rst
-    examples/transform.rst
-    examples/colorlib.rst
-    examples/hcl_converter.rst
-
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-    :caption: References
-
-    userapi.rst
-    modules/gui.rst
-    modules/palettes.rst
-
-
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-    :caption: Objects
-
-    modules/colorlib.rst
-
+   .. automodule:: imageio
 
 
 Welcome to python-colorspace's documentation!
 =============================================
 
-Hy :)
+``python-colorspace`` is a python package to create and handle colors and color
+palettes in python. Based on the Hue-Chroma-Luminance (HCL) color space
+effective color palettes can be designed and implemented in your own daily
+workflow.
 
-Basic Objects
-=============
+This package is based on the code and ideas of the
+`R colorspace <https://cran.r-project.org/package=colorspace>`_ package
+as it has often been requested by python enthusiasts. More information
+and an interactive interface can also be found on
+`HCLwizard.org <https://hclwizard.org>`_.
 
-There to types of objects: :class:`hclpalette`'s and :class:`colorobject`'s.
-:py:class:`hclpalettes` contain a set of parameters which specify the color palette
-and can be used to retrieve a set of `N` colors which can be defined by the user.
-A :class:`colorobject` contains a set of `N` colors, but `N` is fixed (depending
-on how the object has been created). :class:`colorobject`'s provide the methods
-to convert colors from one color space to another (e.g., from `hex` to `sRGB`,
-`HCL` or `CIEXZY`.
+The package itself can be found on
+`github <https://github.com/retostauffer/python-colorspace>`_ this documentation
+is also available on `ReadTheDocs <https://python-colorspace.readthedocs.io>`_.
 
-* Add some links here ...
+
+Contents
+--------
+
+.. toctree::
+    :maxdepth: 1
+    
+    sec_gettingstarted
+    sec_examples
+    sec_reference
+    sec_developer
+
 
 Known issues
-============
+------------
 
 .. _index-known-issues:
 
@@ -71,8 +48,8 @@ Known issues
     White point implemented but might require some additional testing.
 
 
-Full TODO list
-==============
+TODO's
+------
 
 .. todolist::
 
