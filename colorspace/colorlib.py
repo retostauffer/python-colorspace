@@ -1162,19 +1162,26 @@ class colorobject(object):
         res = ["{:s} color object ({:d} colors)".format(self.__class__.__name__, ncol)]
 
         # Show header
-        fmt = "".join(["{:>", "{:d}".format(digits+5), "s}"])
+        fmt = "".join(["{:>", "{:d}".format(digits+6), "s}"])
         res.append("    " + "".join([fmt.format(x) for x in dims]))
 
         # Show data
         # In case of a hexcols object: string formatting and
         # nan-replacement beforehand.
         if self.__class__.__name__ == "hexcols":
-            fmt = "  {:>7s}"
             data = {}
+            fmt = "".join(["{:", "{:d}.{:d}".format(6+digits, 3), "f}"])
             for d in self._data_.keys():
-                data[d] = [x if isinstance(x,str) else "nan" for x in self._data_[d]]
+                data[d] = np.ndarray(ncol, dtype = "|S7")
+                for n in range(0, ncol):
+                    x = self._data_[d][n]
+                    if isinstance(x, float):
+                        data[d][n] = fmt.format(x)
+                    else:
+                        data[d][n] = x[0:7]
+            fmt = "{:>8s}"
         else:
-            fmt = "".join(["{:", "{:d}.{:d}".format(5+digits, digits), "f}"])
+            fmt = "".join(["{:", "{:d}.{:d}".format(6+digits, digits), "f}"])
             data = self._data_
 
         # Print object content
@@ -1301,6 +1308,18 @@ class colorobject(object):
 
         return res
 
+    def hasalpha(self):
+
+        if self.ALPHA is None:
+            return False
+        else:
+            return True
+
+    def dropalpha(self):
+
+        if self.hasalpha():
+            self.ALPHA = None
+            del self._data_["alpha"]
 
 
     def specplot(self, **kwargs):
@@ -1316,12 +1335,25 @@ class colorobject(object):
 
     def colors(self, fixup = True):
         """Always returns hex colors of the color object.
+
+        If the object contains alpha values the alpha level
+        is added to the hex string if and only if alpha is
+        not equal to 1.0.
         """
 
         from copy import copy
         x = copy(self)
         x.to("hex", fixup = fixup)
-        return x.get("hex_")
+        if x.hasalpha():
+            res = x.get("hex_")
+            # Appending alpha if alpha < 1.0
+            for i in range(0, len(res)):
+                if self._data_["alpha"][i] < 1.0:
+                    res[i] += "{:02d}".format(int(self._data_["alpha"][i] * 100.))
+            # Return hex with alpha
+            return res
+        else:
+            return x.get("hex_")
 
 
     def get(self, dimname = None):
@@ -1802,8 +1834,6 @@ class sRGB(colorobject):
         whitepoint.
     """
 
-    PROVIDES_ALPHA = True
-
     def __init__(self, R, G, B, alpha = None):
 
         # checking inputs, save inputs on object
@@ -1853,7 +1883,10 @@ class sRGB(colorobject):
         # Transformation sRGB -> hex
         elif to == "hex":
             hex_ = clib.sRGB_to_hex(self.get("R"), self.get("G"), self.get("B"), fixup)
-            self._data_ = {"hex_": hex_}
+            if not self.ALPHA == None:
+                self._data_ = {"hex_": hex_, "alpha": self.ALPHA}
+            else:
+                self._data_ = {"hex_": hex_}
             self.__class__ = hexcols
 
         # The rest are transformations along a path
@@ -2242,9 +2275,41 @@ class hexcols(colorobject):
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
         tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, hex_ = hex_)
-        for key,val in tmp.items(): self._data_[key] = val
+
+        # Checking for valid hex colors and alpha values
+        tmp = self._check_hex_(tmp["hex_"])
+        for key,val in tmp.items():
+            self._data_[key] = val
+            # Store alpha values on the object
+            if key == "alpha": self.ALPHA = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
+
+    def _check_hex_(self, hex_):
+
+        from re import compile, match
+
+        r = compile("^#\w{6}([0-9]{2})?$")
+        check = filter(r.match, hex_)
+        if not len(check) == len(hex_):
+            raise ValueError("invalid hex colors provided while " + \
+                    "initializing class {:s}".format(self.__class__.__name__))
+
+        r = compile("^#\w{6}([0-9]{2})$")
+        check = [1 if match(r, x) else 0 for x in hex_]
+        # No colors with alpha
+        if sum(check) == 0:
+            return {"hex_": hex_}
+        # Else extracting alpha colors
+        else:
+            alpha = []
+            for h in hex_:
+                m = match(r, h)
+                if not m:
+                    alpha.append(1.)
+                else:
+                    alpha.append(int(m.group(1)) / 100.)
+            return {"hex_": hex_, "alpha": alpha}
 
     def to(self, to, fixup = True):
         """
@@ -2270,7 +2335,16 @@ class hexcols(colorobject):
         # The only transformation we need is from hexcols -> sRGB
         elif to == "sRGB":
             [R, G, B] = clib.hex_to_sRGB(self.get("hex_"))
-            self._data_ = {"R": R, "G": G, "B": B}
+
+            # Check if some hex colors do have alpha values
+            from numpy import where
+            from re import compile, match
+            pat = compile("^#\w{6}([0-9]{2})$") 
+
+            if not self.ALPHA is None:
+                self._data_ = {"R": R, "G": G, "B": B, "alpha": self.ALPHA}
+            else:
+                self._data_ = {"R": R, "G": G, "B": B}
             self.__class__ = sRGB
 
         # The rest are transformations along a path

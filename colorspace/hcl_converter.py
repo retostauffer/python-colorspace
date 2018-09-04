@@ -2,19 +2,19 @@
 from .logger import logger
 log = logger(__name__)
 
-# Tkinter was renamed to tkinter Py2->Py3,
-# make sure the correct module is loaded.
-#import sys
-#if sys.version_info.major < 3:
-#    from Tkinter import *
-#else:
-#    from tkinter import *
 
-
-def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = None):
+def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0,
+        output = None, dropalpha = False):
     """Simulate color deficiencies on png/jpg/jpeg figures.
     Takes an existing pixel image and simulates different color vision
     deficiencies.
+
+    The function displays a matplotlib figure if output is set to None.
+    If the parameter output is set, the converted figure will be stored.
+    If only one color vision deficiency is defined (e.g., `cvd = "desaturate"`)
+    a figure of the same type and size as the input figure will be saved to
+    the disc. If multiple cvd's are specified a multi-panel plot will be
+    stored under `output`.
 
     Parameters:
         image (str): name of the figure which should be converted (png/jpg/jpeg).
@@ -26,6 +26,8 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = N
         output (string): optional. It None an interactive plotting window will
             be opened. If a string is given the figure will be written to
             `output`.
+        dropalpha (bool): whether or not to drop the alpha channel.
+            Only useful for figures having an alpha channel (png w/ alpha).
 
     Examples:
         >>> from colorspace.hcl_converter import hcl_converter
@@ -94,6 +96,10 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = N
     else:
         rgba = sRGB(data["R"], data["G"], data["B"], data["alpha"])
 
+
+    # Drop alpha
+    if dropalpha: rgba.dropalpha()
+
     # Apply color deficiency
     import CVD
     import matplotlib.pyplot as plt
@@ -106,7 +112,10 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = N
     for c in range(0, len(cvd)):
 
         # Start plotting
-        fig = plt.subplot(nrow, ncol, c + 1)
+        if len(cvd) == 1:
+            fig = plt.figure()
+        else:
+            fig = plt.subplot(nrow, ncol, c + 1)
 
         if cvd[c] == "original":
             cols = rgba
@@ -121,8 +130,8 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = N
             return x.reshape(shape)
         
         # Shape of the new figure
-        if "alpha" in data.keys():  shape = [img.shape[0],img.shape[1],4]
-        else:                       shape = [img.shape[0],img.shape[1],3]
+        if cols.hasalpha():  shape = [img.shape[0],img.shape[1],4]
+        else:                shape = [img.shape[0],img.shape[1],3]
 
         # Create new image matrix and fill in the data
         from numpy import ndarray, uint8
@@ -130,8 +139,8 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = N
         imnew[:,:,0] = fun(cols.get("R"), shape[0:2])
         imnew[:,:,1] = fun(cols.get("G"), shape[0:2])
         imnew[:,:,2] = fun(cols.get("B"), shape[0:2])
-        if "alpha" in data.keys():
-            imnew[:,:,3] = fun(data["alpha"], shape[0:2])
+        if cols.hasalpha():
+            imnew[:,:,3] = fun(cols.get("alpha"), shape[0:2])
         
         import matplotlib.pyplot as plt
         plt.imshow(imnew)
@@ -144,7 +153,14 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0, output = N
     if output is None:
         plt.show()
     else:
-        imageio.imwrite(output, imnew)
+        log.info("Store figure under \"{:s}\".".format(output))
+        # Write a simple figure:
+        if len(cvd) == 1:
+            imageio.imwrite(output, imnew)
+        # Save matplotlib panel plot
+        else:
+            plt.savefig(output)
+
 
 
 
