@@ -1670,7 +1670,7 @@ class colorobject(object):
                 val = np.asarray(val)
 
             # For alpha, R, G, and B: check range
-            if key.lower() in ["alpha", "r", "g", "b"]:
+            if isinstance(self, RGB) or isinstance(self, sRGB):
                 if np.max(val) > 1. or np.max(val) < 0.:
                     raise ValueError("wrong values specified for " + \
                             "dimension {:s} in {:s}: ".format(key, self.__class__.__name__) + \
