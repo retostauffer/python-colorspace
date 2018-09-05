@@ -6,10 +6,14 @@ from cslogger import cslogger
 log = cslogger(__name__)
 
 
-def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
-    """specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs)
+def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs):
+    """specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     
     Visualization of the RGB and HCL spectrum given a set of hex colors.
+    As the hues for low-chroma colors are not (or poorly) identified, by
+    default a smoothing is applied to the hues (``fix = TRUE``). Also, to
+    avoid jumps from 0 to 360 or vice versa, the hue coordinates are shifted
+    suitably.
 
     Parameters
     ----------
@@ -21,6 +25,9 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
         whether or not to plot the HCL color spectrum.
     palette : bool
         whether or not to plot the colors as a color map.
+    fix : bool
+        should the hues be fixed to be on a smooth(er) curve? Details
+        in the method description.
     kwargs : ...
         Currently not used.
 
@@ -37,7 +44,8 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
     >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False)
 
     .. todo::
-        Implement the smoothings to improve the look of the plots.
+        Implement the smoothings to improve the look of the plots. Only
+        partially implemented, the spline smoother is missing.
     """
 
     # Check if matplotlib is installed or not (as it is not
@@ -82,6 +90,34 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
     if not isinstance(hex_, dict):
         hex_ = {"colors": hex_}
 
+    # If input parameter "fix = True": fixing
+    # the hue coordinates to avoid jumping which
+    # can occur due to the HCL->RGB transformation.
+    def fixcoords(x):
+        [H, C, L] = x
+        n = len(H) # Number of colors
+        # Fixing spikes
+        import numpy as np
+        for i in range(1,n):
+            d = H[i] - H[i - 1]
+            if np.abs(d) > 320.:    H[i]   = H[i]       - np.sign(d) * 360.
+            if np.abs(H[i]) > 360:  H[0:i+1] = H[0:i+1] - np.sign(H[i]) * 360
+
+        # Smoothing the hue values in batches where chroma is very low
+        idx = np.where(C < 8.)[0]
+        if len(idx) == n:
+            H = np.repeat(mean(H), n)
+        else:
+            # pre-smoothing the hue
+            # Running mean
+            if n > 49:
+                H = 1./3. * (H + np.append(H[0],H[0:-1]) + np.append(H[1:],H[n-1]))
+        
+            # TODO Spline smoother not yet implemented
+
+        return [H, C, L]
+
+
     # Calculate coordinates
     coords = {}
     for key,vals in hex_.items():
@@ -93,6 +129,8 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
         if hcl:
             cols.to("HCL")
             coords[key]["HCL"] = [cols.get("H"), cols.get("C"), cols.get("L")]
+            if fix: coords[key]["HCL"] = fixcoords(coords[key]["HCL"])
+
 
     # If we have multiple color maps: disable palette
     if len(coords) > 1:
@@ -104,7 +142,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
 
     # Specify the colors for the spectrum plots
     rgbcols = sRGB([0.8, 0, 0], [0, 0.8, 0], [0, 0, 0.8])
-    hclcols = rainbow_hcl(3)
+    hclcols = rainbow_hcl()(4)
 
     # Create figure
     from numpy import linspace, arange
@@ -186,9 +224,9 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, **kwargs):
             [H, C, L] = val["HCL"]
             x = linspace(0., 1., len(H))
             linestyle = linestyles[count % len(linestyles)] 
-            ax3.plot(x,  C, color = hclcols.colors()[1], linestyle = linestyle)
-            ax3.plot(x,  L, color = hclcols.colors()[2], linestyle = linestyle)
-            ax33.plot(x, H, color = hclcols.colors()[0], linestyle = linestyle)
+            ax3.plot(x,  C, color = hclcols[1], linestyle = linestyle)
+            ax3.plot(x,  L, color = hclcols[2], linestyle = linestyle)
+            ax33.plot(x, H, color = hclcols[0], linestyle = linestyle)
             count += 1
         ax33.set_yticks(arange(-360, 361, 120))
         ax33.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.0f'))

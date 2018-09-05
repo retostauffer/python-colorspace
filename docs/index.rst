@@ -24,6 +24,8 @@ The package itself can be found on
 is also available on `ReadTheDocs <https://python-colorspace.readthedocs.io>`_.
 
 
+
+
 Contents
 --------
 
@@ -40,9 +42,6 @@ Known issues
 ------------
 
 .. _index-known-issues:
-
-.. warning::
-    Gamma and alpha handling not yet implemented.
 
 .. warning::
     White point implemented but might require some additional testing.

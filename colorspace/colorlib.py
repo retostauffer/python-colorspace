@@ -1468,16 +1468,17 @@ class colorobject(object):
 
         # Sorting the dimensions
         from re import match
-        if   match("^(R|G|B|alpha){4}", "".join(dims)):
-            dims = ["R", "G", "B", "alpha"]
-        elif match("^(R|G|B){3}", "".join(dims)): dims = ["R", "G", "B"]
-        elif match("^(L|A|B){3}", "".join(dims)): dims = ["L", "A", "B"]
-        elif match("^(L|U|V){3}", "".join(dims)): dims = ["L", "U", "V"]
-        elif match("^(H|C|L){3}", "".join(dims)): dims = ["H", "C", "L"]
-        elif match("^(X|Y|Z){3}", "".join(dims)): dims = ["X", "Y", "Z"]
-        elif match("^(H|S|V){3}", "".join(dims)): dims = ["H", "S", "V"]
-        elif match("^(H|L|S){3}", "".join(dims)): dims = ["H", "L", "S"]
-        ncol = len(self._data_[dims[0]]) # Number of colors
+        if   match("^(R|G|B|alpha){3,4}$", "".join(dims)): dims = ["R", "G", "B"]
+        elif match("^(L|A|B|alpha){3,4}$", "".join(dims)): dims = ["L", "A", "B"]
+        elif match("^(L|U|V|alpha){3,4}$", "".join(dims)): dims = ["L", "U", "V"]
+        elif match("^(H|C|L|alpha){3,4}$", "".join(dims)): dims = ["H", "C", "L"]
+        elif match("^(X|Y|Z|alpha){3,4}$", "".join(dims)): dims = ["X", "Y", "Z"]
+        elif match("^(H|S|V|alpha){3,4}$", "".join(dims)): dims = ["H", "S", "V"]
+        elif match("^(H|L|S|alpha){3,4}$", "".join(dims)): dims = ["H", "L", "S"]
+        if self.hasalpha(): dims.append("alpha")
+
+        # Number of colors
+        ncol = len(self._data_[dims[0]])
 
         # Start creating the string:
         res = ["{:s} color object ({:d} colors)".format(self.__class__.__name__, ncol)]
@@ -1631,18 +1632,18 @@ class colorobject(object):
         """
         for v in via:   self.to(v, fixup = fixup)
 
-    def _colorobject_check_input_arrays_(self, __fname__, **kwargs):
-        """_colorobject_check_input_arrays_(__fname__, **kwargs)
+    def _colorobject_check_input_arrays_(self, **kwargs):
+        """_colorobject_check_input_arrays_(**kwargs)
         
         Checks if all inputs in **kwargs are of type np.ndarray OR lists
         (will be converted to ndarrays) and that all are of the same length
         If not, the script will drop some error messsages and stop.
+        If ``alpha`` is given it is handled in a special way. If ``None``
+        it will simply be dropped (no alpha channel specified), else it is
+        handled like the rest and  has to fulfill the requirements (length, type).
 
         Parameters
         ----------
-        __fname__ : str
-            name of the method who called this check routine.
-            Only used to drop a useful error message if required.
         kwargs : ...
             named keywords, objects to be checked.
 
@@ -1654,24 +1655,32 @@ class colorobject(object):
 
         # Message will be dropped if problems occur
         msg = "Problem while checking inputs \"{:s}\" to class \"{:s}\":".format(
-                ", ".join(kwargs.keys()), __fname__)
+                ", ".join(kwargs.keys()), self.__class__.__name__)
 
 
         res = {}
         lengths = []
         for key,val in kwargs.items():
+            # No alpha provided, simply proceed
+            if key == "alpha" and val is None: continue
             # If is list: convert to ndarray no matter how long the element is
             if isinstance(val,float) or isinstance(val,int):
                 val = np.asarray([val])
             elif isinstance(val,list):
                 val = np.asarray(val)
 
+            # For alpha, R, G, and B: check range
+            if key.lower() in ["alpha", "r", "g", "b"]:
+                if np.max(val) > 1. or np.max(val) < 0.:
+                    raise ValueError("wrong values specified for " + \
+                            "dimension {:s} in {:s}: ".format(key, self.__class__.__name__) + \
+                            "values have to lie within [0.,1.]")
+
             # Check object type
             from numpy import asarray
             try:
                 val = asarray(val)
             except Exception as e:
-                print val
                 raise ValueError("input {:s} to {:s}".format(key, self.__class__.__name__) + \
                         " could not have been converted to numpy.ndarray: {:s}".format(e))
 
@@ -1699,7 +1708,9 @@ class colorobject(object):
         -------
         Returns ``True`` if alpha values are present, ``False`` if not.
         """
-        if self.ALPHA is None:
+        if not "alpha" in self._data_.keys():
+            return False
+        elif self._data_["alpha"] is None:
             return False
         else:
             return True
@@ -1711,7 +1722,6 @@ class colorobject(object):
         Remove alpha information from the color object, if defined.
         """
         if self.hasalpha():
-            self.ALPHA = None
             del self._data_["alpha"]
 
         return
@@ -1826,7 +1836,12 @@ class colorobject(object):
                     "has to be None or a string.")
         # Else only the requested dimension
         elif not dimname in self._data_.keys():
-            raise ValueError("{:s} has no dimension {:s}".format(self.__class__.__name__, dimname))
+            # Alpha channel never defined, return None (which
+            # is a valid value for "no alpha")
+            if dimname == "alpha":
+                return None
+            else:
+                raise ValueError("{:s} has no dimension {:s}".format(self.__class__.__name__, dimname))
         return copy(self._data_[dimname])
 
     def set(self, **kwargs):
@@ -1917,7 +1932,7 @@ class colorobject(object):
 # PolarLUV or HCL object
 # -------------------------------------------------------------------
 class polarLUV(colorobject):
-    """polarLUV(H, C, L)
+    """polarLUV(H, C, L, alpha = None)
     
     polarLUV or HCL color object. The polar representation of the CIELUV
     (:class:`colorspace.CIELUV`) color space is also known as
@@ -1928,11 +1943,16 @@ class polarLUV(colorobject):
     Parameters
     ----------
     L : numeric
-        single value or multiple values for hue dimension ``[-360.,360.]``.
+        single value or vector for hue dimension ``[-360.,360.]``.
     U : numeric
-        Single value or multiple values for chroma dimension ``[0., 100.+]``.
+        single value or vector for chroma dimension ``[0., 100.+]``.
     V : numeric
-        Single value or multiple values for luminance dimension ``[0., 100.]``.
+        single value or vector for luminance dimension ``[0., 100.]``.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
+        
 
     Examples
     --------
@@ -1950,11 +1970,11 @@ class polarLUV(colorobject):
         whitepoint.
     """
 
-    def __init__(self, H, C, L):
+    def __init__(self, H, C, L, alpha = None):
 
         # Checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, H = H, C = C, L = L)
+        tmp = self._colorobject_check_input_arrays_(H = H, C = C, L = L, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -1990,7 +2010,7 @@ class polarLUV(colorobject):
         # This is the only transformation from polarLUV -> LUV
         elif to == "CIELUV":
             [L, U, V] = clib.polarLUV_to_LUV(self.get("L"), self.get("C"), self.get("H"))
-            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self._data_ = {"L" : L, "U" : U, "V" : V, "alpha" : self.get("alpha")}
             self.__class__ = CIELUV
 
         # The rest are transformations along a path
@@ -2031,7 +2051,7 @@ HCL = polarLUV
 # CIELUV color object
 # -------------------------------------------------------------------
 class CIELUV(colorobject):
-    """CIELUV(L, U, V)
+    """CIELUV(L, U, V, alpha = None)
     
     CIELUV color object.
 
@@ -2046,6 +2066,10 @@ class CIELUV(colorobject):
         single value or multiple values for U-dimension.
     V : numeric
         single value or multiple values for V-dimension.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
 
     Examples
     --------
@@ -2060,11 +2084,11 @@ class CIELUV(colorobject):
         provides some methods to e.g., extract color or to modify the
         whitepoint.
     """
-    def __init__(self, L, U, V):
+    def __init__(self, L, U, V, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, L = L, U = U, V = V)
+        tmp = self._colorobject_check_input_arrays_(L = L, U = U, V = V, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2101,13 +2125,13 @@ class CIELUV(colorobject):
         elif to == "CIEXYZ":
             [X, Y, Z] = clib.LUV_to_XYZ(self.get("L"), self.get("U"), self.get("V"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ)
-            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z, "alpha" : self.get("alpha")}
             self.__class__ = CIEXYZ
 
         # Transformation from CIELUV -> polarLUV (HCL)
         elif to in ["HCL","polarLUV"]:
             [L, C, H] = clib.LUV_to_polarLUV(self.get("L"), self.get("U"), self.get("V"))
-            self._data_ = {"L" : L, "C" : C, "H" : H}
+            self._data_ = {"L" : L, "C" : C, "H" : H, "alpha" : self.get("alpha")}
             self.__class__ = polarLUV
 
         # The rest are transformations along a path
@@ -2140,7 +2164,7 @@ class CIELUV(colorobject):
 # CIEXYZ color object
 # -------------------------------------------------------------------
 class CIEXYZ(colorobject):
-    """CIEXYZ(X, Y, Z)
+    """CIEXYZ(X, Y, Z, alpha = None)
     
     CIEXYZ color object.
 
@@ -2157,6 +2181,10 @@ class CIEXYZ(colorobject):
         single value or multiple values for Y-dimension.
     Z : numeric
         single value or multiple values for Z-dimension.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
 
     Examples
     --------
@@ -2172,11 +2200,11 @@ class CIEXYZ(colorobject):
         whitepoint.
     """
 
-    def __init__(self, X, Y, Z):
+    def __init__(self, X, Y, Z, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, X = X, Y = Y, Z = Z)
+        tmp = self._colorobject_check_input_arrays_(X = X, Y = Y, Z = Z, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2214,21 +2242,21 @@ class CIEXYZ(colorobject):
         elif to == "CIELUV":
             [L, U, V] = clib.XYZ_to_LUV(self.get("X"), self.get("Y"), self.get("Z"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "U" : U, "V" : V}
+            self._data_ = {"L" : L, "U" : U, "V" : V, "alpha" : self.get("alpha")}
             self.__class__ = CIELUV
 
         # Transformation from CIEXYZ -> CIELAB
         elif to == "CIELAB":
             [L, A, B] = clib.XYZ_to_LAB(self.get("X"), self.get("Y"), self.get("Z"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self._data_ = {"L" : L, "A" : A, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = CIELAB
 
         # Transformation from CIEXYZ -> RGB
         elif to == "RGB":
             [R, G, B] = clib.XYZ_to_RGB(self.get("X"), self.get("Y"), self.get("Z"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ) 
-            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = RGB
 
         # The rest are transformations along a path
@@ -2273,8 +2301,10 @@ class RGB(colorobject):
         intensity of green ``[0.,1.]``.
     B : numeric
         intensity of blue ``[0.,1.]``.
-    alpha : None, numeric
-        optional, ``[0.,1.]``.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
 
     Examples
     --------
@@ -2296,12 +2326,7 @@ class RGB(colorobject):
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
 
-        if not alpha is None:
-            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
-                    R = R, G = G, B = B)
-        else:
-            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
-                    R = R, G = G, B = B, alpha = alpha)
+        tmp = self._colorobject_check_input_arrays_(R = R, G = G, B = B, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2338,28 +2363,27 @@ class RGB(colorobject):
         # Transform from RGB -> HLS
         elif to == "HLS":
             [H, L, S] = clib.RGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"H" : H, "L" : L, "S" : S}
+            self._data_ = {"H" : H, "L" : L, "S" : S, "alpha" : self.get("alpha")}
             self.__class__ = HLS
 
         # Transform from RGB -> HSV
         elif to == "HSV":
             [H, S, V] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"H" : H, "S" : S, "V" : V}
+            self._data_ = {"H" : H, "S" : S, "V" : V, "alpha" : self.get("alpha")}
             self.__class__ = HSV
 
         # Transform from RGB -> sRGB
         elif to == "sRGB":
             [R, G, B] = clib.RGB_to_DEVRGB(self.get("R"), self.get("G"), self.get("B"),
                                            self.GAMMA)
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            if not self.ALPHA is None: self._data_["alpha"] = self.ALPHA
+            self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = sRGB
 
         # Transform from RGB -> CIEXYZ
         elif to == "CIEXYZ":
             [X, Y, Z] = clib.RGB_to_XYZ(self.get("R"), self.get("G"), self.get("B"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ)
-            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z, "alpha" : self.get("alpha")}
             self.__class__ = CIEXYZ
 
         # The rest are transformations along a path
@@ -2401,8 +2425,10 @@ class sRGB(colorobject):
         intensity of green ``[0.,1]``.
     B : float, list of floats, numpy.ndarray
         intensity of blue ``[0.,1]``.
-    alpha : None, numpy.ndarray
-        optional, alpha values of the colors in ``[0.,1.]``.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
     gamma : None, float
         gamma parameter. Used to convert from device dependent sRGB
         to RGB. If not set the default of 2.4 is used.
@@ -2426,15 +2452,7 @@ class sRGB(colorobject):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        if alpha is None:
-            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
-                    R = R, G = G, B = B)
-        else:
-            tmp = self._colorobject_check_input_arrays_(self.__class__.__name__,
-                    R = R, G = G, B = B, alpha = alpha)
-            # Store alpha to the object:
-            self.ALPHA = alpha
-
+        tmp = self._colorobject_check_input_arrays_(R = R, G = G, B = B, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2474,17 +2492,13 @@ class sRGB(colorobject):
         elif to == "RGB":
             [R, G, B] = clib.DEVRGB_to_RGB(self.get("R"), self.get("G"), self.get("B"),
                                            gamma = self.GAMMA)
-            self._data_ = {"R" : R, "G" : G, "B" : B}
-            if not self.ALPHA is None: self._data_["alpha"] = self.ALPHA
+            self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = RGB
 
         # Transformation sRGB -> hex
         elif to == "hex":
             hex_ = clib.sRGB_to_hex(self.get("R"), self.get("G"), self.get("B"), fixup)
-            if not self.ALPHA == None:
-                self._data_ = {"hex_": hex_, "alpha": self.ALPHA}
-            else:
-                self._data_ = {"hex_": hex_}
+            self._data_ = {"hex_" : hex_, "alpha" : self.get("alpha")}
             self.__class__ = hexcols
 
         # The rest are transformations along a path
@@ -2508,7 +2522,7 @@ class sRGB(colorobject):
 
 
 class CIELAB(colorobject):
-    """CIELAB(L, A, B)
+    """CIELAB(L, A, B, alpha = None)
     
     CIELAB color object.
 
@@ -2525,6 +2539,10 @@ class CIELAB(colorobject):
         single value or multiple values for A dimension.
     B : numeric
         single value or multiple values for B dimension.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
 
     Examples
     --------
@@ -2540,11 +2558,11 @@ class CIELAB(colorobject):
         whitepoint.
     """
 
-    def __init__(self, L, A, B):
+    def __init__(self, L, A, B, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        tmp = self._colorobject_check_input_arrays_(L = L, A = A, B = B, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2582,13 +2600,13 @@ class CIELAB(colorobject):
         elif to == "CIEXYZ":
             [X, Y, Z] = clib.LAB_to_XYZ(self.get("L"), self.get("A"), self.get("B"),
                                         self.WHITEX, self.WHITEY, self.WHITEZ)
-            self._data_ = {"X" : X, "Y" : Y, "Z" : Z}
+            self._data_ = {"X" : X, "Y" : Y, "Z" : Z, "alpha" : self.get("alpha")}
             self.__class__ = CIEXYZ
 
         # Transformation CIELAB -> polarLAB
         elif to == "polarLAB":
             [L, A, B] = clib.LAB_to_polarLAB(self.get("L"), self.get("A"), self.get("B"))
-            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self._data_ = {"L" : L, "A" : A, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = polarLAB
 
         # The rest are transformations along a path
@@ -2619,7 +2637,7 @@ class CIELAB(colorobject):
 
 
 class polarLAB(colorobject):
-    """polarLAB(L, A, B)
+    """polarLAB(L, A, B, alpha = None)
     
     polarLAB color object.
 
@@ -2636,6 +2654,10 @@ class polarLAB(colorobject):
         single value or multiple values for A dimension.
     B : numeric
         single value or multiple values for B dimension.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
 
     .. seealso::
         This object extens the :py:class:`colorlib.colorobject` which
@@ -2643,11 +2665,11 @@ class polarLAB(colorobject):
         whitepoint.
     """
 
-    def __init__(self, L, A, B):
+    def __init__(self, L, A, B, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, L = L, A = A, B = B)
+        tmp = self._colorobject_check_input_arrays_(L = L, A = A, B = B, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2684,7 +2706,7 @@ class polarLAB(colorobject):
         # The only transformation we need is from polarLAB -> LAB
         elif to == "CIELAB":
             [L, A, B] = clib.polarLAB_to_LAB(self.get("L"), self.get("A"), self.get("B"))
-            self._data_ = {"L" : L, "A" : A, "B" : B}
+            self._data_ = {"L" : L, "A" : A, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = CIELAB
 
         # The rest are transformationas along a path
@@ -2719,7 +2741,7 @@ class polarLAB(colorobject):
 
 
 class HSV(colorobject):
-    """HSV(H, S, V)
+    """HSV(H, S, V, alpha = None)
     
     HSV (Hue-Saturation-Value) color object.
 
@@ -2736,6 +2758,10 @@ class HSV(colorobject):
         single value or multiple values for the saturation dimension.
     V : numeric
         single value or multiple values for the value dimension.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
 
     Examples
     --------
@@ -2748,11 +2774,11 @@ class HSV(colorobject):
         whitepoint.
     """
 
-    def __init__(self, H, S, V):
+    def __init__(self, H, S, V, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, H = H, S = S, V = V)
+        tmp = self._colorobject_check_input_arrays_(H = H, S = S, V = V, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2789,7 +2815,7 @@ class HSV(colorobject):
         # The only transformation we need is back to RGB
         elif to == "RGB":
             [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
-            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = RGB
 
         # The rest are transformations along a path
@@ -2812,7 +2838,7 @@ class HSV(colorobject):
 
 
 class HLS(colorobject):
-    """HLS(H, L, S)
+    """HLS(H, L, S, alpha = None)
     
     HLS (Hue-Lightness-Saturation) color space.
 
@@ -2829,6 +2855,10 @@ class HLS(colorobject):
         single value or multiple values for the lightness dimension.
     S : numeric
         single value or multiple values for the saturation dimension.
+    alpha : None or numeric
+        single value or vector of numerics in ``[0.,1.]`` for the alpha channel
+        (``0.`` means transparent, ``1.`` opaque). If ``None`` no
+        transparency is added.
 
     Examples
     --------
@@ -2841,11 +2871,11 @@ class HLS(colorobject):
         whitepoint.
     """
 
-    def __init__(self, H, L, S):
+    def __init__(self, H, L, S, alpha = None):
 
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, H = H, L = L, S = S)
+        tmp = self._colorobject_check_input_arrays_(H = H, L = L, S = S, alpha = None)
         for key,val in tmp.items(): self._data_[key] = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
@@ -2882,7 +2912,7 @@ class HLS(colorobject):
         # The only transformation we need is back to RGB
         elif to == "RGB":
             [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
-            self._data_ = {"R" : R, "G" : G, "B" : B}
+            self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = RGB
 
         # The rest are transformations along a path
@@ -2945,14 +2975,12 @@ class hexcols(colorobject):
         if isinstance(hex_,str): hex_ = np.asarray([hex_])
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(self.__class__.__name__, hex_ = hex_)
+        tmp = self._colorobject_check_input_arrays_(hex_ = hex_)
 
         # Checking for valid hex colors and alpha values
         tmp = self._check_hex_(tmp["hex_"])
         for key,val in tmp.items():
             self._data_[key] = val
-            # Store alpha values on the object
-            if key == "alpha": self.ALPHA = val
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -3039,10 +3067,7 @@ class hexcols(colorobject):
             from re import compile, match
             pat = compile("^#\w{6}([0-9]{2})$") 
 
-            if not self.ALPHA is None:
-                self._data_ = {"R": R, "G": G, "B": B, "alpha": self.ALPHA}
-            else:
-                self._data_ = {"R": R, "G": G, "B": B}
+            self._data_ = {"R": R, "G": G, "B": B}
             self.__class__ = sRGB
 
         # The rest are transformations along a path

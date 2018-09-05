@@ -10,6 +10,14 @@ Based on colorspace Namespace
 * export(carto_hcl)
 * export(mixcolor)
 
+To check
+--------
+
+* https://seaborn.pydata.org/tutorial/color_palettes.html
+    * https://cfwebprod.sandia.gov/cfdocs/CompResearch/docs/ColorMapsExpanded.pdf
+    * https://matplotlib.org/users/colormaps.html
+* 
+
 
 BUG in python-colorspace
 ------------------------

@@ -464,24 +464,41 @@ class hclpalette(object):
     the classes diverge_hcl, qualitative_hcl, rainbow_hcl, sequential_hcl,
     and maybe more in the future."""
 
-    n     = None
-    h1    = None
-    h2    = None
-    l1    = None
-    l2    = None
-    p1    = None
-    p2    = None
-    fixup = True
-
     # Default call: return n hex colors
-    def __call__(self, n):
-        """__call__(n)
+    def __call__(self, *args, **kwargs):
+        """__call__(*args, **kwargs)
 
-        Default object call: return a set of n
-        hex colors.
+        Call interface, calls objects ``colors(...)`` method.
         """
-        return self.colors(n)
+        return self.colors(*args, **kwargs)
 
+    def specplot(self, n = 180, *args, **kwargs):
+        """specplot(n = 180, *args, **kwargs)
+
+        Interfacing the :py:func:`specplot.specplot` function.
+        Plotting the spectrum of the current color palette.
+
+        Parameters
+        ----------
+        n : int
+            number of colors.
+        args : ...
+            forwarded to :py:func:`specplot.specplot`.
+        kwargs : ...
+            forwarded to :py:func:`specplot.specplot`.
+
+        Examples
+        --------
+        >>> from colorspace import diverge_hcl
+        >>> pal = diverge_hcl()
+        >>> pal.specplot()
+        >>> pal.specplot(rgb = False)
+        """
+
+        from .specplot import specplot
+        specplot(self.colors(n), *args, **kwargs)
+
+        return
 
     def get(self, key):
         """get(key)
@@ -734,7 +751,7 @@ class hclpalette(object):
 # -------------------------------------------------------------------
 class qualitative_hcl(hclpalette):
     """qualitative_hcl(h = [0, 360.], c = 50, l = 70, \
-            fixup = True, alpha = 1, palette = None, rev = False, **kwargs)
+            fixup = True, palette = None, rev = False, **kwargs)
     
     
     Qualitative HCL color palette.
@@ -756,8 +773,6 @@ class qualitative_hcl(hclpalette):
     fixup : bool 
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
-    alpha : numeric
-        Not yet implemented.
     palette : None, string
         can be used to load a default diverging color palette
         specification. If the palette does not exist an exception will be raised.
@@ -788,14 +803,10 @@ class qualitative_hcl(hclpalette):
     >>> # The standard call of the object also returns hex colors. Thus,
     >>> # you can make your code slimmer by calling:
     >>> qualitative_hcl("Dynamic")(10)
-
-    .. todo::
-        Try to make the code nicer (the part loading/overwriting settings).
-        Looks messy and is extremely hard to debug. Rev implemented?
     """
 
     def __init__(self, h = [0, 360.], c = 50, l = 70,
-        fixup = True, alpha = 1, palette = None, rev = False, **kwargs):
+        fixup = True, palette = None, rev = False, **kwargs):
 
         # If a string is given on "h": exchange with "palette".
         if isinstance(h, str):
@@ -844,7 +855,6 @@ class qualitative_hcl(hclpalette):
             settings["c1"]    = c
             settings["l1"]    = l
             settings["fixup"] = fixup
-            settings["alpha"] = alpha
             settings["rev"]   = rev
 
         # If keyword arguments are set:
@@ -899,7 +909,7 @@ class qualitative_hcl(hclpalette):
 # -------------------------------------------------------------------
 class rainbow_hcl(qualitative_hcl):
     """rainbow_hcl(c = 50, l = 70, start = 0, end = 360, \
-                 gamma = None, fixup = True, alpha = 1, *args, **kwargs):
+                 gamma = None, fixup = True, *args, **kwargs):
 
     HCL rainbow, a qualitative cyclic rainbow color palette with uniform
     luminance and chroma.
@@ -920,9 +930,6 @@ class rainbow_hcl(qualitative_hcl):
     fixup : bool 
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
-    alpha : ...
-        currently not implemented.
-        @TODO Implement.
 
     Returns
     -------
@@ -939,19 +946,12 @@ class rainbow_hcl(qualitative_hcl):
     >>> # The standard call of the object also returns hex colors. Thus,
     >>> # you can make your code slimmer by calling:
     >>> rainbow_hcl("Dynamic")(10)
-
-    .. todo::
-        Implement functionality for alpha, either here or
-        in the colors method (and maybe even remove `n` from the
-        class definition, but then we would also have to
-        pass `end` trough the object.
-
     """
 
     _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
 
     def __init__(self, c = 50, l = 70, start = 0, end = 360,
-                 gamma = None, fixup = True, alpha = 1, *args, **kwargs):
+                 gamma = None, fixup = True, *args, **kwargs):
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -967,7 +967,7 @@ class rainbow_hcl(qualitative_hcl):
         try:
             self.settings = {"h1": int(start), "h2": int(end),
                              "c1": int(c), "l1": int(l),
-                             "fixup": bool(fixup), "alpha": float(alpha)}
+                             "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
                 self.__class__.__name__, e))
@@ -985,7 +985,7 @@ class rainbow_hcl(qualitative_hcl):
 # -------------------------------------------------------------------
 class diverge_hcl(hclpalette):
     """diverge_hcl(h = [260, 0], c = 80, l = [30, 90], \
-        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, \
+        power = 1.5, fixup = True, palette = None, rev = False, \
         *args, **kwargs)
 
     Diverging HCL color palette.
@@ -1012,8 +1012,6 @@ class diverge_hcl(hclpalette):
     fixup : bool
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
-    alpha : numeric
-        Not yet implemented.
     palette : string
         can be used to load a default diverging color palette
         specification. If the palette does not exist an exception will be raised.
@@ -1044,16 +1042,12 @@ class diverge_hcl(hclpalette):
     >>> # The standard call of the object also returns hex colors. Thus,
     >>> # you can make your code slimmer by calling:
     >>> diverge_hcl("Dynamic")(10)
-
-    .. todo::
-        Try to make the code nicer (the part loading/overwriting settings).
-        Looks messy and is extremely hard to debug. Rev implemented?
     """
 
     _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
 
     def __init__(self, h = [260, 0], c = 80, l = [30, 90],
-        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
+        power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
         if isinstance(h, str):
@@ -1105,7 +1099,6 @@ class diverge_hcl(hclpalette):
             settings["l2"]    = l[1]
             settings["p1"]    = power
             settings["fixup"] = fixup
-            settings["alpha"] = alpha
             settings["rev"]   = rev
 
         # If keyword arguments are set:
@@ -1120,7 +1113,7 @@ class diverge_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True):
+    def colors(self, n = 11, fixup = True, alpha = None):
         """colors(n = 11, type_ = "hex", fixup = None)
 
         Returns the colors of the current color palette.
@@ -1135,11 +1128,18 @@ class diverge_hcl(hclpalette):
             If ``None`` the ``fixup`` parameter from the object
             will be used. Can be set to ``True`` or ``False``
             to explicitly control the fixup here.
+        alpha : None, float
+            float (single value) or vector of floats in the range
+            of ``[0.,1.]`` for alpha transparency channel
+            (``0.`` means full transparency, ``1.`` opaque).
+            If a single value is provided it will be applied to
+            all colors, if a vector is given the length has to be ``n``.
         """
 
         if isinstance(fixup, bool): self.settings["fixup"] = fixup
 
-        from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
+        from numpy import abs, linspace, power, repeat
+        from numpy import asarray, ndarray, ndenumerate
         from numpy import vstack, transpose
         from . import colorlib
 
@@ -1155,9 +1155,19 @@ class diverge_hcl(hclpalette):
         for i,val in ndenumerate(rval):
             H[i] = self.get("h1") if val > 0 else self.get("h2")
 
+        # Alpha handling
+        if isinstance(alpha, float):
+            alpha = repeat(alpha, n)
+        elif isinstance(alpha, list):
+            try:
+                asarray(alpha, dtype = float)
+            except Exception as e:
+                raise ValueError("alpha values provided to {:s}".format(self.__class__.__name__) + \
+                        "not of float-type: {:s}".format(e))
+
         # Create new HCL color object
         from colorlib import HCL
-        HCL = HCL(H, C, L)
+        HCL = HCL(H, C, L, alpha)
 
         # Return hex colors
         return HCL.colors(fixup = fixup)
@@ -1169,7 +1179,7 @@ class diverge_hcl(hclpalette):
 # -------------------------------------------------------------------
 class sequential_hcl(hclpalette):
     """sequential_hcl(h = 260, c = [80, 30], l = [30, 90], \
-        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False, \
+        power = 1.5, fixup = True, palette = None, rev = False, \
         *args, **kwargs)
 
     Sequential HCL color palette.
@@ -1193,8 +1203,6 @@ class sequential_hcl(hclpalette):
     fixup : bool
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
-    alpha : numeric
-        not yet implemented. @TODO Implement.
     palette : string
         can be used to load a default diverging color palette specification. If
         the palette does not exist an exception will be raised.  Else the
@@ -1225,20 +1233,13 @@ class sequential_hcl(hclpalette):
     >>> # The standard call of the object also returns hex colors. Thus,
     >>> # you can make your code slimmer by calling:
     >>> sequential_hcl("Dynamic")(10)
-
-    .. todo::
-        Try to make the code nicer (the part loading/overwriting settings).
-        Looks messy and is extremely hard to debug. Rev implemented?
-
-    .. todo::
-        And there is definitively something wrong with the default palettes.
     """
 
     # Allowed to overwrite via **kwargs
     _allowed_parameters_ = ["h1", "c1", "c2", "l1", "l2", "p1", "p2"]
 
     def __init__(self, h = 260, c = [80, 30], l = [30, 90],
-        power = 1.5, fixup = True, alpha = 1, palette = None, rev = False,
+        power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
         # If input "h" is a string: exchange with "palette"
@@ -1289,7 +1290,6 @@ class sequential_hcl(hclpalette):
             settings["p1"]    = power[0]
             settings["p2"]    = power[1]
             settings["fixup"] = fixup
-            settings["alpha"] = alpha
             settings["rev"]   = rev
 
         # If keyword arguments are set:
@@ -1355,7 +1355,7 @@ class sequential_hcl(hclpalette):
 # -------------------------------------------------------------------
 class heat_hcl(sequential_hcl):
     """heat_hcl(h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.], \
-               fixup = True, alpha = 1, *args, **kwargs):
+               fixup = True, *args, **kwargs):
 
     HEAT hcl, a sequential palette.
 
@@ -1375,9 +1375,6 @@ class heat_hcl(sequential_hcl):
     fixup : bool 
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
-    alpha : ...
-        currently not implemented.
-        @TODO Implement.
     args : ...
         unused.
     kwargs : ...
@@ -1396,16 +1393,13 @@ class heat_hcl(sequential_hcl):
     >>> from colorspace.palettes import heat_hcl
     >>> pal = heat_hcl()
     >>> pal.colors(3); pal.colors(20)
-
-    .. todo::
-        Alpha handling?
     """
 
 
     _allowed_parameters_ = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
 
     def __init__(self, h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.],
-                 fixup = True, alpha = 1, *args, **kwargs):
+                 fixup = True, *args, **kwargs):
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1423,7 +1417,7 @@ class heat_hcl(sequential_hcl):
                              "c1": int(c[0]), "c2": int(c[1]),
                              "l1": int(l[0]), "l2": int(l[1]),
                              "p1": power[0],  "p2": power[1],
-                             "fixup": bool(fixup), "alpha": float(alpha)}
+                             "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
                 self.__class__.__name__, e))
@@ -1443,7 +1437,7 @@ class heat_hcl(sequential_hcl):
 # -------------------------------------------------------------------
 class terrain_hcl(sequential_hcl):
     """terrain_hcl(h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.], \
-               fixup = True, alpha = 1, *args, **kwargs):
+               fixup = True, *args, **kwargs):
 
     HCL terrain colors, a sequential palette.
 
@@ -1463,9 +1457,6 @@ class terrain_hcl(sequential_hcl):
     fixup : bool 
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
-    alpha : ...
-        currently not implemented.
-        @TODO Implement.
     args : ...
         unused.
     kwargs : ...
@@ -1484,15 +1475,12 @@ class terrain_hcl(sequential_hcl):
     >>> from colorspace import terrain_hcl
     >>> pal = terrain_hcl()
     >>> pal.colors(3); pal.colors(20)
-
-    .. todo::
-        Alpha handling?
     """
 
     _allowed_parameters_ = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
 
     def __init__(self, h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.],
-                 fixup = True, alpha = 1, *args, **kwargs):
+                 fixup = True, *args, **kwargs):
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1510,7 +1498,7 @@ class terrain_hcl(sequential_hcl):
                              "c1": int(c[0]), "c2": int(c[1]),
                              "l1": int(l[0]), "l2": int(l[1]),
                              "p1": power[0],  "p2": power[1],
-                             "fixup": bool(fixup), "alpha": float(alpha)}
+                             "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
                 self.__class__.__name__, e))
@@ -1527,7 +1515,7 @@ class terrain_hcl(sequential_hcl):
 
 class diverge_hsv(hclpalette):
     """diverge_hsv(h = [260, 0], s = 1., v = 1., power = 1., \
-        fixup = True, alpha = 1)
+        fixup = True)
 
     Diverging HSV color palette.
 
@@ -1550,8 +1538,6 @@ class diverge_hsv(hclpalette):
     fixup : bool
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
-    alpha : numeric
-        Not yet implemented.
     args : ...
         unused.
     kwargs : ...
@@ -1570,16 +1556,12 @@ class diverge_hsv(hclpalette):
     >>> from colorspace import diverge_hsv
     >>> a = diverge_hsv()
     >>> a.colors(10)
-
-    .. todo::
-        Try to make the code nicer (the part loading/overwriting settings).
-        Looks messy and is extremely hard to debug. Rev implemented?
     """
 
     _allowed_parameters_ = ["h1", "h2", "s", "v"]
 
     def __init__(self, h = [240, 0], s = 1., v = 1., power = 1.,
-        fixup = True, alpha = 1., *args, **kwargs):
+        fixup = True, *args, **kwargs):
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1595,7 +1577,7 @@ class diverge_hsv(hclpalette):
         try:
             self.settings = {"h1": int(h[0]), "h2": int(h[1]),
                              "s":  s,  "v": v,  "power": power,
-                             "fixup": bool(fixup), "alpha": float(alpha)}
+                             "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
                 self.__class__.__name__, e))
