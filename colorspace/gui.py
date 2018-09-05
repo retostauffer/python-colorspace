@@ -662,7 +662,8 @@ class Slider(object):
     DISABLED     = "#b0b0b0"
     BGDEFAULT    = "#d9d9d9"
 
-    def isValidInt(self, x, from_, to):
+
+    def isValidInt(self, x, from_ = -999, to = 999):
         # If empty
         if len(x) == 0: return True
         import re
@@ -676,20 +677,20 @@ class Slider(object):
         # Else True
         return True
 
-    def isValidFloat(self, x, from_, to):
+    def isValidFloat(self, x, from_ = -999, to = 999):
         # If empty
         if len(x) == 0: return True
         # If no valid float: return False
         try:
             float(x)
-        except:
+        except Exception as e:
             return False
         # If more than one digits:
         import re
-        #if not re.match("^-?[0-9]{1}(\\.|\\.[0-9])?$", val):
-        if not re.match(".*\\.[0-9].*$", val):
-            print "aaaaaa"
-            return False
+        if from_ >= 0:
+            if not re.match("[0-9]+(\\.|\\.[0-9])?$", x): return False
+        else:
+            if not re.match("-?[0-9]+(\\.|\\.[0-9])?$", x): return False
         return True
 
     def __init__(self, master, name, x, y, width, height, active,
@@ -710,7 +711,7 @@ class Slider(object):
 
         # Object handling slider actions/callbacks
         self._Scale = Scale(self._Frame, variable = self._Value, orient = HORIZONTAL,
-                showvalue = 0, length = width - 100, width = 15, 
+                showvalue = 0, length = width - 70, width = 15, 
                 from_ = from_, to = to, resolution = resolution)
         self._Scale.place(x = 20)
 
@@ -722,20 +723,28 @@ class Slider(object):
         # Adding text element
         self._Entry = Entry(self._Frame, bd = 0, width = 4)
         self._Entry.insert(INSERT, 0)
+        vcmd = self._Entry.register(vcmd)
         self._Entry.config(justify = RIGHT, validate = "key",
                            validatecommand = (vcmd, "%P", from_, to))
-        self._Entry.place(x = width - 70)
+        self._Entry.place(x = width - 40)
 
         # Changing the Tk.Value triggers the GUI update
         def fun(event, parent):
             val = event.widget.get()
-            try:
-                val = float(val)
-                self._Value.set(event.widget.get())
-            except:
-                pass
-
-        self._Entry.bind("<KeyRelease>", lambda event: fun(event, self))
+            # Empty? Use existing value
+            if len(val) == 0:
+                event.widget.insert(0, self._Value.get())
+            # Else change value
+            else:
+                # Just to double-check: must be a number
+                try:
+                    val = float(val)
+                    self._Value.set(event.widget.get())
+                # This exception should never happen!
+                except:
+                    pass
+        self._Entry.bind("<Return>", lambda event: fun(event, self))
+        self._Entry.bind("<FocusOut>", lambda event: fun(event, self))
 
         # Tracing the _Value
         self._Value.trace(mode = "w", callback = self.OnTrace)
