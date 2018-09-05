@@ -11,18 +11,21 @@ else:
     from tkinter import *
 
 
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 class ddObject(object):
 
     def __init__(self, parent, name, init_args = None):
 
         self.parent   = parent
-        self.master   = parent.master
-        self.palettes = parent.palettes
-        self.sliders  = parent._sliders_
+        self.master   = parent.master()
+        self.palettes = parent.palettes()
+        self.sliders  = parent.sliders()
         self.name     = name
 
         # Adding options menu
-        opts = parent.palettes.get_palette_types()
+        opts = parent.palettes().get_palette_types()
 
         # If init args contain type: use this type
         type_ = None # Default/not selected
@@ -37,12 +40,12 @@ class ddObject(object):
         # Adding dropdown menu with default arguments if init_args
         # was empty, or the settings provided by the user stored on
         # init_args (slider settings, selected dropdown item, ...)
-        dropOpts = StringVar(parent.master)
+        dropOpts = StringVar(parent.master())
         dropOpts.set(type_) # default value
         self.selected(type_, init_args) # Initialize palettes
 
         #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
-        self.dd = OptionMenu(parent.master, dropOpts, *opts,
+        self.dd = OptionMenu(parent.master(), dropOpts, *opts,
                    command = self.selected)
         self.dd.config(width = 25, pady = 5, padx = 5)
         self.dd.grid(column = 1, row = len(opts))
@@ -55,7 +58,7 @@ class ddObject(object):
 
         self._set_sliders_(pals[0], args)
         if hasattr(self.parent, "dd_type"):
-            self.parent._add_palette_frame_()
+            self.parent._add_palframe()
 
     def get(self):
         return self._selected_
@@ -73,19 +76,20 @@ class ddObject(object):
         # Allowed parameter
         parameter = pal.parameters()
 
-        for key,elem in self.sliders.items():
-            slider_id = elem.getid()
-            value     = pal.get(slider_id)
+        for elem in self.parent.sliders():
+
+            # Getting parameter from palette
+            value = pal.get(elem.name())
+
             # Disable slider if not in paramter, enable
             # if it is.
-            if not slider_id in parameter + ["n"]:
-                elem.disable()
-            else:
-                elem.enable()
+            if not elem.name() in parameter + ["n"]: elem.disable()
+            else:                                    elem.enable()
+
             # Take value from "args" if specified, else
             # the one from the palette.
-            if slider_id in args.keys():  value = args[slider_id]
-            if not value is None:         elem.setvalue(value)
+            if elem.name() in args.keys():  value = args[elem.name()]
+            if not value   is None:         elem.set(value)
 
 
     def _add_dropdown_palettes_(self):
@@ -105,47 +109,219 @@ class ddObject(object):
         self.dd_type.place(x = 10, y = 30)
 
 
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+class Slider(object):
+    """Slider(x, y, width, height)
+
+    x, y, width, height is the box which contains all elements,
+    the Scale, the Label, the Button, and the Text widget.
+    """
+
+    _Frame  = None
+    _Scale  = None
+    _Label  = None
+    _Button = None
+    _Entry  = None
+    _Value  = None
+    _name   = None
+
+    FGACTIVE     = "#b0b0b0"
+    BGACTIVE     = "#b0b0b0"
+    FGDISABLED   = "#dadada"
+    BGDISABLED   = "#efefef"
+    DISABLED     = "#b0b0b0"
+    BGDEFAULT    = "#d9d9d9"
+
+
+    def __init__(self, master, name, x, y, width, height, active,
+                 type_, from_, to, resolution, **kwargs):
+
+        if type_ == "int":
+            self._Value = IntVar(master)
+            vcmd = getattr(self, "isValidInt")
+        elif type_ == "float":
+            self._Value = DoubleVar(master)
+            vcmd = getattr(self, "isValidFloat")
+        else:
+            raise Exception("unknown type_ when initializing {:s}".format(self.__class__.__name__))
+
+        self._name = name
+
+        # Frame around the slider objects
+        self._Frame = Frame(master)
+        self._Frame.place(x = x, y = y, width = width, height = height)
+
+        # Object handling slider actions/callbacks
+        self._Scale = Scale(self._Frame, variable = self._Value, orient = HORIZONTAL,
+                showvalue = 0, length = width - 70, width = 15, 
+                from_ = from_, to = to, resolution = resolution)
+        self._Scale.place(x = 20)
+
+        # Plading the label
+        self._Label = Label(self._Frame, text = name.upper())
+        self._Label.config(anchor = CENTER)
+        self._Label.place(x = 0)
+
+        # Adding text element
+        self._Entry = Entry(self._Frame, bd = 0, width = 4)
+        self._Entry.insert(INSERT, 0)
+
+        # Register a function which checks if the user input is valid or not.
+        vcmd = self._Entry.register(vcmd)
+        self._Entry.config(justify = RIGHT, validate = "key",
+                           validatecommand = (vcmd, "%P", from_, to))
+        self._Entry.place(x = width - 40)
+
+        # Changing the Tk.Value triggers the GUI update
+        def fun(event, parent):
+            val = event.widget.get()
+            # Empty? Use existing value
+            if len(val) == 0:
+                event.widget.insert(0, self._Value.get())
+            # Else change value
+            else:
+                # Just to double-check: must be a number
+                try:
+                    val = float(val)
+                    self._Value.set(event.widget.get())
+                # This exception should never happen!
+                except:
+                    pass
+        self._Entry.bind("<Return>",   lambda event: fun(event, self))
+        self._Entry.bind("<FocusOut>", lambda event: fun(event, self))
+
+        # Tracing the _Value
+        self._Value.trace(mode = "w", callback = self.OnTrace)
+
+        # Disbale if necessary
+        if not active: self.disable()
+
+    def isValidInt(self, x, from_ = -999, to = 999):
+        # If empty
+        if len(x) == 0: return True
+        import re
+        # If not matching signed integer: return False
+        if not re.match("^-?(0|[1-9]|[1-9][0-9]{1,2})?$", x): return False
+        # Only a "-": that's Ok
+        if re.match("^-$", x): return True
+        # Outside range? Return False
+        if float(x) < float(from_) or float(x) > float(to):
+            return False
+        # Else True
+        return True
+
+    def isValidFloat(self, x, from_ = -999, to = 999):
+        # If empty
+        if len(x) == 0: return True
+        # If no valid float: return False
+        try:
+            float(x)
+        except Exception as e:
+            return False
+        # If more than one digits:
+        import re
+        if from_ >= 0:
+            if not re.match("[0-9]+(\\.|\\.[0-9])?$", x): return False
+        else:
+            if not re.match("-?[0-9]+(\\.|\\.[0-9])?$", x): return False
+        return True
+
+    def OnTrace(self, *args, **kwargs):
+        val = self._Value.get()
+        self.set(self._Value.get())
+
+    def name(self):
+        return self._name
+
+    def set(self, val):
+        # Reading text value and adjust slider
+        self._Scale.set(val)
+        # Setting Text
+        self._Entry.delete(0, END)
+        self._Entry.insert(0, val)
+
+    def get(self):
+        return self._Value.get()
+
+
+    def trace(self, mode, *args, **kwargs):
+        self._Value.trace(mode, *args, **kwargs)
+
+    def disable(self):
+        self._Scale.configure(state = "disabled",
+                relief = FLAT,
+                bg = self.FGDISABLED,
+                activebackground = self.FGDISABLED,
+                troughcolor = self.BGDISABLED)
+        self._Label.configure(fg = self.DISABLED)
+        self._Entry.configure(state = "disabled",
+                relief = FLAT,
+                fg = self.DISABLED,
+                bg = self.BGDISABLED)
+
+    def enable(self):
+        self._Scale.configure(state = "active",
+                bg = self.FGACTIVE,
+                activebackground = self.FGACTIVE,
+                troughcolor = self.BGACTIVE)
+        self._Label.configure(fg = "black")
+        self._Entry.configure(state = "normal",
+                relief = FLAT,
+                fg = "#000000", bg = "white")
+
+    def is_active(self):
+        return not self._Scale.config()["state"][4] == "disabled"
+
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 class defaultpalettecanvas(object):
 
-    def __init__(self, parent, pal, n, xpos, figwidth, figheight):  
+    def __init__(self, palframe, sliders, pal, n, xpos, figwidth, figheight):  
 
-        self._parent_ = parent
-        self._pal_    = pal
-
+        self._palframe = palframe
+        self._sliders  = sliders
+        self._pal      = pal
+        
         colors = pal.colors(n)
-        self._draw_canvas_(colors, xpos, figwidth, figheight)
+        self._draw_canvas(colors, xpos, figwidth, figheight)
 
-    def _activate_(self, event):
+    def _draw_canvas(self, colors, xpos, figwidth, figheight):
 
-        # Loading settings of the current palette
-        sliders  = self._parent_._sliders_
-        settings = self._pal_.get_settings()
-        for key,elem in sliders.items():
-            sid = elem.getid()
-            if sid in settings.keys(): elem.setvalue(settings[sid])
-
-        # Change slider settings
-        parent = self._parent_
-
-
-    def _draw_canvas_(self, colors, xpos, figwidth, figheight):
-
-        offset = 3 # White frame around the palettes
+        # Compute width and height of the color map
+        offset = 0 # White frame around the palettes
         n = len(colors)
         h = (figheight - 2. * offset) / len(colors)
         w = figwidth  - 2. * offset
 
-        canvas = Canvas(self._parent_._palframe_, width = figwidth,
+        canvas = Canvas(self._palframe, width = figwidth,
                         height = figheight, bg = "#ffffff")
         canvas.place(x = xpos, y = 0)
         # Binding for interaction
-        canvas.bind("<Button-1>", self._activate_)
+        canvas.bind("<Button-1>", lambda event: \
+                self._activate(event, self._pal, self._sliders))
 
         for i in range(0, n):
-            canvas.create_rectangle(0, i*h, w, (i+1)*h,
+            canvas.create_rectangle(offset, i*h, w, (i+1)*h,
                                     width = 0, fill = colors[i])
+        #canvas.create_line(0, 0, figwidth, figheight, fill="red")
             
+    def _activate(self, event, pal, sliders):
 
+        # Loading settings of the current palette
+        settings = pal.get_settings()
+        for elem in sliders:
+            if elem.name() in settings.keys():
+                elem.set(settings[elem.name()])
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 class currentpalettecanvas(object):
 
     def __init__(self, parent, x, y, width, height):
@@ -159,8 +335,7 @@ class currentpalettecanvas(object):
         self.canvas = Canvas(self.parent, width = self.width, height = self.height)
         self.canvas.place(x = self.x, y = self.y + 20)
 
-
-    def _draw_canvas_(self, colors):
+    def _draw_canvas(self, colors):
 
         n = len(colors)
         w = float(self.width) / float(len(colors))
@@ -172,79 +347,10 @@ class currentpalettecanvas(object):
                     width = 0, fill = colors[i])
 
 
-class sliderObject(Scale):
 
-    #FGDISABLED = "#b0b0b0"
-    #BGDISABLED = "#b0b0b0"
-    #FGACTIVE   = "#dadada"
-    #BGACTIVE   = "#efefef"
-
-    def callback(self, event):
-        self.value.delete("1.0", END)
-        self.value.insert(INSERT,event)
-        self.value.tag_add("right", "1.0", "end")
-
-        self._plot_current_colormap_()
-
-    def _plot_current_colormap_(self):
-
-        self.parent._curpalcanvas_draw_()
-
-    def getname(self):
-        return self.name
-
-    def getid(self):
-        return self.id
-
-    def setvalue(self, val = None):
-        # Reading text value and adjust slider
-        if not val:
-            val = self.value.get("1.0",END)
-        self.slider.set(val)
-
-    def getvalue(self):
-        # Reading text value and adjust slider
-        return self.value.get("1.0", END)
-
-    def bind(self, slider, label, value, button):
-        self.slider = slider
-        self.label  = label
-        self.value  = value
-        self.button = button
-
-    def disable(self):
-        self.slider.configure(state = "disabled",
-                relief = FLAT,
-                bg = self.FGDISABLED,
-                activebackground = self.FGDISABLED,
-                troughcolor = self.BGDISABLED)
-        self.label.configure(fg = self.DISABLED)
-        self.value.configure(state = "disabled",
-                relief = FLAT,
-                fg = self.DISABLED,
-                bg = self.BGDISABLED)
-        self.button.configure(state = "disabled",
-                relief = FLAT,
-                fg = self.DISABLED,
-                bg = self.BGDISABLED)
-
-    def enable(self):
-        self.slider.configure(state = "active",
-                bg = self.FGACTIVE,
-                activebackground = self.FGACTIVE,
-                troughcolor = self.BGACTIVE)
-        self.label.configure(fg = "black")
-        self.value.configure(state = "normal",
-                relief = FLAT,
-                fg = "#000000", bg = "white")
-        self.button.configure(state = "active",
-                relief = RAISED, 
-                fg = "#000000", bg = self.BGDEFAULT)
-
-    def is_active(self):
-        return self.slider.config()["state"][4] == "active"
-
-
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
 class choose_palette(object):
     """choose_palette(**kwargs)
 
@@ -287,6 +393,15 @@ class choose_palette(object):
         "n"  : {"type":"int",   "from":1,    "to":30,  "resolution":1}
     }
     _sliders = []
+
+    # Canvas for the current palette
+    _currentpalette = None
+
+    # Frame taking up the default palettes
+    _palframe       = None
+
+    # Tkiter object for the demo
+    _demoTk         = None
     
     # Initialize defaults
     _setting_names = ["h1","h2","c1","c2","l1","l2","p1","p2","n"]
@@ -297,9 +412,6 @@ class choose_palette(object):
 
     def __init__(self, **kwargs):
 
-        from . import hclpalettes
-        self.palettes = hclpalettes()
-
         # Initialization arguments, if any
         init_args = {}
         # Default if no inputs are set
@@ -307,7 +419,10 @@ class choose_palette(object):
         else:                               palette = kwargs["palette"]
 
         # Find initial values
-        pal = self.palettes.get_palette(palette)
+        from . import hclpalettes
+        self._palettes = hclpalettes()
+        pal            = self._palettes.get_palette(palette)
+
         # Store palette name and palette type to select
         # the correct dropdown entries
         init_args["name"] = pal.name()
@@ -322,21 +437,25 @@ class choose_palette(object):
         ##for key,val in kwargs.items(): init_args[key] = val
 
         # Initialize gui
-        self._master = self._init_master_()
+        self._master         = self._init_master_()
         # Adding current palette has to be before the sliders
         # as they need the current palette canvas for the
         # to be able to be reactive.
-        #self._add_current_palette_canvas_()
-        self._add_sliders_()
+        self._sliders        = self._add_sliders()
+        # Adding dropdown menu and select color map
+        self._add_dropdown_type_(init_args = init_args)
+        # Add the frame with the default palettes
+        # on top of the GUI
+        self._palframe       = self._add_palframe()
+        # Add the horizontal color map for current colors.
+        self._currentpalette = self._add_currentpalettecanvas()
+        # Draw current colors (as initialized)
+        self._draw_currentpalette()
         #self._add_demo_options_()
         #self._add_close_button_()
         #self._add_return_button_()
-        ## Has to be called _after_ sliders have been added
-        #self._add_dropdown_type_(init_args = init_args)
-        ## Drawing default palettes
-        #self._add_palette_frame_()
 
-
+        # Initialize interface
         mainloop()
 
 
@@ -384,49 +503,59 @@ class choose_palette(object):
 
     def master(self):
         return self._master
+    def palettes(self):
+        return self._palettes
+    def sliders(self):
+        return self._sliders
+    def palframe(self):
+        return self._palframe
 
-    def _add_palette_frame_(self):
+    def _add_palframe(self):
 
-        if hasattr(self, "_palframe_"): self._palframe_.destroy()
+        if hasattr(self, "_palframe"):
+            if not self._palframe is None: self._palframe.destroy()
 
-        self._palframe_ = Frame(self.master, bg = "#ffffff", height = self.FRAMEHEIGHT,
-                                width = self.FRAMEWIDTH)
-        self._palframe_.place(x = 10, y = 80)
+        frame = Frame(self.master(), bg = "#ffffff",
+                      height = self.FRAMEHEIGHT, width = self.FRAMEWIDTH)
+        frame.place(x = 10, y = 80)
 
         # Loading palettes of currently selected palette type
         from numpy import min
-        pals = self.palettes.get_palettes(self.dd_type.get())
-        for child in self._palframe_.winfo_children():
-            child.destroy()
+        pals = self.palettes().get_palettes(self.dd_type.get())
+        for child in frame.winfo_children(): child.destroy()
 
         # Adding new canvas
-        figwidth = max([30, self.FRAMEWIDTH / len(pals)])
+        figwidth = max([20, self.FRAMEWIDTH / len(pals)])
         xpos = 0
         for pal in pals:
-            defaultpalettecanvas(self, pal, 5, xpos, figwidth, self.FRAMEHEIGHT)
+            defaultpalettecanvas(frame, self.sliders(), pal, 5, xpos, figwidth, self.FRAMEHEIGHT)
             xpos += figwidth
 
-    def _add_current_palette_canvas_(self):
+        return frame
 
-        self._curpalcanvas_ = currentpalettecanvas(self.master,
+    def _add_currentpalettecanvas(self):
+
+        canvas = currentpalettecanvas(self.master(),
                x = 20, y = 500, width = 260, height = 30) 
 
-    def _curpalcanvas_draw_(self):
+        return canvas
+
+    def _draw_currentpalette(self):
 
         # Re-draw the canvas.
-        self._curpalcanvas_._draw_canvas_(self.get_colors())
+        self._currentpalette._draw_canvas(self.get_colors())
         # Is the demo running?
 
-        if self._demoTk_ is None:        return
-        if self._demoTk_.winfo_exists(): self._show_demo_(True)
+        if self._demoTk is None:        return
+        if self._demoTk.winfo_exists(): self._show_demo(True)
 
     def get_colors(self):
 
         # Getting current arguments
         params = {}
-        for key,elem in self._sliders_.items():
+        for elem in self.sliders():
             if elem.is_active():
-                params[elem.getid()] = float(elem.getvalue())
+                params[elem.name()] = float(elem.get())
 
         # Manipulate params
         for dim in ["h", "c", "l","p"]:
@@ -442,32 +571,41 @@ class choose_palette(object):
                 params[dim] = params[dim1]
                 del params[dim1]
 
-        n = self._sliders_["slider_N"].getvalue()
+        for elem in self.sliders():
+            if elem.name() == "n":
+                n = elem.get()
+                break
+
+        if not "h" in params.keys(): sys.exit("whoops, lost h")
         if "n" in params: del params["n"]
 
         # Craw colors from current color map
         import palettes
-        # Color function
         colorfun = self.dd_type.getmethod()
         fun      = getattr(palettes, colorfun)
+
+        # Return colors
         print "Params",; print params
-        colors   = fun(n, **params)
-        return colors.colors()
+        return fun(**params)(n)
 
 
     def _add_dropdown_type_(self, init_args = None):
 
         self.dd_type = ddObject(self, "type", init_args = init_args)
 
-    def _add_sliders_(self):
+    def _add_sliders(self):
 
+        sliders = []
 
+        # For each key in self._setting_names add a Slider object
+        # (a Slider is a combined Tkinter.Scale, Tkinter.Entry, and
+        # Tkinter.Label element with bindings).
         for idx,key in enumerate(self._setting_names):
             print "Adding slider {:s} ({:d})".format(key, idx),
             # Initialize with default 0 if nothing yet specified.
             s = Slider(self.master(),
                        key,                                            # name
-                       10, 200 + idx * 30 + self.FRAMEHEIGHT,          # x, y
+                       10, 150 + idx * 30 + self.FRAMEHEIGHT,          # x, y
                        self.WIDTH - 20, 30,                            # width, height
                        False if not self.settings()[key] else True,    # active
                        type_      = self._slider_settings[key]["type"],
@@ -478,56 +616,23 @@ class choose_palette(object):
             if not self.settings(key): s.set("0")
             else:                      s.set(str(self.settings(key)))
 
-            self._sliders.append(s)
+            # Append slider to list
+            sliders.append(s)
 
-        for x in self._sliders:
+        # Add the trace element to make them interactive
+        # (an observer, call OnChange whenever the Scale changes).
+        for x in sliders:
             x.trace("w", self.OnChange)
+
+        return sliders
 
     # Callback when an item is getting changed
     def OnChange(self, *args, **kwargs):
-        print "Update color map now."
-
-    def _add_slider_(self, name, from_, to, label, resolution = 1, orient = HORIZONTAL):
-
-        # Position of the current slider
-        ypos = len(self._sliders_) * 30 + 100 + self.FRAMEHEIGHT
-
-        # Object handling slider actions/callbacks
-        obj = sliderObject(name, self, self.master.cget("bg"))
-
-        # Slider element
-        scale = Scale(self.master, var = name, from_ = from_, to = to,
-                  command = obj.callback, showvalue = 0,
-                  length = 150, width = 15,
-                  resolution = resolution, orient = orient)
-        scale.place(x = 50, y = ypos)
-
-        # Label (static text)
-        lab = Label(self.master, text = label)
-        lab.config(anchor = CENTER)
-        lab.place(x = 20, y = ypos) 
-
-        # Button to change the value
-        but = Button(self.master, text = "SET", command = obj.setvalue,
-                pady = 0, padx = 0)
-        but.place(x = 250, y = ypos)
-
-        # Value (shows current slider value)
-        val = Text(self.master, bd = 0, height = 1, width = 4)
-        val.insert(INSERT, 0)
-        val.tag_configure("right", justify="right")
-        val.place(x = 210, y = ypos) 
-        val.tag_add("right", "1.0", "end")
-
-        obj.bind(scale, lab, val, but)
-
-        # Append slider object
-        self._sliders_[name] = obj #.append(obj)
-
+        self._draw_currentpalette()
 
     def _add_demo_options_(self):
 
-        but = Button(self.master, text = "Demo", command = self._show_demo_,
+        but = Button(self.master, text = "Demo", command = self._show_demo,
                 pady = 5, padx = 5)
         but.place(x = 30, y = 560)
 
@@ -544,12 +649,7 @@ class choose_palette(object):
         but.place(x = 150, y = 560)
 
 
-    def bing(self):
-
-        print "BING"
-
-    def _show_demo_(self, update = False):
-
+    def _show_demo(self, update = False):
 
         try:
             from matplotlib.backends.backend_tkagg import FigureCanvasAgg
@@ -588,10 +688,10 @@ class choose_palette(object):
                 return photo
 
             if not update:
-                self._demoTk_ = Tk()#Toplevel()
-                self._demoTk_.title("Demo Plot")
-                self._demoTk_.geometry("{:d}x{:d}".format(500, 500))
-                self._democanvas_ = Canvas(self._demoTk_, width=500, height=500)
+                self._demoTk = Tk()#Toplevel()
+                self._demoTk.title("Demo Plot")
+                self._demoTk.geometry("{:d}x{:d}".format(500, 500))
+                self._democanvas_ = Canvas(self._demoTk, width=500, height=500)
                 self._democanvas_.pack()
 
 
@@ -639,156 +739,6 @@ class choose_palette(object):
             txt = Text(self._demowindow_, height=10, width=45)
             txt.pack()
             txt.insert(END, "\n".join(info))
-
-
-class Slider(object):
-    """Slider(x, y, width, height)
-
-    x, y, width, height is the box which contains all elements,
-    the Scale, the Label, the Button, and the Text widget.
-    """
-
-    _Frame  = None
-    _Scale  = None
-    _Label  = None
-    _Button = None
-    _Entry  = None
-    _Value  = None
-
-    FGACTIVE     = "#b0b0b0"
-    BGACTIVE     = "#b0b0b0"
-    FGDISABLED   = "#dadada"
-    BGDISABLED   = "#efefef"
-    DISABLED     = "#b0b0b0"
-    BGDEFAULT    = "#d9d9d9"
-
-
-    def isValidInt(self, x, from_ = -999, to = 999):
-        # If empty
-        if len(x) == 0: return True
-        import re
-        # If not matching signed integer: return False
-        if not re.match("^-?(0|[1-9]|[1-9][0-9]{1,2})?$", x): return False
-        # Only a "-": that's Ok
-        if re.match("^-$", x): return True
-        # Outside range? Return False
-        if float(x) < float(from_) or float(x) > float(to):
-            return False
-        # Else True
-        return True
-
-    def isValidFloat(self, x, from_ = -999, to = 999):
-        # If empty
-        if len(x) == 0: return True
-        # If no valid float: return False
-        try:
-            float(x)
-        except Exception as e:
-            return False
-        # If more than one digits:
-        import re
-        if from_ >= 0:
-            if not re.match("[0-9]+(\\.|\\.[0-9])?$", x): return False
-        else:
-            if not re.match("-?[0-9]+(\\.|\\.[0-9])?$", x): return False
-        return True
-
-    def __init__(self, master, name, x, y, width, height, active,
-                 type_, from_, to, resolution, **kwargs):
-
-        if type_ == "int":
-            self._Value = IntVar(master)
-            vcmd = getattr(self, "isValidInt")
-        elif type_ == "float":
-            self._Value = DoubleVar(master)
-            vcmd = getattr(self, "isValidFloat")
-        else:
-            raise Exception("unknown type_ when initializing {:s}".format(self.__class__.__name__))
-
-        # Frame around the slider objects
-        self._Frame = Frame(master)
-        self._Frame.place(x = x, y = y, width = width, height = height)
-
-        # Object handling slider actions/callbacks
-        self._Scale = Scale(self._Frame, variable = self._Value, orient = HORIZONTAL,
-                showvalue = 0, length = width - 70, width = 15, 
-                from_ = from_, to = to, resolution = resolution)
-        self._Scale.place(x = 20)
-
-        # Plading the label
-        self._Label = Label(self._Frame, text = name.upper())
-        self._Label.config(anchor = CENTER)
-        self._Label.place(x = 0)
-
-        # Adding text element
-        self._Entry = Entry(self._Frame, bd = 0, width = 4)
-        self._Entry.insert(INSERT, 0)
-        vcmd = self._Entry.register(vcmd)
-        self._Entry.config(justify = RIGHT, validate = "key",
-                           validatecommand = (vcmd, "%P", from_, to))
-        self._Entry.place(x = width - 40)
-
-        # Changing the Tk.Value triggers the GUI update
-        def fun(event, parent):
-            val = event.widget.get()
-            # Empty? Use existing value
-            if len(val) == 0:
-                event.widget.insert(0, self._Value.get())
-            # Else change value
-            else:
-                # Just to double-check: must be a number
-                try:
-                    val = float(val)
-                    self._Value.set(event.widget.get())
-                # This exception should never happen!
-                except:
-                    pass
-        self._Entry.bind("<Return>", lambda event: fun(event, self))
-        self._Entry.bind("<FocusOut>", lambda event: fun(event, self))
-
-        # Tracing the _Value
-        self._Value.trace(mode = "w", callback = self.OnTrace)
-
-        # Disbale if necessary
-        if not active: self.disable()
-
-    def OnTrace(self, *args, **kwargs):
-        self.set(self._Value.get())
-
-    def set(self, val):
-        # Reading text value and adjust slider
-        self._Scale.set(val)
-        # Setting Text
-        self._Entry.delete(0, END)
-        self._Entry.insert(0, val)
-
-    def trace(self, mode, *args, **kwargs):
-        self._Value.trace(mode, *args, **kwargs)
-
-    def disable(self):
-        self._Scale.configure(state = "disabled",
-                relief = FLAT,
-                bg = self.FGDISABLED,
-                activebackground = self.FGDISABLED,
-                troughcolor = self.BGDISABLED)
-        self._Label.configure(fg = self.DISABLED)
-        self._Entry.configure(state = "disabled",
-                relief = FLAT,
-                fg = self.DISABLED,
-                bg = self.BGDISABLED)
-
-    def enable(self):
-        self._Scale.configure(state = "active",
-                bg = self.FGACTIVE,
-                activebackground = self.FGACTIVE,
-                troughcolor = self.BGACTIVE)
-        self._Label.configure(fg = "black")
-        self.Entry.configure(state = "normal",
-                relief = FLAT,
-                fg = "#000000", bg = "white")
-
-    def is_active(self):
-        return self.slider.config()["state"][4] == "active"
 
 
 
