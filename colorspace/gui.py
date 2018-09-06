@@ -333,17 +333,22 @@ class currentpalettecanvas(object):
         self.height = height
 
         self.canvas = Canvas(self.parent, width = self.width, height = self.height)
+        self.canvas.config(borderwidth = 1, bg = "#000000")
         self.canvas.place(x = self.x, y = self.y + 20)
 
     def _draw_canvas(self, colors):
 
+        from numpy import floor
+
         n = len(colors)
-        w = float(self.width) / float(len(colors))
+        w = floor(float(self.width) / float(len(colors)))
         h = self.height
         for i in range(0, n):
             # Dropping Nan's
             if len(str(colors[i])) < 7: continue
-            self.canvas.create_rectangle(i*w, 0, (i+1)*w, h,
+            # Last box to self.width
+            x1 = (i+1) * w if i < (n-1) else self.width
+            self.canvas.create_rectangle(i*w, 0, x1, h+1,
                     width = 0, fill = colors[i])
 
 
@@ -373,10 +378,10 @@ class choose_palette(object):
         the GUI useless. Under development ...
     """
 
+    WIDTH = 400
+    HEIGHT = 700
     FRAMEHEIGHT = 100
-    FRAMEWIDTH  = 280
-    WIDTH = 300
-    HEIGHT = 600
+    FRAMEWIDTH  = WIDTH - 20
 
     _demoTk   = None
 
@@ -390,7 +395,7 @@ class choose_palette(object):
         "l2" : {"type":"int",   "from":0,    "to":100, "resolution":1},
         "p1" : {"type":"float", "from":0,    "to":3,   "resolution":.1},
         "p2" : {"type":"float", "from":0,    "to":3,   "resolution":.1},
-        "n"  : {"type":"int",   "from":1,    "to":30,  "resolution":1}
+        "n"  : {"type":"int",   "from":2,    "to":30,  "resolution":1}
     }
     _sliders = []
 
@@ -402,6 +407,9 @@ class choose_palette(object):
 
     # Tkiter object for the demo
     _demoTk         = None
+
+    # Used to store the control buttons (desaturate, reversed, ...)
+    _control        = None
     
     # Initialize defaults
     _setting_names = ["h1","h2","c1","c2","l1","l2","p1","p2","n"]
@@ -455,8 +463,72 @@ class choose_palette(object):
         #self._add_close_button_()
         #self._add_return_button_()
 
+        self._control = self._add_control()
+
         # Initialize interface
         mainloop()
+
+
+    def _add_control(self):
+
+        control = {}
+
+        frame = Frame(self.master(), height = 30, width = self.WIDTH - 20)
+        frame.grid()
+        frame.place(x = 10, y = self.HEIGHT - 70)
+        col = 0; row = 0
+
+        # Reverse colors
+        revvar      = BooleanVar()
+        revbutton   = Checkbutton(frame, text="Reverse colors",
+                                  variable = revvar, command = self.OnChange)
+        revbutton.grid(column = col, row = row, sticky = "w"); row += 1
+        control["reverse"] = revvar
+
+        # Butons for Desaturation/CVD
+        ypos = self.HEIGHT - 40
+
+        desatvar    = BooleanVar()
+        desatbutton = Checkbutton(frame, text="Desaturation",
+                                  command = self.OnChange, variable = desatvar)
+        desatbutton.grid(column = col, row = row, sticky = "w"); row += 1
+        control["desaturate"] = desatvar
+
+        cvdvar      = BooleanVar()
+        cvdbutton   = Checkbutton(frame, text="Color blindness",
+                                  command = self.OnChange, variable = cvdvar)
+        cvdbutton.grid(column = col, row = row, sticky = "w"); col += 1
+        control["cvd"] = cvdvar
+
+        # Radio buttons for CVD
+        ypos = self.HEIGHT - 20
+        cvdtypevar  = StringVar()
+        radio_deutan = Radiobutton(frame, text = "deutan", command = self.OnChange,
+                                   variable = cvdtypevar, value = "deutan")
+        radio_protan = Radiobutton(frame, text = "protan", command = self.OnChange,
+                                   variable = cvdtypevar, value = "protan")
+        radio_tritan = Radiobutton(frame, text = "tritan", command = self.OnChange,
+                                   variable = cvdtypevar, value = "tritan")
+        radio_deutan.grid(column = col, row = row, sticky = "w"); col += 1
+        radio_protan.grid(column = col, row = row, sticky = "w"); col += 1
+        radio_tritan.grid(column = col, row = row, sticky = "w"); col += 1
+        cvdtypevar.set("deutan")
+        control["cvdtype"] = cvdtypevar
+
+        return control
+
+    def control(self):
+
+        if not self._control:
+            return {"reverse" : False, "desaturate" : False, "cvd" : False,
+                    "cvdtype" : "deutan"}
+        else:
+            res = {}
+            res["reverse"]    = self._control["reverse"].get()
+            res["desaturate"] = self._control["desaturate"].get()
+            res["cvd"]        = self._control["cvd"].get()
+            res["cvdtype"]    = self._control["cvdtype"].get()
+            return res
 
 
     def settings(self, *args, **kwargs):
@@ -525,7 +597,7 @@ class choose_palette(object):
         for child in frame.winfo_children(): child.destroy()
 
         # Adding new canvas
-        figwidth = max([20, self.FRAMEWIDTH / len(pals)])
+        figwidth = min([30, self.FRAMEWIDTH / len(pals)])
         xpos = 0
         for pal in pals:
             defaultpalettecanvas(frame, self.sliders(), pal, 5, xpos, figwidth, self.FRAMEHEIGHT)
@@ -536,7 +608,7 @@ class choose_palette(object):
     def _add_currentpalettecanvas(self):
 
         canvas = currentpalettecanvas(self.master(),
-               x = 20, y = 500, width = 260, height = 30) 
+               x = 20, y = 500, width = self.WIDTH - 40, height = 30) 
 
         return canvas
 
@@ -576,6 +648,9 @@ class choose_palette(object):
                 n = elem.get()
                 break
 
+        # Check if we have to return the colors reversed.
+        control = self.control()
+
         if not "h" in params.keys(): sys.exit("whoops, lost h")
         if "n" in params: del params["n"]
 
@@ -586,7 +661,21 @@ class choose_palette(object):
 
         # Return colors
         print "Params",; print params
-        return fun(**params)(n)
+        colors = fun(**params)(n, rev = control["reverse"])
+
+        # Do we have to desaturate the colors?
+        if control["desaturate"]:
+            from .CVD import desaturate
+            colors = desaturate(colors)
+
+        # Do we have to apply CVD simulation?
+        print control
+        if control["cvd"]:
+            import CVD
+            fun = getattr(CVD, control["cvdtype"])
+            colors = fun(colors)
+
+        return colors
 
 
     def _add_dropdown_type_(self, init_args = None):
@@ -605,7 +694,7 @@ class choose_palette(object):
             # Initialize with default 0 if nothing yet specified.
             s = Slider(self.master(),
                        key,                                            # name
-                       10, 150 + idx * 30 + self.FRAMEHEIGHT,          # x, y
+                       10, 100 + idx * 30 + self.FRAMEHEIGHT,          # x, y
                        self.WIDTH - 20, 30,                            # width, height
                        False if not self.settings()[key] else True,    # active
                        type_      = self._slider_settings[key]["type"],
