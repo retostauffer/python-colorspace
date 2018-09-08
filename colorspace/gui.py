@@ -14,109 +14,33 @@ else:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class ddObject(object):
-
-    def __init__(self, parent, name, init_args = None):
-
-        self.parent   = parent
-        self.master   = parent.master()
-        self.palettes = parent.palettes()
-        self.sliders  = parent.sliders()
-        self.name     = name
-
-        # Adding options menu
-        opts = parent.palettes().get_palette_types()
-
-        # If init args contain type: use this type
-        type_ = None # Default/not selected
-        if not init_args == None:
-            if "type" in init_args.keys():
-                type_ = init_args["type"]
-                if not type_ in opts:
-                    log.error("Selected palette type \"{:s}\" does not exist. Stop.".format(type_))
-                    sys.exit(9)
-        type_ = opts[0] if type_ is None else type_
-
-        # Adding dropdown menu with default arguments if init_args
-        # was empty, or the settings provided by the user stored on
-        # init_args (slider settings, selected dropdown item, ...)
-        dropOpts = StringVar(parent.master())
-        dropOpts.set(type_) # default value
-        self.selected(type_, init_args) # Initialize palettes
-
-        #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
-        self.dd = OptionMenu(parent.master(), dropOpts, *opts,
-                   command = self.selected)
-        self.dd.config(width = 25, pady = 5, padx = 5)
-        self.dd.grid(column = 1, row = len(opts))
-        self.dd.place(x = 10, y = 30)
-    
-    def selected(self, val, args = None):
-
-        self._selected_ = val
-        pals = self.palettes.get_palettes(val)
-
-        self._set_sliders_(pals[0], args)
-        if hasattr(self.parent, "dd_type"):
-            self.parent._add_palframe()
-
-    def get(self):
-        return self._selected_
-    
-    def getmethod(self):
-        # Simply return the method of the first palette
-        # in the list of palettes given the current selection.
-        tmp = self.palettes.get_palettes(self.get())
-        return tmp[0]._method_
-
-    def _set_sliders_(self, pal, args = None):
-
-        if args is None: args = {}
-
-        # Allowed parameter
-        parameter = pal.parameters()
-
-        for elem in self.parent.sliders():
-
-            # Getting parameter from palette
-            value = pal.get(elem.name())
-
-            # Disable slider if not in paramter, enable
-            # if it is.
-            if not elem.name() in parameter + ["n"]: elem.disable()
-            else:                                    elem.enable()
-
-            # Take value from "args" if specified, else
-            # the one from the palette.
-            if elem.name() in args.keys():  value = args[elem.name()]
-            if not value   is None:         elem.set(value)
-
-
-    def _add_dropdown_palettes_(self):
-
-        opts = self.palettes.get_palette_types()
-
-        dropOpts = StringVar(self.master)
-        dropOpts.set(opts[0]) # default value
-
-        obj = ddObject("type")
-
-        #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
-        self.dd_type = OptionMenu(self.master, dropOpts, *opts,
-                        command = obj.selected)
-        self.dd_type.config(width = 25, pady = 5, padx = 5)
-        self.dd_type.grid(column = 1, row = len(opts))
-        self.dd_type.place(x = 10, y = 30)
-
-
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
 class Slider(object):
-    """Slider(x, y, width, height)
+    """Slider(x, y, width, height, active, type_, from_, to, \
+            resolution, **kwargs)
 
-    x, y, width, height is the box which contains all elements,
-    the Scale, the Label, the Button, and the Text widget.
+    Initializes a new Slider object. A Slider is a combination of a
+    Tk.Label, Tk.Slider, and a Tk.Entry element which interact.
+
+    Parameters
+    ----------
+    x : int
+        x-position on the Tk interface.
+    y : int
+        y-position on the Tk interface.
+    width : int
+        width of the Slider object (Scale, Label, and Entry)
+    height : int
+        height of the Slider object (Scale, Label, and Entry)
+    type_ : str
+        name of the Slider
+    from_ : numeric
+        lower value of the Slider
+    to : numeric
+        upper value of the Slider
+    resolution : numeric
+        resolution of the slider, the increments when moving the Slider
+    kwargs : ...
+        Unused
     """
 
     _Frame  = None
@@ -356,7 +280,17 @@ class currentpalettecanvas(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class choose_palette(object):
+def choose_palette(**kwargs):
+
+    obj = gui(**kwargs)
+
+    import palettes
+    method = getattr(palettes, obj.method())
+
+    return method
+
+
+class gui(object):
     """choose_palette(**kwargs)
 
     Graphical user interface to choose custom HCL-basec color palettes.
@@ -402,6 +336,9 @@ class choose_palette(object):
     # Canvas for the current palette
     _currentpalette = None
 
+    # Dropdown menu (Dropdown)
+    _Dropdown       = None
+
     # Frame taking up the default palettes
     _palframe       = None
 
@@ -446,27 +383,62 @@ class choose_palette(object):
 
         # Initialize gui
         self._master         = self._init_master_()
+        # The different palette types
+        self._Dropdown       = self._add_paltype_dropdown()
         # Adding current palette has to be before the sliders
         # as they need the current palette canvas for the
         # to be able to be reactive.
         self._sliders        = self._add_sliders()
         # Adding dropdown menu and select color map
-        self._add_dropdown_type_(init_args = init_args)
         # Add the frame with the default palettes
         # on top of the GUI
-        self._palframe       = self._add_palframe()
-        # Add the horizontal color map for current colors.
+        self._palframe       = self._add_palframe(pal.type())
+        ## Add the horizontal color map for current colors.
         self._currentpalette = self._add_currentpalettecanvas()
-        # Draw current colors (as initialized)
         self._draw_currentpalette()
+
         #self._add_demo_options_()
-        #self._add_close_button_()
-        #self._add_return_button_()
+        self._add_return_button()
 
         self._control = self._add_control()
 
+
         # Initialize interface
         mainloop()
+
+    def _add_paltype_dropdown(self):
+
+        opts = self.palettes().get_palette_types()
+
+        paltypevar = StringVar(self.master())
+        paltypevar.set(opts[0]) # default value
+
+        #obj = ddObject("type")
+
+        #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
+        menu = OptionMenu(self.master(), paltypevar, *opts,
+                          command = self.OnPaltypeChange) #obj.selected)
+        menu.config(width = 25, pady = 5, padx = 5)
+        menu.grid(column = 1, row = len(opts))
+        menu.place(x = 10, y = 30)
+
+        return paltypevar
+
+    def OnPaltypeChange(self, *args, **kwargs):
+        print " [ changed pal type ]"
+
+        # Updating the palette-frame.
+        self._palframe = self._add_palframe(args[0])
+
+        # Take first palette
+        p = self.palettes().get_palettes(args[0])[0]
+
+        # Update sliders
+        for s in self.sliders():
+            if not s.name() in p.parameters(): s.disable()
+            else:                              s.enable()
+            val = p.get(s.name())
+            if not val is None: s.set(val)
 
 
     def _add_control(self):
@@ -475,7 +447,7 @@ class choose_palette(object):
 
         frame = Frame(self.master(), height = 30, width = self.WIDTH - 20)
         frame.grid()
-        frame.place(x = 10, y = self.HEIGHT - 70)
+        frame.place(x = 10, y = self.HEIGHT - 120)
         col = 0; row = 0
 
         # Reverse colors
@@ -582,7 +554,7 @@ class choose_palette(object):
     def palframe(self):
         return self._palframe
 
-    def _add_palframe(self):
+    def _add_palframe(self, type_):
 
         if hasattr(self, "_palframe"):
             if not self._palframe is None: self._palframe.destroy()
@@ -593,7 +565,7 @@ class choose_palette(object):
 
         # Loading palettes of currently selected palette type
         from numpy import min
-        pals = self.palettes().get_palettes(self.dd_type.get())
+        pals = self.palettes().get_palettes(type_) ###self.dd_type.get())
         for child in frame.winfo_children(): child.destroy()
 
         # Adding new canvas
@@ -656,7 +628,8 @@ class choose_palette(object):
 
         # Craw colors from current color map
         import palettes
-        colorfun = self.dd_type.getmethod()
+        type_    = self._Dropdown.get()
+        colorfun = self.palettes().get_palettes(type_)[0].method()
         fun      = getattr(palettes, colorfun)
 
         # Return colors
@@ -669,7 +642,6 @@ class choose_palette(object):
             colors = desaturate(colors)
 
         # Do we have to apply CVD simulation?
-        print control
         if control["cvd"]:
             import CVD
             fun = getattr(CVD, control["cvdtype"])
@@ -677,10 +649,17 @@ class choose_palette(object):
 
         return colors
 
+    def method(self):
 
-    def _add_dropdown_type_(self, init_args = None):
+        type_ = self._Dropdown.get()
+        colorfun = self.palettes().get_palettes(type_)[0].method()
+        return colorfun
 
-        self.dd_type = ddObject(self, "type", init_args = init_args)
+
+    def _add_dropdown_type(self, init_args = None):
+
+        obj = Dropdown(self, "type", init_args = init_args)
+        return obj
 
     def _add_sliders(self):
 
@@ -696,7 +675,7 @@ class choose_palette(object):
                        key,                                            # name
                        10, 100 + idx * 30 + self.FRAMEHEIGHT,          # x, y
                        self.WIDTH - 20, 30,                            # width, height
-                       False if not self.settings()[key] else True,    # active
+                       False if self.settings()[key] is None else True,    # active
                        type_      = self._slider_settings[key]["type"],
                        from_      = self._slider_settings[key]["from"],
                        to         = self._slider_settings[key]["to"],
@@ -725,17 +704,20 @@ class choose_palette(object):
                 pady = 5, padx = 5)
         but.place(x = 30, y = 560)
 
-    def _add_close_button_(self):
 
-        but = Button(self.master, text = "Cancel", command = sys.exit,
-                pady = 5, padx = 5)
-        but.place(x = 200, y = 560)
+    def _add_return_button(self):
+        """_add_return_button()
 
-    def _add_return_button_(self):
+        Adds the button to return to python. Returns the palette
+        as specified on the interface to python (a :py:class:`hclpalette` object).
+        """
 
-        but = Button(self.master, text = "Ok", command = sys.exit,
-                pady = 5, padx = 5)
-        but.place(x = 150, y = 560)
+        def fun():
+            self.master().destroy()
+            return "3"
+        but = Button(self.master(), text = "Return to python",
+                command = fun, pady = 5, padx = 5)
+        but.place(x = 150, y = self.HEIGHT - 40)
 
 
     def _show_demo(self, update = False):

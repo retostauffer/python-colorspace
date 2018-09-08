@@ -177,7 +177,7 @@ class CVD(object):
         self._severity_ = severity
 
         # Checking input `cols`:
-        if isinstance(cols, list) or isinstance(cols, tuple):
+        if isinstance(cols, str) or isinstance(cols, list) or isinstance(cols, tuple):
             cols = list(cols)
             from numpy import all
             from re import match, compile
@@ -436,6 +436,11 @@ def desaturate(col, amount = 1.):
 
 
     from .colorlib import colorobject
+    from .colorlib import hexcols
+
+    if isinstance(col, list) or isinstance(col, str):
+        col = hexcols(col)
+
     if not isinstance(col, colorobject):
         import inspect
         raise ValueError("input to function {:s} ".format(inspect.stack()[0][3]) + \

@@ -61,6 +61,16 @@ class defaultpalette(object):
 
         return "\n".join(res)
 
+    def method(self):
+        """method()
+
+        Return
+        ------
+        Returns the method (`str`, name of the function to be called
+        to create the palette) of the palette.
+        """
+        return self._method_
+
     def type(self):
         """type()
 
@@ -808,6 +818,9 @@ class qualitative_hcl(hclpalette):
     def __init__(self, h = [0, 360.], c = 50, l = 70,
         fixup = True, palette = None, rev = False, **kwargs):
 
+        # Store reverse flag
+        self._rev = rev
+
         # If a string is given on "h": exchange with "palette".
         if isinstance(h, str):
             palette = h; h = None
@@ -869,7 +882,7 @@ class qualitative_hcl(hclpalette):
         self.settings = settings
 
 
-    def colors(self, n = 11, fixup = None):
+    def colors(self, n = 11, fixup = None, **kwargs):
         """colors(n = 11, type_ = "hex", fixup = None)
 
         Returns the colors of the current color palette.
@@ -900,8 +913,12 @@ class qualitative_hcl(hclpalette):
         from colorlib import HCL
         HCL = HCL(H, C, L)
 
+        # Reversing colors
+        rev = self._rev
+        if "rev" in kwargs.keys(): rev = kwargs["rev"]
+
         # Return hex colors
-        return HCL.colors(fixup = fixup)
+        return HCL.colors(fixup = fixup, rev = rev)
 
 
 # -------------------------------------------------------------------
@@ -1050,6 +1067,9 @@ class diverge_hcl(hclpalette):
         power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
+        # Store reverse
+        self._rev = rev
+
         if isinstance(h, str):
             palette = h; h = None
 
@@ -1113,7 +1133,7 @@ class diverge_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True, alpha = None):
+    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
         """colors(n = 11, type_ = "hex", fixup = None)
 
         Returns the colors of the current color palette.
@@ -1169,8 +1189,12 @@ class diverge_hcl(hclpalette):
         from colorlib import HCL
         HCL = HCL(H, C, L, alpha)
 
+        # Reversing colors
+        rev = self._rev
+        if "rev" in kwargs.keys(): rev = kwargs["rev"]
+
         # Return hex colors
-        return HCL.colors(fixup = fixup)
+        return HCL.colors(fixup = fixup, rev = rev)
 
 
 
@@ -1242,6 +1266,9 @@ class sequential_hcl(hclpalette):
         power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
+        # Save reverse flag
+        self._rev = rev
+
         # If input "h" is a string: exchange with "palette"
         if isinstance(h, str):
             palette = h; h = None
@@ -1304,7 +1331,7 @@ class sequential_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True):
+    def colors(self, n = 11, fixup = True, **kwargs):
         """colors(n = 11, type_ = "hex", fixup = None)
 
         Returns the colors of the current color palette.
@@ -1346,8 +1373,12 @@ class sequential_hcl(hclpalette):
         from colorlib import HCL
         HCL = HCL(H, C, L)
 
+        # Reversing colors
+        rev = self._rev
+        if "rev" in kwargs.keys(): rev = kwargs["rev"]
+
         # Return hex colors
-        return HCL.colors(fixup = fixup)
+        return HCL.colors(fixup = fixup, rev = rev)
 
 
 # -------------------------------------------------------------------
@@ -1561,7 +1592,10 @@ class diverge_hsv(hclpalette):
     _allowed_parameters_ = ["h1", "h2", "s", "v"]
 
     def __init__(self, h = [240, 0], s = 1., v = 1., power = 1.,
-        fixup = True, *args, **kwargs):
+        fixup = True, rev = False, *args, **kwargs):
+
+        # Save reverse flag
+        self._rev = rev
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1594,7 +1628,7 @@ class diverge_hsv(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True):
+    def colors(self, n = 11, fixup = True, **kwargs):
         """colors(n = 11, type_ = "hex", fixup = None)
 
         Returns the colors of the current color palette.
@@ -1625,8 +1659,12 @@ class diverge_hsv(hclpalette):
         from .colorlib import HSV
         HSV = HSV(H, S, V)
 
+        # Reversing colors
+        rev = self._rev
+        if "rev" in kwargs.keys(): rev = kwargs["rev"]
+
         # Return hex colors
-        return HSV.colors(fixup = fixup)
+        return HSV.colors(fixup = fixup, rev = rev)
 
 
 

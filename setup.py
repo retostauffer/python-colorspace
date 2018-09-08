@@ -8,7 +8,7 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2017-02-05, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2018-09-02 19:20 on marvin
+# - L@ST MODIFIED: 2018-09-07 12:06 on marvin
 # -------------------------------------------------------------------
 
 
@@ -16,7 +16,7 @@
 from setuptools import setup
 
 setup(name="colorspace",     # This is the package name
-      version = "0.0-1",            # Current package version, what else
+      version = "0.0.1",            # Current package version, what else
       description = "Color space package for python",
       long_description = "Provides a set of color transformation functions and an interface to chose efficient color maps based on the HCL color space. This package is inspired and based on the R package 'colorspace'.",
       classifiers = [
@@ -27,8 +27,9 @@ setup(name="colorspace",     # This is the package name
       ],
       keywords = "colors HCL",
       url = "https://github.com/retostauffer/python-colorspace",
-      author = "Reto Stauffer, Ross Ihaka, Paul Murrell, Kurt Hornik, Jason C. Fisher, Claus O. Wilke, Claire D. Mc White, Achim Zeileis",
-      author_email = "reto.stauffer@uibk.ac.at",
+      maintainer = "Reto Stauffer",
+      maintainer_email = "reto.stauffer@uibk.ac.at",
+      author = "Reto Stauffer [aut,cre], Ross Ihaka [ctb], Paul Murrell [ctb], Kurt Hornik [ctb], Jason C. Fisher [ctb], Claus O. Wilke [ctb], Claire D. Mc White [ctb], Achim Zeileis [ctb]",
       license = "GPL-2",
       install_requires = ["numpy"],
 

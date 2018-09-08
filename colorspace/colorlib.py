@@ -1756,7 +1756,7 @@ class colorobject(object):
             specplot(cols.colors(), **kwargs)
 
 
-    def colors(self, fixup = True):
+    def colors(self, fixup = True, rev = False):
         """colors(fixup = True)
         
         Returns hex colors of the current :py:class:`colorobject`.
@@ -1772,6 +1772,8 @@ class colorobject(object):
         fixup : bool
             whether or not to correct rgb values outside the
             defined range of ``[0., 1.]``.
+        rev : bool
+            return colors in reversed order?
 
         Returns
         -------
@@ -1794,9 +1796,12 @@ class colorobject(object):
                 if self._data_["alpha"][i] < 1.0:
                     res[i] += "{:02d}".format(int(self._data_["alpha"][i] * 100.))
             # Return hex with alpha
-            return res
+            colors = res
         else:
-            return x.get("hex_")
+            colors = x.get("hex_")
+
+        if rev: colors.reverse()
+        return colors
 
 
     def get(self, dimname = None):
