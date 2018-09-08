@@ -17,12 +17,12 @@ from .CVD import desaturate
 # functions.
 from .palettes import hclpalettes
 from .palettes import qualitative_hcl
-from .palettes import diverge_hcl
+from .palettes import diverging_hcl
 from .palettes import sequential_hcl
 from .palettes import rainbow_hcl
 from .palettes import heat_hcl
 from .palettes import terrain_hcl
-from .palettes import diverge_hsv
+from .palettes import diverging_hsv
 
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes

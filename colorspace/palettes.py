@@ -20,7 +20,7 @@ class defaultpalette(object):
         palette type.
     method : str
         name of the method which has to be called to retrieve colors (e.g.,
-        :py:class:`diverge_hcl`).
+        :py:class:`diverging_hcl`).
     parameter : list
         a list of strings which define the allowed/valid parameters for this
         color palette.
@@ -471,7 +471,7 @@ class hclpalettes(object):
 class hclpalette(object):
     """Hy, I am the base class.
     Is extended by the different HCL based color palettes such as
-    the classes diverge_hcl, qualitative_hcl, rainbow_hcl, sequential_hcl,
+    the classes diverging_hcl, qualitative_hcl, rainbow_hcl, sequential_hcl,
     and maybe more in the future."""
 
     # Default call: return n hex colors
@@ -499,8 +499,8 @@ class hclpalette(object):
 
         Examples
         --------
-        >>> from colorspace import diverge_hcl
-        >>> pal = diverge_hcl()
+        >>> from colorspace import diverging_hcl
+        >>> pal = diverging_hcl()
         >>> pal.specplot()
         >>> pal.specplot(rgb = False)
         """
@@ -732,7 +732,7 @@ class hclpalette(object):
             l = tolist(l,  int, 2, cls)
             p = tolist(p,  float, 2, cls)
         # For sequential hcl palettes
-        elif isinstance(self, diverge_hcl):
+        elif isinstance(self, diverging_hcl):
             n = tovalue(n, int, cls)
             h = tolist(h,  int, 2, cls)
             c = tovalue(c, int, cls)
@@ -805,7 +805,7 @@ class qualitative_hcl(hclpalette):
 
     Examples
     --------
-    >>> from colorspace import diverge_hcl
+    >>> from colorspace import diverging_hcl
     >>> a = qualitative_hcl()
     >>> a.colors(10)
     >>> b = qualitative_hcl("Dynamic")
@@ -926,7 +926,7 @@ class qualitative_hcl(hclpalette):
 # -------------------------------------------------------------------
 class rainbow_hcl(qualitative_hcl):
     """rainbow_hcl(c = 50, l = 70, start = 0, end = 360, \
-                 gamma = None, fixup = True, *args, **kwargs):
+                 gamma = None, fixup = True, rev = False, *args, **kwargs):
 
     HCL rainbow, a qualitative cyclic rainbow color palette with uniform
     luminance and chroma.
@@ -941,6 +941,8 @@ class rainbow_hcl(qualitative_hcl):
         hue at which the rainbow should start.
     end : int
         hue at which the rainbow should end.
+    rev : bool
+        should the color map be reversed.
     gamma : float
         gamma value used for transfiromation from/to sRGB.
         @TODO implemented? Check!
@@ -968,7 +970,10 @@ class rainbow_hcl(qualitative_hcl):
     _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
 
     def __init__(self, c = 50, l = 70, start = 0, end = 360,
-                 gamma = None, fixup = True, *args, **kwargs):
+                 gamma = None, fixup = True, rev = False, *args, **kwargs):
+
+        # Store reverse
+        self._rev = rev
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1000,8 +1005,8 @@ class rainbow_hcl(qualitative_hcl):
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class diverge_hcl(hclpalette):
-    """diverge_hcl(h = [260, 0], c = 80, l = [30, 90], \
+class diverging_hcl(hclpalette):
+    """diverging_hcl(h = [260, 0], c = 80, l = [30, 90], \
         power = 1.5, fixup = True, palette = None, rev = False, \
         *args, **kwargs)
 
@@ -1051,14 +1056,14 @@ class diverge_hcl(hclpalette):
 
     Examples
     --------
-    >>> from colorspace import diverge_hcl
-    >>> a = diverge_hcl()
+    >>> from colorspace import diverging_hcl
+    >>> a = diverging_hcl()
     >>> a.colors(10)
-    >>> b = diverge_hcl("Blue-Yellow 3")
+    >>> b = diverging_hcl("Blue-Yellow 3")
     >>> b.colors(10)
     >>> # The standard call of the object also returns hex colors. Thus,
     >>> # you can make your code slimmer by calling:
-    >>> diverge_hcl("Dynamic")(10)
+    >>> diverging_hcl("Dynamic")(10)
     """
 
     _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
@@ -1544,8 +1549,8 @@ class terrain_hcl(sequential_hcl):
                     settings[key] = val
 
 
-class diverge_hsv(hclpalette):
-    """diverge_hsv(h = [260, 0], s = 1., v = 1., power = 1., \
+class diverging_hsv(hclpalette):
+    """diverging_hsv(h = [260, 0], s = 1., v = 1., power = 1., \
         fixup = True)
 
     Diverging HSV color palette.
@@ -1584,8 +1589,8 @@ class diverge_hsv(hclpalette):
 
     Examples
     --------
-    >>> from colorspace import diverge_hsv
-    >>> a = diverge_hsv()
+    >>> from colorspace import diverging_hsv
+    >>> a = diverging_hsv()
     >>> a.colors(10)
     """
 

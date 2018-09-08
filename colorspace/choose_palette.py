@@ -281,11 +281,70 @@ class currentpalettecanvas(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 def choose_palette(**kwargs):
+    """choose_palette(**kwargs)
+
+    Graphical user interface to choose HCL based color palettes.  Returns an
+    object of :py:class:`diverging_hcl`, :py:class:`qualitative_hcl`, or
+    :py:class:`sequential_hcl` with user-defined default settings.
+
+    Parameters
+    ----------
+    See :py:class:`colorspace.gui` object.
+
+    Returns
+    -------
+    Returns an object of type :py:class:`hclpalette`. The object allows to get
+    colors in different ways, the default is a list with hex colors. See
+    :py:class:`palettes.hclpalette` or, more specifically, the manual of the
+    depending palette (:py:class:`diverging_hcl`, :py:class:`qualitative_hcl`,
+    or :py:class:`sequential_hcl`).
+    """
 
     obj = gui(**kwargs)
 
     import palettes
     method = getattr(palettes, obj.method())
+
+    varnames = method.__init__.im_func.func_code.co_varnames
+    defaults = method.__init__.im_func.func_defaults
+
+    # Getting current parameters from slider object
+    settings = {}
+    for s in obj.sliders():
+        settings[s.name()] = s.get()
+
+    for key in ["h","c","l","p"]:
+        k1  = "{:s}1".format(key)
+        k2  = "{:s}2".format(key)
+        key = "power" if key == "p" else key
+        if k1 in settings.keys() and k2 in settings.keys():
+            settings[key] = [settings[k1], settings[k2]]
+            del settings[k1]
+            del settings[k2]
+        elif k1 in settings.keys():
+            settings[key] = settings[k1]
+            del settings[k1]
+        elif k2 in settings.keys():
+            settings[key] = settings[k2]
+            del settings[k2]
+
+    print settings
+    defaults = list(defaults)
+    for idx,key in enumerate(varnames[1:(len(defaults)+1)]):
+        if key in settings.keys():
+            print "Setting {:s} to ".format(key), settings[key]
+            defaults[idx] = settings[key]
+        else:
+            print "Do not set {:s}".format(key)
+
+    print defaults
+    import types
+    method.__init__ = types.FunctionType(method.__init__.__code__,
+                                         method.__init__.__globals__,
+                                         method.__init__.__name__,
+                                         tuple(defaults),
+                                         method.__init__.__closure__)
+
 
     return method
 
@@ -321,15 +380,16 @@ class gui(object):
 
     # Slider settings
     _slider_settings = {
-        "h1" : {"type":"int",   "from":-360, "to":360, "resolution":1},
-        "h2" : {"type":"int",   "from":-360, "to":360, "resolution":1},
-        "c1" : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "c2" : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "l1" : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "l2" : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "p1" : {"type":"float", "from":0,    "to":3,   "resolution":.1},
-        "p2" : {"type":"float", "from":0,    "to":3,   "resolution":.1},
-        "n"  : {"type":"int",   "from":2,    "to":30,  "resolution":1}
+        "h1"   : {"type":"int",   "from":-360, "to":360, "resolution":1},
+        "h2"   : {"type":"int",   "from":-360, "to":360, "resolution":1},
+        "c1"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
+        "cmax" : {"type":"int",   "from":0,    "to":200, "resolution":1},
+        "c2"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
+        "l1"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
+        "l2"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
+        "p1"   : {"type":"float", "from":0,    "to":3,   "resolution":.1},
+        "p2"   : {"type":"float", "from":0,    "to":3,   "resolution":.1},
+        "n"    : {"type":"int",   "from":2,    "to":30,  "resolution":1}
     }
     _sliders = []
 

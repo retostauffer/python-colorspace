@@ -16,7 +16,7 @@
 library("colorspace")</code></pre>
 <pre><code>## Loading required package: methods</code></pre>
 <pre class="r"><code># Loading a set of 11 colors
-colors &lt;- diverge_hcl(11)
+colors &lt;- diverging_hcl(11)
 # Plotting a simple color map
 par(mar = rep(0,4))
 image(matrix(1:11, ncol = 1), col = colors)</code></pre>
@@ -25,8 +25,8 @@ image(matrix(1:11, ncol = 1), col = colors)</code></pre>
 <div class="section level3" id="in-python">
 <h3>In python</h3>
 <pre class="python"><code># Loading the module
-from colorspace import diverge_hcl, specplot
-pal = diverge_hcl()       # Initialize object
+from colorspace import diverging_hcl, specplot
+pal = diverging_hcl()       # Initialize object
 colors = pal.colors(11)   # Retrieve colors
 # Plotting a simple color map
 specplot(colors, rgb = False, hcl = False)</code></pre>

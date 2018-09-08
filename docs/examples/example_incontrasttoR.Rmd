@@ -23,7 +23,7 @@ palettes for plotting in python.
 # Loading the library
 library("colorspace")
 # Loading a set of 11 colors
-colors <- diverge_hcl(11)
+colors <- diverging_hcl(11)
 # Plotting a simple color map
 par(mar = rep(0,4))
 image(matrix(1:11, ncol = 1), col = colors)
@@ -33,8 +33,8 @@ image(matrix(1:11, ncol = 1), col = colors)
 
 ```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
 # Loading the module
-from colorspace import diverge_hcl, specplot
-pal = diverge_hcl()       # Initialize object
+from colorspace import diverging_hcl, specplot
+pal = diverging_hcl()       # Initialize object
 colors = pal.colors(11)   # Retrieve colors
 # Plotting a simple color map
 specplot(colors, rgb = False, hcl = False)

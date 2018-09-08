@@ -422,9 +422,9 @@ def desaturate(col, amount = 1.):
     -------
     Returns a list of modified hex colors.
 
-    >>> from colorspace import diverge_hcl
+    >>> from colorspace import diverging_hcl
     >>> from colorspace.colorlib import hexcols
-    >>> cols = hexcols(diverge_hcl()(10))
+    >>> cols = hexcols(diverging_hcl()(10))
     >>> from colorspace import specplot
     >>> specplot(desaturate(cols))
     >>> specplot(desaturate(cols, 0.5))
