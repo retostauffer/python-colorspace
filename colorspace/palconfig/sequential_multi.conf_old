@@ -1,7 +1,7 @@
 
 [main]
 
-type = Sequential (multi-hue)
+type = Sequential
 
 method    = sequential_hcl
 parameter = h1, h2, c1, c2, l1, l2, p1, p2, fixup

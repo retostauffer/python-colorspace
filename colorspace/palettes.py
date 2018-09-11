@@ -212,16 +212,23 @@ class defaultpalette(object):
         cfun = getattr(mod, self._method_)
 
         # Calling color method with arguments of this object. 
-        args = {}
-        for key in self._parameter_:
-            args[key] = self.get(key)
+        args = self.get_settings()
 
         # If Remove h1/h2 and store them in h
         for dim in ["h", "c", "l", "p"]:
             dim1 = "{:s}1".format(dim)
             dim2 = "{:s}2".format(dim)
+            dim3 = "{:s}max".format(dim)
             dim = "power" if dim == "p" else dim
-            if dim1 in args.keys() and dim2 in args.keys():
+            # For Chroma we can have [c1, c2, cmax]
+            if dim1 in args.keys() and dim2 in args.keys() and dim3 in args.keys():
+                args[dim] = [args[dim1], args[dim2], args[dim3]]
+                del args[dim1]; del args[dim2]; del args[dim3]
+            elif dim1 in args.keys() and dim3 in args.keys():
+                args[dim] = [args[dim1], args[dim1], args[dim3]] 
+                del args[dim1]; del args[dim3]
+            # For Hue, Luminance, and Power there are only two (for now)
+            elif dim1 in args.keys() and dim2 in args.keys():
                 args[dim] = [args[dim1], args[dim2]]
                 del args[dim1]; del args[dim2]
             elif dim1 in args.keys():
@@ -283,7 +290,6 @@ class hclpalettes(object):
 
             # Append
             self._palettes_[palette_type] = pals
-            #DEMO# for p in pals: p.show()
 
     def __repr__(self):
         """__repr__()
@@ -300,6 +306,7 @@ class hclpalettes(object):
                 # Initialize new line
                 if nchar == 0:
                     tmp = "Names: {:s}".format(pal.name())
+                    nchar = len(tmp)
                 elif (len(pal.name()) + nchar) > 60:
                     res.append(tmp)
                     tmp = "       {:s}".format(pal.name())
@@ -456,7 +463,6 @@ class hclpalettes(object):
             pals.append(defaultpalette(palette_type, palette_method,
                         palette_parameter, name, settings))
 
-
         # Return dictionary with palettes
         if len(pals) == 0:
             return [None, None]
@@ -577,8 +583,8 @@ class hclpalette(object):
 
 
     # Better input handling
-    def _checkinput_(self, dtype, length = None, recycle = False,
-            nansallowed = False, **kwargs):
+    def _checkinput_(self, dtype, length_min = None, length_max = None,
+            recycle = False, nansallowed = False, **kwargs):
         """_checkinput_(dtype, length = None, recycle = False,
             nansallowed = False, **kwargs)
             
@@ -589,15 +595,14 @@ class hclpalette(object):
         dtype : object
             e.g. int or float, the type in which the inputs should be
             converted.
-        length : None, int
-            optional. If set the script checks the length of the input argument
-            and, if necessary and allowed, converts the data. If more values
-            than required are provided by the user only the first few elements
-            will be used (as specified by ``length``). If the user gave less
-            arguments than expected the user arguments are recycled if
-            ``recycle = True``. If ``recycle = False`` and the
-            length of the input is shorter than expected an error will be
-            raised.
+        length_min : None, int
+            optional. Minimum length of the input data. If not fulfilled and
+            ``recycle`` is set to True it expands the input to ``length_min``.
+            See also ``length_max``.
+        lenth_max : None, int
+            optional. Maximum length of the input data. If longer, the script
+            will stop. If not set (default is ``Non``) only the ``length_min``
+            will be checked.
         recycle : bool
             if set to ``True`` the user inputs will be recycled to match the
             expected number of inputs.
@@ -620,7 +625,7 @@ class hclpalette(object):
         """
 
         # Support function
-        def fun(key, value, dtype, length, recycle, nansallowed):
+        def fun(key, value, dtype, length_min, length_max, recycle, nansallowed):
 
             from numpy import vstack, asarray, isnan, nan, any
 
@@ -636,19 +641,28 @@ class hclpalette(object):
 
             # Not enough input values, check if we are allowed to
             # recycle.
-            if length and len(value) < length:
+            if length_min and len(value) < length_min:
                 # Input was too short: check if we are allowed to
                 # recycle the value or not.
                 if not recycle:
                     msg = "wrong length of input \"{:s}\", ".format(key) + \
-                          "expected {:d} elements, got {:d} ".format(length, len(value)) + \
+                          "expected min {:d} elements, got {:d} ".format(length_min, len(value)) + \
                           "when calling {:s}".format(self.__class__.__name__)
                     raise ValueError(msg)
                 else:
-                    value = vstack([value] * length).flatten()[0:length]
+                    value = vstack([value] * length_min).flatten()[0:length_min]
+            elif length_min and not length_max and len(value) > length_min:
+                value = value[0:length_min]
+
+            # Check if the input exceeds length_max if set
+            if length_max and len(value) > length_max:
+                msg = "wrong length of input \"{:s}\", ".format(key) + \
+                      "expected max {:d} elements, got {:d} ".format(length_max, len(value)) + \
+                      "when calling {:s}".format(self.__class__.__name__)
+                raise ValueError(msg)
             # Cropping data if too much elements are given.
-            elif length and len(value) > length:
-                value = value[0:length]
+            elif length_max and len(value) > length_max:
+                value = value[0:length_max]
 
             # Checking nan's
             if not nansallowed and any(isnan(value)):
@@ -664,7 +678,7 @@ class hclpalette(object):
 
         # Looping over all kwargs
         for key,value in kwargs.items():
-            kwargs[key] = fun(key, value, dtype, length, recycle, nansallowed)
+            kwargs[key] = fun(key, value, dtype, length_min, length_max, recycle, nansallowed)
 
         # If only one kwarg was given: return values, else return dict.
         if len(kwargs) == 1:
@@ -745,16 +759,6 @@ class hclpalette(object):
 
         return [n, h, c, l, p, palette]
 
-
-    #####def data(self):
-    #####    """data()
-
-    #####    Returns
-    #####    -------
-    #####    Returns the data of the object which is a ... a ... what is it?
-    #####    @TODO Check if I even use this method.
-    #####    """
-    #####    return self._data_
 
 
 # -------------------------------------------------------------------
@@ -1081,10 +1085,10 @@ class diverging_hcl(hclpalette):
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            h     = self._checkinput_(int,   2, True,  False, h = h)
-            c     = self._checkinput_(int,   1, False, False, c = c)
-            l     = self._checkinput_(int,   2, True,  False, l = l)
-            power = self._checkinput_(float, 1, True,  False, power = power)
+            h     = self._checkinput_(int,   2, 2, True,  False, h = h)
+            c     = self._checkinput_(int,   1, 1, False, False, c = c)
+            l     = self._checkinput_(int,   2, 2, True,  False, l = l)
+            power = self._checkinput_(float, 1, 1, True,  False, power = power)
         except Exception as e:
             raise ValueError(e)
 
@@ -1279,12 +1283,13 @@ class sequential_hcl(hclpalette):
             palette = h; h = None
 
         # _checkinput_ parameters (in the correct order):
-        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        # dtype, length_min = None, length_max = None,
+        # recycle = False, nansallowed = False, **kwargs
         try:
-            h     = self._checkinput_(int,   2, True,  False, h = h)
-            c     = self._checkinput_(int,   2, True,  False, c = c)
-            l     = self._checkinput_(int,   2, True,  False, l = l)
-            power = self._checkinput_(float, 2, True,  False, power = power)
+            h     = self._checkinput_(int,   2, 2, True,  False, h = h)
+            c     = self._checkinput_(int,   2, 3, True,  False, c = c)
+            l     = self._checkinput_(int,   2, 2, True,  False, l = l)
+            power = self._checkinput_(float, 2, 2, True,  False, power = power)
         except Exception as e:
             raise ValueError(e)
 
@@ -1315,8 +1320,13 @@ class sequential_hcl(hclpalette):
             settings = {}
             settings["h1"]    = h[0]
             settings["h2"]    = h[0] if len(h) == 1 else h[1]
-            settings["c1"]    = c[0]
-            settings["c2"]    = c[1]
+            if len(c) == 3:
+                settings["c1"]    = c[0]
+                settings["c2"]    = c[1]
+                settings["cmax"]  = c[2]
+            else:
+                settings["c1"]    = c[0]
+                settings["c2"]    = c[1]
             settings["l1"]    = l[0]
             settings["l2"]    = l[1]
             settings["p1"]    = power[0]
@@ -1356,7 +1366,7 @@ class sequential_hcl(hclpalette):
         if isinstance(fixup, bool): self.settings["fixup"] = fixup
 
         from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
-        from numpy import vstack, transpose
+        from numpy import vstack, transpose, where
         from . import colorlib
 
         # Calculate H/C/L
@@ -1365,14 +1375,30 @@ class sequential_hcl(hclpalette):
         p2   = p1 if self.get("p2") is None else self.get("p2")
         c1   = self.get("c1")
         c2   = c1 if self.get("c2") is None else self.get("c2")
+        cmax = None if not self.get("cmax") else self.get("cmax")
         l1   = self.get("l1")
         l2   = l1 if self.get("l2") is None else self.get("l2")
         h1   = self.get("h1")
         h2   = h1 if self.get("h2") is None else self.get("h2")
 
-        L = l2 - (l2 - l1) * power(rval, p2)
-        C = c2 - (c2 - c1) * power(rval, p1)
+        # Special case if cmax is not None:
+        if not cmax is None:
+            cmaxat = 1. / (1. + abs(float(cmax) - float(c1)) / abs(float(cmax) - float(c2)))
+        else:
+            cmaxat = None
+
+        # Hue and Luminance
         H = h2 - (h2 - h1) * rval
+        L = l2 - (l2 - l1) * power(rval, p2)
+        # Speical handling for Chroma due to cmax
+        if not cmaxat:
+            C = c2 - (c2 - c1) * power(rval, p1)
+        else:
+            C      = ndarray(len(rval), dtype = "float")
+            idx    = where(power(rval, p1) < cmaxat)[0]
+            C[idx] = c2 - (c2 - cmax) * power(rval[idx], p1) / cmaxat
+            idx    = where(power(rval, p1) >= cmaxat)[0]
+            C[idx] = cmax - (cmax - c1) * ((power(rval[idx], p1) - cmaxat) / (1. - cmaxat))
 
         # Create new HCL color object
         from colorlib import HCL

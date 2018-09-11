@@ -4,7 +4,7 @@ from cslogger import cslogger
 log = cslogger(__name__)
 
 
-def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None):
+def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None):
     """hcl_palettes(n = 7, type_ = None, names = None, plot = False, custom = None)
     
     Gives access to the default color palettes of the colorspace package.
@@ -144,15 +144,17 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None):
 
 
     # Draw the colormap
-    def cmap(ax, cols, ylo, yhi, xmin, xmax, boxedupto = 15):
+    def cmap(ax, cols, ylo, yhi, xmin, xmax, boxedupto = 6, frameupto = 9):
 
         from numpy import linspace
         from matplotlib.patches import Rectangle
+        framecol = "#cecece"
+
         if len(cols) == 1:
             space     = 0.
             step      = xmax - xmin
             xlo       = [xmin]
-            edgecolor = "#cecece"
+            edgecolor = framecol
 
         elif len(cols) <= boxedupto:
             # -----------------------------------------
@@ -171,7 +173,7 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None):
             space     = deltax * 0.05 / (n - 1)
             step      = (deltax - float(n - 1.) * space) / float(n)
             xlo       = linspace(xmin, xmax - step + space, n)
-            edgecolor = "#cecece"
+            edgecolor = framecol
 
         # Else it is a bit simpler
         else:
@@ -179,12 +181,18 @@ def hcl_palettes(n = 7, type_ = None, name = None, plot = False, custom = None):
             space     = 0.
             step      = float(xmax - xmin) / float(n)
             xlo       = linspace(xmin, xmax - float(xmax - xmin) / (n), n)
-            edgecolor = None
+            edgecolor = framecol if n <= frameupto else None
 
         # Plotting the rectangles
         for i in range(0, len(cols)):
             rect = Rectangle((xlo[i], ylo), (step - space), yhi - ylo,
                     facecolor = cols[i], edgecolor = edgecolor)
+            ax.add_patch(rect)
+
+        # Outer frame
+        if n > frameupto:
+            rect = Rectangle((xmin, ylo), xmax - xmin, yhi - ylo,
+                             facecolor = "none", edgecolor = framecol)
             ax.add_patch(rect)
 
 
