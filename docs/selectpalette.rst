@@ -17,7 +17,7 @@ color palettes which can directly be accessed by name.
 .. raw:: html
     :file: examples/example_defaultpalettes.html
 
-* More information: page-choose-palette_
+* More information: :ref:`page-choose-palette`
 
 
 Graphical User Interface

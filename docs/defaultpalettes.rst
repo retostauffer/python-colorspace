@@ -18,24 +18,20 @@ retrieve a set of colors by calling:
 
 Function Reference
 ^^^^^^^^^^^^^^^^^^^
-.. autoclass:: palettes.diverge_hcl
+.. autoclass:: palettes.diverging_hcl
     :noindex:
     :members: colors
 
 
 
 
-Sequential (single/multi hue)
------------------------------
+Sequential
+----------
 
 .. raw:: html
-    :file: examples/example_pal_sequential_single.html
+    :file: examples/example_pal_sequential.html
 
 * ``colorspace.sequential_hcl(n = 10, name = "<palette name>")``
-
-.. raw:: html
-    :file: examples/example_pal_sequential_multi.html
-
 
 Function Reference
 ^^^^^^^^^^^^^^^^^^^

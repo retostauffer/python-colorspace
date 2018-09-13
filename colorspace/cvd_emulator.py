@@ -2,9 +2,9 @@
 from cslogger import cslogger
 log = cslogger(__name__)
 
-def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0,
+def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         output = None, dropalpha = False):
-    """hcl_converter(image = "DEMO", cvd = "desaturate", \
+    """cvd_emulator(image = "DEMO", cvd = "desaturate", \
             severity = 1.0, output = None, dropalpha = False)
 
     Simulate color deficiencies on png/jpg/jpeg figures.
@@ -41,10 +41,10 @@ def hcl_converter(image = "DEMO", cvd = "desaturate", severity = 1.0,
 
     Examples
     --------
-    >>> from colorspace.hcl_converter import hcl_converter
-    >>> hcl_converter("DEMO", "deutan", 0.5)
-    >>> hcl_converter("DEMO", "desaturate", 1.0, "output.png")
-    >>> hcl_converter("DEMO", ["original", "deutan", "protan"], 0.5, dropalpha = True)
+    >>> from colorspace.cvd_emulator import cvd_emulator
+    >>> cvd_emulator("DEMO", "deutan", 0.5)
+    >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png")
+    >>> cvd_emulator("DEMO", ["original", "deutan", "protan"], 0.5, dropalpha = True)
 
     .. note::
         Requires the modules ``matplotlib`` and ``imageio``.

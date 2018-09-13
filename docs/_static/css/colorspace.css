@@ -16,9 +16,9 @@
     white-space: pre;
     border: none;
     padding: 0;
-    color: gray;
+    color: #343131;
 }
 .container-fluid pre code.sourceCode.python {
-    /*color: black;*/
-    color: #04639f;
+    color: black;
+    /*color: #343131;*/
 }

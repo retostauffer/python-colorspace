@@ -160,6 +160,9 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     >>> # Swatchplot, once unnamed (no title), once named (title will be shown) 
     >>> swatchplot([H, C, L])
     >>> swatchplot({"HCL Dimensions": [H, C, L]})
+
+    .. note:
+        Requires the ``matplotlib`` module to be installed.
     """
 
 

@@ -22,7 +22,7 @@ Qualitative HCL
 Diverging HCL
 -------------
 
-.. autoclass:: palettes.diverge_hcl
+.. autoclass:: palettes.diverging_hcl
     :members:
 
 Sequential HCL
@@ -47,3 +47,10 @@ palette settings.
 .. autoclass:: palettes.hclpalette
     :members:
 
+
+Other Methods
+=============
+
+.. autoclass:: palettes.palette
+
+.. autoclass:: palettes.hclpalette

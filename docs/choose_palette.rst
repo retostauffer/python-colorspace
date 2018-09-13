@@ -9,7 +9,9 @@ Graphical User Interface
 .. image:: _static/img_gui.jpeg
 
 
-### Function Reference
+Function Reference
+^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: choose_palette.choose_palette
+    :noindex:
 

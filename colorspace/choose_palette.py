@@ -18,39 +18,42 @@ class Slider(object):
     """Slider(x, y, width, height, active, type_, from_, to, \
             resolution, **kwargs)
 
-    Initializes a new Slider object. A Slider is a combination of a
-    Tk.Label, Tk.Slider, and a Tk.Entry element which interact.
+    Initializes a new Slider object for the graphical user interface
+    :py:class:`choose_palette.gui`. A Slider is a combination of a ``Tk.Frame``
+    including a ``Tk.Label``, ``Tk.Slider``, and a ``Tk.Entry`` element with
+    all necessary interactions.
 
     Parameters
     ----------
     x : int
-        x-position on the Tk interface.
+        x-position on the Tk interface
     y : int
-        y-position on the Tk interface.
+        y-position on the Tk interface
     width : int
-        width of the Slider object (Scale, Label, and Entry)
+        width of the Slider object (``Tk.Frame`` taking up ``Tk.Scale``,
+        ``Tk.Label``, and ``Tk.Entry``)
     height : int
-        height of the Slider object (Scale, Label, and Entry)
+        height of the Slider object (``Tk.Frame`` taking up ``Tk.Scale``,
+        ``Tk.Label``, and ``Tk.Entry``)
     type_ : str
         name of the Slider
     from_ : numeric
-        lower value of the Slider
+        lower value of the Slider (see :py:func:`isValidInt`, :py:func:`isValidFloat`)
     to : numeric
-        upper value of the Slider
+        upper value of the Slider (see :py:func:`isValidInt`, :py:func:`isValidFloat`)
     resolution : numeric
         resolution of the slider, the increments when moving the Slider
     kwargs : ...
         Unused
     """
 
-    _Frame     = None
-    _Scale     = None
-    _Label     = None
-    _Button    = None
-    _Entry     = None
-    _Value     = None
-    _name      = None
-    _is_active = True
+    _Frame     = None # Used to store the Tk.Frame object
+    _Scale     = None # Used to store the Tk.Scale object
+    _Label     = None # Used to store the Tk.Label object
+    _Entry     = None # Used to store the Tk.Entry object
+    _Value     = None # Used to store/trac the current value of the Slider
+    _name      = None # Name of the slider
+    _is_active = True # Bool, used to store the Slider state
 
     FGACTIVE     = "#b0b0b0"
     BGACTIVE     = "#b0b0b0"
@@ -124,6 +127,26 @@ class Slider(object):
         if not active: self.disable()
 
     def isValidInt(self, x, from_ = -999, to = 999):
+        """isValidInt(x, from_ = -999, to = 999)
+
+        Helper function to check whether ``x`` is a valid integer
+        in the range ``[from_,to]``.
+
+        Parameters
+        ----------
+        x : int
+            Value to be validated
+        from_ : int
+            Lower limit of the valid range
+        to : int
+            Upper limit of the valid range
+
+        Returns
+        -------
+        bool
+            Returns ``True`` if ``x`` is a valid float within
+            ``[from_, to]`` and ``False`` otherwise.
+        """
         # If empty
         if len(x) == 0: return True
         import re
@@ -137,7 +160,27 @@ class Slider(object):
         # Else True
         return True
 
-    def isValidFloat(self, x, from_ = -999, to = 999):
+    def isValidFloat(self, x, from_ = -999., to = 999.):
+        """isValidFloat(x, from_ = -999., to = 999.)
+
+        Helper function to check whether ``x`` is a valid float
+        in the range ``[from_,to]``.
+
+        Parameters
+        ----------
+        x : float
+            Value to be validated
+        from_ : float
+            Lower limit of the valid range
+        to : float
+            Upper limit of the valid range
+
+        Returns
+        -------
+        bool
+            Returns ``True`` if ``x`` is a valid float within
+            ``[from_, to]`` and ``False`` otherwise.
+        """
         # If empty
         if len(x) == 0: return True
         # If no valid float: return False
@@ -154,10 +197,23 @@ class Slider(object):
         return True
 
     def OnTrace(self, *args, **kwargs):
+        """OnTrace(*args, **kwargs)
+
+        Triggered when :py:func:`Slider.trace` is triggered. The method
+        is loading the current value and sets the ``Tk.Scale`` and
+        ``Tk.Entry`` element to the new value.
+        """
         val = self._Value.get()
         self.set(self._Value.get())
 
     def name(self):
+        """name()
+
+        Returns
+        -------
+        str
+            Returns the name of the :py:class:`Slider`.
+        """
         return self._name
 
     def set(self, val):
@@ -168,13 +224,39 @@ class Slider(object):
         self._Entry.insert(0, val)
 
     def get(self):
+        """get()
+
+        Returns
+        -------
+        int or float
+            Returns the current value of the slider.
+            The return value depends on the slider config (`int` or `float`).
+        """
         return self._Value.get()
 
 
     def trace(self, mode, *args, **kwargs):
+        """trace(mode, *args, **kwargs)
+
+        Trace method of the :py:class:`Slider` object.
+
+        Parameters
+        ----------
+        mode : str
+            default is ``w`` (call observer when variable is written)
+        args : ...
+            arguments passed to ``Tkinter.<vartype>.trace()``, at least
+            one argument (a callback function) should be provided
+        kwargs : ...
+            arguments passed to ``Tkinter.<vartype>.trace()``, unused
+        """
         self._Value.trace(mode, *args, **kwargs)
 
     def disable(self):
+        """disable()
+
+        Disables the :py:class:`Slider`.
+        """
         self._Scale.configure(state = "disabled",
                 relief = FLAT,
                 bg = self.FGDISABLED,
@@ -188,6 +270,10 @@ class Slider(object):
         self._is_active = False
 
     def enable(self):
+        """enable()
+
+        Enables the :py:class:`Slider`.
+        """
         self._Scale.configure(state = "active",
                 bg = self.FGACTIVE,
                 activebackground = self.FGACTIVE,
@@ -199,6 +285,11 @@ class Slider(object):
         self._is_active = True
 
     def is_active(self):
+        """is_active()
+
+        Returns ``True`` if the :py:class:`Slider` is active
+        and ``False`` if currently inactive.
+        """
         ##return not self._Scale.config()["state"][4] == "disabled"
         return self._is_active
 
@@ -208,6 +299,31 @@ class Slider(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class defaultpalettecanvas(object):
+    """defaultpalettecanvas(palframe, sliders, pal, n, xpos, figwidth, figheight)
+
+    Sets up a ``Tk.Canvas`` element containing the colors of the default
+    HCL color palettes which will be placed in the top part of the GUI.
+
+    Parameters
+    ----------
+    palframe : ``Tk.Frame``
+        the bounding ``Tk.Frame`` which takes up the palettes.
+    sliders : list
+        list of :py:class:`Slider` objects. When a user selets a new
+        default palette the sliders will be set to the specification
+        given the selected palette (and enabled/disabled corresponding
+        to the palette specification)
+    pal : :py:class:`defaultpalette`
+        the default color palette
+    n : int
+        number of colors to be drawn
+    xpos : numeric 
+        x position within ``Tk.Canvas`` (palframe input)
+    figwidth : numeric
+        width of the ``Tk.Canvas`` element (palframe input)
+    figheight : numeric
+        width of the ``Tk.Canvas`` element (palframe input)
+    """
 
     def __init__(self, palframe, sliders, pal, n, xpos, figwidth, figheight):  
 
@@ -236,7 +352,6 @@ class defaultpalettecanvas(object):
         for i in range(0, n):
             canvas.create_rectangle(offset, i*h, w, (i+1)*h,
                                     width = 0, fill = colors[i])
-        #canvas.create_line(0, 0, figwidth, figheight, fill="red")
             
     def _activate(self, event, pal, sliders):
 
@@ -258,6 +373,24 @@ class defaultpalettecanvas(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class currentpalettecanvas(object):
+    """currentpalettecanvas(parent, x, y, width, height)
+
+    Draws the current palette (the palette as specified on the
+    GUI), will be displayed in the lower part of the GUI.
+
+    Parameters
+    ----------
+    parent : ``Tk``
+        the ``Tk`` object (interface)
+    x : numeric
+        x position on the interface
+    y : numeric
+        y position on the interface
+    width : numeric
+        width of the palette on the interface
+    height : numeric
+        height of the palette on the interface
+    """
 
     def __init__(self, parent, x, y, width, height):
 
@@ -297,20 +430,24 @@ def choose_palette(**kwargs):
     """choose_palette(**kwargs)
 
     Graphical user interface to choose HCL based color palettes.  Returns an
-    object of :py:class:`diverging_hcl`, :py:class:`qualitative_hcl`, or
-    :py:class:`sequential_hcl` with user-defined default settings.
+    object of :py:class:`palettes.diverging_hcl`,
+    :py:class:`palettes.qualitative_hcl`, or
+    :py:class:`palettes.sequential_hcl` with user-defined default settings.
 
     Parameters
     ----------
-    See :py:class:`colorspace.gui` object.
+    kwargs : ...
+        See :py:class:`choose_palette.gui`.
 
     Returns
     -------
-    Returns an object of type :py:class:`hclpalette`. The object allows to get
-    colors in different ways, the default is a list with hex colors. See
-    :py:class:`palettes.hclpalette` or, more specifically, the manual of the
-    depending palette (:py:class:`diverging_hcl`, :py:class:`qualitative_hcl`,
-    or :py:class:`sequential_hcl`).
+    `palettes.hclpalette` object
+        The object allows to get colors in different ways, the default is a
+        list with hex colors. See :py:class:`palettes.hclpalette` or, more
+        specifically, the manual of the depending palette
+        (:py:class:`palettes.diverging_hcl`,
+        :py:class:`palettes.qualitative_hcl`, or
+        :py:class:`palettes.sequential_hcl`).
     """
 
     obj = gui(**kwargs)
@@ -367,13 +504,13 @@ def choose_palette(**kwargs):
 # the return).
 # -------------------------------------------------------------------
 class gui(object):
-    """choose_palette(**kwargs)
+    """choose_palette(\\**kwargs)
 
     Graphical user interface to choose custom HCL-basec color palettes.
 
     Parameters
     ----------
-    kwargs
+    kwargs : ...
         Optional, can be used to change the defaults when starting the
         GUI. Currently a parameter called ``palette`` is allowed to
         specify the initial color palette. If not set, ``palette = "Blue-Red"``
@@ -382,10 +519,6 @@ class gui(object):
     Example
     -------
     >>> colorspace.choose_palette()
-
-    .. todo::
-        Not yet well implemented. Currently no return, which makes
-        the GUI useless. Under development ...
     """
 
     WIDTH = 400
@@ -459,7 +592,7 @@ class gui(object):
         ##for key,val in kwargs.items(): init_args[key] = val
 
         # Initialize gui
-        self._master         = self._init_master_()
+        self._master         = self._init_master()
         # The different palette types
         self._Dropdown       = self._add_paltype_dropdown()
         # Adding current palette has to be before the sliders
@@ -474,7 +607,7 @@ class gui(object):
         self._currentpalette = self._add_currentpalettecanvas()
         self._draw_currentpalette()
 
-        #self._add_demo_options_()
+        #self._add_demo_options()
         self._add_return_button()
 
         self._control = self._add_control()
@@ -484,7 +617,12 @@ class gui(object):
         mainloop()
 
     def _add_paltype_dropdown(self):
+        """_add_paltype_dropdown()
 
+        Adds a drop down menu to the GUI which allowes to
+        switch between the different types of the default
+        palettes (see also :py:class:`palettes.hclpalettes`).
+        """
         opts = self.palettes().get_palette_types()
 
         paltypevar = StringVar(self.master())
@@ -500,6 +638,11 @@ class gui(object):
         return paltypevar
 
     def OnPaltypeChange(self, *args, **kwargs):
+        """OnPaltypeChange(*args, **kwargs)
+
+        The callback function of the drop down element. Triggered
+        every time the drop down element changes.
+        """
 
         # Updating the palette-frame.
         self._palframe = self._add_palframe(args[0])
@@ -521,7 +664,12 @@ class gui(object):
                 elem.disable()
 
     def _add_control(self):
+        """_add_control()
 
+        Adds the check buttons (``Tk.Checkbutton``) and radio button
+        (``Tk.Radiobutton``) elements. Color fixup, revert colors,
+        and CVD options.
+        """
         control = {}
 
         frame = Frame(self.master(), height = 30, width = self.WIDTH - 20)
@@ -577,6 +725,15 @@ class gui(object):
         return control
 
     def control(self):
+        """control()
+
+        Returns
+        -------
+        dict
+            Returns a dictionary with the current control options
+            (see :py:func:`_add_control`).
+        """
+
 
         if not self._control:
             return {"reverse" : False, "desaturate" : False, "cvd" : False,
@@ -592,7 +749,7 @@ class gui(object):
 
 
     def settings(self, *args, **kwargs):
-        """_settings(**kwargs)
+        """settings( *args, **kwargs)
 
         Used to load/store current palette settings (gui settings).
 
@@ -602,6 +759,11 @@ class gui(object):
             strings to load one/several parameters.
         kwargs : ...
             named arguments, used to store values.
+
+        Returns
+        -------
+        dict
+            Returns a dictionary with the current slider settings.
         """
         # Return current settings
         if len(args) == 0 and len(kwargs) == 0:
@@ -622,7 +784,11 @@ class gui(object):
                 if key in self._setting_names:
                     self._settings[key] = val
 
-    def _init_master_(self):
+    def _init_master(self):
+        """_init_master()
+
+        Initializes the ``Tk`` GUI window.
+        """
 
         # initialize mater TK interface
         master = Tk()
@@ -636,15 +802,53 @@ class gui(object):
         return master
 
     def master(self):
+        """master()
+
+        Returns
+        -------
+        ``Tk``
+            Returns the ``Tk`` GUI object.
+        """
         return self._master
+
     def palettes(self):
+        """palettes()
+
+        Returns
+        -------
+        :py:class:`palettes.hclpalettes`
+            Returns the default palettes available.
+        """
         return self._palettes
+
     def sliders(self):
+        """sliders()
+
+        Returns
+        -------
+        list
+            List of :py:class:`Slider` objects.
+        """
         return self._sliders
+
     def palframe(self):
+        """palframe()
+
+        Returns
+        -------
+        ``Tk.Frame``
+            Returns the palette frame (``Tk.Frame`` object,
+            see :py:func:`_add_palframe`).
+        """
+
         return self._palframe
 
     def _add_palframe(self, type_):
+        """_add_palframe()
+
+        Adds a ``Tk.Frame`` to the ``Tk`` element (see :py:func:`_init_master`).
+        This frame is used to take up the default palettes.
+        """
 
         ##scroll dev### if hasattr(self, "_palframe"):
         ##scroll dev###     if not self._palframe is None: self._palframe.destroy()
@@ -690,13 +894,26 @@ class gui(object):
         return frame
 
     def _add_currentpalettecanvas(self):
+        """_add_currentpalettecanvas()
 
+        Adds a ``Tk.Canvas`` object to the GUI to display the
+        current color palette as specified by the GUI settings.
+
+        Returns
+        -------
+        ``Tk.Canvas``
+            Returns the canvas.
+        """
         canvas = currentpalettecanvas(self.master(),
                x = 20, y = 500, width = self.WIDTH - 40, height = 30) 
 
         return canvas
 
     def _draw_currentpalette(self):
+        """_draw_currentpalette()
+
+        Shows the colors in the current palette frame.
+        """
 
         # Re-draw the canvas.
         self._currentpalette._draw_canvas(self.get_colors())
@@ -706,6 +923,15 @@ class gui(object):
         if self._demoTk.winfo_exists(): self._show_demo(True)
 
     def get_colors(self):
+        """get_colors()
+
+        Returns
+        -------
+        list
+            Returns a list of hex colors and ``nan`` given the current settings
+            on the GUI. ``numpy.nan`` will be returned if ``fixup`` is set to
+            False but some colors lie outside the RGB color space.
+        """
 
         # Getting current arguments
         params = {}
@@ -770,18 +996,33 @@ class gui(object):
         return colors
 
     def method(self):
+        """method()
 
-        type_ = self._Dropdown.get()
+        Returns
+        -------
+        str
+            Returns the name of the object which has to be called
+            to get the colors. The name of the object is defined in the
+            palconfig config files. For "Diverging" palettes this will
+            be :py:class:`palettes.diverging_hcl`, for "Qualitative"
+            :py:class:`palettes.qualitative_hcl`, and for "Sequential"
+            palettes :py:class:`palettes.sequential_hcl`.
+        """
+        type_    = self._Dropdown.get()
         colorfun = self.palettes().get_palettes(type_)[0].method()
         return colorfun
 
 
-    def _add_dropdown_type(self, init_args = None):
-
-        obj = Dropdown(self, "type", init_args = init_args)
-        return obj
-
     def _add_sliders(self):
+        """_add_sliders()
+
+        Adds a set of sliders to the GUI.
+        
+        Returns
+        -------
+        list
+            a list of :py:class:`Slider` objects.
+        """
 
         sliders = []
 
@@ -814,10 +1055,22 @@ class gui(object):
 
     # Callback when an item is getting changed
     def OnChange(self, *args, **kwargs):
+        """OnChange(*args, **kwargs)
+
+        Triggered any time the slider values or control arguments change.
+        Draws new current palette (see :py:func:`_draw_currentpalette`).
+        """
         self._draw_currentpalette()
 
-    def _add_demo_options_(self):
+    def _add_demo_options(self):
+        """_add_demo_options()
 
+        Adds a ``Tk.Button`` to open the demo plot window.
+
+        .. todo::
+            Currently not enabled (have had some problems with the
+            interaction/update).
+        """
         but = Button(self.master, text = "Demo", command = self._show_demo,
                 pady = 5, padx = 5)
         but.place(x = 30, y = 560)
@@ -826,8 +1079,9 @@ class gui(object):
     def _add_return_button(self):
         """_add_return_button()
 
-        Adds the button to return to python. Returns the palette
-        as specified on the interface to python (a :py:class:`hclpalette` object).
+        Adds the button to return to python, a ``Tk.Button`` element.
+        When clicked :py:func:`_return_to_python` is triggered (callback
+        function for this button).
         """
 
         but = Button(self.master(), text = "Return to python",
@@ -836,11 +1090,28 @@ class gui(object):
 
 
     def _return_to_python(self, *args):
+        """_return_to_python()
+
+        Returns to :py:func:`choose_palette`. Destroys the ``Tk`` interface
+        but not the object such that :py:func:`choose_palette` can read the
+        settings of the sliders and control elements. Used to create the
+        palette which will then be returned to the console/user console.
+        """
         self.master().destroy()
         return
 
     def _show_demo(self, update = False):
+        """_show_demo(update = False)
 
+        Show demo.
+
+        .. todo::
+            Implement and test.
+
+        .. note::
+            Requires matplotlib. Will show a message if matplotlib is
+            not installed on the machine.
+        """
         try:
             from matplotlib.backends.backend_tkagg import FigureCanvasAgg
             import matplotlib.backends.tkagg as tkagg

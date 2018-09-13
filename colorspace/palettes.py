@@ -965,7 +965,7 @@ class qualitative_hcl(hclpalette):
 # -------------------------------------------------------------------
 class rainbow_hcl(qualitative_hcl):
     """rainbow_hcl(c = 50, l = 70, start = 0, end = 360, \
-                 gamma = None, fixup = True, rev = False, *args, **kwargs):
+            gamma = None, fixup = True, rev = False, *args, **kwargs)
 
     HCL rainbow, a qualitative cyclic rainbow color palette with uniform
     luminance and chroma.
@@ -973,9 +973,9 @@ class rainbow_hcl(qualitative_hcl):
     Parameters
     ----------
     c : int
-        chroma of the color map [0-100+].
+        chroma of the color map ``[0-100+]``.
     l : int
-        luminance of the color map [0-100].
+        luminance of the color map ``[0-100]``.
     start : int
         hue at which the rainbow should start.
     end : int

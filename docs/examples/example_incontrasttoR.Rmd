@@ -34,7 +34,7 @@ image(matrix(1:11, ncol = 1), col = colors)
 ```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
 # Loading the module
 from colorspace import diverging_hcl, specplot
-pal = diverging_hcl()       # Initialize object
+pal    = diverging_hcl()  # Initialize object
 colors = pal.colors(11)   # Retrieve colors
 # Plotting a simple color map
 specplot(colors, rgb = False, hcl = False)

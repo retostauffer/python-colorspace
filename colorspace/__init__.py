@@ -30,5 +30,6 @@ from .hcl_palettes import hcl_palettes
 from .hcl_palettes import swatchplot
 from .specplot import specplot
 from .choose_palette import choose_palette
+from .cvd_emulator import cvd_emulator
 
 

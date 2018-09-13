@@ -68,13 +68,13 @@ class colorlib(object):
 
         Parameters
         ----------
-        x : float
-            values in degrees.
+        x : float or array of floats
+            values in degrees
 
         Returns
         -------
-        Returns n object of the same length as input ``x``
-        with degrees in radiant.
+        float or float array
+            Returns input ``x`` in radiant.
         """
         return np.pi / 180. * x
 
@@ -87,12 +87,13 @@ class colorlib(object):
 
         Parameters
         ----------
-        x : float
-            values in radiant.
+        x : float or array of floats
+            values in radiant
 
         Returns
         -------
-        Returns x in degrees.
+        float or array of floats
+            Returns input ``x`` in degrees.
         """
         return 180. / np.pi * x
     
@@ -112,19 +113,20 @@ class colorlib(object):
             string, name of the parent method, only used if errors are dropped.
             @TODO get rid of this thing and write a proper exception.
         n : int
-            integer, number of colors to which NX, NY, NZ will be expanded.
+            integer, number of colors to which NX, NY, NZ will be expanded
         XN : None, numpy.ndarray
             either None (default) or an nd.array of length one
-            or length n. White point specification for dimension X.
+            or length n. White point specification for dimension X
         YN : None, numpy.ndarray
-            see XN. White point specification for dimension Y.
+            see XN. White point specification for dimension Y
         YZ : None, numpy.ndarray
-            see XN. White point specification for dimension Z.
+            see XN. White point specification for dimension Z
 
         Returns
         -------
-        Returns a list ``[XN, YN, ZN]`` with three ``numpy.ndarrays`` of length ``n``.
-        If the inputs XN, YN, ZN (or some) were None: take class defaults.
+        list
+            Returns a list ``[XN, YN, ZN]`` with three ``numpy.ndarrays`` of length ``n``.
+            If the inputs XN, YN, ZN (or some) were ``None``: take class defaults.
         """
 
         # Take defaults if not further specified
@@ -165,13 +167,14 @@ class colorlib(object):
         ----------
         __fname__ : str
             name of the method who called this check routine.
-            Only used to drop a useful error message if required.
+            Only used to drop a useful error message if required
         kwargs : ...
-            named keywords, objects to be checked.
+            named keywords, objects to be checked
 
         Returns
         -------
-        Returns True if everything is ok, else it simply stops.
+        bool
+            Returns ``True`` if everything is ok, else a ValueError will be raised. 
         """
 
         # Message will be dropped if problems occur
@@ -238,14 +241,15 @@ class colorlib(object):
         Parameters
         ----------
         u : numpy.ndarray
-            float array of length N.
+            float array of length N
         gamma : float or numpy.ndarray
             gamma value. If float or `numpy.ndarray` of length one
-            gamma will be recycled (if length ``u > 1``).
+            gamma will be recycled (if length ``u > 1``)
 
         Returns
         -------
-        Returns np.ndarray of the same length as input ``u``.
+        numpy.ndarray
+            Same length as input ``u``.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -270,25 +274,28 @@ class colorlib(object):
         
         Gamma Correction.
 
-        Function ``gtrans`` and ``ftrans`` provide gamma correction which
-        can be used to switch between sRGB and linearized sRGB (RGB).
+        Function :py:func:`gtrans` and :py:func:`ftrans` provide gamma
+        correction between the RGB (device independent) and sRGB (device
+        dependent) color space.
     
         The standard value of gamma for sRGB displays is approximately ``2.2``,
         but more accurately is a combination of a linear transform and
-        a power transform with exponent ``2.4``
-        gtrans maps linearized sRGB to sRGB, ftrans provides the inverse map.
+        a power transform with exponent ``2.4``.
+        :py:func:`gtrans` maps linearized sRGB to sRGB, :py:func:`ftrans`
+        provides the inverse map.
     
         Parameters
         ----------
         u : numpy.ndarray
-            float array of length N.
+            float array of length N
         gamma : float or numpy.ndarray
             gamma value. If float or `numpy.ndarray` of length one
-            gamma will be recycled (if length ``u > 1``).
+            gamma will be recycled (if length ``u > 1``)
 
         Returns
         -------
-        Returns np.ndarray of the same length as input ``u``.
+        numpy.ndarray
+            Same length as input ``u``.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -311,22 +318,23 @@ class colorlib(object):
     def DEVRGB_to_RGB(self, R, G, B, gamma = 2.4):
         """DEVRGB_to_RGB(R, G, B, gamma = 2.4)
 
-        Device dependent RGB to device independent RGB.
+        Device dependent sRGB to device independent RGB.
 
         Parameters
         ----------
         R : numpy.ndarray
-            indensities for red (``[0.,1.]``).
+            indensities for red (``[0.,1.]``)
         G : numpy.ndarray
-            indensities for green (``[0.,1.]``).
+            indensities for green (``[0.,1.]``)
         B : numpy.ndarray
-            indensities for blue  (``[0.,1.]``).
+            indensities for blue  (``[0.,1.]``)
         gamma : float
             gamma adjustment.
 
         Returns
         -------
-        Returns adjusted R, G, and B values.
+        list
+            Returns a list of `numpy.ndarrays` with adjusted R, G, and B values.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -345,7 +353,7 @@ class colorlib(object):
     def RGB_to_DEVRGB(self, R, G, B, gamma = 2.4):
         """DEVRGB_to_RGB(R, G, B, gamma = 2.4)
 
-        Device independent RGB to device dependent RGB.
+        Device independent RGB to device dependent sRGB.
 
         Parameters
         ----------
@@ -360,7 +368,8 @@ class colorlib(object):
 
         Returns
         -------
-        Returns adjusted R, G, and B values.
+        list
+            Returns a list of `numpy.ndarrays` with adjusted R, G, and B values.
         """
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -397,20 +406,21 @@ class colorlib(object):
         Parameters
         ----------
         R : numpy.ndarray
-            indensities for red (``[0.,1.]``).
+            indensities for red (``[0.,1.]``)
         G : numpy.ndarray
-            indensities for green (``[0.,1.]``).
+            indensities for green (``[0.,1.]``)
         B : numpy.ndarray
-            indensities for blue  (``[0.,1.]``).
+            indensities for blue  (``[0.,1.]``)
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
-            one. If not specified (all three NA) default values will be used.
+            one. If not specified (all three ``None``) default values will be used
 
         Returns
         -------
-        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
+        list
+            Returns corresponding X/Y/Z coordinates of CIE chromaticies,
+            a list of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -439,20 +449,22 @@ class colorlib(object):
         Parameters
         ----------
         X : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         Y : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         Z : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
-            one. If not specified (all three NA) default values will be used.
+            one. If not specified (all three ``None``) default values will be used
 
         Returns
         -------
-        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[R, G, B]``).
+        list
+            Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
+            of `numpy.ndarray`'s of the same length as the inputs (``[R, G,
+            B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -492,20 +504,22 @@ class colorlib(object):
         Parameters
         ----------
         R : numpy.ndarray
-            indensities for red (``[0.,1.]``).
+            indensities for red (``[0.,1.]``)
         G : numpy.ndarray
-            indensities for green (``[0.,1.]``).
+            indensities for green (``[0.,1.]``)
         B : numpy.ndarray
-            indensities for blue  (``[0.,1.]``).
+            indensities for blue  (``[0.,1.]``)
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
-            one. If not specified (all three NA) default values will be used.
+            one. If not specified (all three ``None``) default values will be used
 
         Returns
         -------
-        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
+        list
+            Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
+            of `numpy.ndarray`'s of the same length as the inputs (``[X, Y,
+            Z]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -538,20 +552,22 @@ class colorlib(object):
         Parameters
         ----------
         X : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         Y : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         Z : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
-            one. If not specified (all three NA) default values will be used.
+            one. If not specified (all three NA) default values will be used
 
         Returns
         -------
-        Returns corresponding X/Y/Z coordinates of CIE chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[R, G, B]``).
+        list
+            Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
+            of `numpy.ndarray`'s of the same length as the inputs (``[R, G,
+            B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -579,7 +595,29 @@ class colorlib(object):
     
     
     def LAB_to_XYZ(self, L, A, B, XN = None, YN = None, ZN = None):
-        """TODO"""
+        """LAB_to_XYZ(L, A, B, XN = None, YN = None, ZN = None)
+        
+        CIELAB to CIEXYZ.
+
+        Parameters
+        ----------
+        L : numpy.ndarray
+            values for the L dimension
+        A : numpy.ndarray
+            values for the A dimension
+        B : numpy.ndarray
+            values for the B dimension
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used
+
+        Returns
+        -------
+        list
+            Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
+            of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
+        """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
         n = len(L) # Number of colors
@@ -628,7 +666,29 @@ class colorlib(object):
         return [X, Y, Z]
     
     def XYZ_to_LAB(self, X, Y, Z, XN = None, YN = None, ZN = None):
-        """TODO"""
+        """XYZ_to_LAB(X, Y, Z, XN = None, YN = None, ZN = None)
+        
+        CIEXYZ to CIELAB.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            values for the X dimension
+        Y : numpy.ndarray
+            values for the Y dimension
+        Z : numpy.ndarray
+            values for the Z dimension
+        XN, YN, ZN : None or numpy.ndarray
+            chromaticity of the white point. If of length 1 the white point
+            specification will be recycled if length of R/G/B is larger than
+            one. If not specified (all three NA) default values will be used
+
+        Returns
+        -------
+        list
+            Returns corresponding L/A/B coordinates, a list of
+            `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
+        """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
         n = len(X) # Number of colors
@@ -683,20 +743,21 @@ class colorlib(object):
         Parameters
         ----------
         X : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         Y : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         Z : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
-            one. If not specified (all three NA) default values will be used.
+            one. If not specified (all three ``None``) default values will be used
 
         Returns
         -------
-        Returns corresponding Hunter LAB chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
+        list
+            Returns corresponding Hunter LAB chromaticies, a list of
+            `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -726,20 +787,21 @@ class colorlib(object):
         Parameters
         ----------
         L : numpy.ndarray
-            values for the L dimension.
+            values for the L dimension
         A : numpy.ndarray
-            values for the A dimension.
+            values for the A dimension
         B : numpy.ndarray
-            values for the B dimension.
+            values for the B dimension
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
-            one. If not specified (all three NA) default values will be used.
+            one. If not specified (all three NA) default values will be used
 
         Returns
         -------
-        Returns corresponding CIE-XYZ chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
+        list
+            Returns corresponding CIE-XYZ chromaticies, a list of
+            `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -777,16 +839,17 @@ class colorlib(object):
         Parameters
         ----------
         L : numpy.ndarray
-            values for the L dimension of the CIELAB color space.
+            values for the L dimension of the CIELAB color space
         A : numpy.ndarray
-            values for the A dimension of the CIELAB color space.
+            values for the A dimension of the CIELAB color space
         B : numpy.ndarray
-            values for the B dimension of the CIELAB color space.
+            values for the B dimension of the CIELAB color space
 
         Returns
         -------
-        Returns corresponding polar LAB chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
+        list
+            Returns corresponding polar LAB chromaticies, a list of
+            `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -813,16 +876,17 @@ class colorlib(object):
         Parameters
         ----------
         L : numpy.ndarray
-            values for the L dimension of the CIELAB color space.
+            values for the L dimension of the polar LAB color space
         A : numpy.ndarray
-            values for the A dimension of the CIELAB color space.
+            values for the A dimension of the polar LAB color space
         B : numpy.ndarray
-            values for the B dimension of the CIELAB color space.
+            values for the B dimension of the polar LAB color space
 
         Returns
         -------
-        Returns corresponding polar LAB chromaticies,
-        a list of `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
+        list
+            Returns corresponding CIELAB chromaticies, a list of
+            `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -848,16 +912,17 @@ class colorlib(object):
         Parameters
         ----------
         r : numpy.ndarray
-            intensities for red (``[0.,1.]``).
+            intensities for red (``[0.,1.]``)
         g : numpy.ndarray
-            intensities for green (``[0.,1.]``).
+            intensities for green (``[0.,1.]``)
         b : numpy.ndarray
-            intensities for blue (``[0.,1.]``).
+            intensities for blue (``[0.,1.]``)
 
         Returns
         -------
-        Returns a `numpy.ndarray` with the corresponding coordinates in the
-        HSV color space (``[h, s, v]``). Same length as the inputs.
+        list
+            Returns a `numpy.ndarray` with the corresponding coordinates in the
+            HSV color space (``[h, s, v]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -907,16 +972,17 @@ class colorlib(object):
         Parameters
         ----------
         h : nympy.ndarray
-            hue values of.
+            hue values
         s : numpy.ndarray
-            saturation.
+            saturation
         v : numpy.ndarray
-            value (the value-dimension of HSV).
+            value (the value-dimension of HSV)
 
         Returns
         -------
-        Returns a `numpy.ndarray` with the corresponding coordinates in the
-        RGB color space (``[r, g, b]``). Same length as the inputs.
+        list
+            Returns a `numpy.ndarray` with the corresponding coordinates in the
+            RGB color space (``[r, g, b]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -978,16 +1044,17 @@ class colorlib(object):
         Parameters
         ----------
         r : numpy.ndarray
-            intensities for red (``[0.,1.]``).
+            intensities for red (``[0.,1.]``)
         g : numpy.ndarray
-            intensities for green (``[0.,1.]``).
+            intensities for green (``[0.,1.]``)
         b : numpy.ndarray
-            intensities for blue (``[0.,1.]``).
+            intensities for blue (``[0.,1.]``)
 
         Returns
         -------
-        Returns a `numpy.ndarray` with the corresponding coordinates in the
-        HLS color space (``[h, l, s]``). Same length as the inputs.
+        list
+            Returns a `numpy.ndarray` with the corresponding coordinates in the
+            HLS color space (``[h, l, s]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1047,16 +1114,17 @@ class colorlib(object):
         Parameters
         ----------
         h : nympy.ndarray
-            hue values of.
+            hue values
         l : numpy.ndarray
-            lightness.
+            lightness
         s : numpy.ndarray
-            saturation.
+            saturation
 
         Returns
         -------
-        Returns a `numpy.ndarray` with the corresponding coordinates in the
-        RGB color space (``[r, g, b]``). Same length as the inputs.
+        list
+            Returns a `numpy.ndarray` with the corresponding coordinates in the
+            RGB color space (``[r, g, b]``). Same length as the inputs.
         """
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1118,7 +1186,8 @@ class colorlib(object):
 
         Returns
         -------
-        Returns a list of `numpy.ndarrays` containing u and v (``[u, v]``). 
+        list
+            Returns a list of `numpy.ndarrays` containing u and v (``[u, v]``). 
         """
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1146,11 +1215,11 @@ class colorlib(object):
         Parameters
         ----------
         X : numpy.ndarray
-            values for the X dimension.
+            values for the X dimension
         Y : numpy.ndarray
-            values for the Y dimension.
+            values for the Y dimension
         Z : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
@@ -1158,8 +1227,9 @@ class colorlib(object):
 
         Returns
         -------
-        Returns a list of CIE-LUV coordinates (``[L, U, V]``) with the same
-        length as the input arrays.
+        list
+            Returns a list of CIELUV coordinates (``[L, U, V]``) with the same
+            length as the input arrays.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1192,20 +1262,21 @@ class colorlib(object):
         Parameters
         ----------
         L : numpy.ndarray
-            values for the L dimension.
+            values for the L dimension
         U : numpy.ndarray
-            values for the U dimension.
+            values for the U dimension
         V : numpy.ndarray
-            values for the V dimension.
+            values for the V dimension
         XN, YN, ZN : None or numpy.ndarray
             chromaticity of the white point. If of length 1 the white point
             specification will be recycled if length of R/G/B is larger than
-            one. If not specified (all three NA) default values will be used.
+            one. If not specified (all three NA) default values will be used
 
         Returns
         -------
-        Returns a list of CIE-XYZ coordinates (``[X, Y, Z]``) with the same
-        length as the input arrays.
+        list
+            Returns a list of CIE-XYZ coordinates (``[X, Y, Z]``) with the same
+            length as the input arrays.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1257,17 +1328,18 @@ class colorlib(object):
         Parameters
         ----------
         L : numpy.ndarray
-            values for the X dimension.
+            values for the X dimension
         U : numpy.ndarray
-            values for the Y dimension.
+            values for the Y dimension
         V : numpy.ndarray
-            values for the Z dimension.
+            values for the Z dimension
 
         Returns
         -------
-        Returns a list of polarLUV or HCL coordinates (``[L, C, H]``) with the
-        same length as the input arrays. The HCL color space is simply the
-        polar representation of the CIE-LUV color space.
+        list
+            Returns a list of polarLUV or HCL coordinates (``[L, C, H]``) with the
+            same length as the input arrays. The HCL color space is simply the
+            polar representation of the CIE-LUV color space.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1292,16 +1364,17 @@ class colorlib(object):
         Parameters
         ----------
         L : numpy.ndarray
-            values for the L or luminance dimension.
+            values for the L or luminance dimension
         C : numpy.ndarray
-            values for the C or chroma dimension.
+            values for the C or chroma dimension
         H : numpy.ndarray
-            values for the H or hue dimension. 
+            values for the H or hue dimension
 
         Returns
         -------
-        Returns a list of polarLUV or HCL coordinates (``[L, U, V]``) with the
-        same length as the input arrays.
+        list
+            Returns a list of polarLUV or HCL coordinates (``[L, U, V]``) with the
+            same length as the input arrays.
         """
     
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1321,18 +1394,19 @@ class colorlib(object):
         Parameters
         ----------
         r : numpy.ndarray
-            intensities for red (``[0.,1.,]``).
+            intensities for red (``[0.,1.,]``)
         g : numpy.ndarray
-            intensities for green (``[0.,1.,]``).
+            intensities for green (``[0.,1.,]``)
         b : numpy.ndarray
-            intensities for blue (``[0.,1.,]``).
+            intensities for blue (``[0.,1.,]``)
         fixup : bool
             whether or not the rgb values should be corrected if
-            they lie outside the defined RGB space (outside ``[0.,1.,]``).
+            they lie outside the defined RGB space (outside ``[0.,1.,]``)
 
         Returns
         -------
-        A list with hex colors as strings.
+        list
+            A list with hex colors as strings.
         """
 
         # Color fixup: limit r/g/b to [0-1]
@@ -1400,8 +1474,9 @@ class colorlib(object):
 
         Returns
         -------
-        Returns a list of numpy.ndarrays with the corresponding
-        red, green, and blue intensities (``[0.,1.]``).
+        list
+            Returns a list of numpy.ndarrays with the corresponding
+            red, green, and blue intensities (``[0.,1.]``).
         """
 
         if isinstance(hex_,str): hex_ = [hex_]
@@ -1464,7 +1539,16 @@ class colorobject(object):
 
     # Standard representation of colorspace colorobject objects.
     def __repr__(self, digits = 2):
+        """__repr__(digits = 2)
 
+        Standard representation of the :py:class:`colorobject` objects.
+
+        Returns
+        -------
+        str
+            Returns a string of the colors/coordinates of the current
+            object.
+        """
         dims = self._data_.keys()     # Dimensions
 
         # Sorting the dimensions
@@ -1534,7 +1618,8 @@ class colorobject(object):
 
         Returns
         -------
-        Returns a list of hex colors.
+        list
+            Returns a list of hex colors.
         """
         return self.colors(fixup = fixup, rev = rev)
 
@@ -1548,8 +1633,9 @@ class colorobject(object):
 
         Returns
         -------
-        Returns a dict with `X`, `Y`, `Z`, the white point specification
-        for the three dimensions.
+        dict
+            Returns a dict with `X`, `Y`, `Z`, the white point specification
+            for the three dimensions.
 
         Examples
         --------
@@ -1566,19 +1652,17 @@ class colorobject(object):
         This method allows to set custom values. If not explicitly
         set a default specification is used.
 
+        No return, stores the new definition on the object.
+        :py:func:`get_whitepoint` can be used to get the current specification.
+
         Parameters
         ----------
         X : float
-            white specification for dimension X.
+            white specification for dimension X
         Y : float
-            white specification for dimension Y.
+            white specification for dimension Y
         Z : float
-            white specification for dimension Z.
-
-        Returns
-        -------
-        No return, stores the new definition on the object.
-        :py:func:`get_whitepoint` can be used to get the current specification.
+            white specification for dimension Z
 
         Examples
         --------
@@ -1603,16 +1687,14 @@ class colorobject(object):
         object to ``x`` is allowed or not.
         raises a ValueError if the conversion is not possible.
 
-        Parameters
-        ----------
-        x : str
-            name of the target color space.
-
-        Returns
-        -------
         No return, raises an Exception if the the transformation is
         not possible. Should never happen except that the colorobject
         is not well defined.
+
+        Parameters
+        ----------
+        x : str
+            name of the target color space
         """
         if not x in self.ALLOWED:
             raise Exception("transformation from {:s}".format(self.__class__.__name__) + \
@@ -1628,20 +1710,18 @@ class colorobject(object):
         space. Calls the .to method one or several times along 'a path'
         as specified by ``via``.
 
+        No return, converts the current color space object (see method
+        :py:func:`to`.
+
         Parameters
         ----------
         via : list of strings
             the path via which the current color object should be transformed.
             an example: a :py:class:`hexcols` object can be transformed into
-            CIEXYZ by specifying ``via = ["sRGB", "RGB", "CIEXYZ"]``.
+            CIEXYZ by specifying ``via = ["sRGB", "RGB", "CIEXYZ"]``
         fixup : bool
             whether or not to correct invalid rgb values outside ``[0.,1.]`` if
-            necessary.
-
-        Return
-        ------
-        No return, converts the current color space object (see method
-        :py:func:`to`.
+            necessary
         """
         for v in via:   self.to(v, fixup = fixup)
 
@@ -1658,12 +1738,13 @@ class colorobject(object):
         Parameters
         ----------
         kwargs : ...
-            named keywords, objects to be checked.
+            named keywords, objects to be checked
 
         Returns
         -------
-        Returns ``True`` if all checks where fine, raises a ValueError
-        if the inputs do not fulfil the requirements.
+        bool
+            Returns ``True`` if all checks where fine, raises a ValueError
+            if the inputs do not fulfil the requirements.
         """
 
         # Message will be dropped if problems occur
@@ -1719,7 +1800,8 @@ class colorobject(object):
 
         Returns
         -------
-        Returns ``True`` if alpha values are present, ``False`` if not.
+        bool
+            Returns ``True`` if alpha values are present, ``False`` if not.
         """
         if not "alpha" in self._data_.keys():
             return False
@@ -1751,7 +1833,7 @@ class colorobject(object):
         ----------
         kwargs : ...
             named list of additional arguments forwarded to the
-            specplot function.
+            specplot function
 
         Examples
         --------
@@ -1784,13 +1866,14 @@ class colorobject(object):
         ----------
         fixup : bool
             whether or not to correct rgb values outside the
-            defined range of ``[0., 1.]``.
+            defined range of ``[0., 1.]``
         rev : bool
             return colors in reversed order?
 
         Returns
         -------
-        Returns a list of hex colors.
+        list
+            Returns a list of hex colors.
 
         Examples
         --------
@@ -1827,14 +1910,15 @@ class colorobject(object):
 
         Parameters
         ----------
-        dimname : None, str
+        dimname : None, st
             can be set to only retrieve one very specific coordinate.
 
         Returns
         -------
-        Either a dictionary or a single numpy.ndarray if input ``dimname``
-        was not specified. If a specific dimension is requested bu the
-        dimension does not exist a ValueError is raised.
+        dict or numpy.ndarray
+            Either a dictionary or a single numpy.ndarray if input ``dimname``
+            was not specified. If a specific dimension is requested bu the
+            dimension does not exist a ValueError is raised.
 
         Examples
         --------
@@ -1872,16 +1956,14 @@ class colorobject(object):
         The dimension has to exist, and the new data have to be of the same
         type and of the same length to be accepted.
 
+        No return, modifies the current object.
+
         Parameters
         ----------
         kwargs : ...
             named arguments. The key is the name of the dimension to be changed,
             the value an object which fulfills the requirements (see description
-            of this method).
-
-        Returns
-        -------
-        No return, modifies the current object.
+            of this method)
 
         Examples
         --------
@@ -1913,8 +1995,8 @@ class colorobject(object):
             self._data_[key] = vals
 
 
-    def _cannot_(self, from_, to):
-        """_cannot_(from_, to)
+    def _cannot(self, from_, to):
+        """_cannot(from_, to)
 
         Helper function, raises an exception if a transformation is
         not possible by definition.
@@ -1922,15 +2004,16 @@ class colorobject(object):
         Parameters
         ----------
         from_ : str
-            name of the current color space.
+            name of the current color space
         to : str
-            name of the target color space.
+            name of the target color space
         """
         raise Exception("Cannot convert class \"{:s}\" to \"{:s}\".".format(
             from_, to))
+        return
 
-    def _ambiguous_(self, from_, to):
-        """_ambiguous_(from_, to)
+    def _ambiguous(self, from_, to):
+        """_ambiguous(from_, to)
 
         Helper function, raises an exception if a transformation is
         ambiguous by definition and thus, not possible.
@@ -1961,15 +2044,15 @@ class polarLUV(colorobject):
     Parameters
     ----------
     L : numeric
-        single value or vector for hue dimension ``[-360.,360.]``.
+        single value or vector for hue dimension ``[-360.,360.]``
     U : numeric
-        single value or vector for chroma dimension ``[0., 100.+]``.
+        single value or vector for chroma dimension ``[0., 100.+]``
     V : numeric
-        single value or vector for luminance dimension ``[0., 100.]``.
+        single value or vector for luminance dimension ``[0., 100.]``
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
         
 
     Examples
@@ -2002,20 +2085,18 @@ class polarLUV(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
-            should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
+            should be corrected if necessary
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2057,9 +2138,9 @@ class polarLUV(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to in ["HLS", "HSV"]:
-            self._ambiguous_(self.__class__.__name__, to)
+            self._ambiguous(self.__class__.__name__, to)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 # polarLUV is HCL, make copy
 HCL = polarLUV
@@ -2079,15 +2160,15 @@ class CIELUV(colorobject):
     Parameters
     ----------
     L : numeric
-        single value or multiple values for L-dimension.
+        single value or multiple values for L-dimension
     U : numeric
-        single value or multiple values for U-dimension.
+        single value or multiple values for U-dimension
     V : numeric
-        single value or multiple values for V-dimension.
+        single value or multiple values for V-dimension
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
 
     Examples
     --------
@@ -2117,20 +2198,18 @@ class CIELUV(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
-            should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
+            should be corrected if necessary
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2174,9 +2253,9 @@ class CIELUV(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to in ["HLS", "HSV"]:
-            self._ambiguous_(self.__class__.__name__, to)
+            self._ambiguous(self.__class__.__name__, to)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 # -------------------------------------------------------------------
 # CIEXYZ color object
@@ -2194,15 +2273,15 @@ class CIEXYZ(colorobject):
     Parameters
     ----------
     X : numeric
-        single value or multiple values for X-dimension.
+        single value or multiple values for X-dimension
     Y : numeric
-        single value or multiple values for Y-dimension.
+        single value or multiple values for Y-dimension
     Z : numeric
-        single value or multiple values for Z-dimension.
+        single value or multiple values for Z-dimension
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
 
     Examples
     --------
@@ -2233,20 +2312,18 @@ class CIEXYZ(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
-            should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
+            should be corrected if necessary
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2295,9 +2372,9 @@ class CIEXYZ(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to in ["HLS", "HSV"]:
-            self._ambiguous_(self.__class__.__name__, to)
+            self._ambiguous(self.__class__.__name__, to)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 class RGB(colorobject):
@@ -2314,15 +2391,15 @@ class RGB(colorobject):
     Parameters
     ----------
     R : numeric
-        intensity of red ``[0.,1.]``.
+        intensity of red ``[0.,1.]``
     G : numeric
-        intensity of green ``[0.,1.]``.
+        intensity of green ``[0.,1.]``
     B : numeric
-        intensity of blue ``[0.,1.]``.
+        intensity of blue ``[0.,1.]``
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
 
     Examples
     --------
@@ -2355,20 +2432,18 @@ class RGB(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
             should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2421,7 +2496,7 @@ class RGB(colorobject):
             via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 class sRGB(colorobject):
@@ -2438,18 +2513,18 @@ class sRGB(colorobject):
     Parameters
     ----------
     R : float, list of floats, numpy.ndarray
-        intensity of red ``[0.,1.]``.
+        intensity of red ``[0.,1.]``
     G : float, list of floats, numpy.ndarray
-        intensity of green ``[0.,1]``.
+        intensity of green ``[0.,1]``
     B : float, list of floats, numpy.ndarray
-        intensity of blue ``[0.,1]``.
+        intensity of blue ``[0.,1]``
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
     gamma : None, float
         gamma parameter. Used to convert from device dependent sRGB
-        to RGB. If not set the default of 2.4 is used.
+        to RGB. If not set the default of 2.4 is used
 
     Examples
     --------
@@ -2483,20 +2558,18 @@ class sRGB(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
             should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2536,7 +2609,7 @@ class sRGB(colorobject):
             via = ["RGB", "CIEXYZ", "CIELAB", to] 
             self._transform_via_path_(via, fixup = fixup)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 class CIELAB(colorobject):
@@ -2552,15 +2625,15 @@ class CIELAB(colorobject):
     Parameters
     ----------
     L : numeric
-        single value or multiple values for L dimension.
+        single value or multiple values for L dimension
     A : numeric
-        single value or multiple values for A dimension.
+        single value or multiple values for A dimension
     B : numeric
-        single value or multiple values for B dimension.
+        single value or multiple values for B dimension
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
 
     Examples
     --------
@@ -2591,20 +2664,18 @@ class CIELAB(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
-            should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
+            should be corrected if necessary
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2649,9 +2720,9 @@ class CIELAB(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to in ["HLS", "HSV"]:
-            self._ambiguous_(self.__class__.__name__, to)
+            self._ambiguous(self.__class__.__name__, to)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 class polarLAB(colorobject):
@@ -2667,15 +2738,15 @@ class polarLAB(colorobject):
     Parameters
     ----------
     L : numeric
-        single value or multiple values for L dimension.
+        single value or multiple values for L dimension
     A : numeric
-        single value or multiple values for A dimension.
+        single value or multiple values for A dimension
     B : numeric
-        single value or multiple values for B dimension.
+        single value or multiple values for B dimension
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
 
     .. seealso::
         This object extens the :py:class:`colorlib.colorobject` which
@@ -2698,20 +2769,18 @@ class polarLAB(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
             should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2753,9 +2822,9 @@ class polarLAB(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to in ["HLS", "HSV"]:
-            self._ambiguous_(self.__class__.__name__, to)
+            self._ambiguous(self.__class__.__name__, to)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 class HSV(colorobject):
@@ -2771,15 +2840,15 @@ class HSV(colorobject):
     Parameters
     ----------
     H : numeric
-        single value or multiple values for the hue dimension.
+        single value or multiple values for the hue dimension
     S : numeric
-        single value or multiple values for the saturation dimension.
+        single value or multiple values for the saturation dimension
     V : numeric
-        single value or multiple values for the value dimension.
+        single value or multiple values for the value dimension
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
 
     Examples
     --------
@@ -2807,20 +2876,18 @@ class HSV(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
             should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2850,9 +2917,9 @@ class HSV(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV", "HCL","polarLAB"]:
-            self._ambiguous_(self.__class__.__name__, to)
+            self._ambiguous(self.__class__.__name__, to)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 class HLS(colorobject):
@@ -2868,15 +2935,15 @@ class HLS(colorobject):
     Parameters
     ----------
     H : numeric
-        single value or multiple values for the hue dimension.
+        single value or multiple values for the hue dimension
     L : numeric
-        single value or multiple values for the lightness dimension.
+        single value or multiple values for the lightness dimension
     S : numeric
-        single value or multiple values for the saturation dimension.
+        single value or multiple values for the saturation dimension
     alpha : None or numeric
         single value or vector of numerics in ``[0.,1.]`` for the alpha channel
         (``0.`` means transparent, ``1.`` opaque). If ``None`` no
-        transparency is added.
+        transparency is added
 
     Examples
     --------
@@ -2904,20 +2971,18 @@ class HLS(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
             should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2947,13 +3012,13 @@ class HLS(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV","HCL","polarLAB"]:
-            self._ambiguous_(self.__class__.__name__, to)
+            self._ambiguous(self.__class__.__name__, to)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 class hexcols(colorobject):
-    """hexcolors(hex_)
+    """hexcols(hex_)
     
     Color object for hex colors.
 
@@ -2966,11 +3031,11 @@ class hexcols(colorobject):
     ----------
     hex_ : str, list of str, or numpy.ndarray of type str
         hex colors. Only six and eight digit hex colors are allowed (e.g.,
-        #000000 or #00000050 if with alpha value). If invalid hex colors are
-        provided the object will raise a ValueError.  Input can be a single
-        string, a list of strings, or a :class:`numpy.ndarray` containing a set
-        of hex colors. Invalid hex colors will be handled as
-        :class:`numpy.nan`, alpha values can be provided but will be ignored.
+        ``#000000`` or ``#00000050`` if with alpha value). If invalid hex
+        colors are provided the object will raise a ValueError.  Input can be a
+        single string, a list of strings, or a `numpy.ndarray` containing a set
+        of hex colors. Invalid hex colors will be handled as `numpy.nan`, alpha
+        values can be provided but will be ignored
 
     Examples
     --------
@@ -3011,16 +3076,18 @@ class hexcols(colorobject):
         are allowed. The method raises a ValueError if invalid hex colors
         are found.
 
-        Parameters:
+        Parameters
+        ----------
         hex_ : list of strings
-            a list of (hopefully) valid hex colors.
+            a list of (hopefully) valid hex colors
 
         Returns
         -------
-        Returns a dict with two elements named hex_ and alpha. The hex_
-        element contains valid six-digit hex strings, the alpha element
-        a list of the same length with alpha values. For all hex colors
-        with no alpha an alpha value of ``1.0`` is set.
+        dict
+            Returns a dict with two elements named hex_ and alpha. The hex_
+            element contains valid six-digit hex strings, the alpha element
+            a list of the same length with alpha values. For all hex colors
+            with no alpha an alpha value of ``1.0`` is set.
         """
 
         from re import compile, match
@@ -3054,20 +3121,18 @@ class hexcols(colorobject):
 
         Transforms the colors into a new color space, if possible.
 
+        No return, converts the object into a new color space and modifies
+        the underlying object. After calling this method the original
+        object will be of a different type.
+
         Parameters
         ----------
         to : str
             name of the color space into which the colors should be
-            converted (e.g., CIEXYZ, HCL, hex, RGB, ...).
+            converted (e.g., ``CIEXYZ``, ``HCL``, ``hex``, ``RGB``, ...)
         fixup : bool
             whether or not colors outside the defined rgb color space
-            should be corrected if necessary.
-
-        Returns
-        -------
-        No return, converts the object into a new color space and modifies
-        the underlying object. After calling this method the original
-        object will be of a different type.
+            should be corrected if necessary
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -3104,7 +3169,7 @@ class hexcols(colorobject):
             via = ["sRGB", "RGB", "CIEXYZ", "CIELAB", to]
             self._transform_via_path_(via, fixup = fixup)
 
-        else: self._cannot_(self.__class__.__name__, to)
+        else: self._cannot(self.__class__.__name__, to)
 
 
 

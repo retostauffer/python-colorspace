@@ -6,7 +6,7 @@ output:
 ---
 
 ```{python, fig = TRUE, echo = FALSE, fig.height = 5}
-from colorspace.hcl_palettes import hcl_palettes
-hcl_palettes(type_ = "Sequential (multi-hue)", plot = True)
+from colorspace import hcl_palettes
+hcl_palettes(type_ = "Sequential", plot = True)
 ```
 
