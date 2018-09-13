@@ -1410,7 +1410,8 @@ class colorlib(object):
         # Check for valid hex colors
         def validhex(hex_):
             from re import match
-            return np.where([match("^#[A-Za-z0-9]{6}([0-9]{2})?$", x) is not None for x in hex_])[0]
+            ##return np.where([match("^#[A-Za-z0-9]{6}([0-9]{2})?$", x) is not None for x in hex_])[0]
+            return np.where([match("^#[0-9A-Fa-f]{6}(o-9]{2})?$$", x) is not None for x in hex_])[0]
 
         # Convert hex to rgb
         def getrgb(x):
@@ -1524,6 +1525,18 @@ class colorobject(object):
                 break
 
         return "\n".join(res)
+
+    def __call__(self, fixup = True, rev = False):
+        """object(fixup = True, rev = False)
+
+        Default call of :py:class:`colorlib.colorobj` return hex colors,
+        same as ``.colors()`` does.
+
+        Returns
+        -------
+        Returns a list of hex colors.
+        """
+        return self.colors(fixup = fixup, rev = rev)
 
     def get_whitepoint(self):
         """get_whitepoint()

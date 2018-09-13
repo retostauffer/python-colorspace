@@ -43,13 +43,14 @@ class Slider(object):
         Unused
     """
 
-    _Frame  = None
-    _Scale  = None
-    _Label  = None
-    _Button = None
-    _Entry  = None
-    _Value  = None
-    _name   = None
+    _Frame     = None
+    _Scale     = None
+    _Label     = None
+    _Button    = None
+    _Entry     = None
+    _Value     = None
+    _name      = None
+    _is_active = True
 
     FGACTIVE     = "#b0b0b0"
     BGACTIVE     = "#b0b0b0"
@@ -79,9 +80,9 @@ class Slider(object):
 
         # Object handling slider actions/callbacks
         self._Scale = Scale(self._Frame, variable = self._Value, orient = HORIZONTAL,
-                showvalue = 0, length = width - 70, width = 15, 
+                showvalue = 0, length = width - 100, width = 15, 
                 from_ = from_, to = to, resolution = resolution)
-        self._Scale.place(x = 20)
+        self._Scale.place(x = 50)
 
         # Plading the label
         self._Label = Label(self._Frame, text = name.upper())
@@ -184,6 +185,7 @@ class Slider(object):
                 relief = FLAT,
                 fg = self.DISABLED,
                 bg = self.BGDISABLED)
+        self._is_active = False
 
     def enable(self):
         self._Scale.configure(state = "active",
@@ -194,9 +196,11 @@ class Slider(object):
         self._Entry.configure(state = "normal",
                 relief = FLAT,
                 fg = "#000000", bg = "white")
+        self._is_active = True
 
     def is_active(self):
-        return not self._Scale.config()["state"][4] == "disabled"
+        ##return not self._Scale.config()["state"][4] == "disabled"
+        return self._is_active
 
 
 
@@ -239,8 +243,15 @@ class defaultpalettecanvas(object):
         # Loading settings of the current palette
         settings = pal.get_settings()
         for elem in sliders:
-            if elem.name() in settings.keys():
+            # Setting value, ensable slider
+            if elem.name() == "n":
+                continue
+            elif elem.name() in settings.keys():
                 elem.set(settings[elem.name()])
+                elem.enable()
+            # Disable slider
+            else:
+                elem.disable()
 
 
 # -------------------------------------------------------------------
@@ -311,8 +322,12 @@ def choose_palette(**kwargs):
     # Getting current parameters from slider object
     settings = {}
     for s in obj.sliders():
+        # Only read active sliders
+        if not s.is_active(): continue
+        # If active, store current value
         settings[s.name()] = s.get()
 
+    # Prepare new default arguments
     for key in ["h","c","l","p"]:
         k1  = "{:s}1".format(key)
         k2  = "{:s}2".format(key)
@@ -328,16 +343,12 @@ def choose_palette(**kwargs):
             settings[key] = settings[k2]
             del settings[k2]
 
-    print settings
+    # Overwrite __init__ method, add new defaults
     defaults = list(defaults)
     for idx,key in enumerate(varnames[1:(len(defaults)+1)]):
         if key in settings.keys():
-            print "Setting {:s} to ".format(key), settings[key]
             defaults[idx] = settings[key]
-        else:
-            print "Do not set {:s}".format(key)
 
-    print defaults
     import types
     method.__init__ = types.FunctionType(method.__init__.__code__,
                                          method.__init__.__globals__,
@@ -349,6 +360,10 @@ def choose_palette(**kwargs):
     return method
 
 
+# -------------------------------------------------------------------
+# This is the GUI itself (called by choose_palette which is handling
+# the return).
+# -------------------------------------------------------------------
 class gui(object):
     """choose_palette(**kwargs)
 
@@ -383,7 +398,7 @@ class gui(object):
         "h1"   : {"type":"int",   "from":-360, "to":360, "resolution":1},
         "h2"   : {"type":"int",   "from":-360, "to":360, "resolution":1},
         "c1"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "cmax" : {"type":"int",   "from":0,    "to":200, "resolution":1},
+        "cmax" : {"type":"int",   "from":0,    "to":180, "resolution":1},
         "c2"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
         "l1"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
         "l2"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
@@ -409,7 +424,7 @@ class gui(object):
     _control        = None
     
     # Initialize defaults
-    _setting_names = ["h1","h2","c1","c2","l1","l2","p1","p2","n"]
+    _setting_names = ["h1","h2","c1","cmax","c2","l1","l2","p1","p2","n"]
     _settings       = {}
     for key in _setting_names:
         _settings[key] = 7 if key == "n" else None
@@ -473,12 +488,10 @@ class gui(object):
         paltypevar = StringVar(self.master())
         paltypevar.set(opts[0]) # default value
 
-        #obj = ddObject("type")
-
-        #self.dd_type = apply(OptionMenu, (self.master, dropOpts) + tuple(opts))
+        # Option menu
         menu = OptionMenu(self.master(), paltypevar, *opts,
                           command = self.OnPaltypeChange) #obj.selected)
-        menu.config(width = 25, pady = 5, padx = 5)
+        menu.config(width = 40, pady = 5, padx = 5)
         menu.grid(column = 1, row = len(opts))
         menu.place(x = 10, y = 30)
 
@@ -493,13 +506,18 @@ class gui(object):
         # Take first palette
         p = self.palettes().get_palettes(args[0])[0]
 
-        # Update sliders
-        for s in self.sliders():
-            if not s.name() in p.parameters(): s.disable()
-            else:                              s.enable()
-            val = p.get(s.name())
-            if not val is None: s.set(val)
-
+        # Enable/disable/set sliders
+        settings = p.get_settings()
+        for elem in self.sliders():
+            # Setting value, ensable slider
+            if elem.name() == "n":
+                continue
+            elif elem.name() in settings.keys():
+                elem.set(settings[elem.name()])
+                elem.enable()
+            # Disable slider
+            else:
+                elem.disable()
 
     def _add_control(self):
 
@@ -602,6 +620,8 @@ class gui(object):
         master.configure()
         master.resizable(width=False, height=False)
         master.geometry("{:d}x{:d}".format(self.WIDTH, self.HEIGHT))
+        master.bind("<Return>", self._return_to_python)
+        master.bind("<Escape>", self._return_to_python)
 
         return master
 
@@ -615,6 +635,28 @@ class gui(object):
         return self._palframe
 
     def _add_palframe(self, type_):
+
+        ##scroll dev### if hasattr(self, "_palframe"):
+        ##scroll dev###     if not self._palframe is None: self._palframe.destroy()
+
+        ##scroll dev### frame = Frame(self.master())
+        ##scroll dev### frame.place(x = 10, y = 80)
+
+        ##scroll dev### # Loading palettes of currently selected palette type
+        ##scroll dev### from numpy import min
+        ##scroll dev### pals = self.palettes().get_palettes(type_) ###self.dd_type.get())
+        ##scroll dev### for child in frame.winfo_children(): child.destroy()
+
+        ##scroll dev### canvas = Canvas(frame, bg = "#ffffff",
+        ##scroll dev###               scrollregion = (0,0,2000,0),
+        ##scroll dev###               height = self.FRAMEHEIGHT, width = self.FRAMEWIDTH)
+
+        ##scroll dev### scroll = Scrollbar(frame, orient = HORIZONTAL)
+        ##scroll dev### scroll.pack(side = BOTTOM,fill = X)
+        ##scroll dev### scroll.config(command = canvas.xview)
+
+        ##scroll dev### canvas.config(xscrollcommand = scroll.set)
+        ##scroll dev### canvas.pack(fill = BOTH, expand = True)
 
         if hasattr(self, "_palframe"):
             if not self._palframe is None: self._palframe.destroy()
@@ -648,8 +690,8 @@ class gui(object):
 
         # Re-draw the canvas.
         self._currentpalette._draw_canvas(self.get_colors())
-        # Is the demo running?
 
+        # Is the demo running?
         if self._demoTk is None:        return
         if self._demoTk.winfo_exists(): self._show_demo(True)
 
@@ -665,9 +707,17 @@ class gui(object):
         for dim in ["h", "c", "l","p"]:
             dim1 = "{:s}1".format(dim)
             dim2 = "{:s}2".format(dim)
+            dim3 = "{:s}max".format(dim)
             dim = "power" if dim == "p" else dim
-            check = [dim1 in params.keys(), dim2 in params.keys()]
-            if check[0] and check[1]:
+            # Boolean vector
+            check = [dim1 in params.keys(), dim2 in params.keys(), dim3 in params.keys()]
+            if check[0] and check[1] and check[2]:
+                params[dim] = [params[dim1], params[dim2], params[dim3]]
+                del params[dim1]; del params[dim2]; del params[dim3]
+            elif check[0] and check[2]:
+                params[dim] = [params[dim1], params[dim1], params[dim3]]
+                del params[dim1]; del params[dim3]
+            elif check[0] and check[1]:
                 params[dim] = [params[dim1], params[dim2]]
                 del params[dim1]
                 del params[dim2]
@@ -772,13 +822,14 @@ class gui(object):
         as specified on the interface to python (a :py:class:`hclpalette` object).
         """
 
-        def fun():
-            self.master().destroy()
-            return "3"
         but = Button(self.master(), text = "Return to python",
-                command = fun, pady = 5, padx = 5)
+                command = self._return_to_python, pady = 5, padx = 5)
         but.place(x = 150, y = self.HEIGHT - 40)
 
+
+    def _return_to_python(self, *args):
+        self.master().destroy()
+        return
 
     def _show_demo(self, update = False):
 

@@ -5,6 +5,47 @@ from cslogger import cslogger
 log = cslogger(__name__)
 
 
+class palette(object):
+    """palette(colors, name)
+
+    Custom named color palette with a fixed number of colors.
+    Used for :py:func:`hcl_palettes.swatchplot`.
+
+    .. todo:
+        Write docstrings.
+    """
+
+    def __init__(self, colors, name):
+        self._colors = self._valid_hex(colors)
+        if not isinstance(name, str):
+            raise ValueError("argument name to {:s} ".format(self.__class__.__name__) + \
+                    "has to be a string")
+        self._name = name
+    def __repr__(self):
+        str = "Palette Name: {:s}\n".format(self.name()) + \
+              "       Type: Custom palette\n" + \
+              "       Number of colors: {:d}\n".format(len(self.colors()))
+        return str
+    def rename(self, name):
+        if not isinstance(name, str):
+            raise ValueError("argument name to {:s}.rename ".format(self.__class__.__name__) + \
+                    "has to be a string")
+        self._name = name
+    def name(self):
+        return self._name
+    def colors(self, *args, **kwargs):
+        return self._colors
+    # Check if all values are valid hex colors
+    def _valid_hex(self, colors):
+        from re import match, compile
+        from numpy import all
+        pat   = compile("^#[0-9A-Fa-f]{6}(o-9]{2})?$")
+        check = [match(pat, col) for col in colors]
+        if not all(check):
+            raise ValueError("not all colors are valid hex colors")
+        return colors
+
+
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class defaultpalette(object):
@@ -21,20 +62,16 @@ class defaultpalette(object):
     method : str
         name of the method which has to be called to retrieve colors (e.g.,
         :py:class:`diverging_hcl`).
-    parameter : list
-        a list of strings which define the allowed/valid parameters for this
-        color palette.
     name : str
         name of the color palette.  settings (`dict`): A dict object containing
         the parameter settings.
     """
 
-    def __init__(self, type, method, parameter, name, settings):
+    def __init__(self, type, method, name, settings):
 
         self._type_      = type
         self._name_      = name
         self._method_    = method
-        self._parameter_ = parameter
         self._settings_  = settings
 
     # Default representation of defaultpalette objects.
@@ -175,19 +212,6 @@ class defaultpalette(object):
         """
         return self._settings_
 
-    def parameters(self):
-        """parameters()
-
-        Returns a :class:`list` with the names of all parameters
-        specified. The parameters themselves can be retrieved by calling
-        the :py:func:`get_settings` method.
-
-        Returns
-        -------
-        Returns a `list` object with all parameter names.
-        """
-        return self._parameter_
-
     def colors(self, n = 11):
         """colors(n = 11)
         
@@ -212,7 +236,8 @@ class defaultpalette(object):
         cfun = getattr(mod, self._method_)
 
         # Calling color method with arguments of this object. 
-        args = self.get_settings()
+        from copy import copy
+        args = copy(self.get_settings())
 
         # If Remove h1/h2 and store them in h
         for dim in ["h", "c", "l", "p"]:
@@ -320,6 +345,7 @@ class hclpalettes(object):
 
         return "\n".join(res)
 
+
     def get_palette_types(self):
         """get_palette_types()
 
@@ -425,7 +451,6 @@ class hclpalettes(object):
         try:
             palette_type = CNF.get("main", "type")
             palette_method = CNF.get("main", "method")
-            palette_parameter = [x.strip() for x in CNF.get("main", "parameter").split(",")]
         except Exception as e:
             log.error(e); sys.exit(9)
 
@@ -460,8 +485,7 @@ class hclpalettes(object):
                 else:
                     settings[key] = int(val)
 
-            pals.append(defaultpalette(palette_type, palette_method,
-                        palette_parameter, name, settings))
+            pals.append(defaultpalette(palette_type, palette_method, name, settings))
 
         # Return dictionary with palettes
         if len(pals) == 0:
@@ -515,6 +539,15 @@ class hclpalette(object):
         specplot(self.colors(n), *args, **kwargs)
 
         return
+
+    def name(self):
+        """name()
+
+        Returns
+        -------
+        Returns the name of the palette, string.
+        """
+        return self._name
 
     def get(self, key):
         """get(key)
@@ -819,6 +852,8 @@ class qualitative_hcl(hclpalette):
     >>> qualitative_hcl("Dynamic")(10)
     """
 
+    _name = "Qualitative"
+
     def __init__(self, h = [0, 360.], c = 50, l = 70,
         fixup = True, palette = None, rev = False, **kwargs):
 
@@ -971,7 +1006,8 @@ class rainbow_hcl(qualitative_hcl):
     >>> rainbow_hcl("Dynamic")(10)
     """
 
-    _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
+    _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
+    _name = "Rainbow HCL"
 
     def __init__(self, c = 50, l = 70, start = 0, end = 360,
                  gamma = None, fixup = True, rev = False, *args, **kwargs):
@@ -1004,7 +1040,7 @@ class rainbow_hcl(qualitative_hcl):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters_:
+                if key in self._allowed_parameters:
                     settings[key] = val
 
 # -------------------------------------------------------------------
@@ -1070,7 +1106,8 @@ class diverging_hcl(hclpalette):
     >>> diverging_hcl("Dynamic")(10)
     """
 
-    _allowed_parameters_ = ["h1", "h2", "c1", "l1", "l2", "p1"]
+    _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
+    _name = "Diverging HCL"
 
     def __init__(self, h = [260, 0], c = 80, l = [30, 90],
         power = 1.5, fixup = True, palette = None, rev = False,
@@ -1134,7 +1171,7 @@ class diverging_hcl(hclpalette):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters_:
+                if key in self._allowed_parameters:
                     settings[key] = val
 
         # Save settings
@@ -1269,7 +1306,8 @@ class sequential_hcl(hclpalette):
     """
 
     # Allowed to overwrite via **kwargs
-    _allowed_parameters_ = ["h1", "c1", "c2", "l1", "l2", "p1", "p2"]
+    _allowed_parameters = ["h1", "c1", "c2", "l1", "l2", "p1", "p2"]
+    _name = "Sequential HCL"
 
     def __init__(self, h = 260, c = [80, 30], l = [30, 90],
         power = 1.5, fixup = True, palette = None, rev = False,
@@ -1311,7 +1349,7 @@ class sequential_hcl(hclpalette):
 
             # Allow to overule few things
             for key,value in kwargs.items():
-                if key in pal.parameters(): pal.set(key, value)
+                if key in self._allowed_parameters: pal.set(key, value)
 
             # Getting settings
             settings = pal.get_settings()
@@ -1338,7 +1376,7 @@ class sequential_hcl(hclpalette):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters_:
+                if key in self._allowed_parameters:
                     settings[key] = val
 
         # Save settings
@@ -1458,7 +1496,8 @@ class heat_hcl(sequential_hcl):
     """
 
 
-    _allowed_parameters_ = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
+    _allowed_parameters = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
+    _name = "Heat HCL"
 
     def __init__(self, h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.],
                  fixup = True, *args, **kwargs):
@@ -1490,7 +1529,7 @@ class heat_hcl(sequential_hcl):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters_:
+                if key in self._allowed_parameters:
                     settings[key] = val
 
 
@@ -1539,7 +1578,8 @@ class terrain_hcl(sequential_hcl):
     >>> pal.colors(3); pal.colors(20)
     """
 
-    _allowed_parameters_ = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
+    _allowed_parameters = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
+    _name = "Terrain HCL"
 
     def __init__(self, h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.],
                  fixup = True, *args, **kwargs):
@@ -1571,7 +1611,7 @@ class terrain_hcl(sequential_hcl):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters_:
+                if key in self._allowed_parameters:
                     settings[key] = val
 
 
@@ -1620,7 +1660,8 @@ class diverging_hsv(hclpalette):
     >>> a.colors(10)
     """
 
-    _allowed_parameters_ = ["h1", "h2", "s", "v"]
+    _allowed_parameters = ["h1", "h2", "s", "v"]
+    _name = "Diverging HSV"
 
     def __init__(self, h = [240, 0], s = 1., v = 1., power = 1.,
         fixup = True, rev = False, *args, **kwargs):
@@ -1653,7 +1694,7 @@ class diverging_hsv(hclpalette):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters_:
+                if key in self._allowed_parameters:
                     settings[key] = val
 
 

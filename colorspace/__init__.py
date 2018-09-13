@@ -16,6 +16,7 @@ from .CVD import desaturate
 # Default HCL color palettes methods and
 # functions.
 from .palettes import hclpalettes
+from .palettes import palette
 from .palettes import qualitative_hcl
 from .palettes import diverging_hcl
 from .palettes import sequential_hcl
@@ -26,6 +27,7 @@ from .palettes import diverging_hsv
 
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes
+from .hcl_palettes import swatchplot
 from .specplot import specplot
 from .choose_palette import choose_palette
 
