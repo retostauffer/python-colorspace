@@ -110,7 +110,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
         # Smoothing the hue values in batches where chroma is very low
         idx = np.where(C < 8.)[0]
         if len(idx) == n:
-            H = np.repeat(mean(H), n)
+            H = np.repeat(np.mean(H), n)
         else:
             # pre-smoothing the hue
             # Running mean
@@ -155,7 +155,14 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     from matplotlib import pyplot as plt
     
     # Create plot
-    fig = plt.figure() 
+
+    import numpy as np
+
+    # The kwargs figure input is used when the specplot
+    # is used as demo plot in the choose_palette interface.
+    if "fig" in kwargs.keys(): fig = kwargs["fig"]
+    else:                      fig = plt.figure() 
+
     if rgb and hcl and palette:
         ax1 = plt.subplot2grid((7, 1), (0, 0), rowspan = 3)
         ax2 = plt.subplot2grid((7, 1), (3, 0))
@@ -206,7 +213,6 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
         count = 0
         for key,val in coords.items():
             [R, G, B] = val["sRGB"]
-            print B
             x = linspace(0., 1., len(R))
             linestyle = linestyles[count % len(linestyles)] 
             LR, = ax1.plot(x, R, color = rgbcols.colors()[0], linestyle = linestyle)
@@ -246,7 +252,8 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
         ax3.text(0.5,  -10, "HCL Spectrum", horizontalalignment = "center",
                  verticalalignment = "top")
     
-    plt.show()
+    if not "fig" in kwargs.keys():
+        plt.show()
     
 
 

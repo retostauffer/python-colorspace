@@ -523,8 +523,6 @@ class gui(object):
     FRAMEHEIGHT = 100
     FRAMEWIDTH  = WIDTH - 20
 
-    _demoTk   = None
-
     # Slider settings
     _slider_settings = {
         "h1"   : {"type":"int",   "from":-360, "to":360, "resolution":1},
@@ -585,9 +583,6 @@ class gui(object):
         # Save palette settings
         self.settings(**pal.get_settings())
 
-        # Additional settings: TODO currently unused, remove?
-        ##for key,val in kwargs.items(): init_args[key] = val
-
         # Initialize gui
         self._master         = self._init_master()
         # The different palette types
@@ -604,11 +599,11 @@ class gui(object):
         self._currentpalette = self._add_currentpalettecanvas()
         self._draw_currentpalette()
 
-        #self._add_demo_options()
+        self._add_demo_options()
         self._add_return_button()
 
+        # Adding control checkboxes and radio buttons
         self._control = self._add_control()
-
 
         # Initialize interface
         mainloop()
@@ -915,10 +910,6 @@ class gui(object):
         # Re-draw the canvas.
         self._currentpalette._draw_canvas(self.get_colors())
 
-        # Is the demo running?
-        if self._demoTk is None:        return
-        if self._demoTk.winfo_exists(): self._show_demo(True)
-
     def get_colors(self):
         """get_colors()
 
@@ -1059,6 +1050,10 @@ class gui(object):
         """
         self._draw_currentpalette()
 
+        # Is the demo running?
+        if self._demoTk: self._show_demo(True)
+
+
     def _add_demo_options(self):
         """_add_demo_options()
 
@@ -1068,9 +1063,9 @@ class gui(object):
             Currently not enabled (have had some problems with the
             interaction/update).
         """
-        but = Button(self.master, text = "Demo", command = self._show_demo,
+        but = Button(self.master(), text = "Demo", command = self._show_demo,
                 pady = 5, padx = 5)
-        but.place(x = 30, y = 560)
+        but.place(x = self.WIDTH - 100, y = self.HEIGHT - 40)
 
 
     def _add_return_button(self):
@@ -1094,7 +1089,7 @@ class gui(object):
         settings of the sliders and control elements. Used to create the
         palette which will then be returned to the console/user console.
         """
-        self.master().destroy()
+        self.master().quit()
         return
 
     def _show_demo(self, update = False):
@@ -1143,44 +1138,28 @@ class gui(object):
                 # which must be kept live or else the picture disappears
                 return photo
 
-            if not update:
-                self._demoTk = Tk()#Toplevel()
-                self._demoTk.title("Demo Plot")
-                self._demoTk.geometry("{:d}x{:d}".format(500, 500))
-                self._democanvas_ = Canvas(self._demoTk, width=500, height=500)
-                self._democanvas_.pack()
 
 
-            # Create the figure we desire to add to an existing canvas
-            import matplotlib as mpl
+            import matplotlib
+            matplotlib.use("TkAgg")
+            from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+            import matplotlib.pyplot as plt
+
+            # Initialize plot
             if not update:
-                self._demofig_ = mpl.figure.Figure(figsize=(2, 1))
-            ## Keep this handle alive, or else figure will disappear
+                self._demoTk = Tk()
+                self._demoTk.protocol("WM_DELETE_WINDOW", self._demoTk.destroy)
+                self._demoTk.wm_title("colorspace demoplot")
+                self._demo_Figure = plt.figure()
+                self._demo_Axis   = self._demo_Figure.add_subplot(211)
+                self._demo_Canvas = FigureCanvasTkAgg(self._demo_Figure, master=self._demoTk)
+                self._demo_Canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
+
+            # Update plot
             from .specplot import specplot
-            self._demofig_ = specplot(self.get_colors(), fig = "dummy")
-            fig_photo = draw_figure(self._democanvas_, self._demofig_, loc=(0, 0))
-            
-            # Let Tk take over
-            mainloop()
-
-            #canvas = Canvas(self._demowindow_, width = 400, height = 400)
-            #canvas.pack()
-
-            #from .specplot import specplot
-            #fig = specplot(self.get_colors(), fig = "foo")
-            #draw_figure(canvas, fig)
-            #canvas.pack()
-            #mainloop()
-
-            #fig = Figure(figsize=(6,6))
-            #ax  = fig.add_subplot(111)
-            #if update: ax.clear()
-            #print "Update figure"
-            #from .specplot import specplot
-            #fig = specplot(self.get_colors(), fig = fig)
-            #canvas = FigureCanvasTkAgg(fig, master = self._demowindow_)
-            #canvas.get_tk_widget().pack()
-            #canvas.draw()
+            specplot(self.get_colors(), fig = self._demo_Figure) #ax = self._demo_Axis)
+            self._demo_Canvas.draw()
+            self._demo_Canvas.flush_events()
 
         else:
 
@@ -1194,7 +1173,6 @@ class gui(object):
             txt = Text(self._demowindow_, height=10, width=45)
             txt.pack()
             txt.insert(END, "\n".join(info))
-
 
 
 

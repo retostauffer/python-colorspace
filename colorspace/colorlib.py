@@ -3087,7 +3087,6 @@ class hexcols(colorobject):
 
         from re import compile, match
 
-        print hex_
         r = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
         check = filter(r.match, hex_)
         if not len(check) == len(hex_):
