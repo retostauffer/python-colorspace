@@ -3025,13 +3025,14 @@ class hexcols(colorobject):
 
         from re import compile, match
 
-        r = compile("^#\w{6}([0-9]{2})?$")
+        print hex_
+        r = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
         check = filter(r.match, hex_)
         if not len(check) == len(hex_):
             raise ValueError("invalid hex colors provided while " + \
                     "initializing class {:s}".format(self.__class__.__name__))
 
-        r = compile("^#\w{6}([0-9]{2})$")
+        r = compile("^#[0-9A-Fa-f]{6}([0-9]{2})$")
         check = [1 if match(r, x) else 0 for x in hex_]
         # No colors with alpha
         if sum(check) == 0:
@@ -3079,12 +3080,6 @@ class hexcols(colorobject):
         # The only transformation we need is from hexcols -> sRGB
         elif to == "sRGB":
             [R, G, B] = clib.hex_to_sRGB(self.get("hex_"))
-
-            # Check if some hex colors do have alpha values
-            from numpy import where
-            from re import compile, match
-            pat = compile("^#\w{6}([0-9]{2})$") 
-
             self._data_ = {"R": R, "G": G, "B": B}
             self.__class__ = sRGB
 

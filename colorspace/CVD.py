@@ -179,10 +179,15 @@ class CVD(object):
         # Checking input `cols`:
         if isinstance(cols, str) or isinstance(cols, list) or isinstance(cols, tuple):
             cols = list(cols)
-            from numpy import all
+            from numpy import all, isnan
             from re import match, compile
-            pat = compile("^(#\w{6}([0-9]{2})?)$")
-            if not all([match(pat, x) for x in cols]):
+            pat = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
+            def fun(x, pat):
+                if isinstance(x, str):
+                    if match(pat,x):  return True
+                elif isnan(x):        return True
+                return False
+            if not all([fun(x, pat) for x in cols]):
                 raise ValueError("got non-hex colors in {:s}. ".format(self.__class__.__name__) + \
                         "If you use hex colors (or a list of hex colors) as input all elements " + \
                         "have to be valid")

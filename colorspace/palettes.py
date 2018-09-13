@@ -39,7 +39,7 @@ class palette(object):
     def _valid_hex(self, colors):
         from re import match, compile
         from numpy import all
-        pat   = compile("^#[0-9A-Fa-f]{6}(o-9]{2})?$")
+        pat   = compile("^#[0-9A-Fa-f]{6}([0-9]{2})?$")
         check = [match(pat, col) for col in colors]
         if not all(check):
             raise ValueError("not all colors are valid hex colors")
@@ -938,7 +938,7 @@ class qualitative_hcl(hclpalette):
             to explicitly control the fixup here.
         """
 
-        if isinstance(fixup, bool): self.settings["fixup"] = fixup
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         from numpy import repeat, linspace, asarray
         from numpy import vstack, transpose
@@ -1202,7 +1202,7 @@ class diverging_hcl(hclpalette):
             all colors, if a vector is given the length has to be ``n``.
         """
 
-        if isinstance(fixup, bool): self.settings["fixup"] = fixup
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         from numpy import abs, linspace, power, repeat
         from numpy import asarray, ndarray, ndenumerate
@@ -1401,7 +1401,7 @@ class sequential_hcl(hclpalette):
             to explicitly control the fixup here.
         """
 
-        if isinstance(fixup, bool): self.settings["fixup"] = fixup
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
         from numpy import vstack, transpose, where

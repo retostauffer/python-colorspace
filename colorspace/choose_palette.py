@@ -278,6 +278,8 @@ class currentpalettecanvas(object):
         n = len(colors)
         w = floor(float(self.width) / float(len(colors)))
         h = self.height
+        # Overwrite everything with a white box
+        self.canvas.create_rectangle(0, 0, self.width, self.height + 1, width = 0, fill = "white")
         for i in range(0, n):
             # Dropping Nan's
             if len(str(colors[i])) < 7: continue
@@ -498,7 +500,6 @@ class gui(object):
         return paltypevar
 
     def OnPaltypeChange(self, *args, **kwargs):
-        print " [ changed pal type ]"
 
         # Updating the palette-frame.
         self._palframe = self._add_palframe(args[0])
@@ -525,8 +526,16 @@ class gui(object):
 
         frame = Frame(self.master(), height = 30, width = self.WIDTH - 20)
         frame.grid()
-        frame.place(x = 10, y = self.HEIGHT - 120)
+        frame.place(x = 10, y = self.HEIGHT - 140)
         col = 0; row = 0
+
+        # Fixup colors
+        fixupvar      = BooleanVar()
+        fixupbutton   = Checkbutton(frame, text="Fixup colors",
+                                    variable = fixupvar, command = self.OnChange)
+        fixupbutton.grid(column = col, row = row, sticky = "w"); row += 1
+        fixupbutton.select()
+        control["fixup"] = fixupvar
 
         # Reverse colors
         revvar      = BooleanVar()
@@ -571,13 +580,14 @@ class gui(object):
 
         if not self._control:
             return {"reverse" : False, "desaturate" : False, "cvd" : False,
-                    "cvdtype" : "deutan"}
+                    "cvdtype" : "deutan", "fixup": True}
         else:
             res = {}
             res["reverse"]    = self._control["reverse"].get()
             res["desaturate"] = self._control["desaturate"].get()
             res["cvd"]        = self._control["cvd"].get()
             res["cvdtype"]    = self._control["cvdtype"].get()
+            res["fixup"]      = self._control["fixup"].get()
             return res
 
 
@@ -731,10 +741,11 @@ class gui(object):
                 break
 
         # Check if we have to return the colors reversed.
+        # and whether or not fixup is set to True/False
         control = self.control()
-
         if not "h" in params.keys(): sys.exit("whoops, lost h")
         if "n" in params: del params["n"]
+        params["fixup"] = control["fixup"]
 
         # Craw colors from current color map
         import palettes
@@ -743,7 +754,6 @@ class gui(object):
         fun      = getattr(palettes, colorfun)
 
         # Return colors
-        print "Params",; print params
         colors = fun(**params)(n, rev = control["reverse"])
 
         # Do we have to desaturate the colors?
@@ -779,7 +789,6 @@ class gui(object):
         # (a Slider is a combined Tkinter.Scale, Tkinter.Entry, and
         # Tkinter.Label element with bindings).
         for idx,key in enumerate(self._setting_names):
-            print "Adding slider {:s} ({:d})".format(key, idx),
             # Initialize with default 0 if nothing yet specified.
             s = Slider(self.master(),
                        key,                                            # name
@@ -790,7 +799,6 @@ class gui(object):
                        from_      = self._slider_settings[key]["from"],
                        to         = self._slider_settings[key]["to"],
                        resolution = self._slider_settings[key]["resolution"])
-            print self.settings(key)
             if not self.settings(key): s.set("0")
             else:                      s.set(str(self.settings(key)))
 
@@ -857,8 +865,6 @@ class gui(object):
                 figure_w, figure_h = int(figure_w), int(figure_h)
                 photo = PhotoImage(master=canvas, width=figure_w, height=figure_h)
 
-                print photo
-            
                 # Position: convert from top-left anchor to center anchor
                 canvas.create_image(loc[0] + figure_w/2, loc[1] + figure_h/2, image=photo)
             
@@ -885,7 +891,6 @@ class gui(object):
             from .specplot import specplot
             self._demofig_ = specplot(self.get_colors(), fig = "dummy")
             fig_photo = draw_figure(self._democanvas_, self._demofig_, loc=(0, 0))
-            print " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx "
             
             # Let Tk take over
             mainloop()
