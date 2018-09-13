@@ -84,14 +84,14 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         import imageio
     except Exception as e:
         raise Exception("the {:s} requires the ".format(inspect.stack()[0][3]) + \
-                "python module imageio to be installed: {:s}".format(e))
+                "python module imageio to be installed: {:s}".format(str(e)))
 
     
     # Read image data
     try:
         img = imageio.imread(image)
     except Exception as e:
-        raise Exception(e)
+        raise Exception(str(e))
 
     # Extracting colors (scale from [0,255] to [0.,1.])
     data = {}
@@ -114,7 +114,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     if dropalpha: rgba.dropalpha()
 
     # Apply color deficiency
-    import CVD
+    from . import CVD
     import matplotlib.pyplot as plt
 
     from numpy import ceil

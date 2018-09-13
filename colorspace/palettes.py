@@ -84,7 +84,7 @@ class defaultpalette(object):
         res.append("        Type: {:s}".format(self.type()))
         res.append("        Inspired by: {:s}".format(self.get("desc")))
         #for key,val in self._settings_.items():
-        keys = self.get_settings().keys()
+        keys = list(self.get_settings().keys())
         keys.sort()
         for key in keys:
             if key in ["desc"]: continue
@@ -95,6 +95,18 @@ class defaultpalette(object):
             res.append("         {:10s} {:s}".format(key,val))
 
         return "\n".join(res)
+
+    def __call__(self, n = 11):
+        """__call__(n = 11)
+
+        Wrapper function for :py:func:`colors`.
+
+        Returns
+        -------
+        list
+            List of hex colors.
+        """
+        return self.colors(n)
 
     def method(self):
         """method()
@@ -348,11 +360,12 @@ class hclpalettes(object):
 
         Returns
         -------
-        Returns a `list` of strings (`str`) with the names of all palette types
-        or groups.
+        list
+            Returns a `list` of strings (`str`) with the names of all palette types
+            or groups.
         """
 
-        return self._palettes_.keys()
+        return list(self._palettes_.keys())
 
     def get_palettes(self, type_ = None):
         """get_palettes(type_ = None)
@@ -443,7 +456,7 @@ class hclpalettes(object):
             palette_type = CNF.get("main", "type")
             palette_method = CNF.get("main", "method")
         except Exception as e:
-            raise Exception("misspecification in palconfig file {:s}: {:s}".format(file,e))
+            raise Exception("misspecification in palconfig file {:s}: {:s}".format(file,str(e)))
 
         # The dictionary which will be returned.
         pals = []
@@ -657,7 +670,8 @@ class hclpalette(object):
             try:
                 value = asarray([value], dtype = dtype).flatten()
             except Exception as e:
-                msg = "wrong input for \"{:s}\" to {:s}: {:s}".format(key, self.__class__.__name__, e)
+                msg = "wrong input for \"{:s}\" to {:s}: {:s}".format(key,
+                        self.__class__.__name__, str(e))
                 raise ValueError(msg)
 
             # Not enough input values, check if we are allowed to
@@ -703,7 +717,7 @@ class hclpalette(object):
 
         # If only one kwarg was given: return values, else return dict.
         if len(kwargs) == 1:
-            return kwargs[kwargs.keys()[0]]
+            return kwargs[list(kwargs.keys())[0]]
         else:
             return kwargs
 
@@ -851,7 +865,7 @@ class qualitative_hcl(hclpalette):
             c     = self._checkinput_(int,   1, False, False, c = c)
             l     = self._checkinput_(int,   1, False, False, l = l)
         except Exception as e:
-            raise ValueError(e)
+            raise ValueError(str(e))
 
 
         # If user selected a named palette: load palette settings
@@ -928,7 +942,7 @@ class qualitative_hcl(hclpalette):
         H = linspace(self.get("h1"), self.get("h2"), n)
 
         # Create new HCL color object
-        from colorlib import HCL
+        from .colorlib import HCL
         HCL = HCL(H, C, L)
 
         # Reversing colors
@@ -1002,7 +1016,7 @@ class rainbow_hcl(qualitative_hcl):
             start = self._checkinput_(int,   1, False, False, start = start)
             end   = self._checkinput_(int,   1, False, False, end = end)
         except Exception as e:
-            raise ValueError(e)
+            raise ValueError(str(e))
 
         # Save settins
         try:
@@ -1011,9 +1025,9 @@ class rainbow_hcl(qualitative_hcl):
                              "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, e))
+                self.__class__.__name__, str(e)))
         except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -1106,7 +1120,7 @@ class diverging_hcl(hclpalette):
             l     = self._checkinput_(int,   2, 2, True,  False, l = l)
             power = self._checkinput_(float, 1, 1, True,  False, power = power)
         except Exception as e:
-            raise ValueError(e)
+            raise ValueError(str(e))
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
@@ -1208,10 +1222,10 @@ class diverging_hcl(hclpalette):
                 asarray(alpha, dtype = float)
             except Exception as e:
                 raise ValueError("alpha values provided to {:s}".format(self.__class__.__name__) + \
-                        "not of float-type: {:s}".format(e))
+                        "not of float-type: {:s}".format(str(e)))
 
         # Create new HCL color object
-        from colorlib import HCL
+        from .colorlib import HCL
         HCL = HCL(H, C, L, alpha)
 
         # Reversing colors
@@ -1308,7 +1322,7 @@ class sequential_hcl(hclpalette):
             l     = self._checkinput_(int,   2, 2, True,  False, l = l)
             power = self._checkinput_(float, 2, 2, True,  False, power = power)
         except Exception as e:
-            raise ValueError(e)
+            raise ValueError(str(e))
 
         # For handy use of the function
         if isinstance(h,str):
@@ -1316,7 +1330,7 @@ class sequential_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            defaultpalettes = hclpalettes().get_palettes("Sequential (single-hue)")
+            defaultpalettes = hclpalettes().get_palettes("Sequential")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
                 raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
@@ -1417,7 +1431,7 @@ class sequential_hcl(hclpalette):
             C[idx] = cmax - (cmax - c1) * ((power(rval[idx], p1) - cmaxat) / (1. - cmaxat))
 
         # Create new HCL color object
-        from colorlib import HCL
+        from .colorlib import HCL
         HCL = HCL(H, C, L)
 
         # Reversing colors
@@ -1488,7 +1502,7 @@ class heat_hcl(sequential_hcl):
             l     = self._checkinput_(int,   2, False, False, l = l)
             power = self._checkinput_(float, 2, False, False, power = power)
         except Exception as e:
-            raise ValueError(e)
+            raise ValueError(str(e))
 
         # Save settins
         try:
@@ -1499,9 +1513,9 @@ class heat_hcl(sequential_hcl):
                              "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, e))
+                self.__class__.__name__, str(e)))
         except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -1570,7 +1584,7 @@ class terrain_hcl(sequential_hcl):
             l     = self._checkinput_(int,   2, False, False, l = l)
             power = self._checkinput_(float, 2, False, False, power = power)
         except Exception as e:
-            raise ValueError(e)
+            raise ValueError(str(e))
 
         # Save settins
         try:
@@ -1581,9 +1595,9 @@ class terrain_hcl(sequential_hcl):
                              "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, e))
+                self.__class__.__name__, str(e)))
         except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -1655,7 +1669,7 @@ class diverging_hsv(hclpalette):
             v     = self._checkinput_(float, 1, False, False, v = v)
             power = self._checkinput_(float, 1, True,  False, power = power)
         except Exception as e:
-            raise ValueError(e)
+            raise ValueError(str(e))
 
         # Save settins
         try:
@@ -1664,9 +1678,9 @@ class diverging_hsv(hclpalette):
                              "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, e))
+                self.__class__.__name__, str(e)))
         except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, e))
+            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
 
         # If keyword arguments are set:
         # overwrite the settings if possible.

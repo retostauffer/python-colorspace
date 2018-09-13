@@ -182,15 +182,17 @@ class Slider(object):
         if len(x) == 0: return True
         # If no valid float: return False
         try:
-            float(x)
+            x     = float(x)
+            from_ = float(from_)
+            to    = float(to)
         except Exception as e:
             return False
         # If more than one digits:
         import re
         if from_ >= 0:
-            if not re.match("[0-9]+(\\.|\\.[0-9])?$", x): return False
+            if not re.match("[0-9]+(\\.|\\.[0-9])?$", str(x)): return False
         else:
-            if not re.match("-?[0-9]+(\\.|\\.[0-9])?$", x): return False
+            if not re.match("-?[0-9]+(\\.|\\.[0-9])?$", str(x)): return False
         return True
 
     def OnTrace(self, *args, **kwargs):
@@ -449,11 +451,18 @@ def choose_palette(**kwargs):
 
     obj = gui(**kwargs)
 
-    import palettes
+    from . import palettes
     method = getattr(palettes, obj.method())
 
-    varnames = method.__init__.im_func.func_code.co_varnames
-    defaults = method.__init__.im_func.func_defaults
+    # Overwrite __init__ method, add new defaults
+    import sys
+    if sys.version_info.major < 3:
+        varnames = list(method.__init__.im_func.func_code.co_varnames)
+        defaults = list(method.__init__.im_func.func_defaults)
+    else:
+        varnames = list(method.__init__.__code__.co_varnames)
+        defaults = list(method.__init__.__defaults__)
+
 
     # Getting current parameters from slider object
     settings = {}
@@ -479,19 +488,18 @@ def choose_palette(**kwargs):
             settings[key] = settings[k2]
             del settings[k2]
 
-    # Overwrite __init__ method, add new defaults
-    defaults = list(defaults)
     for idx,key in enumerate(varnames[1:(len(defaults)+1)]):
         if key in settings.keys():
             defaults[idx] = settings[key]
 
+    # Ugly but functional
+    # Possibly nicer with functools.partial
     import types
     method.__init__ = types.FunctionType(method.__init__.__code__,
                                          method.__init__.__globals__,
                                          method.__init__.__name__,
                                          tuple(defaults),
                                          method.__init__.__closure__)
-
 
     return method
 
@@ -525,16 +533,16 @@ class gui(object):
 
     # Slider settings
     _slider_settings = {
-        "h1"   : {"type":"int",   "from":-360, "to":360, "resolution":1},
-        "h2"   : {"type":"int",   "from":-360, "to":360, "resolution":1},
-        "c1"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "cmax" : {"type":"int",   "from":0,    "to":180, "resolution":1},
-        "c2"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "l1"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "l2"   : {"type":"int",   "from":0,    "to":100, "resolution":1},
-        "p1"   : {"type":"float", "from":0,    "to":3,   "resolution":.1},
-        "p2"   : {"type":"float", "from":0,    "to":3,   "resolution":.1},
-        "n"    : {"type":"int",   "from":2,    "to":30,  "resolution":1}
+        "h1"   : {"type": "int",   "from": -360, "to": 360, "resolution": 1},
+        "h2"   : {"type": "int",   "from": -360, "to": 360, "resolution": 1},
+        "c1"   : {"type": "int",   "from": 0,    "to": 100, "resolution": 1},
+        "cmax" : {"type": "int",   "from": 0,    "to": 180, "resolution": 1},
+        "c2"   : {"type": "int",   "from": 0,    "to": 100, "resolution": 1},
+        "l1"   : {"type": "int",   "from": 0,    "to": 100, "resolution": 1},
+        "l2"   : {"type": "int",   "from": 0,    "to": 100, "resolution": 1},
+        "p1"   : {"type": "float", "from": 0,    "to": 3,   "resolution": .1},
+        "p2"   : {"type": "float", "from": 0,    "to": 3,   "resolution": .1},
+        "n"    : {"type": "int",   "from": 2,    "to": 30,  "resolution": 1}
     }
     _sliders = []
 
@@ -768,7 +776,7 @@ class gui(object):
                 # Loading setting
                 if key in self._setting_names:
                     res[key] = self._settings[key]
-            if len(res) == 1:   return res[res.keys()[0]]
+            if len(res) == 1:   return res[list(res.keys())[0]]
             else:               return reskk
         # Store values, if possible.
         else:
@@ -962,7 +970,7 @@ class gui(object):
         params["fixup"] = control["fixup"]
 
         # Craw colors from current color map
-        import palettes
+        from . import palettes
         type_    = self._Dropdown.get()
         colorfun = self.palettes().get_palettes(type_)[0].method()
         fun      = getattr(palettes, colorfun)
@@ -1089,8 +1097,7 @@ class gui(object):
         settings of the sliders and control elements. Used to create the
         palette which will then be returned to the console/user console.
         """
-        self.master().quit()
-        return
+        self.master().destroy()
 
     def _show_demo(self, update = False):
         """_show_demo(update = False)

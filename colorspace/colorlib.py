@@ -1450,9 +1450,8 @@ class colorlib(object):
             res[valid] = gethex(r[valid], g[valid], b[valid])
 
         # Create return list with NAN's for invalid colors
-        ans = [np.nan if len(x) == 0 else x for x in res]
-
-        return ans;
+        res = [np.nan if len(x) == 0 else x.decode() for x in res]
+        return res;
 
     # RETO RETO RETO
     def hex_to_sRGB(self, hex_, gamma = 2.4):
@@ -1544,7 +1543,7 @@ class colorobject(object):
             Returns a string of the colors/coordinates of the current
             object.
         """
-        dims = self._data_.keys()     # Dimensions
+        dims = list(self._data_.keys())    # Dimensions
 
         # Sorting the dimensions
         from re import match
@@ -1555,7 +1554,11 @@ class colorobject(object):
         elif match("^(X|Y|Z|alpha){3,4}$", "".join(dims)): dims = ["X", "Y", "Z"]
         elif match("^(H|S|V|alpha){3,4}$", "".join(dims)): dims = ["H", "S", "V"]
         elif match("^(H|L|S|alpha){3,4}$", "".join(dims)): dims = ["H", "L", "S"]
-        if self.hasalpha(): dims.append("alpha")
+        if self.hasalpha():
+            dims.append("alpha")
+        elif "alpha" in dims:
+            del dims[dims.index("alpha")]
+
 
         # Number of colors
         ncol = len(self._data_[dims[0]])
@@ -1573,7 +1576,7 @@ class colorobject(object):
         if self.__class__.__name__ == "hexcols":
             data = {}
             fmt = "".join(["{:", "{:d}.{:d}".format(6+digits, 3), "f}"])
-            for d in self._data_.keys():
+            for d in dims: ##self._data_.keys():
                 data[d] = np.ndarray(ncol, dtype = "|S7")
                 for n in range(0, ncol):
                     x = self._data_[d][n]
@@ -1771,7 +1774,7 @@ class colorobject(object):
                 val = asarray(val)
             except Exception as e:
                 raise ValueError("input {:s} to {:s}".format(key, self.__class__.__name__) + \
-                        " could not have been converted to numpy.ndarray: {:s}".format(e))
+                        " could not have been converted to numpy.ndarray: {:s}".format(str(e)))
 
             # Else append length and proceed
             lengths.append(len(val))
@@ -1842,7 +1845,7 @@ class colorobject(object):
         cols.to("hex")
 
         if isinstance(cols, colorobject):
-            from specplot import specplot
+            from .specplot import specplot
             specplot(cols.colors(), **kwargs)
 
 
@@ -1983,7 +1986,7 @@ class colorobject(object):
                 vals = asarray(vals, dtype = t)
             except Exception as e:
                 raise ValueError("problems converting new data to {:s} ".format(t) + \
-                    " in {:s}: {:s}".format(self.__class__.__name__, e))
+                    " in {:s}: {:s}".format(self.__class__.__name__, str(e)))
             if not len(vals) == n:
                 raise ValueError("number of values to be stored on the object " + \
                     "{:s} have to match the current dimension".format(self.__class__.__name__))
@@ -3086,10 +3089,11 @@ class hexcols(colorobject):
         """
 
         from re import compile, match
+        from numpy import sum
 
         r = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
-        check = filter(r.match, hex_)
-        if not len(check) == len(hex_):
+        check = [1 if match(r, x) else 0 for x in hex_]
+        if not sum(check) == len(hex_):
             raise ValueError("invalid hex colors provided while " + \
                     "initializing class {:s}".format(self.__class__.__name__))
 

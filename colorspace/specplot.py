@@ -72,7 +72,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
         w = 1. / float(n - 1)
         x = linspace(-w / 2., 1. + w / 2, n + 1)
         for i in range(0,n):
-            rect = Rectangle((x[i],0.), w, 1., color = hex_[i]) 
+            rect = Rectangle((x[i],0.), w, 1., color = hex_[i])
             ax.add_patch(rect)
 
     # Try to convert inputs to boolean.
@@ -88,7 +88,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
         raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible " + \
                   "when calling \"{:s}\".".format(inspect.stack()[0][3]))
 
-    from colorlib import hexcols
+    from .colorlib import hexcols
     coords = {} 
     if not isinstance(hex_, dict):
         hex_ = {"colors": hex_}
@@ -141,8 +141,8 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
         palette = False
 
 
-    from colorlib import sRGB
-    from palettes import rainbow_hcl
+    from .colorlib import sRGB
+    from .palettes import rainbow_hcl
 
     # Specify the colors for the spectrum plots
     rgbcols = sRGB([0.8, 0, 0], [0, 0.8, 0], [0, 0, 0.8])
@@ -224,7 +224,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
 
     # Plotting the color map
     if palette:
-        cmap(ax2, coords[coords.keys()[0]]["hex"])
+        cmap(ax2, coords[list(coords.keys())[0]]["hex"])
 
     # Plotting HCL spectrum
     if hcl:

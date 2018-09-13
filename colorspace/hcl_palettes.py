@@ -69,7 +69,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None):
     # the types are correct, of course).
     if not custom is None:
         from numpy import all
-        from palettes import defaultpalette
+        from .palettes import defaultpalette
         def customerror():
             import inspect
             str = "list with custom palettes provided to {:s}".format(inspect.stack()[0][3])
@@ -170,7 +170,7 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     except ImportError as e:
         import inspect
         msg = "{:s} requires matplotlib to be installed: {:s}".format(
-                inspect.stack()[0][3], e)
+                inspect.stack()[0][3], str(e))
         raise ImportError(msg)
 
     # Prepares a list item
@@ -179,8 +179,7 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
         if isinstance(rec, list) or isinstance(rec, ndarray):
             colors = rec
         else:
-            print type(rec)
-            sys.exit("--exit in parpare list item--")
+            raise Exception("problems preparing list item in swatchplot")
 
         # Check if all hex colors are valid. If not, a
         # ValueError will be raised.
@@ -190,7 +189,7 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
         return ["custom", colors]
 
     from numpy import all, max, sum
-    from palettes import palette, defaultpalette, hclpalette, hclpalettes
+    from .palettes import palette, defaultpalette, hclpalette, hclpalettes
     allowed = (palette, defaultpalette, hclpalette)
 
     # ---------------------------------------------------------------

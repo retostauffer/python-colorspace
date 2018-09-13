@@ -478,7 +478,7 @@ def desaturate(col, amount = 1.):
     except Exception as e:
         import inspect
         raise ValueError("input amount to function {:s} ".format(inspect.stack()[0][3]) + \
-                         "has to be a single float: {:s}".format(e))
+                         "has to be a single float: {:s}".format(str(e)))
     if amount < 0. or amount > 1.:
         import inspect
         raise ValueError("input amount to function {:s} ".format(inspect.stack()[0][3]) + \
