@@ -1,6 +1,4 @@
 
-from cslogger import cslogger
-log = cslogger(__name__)
 
 def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         output = None, dropalpha = False):
@@ -70,7 +68,6 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     # If image = "DEMO": use package demo image.
     if image == "DEMO":
         resource_package = os.path.dirname(__file__)
-        log.debug("Package path is \"{0:s}\"".format(resource_package))
         image = os.path.join(resource_package, "..", "data", "colorful.png")
 
     # Check if file exists
@@ -169,7 +166,6 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     if output is None:
         plt.show()
     else:
-        log.info("Store figure under \"{:s}\".".format(output))
         # Write a simple figure:
         if len(cvd) == 1:
             imageio.imwrite(output, imnew)

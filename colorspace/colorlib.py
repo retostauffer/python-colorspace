@@ -35,9 +35,6 @@ import sys
 import numpy as np
 import inspect
 
-from cslogger import cslogger
-log = cslogger(__name__)
-
 class colorlib(object):
     """The colorlib class is a collection of methods
     used to convert or transform colors between different
@@ -140,8 +137,7 @@ class colorlib(object):
 
         # Checking type
         if not np.all(isinstance(x, np.ndarray) for x in [XN, YN, ZN]):
-            log.error("Inputs to {:s} have to be of class np.ndarray.".format(
-                __fname__)); sys.exit(9)
+            raise ValueError("Inputs to {:s} have to be of class np.ndarray.".format(__fname__))
     
         # Expand if required
         if len(XN) == 1 and not len(XN) == n: XN = np.repeat(XN, n)
@@ -150,8 +146,7 @@ class colorlib(object):
     
         # Check if all lengths match
         if not np.all([len(x) == n for x in [XN, YN, ZN]]):
-            log.error("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(
-                __fname__)); sys.exit(9)
+            raise ValueError("Inputs XN/YN/ZN to {:s} have to be of the same length.".format(__fname__))
 
         return [XN, YN, ZN]
     

@@ -1,7 +1,7 @@
 The color objects
 =================
 
-The `colorlib` module is handling the transformation between different
+The ``colorlib`` module is handling the transformation between different
 color spaces. A set of different color spaces is available including
 :py:class:`colorlib.CIELUV`,
 :py:class:`colorlib.CIELAB`,

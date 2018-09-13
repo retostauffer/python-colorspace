@@ -22,16 +22,17 @@ def deutan(cols, severity = 1.):
 
     Parameters
     ----------
-    cols : list of str or :py:class:`colorobject`
-        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors.
+    cols : list of str or colorobject
+        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
     severity : float
         severity in ``[0., 1.]``. Zero means no deficiency, one maximum
-        deficiency.
+        deficiency
 
     Returns
     -------
-    Returns an object of the same type as the input object ``cols`` with
-    modified colors as people with deuteranomaly see these colors (simulated).
+    colorobject
+        Returns an object of the same type as the input object ``cols`` with
+        modified colors as people with deuteranomaly see these colors (simulated).
 
     Examples
     --------
@@ -59,16 +60,17 @@ def protan(cols, severity = 1.):
     Parameters
     ----------
     cols : list of str or :py:class:`colorobject`
-        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors.
+        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
     severity : float
         severity in ``[0., 1.]``. Zero means no deficiency, one maximum
-        deficiency.
+        deficiency
 
     Returns
     -------
-    Returns an object of the same type as the input object ``cols`` with
-    modified colors as people with protanope color vision might see the
-    colors (simulated).
+    colorobject
+        Returns an object of the same type as the input object ``cols`` with
+        modified colors as people with protanope color vision might see the
+        colors (simulated).
 
     Examples
     --------
@@ -96,15 +98,16 @@ def tritan(cols, severity = 1.):
     Parameters
     ----------
     cols : list of str or :py:class:`colorobject`
-        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors.
+        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
     severity : float
         severity in ``[0., 1.]``. Zero means no deficiency, one maximum
-        deficiency.
+        deficiency
 
     Returns
     -------
-    Returns an object of the same type as the input object ``cols`` with
-    modified colors as people with tritanomaly see these colors (simulated).
+    colorobject
+        Returns an object of the same type as the input object ``cols`` with
+        modified colors as people with tritanomaly see these colors (simulated).
 
     Examples
     --------
@@ -127,24 +130,22 @@ class CVD(object):
     Object to simulate color vision deficiencies (CVD)
     for protanope, deteranope, and tritanope visual constraints.
     There are wrapper functions to provide simple access for
-    the users, see :py:func:`deutan`, :py:func:`protan`:, and
+    the users, see :py:func:`deutan`, :py:func:`protan`, and
     :py:func:`tritan`.
 
-    Parameters
-    -----------
-    cols : list of str or :py:class:`colorobject`
-        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors.
-    type_ : str
-        type of the deficiency which should be simulated. Currently
-        allowed are ``deutan``, ``protan``, and ``tritan``.
-    severity : float
-        severity in ``[0., 1.]``. Zero means no deficiency, one maximum
-        deficiency.
-
-    Returns
-    -------
     No return values, initializes a new CVD object which provides functions
     to manipulate the colors acording to the color deficiency (``type_``).
+
+    Parameters
+    ----------
+    cols : list of str or :py:class:`colorobject`
+        a colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
+    type_ : str
+        type of the deficiency which should be simulated. Currently
+        allowed are ``deutan``, ``protan``, and ``tritan``
+    severity : float
+        severity in ``[0., 1.]``. Zero means no deficiency, one maximum
+        deficiency
 
     Examples
     --------
@@ -214,6 +215,12 @@ class CVD(object):
 
         Helper function to convert input ``x`` to a proper ``(3x3)``
         `numpy.ndarray`` matrix.
+
+        Returns
+        -------
+        numpy.ndarray
+            Returns a numpy float matrix of shape ``3 x 3``.
+            The color deficiency transformation or rotation matrix.
         """
         from numpy import reshape, asarray
         return asarray(x, dtype = float).reshape((3,3), order = "F")
@@ -228,11 +235,13 @@ class CVD(object):
         ----------
         s : int
             an integer in ``[0, 11]`` to specify which matrix
-            sould be returned.
+            sould be returned
 
         Returns
         -------
-        Returns a ``(3x3)`` color deficiency transformation or rotation matrix.
+        numpy.ndarray
+            Returns a numpy float matrix of shape ``3 x 3``.
+            The color deficiency transformation or rotation matrix.
         """
 
         # Protan CVD
@@ -262,11 +271,13 @@ class CVD(object):
         ----------
         s : int
             an integer in ``[0, 11]`` to specify which matrix
-            sould be returned.
+            sould be returned
 
         Returns
         -------
-        Returns a ``(3x3)`` color deficiency transformation or rotation matrix.
+        numpy.ndarray
+            Returns a numpy float matrix of shape ``3 x 3``.
+            The color deficiency transformation or rotation matrix.
         """
         x = []
         x.append(self._tomat_(( 1.000000,  0.000000, -0.000000, 0.000000,  1.000000,  0.000000, -0.000000, -0.000000,  1.000000)))
@@ -294,11 +305,13 @@ class CVD(object):
         ----------
         s : int
             an integer in ``[0, 11]`` to specify which matrix
-            sould be returned.
+            sould be returned
 
         Returns
         -------
-        Returns a ``(3x3)`` color deficiency transformation or rotation matrix.
+        numpy.ndarray
+            Returns a numpy float matrix of shape ``3 x 3``.
+            The color deficiency transformation or rotation matrix.
         """
 
         x = []
@@ -323,7 +336,9 @@ class CVD(object):
 
         Returns
         -------
-        Returns a ``(3x3)`` color deficiency transformation or rotation matrix.
+        numpy.ndarray
+            Returns a numpy float matrix of shape ``3 x 3``.
+            The interpolated color deficiency transformation or rotation matrix.
         """
 
         # Getting severity
@@ -352,7 +367,8 @@ class CVD(object):
 
         Returns
         -------
-        Returns a list of hex colors.
+        list
+            Returns a list of hex colors.
 
         .. todo::
             Alpha handling in CVD._simulate_.
@@ -395,9 +411,10 @@ class CVD(object):
 
         Returns
         -------
-        Returns the colors of the object with simulated colors for the
-        color vision deficiency as specified when initializing the
-        object.
+        colorobject
+            Returns the colors of the object with simulated colors for the
+            color vision deficiency as specified when initializing the
+            object.
         """
 
         return self._simulate_()
@@ -412,21 +429,25 @@ def desaturate(col, amount = 1.):
     Transform a vector of given colors to the corresponding colors
     with chroma reduced (by a tunable amount) in HCL space.
 
-    The colors of the color object `col` are transformed to the HCL color
+    The colors of the color object ``col`` are transformed to the HCL color
     space. In HCL, In HCL, chroma is reduced and then the color is transformed
     back to a colorobject of the same class as the input.
 
-    Parameters:
-    col : :py:class:`colorobject`
+    Parameters
+    ----------
+    col : colorobject
         a colorspace color object such as RGB, hexcols, CIELUV, ...
     amount : float
         a value in ``[0.,1.]`` defining the degree of desaturation.
-            ``amount = 1.`` removes all color, ``amount = 0.`` none.
+            ``amount = 1.`` removes all color, ``amount = 0.`` none
 
     Returns
     -------
-    Returns a list of modified hex colors.
+    list
+        Returns a list of modified hex colors.
 
+    Examples
+    --------
     >>> from colorspace import diverging_hcl
     >>> from colorspace.colorlib import hexcols
     >>> cols = hexcols(diverging_hcl()(10))

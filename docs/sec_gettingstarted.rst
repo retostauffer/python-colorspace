@@ -10,6 +10,5 @@ Getting started
   
   Installation <installation>
   Usage examples <examples/usageexamples>
-  Logging and Environment <logenvir>
   In Contrast to R <examples/incontrasttoR>
   Release notes <releasenotes>

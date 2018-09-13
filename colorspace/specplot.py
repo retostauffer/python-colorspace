@@ -2,9 +2,6 @@
 import os
 import sys
 
-from cslogger import cslogger
-log = cslogger(__name__)
-
 
 def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs):
     """specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
@@ -14,6 +11,8 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     default a smoothing is applied to the hues (``fix = TRUE``). Also, to
     avoid jumps from 0 to 360 or vice versa, the hue coordinates are shifted
     suitably.
+
+    No return, creates an interactive figure.
 
     Parameters
     ----------
@@ -30,10 +29,6 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
         in the method description.
     kwargs : ...
         Currently not used.
-
-    Returns
-    -------
-    No return, creates an interactive figure.
 
     Example
     -------
@@ -53,12 +48,22 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     try:
         import matplotlib
     except:
-        log.error("Requires matplotlib to be installed!. Stop.")
-        sys.exit(9)
+        raise Exception("Requires matplotlib to be installed! Stop.")
 
 
     # Support function to draw the color map (the color strip)
     def cmap(ax, hex_):
+        """cmap(ax, hex_)
+
+        Plotting a color map given a set of colors.
+
+        Parameters
+        ----------
+        ax : matplotlib.Axis
+            the axis object on which the color map should be drawn
+        hex_ : list
+            list of hex colors
+        """
 
         from numpy import linspace
         from matplotlib.patches import Rectangle
@@ -75,15 +80,13 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     try:
         rgb = bool(rgb); hcl = bool(hcl); palette = bool(palette)
     except Exception as e:
-        log.error(e); sys.exit(9)
+        raise Exception(e)
 
     # This would yield an empty plot: raise an error.
     if not rgb and not hcl and not palette:
         import inspect
-        log.error("Disabling rgb, hcl, and palette all at the same time is not possible " + \
+        raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible " + \
                   "when calling \"{:s}\".".format(inspect.stack()[0][3]))
-        sys.exit(9)
-
 
     from colorlib import hexcols
     coords = {} 
@@ -94,6 +97,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     # the hue coordinates to avoid jumping which
     # can occur due to the HCL->RGB transformation.
     def fixcoords(x):
+
         [H, C, L] = x
         n = len(H) # Number of colors
         # Fixing spikes
@@ -176,8 +180,7 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
                             top  = 1., wspace = 0., hspace = 0.)
     else:
         import inspect
-        log.error("Unexpected condition in \"{:s}\". Sorry.".format(inspect.stack()[0][3]))
-        sys.exit(9)
+        raise ValueError("Unexpected condition in \"{:s}\". Sorry.".format(inspect.stack()[0][3]))
 
     # Setting axis properties
     # ax1: RGB

@@ -13,3 +13,4 @@ Developer
     Color Library <modules/colorlib> 
     Specplot <modules/specplot>
     Choose Palette <modules/choose_palette>
+    Color Vision Deficiency <modules/CVD>

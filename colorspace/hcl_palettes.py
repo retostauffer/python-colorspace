@@ -1,9 +1,5 @@
 
     
-from cslogger import cslogger
-log = cslogger(__name__)
-
-
 def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None):
     """hcl_palettes(n = 7, type_ = None, names = None, plot = False, custom = None)
     

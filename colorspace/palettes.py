@@ -1,8 +1,6 @@
 
 import os
 import sys
-from cslogger import cslogger
-log = cslogger(__name__)
 
 
 class palette(object):
@@ -291,15 +289,13 @@ class hclpalettes(object):
 
         if files is None:
             resource_package = os.path.dirname(__file__)
-            log.debug("Package path is \"{0:s}\"".format(resource_package))
             import glob
             files = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
 
 
         for file in files:
             if not os.path.isfile(file):
-                log.error("Cannot find file {:s}. Stop.".format(file))
-                sys.exit(9)
+                raise Exception("Cannot find file {:s}. Stop.".format(file))
 
         # Else trying to read the files. Returns a list with
         # palette configs.
@@ -308,7 +304,6 @@ class hclpalettes(object):
             raise ValueError("No palette config files found ({:s}.".format(self.__class__.__name__))
 
         # Else print debug message and read the config files
-        log.debug("Palette config files: {:s}".format(", ".join(files)))
         for file in files:
             [palette_type, pals] = self._load_palette_config_(file)
             if not pals: continue
@@ -426,10 +421,6 @@ class hclpalettes(object):
             # If already found: break outer loop
             if take_pal: break;
 
-        # Else reutnr palette if available
-        if not take_pal:
-            log.error("No palettes named \"{:s}\".".format(name)); sys.exit(9)
-
         # Else return list with palettes
         return take_pal
 
@@ -452,10 +443,7 @@ class hclpalettes(object):
             palette_type = CNF.get("main", "type")
             palette_method = CNF.get("main", "method")
         except Exception as e:
-            log.error(e); sys.exit(9)
-
-        # Reading all settings
-        log.debug("[palette] loading {:s} from {:s}".format(palette_type, os.path.basename(file)))
+            raise Exception("misspecification in palconfig file {:s}: {:s}".format(file,e))
 
         # The dictionary which will be returned.
         pals = []
@@ -723,9 +711,6 @@ class hclpalette(object):
 
     def _check_inputs_(self, n, h, c, l, p, palette):
 
-        # Class name for the error messages, if necessary.
-        cls = self.__class__.__name__
-
         from numpy import all
 
         # Convert input x into a list with elements of type
@@ -739,12 +724,9 @@ class hclpalette(object):
             elif isinstance(x, list):
                 x = [totype(e) for e in x]
             else:
-                log.error("Error in \"tolist\", don't know what to do.")
-                sys.exit(9)
+                raise ValueError("don't know how to convert {:s} to list".format(type(x)))
             if not all([isinstance(e, totype) for e in x]):
-                log.error("In \"tolist\"")
-                log.error(x)
-                log.error("Problems with inputs for {:s}".format(cls)); sys.exit(9)
+                raise ValueError("problems with inputs for {:s}: {:s}".format(self.__class__.__name__, e))
             # Checking length
             if len(x) < n:   x = x * n
             elif len(x) > n: x = x[0:2]
@@ -757,9 +739,7 @@ class hclpalette(object):
             elif isinstance(x, float) or isinstance(x, int):
                 return totype(x)
             else:
-                log.error("In \"tovalue\"")
-                log.error(x)
-                log.error("Problems with inputs for {:s}.".format(cls)); sys.exit(9)
+                raise ValueError("problems with inputs for {:s}: {:s}".format(self.__class__.__name__, e))
 
         # If "h" is a string this is ment to be the palette
         # argument, switch "palette" and "h"
@@ -769,7 +749,7 @@ class hclpalette(object):
         if isinstance(n, int) or isinstance(n, float):
             n = int(n)
         else:
-            log.error("Input \"n\" to {:s} has to be a single integer.".format(cls))
+            raise ValueError("input \"n\" to {:s} has to be a single integer".format(self.__class__.__name__))
 
         # For sequential hcl palettes
         if isinstance(self, sequential_hcl):
@@ -788,7 +768,7 @@ class hclpalette(object):
 
         # If "n" is set to small: exit
         if n <= 0:
-            log.error("Input \"n\" has to be a positive integer."); sys.exit(9)
+            raise ValueError("input \"n\" to {:s} has to be a positive integer".format(self.__class__.__name__))
 
         return [n, h, c, l, p, palette]
 
@@ -879,9 +859,8 @@ class qualitative_hcl(hclpalette):
             defaultpalettes = hclpalettes().get_palettes("Qualitative")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
-                log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
-                log.error("Choose one of: {:s}".format(", ".join(default_names)))
-                sys.exit(9)
+                raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
+                        "Choose one of: {:s}".format(", ".join(default_names)))
 
             # Else pick the palette
             pal = defaultpalettes[default_names.index(palette)]
@@ -1340,9 +1319,8 @@ class sequential_hcl(hclpalette):
             defaultpalettes = hclpalettes().get_palettes("Sequential (single-hue)")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
-                log.error("Palette \"{:s}\" is not a valid qualitative palette.".format(palette))
-                log.error("Choose one of: {:s}".format(", ".join(default_names)))
-                sys.exit(9)
+                raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
+                        "Choose one of: {:s}".format(", ".join(default_names)))
 
             # Else pick the palette
             pal = defaultpalettes[default_names.index(palette)]

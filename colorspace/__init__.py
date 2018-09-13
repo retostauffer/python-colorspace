@@ -1,7 +1,5 @@
 
 
-from .cslogger import cslogger
-
 # The color library which contains all the
 # color objects and required transformation
 # methods.
