@@ -497,6 +497,7 @@ class hclpalettes(object):
 
 
 
+
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalette(object):
@@ -787,6 +788,43 @@ class hclpalette(object):
         return [n, h, c, l, p, palette]
 
 
+    def cmap(self, n = 51, name = None):
+        '''
+        make_cmap takes a list of tuples which contain RGB values. The RGB
+        values may either be in 8-bit [0 to 255] (in which bit must be set to
+        True when called) or arithmetic [0 to 1] (default). make_cmap returns
+        a cmap with equally spaced colors.
+        Arrange your tuples so that the first color is the lowest value for the
+        colorbar and the last is the highest.
+        position contains values from 0 to 1 to dictate the location of each color.
+        '''
+        import matplotlib
+        from matplotlib.colors import LinearSegmentedColormap
+        from numpy import linspace, round, fmin, fmax
+    
+        cobj = self.colors(n, colorobject = True)
+        cobj.to("sRGB")
+
+        # Get coordinates
+        pos = round(linspace(0,1,n), 6)
+        # Fixup RGB colors if not within [0,1]
+        r   = fmax(0, fmin(1, round(cobj.get("R"),   6)))
+        g   = fmax(0, fmin(1, round(cobj.get("G"),   6)))
+        b   = fmax(0, fmin(1, round(cobj.get("B"),   6)))
+
+        # Create dict for cmap
+        cdict = {'red':[], 'green':[], 'blue':[]}
+        for i in range(0,n):
+            j = i if not self._rev else n - i - 1
+            cdict['red'].append(   (pos[i], r[j], r[j]) ) 
+            cdict['green'].append( (pos[i], g[j], g[j]) )
+            cdict['blue'].append(  (pos[i], b[j], b[j]) )
+    
+        if name is None:
+            name = "custom_hcl_cmap"
+        cmap = LinearSegmentedColormap(name, cdict, 256)
+        return cmap
+
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -944,6 +982,9 @@ class qualitative_hcl(hclpalette):
         # Create new HCL color object
         from .colorlib import HCL
         HCL = HCL(H, C, L)
+
+        # If kwargs have a key "colorobject" return HCL colorobject
+        if "colorobject" in kwargs.keys(): return HCL
 
         # Reversing colors
         rev = self._rev
@@ -1228,6 +1269,9 @@ class diverging_hcl(hclpalette):
         from .colorlib import HCL
         HCL = HCL(H, C, L, alpha)
 
+        # If kwargs have a key "colorobject" return HCL colorobject
+        if "colorobject" in kwargs.keys(): return HCL
+
         # Reversing colors
         rev = self._rev
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
@@ -1433,6 +1477,9 @@ class sequential_hcl(hclpalette):
         # Create new HCL color object
         from .colorlib import HCL
         HCL = HCL(H, C, L)
+
+        # If kwargs have a key "colorobject" return HCL colorobject
+        if "colorobject" in kwargs.keys(): return HCL
 
         # Reversing colors
         rev = self._rev
@@ -1722,6 +1769,9 @@ class diverging_hsv(hclpalette):
 
         from .colorlib import HSV
         HSV = HSV(H, S, V)
+
+        # If kwargs have a key "colorobject" return HCL colorobject
+        if "colorobject" in kwargs.keys(): return HSV
 
         # Reversing colors
         rev = self._rev
