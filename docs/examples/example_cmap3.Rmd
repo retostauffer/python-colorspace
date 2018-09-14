@@ -1,0 +1,28 @@
+---
+## Run with  Rscript -e "rmarkdown::render('file.Rmd')"
+output:
+  html_document:
+      mathjax: NULL
+---
+
+```{python, fig = FALSE, echo = FALSE}
+# Include demo
+import imp
+demo = imp.load_source("example_cmap_demo", "example_cmap_demo.py").demo
+```
+
+```{python, fig = TRUE, echo = TRUE, fig.height = 7, fig.width = 10}
+# Demo plot based on the default diverging_hcl color palette
+# with 51 (default) distinct colors.
+# Normal color vision, a desaturated version, plus simulated
+# deuteranope and protanope color vision.
+
+from colorspace import diverging_hcl, desaturate, deutan, protan
+pal = diverging_hcl()
+
+demo(pal.cmap(name = "Normal Color Vision"),
+     desaturate(pal.cmap(name = "Desaturated")),
+     deutan(pal.cmap(name = "Deuteranope Color Vision")),
+     protan(pal.cmap(name = "Protanope Color Vision")))
+```
+

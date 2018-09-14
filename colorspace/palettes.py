@@ -788,15 +788,36 @@ class hclpalette(object):
         return [n, h, c, l, p, palette]
 
 
-    def cmap(self, n = 51, name = None):
-        '''
-        make_cmap takes a list of tuples which contain RGB values. The RGB
-        values may either be in 8-bit [0 to 255] (in which bit must be set to
-        True when called) or arithmetic [0 to 1] (default). make_cmap returns
-        a cmap with equally spaced colors.
-        Arrange your tuples so that the first color is the lowest value for the
-        colorbar and the last is the highest.
-        position contains values from 0 to 1 to dictate the location of each color.
+    def cmap(self, n = 51, name = "custom_hcl_cmap"):
+        '''cmap(n = 51, name = "custom_hcl_cmap")
+
+        Allows to retrieve a matplotlib LinearSegmentedColormap color map.
+        Clasically LinearSegmentedColormaps allow to retrieve a set of ``N``
+        colors from a set of ``n`` colors where ``N >> n``. The matplotlib
+        simply linearely interpolates between all ``n`` colors to extend
+        the number of colors to ``N``.
+
+        In case of :py:func:`hclpalette` objects this is not necessary as
+        :py:func:`hclpalette` objects allow to retrieve ``N`` colors directly
+        along well-specified Hue-Chroma-Luminance paths. Thus, this method
+        returns a matplotlib color map with ``n==N`` colors. The linear 
+        interpolation between the colors (as typically done by
+        LinearSegmentedColormap) is not necessary. However, for convenience
+        cmaps have been implemented such that you can easily use hcl based
+        palettes in your existing workflow.
+
+        Parameters
+        ----------
+        n : int
+            number of colors
+        name : str
+            name of the custom color map. Default is ``custom_hcl_cmap``
+
+        Returns
+        -------
+        matplotlib.colors.LinearSegmentedColormap
+            Returns a ``LinearSegmentedColormap`` (cmap) to be used
+            with the matplotlib library.
         '''
         import matplotlib
         from matplotlib.colors import LinearSegmentedColormap
@@ -820,9 +841,7 @@ class hclpalette(object):
             cdict['green'].append( (pos[i], g[j], g[j]) )
             cdict['blue'].append(  (pos[i], b[j], b[j]) )
     
-        if name is None:
-            name = "custom_hcl_cmap"
-        cmap = LinearSegmentedColormap(name, cdict, 256)
+        cmap = LinearSegmentedColormap(name, cdict, n)
         return cmap
 
 

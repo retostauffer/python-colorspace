@@ -1,5 +1,5 @@
-HCL Image Converter
-===================
+Color Vision Deficiency Emulator
+================================
 
 
 A function called `cvd_emulator` allows to ...

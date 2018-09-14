@@ -227,7 +227,7 @@ example:
 	(cd examples && \
 		Rscript -e "rmarkdown::render('example_$$x.Rmd')" && \
 		python prepare_html_output.py example_$$x.html)
-	make html
+	##make html
 
 
 

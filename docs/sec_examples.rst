@@ -10,5 +10,5 @@ Examples
 
     Select Palettes <selectpalette> 
     Transform Colors <examples/transform>
-    HCL Converter <examples/cvd_emulator>
+    CVD Emulator <examples/cvd_emulator>
 
