@@ -607,7 +607,7 @@ class gui(object):
         self._currentpalette = self._add_currentpalettecanvas()
         self._draw_currentpalette()
 
-        self._add_demo_options()
+        self._DEMO           = self._add_demo_options()
         self._add_return_button()
 
         # Adding control checkboxes and radio buttons
@@ -1071,10 +1071,23 @@ class gui(object):
             Currently not enabled (have had some problems with the
             interaction/update).
         """
-        but = Button(self.master(), text = "Demo", command = self._show_demo,
+        but = Button(self.master(), text = "Demo",
+                command = self._show_demo,
                 pady = 5, padx = 5)
-        but.place(x = self.WIDTH - 100, y = self.HEIGHT - 40)
+        but.place(x = self.WIDTH - 70, y = self.HEIGHT - 40)
 
+        # Variable to store current selection
+        opts = ["specplot", "barplot"]
+        demovar = StringVar(self.master())
+        demovar.set(opts[0]) # default value
+
+        # Demo plot option menu. No callback
+        menu = OptionMenu(self.master(), demovar, *opts)
+        menu.config(width = 10, pady = 5, padx = 5)
+        menu.grid(column = 1, row = len(opts))
+        menu.place(x = 180, y = self.HEIGHT - 40)
+
+        return demovar
 
     def _add_return_button(self):
         """_add_return_button()
@@ -1086,7 +1099,7 @@ class gui(object):
 
         but = Button(self.master(), text = "Return to python",
                 command = self._return_to_python, pady = 5, padx = 5)
-        but.place(x = 150, y = self.HEIGHT - 40)
+        but.place(x = 10, y = self.HEIGHT - 40)
 
 
     def _return_to_python(self, *args):
@@ -1162,9 +1175,14 @@ class gui(object):
                 self._demo_Canvas = FigureCanvasTkAgg(self._demo_Figure, master=self._demoTk)
                 self._demo_Canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
 
+            # Getting demo function
+            import demos as demos
+            fun = getattr(demos, self._DEMO.get())
+
             # Update plot
-            from .specplot import specplot
-            specplot(self.get_colors(), fig = self._demo_Figure) #ax = self._demo_Axis)
+            ##from .specplot import specplot
+            ##specplot(self.get_colors(), fig = self._demo_Figure) #ax = self._demo_Axis)
+            fun(self.get_colors(), fig = self._demo_Figure)
             self._demo_Canvas.draw()
             self._demo_Canvas.flush_events()
 
