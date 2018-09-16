@@ -14,3 +14,4 @@ Getting started
   Matplotlib cmaps <examples/cmap>
   In Contrast to R <examples/incontrasttoR>
   Release notes <releasenotes>
+  Checks against R <examples/testingR>

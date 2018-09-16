@@ -30,9 +30,69 @@ pal    = diverging_hcl()  # Initialize object
 colors = pal.colors(11)   # Retrieve colors
 # Plotting a simple color map
 specplot(colors, rgb = False, hcl = False)</code></pre>
-<pre><code>## ['#023FA5' '#5D6CAE' '#8C94BF' '#B3B7CF' '#D2D3DC' '#E2E2E2' '#DDD0D2'
-##  '#D2B0B6' '#C18692' '#AB5468' '#8E063B']</code></pre>
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAABgCAYAAACqnRVJAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAdhwAAHYcBj+XxZQAAADl0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uIDIuMi4zLCBodHRwOi8vbWF0cGxvdGxpYi5vcmcvIxREBQAAA2BJREFUeJzt2D9u2wYYxuGPEiX6j+xszVCgHYpeoUfozTrnUJmzZwjgJSjgJYNly7VEkR1aoOgWThTxPs8JXnwAKf3YVNVYAABAhLaqqn77UE17O/OU//z+y7bedau5ZyzKrz/fVdet556xKD/9uKtu42ZTvP/huratm02x27W1WjVzz1iM/mlfNfguNcXhz8eqvp97xqI8PXyt4Xiae8aifPv8UOe349wzFuXx45fqny/rZq9jX3/0n/4JgKa9rWZzOQGw7brqrgTAFNc3d3UlACbZ7e6q27rZFPf3N7UVTZPc7dpar73PvtepWVWdh7lnLMpmf6jxJACmGG9ua1hf1h+zS3fsruo8+pgxxX61qb65zPeZXyUAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIAIAAACCCAAAAAgiAAAAIIgAAACAIG1V1di/zL3jf45vp3rTJpO8Hpoazuu5ZyzK8/NYp42bTfF0fapt62ZTDOe2Vqtm7hmL0T/tq4Zx7hmLctjvq/p+7hmLsj+81HA8zT1jUZ7f/qrz8Tj3jEU5DKfqx8t6Nl//3dNUlTctAACE+BviRGeXenJIdgAAAABJRU5ErkJggg==" width="384"/></p>
+</div>
+</div>
+<div class="section level2" id="color-transformation">
+<h2>Color Transformation</h2>
+<p>Another difference between the <em>R</em> and the <em>python</em> implementation is the way how colors are transformed between the different color spaces.</p>
+<p>While the <em>R</em> colorspace packge provides a set of coercing functions (<code>as</code>) <em>python</em> objects provide <code>.as(...)</code> methods. The example below shows how a set of HEX colors are transformed to HCL colors and back.</p>
+<div class="section level3" id="in-r-1">
+<h3>In R</h3>
+<pre class="r"><code># Loading the library
+library("colorspace")
+# Prepare a set of 5 colors from the default deverging_hcl palette
+colors &lt;- diverging_hcl(5)
+print(colors)</code></pre>
+<pre><code>## [1] "#023FA5" "#A1A6C8" "#E2E2E2" "#CA9CA4" "#8E063B"</code></pre>
+<pre class="r"><code># Convert to HCL
+HCL &lt;- as(hex2RGB(colors), "polarLUV")
+print(HCL)</code></pre>
+<pre><code>##             L            C           H
+## [1,] 30.11593 80.093435919 259.9636996
+## [2,] 68.76492 28.767127812 260.8507005
+## [3,] 89.88369  0.006909247  94.0993148
+## [4,] 68.76252 28.081877985   0.5009380
+## [5,] 29.90803 79.930834932   0.0292239</code></pre>
+<pre class="r"><code># Convert back to hex
+colors &lt;- hex(as(HCL, "RGB"))
+print(colors)</code></pre>
+<pre><code>## [1] "#023FA5" "#A1A6C8" "#E2E2E2" "#CA9CA4" "#8E063B"</code></pre>
+</div>
+<div class="section level3" id="in-python-1">
+<h3>In python</h3>
+<pre class="python"><code># Loading the module
+from colorspace import diverging_hcl
+# Prepare a set of 5 colors from the default diverging_hcl palette
+colors = diverging_hcl()(5)
+print(colors)
+# Convert to HCL</code></pre>
+<pre><code>## [u'#023FA5', u'#A1A6C8', u'#E2E2E2', u'#CA9CA4', u'#8E063B']</code></pre>
+<pre class="python"><code>from colorspace.colorlib import hexcols
+colors = hexcols(colors)
+colors.to("HCL")
+print(colors)
+# Getting hex colors again by either using the call method
+# or transforming the object back to a "hexcols" object.</code></pre>
+<pre><code>## polarLUV color object (5 colors)
+##            H       C       L
+##   1:  259.96   80.09   30.12
+##       260.85   28.77   68.76
+##        94.10    0.01   89.88
+##         0.50   28.08   68.76
+##         0.03   79.93   29.91</code></pre>
+<pre class="python"><code>print(colors())
+# Transform ...</code></pre>
+<pre><code>## [u'#023FA5', u'#A1A6C8', u'#E2E2E2', u'#CA9CA4', u'#8E063B']</code></pre>
+<pre class="python"><code>colors.to("hex")
+print(colors)</code></pre>
+<pre><code>## hexcols color object (5 colors)
+##         hex_
+##   1: #023FA5
+##      #A1A6C8
+##      #E2E2E2
+##      #CA9CA4
+##      #8E063B</code></pre>
 </div>
 </div>
 </div>

@@ -1,4 +1,12 @@
 
+Gamma handling
+--------------
+
+The colorobjects should maybe have a _gamma attribute
+which is used and can be set when initializing the
+colorobject. Only used hex to sRGB and vice versa, but
+cannot be properly set at the moment.
+
 To be implemented
 -----------------
 

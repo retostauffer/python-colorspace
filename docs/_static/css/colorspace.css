@@ -22,3 +22,37 @@
     color: black;
     /*color: #343131;*/
 }
+
+/* My check elements in the examples */
+check.Rpy {
+    display: block;
+    width: 100%;
+    min-height; 1.2em;
+    background: #f1f3f4;
+    border: 1px solid #c5cdd2;
+    padding: 0;
+    margin: 0 0 1em 0;
+    position: relative;
+    top: -3px;
+    float: none;
+}
+check:before {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 1em;
+}
+check.Rpy.allfine:before {
+    background-color: #7BBE00;
+    text-decoration: inherit;
+    content: "\f00c";
+}
+check.Rpy.failed:before {
+    background-color: #FF7C98;
+    text-decoration: inherit;
+    content: "\f00d";
+}
+

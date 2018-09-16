@@ -1,0 +1,30 @@
+
+
+<div class="container-fluid main-container">
+<!-- tabsets -->
+
+<!-- code folding -->
+<div class="fluid-row" id="header">
+</div>
+<div class="section level2" id="color-palettes">
+<h2>Color Palettes</h2>
+<p>In the R <code>colorspace &lt;https://cran.r-project.org/package=colorspace&gt;</code>_ package the palettes are functions returning a set of hex colors as a character list, the default method how colors are used in R.</p>
+<p>The python colorspace package does it slightly different. Palettes are objects rather than functions which allow to retrieve lists of hex colors using the <code>colors()</code> method but also provide additiona methods which allow to use the palettes for plotting in python.</p>
+<div class="section level3" id="comparing-default-color-palettes">
+<h3>Comparing default color palettes</h3>
+<pre><code>## Loading required package: methods</code></pre>
+ <check class="Rpy allfine">R/py: Compare diverging_hcl</check>
+ <check class="Rpy allfine">R/py: Compare sequential_hcl</check>
+ <check class="Rpy allfine">R/py: Compare diverging_hcl</check>
+</div>
+<div class="section level3" id="color-transformation">
+<h3>Color transformation</h3>
+ <check class="Rpy allfine">R/py: colortransform, hue dimension</check>
+ <check class="Rpy allfine">R/py: colortransform, chroma dimension</check>
+ <check class="Rpy allfine">R/py: colortransform, luminance dimension</check>
+ <check class="Rpy allfine">R/py: colortransform, HCL -> hex</check>
+</div>
+</div>
+</div>
+
+

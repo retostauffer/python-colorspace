@@ -40,3 +40,58 @@ colors = pal.colors(11)   # Retrieve colors
 specplot(colors, rgb = False, hcl = False)
 ```
 
+
+Color Transformation
+--------------------
+
+Another difference between the _R_ and the _python_ implementation
+is the way how colors are transformed between the different color
+spaces.
+
+While the _R_ colorspace packge provides a set of coercing functions (`as`)
+_python_ objects provide `.as(...)` methods. The example below shows how
+a set of HEX colors are transformed to HCL colors and back.
+
+
+### In R
+
+```{r, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+# Loading the library
+library("colorspace")
+# Prepare a set of 5 colors from the default deverging_hcl palette
+colors <- diverging_hcl(5)
+print(colors)
+# Convert to HCL
+HCL <- as(hex2RGB(colors), "polarLUV")
+print(HCL)
+# Convert back to hex
+colors <- hex(as(HCL, "RGB"))
+print(colors)
+```
+
+### In python
+
+```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+# Loading the module
+from colorspace import diverging_hcl
+# Prepare a set of 5 colors from the default diverging_hcl palette
+colors = diverging_hcl()(5)
+print(colors)
+# Convert to HCL
+from colorspace.colorlib import hexcols
+colors = hexcols(colors)
+colors.to("HCL")
+print(colors)
+# Getting hex colors again by either using the call method
+# or transforming the object back to a "hexcols" object.
+print(colors())
+# Transform ...
+colors.to("hex")
+print(colors)
+```
+
+
+
+
+
+
