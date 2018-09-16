@@ -7,11 +7,30 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2018-09-15, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2018-09-16 19:08 on marvin
+# - L@ST MODIFIED: 2018-09-16 20:15 on marvin
 # -------------------------------------------------------------------
 
 
 def Bar(colors, fig = None):
+    """Matrix(colors, fig = None)
+
+    Plotting example.
+
+    Parameters
+    ----------
+    clors : list
+        list of hex colors.
+    fig : None or a matplotlib.pyplot.figure object
+        if None, a figure will be initialized internally. If input ``fig`` is
+        already a figure object the data will be plotted using this data handler.
+
+    Returns
+    -------
+    None or a same as input ``fig``
+        If input ``fig = None`` nothing will be returned, else the input figure
+        handler will be returned at the end containing a new axis object with
+        the demo plot.
+    """
 
     import matplotlib.pyplot as plt
     import numpy as np
@@ -51,6 +70,25 @@ def Bar(colors, fig = None):
 
 
 def Pie(colors, fig = None):
+    """Matrix(colors, fig = None)
+
+    Plotting example.
+
+    Parameters
+    ----------
+    clors : list
+        list of hex colors.
+    fig : None or a matplotlib.pyplot.figure object
+        if None, a figure will be initialized internally. If input ``fig`` is
+        already a figure object the data will be plotted using this data handler.
+
+    Returns
+    -------
+    None or a same as input ``fig``
+        If input ``fig = None`` nothing will be returned, else the input figure
+        handler will be returned at the end containing a new axis object with
+        the demo plot.
+    """
 
     import matplotlib.pyplot as plt
     import numpy as np
@@ -75,7 +113,27 @@ def Pie(colors, fig = None):
     if not showfig:  return fig
     else:            fig.show()
 
+
 def Spine(colors, fig = None):
+    """Matrix(colors, fig = None)
+
+    Plotting example.
+
+    Parameters
+    ----------
+    clors : list
+        list of hex colors.
+    fig : None or a matplotlib.pyplot.figure object
+        if None, a figure will be initialized internally. If input ``fig`` is
+        already a figure object the data will be plotted using this data handler.
+
+    Returns
+    -------
+    None or a same as input ``fig``
+        If input ``fig = None`` nothing will be returned, else the input figure
+        handler will be returned at the end containing a new axis object with
+        the demo plot.
+    """
 
     import matplotlib.pyplot as plt
     from matplotlib.patches import Rectangle
@@ -118,12 +176,39 @@ def Spine(colors, fig = None):
     else:            fig.show()
 
 
-def Matrix(colors, fig = None):
+def Heatmap(colors, fig = None):
+    """Heatmap(colors, fig = None)
+
+    Plotting example.
+
+    Parameters
+    ----------
+    clors : list
+        list of hex colors.
+    fig : None or a matplotlib.pyplot.figure object
+        if None, a figure will be initialized internally. If input ``fig`` is
+        already a figure object the data will be plotted using this data handler.
+
+    Returns
+    -------
+    None or a same as input ``fig``
+        If input ``fig = None`` nothing will be returned, else the input figure
+        handler will be returned at the end containing a new axis object with
+        the demo plot.
+
+    Dataset source: Digitized from a topographic map by Ross Ihaka. These data
+    should not be regarded as accurate.
+
+    Dataset description: Maunga Whau (Mt Eden) is one of about 50
+    volcanos in the Auckland volcanic field. This data set gives topographic
+    information for Maunga Whau on a 10m by 10m grid.  A matrix with 87 rows
+    and 61 columns, rows corresponding to grid lines running east to west and
+    columns to grid lines running south to north.
+    Source
+    """
 
     import matplotlib.pyplot as plt
-    from matplotlib.patches import Rectangle
     import numpy as np
-
     
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
@@ -133,26 +218,105 @@ def Matrix(colors, fig = None):
     else:
         showfig = False
 
-    # Get random data
-    np.random.seed(1)
-    x = np.random.uniform(0., float(len(colors)), 100)
-    x = np.floor(x)
+    # Create custom cmap
+    from matplotlib.colors import LinearSegmentedColormap
+    from .colorlib import hexcols
+    # Get coordinates
+    cobj = hexcols(colors)
+    cobj.to("sRGB")
+    r = cobj.get("R"); g = cobj.get("G"); b = cobj.get("B")
+    
+    # Create cmap
+    pos = np.linspace(0, 1, len(colors), dtype = float)
+    cdict = {'red':[], 'green':[], 'blue':[]}
+    for i in range(0, len(colors)):
+        cdict['red'].append(   (pos[i], r[i], r[i]) )
+        cdict['green'].append( (pos[i], g[i], g[i]) )
+        cdict['blue'].append(  (pos[i], b[i], b[i]) )
+    cmap = LinearSegmentedColormap("custom", cdict, len(colors))
 
+    # Loading vulcano
+    import os
+    resource_package = os.path.dirname(__file__)
+    volcano = os.path.join(resource_package, "..", "data", "volcano.dat")
+
+    data = []
+    with open(volcano, "r") as fid:
+        for line in fid.readlines():
+            data.append([int(x) for x in line.split()])
+
+    # Plotting
     ax = plt.subplot2grid((1, 1), (0, 0))
-    for i in range(0, 10):
-        for j in range(0, 10):
-            rect = Rectangle((i / 10.,j / 10.), 0.1, 0.1,
-                             color = colors[int(x[i + 10*j])])
-            ax.add_patch(rect)
-
-    # Plot
+    ax.imshow(data, cmap = cmap)
     plt.axis("off")
     plt.tight_layout()
 
-    if not showfig:
-        return fig
+    if not showfig: return fig
+    else:           fig.show()
+
+
+
+def Matrix(colors, fig = None):
+    """Matrix(colors, fig = None)
+
+    Plotting example.
+
+    Parameters
+    ----------
+    clors : list
+        list of hex colors.
+    fig : None or a matplotlib.pyplot.figure object
+        if None, a figure will be initialized internally. If input ``fig`` is
+        already a figure object the data will be plotted using this data handler.
+
+    Returns
+    -------
+    None or a same as input ``fig``
+        If input ``fig = None`` nothing will be returned, else the input figure
+        handler will be returned at the end containing a new axis object with
+        the demo plot.
+    """
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    # Open figure if input "fig" is None, else use
+    # input "fig" handler.
+    if fig is None:
+        fig = plt.figure()
+        showfig = True
     else:
-        fig.show()
+        showfig = False
+
+    # Create custom cmap
+    from matplotlib.colors import LinearSegmentedColormap
+    from .colorlib import hexcols
+    # Get coordinates
+    cobj = hexcols(colors)
+    cobj.to("sRGB")
+    r = cobj.get("R"); g = cobj.get("G"); b = cobj.get("B")
+    
+    # Create cmap
+    pos = np.linspace(0, 1, len(colors), dtype = float)
+    cdict = {'red':[], 'green':[], 'blue':[]}
+    for i in range(0, len(colors)):
+        cdict['red'].append(   (pos[i], r[i], r[i]) )
+        cdict['green'].append( (pos[i], g[i], g[i]) )
+        cdict['blue'].append(  (pos[i], b[i], b[i]) )
+    cmap = LinearSegmentedColormap("custom", cdict, len(colors))
+
+    # Get random data
+    np.random.seed(1)
+    data = np.random.uniform(0., float(len(colors)), 100).reshape((10,10))
+
+    # Plotting
+    ax = plt.subplot2grid((1, 1), (0, 0))
+    ax.imshow(data, cmap = cmap)
+    plt.axis("off")
+    plt.tight_layout()
+
+    if not showfig: return fig
+    else:           fig.show()
 
 #def Scatter(colors, fig = None):
 #
@@ -184,6 +348,25 @@ def Matrix(colors, fig = None):
 #    else:            fig.show()
 
 def Lines(colors, fig = None):
+    """Matrix(colors, fig = None)
+
+    Plotting example.
+
+    Parameters
+    ----------
+    clors : list
+        list of hex colors.
+    fig : None or a matplotlib.pyplot.figure object
+        if None, a figure will be initialized internally. If input ``fig`` is
+        already a figure object the data will be plotted using this data handler.
+
+    Returns
+    -------
+    None or a same as input ``fig``
+        If input ``fig = None`` nothing will be returned, else the input figure
+        handler will be returned at the end containing a new axis object with
+        the demo plot.
+    """
 
     import matplotlib.pyplot as plt
     import numpy as np
@@ -222,6 +405,25 @@ def Lines(colors, fig = None):
 
 
 def Spectrum(*args, **kwargs):
+    """Matrix(colors, fig = None)
+
+    Plotting example. Simply interfaces the specplot function.
+
+    Parameters
+    ----------
+    clors : list
+        list of hex colors.
+    fig : None or a matplotlib.pyplot.figure object
+        if None, a figure will be initialized internally. If input ``fig`` is
+        already a figure object the data will be plotted using this data handler.
+
+    Returns
+    -------
+    None or a same as input ``fig``
+        If input ``fig = None`` nothing will be returned, else the input figure
+        handler will be returned at the end containing a new axis object with
+        the demo plot.
+    """
 
     from colorspace import specplot
     specplot(*args, **kwargs)
