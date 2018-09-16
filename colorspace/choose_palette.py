@@ -1077,7 +1077,7 @@ class gui(object):
         but.place(x = self.WIDTH - 70, y = self.HEIGHT - 40)
 
         # Variable to store current selection
-        opts = ["specplot", "barplot"]
+        opts = ["Bar", "Pie", "Spine", "Matrix", "Lines", "Spectrum"]
         demovar = StringVar(self.master())
         demovar.set(opts[0]) # default value
 
