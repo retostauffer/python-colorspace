@@ -63,8 +63,6 @@ image_Lconst = convert(image, "Lconst")
 image_fakecolor = convert(image, "fakecolor")
 ```
 
-As an example, the picture below shows a juicy and delicious apple.
-Our visual system needs a fraction of second to identify the object.
 
 ```{r, engine = "python", echo = FALSE, fig = TRUE, fig.width = 3, fig.height = 2.8}
 fig = plt.figure()
@@ -76,24 +74,25 @@ plt.subplots_adjust(left = 0.02, right = 0.98, top = 0.98, bottom = 0.02)
 plt.show()
 ```
 
-The plot below shows the very same picture again but the color information has been
-modified. The left apple has no color at all (the chroma of all pixels is set to 0),
+The plot below shows the very same picture again but with modified color information.
+The left apple has no color at all (the chroma of all pixels is set to 0),
 the apple on the right hand side is blue instead of red - something which does not
-exist in nature. However, it is still easy to identify the object as an apple.
+exist in nature. However, our visual system is still capable of identifying the
+object within a few hundreds of a second.
 
-One reason is that our visual system (eye-brain) is very efficient to identify
-smallest changes in luminance (the lightness/darkness of a color). Our eye 
-consists of different photo-reactive cells, so called cone cells and rod cells.
-Three different types of cone cells allow our visual system to distinguish between
-different colors and are only concentrated in a very small area in the center of our
-retina. The rod cells are about 5 to 6 times more common and are placed on a larger
-area around the center of our retina.
-Rod cells are only sensitive to the intensity of light which allows us to identify
-smallest differences in luminance.
-
-The luminance information is gives us an impression of the shape of the object which
-allows us to quickly identify an object. The luminance information in both images
-below is maintained which makes it easy to identify the object.
+One reason is that our visual system is very efficient processing smallest
+differences in luminance. Our retina consists of about 5 to 6 times more
+cone than rod cells which are very sensitive to intensity of an object.
+The rod cells, which are responsible to distinguish between different colors,
+are much less common and only concentrated in a relatively small are in the center
+of the retina and is used to add additional attributes to the objects we see.
+However, large parts of the information is gathered via luminance.
+Our brain converts the luminance information an impression of a shape of the object,
+in this case "an apple". Even without color (left image) or with unnatural color
+attributes (right image) we can still easily identify the apple. 
+The color on top is used as an additional attribute to check if the apple
+is mellow and sweet, bitter, or might even be poisonous but is not really
+necessary identify the apple itself.
 
 
 ```{r, engine = "python", echo = FALSE, fig = TRUE, fig.width = 6, fig.height = 3.5}
@@ -108,9 +107,9 @@ plt.axis("off")
 plt.show()
 ```
 
-The next image shows the same apple again, but the luminance is held constant.
-Thus, it is getting very difficult to capture the actual shape of the object and
-to extract the important information from the image.
+The next image shows the same apple again, but the luminance is set constant.
+Thus, we have to classify the object solely based on the color and the colorfulness
+which is rather tricky.
 
 
 ```{r, engine = "python", echo = FALSE, fig = TRUE, fig.width = 3, fig.height = 2.8}

@@ -23,7 +23,7 @@ Version 0.1.0 (September 17, 2018)
 **Early beta release**.
 
 A wide range of methods are already implemented and roughly
-tested. I've decided to launch it as an _early beta release_
+tested. I've decided to launch it as an early beta release
 to get some feedback from those who use python more frequently
 than I do! Feel free to report bugs, ideas, or even contribute.
 

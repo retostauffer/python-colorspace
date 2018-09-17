@@ -6,8 +6,10 @@
 Default Palettes
 ================
 
-Diverging
----------
+.. _diverging-color-palettes:
+
+Diverging HCL palettes
+----------------------
 
 .. raw:: html
     :file: examples/example_pal_diverging.html
