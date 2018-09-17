@@ -1,0 +1,128 @@
+---
+## Run with  Rscript -e "rmarkdown::render('file.Rmd')"
+output:
+  html_document:
+      mathjax: NULL
+---
+
+
+```{r, engine = "python", echo = FALSE}
+import matplotlib.pyplot as plt
+plt.close("all")
+import imageio
+
+# Reading the apple
+file  = "example_apple.png"
+image = imageio.imread(file)
+
+def convert(x, what):
+    from copy import copy
+    x = copy(x)
+    r = x[:,:,0].flatten() / 255.
+    g = x[:,:,1].flatten() / 255.
+    b = x[:,:,2].flatten() / 255.
+
+    from colorspace.colorlib import sRGB
+    from colorspace import desaturate
+    import numpy as np
+    cols = sRGB(r, g, b)
+    if what == "desaturate":
+        cols = desaturate(cols)
+    elif what == "Cconst":
+        cols.to("HCL")
+        C = cols.get("C")
+        # Correcting Chroma
+        C[np.where(np.logical_and(C > 10, cols.get("L") > 20))] = 40.
+        cols.set(C = C)
+        cols.to("sRGB")
+    elif what == "Lconst":
+        cols.to("HCL")
+        L = cols.get("L")
+        # Correcting Chroma
+        cols.set(L = np.repeat(60, len(cols.get("L"))))
+        cols.to("sRGB")
+    elif what == "fakecolor":
+        R = cols.get("R")
+        G = cols.get("G")
+        B = cols.get("B")
+        cols.set(R = G, G = B, B = R)
+    else:
+        raise ValueError("don't know what to do for {:s}".format(what))
+
+    # Write to image and return
+    x[:,:,0] = cols.get("R").reshape(image.shape[0:2]) * 255.
+    x[:,:,1] = cols.get("G").reshape(image.shape[0:2]) * 255.
+    x[:,:,2] = cols.get("B").reshape(image.shape[0:2]) * 255.
+    return x
+
+# Create desaturated apple and a version with constant
+# chroma. The last one is a rainbow thing.
+image_desat = convert(image, "desaturate")
+image_Cconst = convert(image, "Cconst")
+image_Lconst = convert(image, "Lconst")
+image_fakecolor = convert(image, "fakecolor")
+```
+
+As an example, the picture below shows a juicy and delicious apple.
+Our visual system needs a fraction of second to identify the object.
+
+```{r, engine = "python", echo = FALSE, fig = TRUE, fig.width = 3, fig.height = 2.8}
+fig = plt.figure()
+ax  = fig.add_subplot(111)
+ax.imshow(image)
+plt.axis("off")
+
+plt.subplots_adjust(left = 0.02, right = 0.98, top = 0.98, bottom = 0.02)
+plt.show()
+```
+
+The plot below shows the very same picture again but the color information has been
+modified. The left apple has no color at all (the chroma of all pixels is set to 0),
+the apple on the right hand side is blue instead of red - something which does not
+exist in nature. However, it is still easy to identify the object as an apple.
+
+One reason is that our visual system (eye-brain) is very efficient to identify
+smallest changes in luminance (the lightness/darkness of a color). Our eye 
+consists of different photo-reactive cells, so called cone cells and rod cells.
+Three different types of cone cells allow our visual system to distinguish between
+different colors and are only concentrated in a very small area in the center of our
+retina. The rod cells are about 5 to 6 times more common and are placed on a larger
+area around the center of our retina.
+Rod cells are only sensitive to the intensity of light which allows us to identify
+smallest differences in luminance.
+
+The luminance information is gives us an impression of the shape of the object which
+allows us to quickly identify an object. The luminance information in both images
+below is maintained which makes it easy to identify the object.
+
+
+```{r, engine = "python", echo = FALSE, fig = TRUE, fig.width = 6, fig.height = 3.5}
+fig = plt.figure()
+ax  = fig.add_subplot(121)
+ax.imshow(image_desat)
+ax.axis("off")
+
+ax  = fig.add_subplot(122)
+ax.imshow(image_fakecolor)
+plt.axis("off")
+plt.show()
+```
+
+The next image shows the same apple again, but the luminance is held constant.
+Thus, it is getting very difficult to capture the actual shape of the object and
+to extract the important information from the image.
+
+
+```{r, engine = "python", echo = FALSE, fig = TRUE, fig.width = 3, fig.height = 2.8}
+fig = plt.figure()
+ax  = fig.add_subplot(111)
+ax.imshow(image_Lconst)
+plt.axis("off")
+
+plt.subplots_adjust(left = 0.02, right = 0.98, top = 0.98, bottom = 0.02)
+plt.show()
+```
+
+
+
+

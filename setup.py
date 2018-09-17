@@ -8,7 +8,7 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2017-02-05, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2018-09-07 12:06 on marvin
+# - L@ST MODIFIED: 2018-09-17 15:53 on marvin
 # -------------------------------------------------------------------
 
 
@@ -16,7 +16,7 @@
 from setuptools import setup
 
 setup(name="colorspace",     # This is the package name
-      version = "0.0.1",            # Current package version, what else
+      version = "0.1.0",            # Current package version, what else
       description = "Color space package for python",
       long_description = "Provides a set of color transformation functions and an interface to chose efficient color maps based on the HCL color space. This package is inspired and based on the R package 'colorspace'.",
       classifiers = [

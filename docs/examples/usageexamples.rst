@@ -2,5 +2,6 @@ Usage Examples
 =================
 
 
-To be done.
+.. note::
+    To be done ...
 

@@ -1849,6 +1849,25 @@ class colorobject(object):
             specplot(cols.colors(), **kwargs)
 
 
+    def swatchplot(self):
+        """swatchplot(n = 7)
+
+        Interfacing the :py:func:`swatchplot.swatchplot` function.
+        Plotting the spectrum of the current color palette.
+
+        Examples
+        --------
+        >>> from colorspace.colorlib import HCL
+        >>> cols = HCL(H = [160, 210, 260, 310, 360],
+        >>>    C = [ 70,  40,  10,  40,  70],
+        >>>    L = [ 50,  70,  90,  70,  50])
+        >>> cols.swatchplot()
+        """
+
+        from .swatchplot import swatchplot
+        swatchplot(self.colors())
+
+
     def colors(self, fixup = True, rev = False):
         """colors(fixup = True)
         

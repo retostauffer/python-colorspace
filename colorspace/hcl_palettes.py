@@ -126,6 +126,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None):
     if not plot:
         return pals
     else:
+        from .swatchplot import swatchplot
         swatchplot(pals, n = n)
         return
 

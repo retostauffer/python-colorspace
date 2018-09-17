@@ -19,20 +19,25 @@ class palette(object):
             raise ValueError("argument name to {:s} ".format(self.__class__.__name__) + \
                     "has to be a string")
         self._name = name
+
     def __repr__(self):
         str = "Palette Name: {:s}\n".format(self.name()) + \
               "       Type: Custom palette\n" + \
               "       Number of colors: {:d}\n".format(len(self.colors()))
         return str
+
     def rename(self, name):
         if not isinstance(name, str):
             raise ValueError("argument name to {:s}.rename ".format(self.__class__.__name__) + \
                     "has to be a string")
         self._name = name
+
     def name(self):
         return self._name
+
     def colors(self, *args, **kwargs):
-        return self._colors
+        return [str(x) for x in self._colors]
+
     # Check if all values are valid hex colors
     def _valid_hex(self, colors):
         from re import match, compile
@@ -274,7 +279,7 @@ class defaultpalette(object):
                 del args[dim2]
 
         pal = cfun(**args)
-        return pal.colors(n, fixup = True)
+        return [str(x) for x in pal.colors(n, fixup = True)]
 
 
 
@@ -541,6 +546,29 @@ class hclpalette(object):
         specplot(self.colors(n), *args, **kwargs)
 
         return
+
+    def swatchplot(self, n = 7, *args, **kwargs):
+        """swatchplot(n = 7)
+
+        Interfacing the :py:func:`swatchplot.swatchplot` function.
+        Plotting the spectrum of the current color palette.
+
+        Parameters
+        ----------
+        n : int
+            number of colors.
+
+        Examples
+        --------
+        >>> from colorspace import diverging_hcl
+        >>> pal = diverging_hcl()
+        >>> pal.swatchplot()
+        >>> pal.swatchplot(n = 21)
+        """
+
+        from .swatchplot import swatchplot
+        swatchplot(self.colors(n))
+
 
     def name(self):
         """name()
@@ -1010,7 +1038,7 @@ class qualitative_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return HCL.colors(fixup = fixup, rev = rev)
+        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
 
 
 # -------------------------------------------------------------------
@@ -1296,7 +1324,7 @@ class diverging_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return HCL.colors(fixup = fixup, rev = rev)
+        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
 
 
 
@@ -1505,7 +1533,7 @@ class sequential_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return HCL.colors(fixup = fixup, rev = rev)
+        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
 
 
 # -------------------------------------------------------------------
@@ -1797,7 +1825,7 @@ class diverging_hsv(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return HSV.colors(fixup = fixup, rev = rev)
+        return [str(x) for x in HSV.colors(fixup = fixup, rev = rev)]
 
 
 

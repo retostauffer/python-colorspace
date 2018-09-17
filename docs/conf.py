@@ -47,6 +47,7 @@ extlinks = {'issue': ('https://github.com/retostauffer/python-colorspace/issues/
 
 def setup(app):
     app.add_stylesheet('css/colorspace.css')    
+    app.add_javascript('js/colorspace.js')
 
 html_context = {
     'css_files': ['_static/css/colorspace.css'],

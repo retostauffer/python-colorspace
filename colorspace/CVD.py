@@ -202,9 +202,9 @@ class CVD(object):
             cols = list(cols)
             from numpy import all, isnan
             from re import match, compile
-            pat = compile(u"^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
+            pat = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
             def fun(x, pat):
-                if isinstance(x, (str, unicode)):
+                if isinstance(x, (str)):
                     if match(pat,x):  return True
                 elif isnan(x):        return True
                 return False

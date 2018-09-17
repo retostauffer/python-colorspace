@@ -19,25 +19,25 @@ palettes for plotting in python.
 
 ### In R
 
-```{r, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+```{r, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 7}
 # Loading the library
 library("colorspace")
 # Loading a set of 11 colors
 colors <- diverging_hcl(11)
 # Plotting a simple color map
 par(mar = rep(0,4))
-image(matrix(1:11, ncol = 1), col = colors)
+swatchplot(colors)
 ```
 
 ### In python
 
-```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 7}
 # Loading the module
-from colorspace import diverging_hcl, specplot
+from colorspace import diverging_hcl, swatchplot
 pal    = diverging_hcl()  # Initialize object
 colors = pal.colors(11)   # Retrieve colors
 # Plotting a simple color map
-specplot(colors, rgb = False, hcl = False)
+swatchplot(colors)
 ```
 
 
@@ -55,7 +55,7 @@ a set of HEX colors are transformed to HCL colors and back.
 
 ### In R
 
-```{r, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+```{r, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 7}
 # Loading the library
 library("colorspace")
 # Prepare a set of 5 colors from the default deverging_hcl palette
@@ -71,7 +71,7 @@ print(colors)
 
 ### In python
 
-```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 4}
+```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 7}
 # Loading the module
 from colorspace import diverging_hcl
 # Prepare a set of 5 colors from the default diverging_hcl palette

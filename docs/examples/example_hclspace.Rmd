@@ -1,0 +1,18 @@
+---
+## Run with  Rscript -e "rmarkdown::render('file.Rmd')"
+output:
+  html_document:
+      mathjax: NULL
+---
+
+
+```{r, engine = "python", echo = FALSE, fig = TRUE, fig.width = 7, fig.height = 3}
+from numpy import linspace, repeat
+from colorspace.colorlib import HCL
+from colorspace import palette, swatchplot
+H = palette(HCL(linspace(0, 360, 7), repeat(60, 7), repeat(60, 7))(), "Hue")
+C = palette(HCL(repeat(0, 7), linspace(0, 100, 7), repeat(60, 7))(), "Chroma")
+L = palette(HCL(repeat(0, 7), repeat(0, 7), linspace(0, 100, 7))(), "Luminance")
+# Swatchplot, once unnamed (no title), once named (title will be shown) 
+swatchplot({"HCL Dimensions": [H, C, L]})
+```

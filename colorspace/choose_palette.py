@@ -501,7 +501,7 @@ def choose_palette(**kwargs):
                                          tuple(defaults),
                                          method.__init__.__closure__)
 
-    return method
+    return method()
 
 
 # -------------------------------------------------------------------
