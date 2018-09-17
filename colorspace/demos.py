@@ -7,7 +7,7 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2018-09-15, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2018-09-17 07:59 on marvin
+# - L@ST MODIFIED: 2018-09-17 16:30 on marvin
 # -------------------------------------------------------------------
 
 
@@ -238,7 +238,7 @@ def Heatmap(colors, fig = None):
     # Loading vulcano
     import os
     resource_package = os.path.dirname(__file__)
-    volcano = os.path.join(resource_package, "..", "data", "volcano.dat")
+    volcano = os.path.join(resource_package, "data", "volcano.dat")
 
     data = []
     with open(volcano, "r") as fid:

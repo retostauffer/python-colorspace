@@ -68,7 +68,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     # If image = "DEMO": use package demo image.
     if image == "DEMO":
         resource_package = os.path.dirname(__file__)
-        image = os.path.join(resource_package, "..", "data", "colorful.png")
+        image = os.path.join(resource_package, "data", "colorful.png")
 
     # Check if file exists
     if not os.path.isfile(image):
