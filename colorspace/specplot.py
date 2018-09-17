@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs):
+def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs):
     """specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     
     Visualization of the RGB and HCL spectrum given a set of hex colors.
@@ -18,8 +18,6 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     ----------
     hex_ : list or numpy.ndarray
         hex color codes.
-    rgb : bool
-        whether or not to plot the RGB color spectrum.
     hcl : bool
         whether or not to plot the HCL color spectrum.
     palette : bool
@@ -27,6 +25,8 @@ def specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
     fix : bool
         should the hues be fixed to be on a smooth(er) curve? Details
         in the method description.
+    rgb : bool
+        whether or not to plot the RGB color spectrum. Default is False.
     kwargs : ...
         Currently not used.
 

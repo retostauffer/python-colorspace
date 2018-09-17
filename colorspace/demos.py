@@ -7,7 +7,7 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2018-09-15, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2018-09-16 20:15 on marvin
+# - L@ST MODIFIED: 2018-09-17 07:59 on marvin
 # -------------------------------------------------------------------
 
 
@@ -426,5 +426,5 @@ def Spectrum(*args, **kwargs):
     """
 
     from colorspace import specplot
-    specplot(*args, **kwargs)
+    specplot(rgb = True, *args, **kwargs)
 
