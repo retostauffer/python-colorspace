@@ -1,9 +1,9 @@
 
 
 include colorspace/palconfig/diverging.conf
-include colorspace/palconfig/sequential_multi.conf
+include colorspace/palconfig/sequential.conf
 include colorspace/palconfig/qualitative.conf
-include colorspace/palconfig/sequential_single.conf
+include colorspace/palconfig/sequential.conf
 
 include colorspace/data/colorful.jpeg
 include colorspace/data/volcano.dat
