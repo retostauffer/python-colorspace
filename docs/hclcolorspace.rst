@@ -85,7 +85,7 @@ the object as what it is.
 .. raw:: html
     :file: examples/example_apple.html
 
-This simple example illustrates how wrong or missing luminance information
+This simple example illustrates how false or missing luminance information
 can quickly obscure the information of a figure or graph.
 Even with additional attributes on top (hue/chroma) the underlying luminance
 information is processed by our visual system and helps us to gather the
