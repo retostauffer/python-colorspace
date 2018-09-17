@@ -1114,9 +1114,7 @@ class gui(object):
         # Destroy the demo figure if not already closed
         try:
             import matplotlib.pyplot as plt
-            ##plt.close(self._demo_Figure)
-            # Hmmm ... what if the user has some other windows open?
-            plt.close("all")
+            plt.close(self._demo_Figure)
         except:
             pass
         # Close demo window if not already closed
@@ -1182,11 +1180,12 @@ class gui(object):
             import matplotlib.pyplot as plt
 
             # Initialize plot
+            if not hasattr(self, "_demo_Figure"):
+                self._demo_Figure = plt.figure()
             if not update:
                 self._demoTk = Tk()
                 self._demoTk.protocol("WM_DELETE_WINDOW", self._close_demo) #demoTk.destroy)
                 self._demoTk.wm_title("colorspace demoplot")
-                self._demo_Figure = plt.figure()
                 self._demo_Axis   = self._demo_Figure.add_subplot(211)
                 self._demo_Canvas = FigureCanvasTkAgg(self._demo_Figure, master=self._demoTk)
                 self._demo_Canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
@@ -1215,7 +1214,8 @@ class gui(object):
 
     def _close_demo(self):
 
-        self._demoTk.destroy(); self._demoTk = None
+        import matplotlib.pyplot as plt
+        self._demoTk.destroy();       self._demoTk = None
 
 
 
