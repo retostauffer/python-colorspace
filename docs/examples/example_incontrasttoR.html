@@ -8,8 +8,8 @@
 </div>
 <div class="section level2" id="color-palettes">
 <h2>Color Palettes</h2>
-<p>In the R <code>colorspace &lt;https://cran.r-project.org/package=colorspace&gt;</code>_ package the palettes are functions returning a set of hex colors as a character list, the default method how colors are used in R.</p>
-<p>The python colorspace package does it slightly different. Palettes are objects rather than functions which allow to retrieve lists of hex colors using the <code>colors()</code> method but also provide additiona methods which allow to use the palettes for plotting in python.</p>
+<p>In R, the color palettes themselfes are functions returning a set of hex colors as a character vector, the default method to use colors in R.</p>
+<p>The python colorspace package it handling it slightly different. Palettes are objects rather than functions and allow to retrieve lists of hex colors using the <code>colors()</code> method or the default object call, but also provide additional methods to inspect and/or manipulate the color palettes.</p>
 <div class="section level3" id="in-r">
 <h3>In R</h3>
 <pre class="r"><code># Loading the library
@@ -26,17 +26,23 @@ swatchplot(colors)</code></pre>
 <h3>In python</h3>
 <pre class="python"><code># Loading the module
 from colorspace import diverging_hcl, swatchplot
-pal    = diverging_hcl()  # Initialize object
-colors = pal.colors(11)   # Retrieve colors
+# Initialize the diverging_hcl object with default arguments,
+# by default it is the "Blue-Red" diverging color palette.
+pal    = diverging_hcl()
+# Draw a set of 11 unique colors from the diverging palette.
+colors = pal.colors(11)
 # Plotting a simple color map
-swatchplot(colors)</code></pre>
+swatchplot(colors)
+# Or simply:</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAABgCAYAAADcktiqAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAdhwAAHYcBj+XxZQAAADl0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uIDIuMi4zLCBodHRwOi8vbWF0cGxvdGxpYi5vcmcvIxREBQAABHBJREFUeJzt3L1qFFEAhuHJ/swkRDFCBIWA4BaaQqy8FgvvxDvwRrwAL8RGSBpjkyZIECEIu7PZHSvtN+zJST6fpx/mg1MM8+7PzjAMQwMAAAAAEGhUewAAAAAAQCkCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxJpsesHZ2VnT932JLQAAAADAf6Rt22Y2mxW9x8YBtO/7Zj6fl9gCAAAAALBVGwfQv/rrdXN+udzmFu6Ag26n9gQK6Lpx7QkU0rXONtV04l9qEo3HnrOphtWq9gQKWPfed1KtFn7VmGg1X9SeQCHLK2ebaO/osBm101u5140D6Pnlsnn38fs2t3AHvH+9V3sCBbx59bj2BAp5OTuoPYFCnh89qD2BAg4etbUnUMjy56/aEyjg98VF7QkUcnXyrfYECvjx5aT2BAo5//y19gQKePvpQ7P/4tmt3MvXSwAAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAEAsARQAAAAAiCWAAgAAAACxBFAAAAAAIJYACgAAAADEEkABAAAAgFgCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxBJAAQAAAIBYAigAAAAAEEsABQAAAABiCaAAAAAAQCwBFAAAAACIJYACAAAAALEEUAAAAAAglgAKAAAAAMQSQAEAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAEAsARQAAAAAiCWAAgAAAACxBFAAAAAAIJYACgAAAADEEkABAAAAgFgCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxBJAAQAAAIBYAigAAAAAEEsABQAAAABiCaAAAAAAQCwBFAAAAACIJYACAAAAALEEUAAAAAAglgAKAAAAAMQSQAEAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAEAsARQAAAAAiCWAAgAAAACxBFAAAAAAIJYACgAAAADEEkABAAAAgFgCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxBJAAQAAAIBYAigAAAAAEEsABQAAAABiCaAAAAAAQCwBFAAAAACIJYACAAAAALEEUAAAAAAglgAKAAAAAMTaGYZh2OSC09PTZj6fN/31ujm/XJbaRSUH3U7tCRTQdePaEyika51tqunEZ5SJxmPP2VTDalV7AgWse+87qVaLvvYECljNF7UnUMjyytkm2js6bEbttNnd3W2Oj4+L3mty0wvbyaiZPe22uQUA+GddewAFaGRwz7TT2gsoZOxsI40f7teeQCHtk9oLuO82DqBt25bYAQAAAAD8Z26jNW78E3gAAAAAgPvCH4wBAAAAALEEUAAAAAAglgAKAAAAAMQSQAEAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAECsP/YrYWiwD9fIAAAAAElFTkSuQmCC" width="672"/></p>
+<pre class="python"><code>pal.swatchplot(11)</code></pre>
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAABgCAYAAADcktiqAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAdhwAAHYcBj+XxZQAAADl0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uIDIuMi4zLCBodHRwOi8vbWF0cGxvdGxpYi5vcmcvIxREBQAABHBJREFUeJzt3L1qFFEAhuHJ/swkRDFCBIWA4BaaQqy8FgvvxDvwRrwAL8RGSBpjkyZIECEIu7PZHSvtN+zJST6fpx/mg1MM8+7PzjAMQwMAAAAAEGhUewAAAAAAQCkCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxJpsesHZ2VnT932JLQAAAADAf6Rt22Y2mxW9x8YBtO/7Zj6fl9gCAAAAALBVGwfQv/rrdXN+udzmFu6Ag26n9gQK6Lpx7QkU0rXONtV04l9qEo3HnrOphtWq9gQKWPfed1KtFn7VmGg1X9SeQCHLK2ebaO/osBm101u5140D6Pnlsnn38fs2t3AHvH+9V3sCBbx59bj2BAp5OTuoPYFCnh89qD2BAg4etbUnUMjy56/aEyjg98VF7QkUcnXyrfYECvjx5aT2BAo5//y19gQKePvpQ7P/4tmt3MvXSwAAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAEAsARQAAAAAiCWAAgAAAACxBFAAAAAAIJYACgAAAADEEkABAAAAgFgCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxBJAAQAAAIBYAigAAAAAEEsABQAAAABiCaAAAAAAQCwBFAAAAACIJYACAAAAALEEUAAAAAAglgAKAAAAAMQSQAEAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAEAsARQAAAAAiCWAAgAAAACxBFAAAAAAIJYACgAAAADEEkABAAAAgFgCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxBJAAQAAAIBYAigAAAAAEEsABQAAAABiCaAAAAAAQCwBFAAAAACIJYACAAAAALEEUAAAAAAglgAKAAAAAMQSQAEAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAEAsARQAAAAAiCWAAgAAAACxBFAAAAAAIJYACgAAAADEEkABAAAAgFgCKAAAAAAQSwAFAAAAAGIJoAAAAABALAEUAAAAAIglgAIAAAAAsQRQAAAAACCWAAoAAAAAxBJAAQAAAIBYAigAAAAAEEsABQAAAABiCaAAAAAAQCwBFAAAAACIJYACAAAAALEEUAAAAAAglgAKAAAAAMTaGYZh2OSC09PTZj6fN/31ujm/XJbaRSUH3U7tCRTQdePaEyika51tqunEZ5SJxmPP2VTDalV7AgWse+87qVaLvvYECljNF7UnUMjyytkm2js6bEbttNnd3W2Oj4+L3mty0wvbyaiZPe22uQUA+GddewAFaGRwz7TT2gsoZOxsI40f7teeQCHtk9oLuO82DqBt25bYAQAAAAD8Z26jNW78E3gAAAAAgPvCH4wBAAAAALEEUAAAAAAglgAKAAAAAMQSQAEAAACAWAIoAAAAABBLAAUAAAAAYgmgAAAAAECsP/YrYWiwD9fIAAAAAElFTkSuQmCC" width="672"/></p>
 </div>
 </div>
 <div class="section level2" id="color-transformation">
 <h2>Color Transformation</h2>
 <p>Another difference between the <em>R</em> and the <em>python</em> implementation is the way how colors are transformed between the different color spaces.</p>
-<p>While the <em>R</em> colorspace packge provides a set of coercing functions (<code>as</code>) <em>python</em> objects provide <code>.as(...)</code> methods. The example below shows how a set of HEX colors are transformed to HCL colors and back.</p>
+<p>While the <em>R</em> colorspace packge provides a set of coercing functions (\u201c<code>as</code>\u201d), the python color objects provide a method \u201c<code>.as(...)</code>\u201d. \u201c<code>.as(...)</code>\u201d converts a set of colors from one color space into another, even if we have to go trough a set of intermid color spaces (e.g., from hex colors to HCL which goes from hex to sRGB, RGB, CIE-XYZ, CIE-LUV, HCL). The example below shows how a set of hex colors are transformed to HCL colors and back.</p>
 <div class="section level3" id="in-r-1">
 <h3>In R</h3>
 <pre class="r"><code># Loading the library
@@ -67,7 +73,7 @@ from colorspace import diverging_hcl
 colors = diverging_hcl()(5)
 print(colors)
 # Convert to HCL</code></pre>
-<pre><code>## [u'#023FA5', u'#A1A6C8', u'#E2E2E2', u'#CA9CA4', u'#8E063B']</code></pre>
+<pre><code>## ['#023FA5', '#A1A6C8', '#E2E2E2', '#CA9CA4', '#8E063B']</code></pre>
 <pre class="python"><code>from colorspace.colorlib import hexcols
 colors = hexcols(colors)
 colors.to("HCL")

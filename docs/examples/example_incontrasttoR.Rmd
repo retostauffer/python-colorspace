@@ -8,14 +8,13 @@ output:
 Color Palettes
 --------------
 
-In the R `colorspace <https://cran.r-project.org/package=colorspace>`_ package
-the palettes are functions returning a set of hex colors as a character list,
-the default method how colors are used in R.
+In R, the color palettes themselfes are functions returning a set
+of hex colors as a character vector, the default method to use colors in R.
 
-The python colorspace package does it slightly different. Palettes are objects
-rather than functions which allow to retrieve lists of hex colors using the
-``colors()`` method but also provide additiona methods which allow to use the
-palettes for plotting in python.
+The python colorspace package it handling it slightly different. Palettes are
+objects rather than functions and allow to retrieve lists of hex colors using
+the ``colors()`` method or the default object call, but also provide additional
+methods to inspect and/or manipulate the color palettes.
 
 ### In R
 
@@ -34,10 +33,15 @@ swatchplot(colors)
 ```{python, echo = TRUE, fig = TRUE, fig.height = .5, fig.width = 7}
 # Loading the module
 from colorspace import diverging_hcl, swatchplot
-pal    = diverging_hcl()  # Initialize object
-colors = pal.colors(11)   # Retrieve colors
+# Initialize the diverging_hcl object with default arguments,
+# by default it is the "Blue-Red" diverging color palette.
+pal    = diverging_hcl()
+# Draw a set of 11 unique colors from the diverging palette.
+colors = pal.colors(11)
 # Plotting a simple color map
 swatchplot(colors)
+# Or simply:
+pal.swatchplot(11)
 ```
 
 
@@ -48,9 +52,12 @@ Another difference between the _R_ and the _python_ implementation
 is the way how colors are transformed between the different color
 spaces.
 
-While the _R_ colorspace packge provides a set of coercing functions (`as`)
-_python_ objects provide `.as(...)` methods. The example below shows how
-a set of HEX colors are transformed to HCL colors and back.
+While the _R_ colorspace packge provides a set of coercing functions ("`as`"),
+the python color objects provide a method "`.as(...)`". "`.as(...)`" converts a
+set of colors from one color space into another, even if we have to go trough a
+set of intermid color spaces (e.g., from hex colors to HCL which goes from hex
+to sRGB, RGB, CIE-XYZ, CIE-LUV, HCL). The example below shows how a set of hex
+colors are transformed to HCL colors and back.
 
 
 ### In R
