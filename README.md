@@ -1,23 +1,28 @@
 python-colorspace
 =================
 
-A python 2/3 package mimiking the
+A Python 2/Python 3 package mimicking the
 [R colorspace](https://cran.r-project.org/package=colorspace) package.
 
-I've just started developing the whole color-color-color framework,
-might take some time get the package into a beta state. And even a bit
-more to create proper testing routines.
+The current package state can be seen as an **early beta**. Feel free to
+test and report errors and malfunctions. The package has been ported/written
+within just two weeks, please do not expect that every last detail is working
+like a charm! If something goes wrong feel free to **contribute** and/or to
+**report** the problems (please provide some system information if possible).
 
-However, feel free to get in touch with me if you are interested and/or
-would like to start contributing to this project!
+The Documentation
+-----------------
 
-Alongside with the python package itself I also try to keep the
-documentation up to date, however, might be a bit off-sync but
-can be found at:
+The documentation is the one which might need most attention from my side.
+I have kept the documentation up-to-date as good as possible while developing
+the code. Nevertheless, some pages (e.g., usage examples) are still empty and
+I'll try to write them as soon as I can find some time.
+
+The latest documentation is available here:
 
 * [python-colorspace: on ReadTheDocs](https://python-colorspace.readthedocs.io)
 
-Feel free to contact me via e-mail (Reto.Stauffer@uibk.ac.at).
+Feel free to contact me via e-mail (Reto.Stauffer _at_ uibk.ac.at).
 
 Over and out,
 R
