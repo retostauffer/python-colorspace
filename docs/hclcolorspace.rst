@@ -52,7 +52,7 @@ The animation below shows the HCL color space as a volume and the path of the
 default :ref:`diverging-color-palettes` ("Blue-Red") trough the space. The
 vertical axis shows the luminance dimension from ``L=0`` (black) to ``L=100``
 (white), hue and chroma are shwon on the XY plane. The angle (from ``H=0`` to
-``H=360``; cyclic) shows defines the hue, the radial distance to the center the
+``H=360``; cyclic) defines the hue, the radial distance to the center the
 chroma.
 
 .. image:: _static/HCL_space.gif
