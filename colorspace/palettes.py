@@ -966,14 +966,14 @@ class qualitative_hcl(hclpalette):
 
             # Allow to overule few things
             for key,value in kwargs.items():
-                if key in ["h1", "c1", "l1"]: pal.set(key, value)
+                if key in ["h1", "c1", "l1"]: pal.set({key: value})
 
             # Extending h2 if h1 = h2 (h2 None)
             if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
-                pal.set("h2", pal.get("h1") + 360)
+                pal.set(h2 = pal.get("h1") + 360)
                 if pal.get("h2") > 360:
-                    pal.set("h1", pal.get("h1") - 360)
-                    pal.set("h2", pal.get("h2") - 360)
+                    pal.set(h1 = pal.get("h1") - 360)
+                    pal.set(h2 = pal.get("h2") - 360)
 
             # Getting settings
             settings = pal.get_settings()
@@ -1224,14 +1224,14 @@ class diverging_hcl(hclpalette):
 
             # Allow to overule few things
             for key,value in kwargs.items():
-                if key in ["h1", "c1", "l1"]: pal.set(key, value)
+                if key in ["h1", "c1", "l1"]: pal.set(**{key: value})
 
             # Extending h2 if h1 = h2 (h2 None)
             if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
-                pal.set("h2", pal.get("h1") + 360)
+                pal.set(h2 = pal.get("h1") + 360)
                 if pal.get("h2") > 360:
-                    pal.set("h1", pal.get("h1") - 360)
-                    pal.set("h2", pal.get("h2") - 360)
+                    pal.set(h1 = pal.get("h1") - 360)
+                    pal.set(h2 = pal.get("h2") - 360)
 
             # Getting settings
             settings = pal.get_settings()
@@ -1432,7 +1432,7 @@ class sequential_hcl(hclpalette):
 
             # Allow to overule few things
             for key,value in kwargs.items():
-                if key in self._allowed_parameters: pal.set(key, value)
+                if key in self._allowed_parameters: pal.set(**{key: value})
 
             # Getting settings
             settings = pal.get_settings()
