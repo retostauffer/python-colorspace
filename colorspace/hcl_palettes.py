@@ -141,6 +141,10 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     An example using custom :py:class:`palettes.palette`, once
     named and once unnamed:
 
+    >>> # Single swatchplot (unnamed) for a series of colors
+    >>> from colorspace import diverging_hcl, swatchplot
+    >>> colors = diverging_hcl()(5)
+    >>> swatchplot(colors) 
     >>> # Create three custom palettes for the three dimensions
     >>> # of the Hue-Chroma-Luminance color space
     >>> # H: only hue varies along the palette
@@ -188,7 +192,8 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
         # Return
         return ["custom", colors]
 
-    from numpy import all, max, sum
+    from re import match
+    from numpy import all, max, sum, where
     from .palettes import palette, defaultpalette, hclpalette, hclpalettes
     allowed = (palette, defaultpalette, hclpalette)
 
@@ -196,19 +201,30 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     # In case input 'pals' is a list object:
     # Prepare a list of dicsts with names and colors.
     # ---------------------------------------------------------------
+    single_palette = False
     if isinstance(pals, list):
-        # Check if all types are allowed
-        check = [isinstance(x, allowed) for x in pals]
-        if not all(check):
-            import inspect
-            raise ValueError("wrong input to function {:s}".format(inspect.stack()[0][3]))
-        # Elxe prepare the objects we need for the plot
-        data = []
-        for pal in pals:
-            data.append({"name": pal.name(), "colors": pal.colors(n)})
 
-        npals = len(data)
-        ncols = max([len(x["colors"]) for x in data])
+        # Check if a single list of valid hex colors is given
+        try:
+            check = [match(u"^#[0-9A-Fa-f]{6}(o-9]{2})?$$", x) is not None for x in pals]
+            if all(check): single_palette = True
+            npals = 1
+            ncols = len(pals)
+            data  = [{"name": "unnamed", "colors": pals}]
+        # Else check whehter or not the list contains valid objects
+        except:
+            # Check if all types are allowed
+            check = [isinstance(x, allowed) for x in pals]
+            if not all(check):
+                import inspect
+                raise ValueError("wrong input to function {:s}".format(inspect.stack()[0][3]))
+            # Elxe prepare the objects we need for the plot
+            data = []
+            for pal in pals:
+                data.append({"name": pal.name(), "colors": pal.colors(n)})
+
+            npals = len(data)
+            ncols = max([len(x["colors"]) for x in data])
 
     # ---------------------------------------------------------------
     # In case input 'pals' is a dict
@@ -260,15 +276,17 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     # ---------------------------------------------------------------
     # Helper function to plot the color palettes
     # Calls "cmap()" function (see below)
-    def plotcmaps(data, xpos, ypos, xstep, ystep):
+    def plotcmaps(data, xpos, ypos, xstep, ystep, single_palette = False):
         for pal in data:
 
-            # Adding text
-            ax.text(xpos + xstep * 0.02, ypos, pal["name"], name_args)
+            # Adding text (only if not single_palette)
+            if not single_palette:
+                ax.text(xpos + xstep * 0.02, ypos, pal["name"], name_args)
 
             # Getting colors, plotting color bar
+            xoff = 0.35 if not single_palette else 0.
             cmap(ax, pal["colors"], ncols, ypos - 0.8 * ystep / 2.,
-                 ypos + 0.8 * ystep / 2., xpos + 0.35 * xstep, xpos + 0.99 * xstep) 
+                 ypos + 0.8 * ystep / 2., xpos + xoff * xstep, xpos + 0.99 * xstep) 
 
             ypos -= ystep
             # Start new column
@@ -363,7 +381,7 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     name_args = {"va": "center", "ha": "left"}
     
     if isinstance(data, list):
-        xpos, ypos = plotcmaps(data, xpos, ypos, xstep, ystep)
+        xpos, ypos = plotcmaps(data, xpos, ypos, xstep, ystep, single_palette)
     else:
         for type_,paldata in data.items():
             ax.text(xpos + xstep * 0.02, ypos, type_, type_args)

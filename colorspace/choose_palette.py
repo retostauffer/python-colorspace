@@ -1082,7 +1082,8 @@ class gui(object):
         demovar.set(opts[0]) # default value
 
         # Demo plot option menu. No callback
-        menu = OptionMenu(self.master(), demovar, *opts)
+        menu = OptionMenu(self.master(), demovar, *opts,
+                          command = self.OnChange)
         menu.config(width = 10, pady = 5, padx = 5)
         menu.grid(column = 1, row = len(opts))
         menu.place(x = 180, y = self.HEIGHT - 40)
@@ -1110,7 +1111,22 @@ class gui(object):
         settings of the sliders and control elements. Used to create the
         palette which will then be returned to the console/user console.
         """
+        # Destroy the demo figure if not already closed
+        try:
+            import matplotlib.pyplot as plt
+            ##plt.close(self._demo_Figure)
+            # Hmmm ... what if the user has some other windows open?
+            plt.close("all")
+        except:
+            pass
+        # Close demo window if not already closed
+        try:
+            self._demoTk.destroy()
+        except:
+            pass
         self.master().destroy()
+        self.master().quit()
+
 
     def _show_demo(self, update = False):
         """_show_demo(update = False)
@@ -1168,7 +1184,7 @@ class gui(object):
             # Initialize plot
             if not update:
                 self._demoTk = Tk()
-                self._demoTk.protocol("WM_DELETE_WINDOW", self._demoTk.destroy)
+                self._demoTk.protocol("WM_DELETE_WINDOW", self._close_demo) #demoTk.destroy)
                 self._demoTk.wm_title("colorspace demoplot")
                 self._demo_Figure = plt.figure()
                 self._demo_Axis   = self._demo_Figure.add_subplot(211)
@@ -1176,12 +1192,10 @@ class gui(object):
                 self._demo_Canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
 
             # Getting demo function
-            import demos as demos
+            from . import demos
             fun = getattr(demos, self._DEMO.get())
 
             # Update plot
-            ##from .specplot import specplot
-            ##specplot(self.get_colors(), fig = self._demo_Figure) #ax = self._demo_Axis)
             fun(self.get_colors(), fig = self._demo_Figure)
             self._demo_Canvas.draw()
             self._demo_Canvas.flush_events()
@@ -1199,8 +1213,9 @@ class gui(object):
             txt.pack()
             txt.insert(END, "\n".join(info))
 
+    def _close_demo(self):
 
-
+        self._demoTk.destroy(); self._demoTk = None
 
 
 

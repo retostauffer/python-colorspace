@@ -202,9 +202,9 @@ class CVD(object):
             cols = list(cols)
             from numpy import all, isnan
             from re import match, compile
-            pat = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
+            pat = compile(u"^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
             def fun(x, pat):
-                if isinstance(x, str):
+                if isinstance(x, (str, unicode)):
                     if match(pat,x):  return True
                 elif isnan(x):        return True
                 return False
@@ -509,6 +509,9 @@ def desaturate(col, amount = 1.):
         if isinstance(col, LinearSegmentedColormap):
             from copy import copy
             CMAP      = True
+            CMAPINPUT = copy(col)
+        else:
+            CMAP      = False
             CMAPINPUT = copy(col)
     except:
         CMAP      = False
