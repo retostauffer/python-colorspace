@@ -985,7 +985,7 @@ class gui(object):
 
         # Do we have to apply CVD simulation?
         if control["cvd"]:
-            import CVD
+            from . import CVD
             fun = getattr(CVD, control["cvdtype"])
             colors = fun(colors)
 
