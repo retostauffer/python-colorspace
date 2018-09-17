@@ -2,6 +2,6 @@ Usage Examples
 =================
 
 
-.. note::
+.. todo::
     To be done ...
 
