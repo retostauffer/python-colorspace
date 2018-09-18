@@ -1,0 +1,121 @@
+---
+## Run with  Rscript -e "rmarkdown::render('file.Rmd')"
+output:
+  html_document:
+      mathjax: NULL
+---
+
+
+```{python, fig = FALSE, echo = FALSE}
+# Include demo
+import imp
+demo = imp.load_source("example_florence_demo", "example_florence_demo.py").demo
+```
+
+Let's imagine you are working as a meteorologist at a national
+service and you have to provide forecasts about the expected amount
+of precipitation falling within the next few days.
+In this example we will use the 6-day accumulated total precipitation amount
+between September 12, 2018 (00 UTC) and September 18, 2018 (00 UTC), a forecast
+which became available just a few days or hours before hurricane Florence
+hit the west cost of the United States of America.
+The next figure shows the forecast:
+
+```{python, fig = TRUE, echo = TRUE, fig.height = 4.2, fig.width = 5}
+# Original NOAA color map and levels
+noaahex = ["#ffffff", "#7fff00", "#00cd00", "#008b00", "#104e8b",
+           "#1e90ff", "#00b2ee", "#00eeee", "#8968cd", "#912cee",
+           "#8b008b", "#8b0000", "#cd0000", "#ee4000", "#ff7f00",
+           "#cd8500", "#ffd700", "#ffff00", "#ffaeb9"]
+lev     = [0., 0.01, 0.1, 0.25, 0.50, 0.75, 1.0, 1.25, 1.50, 1.75, 2.0,
+           2.5, 3.0, 4.0, 5.0, 7.0, 10.0, 15.0, 20.0, 60.0]
+
+from colorspace import deutan
+demo(lev, noaahex, titles = ["Original NOAA Colors"])
+```
+
+This is still a very common way to visualize such data sets using
+flashy (in)famouse RGB rainbow based color palettes, mainly due to
+historical reasons. The example above uses the color map and
+contour levels as the original figure published by the National
+Oceanic and Atmospheric Administration (NOAA; noaa.gov).
+
+This color map exhibits multiple color issues such as strong
+gradients in luminance (light to dark to light to dark colors),
+mainly vivid and fully saturated colors, and colors which
+are very similar (around 1 inch).
+
+In a first step let's check what might possibly go wrong with this
+color map. Remember: what you would like to do with these kind of
+visualizations is to warn the inhabitants of your country about
+extreme precipitation amounts and possible flood events connected
+to them.
+The local population, but also fire fighters and disaster management
+services, are your customer in this case. Up to 5 percent (in Europe
+about 10 percent) of the local population have visual constraints
+such as deuteranomaly (red-green weakness). Furthermore, these
+forecasts might be printed or displayed on gray scale devices (e.g.,
+newspaper) wherefore the color map should work in all cases.
+
+The two plots below show how people with deuteranomaly perceive the
+image (left) and how the image looks in gray scale (right).
+
+```{python, fig = TRUE, echo = TRUE, fig.height = 4.2, fig.width = 10}
+from colorspace import deutan, desaturate
+demo(lev, deutan(noaahex), desaturate(noaahex),
+     titles = ["Deutanope", "Desaturated"])
+```
+
+The effectiveness of the colormap completely collapses in both cases
+as the mapping between colors and values is no more unique and the
+large differences in luminance guides the reader to areas where only
+moderate precipitation sums are expected. Large parts of these
+problems can be solved by simply replacing the color map!
+
+Let's try something as follows: 
+
+```{python, fig = TRUE, echo = TRUE, fig.height = 8.4, fig.width = 10}
+from colorspace import sequential_hcl, desaturate, deutan, protan
+hex = sequential_hcl("Blues 2", power = 2.5, rev = True)(len(lev))
+demo(lev, hex, desaturate(hex), deutan(hex), protan(hex),
+    titles = ["No Color Deficiency", "Desaturated", "Deuteranope", "Protanope"])
+```
+
+
+
+
+```{python, fig = TRUE, echo = TRUE, fig.height = 8.4, fig.width = 10}
+from colorspace import sequential_hcl, desaturate, deutan, protan
+hex = sequential_hcl(h = [-220,20], c = [0, 90, 0], l = [95, 30], power = [1.5,1.5])(len(lev))
+demo(lev, hex, desaturate(hex), deutan(hex), protan(hex),
+    titles = ["No Color Deficiency", "Desaturated", "Deuteranope", "Protanope"])
+```
+
+
+```{python, fig = TRUE, echo = TRUE, fig.height = 8.4, fig.width = 10}
+# Or design a custom palette with "steps" in HUE
+H = np.floor(np.linspace(0, 2.9999, len(lev), dtype = float)) * 240 - 220 
+C = np.power(np.linspace(0, 1, len(lev), dtype = float), 1.5) * 90
+L = 95 - np.power(np.linspace(1, 0, len(lev), dtype = float), 1.5) * 65
+# Create a HCL color object
+from colorspace.colorlib import HCL
+cols = HCL(H, C, L)
+# Load colors
+hex  = cols.colors()
+from colorspace import desaturate, deutan, protan
+demo(lev, hex, desaturate(hex), deutan(hex), protan(hex),
+    titles = ["No Color Deficiency", "Desaturated", "Deuteranope", "Protanope"])
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
