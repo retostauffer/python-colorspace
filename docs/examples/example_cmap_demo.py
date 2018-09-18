@@ -50,6 +50,7 @@ def demo(*args):
         
         # Add a color bar which maps values to colors.
         fig.colorbar(surf, shrink=0.5, aspect=5)
+        ax.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         
     fig.tight_layout()
     plt.show()

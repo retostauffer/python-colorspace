@@ -48,6 +48,57 @@ class palette(object):
             raise ValueError("not all colors are valid hex colors")
         return colors
 
+    def cmap(self, n = None, rev = False):
+        '''cmap(n = None, rev = False)
+
+        Converts the current palette into a matplotlib LinearSegmentedColormap color map.
+        If input argument ``n = Non`` the color map will provide the same number
+        of colors as defined for this palette. Can also be set higher to
+        allow matplotlib to interpolate between the colors.
+
+        Parameters
+        ----------
+        n : None or int
+            if None, the number of colors of the palette will be used to create
+            the cmap object.
+        rev : bool
+            if set ``True`` the color map will be reversed.
+
+        Returns
+        -------
+        matplotlib.colors.LinearSegmentedColormap
+            Returns a ``LinearSegmentedColormap`` (cmap) to be used
+            with the matplotlib library.
+        '''
+        import matplotlib
+        from matplotlib.colors import LinearSegmentedColormap
+        from numpy import linspace, round, fmin, fmax
+    
+        from .colorlib import hexcols
+        cobj = hexcols(self.colors())
+        cobj.to("sRGB")
+
+        if n is None: n = len(self.colors())
+
+        # Get coordinates
+        pos = round(linspace(0,1,n), 6)
+        # Fixup RGB colors if not within [0,1]
+        r   = fmax(0, fmin(1, round(cobj.get("R"),   6)))
+        g   = fmax(0, fmin(1, round(cobj.get("G"),   6)))
+        b   = fmax(0, fmin(1, round(cobj.get("B"),   6)))
+
+        # Create dict for cmap
+        cdict = {'red':[], 'green':[], 'blue':[]}
+        for i in range(0,n):
+            j = i if not rev else n - i - 1
+            cdict['red'].append(   (pos[i], r[j], r[j]) ) 
+            cdict['green'].append( (pos[i], g[j], g[j]) )
+            cdict['blue'].append(  (pos[i], b[j], b[j]) )
+    
+        cmap = LinearSegmentedColormap(self.name(), cdict, n)
+        return cmap
+
+
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------

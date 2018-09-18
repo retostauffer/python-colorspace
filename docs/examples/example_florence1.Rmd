@@ -94,9 +94,12 @@ demo(lev, hex, desaturate(hex), deutan(hex), protan(hex),
 
 ```{python, fig = TRUE, echo = TRUE, fig.height = 8.4, fig.width = 10}
 # Or design a custom palette with "steps" in HUE
-H = np.floor(np.linspace(0, 2.9999, len(lev), dtype = float)) * 240 - 220 
+import numpy as np
+H = np.repeat(-220., len(lev))
+H[np.where(np.asarray(lev) >= 2.)] = -100 # Blueish above 2.0 inches
+H[np.where(np.asarray(lev) >= 5.)] = 20   # Reddish above 5.0 inches
 C = np.power(np.linspace(0, 1, len(lev), dtype = float), 1.5) * 90
-L = 95 - np.power(np.linspace(1, 0, len(lev), dtype = float), 1.5) * 65
+L = 95 - np.power(np.linspace(0, 1, len(lev), dtype = float), 1.5) * 65
 # Create a HCL color object
 from colorspace.colorlib import HCL
 cols = HCL(H, C, L)

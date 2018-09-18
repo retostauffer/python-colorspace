@@ -1914,7 +1914,7 @@ class colorobject(object):
             colors = x.get("hex_")
 
         if rev: colors.reverse()
-        return colors
+        return [str(x) for x in colors]
 
 
     def get(self, dimname = None):

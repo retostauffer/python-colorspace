@@ -2,6 +2,9 @@ Usage Examples
 =================
 
 
-.. todo::
-    To be done ...
+Precipitation Forecast
+----------------------
+
+.. raw:: html
+    :file: example_florence1.html
 
