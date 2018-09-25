@@ -13,4 +13,3 @@ print(cols)
 cols.to("hex")
 print(cols)
 
-cols.swatchplot()
