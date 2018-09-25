@@ -24,7 +24,6 @@ To check
 * https://seaborn.pydata.org/tutorial/color_palettes.html
     * https://cfwebprod.sandia.gov/cfdocs/CompResearch/docs/ColorMapsExpanded.pdf
     * https://matplotlib.org/users/colormaps.html
-* 
 
 
 BUG in python-colorspace
@@ -67,7 +66,7 @@ logging
 
 Palette functions
 -----------------
-[ ] Make palette objects __call__'able and return some colors,
+[X] Make palette objects __call__'able and return some colors,
     most probably the hex colors. Then, rewrite the colors
     method to something like colors(n = 10, type_ = "hex")
     such that it returns 'n' colors of type 'type_' (a
@@ -75,7 +74,7 @@ Palette functions
 
 Plotting function
 -----------------
-[ ] Add as "colorbarplot" method to the hclpalette objects
+[X] Add as "specplot" method to the hclpalette objects
     which plots the colormap as a bar or circle (optional).
     Could depend on a palettes.colorbarplot which should then
     also be used in the specplot function.
@@ -85,5 +84,6 @@ Setting parameters
 [ ] hclpalette.set(**kwargs) to set all allowed parameters
     and a functionality to allow to set h = [h1,h2] if
     possible. Use _checkinputs_.
+[ ] Implemented but has to be tested.
 
 
