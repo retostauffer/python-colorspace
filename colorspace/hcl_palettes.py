@@ -207,7 +207,7 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
 
         # Check if a single list of valid hex colors is given
         try:
-            check = [match(u"^#[0-9A-Fa-f]{6}(o-9]{2})?$$", x) is not None for x in pals]
+            check = [match(u"^#[0-9A-Fa-f]{6}(o-9]{2})?$", x) is not None for x in pals]
             if all(check): single_palette = True
             npals = 1
             ncols = len(pals)
