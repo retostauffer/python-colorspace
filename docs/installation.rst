@@ -10,7 +10,7 @@ The package is tested against Python `2.7` and Python `3.6+`.
 The only dependency is `numpy <https://docs.scipy.org/doc/>`_,
 for some methods the `matplotlib <https://matplotlib.org/>`_ might be required.
 
-* ``pip install https://github.com/retostauffer/python-colorspace``,
+* ``pip install git+https://github.com/retostauffer/python-colorspace``,
 * Or clone the repository and use the good old ``python setup.py install``.
 
 Some of the functions (those creating plots and manipulating images) depend on
