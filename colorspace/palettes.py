@@ -311,12 +311,16 @@ class defaultpalette(object):
             dim2 = "{:s}2".format(dim)
             dim3 = "{:s}max".format(dim)
             dim = "power" if dim == "p" else dim
-            # For Chroma we can have [c1, c2, cmax]
             if dim1 in args.keys() and dim2 in args.keys() and dim3 in args.keys():
                 args[dim] = [args[dim1], args[dim2], args[dim3]]
                 del args[dim1]; del args[dim2]; del args[dim3]
+            # For Chroma we can have [c1, c2, cmax] for sequential palettes.
+            # For diverging it can be [c1] or [c1, cmax].
             elif dim1 in args.keys() and dim3 in args.keys():
-                args[dim] = [args[dim1], args[dim1], args[dim3]] 
+                if not self._method_ == "diverging_hcl":
+                    args[dim] = [args[dim1], args[dim1], args[dim3]] 
+                else:
+                    args[dim] = [args[dim1], args[dim3]] 
                 del args[dim1]; del args[dim3]
             # For Hue, Luminance, and Power there are only two (for now)
             elif dim1 in args.keys() and dim2 in args.keys():
@@ -378,6 +382,13 @@ class hclpalettes(object):
 
             # Append
             self._palettes_[palette_type] = pals
+
+        # A poor attempt to order the palettes somehow
+        x = self._palettes_.keys()
+        x.sort(reverse = True)
+        tmp = {}
+        for rec in x: tmp[rec] = self._palettes_[rec]
+        self._palettes_ = tmp
 
     def __repr__(self):
         """__repr__()
@@ -1250,14 +1261,16 @@ class diverging_hcl(hclpalette):
 
         if isinstance(h, str):
             palette = h; h = None
+        if isinstance(power, int) or isinstance(power, float):
+            power = [power]
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
             h     = self._checkinput_(int,   2, 2, True,  False, h = h)
-            c     = self._checkinput_(int,   1, 1, False, False, c = c)
+            c     = self._checkinput_(int,   1, 2, False, False, c = c)
             l     = self._checkinput_(int,   2, 2, True,  False, l = l)
-            power = self._checkinput_(float, 1, 1, True,  False, power = power)
+            power = self._checkinput_(float, 1, 2, True,  False, power = power)
         except Exception as e:
             raise ValueError(str(e))
 
@@ -1289,13 +1302,23 @@ class diverging_hcl(hclpalette):
         else:
             settings = {}
 
+            from numpy import ndarray
+
             # User settings
             settings["h1"]    = h[0]
             settings["h2"]    = h[1]
-            settings["c1"]    = c
+            if isinstance(c, ndarray):
+                settings["c1"]    = c    if len(c) == 1 else c[0]
+                if len(c) == 2: settings["c2"] = c[1]
+            else:
+                settings["c1"]    = c
             settings["l1"]    = l[0]
             settings["l2"]    = l[1]
-            settings["p1"]    = power
+            if isinstance(power, ndarray):
+                settings["p1"]    = power if len(power) == 1 else power[0]
+                if len(power) == 2: settings["p2"] = power[1]
+            else:
+                settings["p1"]    = power
             settings["fixup"] = fixup
             settings["rev"]   = rev
 

@@ -594,7 +594,7 @@ class gui(object):
         # Initialize gui
         self._master         = self._init_master()
         # The different palette types
-        self._Dropdown       = self._add_paltype_dropdown()
+        self._Dropdown       = self._add_paltype_dropdown(pal.type())
         # Adding current palette has to be before the sliders
         # as they need the current palette canvas for the
         # to be able to be reactive.
@@ -616,17 +616,22 @@ class gui(object):
         # Initialize interface
         mainloop()
 
-    def _add_paltype_dropdown(self):
+    def _add_paltype_dropdown(self, type_):
         """_add_paltype_dropdown()
 
         Adds a drop down menu to the GUI which allowes to
         switch between the different types of the default
         palettes (see also :py:class:`palettes.hclpalettes`).
+
+        Parameters
+        ----------
+        type_ : str
+            the default selected palette type on GUI initialization.
         """
         opts = self.palettes().get_palette_types()
 
         paltypevar = StringVar(self.master())
-        paltypevar.set(opts[0]) # default value
+        paltypevar.set(type_) # default value
 
         # Option menu
         menu = OptionMenu(self.master(), paltypevar, *opts,
@@ -880,14 +885,18 @@ class gui(object):
         frame.place(x = 10, y = 80)
 
         # Loading palettes of currently selected palette type
-        from numpy import min
+        from numpy import min, sum
         pals = self.palettes().get_palettes(type_) ###self.dd_type.get())
         for child in frame.winfo_children(): child.destroy()
 
+        # Number of palettes to be drawn (where gui = 1 in palette config)
+        npals    = sum([x.get("gui") for x in pals])
+
         # Adding new canvas
-        figwidth = min([30, self.FRAMEWIDTH / len(pals)])
+        figwidth = min([30, self.FRAMEWIDTH / npals])
         xpos = 0
         for pal in pals:
+            if pal.get("gui") <= 0: continue
             defaultpalettecanvas(frame, self.sliders(), pal, 5, xpos, figwidth, self.FRAMEHEIGHT)
             xpos += figwidth
 
@@ -936,6 +945,7 @@ class gui(object):
                 params[elem.name()] = float(elem.get())
 
         # Manipulate params
+        from re import match
         for dim in ["h", "c", "l","p"]:
             dim1 = "{:s}1".format(dim)
             dim2 = "{:s}2".format(dim)
@@ -947,7 +957,12 @@ class gui(object):
                 params[dim] = [params[dim1], params[dim2], params[dim3]]
                 del params[dim1]; del params[dim2]; del params[dim3]
             elif check[0] and check[2]:
-                params[dim] = [params[dim1], params[dim1], params[dim3]]
+                # Diverging chemes: only [c1, cmax] allowed, for
+                # others [c1, c2, cmax] (sequential)
+                if match(".*[Dd]iverging.*", self._Dropdown.get()) and dim == "c":
+                    params[dim] = [params[dim1], params[dim3]]
+                else:
+                    params[dim] = [params[dim1], params[dim1], params[dim3]]
                 del params[dim1]; del params[dim3]
             elif check[0] and check[1]:
                 params[dim] = [params[dim1], params[dim2]]
