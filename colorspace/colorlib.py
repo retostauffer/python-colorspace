@@ -35,7 +35,7 @@ import sys
 import numpy as np
 import inspect
 
-class colorlib(object):
+class colorlib:
     """The colorlib class is a collection of methods
     used to convert or transform colors between different
     color spaces."""

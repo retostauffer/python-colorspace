@@ -134,4 +134,4 @@ def test_hclpalettes_get_palette_invalid_name():
 
 # ------------------------------------------
 # ------------------------------------------
-types = ["diverging", "sequential", "qualitative", "heat", "rainbow", "terrain"]
+# types = ["diverging", "sequential", "qualitative", "heat", "rainbow", "terrain"]
