@@ -1,0 +1,826 @@
+
+[main]
+type   = Sequential
+method = sequential_hcl
+
+
+[palette Grays]
+desc  = ColorBrewer.org: Greys
+h1    = 0
+c1    = 0
+c2    = 0
+l1    = 10
+l2    = 98
+p1    = 1.3
+fixup = 1
+
+
+[palette Light Grays]
+desc  = Z+KH+PM-09, Fig.5: Light
+h1    = 0
+c1    = 0
+c2    = 0
+l1    = 30
+l2    = 90
+p1    = 1.5
+fixup = 1
+
+
+[palette Blues 2]
+desc  = Z+KH+PM-09, Fig.5: Blues
+h1    = 260
+c1    = 80
+c2    = 0
+l1    = 30
+l2    = 90
+p1    = 1.5
+fixup = 1
+
+
+[palette Blues 3]
+desc  = olorBrewer.org: Blues
+h1    = 245
+c1    = 50
+c2    = 0
+l1    = 20
+l2    = 98
+p1    = 0.8
+p2    = 1.4
+cmax  = 75
+fixup = 1
+
+
+[palette Purples 2]
+desc  = ColorBrewer.org: Purples
+h1    = 270
+c1    = 70
+c2    = 0
+l1    = 25
+l2    = 95
+p1    = 1.2
+fixup = 1
+
+
+[palette Purples 3]
+desc  = ColorBrewer.org: Purples
+h1    = 270
+c1    = 50
+c2    = 0
+l1    = 20
+l2    = 98
+p1    = 0.9
+p2    = 1.4
+cmax  = 75
+fixup = 1
+
+
+[palette Reds 2]
+desc  = ColorBrewer.org: Reds
+h1    = 10
+c1    = 85
+c2    = 0
+l1    = 25
+l2    = 95
+p1    = 1.3
+fixup = 1
+
+
+[palette Reds 3]
+desc  = ColorBrewer.org: Reds
+h1    = 10
+c1    = 65
+c2    = 0
+l1    = 20
+l2    = 97
+p1    = 1.1
+p2    = 1.3
+cmax  = 150
+fixup = 1
+
+
+[palette Greens 2]
+desc  = ColorBrewer.org: Greens
+h1    = 135
+c1    = 45
+c2    = 0
+l1    = 35
+l2    = 95
+p1    = 1.3
+fixup = 1
+
+
+[palette Greens 3]
+desc  = ColorBrewer.org: Greens
+h1    = 135
+c1    = 35
+c2    = 0
+l1    = 25
+l2    = 98
+p1    = 1
+p2    = 1.5
+cmax  = 70
+fixup = 1
+
+
+[palette Purple-Blue]
+desc  = ColorBrewer.org: BuPu
+h1    = 300
+h2    = 200
+c1    = 60
+c2    = 0
+l1    = 25
+l2    = 95
+p1    = 0.7
+p2    = 1.3
+fixup = 1
+
+
+[palette Red-Purple]
+desc  = ColorBrewer.org: PuRd
+h1    = 10
+h2    = -80
+c1    = 80
+c2    = 5
+l1    = 25
+l2    = 95
+p1    = 0.7
+p2    = 1.3
+fixup = 1
+
+
+[palette Red-Blue]
+desc  = Z+KH+PM-09, Fig.5: Red-Blue
+h1    = 0
+h2    = -100
+c1    = 80
+c2    = 40
+l1    = 40
+l2    = 75
+p1    = 1
+p2    = 1
+fixup = 1
+
+
+[palette Purple-Orange]
+desc  = CARTO: PurpOr
+h1    = -83
+h2    = 20
+c1    = 65
+c2    = 18
+l1    = 32
+l2    = 90
+p1    = 0.5
+p2    = 1
+fixup = 1
+
+
+[palette Blue-Yellow]
+desc  = ColorBrewer.org: YlGnBu
+h1    = 265
+h2    = 80
+c1    = 60
+c2    = 10
+l1    = 25
+l2    = 95
+p1    = 0.7
+p2    = 2
+fixup = 1
+
+
+[palette Green-Yellow]
+desc  =  ColorBrewer.org: YlGn
+h1    = 140
+h2    = 80
+c1    = 50
+c2    = 10
+l1    = 40
+l2    = 97
+p1    = 0.7
+p2    = 1.8
+fixup = 1
+
+
+[palette Red-Yellow]
+desc  = ColorBrewer.org: YlOrRd
+h1    = 10
+h2    = 85
+c1    = 80
+c2    = 10
+l1    = 25
+l2    = 95
+p1    = 0.4
+p2    = 1.3
+fixup = 1
+
+
+[palette Heat]
+desc  = JCF/Z: alternative to heat_hcl
+h1    = 0
+h2    = 90
+c1    = 80
+c2    = 30
+l1    = 30
+l2    = 90
+p1    = 0.2
+p2    = 2
+fixup = 1
+
+
+[palette Heat 2]
+desc  = Z+KH+PM-09, Fig.5: heat_hcl
+h1    = 0
+h2    = 90
+c1    = 100
+c2    = 30
+l1    = 50
+l2    = 90
+p1    = 0.2
+p2    = 1
+fixup = 1
+
+
+#[palette Terrain]
+#desc  = Z+KH+PM-09, Fig.5: terrain_hcl
+#h1    = 130
+#h2    = 0
+#c1    = 80
+#c2    = 0
+#l1    = 60
+#l2    = 95
+#p1    = 0.1
+#p2    = 1
+#fixup = 1
+#
+#
+#[palette Terrain 2]
+#desc  = JCF/Z: alternative to terrain_hcl
+#h1    = 130
+#h2    = 30
+#c1    = 65
+#c2    = 0
+#l1    = 45
+#l2    = 90
+#p1    = 0.5
+#p2    = 1.5
+#fixup = 1
+#
+#
+#[palette Viridis]
+#desc  = viridis::viridis
+#h1    = 300
+#h2    = 75
+#c1    = 40
+#c2    = 95
+#l1    = 15
+#l2    = 90
+#p1    = 1
+#p2    = 1.1
+#fixup = 1
+#
+#
+#[palette Plasma]
+#desc  = viridis::plasma
+#h1    = -100
+#h2    = 100
+#c1    = 60
+#c2    = 100
+#l1    = 15
+#l2    = 95
+#p1    = 2
+#p2    = 0.9
+#fixup = 1
+#
+#
+#[palette Inferno]
+#desc  = viridis::inferno
+#h1    = -100
+#h2    = 85
+#c1    = 0
+#c2    = 65
+#l1    = 1
+#l2    = 98
+#p1    = 1.1
+#p2    = 0.9
+#cmax  = 120
+#fixup = 1
+#
+#
+#[palette Dark Mint]
+#desc  = CARTO: Dark Mint
+#h1    = 240
+#h2    = 130
+#c1    = 30
+#c2    = 33
+#l1    = 25
+#l2    = 95
+#p1    = 1
+#fixup = 1
+#
+#
+#[palette Mint]
+#desc  = CARTO: Mint
+#h1    = 205
+#h2    = 140
+#c1    = 40
+#c2    = 12
+#l1    = 34
+#l2    = 94
+#p1    = 0.5
+#p2    = 1
+#fixup = 1
+#
+#
+#[palette BluGrn]
+#desc  = CARTO: BluGrn
+#h1    = 215
+#h2    = 120
+#c1    = 25
+#c2    = 30
+#l1    = 31
+#l2    = 88
+#p1    = 0.7
+#p2    = 1.1
+#cmax  = 45
+#fixup = 1
+#
+#
+#[palette Teal]
+#desc  = CARTO: Teal
+#h1    = 240
+#h2    = 180
+#c1    = 35
+#c2    = 15
+#l1    = 35
+#l2    = 92
+#p1    = 0.6
+#p2    = 1.1
+#cmax  = 40
+#fixup = 1
+#
+#
+#[palette TealGrn]
+#desc  = CARTO: TealGrn
+#h1    = 220
+#h2    = 125
+#c1    = 44
+#c2    = 50
+#l1    = 49
+#l2    = 90
+#p1    = 0.8
+#p2    = 1.2
+#cmax  = 60
+#fixup = 1
+#
+#
+#[palette Emrld]
+#desc  = CARTO: Emrld
+#h1    = 224
+#h2    = 105
+#c1    = 23
+#c2    = 55
+#l1    = 25
+#l2    = 92
+#p1    = 1.5
+#p2    = 1
+#fixup = 1
+#
+#
+#[palette BluYl]
+#desc  = CARTO: BluYl
+#h1    = 250
+#h2    = 90
+#c1    = 40
+#c2    = 55
+#l1    = 33
+#l2    = 98
+#p1    = 0.5
+#p2    = 1
+#fixup = 1
+#
+#
+#[palette ag_GrnYl]
+#desc  = CARTO: ag_GrnYl
+#h1    = 225
+#h2    = 87
+#c1    = 27
+#c2    = 86
+#l1    = 34
+#l2    = 92
+#p1    = 0.9
+#fixup = 1
+#
+#
+#[palette Peach]
+#desc  = CARTO: Peach
+#h1    = 15
+#h2    = 50
+#c1    = 128
+#c2    = 30
+#l1    = 55
+#l2    = 90
+#p1    = 1.1
+#fixup = 1
+#
+#
+#[palette PinkYl]
+#desc  = CARTO: PinkYl
+#h1    = -4
+#h2    = 80
+#c1    = 100
+#c2    = 47
+#l1    = 55
+#l2    = 96
+#p1    = 1
+#fixup = 1
+#
+#
+#[palette Burg]
+#desc  = CARTO: Burg
+#h1    = -10
+#h2    = 10
+#c1    = 40
+#c2    = 40
+#l1    = 25
+#l2    = 85
+#p1    = 1.2
+#p2    = 1
+#cmax  = 75
+#fixup = 1
+#
+#
+#[palette BurgYl]
+#desc  = CARTO: BurgYl
+#h1    = -10
+#h2    = 55
+#c1    = 45
+#c2    = 30
+#l1    = 30
+#l2    = 90
+#p1    = 0.7
+#p2    = 1
+#cmax  = 80
+#fixup = 1
+#
+#
+#[palette RedOr]
+#desc  = CXXRTO: RedOr
+#h1    = -3
+#h2    = 53
+#c1    = 75
+#c2    = 42
+#l1    = 44
+#l2    = 86
+#p1    = 0.8
+#p2    = 1
+#cmax  = 90
+#fixup = 1
+#
+#
+#[palette OrYel]
+#desc  = CARTO: OrYel
+#h1    = 5
+#h2    = 72
+#c1    = 120
+#c2    = 49
+#l1    = 56
+#l2    = 87
+#p1    = 1
+#cmax  = 125
+#fixup = 1
+#
+#
+#[palette Purp]
+#desc  = CARTO: Purp
+#h1    = 270
+#h2    = 300
+#c1    = 55
+#c2    = 20
+#l1    = 42
+#l2    = 92
+#p1    = 0.6
+#p2    = 1
+#cmax  = 60
+#fixup = 1
+#
+#
+#[palette PurpOr]
+#desc  = CARTO: PurpOr
+#h1    = -83
+#h2    = 20
+#c1    = 55
+#c2    = 18
+#l1    = 32
+#l2    = 90
+#p1    = 0.6
+#p2    = 1
+#cmax  = 65
+#fixup = 1
+#
+#
+#[palette Sunset]
+#desc  = CARTO: Sunset
+#h1    = -80
+#h2    = 78
+#c1    = 60
+#c2    = 55
+#l1    = 40
+#l2    = 91
+#p1    = 0.8
+#p2    = 1
+#cmax  = 75
+#fixup = 1
+#
+#
+#[palette Magenta]
+#desc  = CARTO: Magenta
+#h1    = 312
+#h2    = 358
+#c1    = 50
+#c2    = 24
+#l1    = 27
+#l2    = 85
+#p1    = 0.6
+#p2    = 1.1
+#cmax  = 65
+#fixup = 1
+#
+#
+#[palette SunsetDark]
+#desc  = CARTO: SunsetDark
+#h1    = -35
+#h2    = 50
+#c1    = 55
+#c2    = 60
+#l1    = 30
+#l2    = 90
+#p1    = 1.2
+#p2    = 1
+#cmax  = 120
+#fixup = 1
+#
+#
+#[palette ag_Sunset]
+#desc  = CARTO: ag_Sunset
+#h1    = -85
+#h2    = 70
+#c1    = 70
+#c2    = 45
+#l1    = 25
+#l2    = 85
+#p1    = 0.6
+#p2    = 1
+#cmax  = 105
+#fixup = 1
+#
+#
+#[palette BrwnYl]
+#desc  = CARTO: BrwnYl
+#h1    = -20
+#h2    = 70
+#c1    = 30
+#c2    = 20
+#l1    = 20
+#l2    = 90
+#p1    = 1
+#p2    = 1.1
+#cmax  = 60
+#fixup = 1
+#
+#
+#[palette YlOrRd]
+#desc  = ColorBrewer.org: YlOrRd
+#h1    = 5
+#h2    = 85
+#c1    = 75
+#c2    = 40
+#l1    = 25
+#l2    = 99
+#p1    = 1.6
+#p2    = 1.3
+#cmax  = 180
+#fixup = 1
+#
+#
+#[palette YlOrBr]
+#desc  = ColorBrewer.org: YlOrBr
+#h1    = 20
+#h2    = 85
+#c1    = 50
+#c2    = 20
+#l1    = 25
+#l2    = 99
+#p1    = 1.3
+#p2    = 1.5
+#cmax  = 150
+#fixup = 1
+#
+#
+#[palette OrRd]
+#desc  = ColorBrewer.org: OrRd
+#h1    = 0
+#h2    = 60
+#c1    = 90
+#c2    = 10
+#l1    = 25
+#l2    = 97
+#p1    = 1
+#p2    = 1.5
+#cmax  = 135
+#fixup = 1
+#
+#
+#[palette Oranges]
+#desc  = ColorBrewer.org: Oranges
+#h1    = 20
+#h2    = 55
+#c1    = 70
+#c2    = 10
+#l1    = 30
+#l2    = 97
+#p1    = 1.2
+#p2    = 1.3
+#cmax  = 150
+#fixup = 1
+#
+#
+#[palette YlGn]
+#desc  = ColorBrewer.org: YlGn
+#h1    = 160
+#h2    = 85
+#c1    = 25
+#c2    = 20
+#l1    = 25
+#l2    = 99
+#p1    = 1.2
+#p2    = 1.6
+#cmax  = 70
+#fixup = 1
+#
+#
+#[palette YlGnBu]
+#desc  = ColorBrewer.org: YlGnBu
+#h1    = 270
+#h2    = 90
+#c1    = 40
+#c2    = 25
+#l1    = 15
+#l2    = 99
+#p1    = 2
+#p2    = 1.5
+#cmax  = 90
+#fixup = 1
+#
+#
+#[palette Reds]
+#desc  = ColorBrewer.org: Reds
+#h1    = 0
+#h2    = 35
+#c1    = 65
+#c2    = 5
+#l1    = 20
+#l2    = 97
+#p1    = 1.1
+#p2    = 1.3
+#cmax  = 150
+#fixup = 1
+#
+#
+#[palette RdPu]
+#desc  = ColorBrewer.org: RdPu
+#h1    = -70
+#h2    = 40
+#c1    = 45
+#c2    = 5
+#l1    = 15
+#l2    = 97
+#p1    = 1
+#p2    = 1.3
+#cmax  = 100
+#fixup = 1
+#
+#
+#[palette PuRd]
+#desc  = ColorBrewer.org: PuRd
+#h1    = 20
+#h2    = -95
+#c1    = 60
+#c2    = 5
+#l1    = 20
+#l2    = 97
+#p1    = 1.6
+#p2    = 1.1
+#cmax  = 140
+#fixup = 1
+#
+#
+#[palette Purples]
+#desc  = ColorBrewer.org: Purples
+#h1    = 275
+#h2    = 270
+#c1    = 55
+#c2    = 5
+#l1    = 20
+#l2    = 99
+#p1    = 1.3
+#p2    = 1.3
+#cmax  = 70
+#fixup = 1
+#
+#
+#[palette PuBuGn]
+#desc  = ColorBrewer.org: PuBuGn
+#h1    = 160
+#h2    = 320
+#c1    = 25
+#c2    = 5
+#l1    = 25
+#l2    = 98
+#p1    = 1.4
+#p2    = 1.2
+#cmax  = 70
+#fixup = 1
+#
+#
+#[palette PuBu]
+#desc  = ColorBrewer.org: PuBu
+#h1    = 240
+#h2    = 260
+#c1    = 30
+#c2    = 5
+#l1    = 25
+#l2    = 98
+#p1    = 1.5
+#p2    = 1.2
+#cmax  = 70
+#fixup = 1
+#
+#
+#[palette Greens]
+#desc  = ColorBrewer.org: Greens
+#h1    = 135
+#h2    = 115
+#c1    = 35
+#c2    = 5
+#l1    = 25
+#l2    = 98
+#p1    = 1
+#p2    = 1.5
+#cmax  = 70
+#fixup = 1
+#
+#
+#[palette BuGn]
+#desc  = ColorBrewer.org: BuGn
+#h1    = 125
+#h2    = 200
+#c1    = 30
+#c2    = 5
+#l1    = 25
+#l2    = 98
+#p1    = 1.4
+#p2    = 1.6
+#cmax  = 65
+#fixup = 1
+#
+#
+#[palette GnBu]
+#desc  = ColorBrewer.org: GnBu
+#h1    = 265
+#h2    = 95
+#c1    = 55
+#c2    = 10
+#l1    = 25
+#l2    = 97
+#p1    = 1.3
+#p2    = 1.7
+#cmax  = 80
+#fixup = 1
+
+
+[palette BuPu]
+desc  = ColorBrewer.org: BuPu
+h1    = 320
+h2    = 200
+c1    = 40
+c2    = 5
+l1    = 15
+l2    = 98
+p1    = 1.2
+p2    = 1.3
+cmax  = 65
+fixup = 1
+
+
+[palette Blues]
+desc  = ColorBrewer.org: Blues
+h1    = 260
+h2    = 220
+c1    = 45
+c2    = 5
+l1    = 25
+l2    = 98
+p1    = 1.2
+p2    = 1.3
+cmax  = 70
+fixup = 1
+

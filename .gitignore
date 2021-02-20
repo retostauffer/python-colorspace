@@ -8,6 +8,10 @@ htmlcov
 # Manual
 _build
 
+# Testing
+.coverage
+colorspace/htmlcov
+
 */*.pyc
 */*/*.pyc
 

@@ -1,0 +1,127 @@
+
+[main]
+type   = Diverging
+method = diverging_hcl
+
+[palette Blue-Red]
+desc  =  Z+KH+PM-09, Fig.6: Blue-Red (high luminance contrast)
+h1    = 260
+h2    = 0
+c1    = 80
+l1    = 30
+l2    = 90
+p1    = 1.5
+fixup = 1
+
+[palette Blue-Red 2]
+desc  = Z+KH+PM-09, Fig.6: Blue-Red (medium luminance contrast)
+h1    = 260
+h2    = 0
+c1    = 100
+l1    = 50
+l2    = 90
+p1    = 1.0
+fixup = 1
+
+[palette Blue-Red 3]
+desc  = ColorBrewer.org: RdBu
+h1    = 265
+h2    = 12
+c1    = 80
+l1    = 25
+l2    = 95
+p1    = 0.7
+fixup = 1
+
+[palette Red-Green]
+desc = ColorBrewer.org: PiYG
+h1    = 340
+h2    = 128
+c1    = 45
+l1    = 35
+l2    = 95
+p1    = 0.7
+fixup = 1
+
+[palette Purple-Green]
+desc = ColorBrewer.org: PRGn
+h1    = 300
+h2    = 128
+c1    = 45
+l1    = 30
+l2    = 95
+p1    = 0.7
+fixup = 1
+
+[palette Purple-Brown]
+desc = ColorBrewer.org: PuOr
+h1    = 270
+h2    = 40
+c1    = 45
+l1    = 30
+l2    = 95
+p1    = 0.7
+fixup = 1
+
+[palette Blue-Yellow 2]
+desc = Z+COW
+h1    = 265
+h2    = 80
+c1    = 80
+l1    = 40
+l2    = 95
+p1    = 1.2
+fixup = 1
+
+[palette Blue-Yellow 3]
+desc = Z+COW
+h1    = 265
+h2    = 80
+c1    = 80
+l1    = 70
+l2    = 95
+p1    = 0.5
+fixup = 1
+
+[palette Green-Brown]
+desc  =  ColorBrewer.org: BrBG
+h1    = 160
+h2    = 55
+c1    = 30
+l1    = 35
+l2    = 95
+p1    = 0.7
+fixup = 1
+
+[palette Green-Orange]
+desc  =  Z+KH+PM-09, Fig.6: Green-Orange (low luminance contrast)
+h1    = 130
+h2    = 43
+c1    = 100
+l1    = 70
+l2    = 90
+p1    = 1.0
+fixup = 1
+
+[palette Cyan-Magenta]
+desc  = Z+KH+PM-09, Fig.6: Blue-Red (low luminance contrast)
+h1    = 180
+h2    = 330
+c1    = 59
+l1    = 75
+l2    = 95
+p1    = 1.5
+fixup = 1
+
+[palette Tropic]
+desc  = CARTO: Tropic
+h1    = 195
+h2    = 325
+c1    = 70
+l1    = 55
+l2    = 95
+p1    = 1.0
+fixup = 1
+
+
+
