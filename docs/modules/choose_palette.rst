@@ -1,5 +1,5 @@
 Choose Palette
 ==============
 
-.. automodule:: choose_palette
+.. automodule:: colorspace.choose_palette
     :members:

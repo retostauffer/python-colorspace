@@ -1,5 +1,5 @@
 
-.. _sec-gettingstarted:
+.. _articles/sec-gettingstarted:
 
 ===============
 Getting started

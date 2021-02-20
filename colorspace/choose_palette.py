@@ -1154,9 +1154,11 @@ class gui(object):
             not installed on the machine.
         """
         try:
-            from matplotlib.backends.backend_tkagg import FigureCanvasAgg
-            import matplotlib.backends.tkagg as tkagg
-            from matplotlib.figure import Figure
+            import matplotlib
+            matplotlib.use("TkAgg")
+            #from matplotlib.backends.backend_tkagg import FigureCanvasAgg
+            #import matplotlib.backends.tkagg as tkagg
+            #from matplotlib.figure import Figure
             hasmatplotlib = True
         except:
             hasmatplotlib = False
@@ -1223,14 +1225,15 @@ class gui(object):
             info.append("")
             info.append("Install matplotlib and try again!")
 
-            txt = Text(self._demowindow_, height=10, width=45)
+            txt = Text(self._demoTk, height=10, width=45)
             txt.pack()
             txt.insert(END, "\n".join(info))
 
     def _close_demo(self):
 
         import matplotlib.pyplot as plt
-        self._demoTk.destroy();       self._demoTk = None
+        if not self._demoTk is None: self._demoTk.destroy()
+        self._demoTk = None
 
 
 

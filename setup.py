@@ -15,8 +15,35 @@
 ##from distutils.command.build import build
 from setuptools import setup
 
+ISRELEASED    = False
+VERSION       = "0.1.1"
+FULLVERSION   = VERSION
+write_version = True
+
+# Write version string
+def write_version_py(filename=None):
+    cnt = """\
+version = '%s'
+short_version = '%s'
+isreleased = %s
+"""
+    from os import path
+    if not filename:
+        filename = path.join(path.dirname(__file__), "colorspace", "version.py")
+
+    a = open(filename, "w")
+    try:
+        a.write(cnt % (FULLVERSION, VERSION, ISRELEASED))
+    finally:
+        a.close()
+
+if write_version:
+    write_version_py()
+
+# Setup
+
 setup(name="colorspace",     # This is the package name
-      version = "0.1.0",            # Current package version, what else
+      version = VERSION,     # Current package version, what else
       description = "Color space package for python",
       long_description = "Provides a set of color transformation functions and an interface to chose efficient color maps based on the HCL color space. This package is inspired and based on the R package 'colorspace'.",
       classifiers = [
@@ -24,6 +51,7 @@ setup(name="colorspace",     # This is the package name
         #"Development Status :: 4 - Beta",
         "GNU Lesser General Public License v2 (GPL-2)",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.8",
       ],
       keywords = "colors HCL",
       url = "https://github.com/retostauffer/python-colorspace",

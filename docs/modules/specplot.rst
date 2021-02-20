@@ -1,5 +1,5 @@
 Spectrum Plot
 ==============
 
-.. automodule:: specplot
+.. automodule:: colorspace.specplot
     :members:

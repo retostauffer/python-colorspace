@@ -1430,7 +1430,7 @@ class colorlib(object):
 
             # Converts integers to hex string
             def applyfun(x):
-                x = np.asarray(x * 255. + .5, dtype = np.int)
+                x = np.asarray(x * 255. + .5, dtype = int)
                 return "#{:02x}{:02x}{:02x}".format(x[0], x[1], x[2]).upper()
 
             h = np.vstack([r,g,b]).transpose().flatten().reshape([len(r),3])

@@ -10,25 +10,25 @@ to HCL based color palettes.
 Rainbow HCL
 -----------
 
-.. autoclass:: palettes.rainbow_hcl
+.. autoclass:: colorspace.palettes.rainbow_hcl
     :members:
 
 Qualitative HCL
 ---------------
 
-.. autoclass:: palettes.qualitative_hcl
+.. autoclass:: colorspace.palettes.qualitative_hcl
     :members:
 
 Diverging HCL
 -------------
 
-.. autoclass:: palettes.diverging_hcl
+.. autoclass:: colorspace.palettes.diverging_hcl
     :members:
 
 Sequential HCL
 ---------------
 
-.. autoclass:: palettes.sequential_hcl
+.. autoclass:: colorspace.palettes.sequential_hcl
     :members:
 
 HCL Palette Baseclass

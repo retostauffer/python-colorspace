@@ -15,9 +15,6 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-
-import sys
-print("--------------\nPython version %s\n-------------" % sys.version)
 try:
     import matplotlib
     matplotlib.use('TkAgg')
@@ -49,24 +46,18 @@ import colorspace
 
 # -- Project information -----------------------------------------------------
 
-project = 'colorspace-python'
-copyright = '2019, Matthias Dusch'
-author = 'Matthias Dusch'
+project   = "colorspace-python"
+author    = "Reto Stauffer"
+copyright = "2021, {:s}".format(author)
 
 import colorspace
-### The short X.Y version
-##version = colorspace.__version__
-### The full version, including alpha/beta/rc tags.
-##release = colorspace.__version__
-version = "0.0.0"
-release = "0.0.0"
+# The short X.Y version
+version = colorspace.__version__
+# The full version, including alpha/beta/rc tags.
+release = colorspace.__version__
 
 
 # -- General configuration ---------------------------------------------------
-
-# If your documentation needs a minimal Sphinx version, state it here.
-#
-# needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -87,15 +78,22 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.viewcode'
-    #'sphinx.ext.githubpages',
-    #'sphinxcontrib.bibtex'
+    'sphinx.ext.viewcode',
+    'sphinx.ext.githubpages',
+    'sphinxcontrib.bibtex'
 ]
+
+# BibTeX file
+bibtex_bibfiles      = ['references.bib']
+bibtex_default_style = 'label'
+bibtex_encoding      = 'latin'
 
 autosummary_generate = True
 
 numpydoc_class_members_toctree = True
 numpydoc_show_class_members = False
+
+autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance', 'inherited-members']
 
 ipython_warning_is_error = False
 
@@ -129,13 +127,18 @@ pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
 
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+html_static_path = ['_static']
+
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
-# html_theme = 'alabaster'
-# html_theme = 'classic'
-html_theme = 'bootstrap'
+html_theme      = 'bootstrap'
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+html_logo       = '_static/logo_wide.png'
+
+html_css_files = ['css/colorspace.css']
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -143,10 +146,10 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 #
 html_theme_options = {
     # Navigation bar title. (Default: ``project`` value)
-    # 'navbar_title': "foehnix",
+    'navbar_title': ' ', # empty by design! colorspace',
 
     # Tab name for entire site. (Default: "Site")
-    'navbar_site_name': "Site navigation",
+    'navbar_site_name': "Articles",
 
     # A list of tuples containing pages or urls to link to.
     # Valid tuples should be in the following forms:
@@ -156,9 +159,10 @@ html_theme_options = {
     # Note the "1" or "True" value above as the third argument to indicate
     # an arbitrary url.
     'navbar_links': [
-        ("Getting started", "foehnix-demo"),
-        ("API reference", "api"),
-    #    ("Link", "http://example.com", True),
+        ("Get started", "getstarted"),
+        ("API Reference", "api", False),
+        #("API reference", "api"),
+        #("Link", "http://example.com", True),
     ],
 
     # Render the next and previous page links in navbar. (Default: true)
@@ -213,10 +217,6 @@ html_theme_options = {
     'bootstrap_version': "3",
 }
 
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -227,12 +227,13 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+html_sidebars = {"**": ["localtoc.html", "sourcelink.html", "searchbox.html"]}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'foehnix-pythondoc'
+htmlhelp_basename = 'colorspace-pythondoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -259,8 +260,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'foehnix-python.tex', 'foehnix-python Documentation',
-     'Matthias Dusch', 'manual'),
+    (master_doc, 'python-colorspace.tex', 'python-colorspace Documentation',
+     'Reto Stauffer', 'manual'),
 ]
 
 
@@ -269,7 +270,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'foehnix-python', 'foehnix-python Documentation',
+    (master_doc, 'python-colorspace', 'python-colorspace Documentation',
      [author], 1)
 ]
 
@@ -280,8 +281,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'foehnix-python', 'foehnix-python Documentation',
-     author, 'foehnix-python', 'One line description of project.',
+    (master_doc, 'python-colorspace', 'python-colorspace Documentation',
+     author, 'python-colorspace', 'One line description of project.',
      'Miscellaneous'),
 ]
 

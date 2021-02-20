@@ -9,5 +9,14 @@ develop: setup.py
 	python setup.py clean --all && \
 	python setup.py develop
 
-test: test.py
-	python test.py
+test:
+	pytest
+
+cov:
+	(cd colorspace && \
+		coverage run --source colorspace -m pytest && \
+		coverage html)
+		##chromium-browser htmlcov/index.html)
+
+
+

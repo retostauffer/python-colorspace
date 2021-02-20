@@ -1,8 +1,13 @@
 
 
 def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
-    """
+    """swatchplot(pals, nrow = 20, n = 5, *args, **kwargs)
 
+    Details
+    -------
+    ``**kwargs`` can be used to specify the figure size of the resulting
+    image by specifying ``figsize = (height, width)`` where both, ``height``
+    and ``width`` must be int/float, specifying the height and width in inches.
 
     Examples
     --------
@@ -60,6 +65,17 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
 
         # Return
         return ["custom", colors]
+
+    # Allow the user to specify figure size if needed
+    if "figsize" in kwargs:
+        figsize = kwargs["figsize"]
+        if not isinstance(figsize, tuple) or not len(figsize) == 2:
+            raise ValueError("\"figsize\" must be a tuple of length 2.")
+        for i in range(0, 1):
+            if not isinstance(figsize[i], int) and not isinstance(figsize[i], float):
+                raise ValueError("Element {:d} in \"figsize\" not int/float.".format(i))
+    else:
+        figsize = (5, 4) # default
 
     from re import match
     from numpy import all, max, sum, where
@@ -219,7 +235,7 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     # Plot
     # ---------------------------------------------------------------
     # Initialize new figure
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize = figsize)
 
     # Compute number of columns needed
     if npals <= nrow:

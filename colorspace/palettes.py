@@ -3,7 +3,7 @@ import os
 import sys
 
 
-class palette(object):
+class palette:
     """palette(colors, name)
 
     Custom named color palette with a fixed number of colors.
@@ -43,6 +43,8 @@ class palette(object):
         from re import match, compile
         from numpy import all
         pat   = compile("^#[0-9A-Fa-f]{6}([0-9]{2})?$")
+        if not all([isinstance(x, str) for x in colors]):
+            raise ValueError("not all colors are strings (invalid)")
         check = [match(pat, col) for col in colors]
         if not all(check):
             raise ValueError("not all colors are valid hex colors")
@@ -81,7 +83,7 @@ class palette(object):
         if n is None: n = len(self.colors())
 
         # Get coordinates
-        pos = round(linspace(0,1,n), 6)
+        pos = round(linspace(0, 1, len(self.colors())), 6)
         # Fixup RGB colors if not within [0,1]
         r   = fmax(0, fmin(1, round(cobj.get("R"),   6)))
         g   = fmax(0, fmin(1, round(cobj.get("G"),   6)))
@@ -89,7 +91,7 @@ class palette(object):
 
         # Create dict for cmap
         cdict = {'red':[], 'green':[], 'blue':[]}
-        for i in range(0,n):
+        for i in range(0, len(self.colors())):
             j = i if not rev else n - i - 1
             cdict['red'].append(   (pos[i], r[j], r[j]) ) 
             cdict['green'].append( (pos[i], g[j], g[j]) )
@@ -102,7 +104,7 @@ class palette(object):
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class defaultpalette(object):
+class defaultpalette:
     """defaultpalette(type, method, parameter, name, settings)
 
     Default color palette object. This object is not intended to be used by the
@@ -177,6 +179,8 @@ class defaultpalette(object):
     def type(self):
         """type()
 
+        Get type of the color palette.
+
         Return
         ------
         Returns the type (`str`) of the palette.
@@ -185,6 +189,9 @@ class defaultpalette(object):
 
     def name(self):
         """name()
+
+        Get name of color palette.
+
         Return
         ------
         Returns the name (`str`) of the palette.
@@ -340,7 +347,7 @@ class defaultpalette(object):
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class hclpalettes(object):
+class hclpalettes:
     """hclpalettes(files = None)
     
     Prepares the pre-specified hclpalettes.  Reads the config files and creates
@@ -365,17 +372,17 @@ class hclpalettes(object):
             files = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
 
 
-        for file in files:
-            if not os.path.isfile(file):
-                raise Exception("Cannot find file {:s}. Stop.".format(file))
-
-        # Else trying to read the files. Returns a list with
-        # palette configs.
-        self._palettes_ = {}
+        # Input 'files' specified:
         if len(files) == 0:
-            raise ValueError("No palette config files found ({:s}.".format(self.__class__.__name__))
+            raise ValueError("No palette config files provided ({:s}.".format(self.__class__.__name__))
+        else:
+            for file in files:
+                if not os.path.isfile(file):
+                    raise Exception("Cannot find file {:s}. Stop.".format(file))
 
-        # Else print debug message and read the config files
+
+        # Else trying to load palettes and append thenm to _palettes_
+        self._palettes_ = {}
         for file in files:
             [palette_type, pals] = self._load_palette_config_(file)
             if not pals: continue
@@ -384,9 +391,10 @@ class hclpalettes(object):
             self._palettes_[palette_type] = pals
 
         # A poor attempt to order the palettes somehow
-        x = self._palettes_.keys()
+        x = list(self._palettes_.keys())
         x.sort(reverse = True)
         tmp = {}
+
         for rec in x: tmp[rec] = self._palettes_[rec]
         self._palettes_ = tmp
 
@@ -501,6 +509,10 @@ class hclpalettes(object):
             # If already found: break outer loop
             if take_pal: break;
 
+        # If none: not found
+        if take_pal is None:
+            raise ValueError("Palette {:s} not found.".format(name))
+
         # Else return list with palettes
         return take_pal
 
@@ -561,13 +573,26 @@ class hclpalettes(object):
         else:
             return [palette_type, pals]
 
+    def length(self):
+        """length()
+
+        Return
+        ======
+        Integer, number of palettes in the object.
+        """
+
+        npals = 0
+        for type_ in self.get_palette_types():
+            for pal in self.get_palettes(type_): npals += 1
+
+        return npals
 
 
 
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class hclpalette(object):
+class hclpalette:
     """Hy, I am the base class.
     Is extended by the different HCL based color palettes such as
     the classes diverging_hcl, qualitative_hcl, rainbow_hcl, sequential_hcl,
@@ -634,6 +659,8 @@ class hclpalette(object):
 
     def name(self):
         """name()
+
+        Get name of color palette.
 
         Returns
         -------
@@ -879,7 +906,7 @@ class hclpalette(object):
 
 
     def cmap(self, n = 51, name = "custom_hcl_cmap"):
-        '''cmap(n = 51, name = "custom_hcl_cmap")
+        """cmap(n = 51, name = 'custom_hcl_cmap')
 
         Allows to retrieve a matplotlib LinearSegmentedColormap color map.
         Clasically LinearSegmentedColormaps allow to retrieve a set of ``N``
@@ -908,7 +935,7 @@ class hclpalette(object):
         matplotlib.colors.LinearSegmentedColormap
             Returns a ``LinearSegmentedColormap`` (cmap) to be used
             with the matplotlib library.
-        '''
+        """
         import matplotlib
         from matplotlib.colors import LinearSegmentedColormap
         from numpy import linspace, round, fmin, fmax
@@ -1615,7 +1642,7 @@ class sequential_hcl(hclpalette):
 # -------------------------------------------------------------------
 class heat_hcl(sequential_hcl):
     """heat_hcl(h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.], \
-               fixup = True, *args, **kwargs):
+               fixup = True, *args, **kwargs)
 
     HEAT hcl, a sequential palette.
 
@@ -1635,6 +1662,8 @@ class heat_hcl(sequential_hcl):
     fixup : bool 
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
+    rev : bool 
+        should the color map be reversed.
     args : ...
         unused.
     kwargs : ...
@@ -1660,7 +1689,10 @@ class heat_hcl(sequential_hcl):
     _name = "Heat HCL"
 
     def __init__(self, h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.],
-                 fixup = True, *args, **kwargs):
+                 fixup = True, rev = False, *args, **kwargs):
+
+        # Save reverse flag
+        self._rev = rev
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1698,7 +1730,7 @@ class heat_hcl(sequential_hcl):
 # -------------------------------------------------------------------
 class terrain_hcl(sequential_hcl):
     """terrain_hcl(h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.], \
-               fixup = True, *args, **kwargs):
+               fixup = True, rev = False, *args, **kwargs)
 
     HCL terrain colors, a sequential palette.
 
@@ -1718,6 +1750,8 @@ class terrain_hcl(sequential_hcl):
     fixup : bool 
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
+    rev : bool
+        should the color map be reversed.
     args : ...
         unused.
     kwargs : ...
@@ -1742,7 +1776,10 @@ class terrain_hcl(sequential_hcl):
     _name = "Terrain HCL"
 
     def __init__(self, h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.],
-                 fixup = True, *args, **kwargs):
+                 fixup = True, rev = False, *args, **kwargs):
+
+        # Save reverse flag
+        self._rev = rev
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1800,6 +1837,8 @@ class diverging_hsv(hclpalette):
     fixup : bool
         only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
+    rev : bool
+        should the color map be reversed.
     args : ...
         unused.
     kwargs : ...

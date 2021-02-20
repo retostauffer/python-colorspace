@@ -20,7 +20,7 @@ retrieve a set of colors by calling:
 
 Function Reference
 ^^^^^^^^^^^^^^^^^^^
-.. autoclass:: palettes.diverging_hcl
+.. autoclass:: colorspace.palettes.diverging_hcl
     :noindex:
     :members: colors
 
@@ -37,7 +37,7 @@ Sequential
 
 Function Reference
 ^^^^^^^^^^^^^^^^^^^
-.. autoclass:: palettes.sequential_hcl
+.. autoclass:: colorspace.palettes.sequential_hcl
     :noindex:
     :members: colors
 
@@ -51,7 +51,7 @@ Qualitative
 
 Function Reference
 ^^^^^^^^^^^^^^^^^^^
-.. autoclass:: palettes.qualitative_hcl
+.. autoclass:: colorspace.palettes.qualitative_hcl
     :noindex:
     :members: colors
 

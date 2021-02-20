@@ -1,5 +1,5 @@
 
-.. _page-choose-palette:
+.. _article-choose-palette:
 
 Graphical User Interface
 =========================
@@ -12,6 +12,6 @@ Graphical User Interface
 Function Reference
 ^^^^^^^^^^^^^^^^^^
 
-.. autofunction:: choose_palette.choose_palette
+.. autofunction:: colorspace.choose_palette
     :noindex:
 

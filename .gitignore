@@ -1,7 +1,13 @@
 
 
 colorspace.egg-info
-build
+
+# Coverage report
+htmlcov
+
+# Manual
+_build
 
 */*.pyc
 */*/*.pyc
+

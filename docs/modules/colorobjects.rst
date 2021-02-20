@@ -1,5 +1,8 @@
+=================
 The color objects
 =================
+
+.. currentmodule:: python-colorspace
 
 The ``colorlib`` module is handling the transformation between different
 color spaces. A set of different color spaces is available including
@@ -14,9 +17,12 @@ color spaces. A set of different color spaces is available including
 :py:class:`colorlib.sRGB`, and
 :py:class:`colorlib.hexcols` for HEX colors.
 
-.. image:: ../_static/img_colorlib.jpeg
+.. image:: ../articles/images/colorspaces.jpeg
+    :width: 80%
+    :alt: Color spaces and their connection.
+    :align: center
 
 
-.. automodule:: colorlib
+.. automodule:: colorspace.colorlib
     :members: colorobject, hexcols, sRGB, RGB, polarLUV, HCL, CIELUV, CIEXYZ, CIELAB, polarLAB, HLS, HSV
 

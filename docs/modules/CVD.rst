@@ -1,6 +1,6 @@
 Color Vision Deficiency
 =======================
 
-.. automodule:: CVD
+.. automodule:: colorspace.CVD
     :members:
 

@@ -5,8 +5,9 @@
    .. automodule:: imageio
 
 
-Welcome to python-colorspace's documentation!
-=============================================
+
+A Toolbox for Manipulating and Assessing Colors and Palettes
+============================================================
 
 ``python-colorspace`` is a python package to create and handle colors and color
 palettes in python. Based on the Hue-Chroma-Luminance (HCL) color space
@@ -15,7 +16,7 @@ workflow.
 
 This package is based on the code and ideas of the
 `R colorspace <https://cran.r-project.org/package=colorspace>`_ package
-as it has often been requested by python enthusiasts. More information
+as it has often been requested by Python enthusiasts. More information
 and an interactive interface can also be found on
 `HCLwizard.org <https://hclwizard.org>`_.
 
@@ -25,17 +26,23 @@ is also available on `ReadTheDocs <https://python-colorspace.readthedocs.io>`_.
 
 
 
-
 Contents
 --------
 
 .. toctree::
     :maxdepth: 2
     
-    sec_gettingstarted
-    sec_examples
-    sec_reference
-    sec_developer
+    articles/classes-and-methods
+    articles/installation
+    articles/color_spaces
+    articles/hcl_palettes
+    articles/ggplot_color_scale
+    articles/palette_visualization
+    articles/hclwizard
+    articles/color_vision_deficiency
+    articles/manipulation_utilities
+    articles/approximations
+    articles/endrainbow
 
 
 Other Packages and Further Reading

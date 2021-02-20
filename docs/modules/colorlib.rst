@@ -17,6 +17,6 @@ color spaces. A set of different color spaces is available including
 .. image:: ../_static/img_colorlib.jpeg
 
 
-.. autoclass:: colorlib.colorlib
+.. autoclass:: colorspace.colorlib.colorlib
     :members:
 

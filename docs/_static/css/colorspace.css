@@ -1,5 +1,37 @@
 
+form.navbar-form {
+    display: none;
+}
 
+.navbar-default {
+    background-color: #F8F8F8;
+    border-color: #F8F8F8;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #777;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: white;
+    background-color: #E94C6F;
+}
+
+a, a:hover, a:focus {
+    color: #E94C6F;
+}
+
+/* Show number in references */
+.label { color: black; }
+
+/* Stying of API doc */
+div.container div.section {
+    padding-top: 2em;
+}
+dt:target, span.highlighted {
+    margin: .3em;
+    background-color: #fde937;
+}
+
+/*
 .container-fluid pre {
     border: 1px solid black;
     padding: 10px;
@@ -20,10 +52,8 @@
 }
 .container-fluid pre code.sourceCode.python {
     color: black;
-    /*color: #343131;*/
 }
 
-/* My check elements in the examples */
 check.Rpy {
     display: block;
     width: 100%;
@@ -55,4 +85,4 @@ check.Rpy.failed:before {
     text-decoration: inherit;
     content: "\f00d";
 }
-
+*/

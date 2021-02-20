@@ -30,4 +30,7 @@ from .specplot import specplot
 from .choose_palette import choose_palette
 from .cvd_emulator import cvd_emulator
 
-
+# Adding version
+from colorspace import version
+__version__ = version.short_version
+del version
