@@ -1008,8 +1008,7 @@ class colorlib:
             elif i == 4:       return [n, m, v]
             elif i == 5:       return [v, m, n]
             else:
-                import sys;
-                sys.exit("Ended up in a non-defined ifelse with i = %d".format(i))
+                Exception("Ended up in a non-defined ifelse with i = %d".format(i))
     
         # Result arrays
         r = np.ndarray(len(h), dtype = "float"); r[:] = 0.
@@ -1382,7 +1381,7 @@ class colorlib:
     
     
     def sRGB_to_hex(self, r, g, b, fixup = True):
-        """sRGB_to_hex(r, g, , fixup = True)
+        """sRGB_to_hex(r, g, b, fixup = True)
 
         sRGB colors to hex colors.
 
@@ -1451,7 +1450,9 @@ class colorlib:
 
         # Create return list with NAN's for invalid colors
         res = [np.nan if len(x) == 0 else x.decode() for x in res]
-        return res;
+
+        # Return numpy array
+        return np.asarray(res)
 
     # RETO RETO RETO
     def hex_to_sRGB(self, hex_, gamma = 2.4):
@@ -1512,11 +1513,13 @@ class colorlib:
 # Color object base class
 # will be extended by the different color classes.
 # -------------------------------------------------------------------
-class colorobject(object):
+class colorobject:
     """
     This is the base class of all color objects and provides some
     default methods.
     """
+
+    import numpy as np
 
     # Allowed/defined color spaces
     ALLOWED = ["CIEXYZ", "CIELUV", "CIELAB", "polarLUV", "polarLAB",
@@ -1554,11 +1557,6 @@ class colorobject(object):
         elif match("^(X|Y|Z|alpha){3,4}$", "".join(dims)): dims = ["X", "Y", "Z"]
         elif match("^(H|S|V|alpha){3,4}$", "".join(dims)): dims = ["H", "S", "V"]
         elif match("^(H|L|S|alpha){3,4}$", "".join(dims)): dims = ["H", "L", "S"]
-        if self.hasalpha():
-            dims.append("alpha")
-        elif "alpha" in dims:
-            del dims[dims.index("alpha")]
-
 
         # Number of colors
         ncol = len(self._data_[dims[0]])
@@ -1573,17 +1571,14 @@ class colorobject(object):
         # Show data
         # In case of a hexcols object: string formatting and
         # nan-replacement beforehand.
-        if self.__class__.__name__ == "hexcols":
+        if isinstance(self, hexcols):
             data = {}
             fmt = "".join(["{:", "{:d}.{:d}".format(6+digits, 3), "f}"])
-            for d in dims: ##self._data_.keys():
-                data[d] = np.ndarray(ncol, dtype = "|S7")
-                for n in range(0, ncol):
-                    x = self._data_[d][n]
-                    if isinstance(x, float):
-                        data[d][n] = fmt.format(x)
-                    else:
-                        data[d][n] = x[0:7]
+            data["hex_"] = np.ndarray(ncol, dtype = "|S7")
+            for n in range(0, ncol):
+                x = self._data_["hex_"][n]
+                data["hex_"][n] = fmt.format(x) if isinstance(x, float) else x[0:7]
+            data["alpha"] = self.get("alpha")
             fmt = "{:>8s}"
         else:
             fmt = "".join(["{:", "{:d}.{:d}".format(6+digits, digits), "f}"])
@@ -1597,7 +1592,12 @@ class colorobject(object):
             else:
                 tmp = "    "
             for d in dims:
-                tmp += fmt.format(data[d][n])
+                if data[d] is None:
+                    tmp += "  ---"
+                elif isinstance(data[d][n], str) or isinstance(data[d][n], np.bytes_):
+                    tmp += fmt.format(data[d][n])
+                else:
+                    tmp += fmt.format(float(data[d][n]))
             count += 1
             res.append(tmp)
 
@@ -1620,6 +1620,33 @@ class colorobject(object):
             Returns a list of hex colors.
         """
         return self.colors(fixup = fixup, rev = rev)
+
+    def __iter__(self):
+        self.n = -1
+        return self
+
+    def __next__(self):
+        if self.n < (self.length() - 1):
+            self.n += 1
+            res = self[self.n]
+            return res
+        else:
+            raise StopIteration
+
+    def __getitem__(self, key):
+        if not isinstance(key, int):
+            raise TypeError("Only subsettable by integer index.")
+
+        from copy import deepcopy
+        from numpy import array, newaxis
+        res = deepcopy(self)
+        for n in list(res._data_.keys()):
+            # If None: keep it as it is, else subset
+            if res._data_[n] is None: continue
+            res._data_[n] = res._data_[n][newaxis, key]
+
+        return res
+
 
     def get_whitepoint(self):
         """get_whitepoint()
@@ -1745,6 +1772,8 @@ class colorobject(object):
             if the inputs do not fulfil the requirements.
         """
 
+        from numpy import asarray, float64
+
         # Message will be dropped if problems occur
         msg = "Problem while checking inputs \"{:s}\" to class \"{:s}\":".format(
                 ", ".join(kwargs.keys()), self.__class__.__name__)
@@ -1752,9 +1781,13 @@ class colorobject(object):
 
         res = {}
         lengths = []
+        keys_to_check = []
         for key,val in kwargs.items():
             # No alpha provided, simply proceed
             if key == "alpha" and val is None: continue
+
+            keys_to_check.append(key)
+
             # If is list: convert to ndarray no matter how long the element is
             if isinstance(val,float) or isinstance(val,int):
                 val = np.asarray([val])
@@ -1778,14 +1811,16 @@ class colorobject(object):
 
             # Else append length and proceed
             lengths.append(len(val))
+
             # Append to result vector
-            res[key] = val
+            if isinstance(val, int) or isinstance(val, float): val = [val]
+            res[key] = val if key == "hex_" else asarray(val, float64)
 
         # Check if all do have the same length
         if not np.all([x == lengths[0] for x in lengths]):
             msg += "Arguments of different lengths: {:s}".format(
-                   ", ".join(["{:s} = {:d}".format(kwargs.keys()[i],lengths[i]) \
-                    for i in range(0,len(kwargs))]))
+                   ", ".join(["{:s} = {:d}".format(keys_to_check[i], lengths[i]) \
+                    for i in range(0, len(keys_to_check))]))
             raise ValueError(msg)
 
         return res
@@ -1993,6 +2028,12 @@ class colorobject(object):
         # Looping over inputs
         for key,vals in kwargs.items():
             key.upper()
+
+            if not isinstance(vals, list): vals = [vals]
+            print("===================XXX=====================")
+            print(key)
+            print(vals)
+
             # Return all coordinates
             if not key in self._data_.keys():
                 raise ValueError("{:s} has no dimension {:s}".format(self.__class__.__name__, key))
@@ -2000,6 +2041,7 @@ class colorobject(object):
             # New values do have to have the same length as the old ones,
             n = len(self.get(key))
             t = type(self.get(key)[0])
+            print([n, t])
             from numpy import asarray
             try:
                 vals = asarray(vals, dtype = t)
@@ -2009,7 +2051,17 @@ class colorobject(object):
             if not len(vals) == n:
                 raise ValueError("number of values to be stored on the object " + \
                     "{:s} have to match the current dimension".format(self.__class__.__name__))
+            print(vals)
             self._data_[key] = vals
+
+    def length(self):
+        """length()
+
+        Return
+        ------
+        Number of colors defined in the object (int).
+        """
+        return len(self.get(list(self._data_.keys())[0]))
 
 
     def _cannot(self, from_, to):
@@ -3072,15 +3124,16 @@ class hexcols(colorobject):
 
     def __init__(self, hex_):
 
-        if isinstance(hex_,str): hex_ = np.asarray([hex_])
+        if isinstance(hex_,str): hex_ = [hex_]
+        hex_ = np.asarray(hex_)
         # checking inputs, save inputs on object
         self._data_ = {} # Dict to store the colors/color dimensions
         tmp = self._colorobject_check_input_arrays_(hex_ = hex_)
 
         # Checking for valid hex colors and alpha values
         tmp = self._check_hex_(tmp["hex_"])
-        for key,val in tmp.items():
-            self._data_[key] = val
+        for key,val in tmp.items(): self._data_[key] = val
+
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -3110,13 +3163,13 @@ class hexcols(colorobject):
         from re import compile, match
         from numpy import sum
 
-        r = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
+        r = compile("^(nan|#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?)$")
         check = [1 if match(r, x) else 0 for x in hex_]
         if not sum(check) == len(hex_):
             raise ValueError("invalid hex colors provided while " + \
                     "initializing class {:s}".format(self.__class__.__name__))
 
-        r = compile("^#[0-9A-Fa-f]{6}([0-9]{2})$")
+        r = compile("^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})$")
         check = [1 if match(r, x) else 0 for x in hex_]
         # No colors with alpha
         if sum(check) == 0:
@@ -3126,10 +3179,8 @@ class hexcols(colorobject):
             alpha = []
             for h in hex_:
                 m = match(r, h)
-                if not m:
-                    alpha.append(1.)
-                else:
-                    alpha.append(int(m.group(1)) / 100.)
+                if not m: alpha.append(1.)
+                else:     alpha.append(int(m.group(1), 16) / 255.)
             return {"hex_": hex_, "alpha": alpha}
 
 
@@ -3188,6 +3239,114 @@ class hexcols(colorobject):
 
         else: self._cannot(self.__class__.__name__, to)
 
+
+def compare_colors(a, b, exact = False, _all = True, atol = None):
+    """_check_equal_(a, b, exact = False)
+
+    Parameters
+    ----------
+    a : object which inherits from colorspace.colorlib.colorobject
+    b : object which inherits from colorspace.colorlib.colorobject
+    exact : boolean
+        Default ``False``, check for colors being nearly equal (see ``atol``). If set to ``True``
+        the coordinates must be identical. Note: in case ``a`` and ``b`` are hex colors
+        (colorspace.colorlib.hexcols) strings will always be matched exactely.
+    _all : boolean
+        Default ``True``; the function will return ``True`` if all colors are
+        identical/nearly equal. If set to ``False`` the return will be a list
+        of booleans containing ``True`` and ``False`` for each pair of colors.
+    atol : None or float
+        Absolute tolerance for the distance measure between two colors to be considered
+        as nearly equal. Only used if ``exact = False``, else ``atol = 1e-6`` is used.
+        If set to ``None`` the tolerance will automatically be set depending on the
+        type of the objects.
+
+
+    Return
+    ------
+    Returns a boolean ``True`` or ``False`` whether or not all colors the two
+    objects are exactely equal or nearly equal (see parameter description).
+    If ``_all = False`` a list of booleans is returned indicating pair-wise
+    comparison of all colors in the two input objects.
+
+    Examples
+    --------
+    >>> from colorspace.colorlib import *
+    >>>
+    >>> # Three RGB colors
+    >>> a = RGB([0.5, 0.5], [0.1, 0.1], [0.9, 0.9])
+    >>> b = RGB([0.5, 0.5], [0.1, 0.1], [0.9, 0.91])
+    >>> 
+    >>> compare_colors(a, b)
+    >>> compare_colors(a, b, atol = 0.1)
+    >>> compare_colors(a, b, exact = True)
+    >>> compare_colors(a, b, exact = True, _all = False)
+    >>>
+    >>> # Two HEX colors
+    >>> x = hexcols(["#ff00ff", "#003300"])
+    >>> y = hexcols(["#ff00ff", "#003301"])
+    >>> compare_colors(x, y)
+    >>> compare_colors(x, y, _all = False)
+    >>>
+    >>> # Convert HEX to HCL (polarLUV) and back; check if
+    >>> # we end up with the original colors
+    >>> from copy import deepcopy
+    >>> z = hexcols(["#ff00ff", "#003301"])
+    >>> zz = deepcopy(z)
+    >>> zz.to("HCL")
+    >>> print(zz)
+    >>> zz.to("hex")
+    >>> print(zz)
+    >>> compare_colors(z, zz)
+    """
+
+    from numpy import sqrt, isclose
+
+    if not issubclass(type(a), colorobject):
+        raise ValueError("Input \"a\" must be an object based on colorspace.colorlib.colorobject.")
+    if not issubclass(type(b), colorobject):
+        raise TypeError("Input \"b\" must be an object based on colorspace.colorlib.colorobject.")
+    if not type(a) == type(b):
+        raise TypeError("Input \"a\" and \"b\" not of same class.")
+    if not a.length() == b.length():
+        raise ValueError("Objects do not contain the same number of colors.")
+    if not isinstance(exact, bool): raise TypeError("\"exact\" must be boolean True or False")
+    if not isinstance(_all, bool):  raise TypeError("\"_all\" must be boolean True or False")
+    if not isinstance(atol, float) and not atol is None:
+        raise TypeError("\"atol\" must be floating point number or None")
+
+    if exact: atol = 1e-6
+
+    def distance(a, b):
+        dist = 0
+        for n in list(a._data_.keys()):
+            dist += (a.get(n)[0] - b.get(n)[0])**2.0
+        return sqrt(dist)
+
+    # Compare hex colors; always on string level
+    if isinstance(a, hexcols):
+        # Getting coordinates
+        res = [a[i].get("hex_")[0].upper() == b[i].get("hex_")[0].upper() for i in range(0, a.length())]
+    # Calculate absolute difference between coordinates R/G/B[/alpha].
+    # Threading alpha like another coordinates as all coordinates are scaled [0-1].
+    elif isinstance(a, RGB):
+        if not atol: atol = 0.001
+        res = [distance(a[i], b[i]) for i in range(0, a.length())]
+        res = isclose(res, 0, atol = atol)
+    # HCL or polarLUV (both return instance polarLUV)
+    # TODO(R): Calculating the Euclidean distance on HCL and (if available) alpha
+    #          which itself is in [0, 1]. Should be weighted differently?
+    elif isinstance(a, polarLUV):
+        if not atol: atol = 1
+        res = [distance(a[i], b[i]) for i in range(0, a.length())]
+        res = isclose(res, 0, atol = atol)
+
+
+    # If _all is True: check if all elements are True
+    if _all:
+        from numpy import all
+        res = all(res)
+    return res
 
 
 
