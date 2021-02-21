@@ -1,4 +1,15 @@
 [
+    {"_comment": "Testing diverging_hcl"},
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 4},
+      "colors": null
+    },
     {
       "fun": "diverging_hcl",
       "args": {"n": 7, "h": [0, 180], "c": [60, 5], "l": [30, 80]},
@@ -6,7 +17,51 @@
     },
     {
       "fun": "diverging_hcl",
-      "args": {"n": 4, "h": [0, 180], "c": [60, 5], "l": [30, 80]},
+      "args": {"n": 7, "h1": 0, "h2": 180, "c1": 60, "l1": 30, "l2": 80},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "power": 0.3},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "power": 1.5},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "rev": true},
+      "colors": null
+    },
+
+
+
+    {"_comment": "Testing qualitative_hcl"},
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 7, "h": [0, 300]},
+      "colors": null
+    },
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 4, "h": [0, 300]},
+      "colors": null
+    },
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 7, "h": [0, 180], "c": 60, "l": 30},
+      "colors": null
+    },
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 7, "h1": 0, "h2": 300, "c1": 60, "l1": 30},
+      "colors": null
+    },
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 7, "h": [0, 300], "rev": true},
       "colors": null
     }
 ]

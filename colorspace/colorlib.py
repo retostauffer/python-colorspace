@@ -1948,7 +1948,9 @@ class colorobject:
         else:
             colors = x.get("hex_")
 
-        if rev: colors.reverse()
+        if rev:
+            from numpy import flip
+            colors = flip(colors)
         return [str(x) for x in colors]
 
 

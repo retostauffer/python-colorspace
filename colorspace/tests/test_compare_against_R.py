@@ -19,6 +19,11 @@ def test_against_R():
         # Getting current record for convenience
         rec = data[i]
 
+        # If we have _comment: skip
+        if "_comment" in rec:
+            print("\n ------- {:s}".format(rec["_comment"]))
+            continue
+
         # Print for debugging shown when running pytest -s
         print("[compare against R]: {:s}".format(rec["id"]))
         fun = eval(rec["fun"])

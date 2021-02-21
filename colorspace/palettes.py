@@ -1022,7 +1022,7 @@ class qualitative_hcl(hclpalette):
 
     _name = "Qualitative"
 
-    def __init__(self, h = [0, 360.], c = 50, l = 70,
+    def __init__(self, h = [0, 360.], c = 80, l = 60,
         fixup = True, palette = None, rev = False, **kwargs):
 
         # Store reverse flag
@@ -1075,6 +1075,10 @@ class qualitative_hcl(hclpalette):
             settings["l1"]    = l
             settings["fixup"] = fixup
             settings["rev"]   = rev
+
+            # Allow to overule few things
+            for key,value in kwargs.items():
+                if key in ["h1", "h2", "c1", "l1"]: settings[key] = value
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
