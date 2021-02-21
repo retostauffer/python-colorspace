@@ -1,0 +1,15 @@
+[
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "c": [60, 5], "l": [30, 80]},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 4, "h": [0, 180], "c": [60, 5], "l": [30, 80]},
+      "colors": null
+    }
+]
+        
+
+

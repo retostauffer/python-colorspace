@@ -2030,9 +2030,6 @@ class colorobject:
             key.upper()
 
             if not isinstance(vals, list): vals = [vals]
-            print("===================XXX=====================")
-            print(key)
-            print(vals)
 
             # Return all coordinates
             if not key in self._data_.keys():
@@ -2041,7 +2038,6 @@ class colorobject:
             # New values do have to have the same length as the old ones,
             n = len(self.get(key))
             t = type(self.get(key)[0])
-            print([n, t])
             from numpy import asarray
             try:
                 vals = asarray(vals, dtype = t)
@@ -2051,7 +2047,7 @@ class colorobject:
             if not len(vals) == n:
                 raise ValueError("number of values to be stored on the object " + \
                     "{:s} have to match the current dimension".format(self.__class__.__name__))
-            print(vals)
+
             self._data_[key] = vals
 
     def length(self):

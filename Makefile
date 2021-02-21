@@ -10,7 +10,7 @@ develop: setup.py
 	python setup.py develop
 
 test:
-	pytest
+	pytest -s
 
 cov:
 	(cd colorspace && \

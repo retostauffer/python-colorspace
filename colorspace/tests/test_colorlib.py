@@ -237,8 +237,6 @@ def test_repr():
     color = hexcols("#ff0000")
     for x in ["CIELAB", "CIELUV", "HCL", "CIEXYZ", "RGB", "HSV", "HLS", "hex"]:
         color.to(x)
-        print(x)
-        print(color)
         assert isinstance(repr(color), str)
 # Testing truncated output
 def test_repr_truncation():
