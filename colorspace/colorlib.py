@@ -3073,6 +3073,7 @@ class HLS(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to == "hex":
+            # TODO(R): Fails!!!!!
             via = ["RGB", "sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
@@ -3329,14 +3330,18 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
         res = [a[i].get("hex_")[0].upper() == b[i].get("hex_")[0].upper() for i in range(0, a.length())]
     # Calculate absolute difference between coordinates R/G/B[/alpha].
     # Threading alpha like another coordinates as all coordinates are scaled [0-1].
-    elif isinstance(a, RGB):
-        if not atol: atol = 0.001
+    elif isinstance(a, RGB) or isinstance(a, sRGB) or \
+         isinstance(a, HLS) or isinstance(a, HSV):
+        # HEX precision in RGB coordinates is about sqrt((1./255.)**2 * 3) / 2 = 0.003396178
+        if not atol: atol = 0.005
         res = [distance(a[i], b[i]) for i in range(0, a.length())]
         res = isclose(res, 0, atol = atol)
     # HCL or polarLUV (both return instance polarLUV)
     # TODO(R): Calculating the Euclidean distance on HCL and (if available) alpha
     #          which itself is in [0, 1]. Should be weighted differently?
-    elif isinstance(a, polarLUV):
+    elif isinstance(a, polarLUV) or isinstance(a, CIELUV) or isinstance(a, CIELAB) or \
+         isinstance(a, polarLAB) or isinstance(a, CIEXYZ) :
+
         if not atol: atol = 1
         res = [distance(a[i], b[i]) for i in range(0, a.length())]
         res = isclose(res, 0, atol = atol)

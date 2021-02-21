@@ -4,17 +4,12 @@ import pytest
 from colorspace.colorlib import *
 from copy import deepcopy
 
+all_models = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "CIELAB", "CIELUV", "RGB", \
+              "sRGB", "polarLAB", "hex", "HLS", "HSV"]
 colors_to_test            = hexcols(["#000000", "#ff0000", "#00ff00", "#0000ff",
                                      "#ff00ff", "#ffff00", "#00ffff", "#ffffff"])
 colors_to_test_with_alpha = hexcols(["#00000010", "#ff0000ff", "#00ff0030", "#0000ffAA",
                                      "#ff00ffce", "#ffff0000", "#00ffffc3", "#ffffffD3"])
-
-def test_HCL_equal_polarLUV():
-    a = HCL(100,  20,  40)
-    b = HCL(100., 20., 40.)
-
-    assert a.__dict__ == b.__dict__
-
 
 def test_HCL_to_RGB_black():
     x = HCL(0, 0, 0)
@@ -31,7 +26,7 @@ def test_HCL_to_RGB_black():
 
 # Compare hexcols objects
 def test_compare_colors_hex():
-    assert compare_colors(hexcols("#ff0000"), hexcols("#ff0000"))
+    assert compare_colors(hexcols("#ff0000"), hexcols("#FF0000"))
     assert compare_colors(colors_to_test,     colors_to_test)
 
 # Compare RGB objects
@@ -41,7 +36,7 @@ def test_compare_colors_RGB_no_alpha():
     # Two identical objects
     assert compare_colors(RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1]),
                           RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1]))
-    # One color slightly off but below tolerance (0.001)
+    # One color slightly off but below tolerance (0.01)
     # Test nearly equal (exact = True)
     assert compare_colors(RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1]),
                           RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1005]))
@@ -54,7 +49,7 @@ def test_compare_colors_RGB_with_alpha():
     # Two identical objects
     assert compare_colors(RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1], [0.5, 0.1]),
                           RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1], [0.5, 0.1]))
-    # One color slightly off but below tolerance (0.001)
+    # One color slightly off but below tolerance (0.01)
     # Test nearly equal (exact = True)
     assert compare_colors(RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1], [0.5, 0.1]),
                           RGB([1.0, 0.5], [0.3, 0.5], [1.0, 0.1], [0.5, 0.10005]))
@@ -84,6 +79,128 @@ def test_compare_colors_polarLUV():
 # * hexcols -> HSV;       HSV -> hexcols
 # * hexcols -> HLS;       HLS -> hexcols
 # --------------------------------------------
+def convert_from_to(col, _from, _to):
+    col2 = deepcopy(col)
+    col2.to(_to)
+    col2.to(_from)
+    assert compare_colors(col, col2)
+
+# ----------------------------------------------
+# Convert colors
+# ----------------------------------------------
+def test_convert_polarLUV():
+    col = polarLUV(50, 50, 50) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["HLS", "HSV", "foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "polarLUV", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "polarLUV", _to)
+            
+def test_convert_CIELUV():
+    col = CIELUV(50, 50, 50) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["HLS", "HSV", "foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "CIELUV", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "CIELUV", _to)
+
+def test_convert_CIELAB():
+    col = CIELAB(50, 50, 50) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["HLS", "HSV", "foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "CIELAB", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "CIELAB", _to)
+
+def test_convert_CIEXYZ():
+    col = CIEXYZ(50, 50, 50) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["HLS", "HSV", "foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "CIEXYZ", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "CIEXYZ", _to)
+
+def test_convert_RGB():
+    col = RGB(0.5, 0.5, 0.5) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "RGB", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "RGB", _to)
+
+def test_convert_sRGB():
+    col = sRGB(0.5, 0.5, 0.5) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "sRGB", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "sRGB", _to)
+
+def test_convert_polarLAB():
+    col = polarLAB(50, 50, 50) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["HLS", "HSV", "foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "polarLAB", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "polarLAB", _to)
+
+def test_convert_HLS():
+    col = HLS(180, 0.5, 0.5) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["foo", "CIEXYZ","CIELUV","CIELAB","polarLUV","HCL","polarLAB"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "HLS", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "HLS", _to)
+
+def test_convert_HSV():
+    col = HSV(180, 0.5, 0.5) # Basic color
+    # ambigious conversion; skip
+    ambigious = ["foo", "CIEXYZ","CIELUV","CIELAB","polarLUV","HCL","polarLAB"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "HSV", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "HSV", _to)
+
+def test_convert_hexcols():
+    col = hexcols("#FF5733")
+    # ambigious conversion; skip
+    ambigious = ["foo"]
+    for _to in all_models:
+        if _to in ambigious: continue
+        convert_from_to(col, "hex", _to)
+    for _to in ambigious:
+        with pytest.raises(Exception):
+            convert_from_to(col, "hex", _to)
+
+
+# ----------------------------------------------
+# ----------------------------------------------
 def test_convert_hex_to_polarLUV_to_hex():
     # Make a copy; convert hex -> polarLUV -> hex
     # polarLUV is identical to HCL
