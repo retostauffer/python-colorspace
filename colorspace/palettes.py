@@ -1649,6 +1649,9 @@ class heat_hcl(sequential_hcl):
         except Exception as e:
             raise ValueError(str(e))
 
+        # Save reverse flag
+        self._rev = False
+
         # Save settins
         try:
             self.settings = {"h1": int(h[0]), "h2": int(h[1]),
