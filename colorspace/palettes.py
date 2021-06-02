@@ -965,7 +965,7 @@ class hclpalette:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class qualitative_hcl(hclpalette):
-    """qualitative_hcl(h = [0, 360.], c = 50, l = 70, \
+    """qualitative_hcl([0, 360], c = 50, l = 70, \
             fixup = True, palette = None, rev = False, **kwargs)
     
     
@@ -975,7 +975,7 @@ class qualitative_hcl(hclpalette):
     ----------
     h : numeric list
         hue values, qualitative color palettes require
-        two hues.  If more than two values are provided the first two will
+        two hues. If more than two values are provided the first two will
         be used while the rest is ignored.  If input `h` is a string this
         argument acts like the `palette` argument (see `palette` input
         parameter).
