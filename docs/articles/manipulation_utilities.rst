@@ -1,7 +1,7 @@
 
 .. _article-manipulation_utilities:
 
-Manipulation Utilities
+Manipulation utilities
 ======================
 
 Template. TODO

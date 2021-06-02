@@ -1,7 +1,7 @@
 
 .. _article-installation:
 
-Package Installation
+Package installation
 ====================
 
 

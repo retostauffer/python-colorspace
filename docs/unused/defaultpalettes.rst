@@ -25,8 +25,6 @@ Function Reference
     :members: colors
 
 
-
-
 Sequential
 ----------
 

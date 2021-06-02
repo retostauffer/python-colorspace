@@ -1,7 +1,7 @@
 
 .. _article-hclwizard:
 
-hclwizard
-============
+HCLwizard
+=========
 
 Template. TODO

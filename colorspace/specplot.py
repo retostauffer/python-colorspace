@@ -5,7 +5,7 @@ import sys
 
 def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs):
     """specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
-    
+
     Visualization of the RGB and HCL spectrum given a set of hex colors.
     As the hues for low-chroma colors are not (or poorly) identified, by
     default a smoothing is applied to the hues (``fix = TRUE``). Also, to
@@ -17,21 +17,21 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
     Parameters
     ----------
     hex_ : list or numpy.ndarray
-        hex color codes.
+        Hex color codes.
     hcl : bool
-        whether or not to plot the HCL color spectrum.
+        Whether or not to plot the HCL color spectrum.
     palette : bool
-        whether or not to plot the colors as a color map.
+        Whether or not to plot the colors as a color map.
     fix : bool
-        should the hues be fixed to be on a smooth(er) curve? Details
+        Should the hues be fixed to be on a smooth(er) curve? Details
         in the method description.
     rgb : bool
-        whether or not to plot the RGB color spectrum. Default is False.
+        Whether or not to plot the RGB color spectrum. Default is False.
     kwargs : ...
         Currently not used.
 
-    Example
-    -------
+    Examples
+    --------
     >>> from colorspace import rainbow_hcl
     >>> from colorspace import specplot
     >>> pal = rainbow_hcl(100)

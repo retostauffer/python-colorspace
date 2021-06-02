@@ -1,7 +1,7 @@
 
 .. _article-approximations:
 
-approximations
+Approximations
 ==============
 
 Template. TODO

@@ -1,7 +1,7 @@
 
 .. _article-hcl_palettes:
 
-HCL-Based Color Palettes
+HCL based color palettes
 ========================
 
 
@@ -35,7 +35,25 @@ at the same luminance.
     :width: 100%
 
 More details about the construction of such palettes is provided in the
-following while the article on :ref:`Palette Visualization and Assessment introduces
-further tools to better understand the properties of color palettes.
+following while the article on :ref:`article-palette_visualization` Palette
+Visualization and Assessment introduces further tools to better understand the
+properties of color palettes.
 
 To facilitate obtaining good sets of colors, HCL parameter combinations that yield useful palettes are accessible by name. These can be listed using the function hcl_palettes():
+
+Graphical user interface (GUI)
+==============================
+
+``choose_palette()``.
+
+.. image:: ../_static/img_gui.jpeg
+
+Create custom palettes
+----------------------
+
+Function reference
+------------------
+
+.. autofunction:: colorspace.choose_palette
+    :noindex:
+

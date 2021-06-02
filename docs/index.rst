@@ -18,7 +18,7 @@ This package is based on the code and ideas of the
 `R colorspace <https://cran.r-project.org/package=colorspace>`_ package
 as it has often been requested by Python enthusiasts. More information
 and an interactive interface can also be found on
-`HCLwizard.org <https://hclwizard.org>`_.
+`HCLwizard.org <https://hclwizard.org>`__.
 
 The package itself can be found on
 `github <https://github.com/retostauffer/python-colorspace>`_ this documentation
@@ -36,7 +36,6 @@ Contents
     articles/installation
     articles/color_spaces
     articles/hcl_palettes
-    articles/ggplot_color_scale
     articles/palette_visualization
     articles/hclwizard
     articles/color_vision_deficiency
@@ -50,12 +49,12 @@ Other Packages and Further Reading
 
 More information and further reading:
 
-* `hclwizard.org <http://hclwizard.org>`_: more information about the HCL color
+* `HCLwizard.org <http://hclwizard.org>`__: more information about the HCL color
   space, introduction to the colorspace packages (in R and python), and some
   interactive tools to define effective HCL-based color palettes, pick colors,
   and check existing plots and figures for possible problems in terms of color
   vision deficiencies.
-* `A list of scientific articles <http://www.hclwizard.org/references/>`_
+* `A list of scientific articles <http://www.hclwizard.org/references/>`__
   which provide more detailed insights, e.g.
 
 * `The end of the rainbow <http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/>`_:
@@ -83,8 +82,8 @@ Scientific articles with more detailed insights:
   International Workshop on Distributed Statistical Computing, Vienna, Austria,
   ISSN 1609-395X, URL:
   `<http://www.ci.tuwien.ac.at/Conferences/DSC-2003/Proceedings/Ihaka.pdf>`_.
-* `And others <http://www.hclwizard.org/references/>`_ 
-  (`hclwizard.org <http://hclwizard.org>`_ reference list).
+* `And others <http://www.hclwizard.org/references/>`__.
+  (`HCLwizard.org <http://hclwizard.org>`__ reference list).
 
 Some other packages providing color maps in python (on top of the default color
 maps) wich might be of interest:

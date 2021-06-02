@@ -6,11 +6,29 @@ import sys
 class palette:
     """palette(colors, name)
 
-    Custom named color palette with a fixed number of colors.
-    Used for :py:func:`hcl_palettes.swatchplot`.
+    A class for custom color palettes with a fixed number of colors.
+    Creates a custom color map based on a list of hex colors (fixed number of
+    colors) and a name. Used for e.g., :py:func:`hcl_palettes.swatchplot`.
 
-    .. todo:
-        Write docstrings.
+    Parameters
+    ----------
+    colors : list
+        List of strings; a list of hex colors.
+    name : str
+        Name of this custom palette.
+
+    Returns
+    -------
+    An object of class :py:class:`colorspace.palettes.palette`.
+
+    Examples
+    --------
+    >>> from colorspace.palettes import palette
+    >>> custom_pal = palette(["#CECECE", "#00ff00", "#ff00ff"], "test palette")
+    >>> print(custom_pal)
+    >>>
+    >>> from colorspace import swatchplot
+    >>> swatchplot([custom_pal])
     """
 
     def __init__(self, colors, name):
@@ -61,21 +79,33 @@ class palette:
         Parameters
         ----------
         n : None or int
-            if None, the number of colors of the palette will be used to create
+            If None, the number of colors of the palette will be used to create
             the cmap object.
         rev : bool
-            if set ``True`` the color map will be reversed.
+            If set to ``True`` the color map will be reversed.
 
         Returns
         -------
-        matplotlib.colors.LinearSegmentedColormap
-            Returns a ``LinearSegmentedColormap`` (cmap) to be used
-            with the matplotlib library.
+        Returns a :py:class:`matplotlib.colors.LinearSegmentedColormap` (cmap) to be used
+        with the matplotlib library.
+
+        Examples
+        --------
+        >>> from colorspace import diverging_hcl
+        >>> pal = diverging_hcl()
+        >>>
+        >>> cmap = pal.cmap()
+        >>> print(type(cmap))
+        >>> print(cmap.N)
+        >>>
+        >>> cmap2 = pal.cmap(n = 256)
+        >>> print(cmap2.N)
         '''
+
         import matplotlib
         from matplotlib.colors import LinearSegmentedColormap
         from numpy import linspace, round, fmin, fmax
-    
+
         from .colorlib import hexcols
         cobj = hexcols(self.colors())
         cobj.to("sRGB")
@@ -96,7 +126,7 @@ class palette:
             cdict['red'].append(   (pos[i], r[j], r[j]) ) 
             cdict['green'].append( (pos[i], g[j], g[j]) )
             cdict['blue'].append(  (pos[i], b[j], b[j]) )
-    
+
         cmap = LinearSegmentedColormap(self.name(), cdict, n)
         return cmap
 
@@ -105,7 +135,7 @@ class palette:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class defaultpalette:
-    """defaultpalette(type, method, parameter, name, settings)
+    """defaultpalette(type, method, name, settings)
 
     Default color palette object. This object is not intended to be used by the
     user itself but is used to store the pre-defined color palettes contained
@@ -114,13 +144,18 @@ class defaultpalette:
     Parameters
     ----------
     type : str
-        palette type.
+        Type of palette.
     method : str
-        name of the method which has to be called to retrieve colors (e.g.,
-        :py:class:`diverging_hcl`).
+        Name of the method which has to be called to retrieve colors (e.g.,
+        :py:class:`colorspace.palettes.diverging_hcl`).
     name : str
-        name of the color palette.  settings (`dict`): A dict object containing
-        the parameter settings.
+        Name of the color palette.
+    settings : dict
+        A python dictionary containing the parameter settings.
+
+    Returns
+    -------
+    Object of class :py:class:`colorspace.palettes.defaultpalette`.
     """
 
     def __init__(self, type, method, name, settings):
@@ -133,7 +168,7 @@ class defaultpalette:
     # Default representation of defaultpalette objects.
     def __repr__(self):
         """__repr__()
-        
+
         Prints the current settings on stdout.
         Development method."""
 
@@ -169,6 +204,8 @@ class defaultpalette:
     def method(self):
         """method()
 
+        Returns method used to create this palette.
+
         Return
         ------
         Returns the method (`str`, name of the function to be called
@@ -200,7 +237,7 @@ class defaultpalette:
 
     def rename(self, name):
         """rename(name)
-        
+
         Allows to rename the palette.
 
         Parameters
@@ -287,13 +324,13 @@ class defaultpalette:
 
     def colors(self, n = 11):
         """colors(n = 11)
-        
+
         Load a set of ``n`` colors from this palette.  This method evaluates
         the `method` argument to generate a set of hex colors which will be
         returned.  Please note that it is possible that none-values will be
         returned if the fixup-setting is set to `False` (see
         :py:class:`colorlib.hexcols`).
-        
+
         Parameters
         ----------
         n : int
@@ -349,7 +386,7 @@ class defaultpalette:
 # -------------------------------------------------------------------
 class hclpalettes:
     """hclpalettes(files = None)
-    
+
     Prepares the pre-specified hclpalettes.  Reads the config files and creates
     a set of :py:class:`defaultpalette` objects.
 
@@ -484,7 +521,7 @@ class hclpalettes:
 
     def get_palette(self, name):
         """get_palette(name)
-        
+
         Get a palette with a specific name.
 
         Parameters
@@ -670,7 +707,7 @@ class hclpalette:
 
     def get(self, key):
         """get(key)
-        
+
         Returns one specific item of the palette settings,
         e.g., the current value for ``h1`` or ``l2``.
         If not existing a `None` will be returned.
@@ -700,7 +737,7 @@ class hclpalette:
 
     def show_settings(self):
         """show_settings()
-        
+
         Shows the current settings (table like print to stdout). Should more be
         seen as a development method than a very useful thing.
 
@@ -739,7 +776,7 @@ class hclpalette:
             recycle = False, nansallowed = False, **kwargs):
         """_checkinput_(dtype, length = None, recycle = False,
             nansallowed = False, **kwargs)
-            
+
         Used to check/convert/extend input arguments to the palette functions.
 
         Parameters
@@ -914,8 +951,8 @@ class hclpalette:
         simply linearely interpolates between all ``n`` colors to extend
         the number of colors to ``N``.
 
-        In case of :py:func:`hclpalette` objects this is not necessary as
-        :py:func:`hclpalette` objects allow to retrieve ``N`` colors directly
+        In case of :py:func:`colorspace.palettes.hclpalette` objects this is not necessary as
+        :py:func:`colorspace.palettes.hclpalette` objects allow to retrieve ``N`` colors directly
         along well-specified Hue-Chroma-Luminance paths. Thus, this method
         returns a matplotlib color map with ``n==N`` colors. The linear 
         interpolation between the colors (as typically done by
@@ -926,20 +963,19 @@ class hclpalette:
         Parameters
         ----------
         n : int
-            number of colors
+            Number of colors the cmap should be based on; default is ``n = 51``.
         name : str
-            name of the custom color map. Default is ``custom_hcl_cmap``
+            Name of the custom color map. Default is ``custom_hcl_cmap``
 
         Returns
         -------
-        matplotlib.colors.LinearSegmentedColormap
-            Returns a ``LinearSegmentedColormap`` (cmap) to be used
-            with the matplotlib library.
+        Returns a ``LinearSegmentedColormap`` (cmap) to be used
+        with the matplotlib library.
         """
         import matplotlib
         from matplotlib.colors import LinearSegmentedColormap
         from numpy import linspace, round, fmin, fmax
-    
+
         cobj = self.colors(n, colorobject = True)
         cobj.to("sRGB")
 
@@ -957,7 +993,7 @@ class hclpalette:
             cdict['red'].append(   (pos[i], r[j], r[j]) ) 
             cdict['green'].append( (pos[i], g[j], g[j]) )
             cdict['blue'].append(  (pos[i], b[j], b[j]) )
-    
+
         cmap = LinearSegmentedColormap(name, cdict, n)
         return cmap
 
@@ -967,46 +1003,43 @@ class hclpalette:
 class qualitative_hcl(hclpalette):
     """qualitative_hcl([0, 360], c = 50, l = 70, \
             fixup = True, palette = None, rev = False, **kwargs)
-    
-    
+
     Qualitative HCL color palette.
 
     Parameters
     ----------
     h : numeric list
-        hue values, qualitative color palettes require
+        Hue values defining the 'color'. Qualitative color palettes require
         two hues. If more than two values are provided the first two will
         be used while the rest is ignored.  If input `h` is a string this
         argument acts like the `palette` argument (see `palette` input
         parameter).
     c : numeric
-        chroma value, a single numeric value. If multiple values are provided
-        only the first one will be used.
+        Chroma value (colorfullness), a single numeric value. If multiple
+        values are provided only the first one will be used.
     l : numeric
-        luminance value, a single numeric value. If multiple values are
-        provided only the first one will be used.
+        luminance value (lightness), a single numeric value. If multiple values
+        are provided only the first one will be used.
     fixup : bool 
-        only used when converting the HCL colors to hex.  Should RGB values
+        Only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
     palette : None, string
-        can be used to load a default diverging color palette
+        Can be used to load a default diverging color palette
         specification. If the palette does not exist an exception will be raised.
         Else the settings of the palette as defined will be used to create
         the color palette.
     rev : bool
-        should the color map be reversed.
-    args : ...
-        unused.
+        Should the color map be reversed? Default ``False``.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
         @TODO has to be documented.
 
     Returns
     -------
-    Initialize new object, no return. Raises a set of errors if the parameters
-    are misspecified. Note that the object is callable, the default object call
-    can be used to return hex colors (identical to the ``.colors()`` method),
-    see examples.
+    Initialize new object. Raises a set of errors if the parameters are
+    misspecified. Note that the object is callable, the default object call can
+    be used to return hex colors (identical to the ``.colors()`` method), see
+    examples.
 
     Examples
     --------
@@ -1147,21 +1180,26 @@ class rainbow_hcl(qualitative_hcl):
     Parameters
     ----------
     c : int
-        chroma of the color map ``[0-100+]``.
+        Chroma (colorfullness) of the color map ``[0-100+]``.
     l : int
-        luminance of the color map ``[0-100]``.
+        Luminance (lightness) of the color map ``[0-100]``.
     start : int
-        hue at which the rainbow should start.
+        Hue at which the rainbow should start.
     end : int
-        hue at which the rainbow should end.
-    rev : bool
-        should the color map be reversed.
+        Hue at which the rainbow should end.
     gamma : float
-        gamma value used for transfiromation from/to sRGB.
+        Gamma value used for transfiromation from/to sRGB.
         @TODO implemented? Check!
-    fixup : bool 
-        only used when converting the HCL colors to hex.  Should RGB values
+    fixup : bool
+        Only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
+    rev : bool
+        Should the color map be reversed? Default ``False``.
+    args : ...
+        Currently unused.
+    kwargs : ...
+        Processed internally; can be used to overwrite ``h1``, ``h2``,
+        ``c1``, ``l1``, ``l2`` and ``p1``.
 
     Returns
     -------
@@ -1170,8 +1208,8 @@ class rainbow_hcl(qualitative_hcl):
     can be used to return hex colors (identical to the ``.colors()`` method),
     see examples.
 
-    Example
-    -------
+    Examples
+    --------
     >>> from colorspace import rainbow_hcl
     >>> pal = rainbow_hcl()
     >>> pal.colors(3); pal.colors(20)
@@ -1228,8 +1266,8 @@ class diverging_hcl(hclpalette):
 
     Parameters
     ----------
-    h : numeric list
-        hue values, diverging color palettes should have different hues for
+    h : list of numerics
+        Hue values (color), diverging color palettes should have different hues for
         both ends of the palette. If only one value is present it will be
         recycled ending up in a diverging color palette with the same colors on
         both ends.  If more than two values are provided the first two will be
@@ -1237,29 +1275,34 @@ class diverging_hcl(hclpalette):
         argument acts like the ``palette`` argument (see ``palette`` input
         parameter).
     c : numeric
-        chroma value, a single numeric value. If multiple values are provided
+        Chroma value (colorfullness), a single numeric value. If multiple values are provided
         only the first one will be used.
-    l : numeric list
-        luminance values. The first value is for the two ends of the color
+    l : list of numerics
+        luminance values (lightness). The first value is for the two ends of the color
         palette, the second one for the neutral center point. If only one value
         is given this value will be recycled.
-    power : numeric
-        power parameter for non-linear behaviour of the color palette.
+    power : float
+        Power parameter for non-linear behaviour of the color palette.
     fixup : bool
-        only used when converting the HCL colors to hex.  Should RGB values
+        Only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
     palette : string
-        can be used to load a default diverging color palette
+        Can be used to load a default diverging color palette
         specification. If the palette does not exist an exception will be raised.
         Else the settings of the palette as defined will be used to create
         the color palette.
     rev : bool
-        should the color map be reversed.
+        Should the color map be reversed.
     args : ...
-        unused.
+        Currently unused.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
         @TODO has to be documented.
+
+    Methods
+    -------
+    colors:
+        Return a series of colors (list with hex colors) of the current palette.
 
     Returns
     -------
@@ -1373,15 +1416,15 @@ class diverging_hcl(hclpalette):
         Parameters
         ----------
         n : int
-            number of colors which should be returned.
+            Number of colors which should be returned.
         fixup : None, bool
-            should sRGB colors be corrected if they lie outside
+            Should sRGB colors be corrected if they lie outside
             the defined color space?
             If ``None`` the ``fixup`` parameter from the object
             will be used. Can be set to ``True`` or ``False``
             to explicitly control the fixup here.
         alpha : None, float
-            float (single value) or vector of floats in the range
+            Float (single value) or vector of floats in the range
             of ``[0.,1.]`` for alpha transparency channel
             (``0.`` means full transparency, ``1.`` opaque).
             If a single value is provided it will be applied to
@@ -1446,34 +1489,38 @@ class sequential_hcl(hclpalette):
     Parameters
     ----------
     h : numeric
-        hue values. If only one value is given the value is recycled which
+        Hue values (color). If only one value is given the value is recycled which
         yields a single-hue sequential color palette.  If input `h` is a string
         this argument acts like the `palette` argument (see `palette` input
         parameter).
     c : numeric list
-        chroma values, numeric of length two. If multiple values are provided
+        Chroma values (colorfullness), numeric of length two. If multiple values are provided
         only the first one will be used.
     l : numeric list
-        luminance values, numeric of length two. If multiple values are
+        Luminance values (luminance), numeric of length two. If multiple values are
         provided only the first one will be used.
     power : numeric, numeric list
-        power parameter for non-linear behaviour of the
+        Power parameter for non-linear behaviour of the
         color palette. One or two values can be provided.
     fixup : bool
-        only used when converting the HCL colors to hex.  Should RGB values
+        Only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
     palette : string
-        can be used to load a default diverging color palette specification. If
+        Can be used to load a default diverging color palette specification. If
         the palette does not exist an exception will be raised.  Else the
         settings of the palette as defined will be used to create the color
         palette.
     rev : bool 
-        should the color map be reversed.
+        Should the color map be reversed.
     args : ...
-        unused.
+        Currently unused.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
-        @TODO has to be documented.
+
+    Methods
+    -------
+    colors:
+        Return a series of colors (list with hex colors) of the current palette.
 
     Returns
     -------
@@ -1580,9 +1627,9 @@ class sequential_hcl(hclpalette):
         Parameters
         ----------
         n : int
-            number of colors which should be returned.
+            Number of colors which should be returned.
         fixup : None, bool
-            should sRGB colors be corrected if they lie outside
+            Should sRGB colors be corrected if they lie outside
             the defined color space?
             If ``None`` the ``fixup`` parameter from the object
             will be used. Can be set to ``True`` or ``False``
@@ -1648,31 +1695,30 @@ class heat_hcl(sequential_hcl):
     """heat_hcl(h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.], \
                fixup = True, *args, **kwargs)
 
-    HEAT hcl, a sequential palette.
+    HEAT hcl, a sequential color palette.
 
     Parameters
     ----------
     h : list of int
-        hue parameters (h1/h2).
+        Hue parameters (h1/h2).
     c : list of int
-        chroma parameters (c1/c2).
+        Chroma parameters (c1/c2).
     l : int
-        luminance parameters (l1/l2).
+        Luminance parameters (l1/l2).
     power : list of float
-        power parameters (p1/p2).
+        Power parameters (p1/p2).
     gamma : float
-        gamma value used for transfiromation from/to sRGB.
+        Gamma value used for transfiromation from/to sRGB.
         @TODO implemented? Check!
     fixup : bool 
-        only used when converting the HCL colors to hex.  Should RGB values
+        Only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
     rev : bool 
-        should the color map be reversed.
+        Should the color map be reversed.
     args : ...
-        unused.
+        Currently unused.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
-        @TODO has to be documented.
 
     Returns
     -------
@@ -1681,8 +1727,8 @@ class heat_hcl(sequential_hcl):
     can be used to return hex colors (identical to the ``.colors()`` method),
     see examples.
 
-    Example
-    -------
+    Examples
+    --------
     >>> from colorspace.palettes import heat_hcl
     >>> pal = heat_hcl()
     >>> pal.colors(3); pal.colors(20)
@@ -1741,26 +1787,25 @@ class terrain_hcl(sequential_hcl):
     Parameters
     ----------
     h : list of int
-        hue parameters (h1/h2).
+        Hue parameters (h1/h2).
     c : list of int
-        chroma parameters (c1/c2).
+        Chroma parameters (c1/c2).
     l : int
-        luminance parameters (l1/l2).
+        Luminance parameters (l1/l2).
     power : list of float
-        power parameters (p1/p2).
+        Power parameters (p1/p2).
     gamma : float
-        gamma value used for transfiromation from/to sRGB.
+        Gamma value used for transfiromation from/to sRGB.
         @TODO implemented? Check!
     fixup : bool 
-        only used when converting the HCL colors to hex.  Should RGB values
+        Only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
     rev : bool
-        should the color map be reversed.
+        Should the color map be reversed.
     args : ...
         unused.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
-        @TODO has to be documented.
 
     Returns
     -------
@@ -1769,8 +1814,8 @@ class terrain_hcl(sequential_hcl):
     can be used to return hex colors (identical to the ``.colors()`` method),
     see examples.
 
-    Example
-    -------
+    Examples
+    --------
     >>> from colorspace import terrain_hcl
     >>> pal = terrain_hcl()
     >>> pal.colors(3); pal.colors(20)
@@ -1824,8 +1869,8 @@ class diverging_hsv(hclpalette):
 
     Parameters
     ----------
-    h : numeric list
-        hue values, diverging color palettes should have different hues for
+    h : list of numerics
+        Hue values, diverging color palettes should have different hues for
         both ends of the palette. If only one value is present it will be
         recycled ending up in a diverging color palette with the same colors on
         both ends.  If more than two values are provided the first two will be
@@ -1833,21 +1878,25 @@ class diverging_hsv(hclpalette):
         argument acts like the ``palette`` argument (see ``palette`` input
         parameter).
     s : float
-        saturation value for the two ends of the palette.
+        Saturation value for the two ends of the palette.
     v : float
-        value (the HSV value) of the two ends of the palette.
+        Value (the HSV value) of the two ends of the palette.
     power : numeric
-        power parameter for non-linear behaviour of the color palette.
+        Power parameter for non-linear behaviour of the color palette.
     fixup : bool
-        only used when converting the HCL colors to hex.  Should RGB values
+        Only used when converting the HCL colors to hex.  Should RGB values
         outside the defined RGB color space be corrected?
     rev : bool
-        should the color map be reversed.
+        Should the color map be reversed.
     args : ...
         unused.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
-        @TODO has to be documented.
+
+    Methods
+    -------
+    colors:
+        Return a series of colors (list with hex colors) of the current palette.
 
     Returns
     -------
@@ -1911,9 +1960,9 @@ class diverging_hsv(hclpalette):
         Parameters
         ----------
         n : int
-            number of colors which should be returned.
+            Number of colors which should be returned.
         fixup : None, bool
-            should sRGB colors be corrected if they lie outside
+            Should sRGB colors be corrected if they lie outside
             the defined color space?
             If ``None`` the ``fixup`` parameter from the object
             will be used. Can be set to ``True`` or ``False``

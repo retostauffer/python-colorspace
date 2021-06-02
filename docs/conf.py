@@ -119,7 +119,17 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+#
+# unused/unused_code: mainly used during development.
+# generated/examples: automatically generated when autofunction etc. is called.
+#                     They are linked within some of the articles but will not
+#                     be included in any TOC; thus exclude them here not to
+#                     get a series of WARNINGS when compiling the documentation.
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
+        'news.rst',  # Not in toc
+        'articles/template.rst',   # Template used for development (TODO remove)
+        'generated', 'articles/generated', 'examples',
+        'unused', 'unused_code']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -160,6 +170,7 @@ html_theme_options = {
     # an arbitrary url.
     'navbar_links': [
         ("Get started", "getstarted"),
+        ("News", "news"),
         ("API Reference", "api", False),
         #("API reference", "api"),
         #("Link", "http://example.com", True),

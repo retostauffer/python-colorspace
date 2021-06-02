@@ -1,7 +1,7 @@
 
 .. _article-palette_visualization:
 
-Palette Visualization
+Palette visualization
 =====================
 
 Template. TODO

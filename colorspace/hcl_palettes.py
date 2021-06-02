@@ -1,45 +1,44 @@
 
-    
+
 def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, **kwargs):
     """hcl_palettes(n = 5, type_ = None, names = None, plot = False, custom = None)
-    
+
+
     Gives access to the default color palettes of the colorspace package.
 
     The method can be used to display the default color palettes or subsets or
-    to get a :py:class:`palettes.hclpalettes` object. 
+    to get a :py:class:`colorspace.palettes.hclpalettes` object. 
     The inputs ``type_`` and ``name`` can be used to retrieve a custom subset,
-    ``custom`` can be used to add custom :py:class:`palettes.defaultpalette`
+    ``custom`` can be used to add custom :py:class:`colorspace.palettes.defaultpalette`
     objects if needed.
+
+    Details: ``**kwargs`` can be used to specify the figure size of the resulting
+    image by specifying ``figsize = (height, width)`` where both, ``height``
+    and ``width`` must be int/float, specifying the height and width in inches.
+
 
     Parameters
     ----------
     n : int
-        number of colors to be plotted, default is 7. Only used
-            if plot = True.
+      The number of colors to be plotted, default is 7. Only used if ``plot = True``.
     type_ : None, str, list of str
-        given a string or a list of strings only a subset of all available
-        default color maps will be displayed. If not set, all default
-        palettes will be returned/plotted. Can be used in combination with
-        input argument ``name``.
+      Given a string or a list of strings only a subset of all available
+      default color maps will be displayed. If not set, all default
+      palettes will be returned/plotted. Can be used in combination with
+      input argument ``name``.
     name : None, str, list of str
-        similar to ``type_``. If not specified all palettes will be returned.
-        Can be set to a string or a list of strings containing the names
-        of the palettes which should be returned/plotted.
+      Similar to ``type_``. If not specified all palettes will be returned.
+      Can be set to a string or a list of strings containing the names
+      of the palettes which should be returned/plotted.
     plot : bool
-        if ``False`` (default) a hclpalettes object will be returned
-        containing the (subset) of default color palettes.
-        Note that matplotlib has to be installed if plot is set to True.
-    custom : :py:class:`palettes.defaultpalette`
-        one or multiple defaultpalettes can be provided in addition.
+      If ``False`` (default) an object of type
+      :py:func:`colorspace.palettes.hclpalette` will be returned
+      containing the (subset) of default color palettes.
+      Note that matplotlib has to be installed if ``plot = True``.
+    custom : object of instance :py:class:`colorspace.palettes.defaultpalette`
+      One or multiple defaultpalettes can be provided in addition.
     **kwargs : ...
-        forwarded to :py:func:`swatchplot.swatchplot` if argument ``plot = True``,
-        see details.
-        
-    Details
-    -------
-    ``**kwargs`` can be used to specify the figure size of the resulting
-    image by specifying ``figsize = (height, width)`` where both, ``height``
-    and ``width`` must be int/float, specifying the height and width in inches.
+        Forwarded to :py:func:`colorspace.swatchplot.swatchplot` if argument ``plot = True``.
 
     Examples
     --------
@@ -67,7 +66,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     >>>
     >>> hcl_palettes(type_ = "Custom", custom = [c1, c2], plot = True)
     """
-    
+
     # Loading pre-defined palettes from within the package
     from . import hclpalettes
     pals = hclpalettes()                    # Loading palettes
@@ -97,7 +96,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
 
     if not type_ is None:
         if isinstance(type_, str): type_ = [type_]
-        
+
         # Drop palettes from hclpalettes object not requested
         # by the user.
         for t in pals.get_palette_types():
@@ -137,7 +136,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         from numpy import ceil
         nrow = int(ceil((pals.length() + len(pals.get_palette_types())) / 4))
         swatchplot(pals, n = n, nrow = nrow, **kwargs)
-        return
+        return False
 
 
 

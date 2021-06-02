@@ -3,9 +3,7 @@
 def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     """swatchplot(pals, nrow = 20, n = 5, *args, **kwargs)
 
-    Details
-    -------
-    ``**kwargs`` can be used to specify the figure size of the resulting
+    Note: ``**kwargs`` can be used to specify the figure size of the resulting
     image by specifying ``figsize = (height, width)`` where both, ``height``
     and ``width`` must be int/float, specifying the height and width in inches.
 

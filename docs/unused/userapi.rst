@@ -16,12 +16,12 @@ methods can be found here:
 * ...
 * ...
 
-Main Object Types
+Main object types
 -----------------
 
-Palette Functions
+Palette functions
 -----------------
 
-Graphical User Interface
+Graphical user interface
 -------------------------
 

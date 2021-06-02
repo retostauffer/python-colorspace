@@ -2,7 +2,7 @@
 .. _article-color_spaces:
 
 
-Color Spaces
+Color spaces
 ============
 
 Overview
@@ -141,7 +141,8 @@ orange can become much more colorful compared to blue or red.
 .. RETO TODO Utilities
 
 
-**References**
+References
+----------
 
 .. bibliography:: ../references.bib
     :style: plain

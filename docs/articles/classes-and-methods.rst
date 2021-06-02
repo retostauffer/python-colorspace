@@ -3,7 +3,8 @@
 
 .. _article-classes-and-methods:
 
-Classes and Methods
+
+Classes and methods
 ===================
 
 :py:class:`colorspace.palettes.palette` is used to create custom named palettes

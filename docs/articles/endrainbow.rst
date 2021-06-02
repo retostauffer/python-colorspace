@@ -1,7 +1,7 @@
 
 .. _article-endrainbow:
 
-endrainbow
-============
+End rainbow
+===========
 
 Template. TODO
