@@ -206,8 +206,8 @@ class defaultpalette:
 
         Returns method used to create this palette.
 
-        Return
-        ------
+        Returns
+        -------
         Returns the method (`str`, name of the function to be called
         to create the palette) of the palette.
         """
@@ -218,8 +218,8 @@ class defaultpalette:
 
         Get type of the color palette.
 
-        Return
-        ------
+        Returns
+        -------
         Returns the type (`str`) of the palette.
         """
         return self._type_
@@ -229,8 +229,8 @@ class defaultpalette:
 
         Get name of color palette.
 
-        Return
-        ------
+        Returns
+        -------
         Returns the name (`str`) of the palette.
         """
         return self._name_
@@ -262,8 +262,8 @@ class defaultpalette:
             Name of the parameter which should be extracted and returned from
             the settings of this color palette.
 
-        Return
-        ------
+        Returns
+        -------
         Returns `None` if the parameter ``what`` cannot be found,
         else the value of the parameter ``what`` is returned.
         """
@@ -1299,11 +1299,6 @@ class diverging_hcl(hclpalette):
         Additional arguments to overwrite the h/c/l settings.
         @TODO has to be documented.
 
-    Methods
-    -------
-    colors:
-        Return a series of colors (list with hex colors) of the current palette.
-
     Returns
     -------
     Initialize new object, no return. Raises a set of errors if the parameters
@@ -1516,11 +1511,6 @@ class sequential_hcl(hclpalette):
         Currently unused.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
-
-    Methods
-    -------
-    colors:
-        Return a series of colors (list with hex colors) of the current palette.
 
     Returns
     -------
@@ -1892,11 +1882,6 @@ class diverging_hsv(hclpalette):
         unused.
     kwargs : ...
         Additional arguments to overwrite the h/c/l settings.
-
-    Methods
-    -------
-    colors:
-        Return a series of colors (list with hex colors) of the current palette.
 
     Returns
     -------

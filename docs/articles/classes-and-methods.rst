@@ -14,7 +14,8 @@ for non-colorspace palettes such as creating a ``specplot()`` or ``swatchplot()`
 .. todo::
     Not working as expected, rethink. ``cmap()`` and ``swatchplot()`` not woking.
 
-.. ipython:: python
+.. ipython::
+
     import colorspace
     pal = colorspace.palette(["#c3c3c3", "#DD0000"])
 

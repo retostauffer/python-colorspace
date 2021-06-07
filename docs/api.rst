@@ -2,8 +2,6 @@
 API Reference
 #############
 
-.. currentmodule:: python-colorspace
-
 .. _sec-references:
 
 
@@ -11,23 +9,26 @@ API Reference
 Color palettes
 ==============
 
+
 Most functions listed above are exported and can be accessed
 directly via the `colorspace` package, such as 
 `colorspace.hcl_palettes()`, `colorspace.qualitative_hcl()` and more.
+
+.. currentmodule:: colorspace-python
 
 .. autosummary::
     :toctree: generated/
     :nosignatures:
 
-    colorspace.hcl_palettes.hcl_palettes
-    colorspace.palettes.qualitative_hcl
-    colorspace.palettes.sequential_hcl
-    colorspace.palettes.diverging_hcl
-    colorspace.palettes.rainbow_hcl
-    colorspace.palettes.heat_hcl
-    colorspace.palettes.terrain_hcl
-    colorspace.palettes.palette
-    colorspace.palettes.diverging_hsv
+    colorspace.hcl_palettes
+    colorspace.qualitative_hcl
+    colorspace.sequential_hcl
+    colorspace.diverging_hcl
+    colorspace.rainbow_hcl
+    colorspace.heat_hcl
+    colorspace.terrain_hcl
+    colorspace.palette
+    colorspace.diverging_hsv
     colorspace.palettes.defaultpalette
 
 GUI for choosing color palettes

@@ -88,12 +88,19 @@ bibtex_bibfiles      = ['references.bib']
 bibtex_default_style = 'label'
 bibtex_encoding      = 'latin'
 
-autosummary_generate = True
-
 numpydoc_class_members_toctree = True
 numpydoc_show_class_members = False
 
-autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance', 'inherited-members']
+autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance'] #, 'inherited-members']
+autodoc_default_options = {
+    'members': True,
+    'member-order': 'bysource',
+    'special-members': '__init__',
+    'undoc-members': True,
+    'exclude-members': '__weakref__'
+}
+autosummary_generate = True
+
 
 ipython_warning_is_error = False
 
@@ -127,7 +134,8 @@ language = None
 #                     get a series of WARNINGS when compiling the documentation.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
         'articles/template.rst',   # Template used for development (TODO remove)
-        'generated', 'articles/generated', 'examples',
+        #'generated', 'articles/generated', 'examples',
+        'example',
         'unused', 'unused_code']
 
 # The name of the Pygments (syntax highlighting) style to use.
@@ -171,8 +179,6 @@ html_theme_options = {
         ("Get started", "getstarted"),
         ("News", "news"),
         ("API Reference", "api", False),
-        #("API reference", "api"),
-        #("Link", "http://example.com", True),
     ],
 
     # Render the next and previous page links in navbar. (Default: true)
