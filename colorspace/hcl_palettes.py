@@ -1,10 +1,7 @@
 
 
 def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, **kwargs):
-    """hcl_palettes(n = 5, type_ = None, names = None, plot = False, custom = None)
-
-
-    Gives access to the default color palettes of the colorspace package.
+    """Gives access to the default color palettes of the colorspace package.
 
     The method can be used to display the default color palettes or subsets or
     to get a :py:class:`colorspace.palettes.hclpalettes` object. 
@@ -17,54 +14,54 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     and ``width`` must be int/float, specifying the height and width in inches.
 
 
-    Parameters
-    ----------
-    n : int
-      The number of colors to be plotted, default is 7. Only used if ``plot = True``.
-    type_ : None, str, list of str
-      Given a string or a list of strings only a subset of all available
-      default color maps will be displayed. If not set, all default
-      palettes will be returned/plotted. Can be used in combination with
-      input argument ``name``.
-    name : None, str, list of str
-      Similar to ``type_``. If not specified all palettes will be returned.
-      Can be set to a string or a list of strings containing the names
-      of the palettes which should be returned/plotted.
-    plot : bool
-      If ``False`` (default) an object of type
-      :py:func:`colorspace.palettes.hclpalette` will be returned
-      containing the (subset) of default color palettes.
-      Note that matplotlib has to be installed if ``plot = True``.
-    custom : object of instance :py:class:`colorspace.palettes.defaultpalette`
-      One or multiple defaultpalettes can be provided in addition.
-    **kwargs : ...
-        Forwarded to :py:func:`colorspace.swatchplot.swatchplot` if argument ``plot = True``.
+    Args:
+        n (int): The number of colors to be plotted, default is 7. Only used if ``plot = True``.
+        type_ (None, str, list of str): Given a string or a list of strings
+            only a subset of all available default color maps will be displayed. If
+            not set, all default palettes will be returned/plotted. Can be used in
+            combination with input argument ``name``.
+        name (None, str, list of str): Similar to ``type_``. If not specified
+            all palettes will be returned.  Can be set to a string or a list of
+            strings containing the names of the palettes which should be
+            returned/plotted.
+        plot (bool): If ``False`` (default) an object of type
+            :py:func:`colorspace.palettes.hclpalette` will be returned containing the
+            (subset) of default color palettes.  Note that matplotlib has to be
+            installed if ``plot = True``.
+        custom (:py:class:`colorspace.palettes.defaultpalette`): One or multiple
+            defaultpalettes can be provided in addition.
+        **kwargs: Forwarded to :py:func:`colorspace.swatchplot.swatchplot` if
+            argument ``plot = True``.
 
-    Examples
-    --------
-    >>> # Basic usage
-    >>> from colorspace.hcl_palettes import hcl_palettes
-    >>>
-    >>> print hcl_palettes()
-    >>> print hcl_palettes(type_ = "Diverging")
-    >>> print hcl_palettes(name = ["Oranges", "Tropic"]) 
-    >>>
-    >>> print hcl_palettes(type_ = "Diverging", plot = True)
-    >>> print hcl_palettes(name = ["Oranges", "Tropic"], plot = True) 
-    >>> 
-    >>> # Loading all available palettes (just to make custom palettes)
-    >>> from colorspace.palettes import hclpalettes
-    >>> pal = hclpalettes()
-    >>> c1 = pal.get_palette("Oranges")
-    >>> c2 = pal.get_palette("Greens")
-    >>> 
-    >>> # Modify the custom palettes
-    >>> c1.set(h1 = 99, l2 = 30, l1 = 30)
-    >>> c1.rename("Retos custom 1")
-    >>> c2.set(h1 = -30, l1 = 40, l2 = 30, c1 = 30, c2 = 40)
-    >>> c2.rename("Retos custom 1")
-    >>>
-    >>> hcl_palettes(type_ = "Custom", custom = [c1, c2], plot = True)
+    Returns:
+        Object of class :py:class:`colorspace.hcl_palettes`.
+
+    Examples:
+
+        Basic usage:
+
+        >>> from colorspace.hcl_palettes import hcl_palettes
+        >>>
+        >>> print hcl_palettes()
+        >>> print hcl_palettes(type_ = "Diverging")
+        >>> print hcl_palettes(name = ["Oranges", "Tropic"]) 
+        >>>
+        >>> print hcl_palettes(type_ = "Diverging", plot = True)
+        >>> print hcl_palettes(name = ["Oranges", "Tropic"], plot = True) 
+        >>>
+        >>> # Loading all available palettes (just to make custom palettes)
+        >>> from colorspace.palettes import hclpalettes
+        >>> pal = hclpalettes()
+        >>> c1 = pal.get_palette("Oranges")
+        >>> c2 = pal.get_palette("Greens")
+        >>>
+        >>> # Modify the custom palettes
+        >>> c1.set(h1 = 99, l2 = 30, l1 = 30)
+        >>> c1.rename("Retos custom 1")
+        >>> c2.set(h1 = -30, l1 = 40, l2 = 30, c1 = 30, c2 = 40)
+        >>> c2.rename("Retos custom 1")
+        >>> 
+        >>> hcl_palettes(type_ = "Custom", custom = [c1, c2], plot = True)
     """
 
     # Loading pre-defined palettes from within the package

@@ -2,10 +2,7 @@
 
 def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         output = None, dropalpha = False):
-    """cvd_emulator(image = "DEMO", cvd = "desaturate", \
-            severity = 1.0, output = None, dropalpha = False)
-
-    Simulate color deficiencies on png/jpg/jpeg figures.
+    """Simulate color deficiencies on png/jpg/jpeg figures.
     Takes an existing pixel image and simulates different color vision
     deficiencies.
 
@@ -16,33 +13,29 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     the disc. If multiple cvd's are specified a multi-panel plot will be
     stored under `output`.
 
-    Parameters
-    ----------
-    image : str
-        name of the figure which should be converted (png/jpg/jpeg).
-        If ``image = "DEMO"`` the package demo figure will be used.
-    cvd : str, list
-        the color vision deficiency. Allowed types are
-        deutanope, protanope, tritanope, and desaturated.
-        Input is either a single string or a list of strings which
-        define the cvd's which should be simulated.
-    severity : float
-        how severe the color vision deficiency is (``[0.,1.]``).
-        Also used as the amount of desaturation if ``cvd = "desaturate"``.
-    output : string
-        optional. It None an interactive plotting window will
-        be opened. If a string is given the figure will be written to
-        ``output``.
-    dropalpha : bool
-        whether or not to drop the alpha channel.
-        Only useful for figures having an alpha channel (png w/ alpha).
+    Args:
+        image (str): Name of the figure which should be converted
+            (png/jpg/jpeg).  If ``image = "DEMO"`` the package demo figure will be
+            used.
+        cvd (str, list): The color vision deficiency. Allowed types are
+            deutanope, protanope, tritanope, and desaturated.  Input is either a
+            single string or a list of strings which define the cvd's which should
+            be simulated.
+        severity (float): How severe the color vision deficiency is
+            (``[0.,1.]``).  Also used as the amount of desaturation if ``cvd =
+            "desaturate"``.
+        output (string): Optional. It None an interactive plotting window will
+            be opened. If a string is given the figure will be written to
+            ``output``.
+        dropalpha (bool): Whether or not to drop the alpha channel.  Only
+            useful for figures having an alpha channel (png w/ alpha).
 
-    Examples
-    --------
-    >>> from colorspace.cvd_emulator import cvd_emulator
-    >>> cvd_emulator("DEMO", "deutan", 0.5)
-    >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png")
-    >>> cvd_emulator("DEMO", ["original", "deutan", "protan"], 0.5, dropalpha = True)
+    Example:
+
+        >>> from colorspace.cvd_emulator import cvd_emulator
+        >>> cvd_emulator("DEMO", "deutan", 0.5)
+        >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png")
+        >>> cvd_emulator("DEMO", ["original", "deutan", "protan"], 0.5, dropalpha = True)
 
     .. note::
         Requires the modules ``matplotlib`` and ``imageio``.
@@ -86,7 +79,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         raise Exception("the {:s} requires the ".format(inspect.stack()[0][3]) + \
                 "python module imageio to be installed: {:s}".format(str(e)))
 
-    
+
     # Read image data
     try:
         img = imageio.imread(image)
@@ -101,7 +94,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     elif img.shape[2] == 4:
         [data["R"], data["G"], data["B"], data["alpha"]] = \
                 [img[:,:,i].flatten() / 255. for i in [0,1,2,3]]
-    
+
     # Create sRGB with or without
     from .colorlib import sRGB
     if not "alpha" in data.keys():
@@ -135,13 +128,13 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         else:
             fun  = getattr(CVD, cvd[c])
             cols = fun(rgba, severity)
-        
+
         # Convert RGB [0.-1.] to [0,255], uint8
         def fun(x, shape):
             from numpy import fmin, fmax
             x = fmax(0, fmin(255, x*255))
             return x.reshape(shape)
-        
+
         # Shape of the new figure
         if cols.hasalpha():  shape = [img.shape[0],img.shape[1],4]
         else:                shape = [img.shape[0],img.shape[1],3]
@@ -154,7 +147,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         imnew[:,:,2] = fun(cols.get("B"), shape[0:2])
         if cols.hasalpha():
             imnew[:,:,3] = fun(cols.get("alpha"), shape[0:2])
-        
+
         import matplotlib.pyplot as plt
         plt.imshow(imnew)
         plt.axis("off")

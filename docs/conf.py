@@ -70,16 +70,17 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.extlinks',
     'sphinx.ext.mathjax',
-    'numpydoc',
+    #'numpydoc',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'IPython.sphinxext.ipython_directive',
     'IPython.sphinxext.ipython_console_highlighting',
     'sphinx.ext.doctest',
+    'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
+    #'sphinx.ext.githubpages',
     'sphinxcontrib.bibtex'
 ]
 

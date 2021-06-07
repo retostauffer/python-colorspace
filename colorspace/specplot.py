@@ -4,9 +4,7 @@ import sys
 
 
 def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs):
-    """specplot(hex_, rgb = True, hcl = True, palette = True, fix = True, **kwargs)
-
-    Visualization of the RGB and HCL spectrum given a set of hex colors.
+    """Visualization of the RGB and HCL spectrum given a set of hex colors.
     As the hues for low-chroma colors are not (or poorly) identified, by
     default a smoothing is applied to the hues (``fix = TRUE``). Also, to
     avoid jumps from 0 to 360 or vice versa, the hue coordinates are shifted
@@ -14,31 +12,25 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
 
     No return, creates an interactive figure.
 
-    Parameters
-    ----------
-    hex_ : list or numpy.ndarray
-        Hex color codes.
-    hcl : bool
-        Whether or not to plot the HCL color spectrum.
-    palette : bool
-        Whether or not to plot the colors as a color map.
-    fix : bool
-        Should the hues be fixed to be on a smooth(er) curve? Details
-        in the method description.
-    rgb : bool
-        Whether or not to plot the RGB color spectrum. Default is False.
-    kwargs : ...
-        Currently not used.
+    Args:
+        hex_ (list or numpy.ndarray): Hex color codes.
+        hcl (bool): Whether or not to plot the HCL color spectrum.
+        palette : bool Whether or not to plot the colors as a color map.
+        fix (bool): Should the hues be fixed to be on a smooth(er) curve?
+            Details in the method description.
+        rgb (bool): Whether or not to plot the RGB color spectrum. Default is
+            False.
+        **kwargs: Currently not used.
 
-    Examples
-    --------
-    >>> from colorspace import rainbow_hcl
-    >>> from colorspace import specplot
-    >>> pal = rainbow_hcl(100)
-    >>> specplot(pal.colors())
-    >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False)
+    Example:
 
-    .. todo::
+       >>> from colorspace import rainbow_hcl
+       >>> from colorspace import specplot
+       >>> pal = rainbow_hcl(100)
+       >>> specplot(pal.colors())
+       >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False)
+
+    Todo:
         Implement the smoothings to improve the look of the plots. Only
         partially implemented, the spline smoother is missing.
     """
@@ -53,16 +45,11 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
 
     # Support function to draw the color map (the color strip)
     def cmap(ax, hex_):
-        """cmap(ax, hex_)
+        """Plotting a color map given a set of colors.
 
-        Plotting a color map given a set of colors.
-
-        Parameters
-        ----------
-        ax : matplotlib.Axis
-            the axis object on which the color map should be drawn
-        hex_ : list
-            list of hex colors
+        Args:
+            ax (matplotlib.Axis): The axis object on which the color map should be drawn
+            hex_ (list): List of hex colors.
         """
 
         from numpy import linspace
@@ -116,7 +103,7 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
             # Running mean
             if n > 49:
                 H = 1./3. * (H + np.append(H[0],H[0:-1]) + np.append(H[1:],H[n-1]))
-        
+
             # TODO Spline smoother not yet implemented
 
         return [H, C, L]
@@ -153,7 +140,7 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
     import matplotlib.ticker as ticker
     import matplotlib.pyplot as plt
     from matplotlib import pyplot as plt
-    
+
     # Create plot
 
     import numpy as np
@@ -239,7 +226,7 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
             count += 1
         ax33.set_yticks(arange(-360, 361, 120))
         ax33.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.0f'))
-    
+
     # Labels and annotations
     if rgb:
         ax1.set_ylabel("Red/Green/Blue")
@@ -251,10 +238,10 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
         ax33.set_ylabel("Hue")
         ax3.text(0.5,  -10, "HCL Spectrum", horizontalalignment = "center",
                  verticalalignment = "top")
-    
+
     if not "fig" in kwargs.keys():
         plt.show()
-    
+
 
 
 

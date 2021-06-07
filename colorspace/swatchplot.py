@@ -1,37 +1,34 @@
 
 
 def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
-    """swatchplot(pals, nrow = 20, n = 5, *args, **kwargs)
-
-    Note: ``**kwargs`` can be used to specify the figure size of the resulting
+    """Note: ``**kwargs`` can be used to specify the figure size of the resulting
     image by specifying ``figsize = (height, width)`` where both, ``height``
     and ``width`` must be int/float, specifying the height and width in inches.
 
-    Examples
-    --------
+    Example:
 
-    An example using custom :py:class:`palettes.palette`, once
-    named and once unnamed:
+        An example using custom :py:class:`palettes.palette`, once
+        named and once unnamed:
 
-    >>> # Single swatchplot (unnamed) for a series of colors
-    >>> from colorspace import diverging_hcl, swatchplot
-    >>> colors = diverging_hcl()(5)
-    >>> swatchplot(colors) 
-    >>> # Create three custom palettes for the three dimensions
-    >>> # of the Hue-Chroma-Luminance color space
-    >>> # H: only hue varies along the palette
-    >>> # C: only chroma varies along the palette
-    >>> # L: only luminance varies along the palette
-    >>> # Create custom HCL colors and convert them to :py:class:`palettes.palette` objects
-    >>> from numpy import linspace, repeat
-    >>> from colorspace.colorlib import HCL
-    >>> from colorspace import palette, swatchplot
-    >>> H = palette(HCL(linspace(0, 360, 7), repeat(60, 7), repeat(60, 7))(), "Hue")
-    >>> C = palette(HCL(repeat(0, 7), linspace(0, 100, 7), repeat(60, 7))(), "Chroma")
-    >>> L = palette(HCL(repeat(0, 7), repeat(0, 7), linspace(0, 100, 7))(), "Luminance")
-    >>> # Swatchplot, once unnamed (no title), once named (title will be shown) 
-    >>> swatchplot([H, C, L])
-    >>> swatchplot({"HCL Dimensions": [H, C, L]})
+        >>> # Single swatchplot (unnamed) for a series of colors
+        >>> from colorspace import diverging_hcl, swatchplot
+        >>> colors = diverging_hcl()(5)
+        >>> swatchplot(colors) 
+        >>> # Create three custom palettes for the three dimensions
+        >>> # of the Hue-Chroma-Luminance color space
+        >>> # H: only hue varies along the palette
+        >>> # C: only chroma varies along the palette
+        >>> # L: only luminance varies along the palette
+        >>> # Create custom HCL colors and convert them to :py:class:`palettes.palette` objects
+        >>> from numpy import linspace, repeat
+        >>> from colorspace.colorlib import HCL
+        >>> from colorspace import palette, swatchplot
+        >>> H = palette(HCL(linspace(0, 360, 7), repeat(60, 7), repeat(60, 7))(), "Hue")
+        >>> C = palette(HCL(repeat(0, 7), linspace(0, 100, 7), repeat(60, 7))(), "Chroma")
+        >>> L = palette(HCL(repeat(0, 7), repeat(0, 7), linspace(0, 100, 7))(), "Luminance")
+        >>> # Swatchplot, once unnamed (no title), once named (title will be shown) 
+        >>> swatchplot([H, C, L])
+        >>> swatchplot({"HCL Dimensions": [H, C, L]})
 
     .. note:
         Requires the ``matplotlib`` module to be installed.
