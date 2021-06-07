@@ -31,7 +31,7 @@ Contents
 
 .. toctree::
     :maxdepth: 2
-    
+
     articles/classes-and-methods
     articles/installation
     articles/color_spaces

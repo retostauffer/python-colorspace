@@ -126,7 +126,6 @@ language = None
 #                     be included in any TOC; thus exclude them here not to
 #                     get a series of WARNINGS when compiling the documentation.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
-        'news.rst',  # Not in toc
         'articles/template.rst',   # Template used for development (TODO remove)
         'generated', 'articles/generated', 'examples',
         'unused', 'unused_code']

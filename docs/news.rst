@@ -1,5 +1,5 @@
 
-.. _page-releasenotes:
+.. _page-news:
 
 Release Notes
 =============
