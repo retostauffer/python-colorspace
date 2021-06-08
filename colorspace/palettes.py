@@ -919,7 +919,7 @@ class qualitative_hcl(hclpalette):
             qraised.  Else the settings of the palette as defined will be used to create
             qthe color palette.
         rev (bool): Should the color map be reversed? Default ``False``.
-            **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
+        **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
             to be documented.
 
     Returns:

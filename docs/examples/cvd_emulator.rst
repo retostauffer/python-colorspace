@@ -10,5 +10,5 @@ A function called `cvd_emulator` allows to ...
 Function Reference
 ^^^^^^^^^^^^^^^^^^
 
-.. autofunction:: cvd_emulator.cvd_emulator
+.. autofunction:: colorspace.cvd_emulator
 

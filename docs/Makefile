@@ -50,6 +50,8 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
+	-rm generated/*
+
 
 html:
 	make clean

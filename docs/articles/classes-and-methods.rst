@@ -21,16 +21,16 @@ for non-colorspace palettes such as creating a ``specplot()`` or ``swatchplot()`
 
 
 .. autosummary::
-    :toctree: generated/
+    :toctree: ../generated/
     :nosignatures:
 
-    colorspace.palettes.qualitative_hcl
-    colorspace.palettes.sequential_hcl
-    colorspace.palettes.diverging_hcl
-    colorspace.palettes.rainbow_hcl
-    colorspace.palettes.heat_hcl
-    colorspace.palettes.terrain_hcl
-    colorspace.palettes.diverging_hsv
+    colorspace.qualitative_hcl
+    colorspace.sequential_hcl
+    colorspace.diverging_hcl
+    colorspace.rainbow_hcl
+    colorspace.heat_hcl
+    colorspace.terrain_hcl
+    colorspace.diverging_hsv
 
 :py:class:`colorspace.palettes.defaultpalette` not intended to be used by the user.
 Reads the config files (shipped with the python package) and returns all available
