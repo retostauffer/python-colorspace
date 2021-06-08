@@ -19,6 +19,7 @@ directly via the `colorspace` package, such as
     :toctree: api/
     :nosignatures:
 
+    colorspace.cls.cls
     colorspace.hcl_palettes
     colorspace.qualitative_hcl
     colorspace.sequential_hcl

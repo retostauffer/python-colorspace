@@ -16,7 +16,7 @@
 from setuptools import setup
 
 ISRELEASED    = False
-VERSION       = "0.1.1"
+VERSION       = "0.1.2"
 FULLVERSION   = VERSION
 write_version = True
 

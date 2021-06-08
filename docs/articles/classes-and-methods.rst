@@ -21,7 +21,7 @@ for non-colorspace palettes such as creating a ``specplot()`` or ``swatchplot()`
 
 
 .. autosummary::
-    :toctree: ../generated/
+    :toctree: ../api/
     :nosignatures:
 
     colorspace.qualitative_hcl

@@ -51,7 +51,6 @@ project   = "colorspace-python"
 author    = "Reto Stauffer"
 copyright = "2021, {:s}".format(author)
 
-import colorspace
 # The short X.Y version
 version = colorspace.__version__
 # The full version, including alpha/beta/rc tags.
@@ -72,15 +71,15 @@ extensions = [
     ###'sphinx.ext.intersphinx',
     ###'sphinx.ext.extlinks',
     'sphinx.ext.mathjax',
-    'numpydoc',
+    ###'numpydoc',
     ###'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',
+    ###'sphinx.ext.viewcode',
     'IPython.sphinxext.ipython_directive',
     'IPython.sphinxext.ipython_console_highlighting',
     ###'sphinx.ext.doctest',
     'sphinx.ext.todo',
     ###'sphinx.ext.coverage',
-    'sphinx.ext.viewcode',
+    ###'sphinx.ext.viewcode',
     ####'sphinx.ext.githubpages',
     'sphinxcontrib.bibtex'
 ]
@@ -93,21 +92,20 @@ bibtex_bibfiles      = ['references.bib']
 bibtex_default_style = 'label'
 bibtex_encoding      = 'latin'
 
-numpydoc_class_members_toctree = True
-numpydoc_show_class_members = False
+####numpydoc_class_members_toctree = True
+####numpydoc_show_class_members = False
 
-autodoc_default_flags = ['members', 'show-inheritance', 'inherited-members']
-##autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance', 'inherited-members']
-autodoc_default_options = {
-    'members': True,
-    'member-order': 'bysource',
-    ####'special-members': '__init__',
-    'undoc-members': False,
-    'exclude-members': '__init__'
-    #'exclude-members': '__weakref__'
-}
-autosummary_generate = True
-
+###autodoc_default_flags = ['members', 'show-inheritance', 'inherited-members']
+#####autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance', 'inherited-members']
+###autodoc_default_options = {
+###    'members': True,
+###    'member-order': 'bysource',
+###    ####'special-members': '__init__',
+###    'undoc-members': False,
+###    'exclude-members': '__init__'
+###    #'exclude-members': '__weakref__'
+###}
+###autosummary_generate = True
 
 ipython_warning_is_error = False
 
@@ -139,14 +137,16 @@ language = None
 #                     They are linked within some of the articles but will not
 #                     be included in any TOC; thus exclude them here not to
 #                     get a series of WARNINGS when compiling the documentation.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
-        'articles/template.rst',   # Template used for development (TODO remove)
-        #'generated', 'articles/generated', 'examples',
-        'example',
-        'unused', 'unused_code']
+exclude_patterns = []
+#exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
+#        'articles/template.rst',   # Template used for development (TODO remove)
+#        #'generated', 'articles/generated', 'examples',
+#        'example',
+#        'unused', 'unused_code']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+#pygments_style = 'sphinx'
+pygments_style = None
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -340,3 +340,5 @@ intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
                        'matplotlib': ('http://matplotlib.org/', None),
                        'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None)
                        }
+
+

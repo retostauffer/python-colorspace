@@ -6,7 +6,7 @@ colorspace.egg-info
 htmlcov
 
 # Manual
-_build
+build/*
 
 # Testing
 .coverage
