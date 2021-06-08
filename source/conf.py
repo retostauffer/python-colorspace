@@ -69,13 +69,13 @@ extensions = [
     ####'numpydoc',
     ####'sphinx.ext.ifconfig',
     'IPython.sphinxext.ipython_directive',
-    'IPython.sphinxext.ipython_console_highlighting'
+    'IPython.sphinxext.ipython_console_highlighting',
     ####'sphinx.ext.doctest',
-    #'sphinx.ext.todo',
+    'sphinx.ext.todo',
     ####'sphinx.ext.coverage',
     ####'sphinx.ext.viewcode',
     #####'sphinx.ext.githubpages',
-    #'sphinxcontrib.bibtex'
+    'sphinxcontrib.bibtex'
 ]
 
 ipython_warning_is_error = True

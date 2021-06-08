@@ -259,7 +259,7 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     type_args = {"weight": "bold", "va": "center", "ha": "left"}
     type_args["size"] = "large" if npals > 20 else "xx-large"
     name_args = {"va": "center", "ha": "left"}
-    
+
     if isinstance(data, list):
         xpos, ypos = plotcmaps(data, xpos, ypos, xstep, ystep, single_palette)
     else:

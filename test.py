@@ -1,15 +1,71 @@
 
-# Loading package
-from colorspace import *
-from colorspace.colorlib import *
 
-# Generate a set of colors
-cols = hexcols(["#023FA5", "#A1A6C8", "#E2E2E2", "#CA9CA4", "#8E063B"])
 
-# Convert colors
-cols.to("HCL")
-print(cols)
+from colorspace import hclpalettes
+#print(hclpalettes().get_palettes("Sequential"))
+#print(hclpalettes().get_palettes("Qualitative"))
+from colorspace import qualitative_hcl
+print(qualitative_hcl("Dark 3"))
 
-cols.to("hex")
-print(cols)
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+data = sm.datasets.elnino.load(as_pandas=False)
 
+
+from colorspace import sequential_hcl
+pal = sequential_hcl("Purples").cmap()
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+res = sm.graphics.rainbowplot(data.raw_data[:, 1:], ax=ax, cmap = pal)
+ax.set_xlabel("Month of the year")
+ax.set_ylabel("Sea surface temperature (C)")
+ax.set_xticks(np.arange(13, step=3) - 1)
+ax.set_xticklabels(["", "Mar", "Jun", "Sep", "Dec"])
+ax.set_xlim([-0.2, 11.2])
+plt.show()
+
+#import matplotlib.pyplot as plt
+#from matplotlib.colors import BoundaryNorm
+#from matplotlib.ticker import MaxNLocator
+#import numpy as np
+#
+#from colorspace import diverging_hcl
+#pal = diverging_hcl("Blue-Red 3")
+#
+#np.random.seed(19680801)
+#Z = np.random.rand(6, 10)
+#x = np.arange(-0.5, 10, 1)  # len = 11
+#y = np.arange(4.5, 11, 1)  # len = 7
+#
+#fig, ax = plt.subplots()
+#ax.pcolormesh(x, y, Z, cmap = pal.cmap())
+#
+#fig.show()
+
+### Loading package
+##from colorspace import *
+##from colorspace.colorlib import *
+##
+##import numpy as np
+##
+### Generate a set of colors
+##cols = hexcols(["#023FA5", "#A1A6C8", "#E2E2E2", "#CA9CA4", "#8E063B"])
+##
+### Convert colors
+##cols.to("HCL")
+##print(cols)
+##
+##cols.to("hex")
+##print(cols)
+##
+##H = sequential_hcl(h = [0, 300], c = [60, 60], l = 65)
+##C = sequential_hcl(h = 0, c = [100, 0], l = 65, rev = True, power = 1)
+##L = sequential_hcl(h = 260, c = [25, 25], l = [25, 90], rev = True, power = 1)
+##
+##swatchplot([palette(H(5), "Hue"),
+##            palette(C(5), "Chroma"),
+##            palette(L(5), "Luminance")])
+##
+##

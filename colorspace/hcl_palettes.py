@@ -119,7 +119,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
                 drop.sort(reverse = True)
                 for i in drop: del pals._palettes_[t][i]
 
-    # No palettes survived?
+    # No palettes survived the selection above?
     if len(pals.get_palettes()) == 0:
         import inspect
         raise Exception("no palettes found in {:s} matching one of: {:s}".format(

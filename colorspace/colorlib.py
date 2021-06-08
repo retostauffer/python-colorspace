@@ -1842,9 +1842,9 @@ class polarLUV(colorobject):
     (ambiguous) to convert into: HSV, HLS.
 
     Args:
-        L (numeric): Single value or vector for hue dimension ``[-360.,360.]``
-        U (numeric): Single value or vector for chroma dimension ``[0., 100.+]``
-        V (numeric): Single value or vector for luminance dimension ``[0., 100.]``
+        H (numeric): Single value or vector for hue dimension ``[-360.,360.]``
+        C (numeric): Single value or vector for chroma dimension ``[0., 100.+]``
+        L (numeric): Single value or vector for luminance dimension ``[0., 100.]``
         alpha (None or numeric): single value or vector of numerics in ``[0.,1.]``
             for the alpha channel (``0.`` means transparent, ``1.`` opaque). If
             ``None`` no transparency is added, defaults to None.

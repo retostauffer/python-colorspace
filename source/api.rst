@@ -20,60 +20,79 @@ directly via the `colorspace` package, such as
     :toctree: api/
     :nosignatures:
 
-    colorspace.hcl_palettes
-    colorspace.qualitative_hcl
-    colorspace.sequential_hcl
-    colorspace.diverging_hcl
-    colorspace.rainbow_hcl
-    colorspace.heat_hcl
-    colorspace.terrain_hcl
-    colorspace.palette
-    colorspace.diverging_hsv
-    colorspace.palettes.defaultpalette
+    hcl_palettes
+    qualitative_hcl
+    sequential_hcl
+    diverging_hcl
+    rainbow_hcl
+    heat_hcl
+    terrain_hcl
+    palette
+    diverging_hsv
+    palettes.defaultpalette
 
 GUI for choosing color palettes
 ================================
 
 Exported function, can be accessed via `colorspace.choose_palette()`.
 
+
+.. currentmodule:: colorspace.choose_palette
+
 .. autosummary::
     :toctree: api/
     :nosignatures:
-    
-    colorspace.choose_palette.choose_palette
+
+    choose_palette
 
 
 Assessing colors and palettes
 =============================
 
+.. currentmodule:: colorspace
+
 .. autosummary::
     :toctree: api/
     :nosignatures:
 
-    colorspace.specplot.specplot
-    colorspace.swatchplot.swatchplot
+    specplot
+    swatchplot
 
 
 Color vision defficiency
 ========================
 
+.. currentmodule:: colorspace.CVD
+
 .. autosummary::
     :toctree: api/
     :nosignatures:
 
-    colorspace.CVD.CVD
-    colorspace.CVD.desaturate
-    colorspace.CVD.deutan
-    colorspace.CVD.protan
-    colorspace.CVD.tritan
+    CVD
+    desaturate
+    deutan
+    protan
+    tritan
 
 
 Color library/color transformations
 ===================================
 
+.. currentmodule:: colorspace.colorlib
+
 .. autosummary::
     :toctree: api/
     :nosignatures:
 
-    colorspace.colorlib
+    polarLUV
+    HCL
+    CIELUV
+    CIEXYZ
+    RGB
+    sRGB
+    CIELAB
+    polarLAB
+    HSV
+    HLS
+    hexcols
 

@@ -1,2 +1,14 @@
-numpy
+coverage
+docutils
 imageio
+ipython
+matplotlib
+numpy
+pandas
+statsmodels
+Pillow
+pytest
+Sphinx
+sphinx-bootstrap-theme
+sphinxcontrib-bibtex
+sphinxcontrib-jsmath

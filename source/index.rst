@@ -35,6 +35,7 @@ Contents
     articles/classes-and-methods
     articles/installation
     articles/color_spaces
+    articles/colorlib
     articles/hcl_palettes
     articles/palette_visualization
     articles/hclwizard
@@ -65,17 +66,21 @@ More information and further reading:
 
 Scientific articles with more detailed insights:
 
+* Zeileis, A., Fisher, J., Hornik, K., Ihaka, R., McWhite, C., Murrell, P.,
+  Stauffer, R., & Wilke, C. (2020). `colorspace: A Toolbox for Manipulating and
+  Assessing Colors and Palettes <https://doi.org/10.18637/jss.v096.i01>`_.
+  Journal of Statistical Software, 96(1), 1–49, doi:
+  `https://doi.org/10.18637/jss.v096.i01 <https://doi.org/10.18637/jss.v096.i01>`_
 * Stauffer, R., Mayr, G. J., Dabernig, M., & Zeileis, A. (2015).  `Somewhere
   Over the Rainbow: How to Make Effective Use o f Colors in Meteorological
-  Visualizations <http://doi.org/10.1175/BAMS-D-13-00155.1>`_.  Bulletin of the
+  Visualizations <https://doi.org/10.1175/BAMS-D-13-00155.1>`_.  Bulletin of the
   American Meteorological Society, 96(2), 203–216, doi:
-  `10.1175/BAMS-D-13-00155.1 <http://doi.org/10.1175/BAMS-D-13-00155.1>`_.
-
+  `10.1175/BAMS-D-13-00155.1 <https://doi.org/10.1175/BAMS-D-13-00155.1>`_.
 * Zeileis, A., Hornik, K., & Murrell, P. (2009). `Escaping RGBland: Selecting
-  colors for statistical graphics <http://doi.org/10.1016/j.csda.2008.11.033>`_.
+  colors for statistical graphics <https://doi.org/10.1016/j.csda.2008.11.033>`_.
   Computational Statistics &Amp; Data
   Analysis , 53(9), 3259–3270,
-  doi:`10.1016/j.csda.2008.11.033 <http://doi.org/10.1016/j.csda.2008.11.033>`_.
+  doi:`10.1016/j.csda.2008.11.033 <https://doi.org/10.1016/j.csda.2008.11.033>`_.
 * Ihaka, R., 2003.  `Colour for presentation graphics
   <http://www.ci.tuwien.ac.at/Conferences/DSC-2003/Proceedings/Ihaka.pdf>`_.  In:
   Hornik, K., Leisch, F., Zeileis, A. (Eds.), Proceedings of the 3rd
@@ -83,7 +88,7 @@ Scientific articles with more detailed insights:
   ISSN 1609-395X, URL:
   `<http://www.ci.tuwien.ac.at/Conferences/DSC-2003/Proceedings/Ihaka.pdf>`_.
 * `And others <http://www.hclwizard.org/references/>`__.
-  (`HCLwizard.org <http://hclwizard.org>`__ reference list).
+  (`HCLwizard.org <https://hclwizard.org>`__ reference list).
 
 Some other packages providing color maps in python (on top of the default color
 maps) wich might be of interest:

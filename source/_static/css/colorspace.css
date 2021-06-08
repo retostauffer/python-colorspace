@@ -31,6 +31,9 @@ dt:target, span.highlighted {
     background-color: #fde937;
 }
 
+/* Less line-height for inline code */
+div.highlight pre { line-height: 1em; }
+
 /*
 .container-fluid pre {
     border: 1px solid black;

@@ -424,7 +424,8 @@ class hclpalettes:
         """Get all palettes of a specific type.
 
         Args:
-            type_ (None, str): Name of the palettes which should be returned.
+            type_ (None, str): (Partial) Name of the palettes which should be returned.
+                String matching is used; partial matches are allowed.
                 If set to `None` (default) all palettes will be returned. Names
                 have to match but are not case sensitive, defaults to None.
 
@@ -440,13 +441,16 @@ class hclpalettes:
             for key,pals in self._palettes_.items():
                 all += pals
             return all
-        # Else reutnr palette if available
+
+        # Else return palette if available
         else:
             found = None
+            res = []
             for t in self._palettes_.keys():
-                if t.upper() == type_.upper():
+                if type_.upper() in t.upper():
                     found = t
-                    break
+                    for rec in t:
+                        res.append(rec)
             if not found:
                 raise ValueError("No palettes for type \"{:s}\".".format(type_))
             else:
@@ -967,13 +971,13 @@ class qualitative_hcl(hclpalette):
             defaultpalettes = hclpalettes().get_palettes("Qualitative")
             default_names    = [x.name() for x in defaultpalettes]
             if not palette in default_names:
-                raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
+                raise ValueError("Palette {:s} is no valid qualitative palette. ".format(palette) + \
                         "Choose one of: {:s}".format(", ".join(default_names)))
 
             # Else pick the palette
             pal = defaultpalettes[default_names.index(palette)]
 
-            # Allow to overule few things
+            # Allow to overrule few things
             for key,value in kwargs.items():
                 if key in ["h1", "c1", "l1"]: pal.set({key: value})
 
