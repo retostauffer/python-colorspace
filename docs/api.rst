@@ -5,7 +5,6 @@ API Reference
 .. _sec-references:
 
 
-
 Color palettes
 ==============
 
@@ -14,10 +13,10 @@ Most functions listed above are exported and can be accessed
 directly via the `colorspace` package, such as 
 `colorspace.hcl_palettes()`, `colorspace.qualitative_hcl()` and more.
 
-.. currentmodule:: colorspace-python
+.. currentmodule:: colorspace
 
 .. autosummary::
-    :toctree: generated/
+    :toctree: api/
     :nosignatures:
 
     colorspace.hcl_palettes
@@ -37,7 +36,7 @@ GUI for choosing color palettes
 Exported function, can be accessed via `colorspace.choose_palette()`.
 
 .. autosummary::
-    :toctree: generated/
+    :toctree: api/
     :nosignatures:
     
     colorspace.choose_palette.choose_palette
@@ -47,7 +46,7 @@ Assessing colors and palettes
 =============================
 
 .. autosummary::
-    :toctree: generated/
+    :toctree: api/
     :nosignatures:
 
     colorspace.specplot.specplot
@@ -58,7 +57,7 @@ Color vision defficiency
 ========================
 
 .. autosummary::
-    :toctree: generated/
+    :toctree: api/
     :nosignatures:
 
     colorspace.CVD.CVD
@@ -72,7 +71,7 @@ Color library/color transformations
 ===================================
 
 .. autosummary::
-    :toctree: generated/
+    :toctree: api/
     :nosignatures:
 
     colorspace.colorlib

@@ -44,6 +44,7 @@ import colorspace
 # print("colorspace: %s, %s" % (colorspace.__version__, colorspace.__file__))
 
 
+
 # -- Project information -----------------------------------------------------
 
 project   = "colorspace-python"
@@ -67,22 +68,25 @@ extensions = [
     'matplotlib.sphinxext.plot_directive',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.extlinks',
+    'sphinx.ext.napoleon',
+    ###'sphinx.ext.intersphinx',
+    ###'sphinx.ext.extlinks',
     'sphinx.ext.mathjax',
-    #'numpydoc',
-    'sphinx.ext.ifconfig',
+    'numpydoc',
+    ###'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'IPython.sphinxext.ipython_directive',
     'IPython.sphinxext.ipython_console_highlighting',
-    'sphinx.ext.doctest',
-    'sphinx.ext.napoleon',
+    ###'sphinx.ext.doctest',
     'sphinx.ext.todo',
-    'sphinx.ext.coverage',
+    ###'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
-    #'sphinx.ext.githubpages',
+    ####'sphinx.ext.githubpages',
     'sphinxcontrib.bibtex'
 ]
+
+#napoleon_include_private_with_doc = True
+#napoleon_include_special_with_doc = True
 
 # BibTeX file
 bibtex_bibfiles      = ['references.bib']
@@ -92,13 +96,15 @@ bibtex_encoding      = 'latin'
 numpydoc_class_members_toctree = True
 numpydoc_show_class_members = False
 
-autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance'] #, 'inherited-members']
+autodoc_default_flags = ['members', 'show-inheritance', 'inherited-members']
+##autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance', 'inherited-members']
 autodoc_default_options = {
     'members': True,
     'member-order': 'bysource',
-    'special-members': '__init__',
-    'undoc-members': True,
-    'exclude-members': '__weakref__'
+    ####'special-members': '__init__',
+    'undoc-members': False,
+    'exclude-members': '__init__'
+    #'exclude-members': '__weakref__'
 }
 autosummary_generate = True
 

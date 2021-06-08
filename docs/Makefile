@@ -50,7 +50,7 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
-	-rm generated/*
+	-rm api/*
 
 
 html:
