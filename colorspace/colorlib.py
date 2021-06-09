@@ -1774,21 +1774,31 @@ class colorobject:
             >>> print cols
         """
         # Looping over inputs
+        from numpy import asarray, ndarray
         for key,vals in kwargs.items():
             key.upper()
 
-            if not isinstance(vals, list): vals = [vals]
-
-            # Return all coordinates
+            # Check if the key provided by the user is a valid dimension
+            # of the current object.
             if not key in self._data_.keys():
                 raise ValueError("{:s} has no dimension {:s}".format(self.__class__.__name__, key))
+
+            # In case the input is a single int/float or a list; try
+            # to convert the input into a numpy.array using the same
+            # dtype as the existing dimension (loaded via self.get(key)).
+            if isinstance(vals, (list, int, float)):
+                t = type(self.get(key)[0]) # Current type (get current dimension)
+                try:
+                    vals = np.asarray(vals, dtype = t)
+                except Exception as e:
+                    raise ValueError("Problems converting new data to {:s} ".format(t) + \
+                        " in {:s}: {:s}.".format(self.__class__.__name__, str(e)))
 
             # New values do have to have the same length as the old ones,
             n = len(self.get(key))
             t = type(self.get(key)[0])
-            from numpy import asarray
             try:
-                vals = asarray(vals, dtype = t)
+                vals = np.asarray(vals, dtype = t)
             except Exception as e:
                 raise ValueError("problems converting new data to {:s} ".format(t) + \
                     " in {:s}: {:s}".format(self.__class__.__name__, str(e)))

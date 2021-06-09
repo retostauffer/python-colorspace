@@ -77,6 +77,21 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     from .palettes import palette, defaultpalette, hclpalette, hclpalettes
     allowed = (palette, defaultpalette, hclpalette)
 
+
+    # TODO(Reto): There must be a more general approach to this problem.
+    # ... idea:
+    # list: 
+    # list of hex colors?
+    #          create [{"name": "unnamed", "colors": pals}]
+    # list of different objects?
+    #          loop and convert? Or do not allow?
+    # hclpalette:  create [{"name": pals.name(), "colors": pals.colors(n)}]
+    # dict:        Check entries and convert whatever you get to hex list for colors.
+    #              Use dict keys as name for the new data dict.
+    # hclpalettes: Entire plaette list. Somehow pre-process that to a list
+    #              as it is done at the moment.
+    #              Check how that can be done most easily?
+
     # ---------------------------------------------------------------
     # In case input 'pals' is a list object:
     # Prepare a list of dicsts with names and colors.
@@ -129,6 +144,15 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
                 npals += 1 # Increase palette counter for each palette
 
     # ---------------------------------------------------------------
+    # A single object which itself inherits from hclpalette
+    # ---------------------------------------------------------------
+    elif isinstance(pals, hclpalette):
+        npals = 1
+        ncols = 10
+        data = [{"name": pals.name(), "colors": pals.colors(ncols)}]
+
+
+    # ---------------------------------------------------------------
     # Else unknown
     # ---------------------------------------------------------------
     elif isinstance(pals, hclpalettes):
@@ -147,9 +171,9 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     # ---------------------------------------------------------------
     else:
         import inspect
-        raise Exception("got {:s} for {:s}: unknown input".format(
-            type(pals), inspect.stack()[0][3]))
+        raise ValueError("Input 'pals' not in one of the supported types/formats.")
 
+    print(data)
 
     # ---------------------------------------------------------------
     # Plotting functions

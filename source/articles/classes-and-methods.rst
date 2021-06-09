@@ -4,31 +4,59 @@
 .. _article-classes-and-methods:
 
 
-Classes and methods
-===================
+Main classes and methods
+========================
 
-:py:class:`colorspace.palettes.palette` is used to create custom named palettes
-based on a fixed number of hex colors. Used to provide the same functionality
-for non-colorspace palettes such as creating a ``specplot()`` or ``swatchplot()``.
+Overview
+--------
+
+At the core of the *colorspace* package are various utilities for computing with
+color spaces (:cite:Wikipedia 2020d), as the name conveys. Thus, the package helps to
+map various three-dimensional representations of color to each other (Ihaka
+2003). A particularly important mapping is the one from the perceptually-based
+and device-independent color model HCL (Hue-Chroma-Luminance) to standard
+Red-Green-Blue (sRGB) which is the basis for color specifications in many
+systems based on the corresponding hex codes (Wikipedia 2020i), e.g., in HTML
+but also in R. For completeness further standard color models are included as
+well in the package. Their connections are illustrated in the following graph:
 
 .. todo::
-    Not working as expected, rethink. ``cmap()`` and ``swatchplot()`` not woking.
+    colorspace.palette: rethink. ``cmap()`` and ``swatchplot()`` not woking as expected?
 
-.. ipython::
+.. ipython:: python
+    :okwarnings:
+
     import colorspace
     pal = colorspace.palette(["#c3c3c3", "#DD0000"])
+
+.. currentmodule:: colorspace
 
 .. autosummary::
     :toctree: ../api/
     :nosignatures:
 
-    colorspace.qualitative_hcl
-    colorspace.sequential_hcl
-    colorspace.diverging_hcl
-    colorspace.rainbow_hcl
-    colorspace.heat_hcl
-    colorspace.terrain_hcl
-    colorspace.diverging_hsv
+    hclpalettes
+    palette
+    qualitative_hcl
+    diverging_hcl
+    sequential_hcl
+    rainbow_hcl
+    heat_hcl
+    terrain_hcl
+    diverging_hsv
+
+    tritan
+    protan
+    deutan
+    desaturate
+
+    hcl_palettes
+    swatchplot
+    specplot
+    choose_palette
+    cvd_emulator
+
+
 
 :py:class:`colorspace.palettes.defaultpalette` not intended to be used by the user.
 Reads the config files (shipped with the python package) and returns all available

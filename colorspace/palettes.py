@@ -28,7 +28,7 @@ class palette:
     def __init__(self, colors, name):
         self._colors = self._valid_hex(colors)
         if not isinstance(name, str):
-            raise ValueError("argument name to {:s} ".format(self.__class__.__name__) + \
+            raise ValueError("Argument name to {:s} ".format(self.__class__.__name__) + \
                     "has to be a string")
         self._name = name
 

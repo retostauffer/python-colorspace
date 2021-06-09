@@ -1,4 +1,21 @@
 
+/* Changing font */
+body {
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    font-family: 'Roboto', sans-serif;
+}
+div.content {
+    line-height: 1.7em;
+}
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.25em; }
+h4 { font-size: 1em; }
+
+code {
+    padding: 0 .25em;
+}
+
 form.navbar-form {
     display: none;
 }
@@ -34,58 +51,3 @@ dt:target, span.highlighted {
 /* Less line-height for inline code */
 div.highlight pre { line-height: 1em; }
 
-/*
-.container-fluid pre {
-    border: 1px solid black;
-    padding: 10px;
-    border-color: #c5cdd2;
-    background-color: #f1f3f4;
-    overflow: hidden;
-}
-.container-fluid pre.sourceCode.python {
-    background-color: #eaf5fb;
-    border-color: #abd5f0;
-}
-.container-fluid pre code {
-    background: none;
-    white-space: pre;
-    border: none;
-    padding: 0;
-    color: #343131;
-}
-.container-fluid pre code.sourceCode.python {
-    color: black;
-}
-
-check.Rpy {
-    display: block;
-    width: 100%;
-    min-height; 1.2em;
-    background: #f1f3f4;
-    border: 1px solid #c5cdd2;
-    padding: 0;
-    margin: 0 0 1em 0;
-    position: relative;
-    top: -3px;
-    float: none;
-}
-check:before {
-    font-family: FontAwesome;
-    font-weight: normal;
-    font-style: normal;
-    display: inline-block;
-    width: 1.2em;
-    height: 1.2em;
-    margin-right: 1em;
-}
-check.Rpy.allfine:before {
-    background-color: #7BBE00;
-    text-decoration: inherit;
-    content: "\f00c";
-}
-check.Rpy.failed:before {
-    background-color: #FF7C98;
-    text-decoration: inherit;
-    content: "\f00d";
-}
-*/

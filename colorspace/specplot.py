@@ -62,19 +62,20 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
             rect = Rectangle((x[i],0.), w, 1., color = hex_[i])
             ax.add_patch(rect)
 
-    # Try to convert inputs to boolean.
-    # raise exception if not possible.
-    try:
-        rgb = bool(rgb); hcl = bool(hcl); palette = bool(palette)
-    except Exception as e:
-        raise Exception(e)
-
-    # This would yield an empty plot: raise an error.
+    # Sanity check for input arguemnts to control the different parts
+    # of the spectogram plot. Namely rgb spectrum, hcl spectrum, and the palette.
+    if not isinstance(rgb, bool):
+        raise ValueError("Argument 'rgb' must be boolean True or False.")
+    if not isinstance(hcl, bool):
+        raise ValueError("Argument 'hcl' must be boolean True or False.")
+    if not isinstance(palette, bool):
+        raise ValueError("Argument 'palette' must be boolean True or False.")
     if not rgb and not hcl and not palette:
         import inspect
         raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible " + \
                   "when calling \"{:s}\".".format(inspect.stack()[0][3]))
 
+    # Import hexcolors: convert colors to hexcolors for the plot if needed.
     from .colorlib import hexcols
     coords = {} 
     if not isinstance(hex_, dict):
@@ -112,6 +113,8 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
     # Calculate coordinates
     coords = {}
     for key,vals in hex_.items():
+        print(vals)
+        print(hexcols(vals))
         cols = hexcols(vals)
         cols.to("sRGB")
         coords[key] = {"hex":vals}

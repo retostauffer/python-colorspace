@@ -8,7 +8,7 @@ HCL based color palettes
 As motivated in the previous article (:ref:`article-color_spaces`),
 the HCL space is particularly useful for specifying individual colors and
 color palettes, as its three axes match those of the human visual system very
-well. Therefore, the colorspace package provides three types of palettes based
+well. Therefore, the *colorspace* package provides three types of palettes based
 on the HCL model:
 
 * *Qualitative*: Designed for coding categorical information, i.e., where no
@@ -21,15 +21,17 @@ on the HCL model:
 
 
 The corresponding functions are
-:func:`colorspace.palettes.qualitative_hcl`,
-:func:`colorspace.palettes.sequential_hcl`, and
-:func:`colorspace.palettes.diverging_hcl`.
+:py:func:`qualitative_hcl<colorspace.palettes.qualitative_hcl>`,
+:py:func:`sequential_hcl<colorspace.palettes.sequential_hcl>`, and
+:py:func:`diverging_hcl<colorspace.palettes.diverging_hcl>`.
 Their construction principles are exemplified in the following
 color swatches and explained in more detail below. The desaturated palettes
 bring out clearly that luminance differences (light-dark contrasts) are crucial
 for sequential and diverging palettes while qualitative palettes are balanced
 at the same luminance.
 
+
+.. todo:: Still an R graphic.
 
 .. image:: images/hcl-palettes-principles-1.png
     :width: 100%

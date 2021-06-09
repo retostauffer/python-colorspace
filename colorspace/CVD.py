@@ -494,6 +494,7 @@ def desaturate(col, amount = 1.):
     col.to("HCL")
 
     # Desaturation
+    x = (1. - amount) * col.get("C")
     col.set(C = (1. - amount) * col.get("C"))
 
     from numpy import where, logical_or

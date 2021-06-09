@@ -97,6 +97,38 @@ exclude_patterns = []
 bibtex_bibfiles      = ['references.bib']
 bibtex_default_style = 'label'
 bibtex_encoding      = 'latin'
+bibtex_reference_style = "author_year_round" # Requires 'custom style round' below
+
+# Custom style round brackets
+import dataclasses
+import sphinxcontrib.bibtex.plugin
+
+from sphinxcontrib.bibtex.style.referencing import BracketStyle
+from sphinxcontrib.bibtex.style.referencing.author_year \
+    import AuthorYearReferenceStyle
+
+my_bracket_style = BracketStyle(
+    left='(',
+    right=')',
+)
+
+
+@dataclasses.dataclass
+class MyReferenceStyle(AuthorYearReferenceStyle):
+    bracket_parenthetical: BracketStyle = my_bracket_style
+    bracket_textual: BracketStyle = my_bracket_style
+    bracket_author: BracketStyle = my_bracket_style
+    bracket_label: BracketStyle = my_bracket_style
+    bracket_year: BracketStyle = my_bracket_style
+
+
+sphinxcontrib.bibtex.plugin.register_plugin(
+    'sphinxcontrib.bibtex.style.referencing',
+    'author_year_round', MyReferenceStyle)
+
+
+# -- Remove link from scaled images ------------------------------------------
+html_scaled_image_link = False
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -128,8 +160,8 @@ html_theme_options = {
     # an arbitrary url.
     'navbar_links': [
         ("Get started", "getstarted"),
-        ("News", "news"),
-        ("API Reference", "api", False),
+        ("Changelog", "changelog"),
+        ("API", "api", False),
     ],
 
     # Render the next and previous page links in navbar. (Default: true)
@@ -226,6 +258,8 @@ intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
                        }
 
 
+
+autoclass_content = "class"
 
 
 

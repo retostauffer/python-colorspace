@@ -32,9 +32,8 @@ Contents
     :maxdepth: 1
 
     api
-    articles/classes-and-methods
-    articles/installation
     articles/color_spaces
+    articles/installation
     articles/colorlib
     articles/hcl_palettes
     articles/palette_visualization

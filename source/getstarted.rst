@@ -45,14 +45,14 @@ wavelength), chroma (= colorfulness), luminance (= brightness).
 
 The colorspace package provides three types of palettes based on the HCL model:
 
-* _Qualitative_: Designed for coding categorical information, i.e., where no
+* *Qualitative*: Designed for coding categorical information, i.e., where no
   particular ordering of categories is available and every color should receive
   the same perceptual weight.
   Class: :py:class:`qualitative_hcl <colorspace.qualitative_hcl>`.
-* _Sequential_: Designed for coding ordered/numeric information, i.e., where
+* *Sequential*: Designed for coding ordered/numeric information, i.e., where
   colors go from high to low (or vice versa).
   Class: :py:class:`sequential_hcl <colorspace.sequential_hcl>`.
-* _Diverging_: Designed for coding ordered/numeric information around a central
+* *Diverging*: Designed for coding ordered/numeric information around a central
   neutral value, i.e., where colors diverge from neutral to two extremes.
   Class: :py:class:`diverging_hcl <colorspace.diverging_hcl>`.
 
@@ -164,7 +164,7 @@ All color palettes come with a `cmap()` method to generate objects
 of class `LinearSegmentedColormap` as used by the `matplotlib` and can
 thus usually be passed directly to most matplotlib plotting functions, typically
 trough the `cmap` argument. Here, a `pcolormesh()` example is shown using
-the diverging HCL color palette "_Blue-Red__3_".
+the diverging HCL color palette "*Blue-Red 3*".
 
 .. ipython:: python
     :okwarning:
@@ -226,28 +226,46 @@ Palette visualization and assessment
 ====================================
 
 The colorspace package also provides a number of functions that aid
-visualization and assessment of its palettes.
+visualization and assessment of its palettes. The `demos` module
+contains a series of generic/basic plot types as used by the
+interactive interface (:py:func:`choose_palette<colorspace.choose_palette>`) which
+can also be used in-line to test color palettes.
+In addition :py:func:`specplot<colorspace.specplo>` allows to visualize and
+graphically assess the spectrum of a series of colors in the RGB and HCL spectrum.
 
 
-.. currentmodule:: colorspace.demos
-
-.. autosummary::
-    :toctree: demos/
-
-    Bar
-    Pie
-    Spine
-    Heatmap
-    Matrix
-    Lines
-    Spectrum
-
-.. currentmodule:: colorspace.specplo
+.. currentmodule:: colorspace
 
 .. autosummary::
     :toctree: demos/
 
     specplot
+    demos.Bar
+    demos.Pie
+    demos.Spine
+    demos.Heatmap
+    demos.Matrix
+    demos.Lines
+    demos.Spectrum
+
+
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import diverging_hcl, specplot
+    pal = diverging_hcl("Purple-Green")
+    @savefig getstarted_specplot.png scale=70% width=800px height=600px align=center
+    specplot(pal(100), hcl = True, palette = True, rgb = True)
+
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import diverging_hcl, demos
+    pal = diverging_hcl("Purple-Green")
+    @savefig getstarted_demos_Bar.png scale=70% width=600px height=300px align=center
+    demos.Bar(pal(10))
 
 
 
