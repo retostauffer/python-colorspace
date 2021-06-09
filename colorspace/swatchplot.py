@@ -72,135 +72,124 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     else:
         figsize = (5, 4) # default
 
-    from re import match
     from numpy import all, max, sum, where
     from .palettes import palette, defaultpalette, hclpalette, hclpalettes
+    from .colorlib import colorobject
     allowed = (palette, defaultpalette, hclpalette)
 
 
-    # TODO(Reto): There must be a more general approach to this problem.
-    # ... idea:
-    # list: 
-    # list of hex colors?
-    #          create [{"name": "unnamed", "colors": pals}]
-    # list of different objects?
-    #          loop and convert? Or do not allow?
-    # hclpalette:  create [{"name": pals.name(), "colors": pals.colors(n)}]
-    # dict:        Check entries and convert whatever you get to hex list for colors.
-    #              Use dict keys as name for the new data dict.
-    # hclpalettes: Entire plaette list. Somehow pre-process that to a list
-    #              as it is done at the moment.
-    #              Check how that can be done most easily?
+    # Helper functiin; return boolean True if this is a list of character
+    # strings and all entries are valid hex colors.
+    def _check_is_hex_list(vals):
+        check = False
+        if isinstance(vals, list) and all([isinstance(x, str) for x in vals]):
+            from re import match
+            check = all([match(u"^#[0-9A-Fa-f]{6}(o-9]{2})?$$", x) is not None for x in vals])
+        return check
 
-    # ---------------------------------------------------------------
-    # In case input 'pals' is a list object:
-    # Prepare a list of dicsts with names and colors.
-    # ---------------------------------------------------------------
-    single_palette = False
-    if isinstance(pals, list):
 
-        # Check if a single list of valid hex colors is given
-        try:
-            check = [match(u"^#[0-9A-Fa-f]{6}(o-9]{2})?$$", x) is not None for x in pals]
-            if all(check): single_palette = True
-            npals = 1
-            ncols = len(pals)
-            data  = [{"name": "unnamed", "colors": pals}]
-        # Else check whehter or not the list contains valid objects
-        except:
-            # Check if all types are allowed
-            check = [isinstance(x, allowed) for x in pals]
-            if not all(check):
-                import inspect
-                raise ValueError("wrong input to function {:s}".format(inspect.stack()[0][3]))
-            # Elxe prepare the objects we need for the plot
-            data = []
-            for pal in pals:
-                data.append({"name": pal.name(), "colors": pal.colors(n)})
+    # Helper function; Convert whatever we get (and can) into a simple
+    # dictionary containing "name" (name of palette, defaults to None)
+    # and "colors", a hex-list with colors.
+    def _pal_to_dict(x, n):
+        # In case argument 'pals' is a list we first check if this is
+        # a valid list of hex colors. If so: convert to dictionary.
+        if isinstance(x, list) and _check_is_hex_list(x):
+            res = {"name": None, "colors": x}
+        # Single colorobject (e.g., RGB, HCL, CIELUV, ...)
+        elif isinstance(x, colorobject):
+            res = {"name": None, "colors": x.colors(n)}
+        # Single color hclpalette object (e.g., diverging_hcl, sequential_hcl, ...)
+        elif isinstance(x, hclpalette):
+            res = {"name": x.name(), "colors": x.colors(n)}
+        # Single palette object (custom palette)
+        elif isinstance(x, palette):
+            res = {"name": x.name(), "colors": x.colors()}
+        else:
+            raise Exception("Could not convert 'pals', improper input (type {:s}).".format(str(type(x))))
+        # Checking length of color list
+        if not len(res["colors"]) > 0:
+            raise Exception("Got at least one color object/palette with 0 colors.")
+        return res
 
-            npals = len(data)
-            ncols = max([len(x["colors"]) for x in data])
 
-    # ---------------------------------------------------------------
-    # In case input 'pals' is a dict
-    # Prepare a dict with lists of dicts containing name and colors.
-    # ---------------------------------------------------------------
+    # If 'pals' is:
+    # * a list with proper hex values
+    # * a single colorobject (e.g., RGB, HCL, CIELUV, ...)
+    # * a single hclpalette object (e.g., diverging_hcl, sequential_hcl, ...)
+    # * a single palette object
+    # ... convert and put it into a list of length 1.
+    if (isinstance(pals, list) and _check_is_hex_list(pals)) or \
+       isinstance(pals, colorobject) or isinstance(pals, hclpalette) or \
+       isinstance(pals, palette):
+        data = [_pal_to_dict(pals, n)]
+    # What else? If we have a list we now iterate over the different items
+    # and convert each entry into a dict using _pal_to_dict(). Will fail
+    # if we have no rule for this.
+    elif isinstance(pals, list):
+        data = [_pal_to_dict(x, n) for x in pals]
+    # If we got a dictionary we keep the keys as names and extract
+    # the colors from the object(s) itself.
     elif isinstance(pals, dict):
-
-        data = {}
-        ncols = 0
-        npals = 0
-        for key,values in pals.items():
-            check = [isinstance(x, allowed) for x in values]
-            if not all(check):
-                import inspect
-                raise ValueError("wrong input to function {:s}".format(inspect.stack()[0][3]))
-            # Else prepare the objects we need for the plot
-            data[key] = []
-            npals += 1 # Increase palette counter for each type
-            for pal in values:
-                data[key].append({"name": pal.name(), "colors": pal.colors(n)})
-                if ncols < len(pal.colors(n)): ncols = len(pal.colors(n))
-                npals += 1 # Increase palette counter for each palette
-
-    # ---------------------------------------------------------------
-    # A single object which itself inherits from hclpalette
-    # ---------------------------------------------------------------
-    elif isinstance(pals, hclpalette):
-        npals = 1
-        ncols = 10
-        data = [{"name": pals.name(), "colors": pals.colors(ncols)}]
+        data = []
+        for key,pal in pals.items():
+            tmp = _pal_to_dict(pal, n)
+            data.append({"name": key, "colors": tmp["colors"]})
 
 
-    # ---------------------------------------------------------------
-    # Else unknown
-    # ---------------------------------------------------------------
-    elif isinstance(pals, hclpalettes):
-        data  = {}
-        ncols = n
-        npals = 0
-        for type_ in pals.get_palette_types():
-            data[type_] = []
-            npals += 1 # Increase palette counter for each type
-            for pal in pals.get_palettes(type_):
-                data[type_].append({"name": pal.name(), "colors": pal.colors(n)})
-                npals += 1 # Increase palette counter for each palette
+    # Extract number of palettes, number of named palettes,
+    # and max number of colors.
+    nnamed    = sum([1 if x is None else 0 for x in data])
+    npalettes = len(data)
+    ncolors   = max([len(x["colors"]) for x in data])
 
-    # ---------------------------------------------------------------
-    # Else unknown
-    # ---------------------------------------------------------------
-    else:
-        import inspect
-        raise ValueError("Input 'pals' not in one of the supported types/formats.")
 
-    print(data)
 
     # ---------------------------------------------------------------
     # Plotting functions
     # ---------------------------------------------------------------
     # Helper function to plot the color palettes
     # Calls "cmap()" function (see below)
-    def plotcmaps(data, xpos, ypos, xstep, ystep, single_palette = False):
-        for pal in data:
+    #
+    # TODO(Reto): Well, now I lost the possibility to have subtitles.
+    # Or titles. Whatever. I will go for 'args' and 'kwargs' instead.
 
-            # Adding text (only if not single_palette)
-            if not single_palette:
-                ax.text(xpos + xstep * 0.02, ypos, pal["name"], name_args)
+    def _plotcmaps(data, xpos, ypos, xstep, ystep, single_palette = False):
+        ####for pal in data:
 
-            # Getting colors, plotting color bar
-            xoff = 0.35 if not single_palette else 0.
-            cmap(ax, pal["colors"], ncols, ypos - 0.8 * ystep / 2.,
-                 ypos + 0.8 * ystep / 2., xpos + xoff * xstep, xpos + 0.99 * xstep) 
+        ####    # Adding text (only if not single_palette)
+        ####    if not single_palette:
+        ####        ax.text(xpos + xstep * 0.02, ypos, data["name"], name_args)
 
-            ypos -= ystep
-            # Start new column
-            if ypos < 0:
-                ypos = 1. - ystep / 2.; xpos = xpos + xstep
+        ####    # Getting colors, plotting color bar
+        ####    xoff = 0.35 if not single_palette else 0.
+        ####    _cmap(ax, data["colors"], len(data["colors"]), ypos - 0.8 * ystep / 2.,
+        ####         ypos + 0.8 * ystep / 2., xpos + xoff * xstep, xpos + 0.99 * xstep) 
+
+        ####    ypos -= ystep
+        ####    # Start new column
+        ####    if ypos < 0:
+        ####        ypos = 1. - ystep / 2.; xpos = xpos + xstep
+
+
+        # Adding text (only if not single_palette)
+        if not single_palette:
+            ax.text(xpos + xstep * 0.02, ypos, data["name"], name_args)
+
+        # Getting colors, plotting color bar
+        xoff = 0.35 if not single_palette else 0.
+        _cmap(ax, data["colors"], len(data["colors"]), ypos - 0.8 * ystep / 2.,
+             ypos + 0.8 * ystep / 2., xpos + xoff * xstep, xpos + 0.99 * xstep) 
+
+        ypos -= ystep
+        # Start new column
+        if ypos < 0:
+            ypos = 1. - ystep / 2.; xpos = xpos + xstep
 
         return xpos, ypos
 
     # Helper function, draw the colormap
-    def cmap(ax, cols, ncols, ylo, yhi, xmin, xmax, boxedupto = 6, frameupto = 9):
+    def _cmap(ax, cols, ncols, ylo, yhi, xmin, xmax, boxedupto = 6, frameupto = 9):
 
         from numpy import linspace
         from matplotlib.patches import Rectangle
@@ -257,12 +246,12 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
     fig, ax = plt.subplots(figsize = figsize)
 
     # Compute number of columns needed
-    if npals <= nrow:
+    if npalettes <= nrow:
         ncol = 1
-        nrow = npals
+        nrow = npalettes
     else:
         from numpy import ceil
-        ncol = ceil(float(npals) / float(nrow))
+        ncol = ceil(float(npalettes) / float(nrow))
 
     # Plotting the different color maps
     ystep = 1. / float(nrow)
@@ -281,19 +270,20 @@ def swatchplot(pals, nrow = 20, n = 5, *args, **kwargs):
 
     # Styling of the texts
     type_args = {"weight": "bold", "va": "center", "ha": "left"}
-    type_args["size"] = "large" if npals > 20 else "xx-large"
+    type_args["size"] = "large" if npalettes > 20 else "xx-large"
     name_args = {"va": "center", "ha": "left"}
 
-    if isinstance(data, list):
-        xpos, ypos = plotcmaps(data, xpos, ypos, xstep, ystep, single_palette)
+    if npalettes == 1:
+        xpos, ypos = _plotcmaps(data[0], xpos, ypos, xstep, ystep, True)
     else:
-        for type_,paldata in data.items():
-            ax.text(xpos + xstep * 0.02, ypos, type_, type_args)
-            ypos -= ystep
+        for pal in data:
+            print(pal)
+            #ax.text(xpos + xstep * 0.02, ypos, pal["name"], type_args)
+            #ypos -= ystep
             # Start new column
             if ypos < 0:
                 ypos = 1. - ystep / 2.; xpos = xpos + xstep
-            xpos, ypos = plotcmaps(paldata, xpos, ypos, xstep, ystep)
+            xpos, ypos = _plotcmaps(pal, xpos, ypos, xstep, ystep)
 
     plt.show()
 
