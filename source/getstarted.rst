@@ -190,7 +190,7 @@ the diverging HCL color palette "*Blue-Red 3*".
 As another example for a sequential palette, we demonstrate how to create a
 line plot using `rainbowplot()` provided by the `statsmodels` package.
 The Purples 3 palette is used which is quite similar to the
-`ColorBrewer2.org<https://colorbrewer2.org/>`_ palette Purples.
+`ColorBrewer2.org <https://colorbrewer2.org/>`_ palette Purples.
 Here, only two colors are employed, yielding a dark purple and a light gray.
 
 .. todo::

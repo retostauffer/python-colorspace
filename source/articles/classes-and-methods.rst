@@ -24,10 +24,10 @@ well in the package. Their connections are illustrated in the following graph:
     colorspace.palette: rethink. ``cmap()`` and ``swatchplot()`` not woking as expected?
 
 .. ipython:: python
-    :okwarnings:
+    :okwarning:
 
-    import colorspace
-    pal = colorspace.palette(["#c3c3c3", "#DD0000"])
+    from colorspace import palette
+    pal = palette(["#c3c3c3", "#DD0000"], "Demo")
 
 .. currentmodule:: colorspace
 

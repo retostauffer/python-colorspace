@@ -4,9 +4,9 @@ body {
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
     font-family: 'Roboto', sans-serif;
 }
-div.content {
-    line-height: 1.7em;
-}
+div.content { line-height: 1.7em; }
+div.content img { margin: 3em auto; }
+
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.25em; }
