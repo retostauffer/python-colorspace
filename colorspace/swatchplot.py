@@ -13,6 +13,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
     * Dictionary with lists of objects as above. If a dictionary is used
         the keys of the dictionary are used as 'subtitles' to group sets
         of palettes.
+    * An object of class :py:class:`colorspace.palettes.hclpalettes`.
 
     Note: ``**kwargs`` can be used to specify the figure size of the resulting
     image by specifying ``figsize = (height, width)`` where both, ``height``
@@ -77,11 +78,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
         >>>                        pal, sequential_hcl("PuBu")]}, n = 15)
 
 
-    .. todo:
-        TODO(Reto) hclpalettes does not work yet I guess!!!
-        Fix this again as we need it to visualize the palettes.
-
-
     .. note:
         Requires the ``matplotlib`` module to be installed.
     """
@@ -95,7 +91,10 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
         raise ValueError("Argument 'nrow' and 'n' must both be positive integers.")
 
 
-    # If plot is True: proceed.
+    # ---------------------------------------------------------------
+    # Setting up matplotlib for plotting
+    # ---------------------------------------------------------------
+
     # Requires matpotlib, a suggested package. If not avialable
     # raise an import error.
     try:
@@ -105,21 +104,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
         msg = "{:s} requires matplotlib to be installed: {:s}".format(
                 inspect.stack()[0][3], str(e))
         raise ImportError(msg)
-
-    # Prepares a list item
-    def prepare_listelement(rec, n = 5):
-        from numpy import ndarray
-        if isinstance(rec, list) or isinstance(rec, ndarray):
-            colors = rec
-        else:
-            raise Exception("problems preparing list item in swatchplot")
-
-        # Check if all hex colors are valid. If not, a
-        # ValueError will be raised.
-        valid(rec)
-
-        # Return
-        return ["custom", colors]
 
     # Allow the user to specify figure size if needed
     if "figsize" in kwargs:
@@ -132,6 +116,47 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
     else:
         figsize = (5, 4) # default
 
+    # TODO REMOVE # # Prepares a list item
+    # TODO REMOVE # def prepare_listelement(rec, n = 5):
+    # TODO REMOVE #     from numpy import ndarray
+    # TODO REMOVE #     if isinstance(rec, list) or isinstance(rec, ndarray):
+    # TODO REMOVE #         colors = rec
+    # TODO REMOVE #     else:
+    # TODO REMOVE #         raise Exception("problems preparing list item in swatchplot")
+
+    # TODO REMOVE #     # Check if all hex colors are valid. If not, a
+    # TODO REMOVE #     # ValueError will be raised.
+    # TODO REMOVE #     valid(rec)
+
+    # TODO REMOVE #     # Return
+    # TODO REMOVE #     return ["custom", colors]
+
+
+
+    # ---------------------------------------------------------------
+    # Prepare the palettes for plotting the swatches.
+    # The function allows for various types as iput which will
+    # be converted to a list of dicts, or a dict of list of dicts.
+    #
+    # Note that <name> can also be empty if the palette is unnamed.
+    #
+    # One single palette results in:
+    #    [{"name": <name>, "colors": <list of hex colors>}]
+    # Multiple palettes result in:
+    #    [{"name": <name palette 1>, "colors": <list of hex colors palette 1>},
+    #     {"name": <name palette 2>, "colors": <list of hex colors palette 2>},
+    #     ...]
+    # Dict of palette collections:
+    #    {"First Collection":  [{"name": <name palette 1>, "colors": <list of hex colors palette 1>},
+    #                           {"name": <name palette 2>, "colors": <list of hex colors palette 2>},
+    #                           ...],
+    #     "Second Collection": [{"name": <name palette 1>, "colors": <list of hex colors palette 1>},
+    #                          {"name": <name palette 2>, "colors": <list of hex colors palette 2>},
+    #                          ...]}
+    # 'hclpalettes' object will also be converted into
+    # a dictionary as shown above.
+    # ---------------------------------------------------------------
+
     from numpy import all, max, sum, where
     from .palettes import palette, defaultpalette, hclpalette, hclpalettes
     from .colorlib import colorobject
@@ -141,6 +166,19 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
     # Helper functiin; return boolean True if this is a list of character
     # strings and all entries are valid hex colors.
     def _check_is_hex_list(vals):
+        """Helper function: Check if input is a list of valid hex colors.
+
+        Checking in put argument ``vals``. In case this is a list of
+        strings we will furthermore check if these strings are valid
+        HEX strings.
+
+        Args:
+            vals: Any kind of object.
+
+        Returns:
+            bool: Returns ``True`` if the input is a list of strings of valid hex colors.
+            Else ``False`` will be returned.
+        """
         check = False
         if isinstance(vals, list) and all([isinstance(x, str) for x in vals]):
             from re import match
@@ -183,7 +221,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
         elif isinstance(x, hclpalette):
             res = {"name": x.name(), "colors": x.colors(n)}
         # Single palette object (custom palette)
-        elif isinstance(x, palette):
+        elif isinstance(x, (palette, defaultpalette)):
             res = {"name": x.name(), "colors": x.colors()}
         else:
             raise Exception("Could not convert 'pals', improper input (type {:s}).".format(str(type(x))))
@@ -236,6 +274,9 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
             for key,pal in pals.items():
                 tmp = _pal_to_dict(pal, n)
                 res.append({"name": key, "colors": tmp["colors"]})
+        else:
+            raise TypeError("Cannot deal with object of type {:s}".format(str(type(pals))))
+
 
         # Extract number of palettes, number of named palettes,
         # and max number of colors.
@@ -245,6 +286,15 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
 
         # Return meta info and  data
         return meta, res
+
+
+    # If input is an object of class hclpalettes we will first
+    # convert it into a dictionary which is then further processed.
+    if isinstance(pals, hclpalettes):
+        tmp = {}
+        for type_ in pals.get_palette_types(): tmp[type_] = pals.get_palettes(type_)
+        # Overwrite input object
+        pals = tmp
 
 
     # If 'pals' is not a dictionary we don't have "groups".
