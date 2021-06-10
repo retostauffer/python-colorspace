@@ -51,8 +51,8 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         TypeError: If 'n'/'ncol' not of type integer.
         TypeError: If 'type_' is not None or string.
         TypeError: If not is boolean 'plot'.
+        TypeError: In case 'custom' is an invalid input.
         ValueError: If 'n' or 'ncol' are not positive.
-        ValueError: In case 'custom' is an invalid input.
         Exception: If no palettes can be found matching the 'type_' argument.
 
     Examples:
@@ -116,7 +116,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             pals._palettes_["Custom"] = custom
         # Else append pals._palettes_["Custom"] = custom
         else:
-            raise ValueError("Argument 'custom' to {:s} misspecified".format(self.__class__.__name__))
+            raise TypeError("Argument 'custom' not one of the allowed types.")
 
 
     if not type_ is None:

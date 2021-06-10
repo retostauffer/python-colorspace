@@ -96,12 +96,18 @@ class colorlib:
             __fname__ (str): Name of the parent method, only used if errors are dropped.
                 @TODO get rid of this thing and write a proper exception.
             n (int): Number of colors to which NX, NY, NZ will be expanded
-            XN (None, numpy.ndarray): Either None (default) or an nd.array of length one
+            XN (None, float, numpy.ndarray): Either None (default) or an nd.array of length one
                 or length n. White point specification for dimension X, defaults to None.
-            YN (None, numpy.ndarray): See XN. White point specification for dimension Y,
+            YN (None, float, numpy.ndarray): See XN. White point specification for dimension Y,
                 defaults to None.
             YZ (None, numpy.ndarray): See XN. White point specification for dimension Z,
                 defaults to None.
+
+        Raises:
+            TypeError: If ``XN``, ``YN`` and ``ZN`` are invalid (not None nor in a format
+                sucht that they can be converted into a numpy.ndarray).
+            ValueError: If the resulting values ``XN``, ``YN``, and ``ZN`` are not all
+                of the same length.
 
         Returns:
             list: Returns a list ``[XN, YN, ZN]`` with three ``numpy.ndarrays``
@@ -114,13 +120,13 @@ class colorlib:
         if not YN: YN = self.YN
         if not ZN: ZN = self.ZN
 
-        if isinstance(XN,float): XN = np.asarray([XN])
-        if isinstance(YN,float): YN = np.asarray([YN])
-        if isinstance(ZN,float): ZN = np.asarray([ZN])
+        if isinstance(XN, float): XN = np.asarray([XN])
+        if isinstance(YN, float): YN = np.asarray([YN])
+        if isinstance(ZN, float): ZN = np.asarray([ZN])
 
         # Checking type
         if not np.all(isinstance(x, np.ndarray) for x in [XN, YN, ZN]):
-            raise ValueError("Inputs to {:s} have to be of class np.ndarray.".format(__fname__))
+            raise TypeError("Inputs to {:s} have to be of class np.ndarray.".format(__fname__))
 
         # Expand if required
         if len(XN) == 1 and not len(XN) == n: XN = np.repeat(XN, n)
