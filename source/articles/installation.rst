@@ -14,6 +14,11 @@ A `PyPI <https://pypi.org>`_ release is planned in the future.
 
 **Requirements**:
 
+.. todo::
+    Python 2.7+ support questionable as `imageio` is no longer available.
+    I think it would be nice to have support for 2.7 if it can be done
+    easily; else ignore and support 3+ only.
+
 * Python 2.7+ or Python 3+
 * `numpy`
 
@@ -36,3 +41,6 @@ Alternatively, clone the git repository and install the package:
     git clone https://github.com/retostauffer/python-colorspace.git
     cd python-colorspace && python setup.py install
 
+.. todo::
+    Update installation notes once the package has been released on
+    `PyPi.org <https://pypi.org/>`_.

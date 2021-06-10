@@ -235,15 +235,7 @@ html_static_path = ['_static']
 
 # -- Autodoc configuration
 
-###autosummary_generate = True
-###autodoc_default_flags = ['members', 'show-inheritance', 'inherited-members']
-###autodoc_default_options = {
-###    'members': True,
-###    'member-order': 'bysource',
-###    'special-members': '__init__',
-###    'undoc-members': True,
-###    'exclude-members': '__weakref__'
-###}
+autodoc_member_order = 'alphabetical'
 
 
 # -- Extension configuration -------------------------------------------------
@@ -259,7 +251,6 @@ intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
 
 
 
-autoclass_content = "class"
 
 
 

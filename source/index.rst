@@ -31,9 +31,8 @@ Contents
 .. toctree::
     :maxdepth: 1
 
-    api
-    articles/color_spaces
     articles/installation
+    articles/color_spaces
     articles/colorlib
     articles/hcl_palettes
     articles/palette_visualization

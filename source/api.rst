@@ -29,7 +29,6 @@ directly via the `colorspace` package, such as
     terrain_hcl
     palette
     diverging_hsv
-    palettes.defaultpalette
 
 GUI for choosing color palettes
 ================================

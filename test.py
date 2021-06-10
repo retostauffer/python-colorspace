@@ -1,4 +1,19 @@
 
+from colorspace.colorlib import *
+x = RGB(1, 0.5, 0, alpha = 0.3)
+assert x.get("R")[0] == 1
+assert x.get("G")[0] == 0.5
+assert x.get("B")[0] == 0
+assert x.get("alpha")[0] == 0.3
+
+x.set(R = 0.2)
+x.set(G = 0.2, B = 0.2, alpha = 0.2)
+assert x.get("R")[0] == 0.2
+assert x.get("G")[0] == 0.2
+assert x.get("B")[0] == 0.2
+assert x.get("alpha")[0] == 0.2
+
+import sys; sys.exit()
 
 
 from colorspace import hclpalettes

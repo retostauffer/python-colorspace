@@ -43,19 +43,21 @@ class colorlib:
 
     # No initialization method, but some constants are specified here
 
-    # Often approximated as 903.3 */
-    # static const double self.KAPPA = 24389.0/27.0;
-    KAPPA   = 24389.0/27.0
+    _KAPPA   = 24389.0 / 27.0
+    """Static constant; required for coordinate transformations.
+    Often approximated as 903.3."""
 
-    # Often approximated as 0.08856
-    # static const double EPSILON = 216.0/24389.0;
-    # Also, instead of the oft-used approximation 7.787 we use (self.KAPPA / 116)
-    EPSILON = 216.0/24389.0
+    _EPSILON = 216.0 / 24389.0
+    """Static sonstant; required for coordinate transformations.
+    Often approximated as 7.787."""
 
     # Default white spot
     XN = np.asarray([ 95.047])
+    """X value for default white spot. Used for coordinate transformations."""
     YN = np.asarray([100.000])
+    """Y value for default white spot. Used for coordinate transformations."""
     ZN = np.asarray([108.883])
+    """Z value for default white spot. Used for coordinate transformations."""
 
     # Conversion function
     def DEG2RAD(self, x):
@@ -540,30 +542,30 @@ class colorlib:
         # Calculate Y
         for i,val in np.ndenumerate(L):
             if   val <= 0:    Y[i] = 0.
-            elif val <= 8.0:  Y[i] = val * YN[i] / self.KAPPA
+            elif val <= 8.0:  Y[i] = val * YN[i] / self._KAPPA
             elif val <= 100.: Y[i] = YN[i] * np.power((val + 16.) / 116., 3.)
             else:             Y[i] = YN[i]
 
         fy = np.ndarray(len(Y), dtype = "float")
         for i,val in np.ndenumerate(Y):
-            if val <= (self.EPSILON * YN[i]):
-                fy[i] = (self.KAPPA / 116.) * val / YN[i] + 16. / 116.
+            if val <= (self._EPSILON * YN[i]):
+                fy[i] = (self._KAPPA / 116.) * val / YN[i] + 16. / 116.
             else:
                 fy[i] = np.power(val / YN[i], 1. / 3.)
 
         # Calculate X
         fx = fy + (A / 500.)
         for i,val in np.ndenumerate(fx):
-            if np.power(val, 3.) <= self.EPSILON:
-                X[i] = XN[i] * (val - 16. / 116.) / (self.KAPPA / 116.)
+            if np.power(val, 3.) <= self._EPSILON:
+                X[i] = XN[i] * (val - 16. / 116.) / (self._KAPPA / 116.)
             else:
                 X[i] = XN[i] * np.power(val, 3.)
 
         # Calculate Z
         fz = fy - (B / 200.)
         for i,val in np.ndenumerate(fz):
-            if np.power(val, 3.) <= self.EPSILON:
-                Z[i] = ZN[i] * (val - 16. / 116.) / (self.KAPPA / 116.)
+            if np.power(val, 3.) <= self._EPSILON:
+                Z[i] = ZN[i] * (val - 16. / 116.) / (self._KAPPA / 116.)
             else:
                 Z[i] = ZN[i] * np.power(val, 3)
 
@@ -598,12 +600,12 @@ class colorlib:
         self._check_input_arrays_(__fname__, X = X, Y = Y, Z = Z)
 
         # Support function
-        def f(t, KAPPA, EPSILON):
+        def f(t, _KAPPA, _EPSILON):
             for i,val in np.ndenumerate(t):
-                if val > EPSILON:
+                if val > _EPSILON:
                     t[i] = np.power(val, 1./3.)
                 else:
-                    t[i] = (KAPPA / 116.) * val + 16. / 116.
+                    t[i] = (_KAPPA / 116.) * val + 16. / 116.
             return t
 
         # Scaling
@@ -614,14 +616,14 @@ class colorlib:
         # Calculate L
         L = np.ndarray(len(X), dtype = "float"); L[:] = 0.
         for i,val in np.ndenumerate(yr):
-            if val > self.EPSILON:
+            if val > self._EPSILON:
                 L[i] = 116. * np.power(val, 1./3.) - 16.
             else:
-                L[i] = self.KAPPA * val
+                L[i] = self._KAPPA * val
 
-        xt = f(xr, self.KAPPA, self.EPSILON);
-        yt = f(yr, self.KAPPA, self.EPSILON);
-        zt = f(zr, self.KAPPA, self.EPSILON);
+        xt = f(xr, self._KAPPA, self._EPSILON);
+        yt = f(yr, self._KAPPA, self._EPSILON);
+        zt = f(zr, self._KAPPA, self._EPSILON);
         return [L, 500. * (xt - yt), 200. * (yt - zt)]  # [L, A, B]
 
 
@@ -1069,7 +1071,7 @@ class colorlib:
         L = np.ndarray(len(X), dtype = "float"); L[:] = 0.
         y = Y / YN
         for i,val in np.ndenumerate(y):
-            L[i] = 116. * np.power(val, 1./3.) - 16. if val > self.EPSILON else self.KAPPA * val
+            L[i] = 116. * np.power(val, 1./3.) - 16. if val > self._EPSILON else self._KAPPA * val
 
         # Calculate U/V
         return [L, 13. * L * (u - uN), 13. * L * (v - vN)]  # [L, U, V]
@@ -1117,7 +1119,7 @@ class colorlib:
 
         # Compute Y
         for i in idx:
-            Y[i] = YN[i] * (np.power((L[i] + 16.)/116., 3.) if L[i] > 8. else L[i] / self.KAPPA)
+            Y[i] = YN[i] * (np.power((L[i] + 16.)/116., 3.) if L[i] > 8. else L[i] / self._KAPPA)
 
         # Calculate X/Z
         from numpy import finfo, fmax
@@ -1305,9 +1307,21 @@ class colorlib:
 # will be extended by the different color classes.
 # -------------------------------------------------------------------
 class colorobject:
-    """
-    This is the base class of all color objects and provides some
-    default methods.
+    """Base class for all color objects in the package.
+
+    A series of constructor are available to construct colorobjects
+    from different color spaces which all inherit from this class.
+    This base class provides the general functionality to handle
+    colors (sets of colors) and convert colors from and to different
+    color spaces.
+
+    See Also:
+        Constructor functions for the different color spaces intended to be
+        used by the user: :py:class:`polarLUV`, :py:class:`HCL`,
+        :py:class:`polarLUV`, :py:class:`CIELUV`, :py:class:`CIEXYZ`,
+        :py:class:`RGB`, :py:class:`sRGB`, :py:class:`CIELAB`,
+        :py:class:`polarLAB`, :py:class:`HSV`, :py:class:`HLS`,
+        :py:class:`hexcols`.
     """
 
     import numpy as np
@@ -1316,14 +1330,17 @@ class colorobject:
     ALLOWED = ["CIEXYZ", "CIELUV", "CIELAB", "polarLUV", "polarLAB",
                "RGB", "sRGB", "HCL",
                "HSV", "HLS", "hex"]
+    """List of allowed/defined color spaces; used to check when converting
+    colors from one color space to another."""
 
     # Used to store alpha if needed. Will only be used for some of
     # the colorobject objects as only few color spaces allow alpha
     # values.
     ALPHA = None
+    """Used to store (keep) transparency when needed; will be dropped during conversion."""
 
-    # GAMMA
     GAMMA = 2.4 # Used to adjust RGB (DEVRGB_to_RGB and back).
+    """Gamma value used used to adjust RGB colors; currently a fixed value of 2.4."""
 
     # Standard representation of colorspace colorobject objects.
     def __repr__(self, digits = 2):
@@ -1663,7 +1680,7 @@ class colorobject:
 
     def colors(self, fixup = True, rev = False):
         """colors(fixup = True)
-        
+
         Returns hex colors of the current :py:class:`colorobject`.
         Converts the colors into a :py:class:`hexcols` object
         to retrieve hex colors which are returned as list.
@@ -1787,6 +1804,7 @@ class colorobject:
             # to convert the input into a numpy.array using the same
             # dtype as the existing dimension (loaded via self.get(key)).
             if isinstance(vals, (list, int, float)):
+                if isinstance(vals, (int, float)): vals = [vals]
                 t = type(self.get(key)[0]) # Current type (get current dimension)
                 try:
                     vals = np.asarray(vals, dtype = t)
@@ -1802,7 +1820,7 @@ class colorobject:
             except Exception as e:
                 raise ValueError("problems converting new data to {:s} ".format(t) + \
                     " in {:s}: {:s}".format(self.__class__.__name__, str(e)))
-            if not len(vals) == n:
+            if not vals.size == n:
                 raise ValueError("number of values to be stored on the object " + \
                     "{:s} have to match the current dimension".format(self.__class__.__name__))
 
@@ -1869,10 +1887,8 @@ class polarLUV(colorobject):
         >>> from numpy import asarray
         >>> c = HCL(asarray([100,80]), asarray([30,50]), asarray([30,80]))
 
-    .. seealso::
-        This object extens the :py:class:`colorlib.colorobject` which
-        provides some methods to e.g., extract color or to modify the
-        whitepoint.
+    See Also:
+        Extends the :py:class:`colorobject` class.
     """
 
     def __init__(self, H, C, L, alpha = None):

@@ -36,8 +36,9 @@ cov:
 
 .PHONY: clean
 clean:
-	-rm -rf build/*
+	-rm -rf build
 	-rm source/api/*
+	-rm source/colorlib/*
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
@@ -54,6 +55,6 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 html: Makefile
-	-rm -rf build
+	#-rm -rf build
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
