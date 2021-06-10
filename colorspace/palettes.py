@@ -345,6 +345,19 @@ class hclpalettes:
             list of file names (`str`) can be provided to load user-defined color
             palettes. Not yet tested!
 
+    Return:
+        :py:class:`colorspace.palettes.hclpalettes`: Collection of predefined
+        hcl color palettes.
+
+    Examples:
+
+        >>> from colorspace import hclpalettes
+        >>> hclpals = hclpalettes()
+        >>> print(hclpals)
+        >>>
+        >>> hclpals.plot()
+        >>> hclpals.plot(n = 11)
+
     Todo:
         * Check if the files option is useful. If so, provide some
           more information about the config files and where/how to use.
@@ -559,6 +572,21 @@ class hclpalettes:
         return npals
 
 
+    def plot(self, n = 5):
+        """Create swatchplot.
+
+        Args:
+            n (int): Positive integer, number of colors.
+
+        Raises:
+            TypeError: If 'n' is not an integer.
+            ValueError: If 'n' is not positive.
+        """
+        if not isinstance(n, int): raise TypeError("Argument 'n' must be integer.")
+        if not n > 0:              raise ValueError("Argument 'n' must be positive.")
+
+        from .swatchplot import swatchplot
+        swatchplot(self, n = n)
 
 
 # -------------------------------------------------------------------

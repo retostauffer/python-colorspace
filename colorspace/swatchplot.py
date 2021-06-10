@@ -132,7 +132,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
     # TODO REMOVE #     return ["custom", colors]
 
 
-
     # ---------------------------------------------------------------
     # Prepare the palettes for plotting the swatches.
     # The function allows for various types as iput which will
@@ -222,7 +221,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
             res = {"name": x.name(), "colors": x.colors(n)}
         # Single palette object (custom palette)
         elif isinstance(x, (palette, defaultpalette)):
-            res = {"name": x.name(), "colors": x.colors()}
+            res = {"name": x.name(), "colors": x.colors(n)}
         else:
             raise Exception("Could not convert 'pals', improper input (type {:s}).".format(str(type(x))))
         # Checking length of color list

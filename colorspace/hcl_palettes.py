@@ -1,6 +1,6 @@
 
 
-def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, **kwargs):
+def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, ncol = 4, **kwargs):
     """Gives access to the default color palettes of the colorspace package.
 
     The method can be used to display the default color palettes or subsets or
@@ -30,11 +30,30 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             installed if ``plot = True``.
         custom (:py:class:`colorspace.palettes.defaultpalette`): One or multiple
             defaultpalettes can be provided in addition.
+        ncol (int): Positive integer, number of columns, defaults to 4.
         **kwargs: Forwarded to :py:func:`colorspace.swatchplot.swatchplot` if
             argument ``plot = True``.
 
     Returns:
-        Object of class :py:class:`colorspace.hcl_palettes`.
+        None or :py:class:`colorspace.palettes.hclpalettes`: If ``plot = True``
+        ``None`` a plot will be created and ``None`` is returned. If ``plot = False`` (default)
+        an object of class :py:class:`colorspace.palettes.hclpalettes` will
+        be returned.
+
+    Example:
+
+        >>> from colorspace import hcl_palettes
+        >>> hcl_palettes(type_ = "Basic: Diverging")
+        >>> hcl_palettes(n = 5,  type_ = "Basic: Diverging", plot = True, ncol = 1)
+        >>> hcl_palettes(n = 51, type_ = "Advanced: Diverging", plot = True, ncol = 1)
+
+    Raises:
+        TypeError: If 'n'/'ncol' not of type integer.
+        TypeError: If 'type_' is not None or string.
+        TypeError: If not is boolean 'plot'.
+        ValueError: If 'n' or 'ncol' are not positive.
+        ValueError: In case 'custom' is an invalid input.
+        Exception: If no palettes can be found matching the 'type_' argument.
 
     Examples:
 
@@ -68,6 +87,16 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     from . import hclpalettes
     pals = hclpalettes()                    # Loading palettes
 
+    # Sanity type checks
+    if not isinstance(n, int):     raise TypeError("Input 'n' must be of type integer.")
+    if not isinstance(ncol, int):  raise TypeError("Input 'ncol' must be of type integer.")
+    if not isinstance(type_, (type(None), str)):
+        raise TypeError("Argument 'type_' must be None (default) or string.")
+    if not isinstance(plot, bool): raise TypeError("Input 'plot' must be boolean True or False")
+
+    # Sanity value checks
+    if not n > 0 or not ncol > 0: raise ValueError("Arguments 'n' and 'ncol' must be positive.")
+
     # If custom palettes have been added: add them as well (if
     # the types are correct, of course).
     if not custom is None:
@@ -75,7 +104,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         from .palettes import defaultpalette
         def customerror():
             import inspect
-            str = "list with custom palettes provided to {:s}".format(inspect.stack()[0][3])
+            str = "List with custom palettes provided to {:s}".format(inspect.stack()[0][3])
             str += " but not all elements are of type defaultpalette"
             raise ValueError(str)
 
@@ -83,12 +112,11 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             pals._palettes_["Custom"] = [custom]
         # Check if all inputs are of correct type
         elif isinstance(custom, list):
-            if not all([isinstance(x, defaultpalette) for x in custom]):
-                    customerror()
+            if not all([isinstance(x, defaultpalette) for x in custom]): customerror()
             pals._palettes_["Custom"] = custom
         # Else append pals._palettes_["Custom"] = custom
         else:
-            raise ValueError("input custom to {:s} misspecified".format(self.__class__.__name__))
+            raise ValueError("Argument 'custom' to {:s} misspecified".format(self.__class__.__name__))
 
 
     if not type_ is None:
@@ -122,7 +150,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     # No palettes survived the selection above?
     if len(pals.get_palettes()) == 0:
         import inspect
-        raise Exception("no palettes found in {:s} matching one of: {:s}".format(
+        raise Exception("No palettes found in {:s} matching one of: {:s}".format(
                 inspect.stack()[0][3], ", ".join(type_)))
 
     # Return if plot is not required
@@ -131,8 +159,8 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     else:
         from .swatchplot import swatchplot
         from numpy import ceil
-        nrow = int(ceil((pals.length() + len(pals.get_palette_types())) / 4))
-        swatchplot(pals, n = n, nrow = nrow, **kwargs)
+        nrow = int(ceil((pals.length() + len(pals.get_palette_types())) / ncol))
+        swatchplot(pals, nrow = nrow, n = n, **kwargs)
         return False
 
 
