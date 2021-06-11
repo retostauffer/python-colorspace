@@ -1558,7 +1558,7 @@ class sequential_hcl(hclpalette):
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
 
         # Create new HCL color object
-        print(pandas.DataFrame({"L": L, "C": C, "H": H}))
+        from .colorlib import HCL
         HCL = HCL(H, C, L)
 
         # If kwargs have a key "colorobject" return HCL colorobject
