@@ -3,6 +3,7 @@ import os
 import sys
 
 
+
 class palette:
     """A class for custom color palettes with a fixed number of colors.
     Creates a custom color map based on a list of hex colors (fixed number of
@@ -696,7 +697,7 @@ class hclpalette:
         def get(key):
             val = self.get(key)
             if val is None:
-                return " ------"
+                return "    ---"
             elif isinstance(val, int):
                 return "{:7d}".format(val)
             elif isinstance(val, bool):
@@ -709,6 +710,7 @@ class hclpalette:
         print("h2    {:s}    ".format(get("h2")))
         print("c1    {:s}    ".format(get("c1"))),
         print("c2    {:s}    ".format(get("c2")))
+        print("cmax  {:s}    ".format(get("cmax"))),
         print("l1    {:s}    ".format(get("l1"))),
         print("l2    {:s}    ".format(get("l2")))
         print("p1    {:s}    ".format(get("p1"))),
@@ -925,6 +927,46 @@ class hclpalette:
 
         cmap = LinearSegmentedColormap(name, cdict, n)
         return cmap
+
+
+
+    def _chroma_trajectory(self, i, p1, c1, c2, cmax):
+        """Helper function: Calculate linear or triangle trajectory for chroma dimension.
+
+        Args:
+            i (numpy array; float): Position across the palette, a sequence
+                of values between 1 and 0. For diverging palettes this function
+                is called twice, once for 1 to 0.5, and once for <0.5 t0 0.
+            p1 (float): Power parameter p1.
+            c1 (float): Chroma value of the left end of the color palette.
+            c2 (float): Chroma value of the right end of the color palette.
+            cmax (float or None): Max choma value.
+
+        Returns:
+            numpy array: Linear trajectory for the chroma color dimension.
+        """
+
+        def _linear_trajectory(i, c1, c2):
+            return c2 - (c2 - c1) * i
+
+        def _triangle_trajectory(i, j, c1, c2, cmax):
+            from numpy import where, abs, linspace
+            return where(i <= j,
+                         c2 - (c2 - cmax) * i / j,
+                         cmax - (cmax - c1) * abs((i - j) / (1 - j)))
+
+        if cmax is None:
+            C = _linear_trajectory(i**p1, c1, c2)
+        else:
+            # Calculate the position of the triangle point
+            j = 1. / (1. + abs(cmax - c1) / abs(cmax - c2))
+            if not j is None and (j < 0 or j > 1): j = None
+
+            if j is None:  C = _linear_trajectory(i**p1, c1, c2)
+            else:          C = _triangle_trajectory(i**p1, j, c1, c2, cmax)
+
+        return C
+
 
 
 # -------------------------------------------------------------------
@@ -1299,22 +1341,36 @@ class diverging_hcl(hclpalette):
 
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
-        from numpy import abs, linspace, power, repeat
-        from numpy import asarray, ndarray, ndenumerate
+        from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
+        from numpy import asarray, ndarray, ndenumerate, concatenate, flip
         from numpy import vstack, transpose
         from . import colorlib
 
         # Calculate H/C/L
-        p2   = self.get("p1") if self.get("p2") is None else self.get("p2")
+        p1   = self.get("p1")
+        p2   = p1 if self.get("p2") is None else self.get("p2")
+        c1   = self.get("c1")
+        c2   = 0 if self.get("c2") is None else self.get("c2")
+        cmax = None if not self.get("cmax") else self.get("cmax")
+        l1   = self.get("l1")
+        l2   = l1 if self.get("l2") is None else self.get("l2")
+        h1   = self.get("h1")
+        h2   = h1 if self.get("h2") is None else self.get("h2")
+
+        # Calculate H/C/L
         rval = linspace(1., -1., n)
 
-        L = self.get("l2") - (self.get("l2") - self.get("l1")) * power(abs(rval), p2)
-        C = self.get("c1") * power(abs(rval), self.get("p1"))
-        from numpy import fmax
-        C = fmax(.1,C)
+        L = l2 - (l2 - l1) * power(abs(rval), p2)
         H = ndarray(n, dtype = "float")
-        for i,val in ndenumerate(rval):
-            H[i] = self.get("h1") if val > 0 else self.get("h2")
+        for i,val in ndenumerate(rval): H[i] = h1 if val > 0 else h2
+
+        # Calculate the trajectory for the chroma dimension
+        i    = fmax(0., arange(1., -1e-10, step = -2. / (float(n) - 1.)))
+        C    = self._chroma_trajectory(i, p1, c1, c2, cmax)
+        C    = fmax(0., concatenate((C, flip(C))))
+
+        # Non-even number of colors? We need to remove one.
+        if n % 2 == 1: C = delete(C, int(ceil(n / 2.)))
 
         # Alpha handling
         if isinstance(alpha, float):
@@ -1353,8 +1409,8 @@ class sequential_hcl(hclpalette):
             is recycled which yields a single-hue sequential color palette.  If
             input `h` is a string this argument acts like the `palette` argument
             (see `palette` input parameter).
-        c (numeric list): Chroma values (colorfullness), numeric of length two.
-            If multiple values are provided only the first one will be used.
+        c (numeric list): Chroma values (colorfullness), numeric of length one
+            (constant chroma), two (linear), or three (advanced; [c1, c2, cmax]).
         l (numeric list): Luminance values (luminance), numeric of length two.
             If multiple values are provided only the first one will be used.
         power (numeric, numeric list): Power parameter for non-linear behaviour
@@ -1388,7 +1444,7 @@ class sequential_hcl(hclpalette):
     """
 
     # Allowed to overwrite via **kwargs
-    _allowed_parameters = ["h1", "c1", "c2", "l1", "l2", "p1", "p2"]
+    _allowed_parameters = ["h1", "c1", "c2", "cmax", "l1", "l2", "p1", "p2"]
     _name = "Sequential HCL"
 
     def __init__(self, h = 260, c = [80, 30], l = [30, 90],
@@ -1436,8 +1492,8 @@ class sequential_hcl(hclpalette):
         else:
             # User settings
             settings = {}
-            settings["h1"]    = h[0]
-            settings["h2"]    = h[0] if len(h) == 1 else h[1]
+            settings["h1"]        = h[0]
+            settings["h2"]        = h[0] if len(h) == 1 else h[1]
             if len(c) == 3:
                 settings["c1"]    = c[0]
                 settings["c2"]    = c[1]
@@ -1445,12 +1501,12 @@ class sequential_hcl(hclpalette):
             else:
                 settings["c1"]    = c[0]
                 settings["c2"]    = c[1]
-            settings["l1"]    = l[0]
-            settings["l2"]    = l[1]
-            settings["p1"]    = power[0]
-            settings["p2"]    = power[1]
-            settings["fixup"] = fixup
-            settings["rev"]   = rev
+            settings["l1"]        = l[0]
+            settings["l2"]        = l[1]
+            settings["p1"]        = power[0]
+            settings["p2"]        = power[1]
+            settings["fixup"]     = fixup
+            settings["rev"]       = rev
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -1486,34 +1542,23 @@ class sequential_hcl(hclpalette):
         p1   = self.get("p1")
         p2   = p1 if self.get("p2") is None else self.get("p2")
         c1   = self.get("c1")
-        c2   = c1 if self.get("c2") is None else self.get("c2")
+        c2   = 0 if self.get("c2") is None else self.get("c2")
         cmax = None if not self.get("cmax") else self.get("cmax")
         l1   = self.get("l1")
         l2   = l1 if self.get("l2") is None else self.get("l2")
         h1   = self.get("h1")
         h2   = h1 if self.get("h2") is None else self.get("h2")
 
-        # Special case if cmax is not None:
-        if not cmax is None:
-            cmaxat = 1. / (1. + abs(float(cmax) - float(c1)) / abs(float(cmax) - float(c2)))
-        else:
-            cmaxat = None
-
         # Hue and Luminance
         H = h2 - (h2 - h1) * rval
         L = l2 - (l2 - l1) * power(rval, p2)
-        # Speical handling for Chroma due to cmax
-        if not cmaxat:
-            C = c2 - (c2 - c1) * power(rval, p1)
-        else:
-            C      = ndarray(len(rval), dtype = "float")
-            idx    = where(power(rval, p1) < cmaxat)[0]
-            C[idx] = c2 - (c2 - cmax) * power(rval[idx], p1) / cmaxat
-            idx    = where(power(rval, p1) >= cmaxat)[0]
-            C[idx] = cmax - (cmax - c1) * ((power(rval[idx], p1) - cmaxat) / (1. - cmaxat))
+
+        # Calculate the trajectory for the chroma dimension
+        i = linspace(1., 0., n)
+        C = self._chroma_trajectory(i, p1, c1, c2, cmax)
 
         # Create new HCL color object
-        from .colorlib import HCL
+        print(pandas.DataFrame({"L": L, "C": C, "H": H}))
         HCL = HCL(H, C, L)
 
         # If kwargs have a key "colorobject" return HCL colorobject

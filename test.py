@@ -1,17 +1,26 @@
 
 
 
-from colorspace import sequential_hcl
+from colorspace import diverging_hcl, sequential_hcl
 
-pal = sequential_hcl("Blues 3")
+pal = diverging_hcl("Tofino")
+R = ["#D6E0FF", "#666E9A", "#111111", "#557A47", "#C2EFB4"] # Tofino
+
+#pal = sequential_hcl("Blues 3")
+#R = ["#00366C", "#0072B4", "#79ABE2", "#C3DBFD", "#F9F9F9"] # Blues 3
+
+#pal = sequential_hcl("Blues 2")
+#R = ["#023FA5", "#6A76B2", "#A1A6C8", "#CBCDD9", "#E2E2E2"] # Blues 2
+
 print(pal.show_settings())
 
 P = pal(5)
-R = ["#00366C", "#0072B4", "#79ABE2", "#C3DBFD", "#F9F9F9"]
 
-print(P)
-print(R)
 
+b = []
+for i in range(0, len(P)):
+    print(" {:s}  {:s}  {:s}".format(R[i], P[i],
+          "" if P[i] == R[i] else "False"))
 
 import sys; sys.exit(3)
 
