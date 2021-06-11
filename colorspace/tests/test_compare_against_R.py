@@ -32,12 +32,13 @@ def test_against_R():
         del arg["n"] # Not an argument for the python function itself
         # Create colors
         sol = fun(**arg)(n)
-    
+
+        #print("R:       "), print(rec["colors"])
+        #print("Python:  "), print(sol)
+
         # Compare solution of R colorspace against python colorspace
         assert len(rec["colors"]) == len(sol)
         assert all([rec["colors"][i].upper() == sol[i].upper() for i in range(len(sol))])
-    
-    
-    
-    
-    
+
+if __name__ == "__main__":
+    test_against_R()

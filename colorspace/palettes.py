@@ -450,10 +450,8 @@ class hclpalettes:
                 self.__class__.__name__))
 
         if not type_:
-            all = []
-            for key,pals in self._palettes_.items():
-                all += pals
-            return all
+            res = []
+            for key,pals in self._palettes_.items(): res += pals
 
         # Else return palette if available
         else:
@@ -462,15 +460,14 @@ class hclpalettes:
             for t in self._palettes_.keys():
                 if type_.upper() in t.upper():
                     found = t
-                    for rec in t:
-                        res.append(rec)
+                    res += self._palettes_[t]
             if not found:
                 raise ValueError("No palettes for type \"{:s}\".".format(type_))
             else:
                 type_ = found
 
         # Else return list with palettes
-        return self._palettes_[type_]
+        return res
 
     def get_palette(self, name):
         """Get a palette with a specific name.
@@ -527,7 +524,7 @@ class hclpalettes:
 
         # Looping over all sections looking for palette specifications.
         for sec in CNF.sections():
-            mtch = re.match("^palette\s+(.*)$", sec)
+            mtch = re.match("^palette\\s+(.*)$", sec)
             if not mtch: continue
 
             # Extracting palette name from section name
@@ -996,14 +993,13 @@ class qualitative_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            defaultpalettes = hclpalettes().get_palettes("Qualitative")
-            default_names    = [x.name() for x in defaultpalettes]
-            if not palette in default_names:
-                raise ValueError("Palette {:s} is no valid qualitative palette. ".format(palette) + \
-                        "Choose one of: {:s}".format(", ".join(default_names)))
-
-            # Else pick the palette
-            pal = defaultpalettes[default_names.index(palette)]
+            from numpy import where
+            pals = hclpalettes().get_palettes("Qualitative")
+            idx  = where([x.name() == palette for x in pals])[0]
+            if len(idx) == 0:
+                raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
+                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+            pal = pals[idx[0]]
 
             # Allow to overrule few things
             for key,value in kwargs.items():
@@ -1230,15 +1226,13 @@ class diverging_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            defaultpalettes = hclpalettes().get_palettes("Diverging")
-            default_names    = [x.name() for x in defaultpalettes]
-            if not palette in default_names:
-                msg = "palette \"{:s}\" is not a valid qualitative palette.".format(palette) + \
-                      "Choose one of: {:s}".format(", ".join(default_names))
-                raise ValueError(msg)
-
-            # Else pick the palette
-            pal = defaultpalettes[default_names.index(palette)]
+            from numpy import where
+            pals = hclpalettes().get_palettes("Diverging")
+            idx  = where([x.name() == palette for x in pals])[0]
+            if len(idx) == 0:
+                raise ValueError("palette {:s} is not a valid diverging palette. ".format(palette) + \
+                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+            pal = pals[idx[0]]
 
             # Allow to overule few things
             for key,value in kwargs.items():
@@ -1425,14 +1419,13 @@ class sequential_hcl(hclpalette):
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
-            defaultpalettes = hclpalettes().get_palettes("Sequential")
-            default_names    = [x.name() for x in defaultpalettes]
-            if not palette in default_names:
-                raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
-                        "Choose one of: {:s}".format(", ".join(default_names)))
-
-            # Else pick the palette
-            pal = defaultpalettes[default_names.index(palette)]
+            from numpy import where
+            pals = hclpalettes().get_palettes("Sequential")
+            idx  = where([x.name() == palette for x in pals])[0]
+            if len(idx) == 0:
+                raise ValueError("palette {:s} is not a valid sequential palette. ".format(palette) + \
+                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+            pal = pals[idx[0]]
 
             # Allow to overule few things
             for key,value in kwargs.items():

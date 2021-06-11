@@ -1,4 +1,21 @@
 
+
+
+from colorspace import sequential_hcl
+
+pal = sequential_hcl("Blues 3")
+print(pal.show_settings())
+
+P = pal(5)
+R = ["#00366C", "#0072B4", "#79ABE2", "#C3DBFD", "#F9F9F9"]
+
+print(P)
+print(R)
+
+
+import sys; sys.exit(3)
+
+
 from colorspace import demoplot
 from colorspace import *
 from colorspace.colorlib import HCL

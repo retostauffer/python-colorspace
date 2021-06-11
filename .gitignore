@@ -1,12 +1,13 @@
 
 
 colorspace.egg-info
+__pycache__
 
-# Coverage report
-htmlcov
+# Some development folders
+/htmlcov
+/build
+/venv3
 
-# Manual
-build/*
 
 # Testing
 .coverage
