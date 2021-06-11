@@ -1,4 +1,28 @@
 
+from colorspace import demoplot
+from colorspace import *
+from colorspace.colorlib import HCL
+
+hexlist    = ["#BCBE57", "#DEDFC0", "#F1F1F1", "#F7D3E7", "#FB99D7"]
+hexlist
+
+colorobj = HCL([0, 90, 180], [60, 60, 60], [60, 60, 60])
+colorobj
+
+hclpalette = diverging_hcl()
+hclpalette
+
+defaultpalette = hcl_palettes(name = "Berlin").get_palettes()[0]
+defaultpalette
+
+
+demoplot(hexlist,        "Bar")
+demoplot(colorobj,       "Lines")
+demoplot(hclpalette,     "Pie", n = 4)
+demoplot(defaultpalette, "Matrix", n = 11)
+
+import sys; sys.exit(3)
+
 from colorspace.colorlib import *
 x = RGB(1, 0.5, 0, alpha = 0.3)
 assert x.get("R")[0] == 1

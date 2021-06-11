@@ -29,6 +29,7 @@ from .swatchplot import swatchplot
 from .specplot import specplot
 from .choose_palette import choose_palette
 from .cvd_emulator import cvd_emulator
+from .demos import demoplot
 
 # Adding version
 from colorspace import version

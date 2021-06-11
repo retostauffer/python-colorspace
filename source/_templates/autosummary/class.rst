@@ -10,6 +10,8 @@
    .. rubric:: {{ _('Methods') }}
 
    .. autosummary::
+        :toctree: ../methods/
+
    {% for item in methods %}
       ~{{ name }}.{{ item }}
    {%- endfor %}

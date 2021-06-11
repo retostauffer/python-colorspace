@@ -38,8 +38,22 @@ import inspect
 class colorlib:
     """The colorlib class is a collection of methods
     used to convert or transform colors between different
-    color spaces."""
+    color spaces.
 
+    This class is not intended to be used by the end-users directly.
+    The package provides a series of dedicated objects for handling
+    colors in a wide range of different colorspaces which interface
+    this class to manipulate and transform colors.
+
+
+    See Also:
+        As an end-user please have a look at
+        :py:class:`polarLUV`, :py:class:`HCL`,
+        :py:class:`polarLUV`, :py:class:`CIELUV`, :py:class:`CIEXYZ`,
+        :py:class:`RGB`, :py:class:`sRGB`, :py:class:`CIELAB`,
+        :py:class:`polarLAB`, :py:class:`HSV`, :py:class:`HLS`,
+        :py:class:`hexcols`.
+    """
 
     # No initialization method, but some constants are specified here
 
@@ -1621,7 +1635,7 @@ class colorobject:
         has alpha values or not.
 
         Returns:
-            bool: Returns ``True`` if alpha values are present, ``False`` if not.
+            bool: ``True`` if alpha values are present, ``False`` if not.
         """
         if not "alpha" in self._data_.keys():
             return False

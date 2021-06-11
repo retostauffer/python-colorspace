@@ -11,6 +11,7 @@ Large parts of the core of the package are based on two classes:
 
 .. autosummary::
     :toctree: ../colorlib/
+    :nosignatures:
 
     colorlib
     colorobject

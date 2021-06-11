@@ -1,7 +1,17 @@
 
 .. _article-palette_visualization:
 
-Palette visualization
-=====================
+Palette visualization and Assessment
+====================================
 
-Template. TODO
+.. currentmodule:: colorspace
+
+.. autosummary::
+    :toctree: ../api/
+
+    swatchplot
+    specplot
+    demoplot
+
+
+.. todo:: Add content.

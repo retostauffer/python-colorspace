@@ -11,6 +11,89 @@
 # -------------------------------------------------------------------
 
 
+def demoplot(colors, type_, n = 7, fig = None):
+    """Create demo plots.
+
+    Arguments:
+        type_ (str): Name of the demoplot; name of the demo function to be called.
+        fig: None (default) or a matplotlib figure object, forwarded to the
+            plotting function.
+        n (int): Positive integer, number of colors for the plot. Only used
+            if argument ``colors`` is a palette where a dedicated number of
+            colors must be drawn first. Defaults to 7.
+
+    Examples:
+
+        >>> # Custom list of hex colors (n = 5)
+        >>> hexlist    = ["#BCBE57", "#DEDFC0", "#F1F1F1", "#F7D3E7", "#FB99D7"]
+        >>> hexlist
+        >>> # A (HCL based) colorobject with (n = 3)
+        >>> colorobj = HCL([0, 90, 180], [60, 60, 60], [60, 60, 60])
+        >>> colorobj
+        >>> # Default diverging HCL palette
+        >>> hclpalette = diverging_hcl()
+        >>> hclpalette
+        >>> # Default color palette shipped with the package
+        >>> defaultpalette = hcl_palettes(name = "Berlin").get_palettes()[0]
+        >>> defaultpalette
+        >>> # Demoplots
+        >>> demoplot(hexlist,        "Bar")
+        >>> demoplot(colorobj,       "Lines")
+        >>> demoplot(hclpalette,     "Pie", n = 4)
+        >>> demoplot(defaultpalette, "Matrix", n = 11)
+
+    Raises:
+        TypeError: If ``type_`` is not a string.
+        ValueError: If ``type_`` is not an available demo plot.
+        TypeError: If ``n`` is not integer.
+        ValueError: ``n`` must be a positive integer.
+    """
+    from . import demos
+    from re import match
+
+    # Sanity checks
+    if not isinstance(type_, str):
+        raise TypeError("Argument 'type_' must be string.")
+    if not isinstance(n, int):
+        raise TypeError("Argument 'n' must be integer.")
+    if not n > 0:
+        raise ValueError("Argument 'n' must be a positive integer (number of colors).")
+
+    # Now let's deal with the color input.
+    # In case it is a list of strings we assume it is a list of hex colors.
+    # To handle it we will convert it into a palette (which is checking that
+    # all colors are valid hex colors). The argument 'colors' also allowes
+    # for a series of other types.
+    from numpy import all
+    from .palettes import palette, hclpalette, defaultpalette
+    from .colorlib import colorobject
+    if isinstance(colors, list) and all([isinstance(x, str) for x in colors]):
+        colors = palette(colors, "demoplot color palette").colors()
+    elif isinstance(colors, (hclpalette, defaultpalette)):
+        colors = colors(n)
+    elif isinstance(colors, colorobject):
+        colors = colors.colors()
+    else:
+        raise TypeError("No rule to handle argument ``colors`` of type {:s}.".format(str(type(colors))))
+
+
+    # Loading available demo plot types (functions)
+    available_types = []
+    for rec in dir(demos):
+        if not rec == "demoplot" and match("^[A-Za-z]*$", rec):
+            available_types.append(rec)
+
+    # Is the user asking for an available demo plot?
+    if not type_ in available_types:
+        raise ValueError("No demoplot available for {:s} (Available: {:s}).".format(
+                type_, ", ".join(available_types)))
+
+    # Calling the required plotting function
+    fun = getattr(demos, type_)
+    fun(colors, fig = fig)
+
+
+
 def Bar(colors, fig = None):
     """Plotting the barplot example.
 

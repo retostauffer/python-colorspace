@@ -116,21 +116,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
     else:
         figsize = (5, 4) # default
 
-    # TODO REMOVE # # Prepares a list item
-    # TODO REMOVE # def prepare_listelement(rec, n = 5):
-    # TODO REMOVE #     from numpy import ndarray
-    # TODO REMOVE #     if isinstance(rec, list) or isinstance(rec, ndarray):
-    # TODO REMOVE #         colors = rec
-    # TODO REMOVE #     else:
-    # TODO REMOVE #         raise Exception("problems preparing list item in swatchplot")
-
-    # TODO REMOVE #     # Check if all hex colors are valid. If not, a
-    # TODO REMOVE #     # ValueError will be raised.
-    # TODO REMOVE #     valid(rec)
-
-    # TODO REMOVE #     # Return
-    # TODO REMOVE #     return ["custom", colors]
-
 
     # ---------------------------------------------------------------
     # Prepare the palettes for plotting the swatches.
