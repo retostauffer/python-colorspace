@@ -1672,6 +1672,9 @@ class heat_hcl(sequential_hcl):
         except Exception as e:
             raise ValueError(str(e))
 
+        # Save reverse flag
+        self._rev = False
+
         # Save settins
         try:
             self.settings = {"h1": int(h[0]), "h2": int(h[1]),
@@ -1753,6 +1756,9 @@ class terrain_hcl(sequential_hcl):
             power = self._checkinput_(float, 2, False, False, power = power)
         except Exception as e:
             raise ValueError(str(e))
+
+        # Save reverse flag
+        self._rev = False
 
         # Save settins
         try:
