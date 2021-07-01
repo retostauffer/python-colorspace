@@ -19,7 +19,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         type_ (None, str, list of str): Given a string or a list of strings
             only a subset of all available default color maps will be displayed. If
             not set, all default palettes will be returned/plotted. Can be used in
-            combination with input argument ``name``.
+            combination with input argument ``name``. Uses partial matching, not case sensitive.
         name (None, str, list of str): Similar to ``type_``. If not specified
             all palettes will be returned.  Can be set to a string or a list of
             strings containing the names of the palettes which should be
@@ -125,7 +125,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         # Drop palettes from hclpalettes object not requested
         # by the user.
         for t in pals.get_palette_types():
-            if not t.upper() in [x.upper() for x in type_]:
+            if not any([x.upper() in t.upper() for x in type_]):
                 del pals._palettes_[t]
     else:
         type_ = pals.get_palette_types()

@@ -11,7 +11,8 @@ class palette:
 
     Args;
         colors (list): List of strings; a list of hex colors.
-        name (str): Name of this custom palette.
+        name (str): Name of this custom palette. Thus, `"Set 2"`,
+        `"set 2"`, and `"SET2"` all mean the same.
 
     Returns:
         An object of class :py:class:`colorspace.palettes.palette`.
@@ -474,7 +475,8 @@ class hclpalettes:
         """Get a palette with a specific name.
 
         Args:
-            name (str): Name of the color palette which should be returned.
+            name (str): Name of the color palette which should be returned. Not
+                case sensitive; blanks are ignored (removed).
 
         Returns:
             Returns an object of class :py:class:`defaultpalette` if a palette with
@@ -486,7 +488,7 @@ class hclpalettes:
         for type_,pals in self._palettes_.items():
             # Looping over palettes
             for pal in pals:
-                if pal.name() == name:
+                if pal.name().upper().replace(" ", "") == name.upper().replace(" ", ""):
                     take_pal = pal
                     break;
             # If already found: break outer loop
@@ -1037,7 +1039,7 @@ class qualitative_hcl(hclpalette):
         if isinstance(palette, str):
             from numpy import where
             pals = hclpalettes().get_palettes("Qualitative")
-            idx  = where([x.name() == palette for x in pals])[0]
+            idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
                 raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
                         "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
@@ -1270,7 +1272,7 @@ class diverging_hcl(hclpalette):
         if isinstance(palette, str):
             from numpy import where
             pals = hclpalettes().get_palettes("Diverging")
-            idx  = where([x.name() == palette for x in pals])[0]
+            idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
                 raise ValueError("palette {:s} is not a valid diverging palette. ".format(palette) + \
                         "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
@@ -1477,7 +1479,7 @@ class sequential_hcl(hclpalette):
         if isinstance(palette, str):
             from numpy import where
             pals = hclpalettes().get_palettes("Sequential")
-            idx  = where([x.name() == palette for x in pals])[0]
+            idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
                 raise ValueError("palette {:s} is not a valid sequential palette. ".format(palette) + \
                         "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
