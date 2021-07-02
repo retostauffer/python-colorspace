@@ -342,7 +342,7 @@ Construction details
 --------------------
 
 
-.. todo:: Show how to register custom palettes.
+.. todo:: Registering new palettes not yet implemented.
 
 Flexible diverging palettes
 ---------------------------
@@ -365,4 +365,12 @@ Function reference
 .. autofunction:: colorspace.choose_palette
     :noindex:
 
-.. todo:: Do I need autofunction here?
+.. todo:: Move GUI infos to appropriate location. autofunction needed?
+
+
+References
+----------
+
+.. bibliography:: ../references.bib
+    :style: plain
+

@@ -77,9 +77,6 @@ emphasize different parts of the palette.
   further enhance the distinction of colors in the middle of the palette.
 
 
-.. todo::
-    Currently the palettes look wrong as cmax is not yet implemented.
-
 .. ipython:: python
     :okwarning:
 
@@ -92,7 +89,9 @@ emphasize different parts of the palette.
                n = 7, show_names = False, nrow = 5, figsize = (12, 3))
 
 
-
+.. todo::
+    :py:func:`swatchplot<colorspace.swatchplot.swatchplot>` requires
+    an optional argument `cvd` analogous to the R package.
 
 
 
