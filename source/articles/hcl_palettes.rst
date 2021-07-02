@@ -32,6 +32,7 @@ at the same luminance.
 
 .. ipython:: python
     :okwarning:
+    :suppress:
 
     from colorspace import *
 
@@ -47,11 +48,11 @@ at the same luminance.
     div1 = palette(div_pal(7), "Color")
     div2 = palette(desaturate(div_pal(7)), "Desaturated")
 
-    @savefig hcl_palettes_dimensions.png width=600px height=90px align=center
+    @savefig hcl_palettes_dimensions.png width=100% height=90px align=center
     swatchplot({"Qualitative (Set 2)":     [qual1, qual2],
                 "Sequential (Blues 3)":    [seq1, seq2],
                 "Diverging (Green-Brown)": [div1, div2]},
-                nrow = 3, figsize = (10, 1.5))
+                nrow = 3, figsize = (12, 1.5))
 
 
 More details about the construction of such palettes is provided in the
@@ -151,8 +152,8 @@ see "Grays" and "Light Grays" below.
 .. ipython:: python
     :okwarning:
 
-    @savefig hcl_palettes_sequential_singlehue.png width=400px height=350px align=center
-    hcl_palettes(5, "Sequential (single-hue)", plot = True, ncol = 1)
+    @savefig hcl_palettes_sequential_singlehue.png width=50% align=center
+    hcl_palettes(7, "Sequential (single-hue)", plot = True, ncol = 1, figsize = (6, 7.5))
 
 All except the last are inspired by the ColorBrewer.org palettes with the same
 base name :cite:p:`color:Harrower+Brewer:2003` but restricted to a single hue only. They
@@ -207,7 +208,7 @@ sequential palettes in colorspace:
     :okwarning:
 
     @savefig hcl_palettes_sequential_multihue.png width=100% align=center
-    hcl_palettes(5, "Sequential (multi-hue)", plot = True, ncol = 3, figsize = (10, 10))
+    hcl_palettes(7, "Sequential (multi-hue)", plot = True, ncol = 3, figsize = (10, 8))
 
 .. todo: Reto, update and order palettes.
 
@@ -298,9 +299,55 @@ mathematical equations underlying the chroma trajectories are given in the
 following (i.e., using the parameters `c1`, `c2`, `cmax`, and `p1`, respectively).
 Analogous equations apply for the other two coordinates.
 
-The trajectories are functions of the intensity $𝑖\in [0,1]$ where 11
+The trajectories are functions of the intensity :math:`i \in [0,1]` where :math:`1`
 corresponds to the full intensity:
 
+.. math::
+   :nowrap:
+
+   \begin{gather*}
+   \text{Constant}: c_1 \\
+
+   \text{Linear}: c_2 - (c_2 - c_1) \times i \\
+
+   \text{Triangular}: \begin{cases}
+           c_2 - (c_2 - c_{max}) \times \frac{i}{j}  & \text{if}~~~~i \le j \\
+           c_{max} - (c_{max} - c_1) \times \frac{i - j}{1 - j} & \text{else}
+   \end{cases}
+   \end{gather*}
+
+
+where :math:`j` is the intensity at which :math:`c_{max}` is assumed.
+It is constructed such that the slope to the left is the negative of
+the slope to the right of :math:`j`:
+
+.. math::
+    :nowrap:
+
+    \begin{gather*}
+    j = \Big(1 + \frac{|c_{max} - c_1|}{|c_{max} - c_2|}\Big)^{-1}
+    \end{gather*}
+
+Instead of using a linear intensity :math:`i` going from :math:`1` to :math:`0`,
+one can replace :math:`i` with :math:`i ^{p_1}` in the equations above.
+This then leads to power-transformed curves that add or remove chroma more
+slowly or more quickly depending on whether the power
+parameter :math:`p_1` is :math:`< 1` or :math:`> 1`.
+
+
+.. todo:: One part missing, add or leave it.
+
+
+Construction details
+--------------------
+
+
+.. todo:: Show how to register custom palettes.
+
+Flexible diverging palettes
+---------------------------
+
+.. todo:: Requires `divergingx_hcl` object; planned extension.
 
 Graphical user interface (GUI)
 ==============================
@@ -318,3 +365,4 @@ Function reference
 .. autofunction:: colorspace.choose_palette
     :noindex:
 
+.. todo:: Do I need autofunction here?
