@@ -15,4 +15,5 @@ colorspace/htmlcov
 
 */*.pyc
 */*/*.pyc
+*.swp
 
