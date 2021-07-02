@@ -367,10 +367,9 @@ class hclpalettes:
     def __init__(self, files = None):
 
         if files is None:
-            resource_package = os.path.dirname(__file__)
             import glob
+            resource_package = os.path.dirname(__file__)
             files = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
-
 
         # Input 'files' specified:
         if len(files) == 0:
@@ -398,6 +397,7 @@ class hclpalettes:
         for rec in x: tmp[rec] = self._palettes_[rec]
         self._palettes_ = tmp
 
+
     def __repr__(self):
         """Standard representation of the object."""
         res = ["HCL palettes"]
@@ -420,7 +420,6 @@ class hclpalettes:
                     tmp += ", {:s}".format(pal.name())
                     nchar += len(pal.name()) + 2
             res.append(tmp)
-
 
         return "\n".join(res)
 
@@ -1207,8 +1206,8 @@ class diverging_hcl(hclpalette):
             two will be used while the rest is ignored.  If input ``h`` is a string
             this argument acts like the ``palette`` argument (see ``palette`` input
             parameter).
-        c (numeric): Chroma value (colorfullness), a single numeric value. If
-            multiple values are provided only the first one will be used.
+        c (numeric): Chroma value (colorfullness), a single numeric value. If two
+            values are provided the first will be taken as `c1`, the second as `cmax`.
         l (list of numerics): luminance values (lightness). The first value is for
             the two ends of the color palette, the second one for the neutral center
             point. If only one value is given this value will be recycled.
@@ -1301,7 +1300,7 @@ class diverging_hcl(hclpalette):
             settings["h2"]    = h[1]
             if isinstance(c, ndarray):
                 settings["c1"]    = c    if len(c) == 1 else c[0]
-                if len(c) == 2: settings["c2"] = c[1]
+                if len(c) == 2: settings["cmax"] = c[1]
             else:
                 settings["c1"]    = c
             settings["l1"]    = l[0]
@@ -1367,9 +1366,9 @@ class diverging_hcl(hclpalette):
         for i,val in ndenumerate(rval): H[i] = h1 if val > 0 else h2
 
         # Calculate the trajectory for the chroma dimension
-        i    = fmax(0., arange(1., -1e-10, step = -2. / (float(n) - 1.)))
-        C    = self._chroma_trajectory(i, p1, c1, c2, cmax)
-        C    = fmax(0., concatenate((C, flip(C))))
+        i = linspace(1., 0., int(ceil(n / 2.)))
+        C = self._chroma_trajectory(i, p1, c1, c2, cmax)
+        C = fmax(0., concatenate((C, flip(C))))
 
         # Non-even number of colors? We need to remove one.
         if n % 2 == 1: C = delete(C, int(ceil(n / 2.)))
