@@ -191,5 +191,15 @@ palette passes through a light gray (with zero chroma) as the neutral value.
 .. todo:: Add RGB rainbow example here (`gist_rainbow` from matplotlib?).
 
 
+Trajectories in HCL space
+-------------------------
+
+.. todo:: Section must be written.
+
+
+Demonstration of statistical graphics
+-------------------------------------
+
+.. todo:: Section must be written.
 
 

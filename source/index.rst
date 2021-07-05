@@ -36,7 +36,7 @@ Contents
     articles/colorlib
     articles/hcl_palettes
     articles/palette_visualization
-    articles/hclwizard
+    articles/choose_palette
     articles/color_vision_deficiency
     articles/manipulation_utilities
     articles/approximations

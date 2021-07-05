@@ -75,7 +75,7 @@ More detailed overviews and examples are provided in the articles:
     articles/colorlib
     articles/classes_and_methods
     articles/palette_visualization
-    articles/hclwizard
+    articles/choose_palette
     articles/color_vision_deficiency
     articles/manipulation_utilities
     articles/approximations

@@ -345,28 +345,11 @@ Construction details
 
 .. todo:: Registering new palettes not yet implemented.
 
+
 Flexible diverging palettes
 ---------------------------
 
 .. todo:: Requires `divergingx_hcl` object; planned extension.
-
-Graphical user interface (GUI)
-==============================
-
-``choose_palette()``.
-
-.. image:: ../_static/img_gui.jpeg
-
-Create custom palettes
-----------------------
-
-Function reference
-------------------
-
-.. autofunction:: colorspace.choose_palette
-    :noindex:
-
-.. todo:: Move GUI infos to appropriate location. autofunction needed?
 
 
 References
