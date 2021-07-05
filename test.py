@@ -1,7 +1,56 @@
 
 
 
+import sys
 from colorspace import diverging_hcl, sequential_hcl
+from colorspace import hcl_palettes, specplot, swatchplot, palette
+from colorspace import *
+
+p = qualitative_hcl("Set 2")(100)
+
+specplot(p)
+
+sys.exit(3)
+
+pal1 = sequential_hcl("YlGnBu")(5)
+pal2 = sequential_hcl("Viridis")(5)
+
+#@savefig palette_visualization_cvd_option.png width=60% align=center
+swatchplot([palette(pal1, "YlGnBu"),
+            palette(pal2, "Viridis")],
+            cvd = ["protan", "desaturate"],
+            nrow = 4)
+
+
+
+import sys; sys.exit(3)
+
+pals = hcl_palettes(5, "diverging")
+
+for pal in pals.get_palettes():
+    #print(pal)
+    #print(pal.get_settings())
+    #print(type(pal))
+    print(pal.colors(5))
+
+
+#pal = diverging_hcl("Vik") #Blue-Red 3")
+#print(pal(5))
+#print('[1] "#002F70" "#879FDB" "#F6F6F6" "#DA8A8B" "#5F1415"')
+#specplot(pal(5))
+#import sys; sys.exit(0)
+
+hcl_palettes(type_ = "diverging", plot = True, ncol = 1)
+
+print(" \n\n ----------- VIK -------------- \n\n")
+diverging_hcl("Vik")(5)
+import sys; sys.exit(0)
+
+
+
+print(pal(7))
+
+import sys; sys.exit(0)
 
 pal = diverging_hcl("Tofino")
 R = ["#D6E0FF", "#666E9A", "#111111", "#557A47", "#C2EFB4"] # Tofino

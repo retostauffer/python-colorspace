@@ -69,11 +69,11 @@ More detailed overviews and examples are provided in the articles:
     :maxdepth: 1
 
     api
-    articles/classes-and-methods
     articles/installation
     articles/color_spaces
-    articles/colorlib
     articles/hcl_palettes
+    articles/colorlib
+    articles/classes_and_methods
     articles/palette_visualization
     articles/hclwizard
     articles/color_vision_deficiency

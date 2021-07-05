@@ -1,7 +1,7 @@
 
 .. _article-color_vision_deficiency:
 
-Color vision deficiency
+Color Vision Deficiency
 =======================
 
 Template. TODO

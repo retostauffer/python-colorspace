@@ -1,7 +1,7 @@
 
 .. _article-palette_visualization:
 
-Palette visualization and Assessment
+Palette Visualization and Assessment
 ====================================
 
 
@@ -49,14 +49,14 @@ tweaking in future versions of the package.
 
 This shows the following:
 
-* *Hue*: Only the hue (= type of color) changes from H = 0 (red) via 60
-  (yellow), etc. to 300 (purple) while chroma and luminance are fixed to
-  moderate values of C = 60 and L = 65, respectively.
-* *Chroma*: Only the chroma (= colorfulness) changes from C = 0 (gray) to 100
-  (colorful) while hue and luminance are fixed to H = 0 (red) and L = 65,
+* *Hue*: Only the hue (= type of color) changes from `H = 0` (red) via `60`
+  (yellow), etc. to `300` (purple) while chroma and luminance are fixed to
+  moderate values of `C = 60` and `L = 65`, respectively.
+* *Chroma*: Only the chroma (= colorfulness) changes from `C = 0` (gray) to `100`
+  (colorful) while hue and luminance are fixed to `H = 0` (red) and `L = 65`,
   respectively.
-* *Luminance*: Only the luminance (= brightness) changes from L = 90 (light) to
-  25 (dark) while hue and chroma are fixed to H = 260 (blue) and C = 25 (low,
+* *Luminance*: Only the luminance (= brightness) changes from `L = 90` (light) to
+  `25` (dark) while hue and chroma are fixed to `H = 260` (blue) and `C = 25` (low,
   close to gray), respectively.
 
 Next, we demonstrate a more complex example of a
@@ -89,16 +89,106 @@ emphasize different parts of the palette.
                n = 7, show_names = False, nrow = 5, figsize = (12, 3))
 
 
-.. todo::
-    :py:func:`swatchplot<colorspace.swatchplot.swatchplot>` requires
-    an optional argument `cvd` analogous to the R package.
+
+Moreover, the `cvd` argument can be set to a vector of transformation names,
+indicating which deficiencies to emulate. In the example below this is used to
+compare the Viridis and YlGnBu palettes under deuteranopia and desaturation.
+
+
+.. ipython:: python
+    :okwarning:
+
+    pal1 = sequential_hcl("YlGnBu")(7)
+    pal2 = sequential_hcl("Viridis")(7)
+
+    @savefig palette_visualization_cvd_option.png width=70% align=center
+    swatchplot([palette(pal1, "YlGnBu"), palette(pal2, "Viridis")],
+                cvd = ["protan", "desaturate"], nrow = 4, figsize = (8, 2.5))
 
 
 
+HCL (and RGB) spectrum
+----------------------
+
+As the properties of a palette in terms of the perceptual dimensions *hue*,
+*chroma*, and *luminance* are not always clear from looking just at color swatches
+or (statistical) graphics based on these palettes, the :py:func:`specplot<colorspace.specplot.specplot>`
+function provides an explicit display for the coordinates of the HCL trajectory
+associated with a palette. This can bring out clearly various aspects, e.g.,
+whether hue is constant, whether chroma is monotonic or triangular, and whether
+luminance is approximately constant (as in many qualitative palettes),
+monotonic (as in sequential palettes), or diverging.
+
+The function first transforms a given color palette to its HCL (polarLUV)
+coordinates. As the hues for low-chroma colors are not (or only poorly)
+identified, they are smoothed by default. Also, to avoid jumps from `0` to `360` or
+vice versa, the hue coordinates are shifted suitably.
+
+By default, the resulting trajectories in the HCL spectrum are visualized by a
+simple line plot:
+
+* *Hue* is drawn in red and coordinates are indicated on the axis on the right
+  with range `[-360, 360]`.
+* *Chroma* is drawn in green with coordinates on the
+  left axis.  The range `[0, 100]` is used unless the palette necessitates higher
+  chroma values.
+* *Luminance* is drawn in blue with coordinates on the left axis in the
+range `[0, 100]`.
+
+Additionally, a color swatch for the palette is included.
+Optionally, a second spectrum for the corresponding trajectories of RGB
+coordinates can be included. However, this is usually just of interest for
+palettes created in RGB space (or simple transformations of RGB).
+
+The illustrations below show how basic qualitative, sequential, and diverging
+palettes are constructed in HCL space (the corresponding mathematical equations
+are provided in the
+:ref:`construction details<article-section-construction_details>`).
+In the qualitative `"Set 2"` palette below, the hue traverses the entire color
+"wheel" (from `0` to `360` degrees) while keeping chroma and luminance (almost)
+constant (`C = 60` and `L = 70`).
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import specplot, qualitative_hcl
+    @savefig palette_visualization_specplot_set2.png width=70% align=center
+    specplot(qualitative_hcl("Set 2").colors(100))
+
+
+Note that due to the restrictions of the HCL color space, some of the
+green/blue colors have a slightly smaller maximum chroma resulting in a small
+dip in the chroma curve. This is fixed automatically (by default) and is hardly
+noticable in visualizations, though.
+
+The sequential `"Blues 2"` palette below employs a single hue (`H = 260`) and a
+monotonically increasing luminance trajectory (from dark to light). Chroma
+simply decreases monotonically along with increasing luminance.
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import specplot, sequential_hcl
+    @savefig palette_visualization_specplot_blues2.png width=70% align=center
+    specplot(sequential_hcl("Blues 2").colors(100))
+
+
+Finally, the diverging `"Blue-Red"` palette is depicted below. It simply combines
+a blue and a red sequential single-hue palette (similar to the `"Blues 2"`
+palette discussed above). Hue is constant in each “arm” of the palette and the
+chroma/luminance trajectories are balanced between both arms. In the center the
+palette passes through a light gray (with zero chroma) as the neutral value.
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import specplot, diverging_hcl
+    @savefig palette_visualization_specplot_bluered.png width=70% align=center
+    specplot(diverging_hcl("Blue-Red").colors(100))
 
 
 
-
+.. todo:: Add RGB rainbow example here (`gist_rainbow` from matplotlib?).
 
 
 

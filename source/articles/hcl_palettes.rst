@@ -1,7 +1,7 @@
 
 .. _article-hcl_palettes:
 
-HCL based color palettes
+HCL-Based Color Palettes
 ========================
 
 
@@ -32,7 +32,6 @@ at the same luminance.
 
 .. ipython:: python
     :okwarning:
-    :suppress:
 
     from colorspace import *
 
@@ -266,6 +265,8 @@ as for the sequential palettes. Thus, large luminance differences are important
 when many colors are used while smaller luminance contrasts may suffice for
 palettes with fewer colors etc.
 
+
+.. _article-section-construction_details:
 
 Construction details
 --------------------

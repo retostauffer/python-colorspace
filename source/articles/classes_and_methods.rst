@@ -1,10 +1,10 @@
 
 
 
-.. _article-classes-and-methods:
+.. _article-classes_and_methods:
 
 
-Main classes and methods
+Main Classes and Methods
 ========================
 
 Overview

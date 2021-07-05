@@ -183,4 +183,5 @@ References
 ----------
 
 .. bibliography:: ../references.bib
+    :cited:
     :style: plain
