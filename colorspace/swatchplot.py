@@ -1,6 +1,6 @@
 
 
-def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
+def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     """Create color palette swatch plots.
 
     The first argument ``pals`` is very flexible. It can be
@@ -26,6 +26,15 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
         show_names (bool): Should palette names be shown (if available), defaults to True.
         nrow (int): Positive; maximum number of rows of swatches, defaults to 20.
         n (int): (Positive) number of colors to be drawn from palette objects, defaults to 5.
+        cvd (None or list): Allows to display one or multiple palettes and how they look
+            with emulated color vision deficiencies. If `None`, this is not applied.
+            Can be set to a list of characters. Allowed:
+            `"protan"`, `"tritan"`, `"deutan"`, `"desaturate"` corresponding to the functions
+            :py:func:`protan<colorspace.CVD.protan>`,
+            :py:func:`tritan<colorspace.CVD.tritan>`,
+            :py:func:`deutan<colorspace.CVD.deutan>`,
+            :py:func:`desaturate<colorspace.CVD.desaturate>`.
+        **kwargs: See function description.
 
     Raises:
         TypeError: If ``nrow`` or ``n`` no integers.
@@ -82,6 +91,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
         Requires the ``matplotlib`` module to be installed.
     """
 
+    from numpy import all
+
     # Sanity checks: nrow and n only
     if not isinstance(nrow, int) or not isinstance(n, int):
         raise TypeError("Argument 'n' and 'nrow' must be integers.")
@@ -89,6 +100,21 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
         raise TypeError("Argument 'show_names' must be boolean True or False.")
     if not nrow > 0 or not n > 0:
         raise ValueError("Argument 'nrow' and 'n' must both be positive integers.")
+
+    # Checking optional cvd argument
+    if not isinstance(cvd, (str, list, type(None))):
+        raise TypeError("Wrong input argument for 'cvd'.")
+    if isinstance(cvd, list):
+        if not all([isinstance(x, str) for x in cvd]):
+            raise ValueError("Wrong input argument for 'cvd'.")
+    elif isinstance(cvd, str):
+        cvd = [cvd]
+    # Checking values
+    if isinstance(cvd, list):
+        valid_cvd_types = ["protan", "tritan", "deutan", "desaturate"]
+        if not all(x in valid_cvd_types for x in cvd):
+            raise ValueError("Allowed values for argument 'cvd' are: {:s}".format(
+                    ", ".join(valid_cvd_types)))
 
 
     # ---------------------------------------------------------------
@@ -309,6 +335,46 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
 
 
     # ---------------------------------------------------------------
+    # User request for CVD emulated palettes?
+    # ---------------------------------------------------------------
+    if not cvd is None:
+        new_data = dict()
+        counter  = 0
+
+        # Reduce dictionary to list
+        if isinstance(data, dict):
+            from warnings import warn
+            warn("Dictionary inputs to swatchplot in combination with cvd not allowed, " + \
+                 "dictionary will be reduced to a list.")
+            tmp_data = []
+            for rec in data.values(): tmp_data += rec
+            data = tmp_data; del tmp_data
+            print(data)
+
+        # Convert list back into a dictionary; each entry is one of the
+        # palettes provided by the user with a series of palettes according
+        # to the types of color vision deficiencies specified
+        if isinstance(data, list):
+            from colorspace import CVD
+            for rec in data:
+                tmp = [{"name": "original", "colors": rec["colors"]}]
+                counter += 1
+                for fn in cvd:
+                    tmp.append({"name": fn, "colors": getattr(CVD, fn)(rec["colors"])})
+                    counter += 1
+                new_data[rec["name"]] = tmp
+
+        # Overwrite existing 'data' object and re-specify the
+        # meta information. From here on the plotting is the same
+        # as if the user would have had provided a dictionary with a
+        # series of named palettes in combination with cvd = None.
+        data = new_data
+        meta["n_named"]    = counter
+        meta["n_palettes"] = counter
+        del new_data, counter
+
+
+    # ---------------------------------------------------------------
     # Now let's start the fun with plotting!
     # ---------------------------------------------------------------
     # Helper function to plot the color palettes
@@ -455,10 +521,10 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, **kwargs):
     name_args = {"va": "center", "ha": "left"}
 
     # Single swatch
-    if meta["n_palettes"] == 1:
-        xpos, ypos = _plot_swatches(data, xpos, ypos, xstep, ystep, show_names, True)
+    ##if meta["n_palettes"] == 1 and isinstance(data, dict):
+    ##    xpos, ypos = _plot_swatches(data, xpos, ypos, xstep, ystep, show_names, True)
     # Multiple palettes but no titles/grouping
-    elif isinstance(data, list):
+    if isinstance(data, list):
         xpos, ypos = _plot_swatches(data, xpos, ypos, xstep, ystep, show_names)
     # Else dictionary: adding additional titles for grouping
     else:
