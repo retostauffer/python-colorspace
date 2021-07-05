@@ -113,8 +113,6 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
     # Calculate coordinates
     coords = {}
     for key,vals in hex_.items():
-        print(vals)
-        print(hexcols(vals))
         cols = hexcols(vals)
         cols.to("sRGB")
         coords[key] = {"hex":vals}
