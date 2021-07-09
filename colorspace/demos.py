@@ -16,11 +16,11 @@ def demoplot(colors, type_, n = 7, fig = None):
 
     Arguments:
         type_ (str): Name of the demoplot; name of the demo function to be called.
-        fig: None (default) or a matplotlib figure object, forwarded to the
-            plotting function.
         n (int): Positive integer, number of colors for the plot. Only used
             if argument ``colors`` is a palette where a dedicated number of
             colors must be drawn first. Defaults to 7.
+        fig: None (default) or a matplotlib figure object, forwarded to the
+            plotting function.
 
     Examples:
 

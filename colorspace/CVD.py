@@ -144,6 +144,8 @@ class CVD(object):
 
     def __init__(self, cols, type_, severity = 1.):
 
+        from colorspace import palettes
+
         # Getting severity
         if severity < 0.:   severity = 0.
         elif severity > 1.: severity = 1.
@@ -165,6 +167,10 @@ class CVD(object):
         except:
             pass
 
+        # If the input is a palettes.palette: extract colors and
+        # store it in a list. Will then be handled further down as 'list' object.
+        if isinstance(cols, palettes.palette):
+            cols = cols.colors()
 
         # Checking input `cols`:
         if self.CMAP:
@@ -174,7 +180,8 @@ class CVD(object):
                         G = [x[1] for x in cols._segmentdata["green"]],
                         B = [x[1] for x in cols._segmentdata["blue"]])
             self._hexinput = False
-        elif isinstance(cols, str) or isinstance(cols, list) or isinstance(cols, tuple):
+
+        elif isinstance(cols, (str, list, tuple)):
             cols = list(cols)
             from numpy import all, isnan
             from re import match, compile
@@ -196,6 +203,7 @@ class CVD(object):
             cols = hexcols(cols)
             self._hexinput = True
         else:
+            print(type(cols))
             self._hexinput = False
             from .colorlib import colorobject
             if not isinstance(cols, colorobject):

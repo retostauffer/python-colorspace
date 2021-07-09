@@ -37,7 +37,7 @@ Contents
     articles/hcl_palettes
     articles/palette_visualization
     articles/choose_palette
-    articles/color_vision_deficiency
+    articles/cvd
     articles/manipulation_utilities
     articles/approximations
     articles/endrainbow

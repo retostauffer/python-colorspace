@@ -1,5 +1,18 @@
 
 
+from colorspace import *
+
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(2, 2)
+
+from colorspace import *
+
+p = palette(["#330033", "#123123"], "foo")
+
+print(deutan(p))
+
+import sys; sys.exit(3)
+
 
 import sys
 from colorspace import diverging_hcl, sequential_hcl
