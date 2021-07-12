@@ -200,6 +200,42 @@ Trajectories in HCL space
 Demonstration of statistical graphics
 -------------------------------------
 
-.. todo:: Section must be written.
+To demonstrate how different kinds of color palettes work in different kinds of
+statistical displays, demoplot() provides a simple convenience interface to
+some base graphics with (mostly artificial) data sets. As a first overview, all
+built-in demos are displayed with the same sequential heat colors palette:
+`sequential_hcl("Heat")(7)`.
+
+.. ipython:: python
+    :okwarning:
+
+    from matplotlib import pyplot as plt
+    from colorspace import demoplot, sequential_hcl
+
+    colors = sequential_hcl("Heat").colors(5)
+    fig, axes = plt.subplots(2, 3)
+
+    demo_types = ["Bar", "Heatmap", "Lines", "Matrix", "Pie", "Spine"]
+    for i in range(0, len(demo_types)):
+        demoplot(colors, type_ = demo_types[i], title = demo_types[i], ax = axes.flatten()[i])
+
+    @savefig palette_visualization_demonstration.png width=100% align=center
+    fig.show()
+
+
+All types of demos can, in principle, deal with arbitrarily many colors from
+any palette, but the graphics differ in various respects such as:
+
+* Working best for fewer colors (e.g., bar, pie, scatter, lines, ...)
+  vs. many colors (e.g., heatmap, perspective, ...).
+* Intended for categorical data (e.g., bar, pie, ..)
+  vs. continuous numeric data (e.g., heatmap, perspective, ...).
+* Shading areas (e.g., map, bar, pie, …) vs. coloring points or lines (scatter, lines).
+
+Hence, in the following some further illustrations are organized by type of
+palette, using suitable demos for the particular palettes.
+
+
+.. todo:: Some examples and demoplot types still missing.
 
 
