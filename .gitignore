@@ -2,6 +2,7 @@
 
 colorspace.egg-info
 __pycache__
+/docs
 
 # Some development folders
 /htmlcov

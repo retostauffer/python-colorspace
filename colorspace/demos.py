@@ -11,16 +11,21 @@
 # -------------------------------------------------------------------
 
 
-def demoplot(colors, type_, n = 7, fig = None):
+def demoplot(colors, type_, n = 7, title = None, ax = None):
     """Create demo plots.
 
     Arguments:
         type_ (str): Name of the demoplot; name of the demo function to be called.
+            Not case sensitive.
         n (int): Positive integer, number of colors for the plot. Only used
             if argument ``colors`` is a palette where a dedicated number of
             colors must be drawn first. Defaults to 7.
-        fig: None (default) or a matplotlib figure object, forwarded to the
-            plotting function.
+        title (None or str): used to draw the figure title if specified (str).
+            Forwarded to different plot types.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
+            Forwarded to different plot types.
 
     Examples:
 
@@ -41,15 +46,31 @@ def demoplot(colors, type_, n = 7, fig = None):
         >>> demoplot(colorobj,       "Lines")
         >>> demoplot(hclpalette,     "Pie", n = 4)
         >>> demoplot(defaultpalette, "Matrix", n = 11)
+        >>>
+        >>> # Using custom subplots and plot titles
+        >>> from matplotlib import pyplot as plt
+        >>> from colorspace import protan, deutan, desaturate
+        >>> fig, axes = plt.subplots(2, 2)
+        >>> colors = diverging_hcl("Green-Orange").colors(7)
+        >>> demoplot(colors,             "Bar",
+        >>>          title = "Original",           ax = axes[0, 0])
+        >>> demoplot(protan(colors),     "Bar",
+        >>>          title = "Protanope vision",   ax = axes[0, 1])
+        >>> demoplot(deutan(colors),     "Bar",
+        >>>          title = "Deuteranope vision", ax = axes[1, 0])
+        >>> demoplot(desaturate(colors), "Bar",
+        >>>          title = "Desaturated",        ax = axes[1, 1])
+        >>> fig.show()
+
 
     Raises:
-        TypeError: If ``type_`` is not a string.
-        ValueError: If ``type_`` is not an available demo plot.
-        TypeError: If ``n`` is not integer.
-        ValueError: ``n`` must be a positive integer.
+        TypeError: If `type_` is not a string.
+        ValueError: If `type_` is not an available demo plot type.
+        TypeError: If `n`` is not integer.
+        ValueError: `n` must be a positive integer.
     """
     from . import demos
-    from re import match
+    from re import match, compile, IGNORECASE
 
     # Sanity checks
     if not isinstance(type_, str):
@@ -84,39 +105,58 @@ def demoplot(colors, type_, n = 7, fig = None):
             available_types.append(rec)
 
     # Is the user asking for an available demo plot?
-    if not type_ in available_types:
+    fun   = None
+    check = compile("^{:s}$".format(type_), IGNORECASE)
+    for avtype in available_types:
+        if not check.match(avtype): continue
+        fun = avtype
+
+    # Not found?
+    if fun is None:
         raise ValueError("No demoplot available for {:s} (Available: {:s}).".format(
                 type_, ", ".join(available_types)))
 
     # Calling the required plotting function
-    fun = getattr(demos, type_)
-    fun(colors, fig = fig)
+    fun = getattr(demos, fun)
+    fun(colors, title = title, ax = ax)
 
 
 
-def Bar(colors, fig = None):
+def Bar(colors, title = None, ax = None):
     """Plotting the barplot example.
 
     Args:
         colors (list of str): List of hex colors.
-        fig (None or a matplotlib.pyplot.figure):
-            If None, a figure will be initialized internally. If input ``fig`` is
-            already a figure object the data will be plotted using this data handler.
+        title (None or str): used to draw the figure title if specified (str).
+            Forwarded to different plot types.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
 
     Returns:
-        None or a same as input ``fig``
-        If input ``fig = None`` nothing will be returned, else the input figure
-        handler will be returned at the end containing a new axis object with
-        the demo plot.
+        Returns a new figure object if `ax` equals `None`, else the
+        same object as provided on `ax` is returned.
+
+    Raises:
+        ValueError: If `title` is not None nor string.
+        ValueError: If `ax` is neither none nor an object which inherits from
+            `matplotlib.axes.Axes`.
     """
 
     import matplotlib.pyplot as plt
     import numpy as np
+    from matplotlib.axes import Axes
+
+    if not isinstance(ax, (Axes, type(None))):
+        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+    if not isinstance(title, (type(None), str)):
+        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
-    if fig is None:
+    if ax is None:
         fig = plt.figure()
+        ax  = plt.gca()
         showfig = True
     else:
         showfig = False
@@ -128,88 +168,114 @@ def Bar(colors, fig = None):
     lower  = [1.1, 1.9, 0.7, 0.3]
     offset = [0.5, 1.1, 1.5, 0.8]
 
-    ax = plt.subplot2grid((1, 1), (0, 0))
+    # Creating the plot
     for i in range(0, len(lower)):
         x = i + np.arange(0, len(colors)) * width
         y = lower[i] + np.abs(np.sin(offset[i] + 1 + \
             np.arange(0, len(colors), dtype = float))) / 3
         ax.bar(x, y, color = colors, width = width)
 
-    # Plot
-    #ax.bar(range(0, len(colors)), x, color = colors)
-    plt.axis("off")
+    ax.axis("off")
+    if not title is None: ax.set_title(title)
     plt.tight_layout()
 
     if not showfig:
-        return fig
+        return ax
     else:
         fig.show()
+        return fig
 
 
-def Pie(colors, fig = None):
+def Pie(colors, title = None, ax = None):
     """Plotting pie chart example.
 
     Args:
         colors (list of str): List of hex colors.
-        fig (None or a matplotlib.pyplot.figure):
-            If None, a figure will be initialized internally. If input ``fig`` is
-            already a figure object the data will be plotted using this data handler.
+        title (None or str): used to draw the figure title if specified (str).
+            Forwarded to different plot types.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
 
     Returns:
-        None or a same as input ``fig``
-        If input ``fig = None`` nothing will be returned, else the input figure
-        handler will be returned at the end containing a new axis object with
-        the demo plot.
+        Returns a new figure object if `ax` equals `None`, else the
+        same object as provided on `ax` is returned.
+
+    Raises:
+        ValueError: If `title` is not None nor string.
+        ValueError: If `ax` is neither none nor an object which inherits from
+            `matplotlib.axes.Axes`.
     """
 
     import matplotlib.pyplot as plt
     import numpy as np
+    from matplotlib.axes import Axes
+
+    if not isinstance(ax, (Axes, type(None))):
+        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+    if not isinstance(title, (type(None), str)):
+        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
-    if fig is None:
+    if ax is None:
         fig = plt.figure()
+        ax  = plt.gca()
         showfig = True
     else:
         showfig = False
 
-    # Axis
-    ax = plt.subplot2grid((1, 1), (0, 0))
-
-    # Data
+    # Generate pie plot
     x = 0.01 + np.abs(np.sin(1.5 + np.arange(0, len(colors))))
-    plt.pie(x, colors = colors)
-    plt.axis("off")
+    ax.pie(x, colors = colors)
+
+    ax.axis("off")
+    if not title is None: ax.set_title(title)
     plt.tight_layout()
 
-    if not showfig:  return fig
-    else:            fig.show()
+    if not showfig:
+        return ax
+    else:
+        fig.show()
+        return fig
 
 
-def Spine(colors, fig = None):
+def Spine(colors, title = None, ax = None):
     """Plotting spine plot example.
 
     Args:
         colors (list of str): List of hex colors.
-        fig (None or a matplotlib.pyplot.figure):
-            If None, a figure will be initialized internally. If input ``fig`` is
-            already a figure object the data will be plotted using this data handler.
+        title (None or str): used to draw the figure title if specified (str).
+            Forwarded to different plot types.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
 
     Returns:
-        None or a same as input ``fig``
-        If input ``fig = None`` nothing will be returned, else the input figure
-        handler will be returned at the end containing a new axis object with
-        the demo plot.
+        Returns a new figure object if `ax` equals `None`, else the
+        same object as provided on `ax` is returned.
+
+    Raises:
+        ValueError: If `title` is not None nor string.
+        ValueError: If `ax` is neither none nor an object which inherits from
+            `matplotlib.axes.Axes`.
     """
 
     import matplotlib.pyplot as plt
     from matplotlib.patches import Rectangle
     import numpy as np
+    from matplotlib.axes import Axes
+
+    if not isinstance(ax, (Axes, type(None))):
+        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+    if not isinstance(title, (type(None), str)):
+        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
-    if fig is None:
+    if ax is None:
         fig = plt.figure()
+        ax  = plt.gca()
         showfig = True
     else:
         showfig = False
@@ -222,9 +288,6 @@ def Spine(colors, fig = None):
     heights = [np.power(np.arange(1, n + 1, dtype = float) / n, 1. / p) for p in \
               [2.5, 1.2, 2.7, 1, 1.3, 0.7, 0.4, 0.2, 1.7]]
 
-    # Axis
-    ax = plt.subplot2grid((1, 1), (0, 0))
-
     # Plot
     x = 0.
     for i in range(0,k):
@@ -236,14 +299,18 @@ def Spine(colors, fig = None):
             y += heights[i][j]
         x += offset + widths[i]
 
-    plt.axis("off")
+    ax.axis("off")
+    if not title is None: ax.set_title(title)
     plt.tight_layout()
 
-    if not showfig:  return fig
-    else:            fig.show()
+    if not showfig:
+        return ax
+    else:
+        fig.show()
+        return fig
 
 
-def Heatmap(colors, fig = None):
+def Heatmap(colors, title = None, ax = None):
     """Plotting heatmap example.
 
     Dataset source: Digitized from a topographic map by Ross Ihaka. These data
@@ -260,31 +327,43 @@ def Heatmap(colors, fig = None):
 
     Args:
         colors (list of str): List of hex colors.
-        fig (None or a matplotlib.pyplot.figure):
-            If None, a figure will be initialized internally. If input ``fig`` is
-            already a figure object the data will be plotted using this data handler.
+        title (None or str): used to draw the figure title if specified (str).
+            Forwarded to different plot types.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
 
     Returns:
-        None or a same as input ``fig``
-        If input ``fig = None`` nothing will be returned, else the input figure
-        handler will be returned at the end containing a new axis object with
-        the demo plot.
+        Returns a new figure object if `ax` equals `None`, else the
+        same object as provided on `ax` is returned.
+
+    Raises:
+        ValueError: If `title` is not None nor string.
+        ValueError: If `ax` is neither none nor an object which inherits from
+            `matplotlib.axes.Axes`.
     """
 
     import matplotlib.pyplot as plt
     import numpy as np
+    from matplotlib.axes import Axes
+
+    from matplotlib.colors import LinearSegmentedColormap
+    from .colorlib import hexcols
+
+    if not isinstance(ax, (Axes, type(None))):
+        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+    if not isinstance(title, (type(None), str)):
+        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
-    if fig is None:
+    if ax is None:
         fig = plt.figure()
+        ax  = plt.gca()
         showfig = True
     else:
         showfig = False
 
-    # Create custom cmap
-    from matplotlib.colors import LinearSegmentedColormap
-    from .colorlib import hexcols
     # Get coordinates
     cobj = hexcols(colors)
     cobj.to("sRGB")
@@ -309,47 +388,62 @@ def Heatmap(colors, fig = None):
         for line in fid.readlines():
             data.append([int(x) for x in line.split()])
 
-    # Plotting
-    ax = plt.subplot2grid((1, 1), (0, 0))
+    # Plotting data
     ax.imshow(data, cmap = cmap)
-    plt.axis("off")
+
+    ax.axis("off")
+    if not title is None: ax.set_title(title)
     plt.tight_layout()
 
-    if not showfig: return fig
-    else:           fig.show()
+    if not showfig:
+        return ax
+    else:
+        fig.show()
+        return fig
 
 
-
-def Matrix(colors, fig = None):
+def Matrix(colors, title = None, ax = None):
     """Plotting matrix example.
 
     Args:
         colors (list of str): List of hex colors.
-        fig (None or a matplotlib.pyplot.figure):
-            If None, a figure will be initialized internally. If input ``fig`` is
-            already a figure object the data will be plotted using this data handler.
+        title (None or str): used to draw the figure title if specified (str).
+            Forwarded to different plot types.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
 
     Returns:
-        None or a same as input ``fig``
-        If input ``fig = None`` nothing will be returned, else the input figure
-        handler will be returned at the end containing a new axis object with
-        the demo plot.
+        Returns a new figure object if `ax` equals `None`, else the
+        same object as provided on `ax` is returned.
+
+    Raises:
+        ValueError: If `title` is not None nor string.
+        ValueError: If `ax` is neither none nor an object which inherits from
+            `matplotlib.axes.Axes`.
     """
 
     import matplotlib.pyplot as plt
     import numpy as np
+    from matplotlib.axes import Axes
+
+    from matplotlib.colors import LinearSegmentedColormap
+    from .colorlib import hexcols
+
+    if not isinstance(ax, (Axes, type(None))):
+        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+    if not isinstance(title, (type(None), str)):
+        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
-    if fig is None:
+    if ax is None:
         fig = plt.figure()
+        ax  = plt.gca()
         showfig = True
     else:
         showfig = False
 
-    # Create custom cmap
-    from matplotlib.colors import LinearSegmentedColormap
-    from .colorlib import hexcols
     # Get coordinates
     cobj = hexcols(colors)
     cobj.to("sRGB")
@@ -368,14 +462,18 @@ def Matrix(colors, fig = None):
     np.random.seed(1)
     data = np.random.uniform(0., float(len(colors)), 100).reshape((10,10))
 
-    # Plotting
-    ax = plt.subplot2grid((1, 1), (0, 0))
+    # Plotting data
     ax.imshow(data, cmap = cmap)
-    plt.axis("off")
+
+    ax.axis("off")
+    if not title is None: ax.set_title(title)
     plt.tight_layout()
 
-    if not showfig: return fig
-    else:           fig.show()
+    if not showfig:
+        return ax
+    else:
+        fig.show()
+        return fig
 
 #def Scatter(colors, fig = None):
 #
@@ -406,29 +504,41 @@ def Matrix(colors, fig = None):
 #    if not showfig:  return fig
 #    else:            fig.show()
 
-def Lines(colors, fig = None):
+def Lines(colors, title = None, ax = None):
     """Plotting lineplot example.
 
     Args:
         colors (list of str): List of hex colors.
-        fig (None or a matplotlib.pyplot.figure):
-            If None, a figure will be initialized internally. If input ``fig`` is
-            already a figure object the data will be plotted using this data handler.
+        title (None or str): used to draw the figure title if specified (str).
+            Forwarded to different plot types.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
 
     Returns:
-        None or a same as input ``fig``
-        If input ``fig = None`` nothing will be returned, else the input figure
-        handler will be returned at the end containing a new axis object with
-        the demo plot.
+        Returns a new figure object if `ax` equals `None`, else the
+        same object as provided on `ax` is returned.
+
+    Raises:
+        ValueError: If `title` is not None nor string.
+        ValueError: If `ax` is neither none nor an object which inherits from
+            `matplotlib.axes.Axes`.
     """
 
     import matplotlib.pyplot as plt
     import numpy as np
+    from matplotlib.axes import Axes
+
+    if not isinstance(ax, (Axes, type(None))):
+        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+    if not isinstance(title, (type(None), str)):
+        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
-    if fig is None:
+    if ax is None:
         fig = plt.figure()
+        ax  = plt.gca()
         showfig = True
     else:
         showfig = False
@@ -442,20 +552,28 @@ def Lines(colors, fig = None):
     if n > 15: lwd -= 1
     if n > 25: lwd -= 1
 
-    ax = plt.subplot2grid((1, 1), (0, 0))
     for i in range(0, len(colors)):
         j = n - 1 - i
+        # Plotting two lines to get the overlays correctly
         ax.plot([1 / s[i], 2. + 1. / s[j]],
                 [s[i], s[j]],
-                color = colors[i], linewidth = lwd)
+                color = colors[i], linewidth = lwd,
+                solid_capstyle = "round")
         ax.plot([2. + 1. / s[i], 4. - 1. / s[i], 6. - 1 / s[i]],
                 [s[i], s[i], s[j]],
-                color = colors[j], linewidth = lwd)
-    plt.axis("off")
+                color = colors[j], linewidth = lwd,
+                solid_capstyle = "round")
+
+
+    ax.axis("off")
+    if not title is None: ax.set_title(title)
     plt.tight_layout()
 
-    if not showfig:  return fig
-    else:            fig.show()
+    if not showfig:
+        return ax
+    else:
+        fig.show()
+        return fig
 
 
 def Spectrum(*args, **kwargs):
@@ -463,15 +581,6 @@ def Spectrum(*args, **kwargs):
 
     Args:
         colors (list of str): List of hex colors.
-        fig (None or a matplotlib.pyplot.figure):
-            If None, a figure will be initialized internally. If input ``fig`` is
-            already a figure object the data will be plotted using this data handler.
-
-    Returns:
-        None or a same as input ``fig``
-        If input ``fig = None`` nothing will be returned, else the input figure
-        handler will be returned at the end containing a new axis object with
-        the demo plot.
     """
 
     from colorspace import specplot
