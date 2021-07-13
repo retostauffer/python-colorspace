@@ -22,6 +22,7 @@ from .palettes import rainbow_hcl
 from .palettes import heat_hcl
 from .palettes import terrain_hcl
 from .palettes import diverging_hsv
+from .palettes import rainbow
 
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes

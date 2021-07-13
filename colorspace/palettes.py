@@ -1829,4 +1829,107 @@ class diverging_hsv(hclpalette):
 
 
 
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+class rainbow(hclpalette):
+    """Infamous rainbow palette.
+
+    Args:
+        s (float, int): saturation value, a value in `[0., 1.]`. Defaults to `1.0`.
+        v (float, int): value, a value in `[0., 1.]`. Defaults to `1.0`.
+        start (float, int, function): the (corrected) hue in `[0., 1.]` at which
+            the rainbow begins. Defaults to `0.`. Can be a function with one input
+            `n` (number of colors). If outside `[0., 1.]` it will be wrapped.
+        end (float, int, function): the (corrected) hue in `[0., 1.]` at which
+            the rainbow ends. Defaults to `0.`. Can be a function with one input
+            `n` (number of colors). If outside `[0., 1.]` it will be wrapped.
+        rev (bool): Should the color map be reversed.
+        *args: Unused.
+        **kwargs: Unused.
+
+    Returns:
+        Initialize new object, no return. Raises a set of errors if the parameters
+        are misspecified. Note that the object is callable, the default object call
+        can be used to return hex colors (identical to the ``.colors()`` method),
+        see examples.
+
+    Example:
+
+
+    Raises:
+        ValueError: If `s` or `v` are not single floating point values (or integers)
+            in the range of `[0., 1.]`.
+        ValueError: If `start` and `end` are not float/int in `[0., 1.]` or functions.
+        ValueError: If `rev` is not boolean `True` or `False`.
+    """
+
+    _allowed_parameters = ["s", "v", "start", "end"]
+    _name = "Diverging HCL"
+
+    def __init__(self, s = 1, v = 1, start = 0, end = lambda n: max(1., n - 1.) / n,
+        rev = False, *args, **kwargs):
+
+        # Store reverse
+        self._rev = rev
+
+        # Doing all the sanity checks.
+        if not isinstance(s, (float, int)): raise ValueError("Input 's' must be float.")
+        if not isinstance(v, (float, int)): raise ValueError("Input 'v' must be float.")
+        if s < 0. or s > 1.:                raise ValueError("Input 's' must be in [0, 1].")
+        if v < 0. or v > 1.:                raise ValueError("Input 'v' must be in [0, 1].")
+        # Check start and end. Either functions (lambda functions)
+        # or a single floating point number in [0-1].
+        if callable(start):                     pass
+        elif isinstance(start, (float, int)):   start = float(start)
+        if callable(end):                       pass
+        elif isinstance(end, (float, int)):     end   = float(end)
+        if not isinstance(rev, bool):       raise ValueError("Input 'rev' must be boolean.")
+
+        # Store these settings
+        self.settings = {"s": float(s), "v": float(v), "start": start, "end": end}
+
+
+    # Return hex colors
+    def colors(self, n = 11, alpha = None, **kwargs):
+        """Returns the colors of the current color palette.
+
+        Args:
+            n (int): Number of colors which should be returned. Defaults to `11`.
+            alpha (None, float): Float (single value) or vector of floats in the
+                range of ``[0.,1.]`` for alpha transparency channel (``0.`` means full
+                transparency, ``1.`` opaque).  If a single value is provided it will be
+                applied to all colors, if a vector is given the length has to be ``n``.
+
+        Raises:
+            ValueError: If input `n` is not float/integer or smaller than 1.
+        """
+
+        from numpy import linspace, mod, repeat
+        from .colorlib import HSV
+
+        if not isinstance(n, (float, int)):
+            raise ValueError("Input 'n' must be numeric (float/int).")
+        n = int(n)
+        if n < 1: raise ValueError("Input 'n' must be larger than 0.")
+
+        # Evaluate start and end given 'n'
+        start = self.settings["start"]
+        start = start(n) if callable(start) else start
+        end   = self.settings["end"]
+        end   = end(n) if callable(end) else end
+
+        h = mod(linspace(start, end, n), 1.) * 360.
+        s = repeat(self.settings["s"], n)
+        v = repeat(self.settings["v"], n)
+
+        # Generate HSV colorobject
+        HSV = HSV(h, s, v)
+
+        # Reversing colors if needed
+        rev = self._rev
+        if "rev" in kwargs.keys(): rev = kwargs["rev"]
+
+        # Return hex colors
+        return [str(x) for x in HSV.colors(fixup = False, rev = rev)]
+
 
