@@ -379,14 +379,7 @@ def Heatmap(colors, title = None, ax = None):
     cmap = LinearSegmentedColormap("custom", cdict, len(colors))
 
     # Loading vulcano
-    import os
-    resource_package = os.path.dirname(__file__)
-    volcano = os.path.join(resource_package, "data", "volcano.dat")
-
-    data = []
-    with open(volcano, "r") as fid:
-        for line in fid.readlines():
-            data.append([int(x) for x in line.split()])
+    data = get_volcano_data()
 
     # Plotting data
     ax.imshow(data, cmap = cmap)
@@ -400,6 +393,7 @@ def Heatmap(colors, title = None, ax = None):
     else:
         fig.show()
         return fig
+
 
 
 def Matrix(colors, title = None, ax = None):
@@ -586,3 +580,38 @@ def Spectrum(*args, **kwargs):
     from colorspace import specplot
     specplot(rgb = True, *args, **kwargs)
 
+
+def get_volcano_data(array = False):
+    """Loading vulcano data set
+
+    Args:
+        array (bool): should the return be a list (default) or 2d
+            numpy array?
+
+    Returns:
+        Returns a list of length 67 where each entry is a list of integers
+        of lenth 87 if `asarray = False` (default). If `asarray = True`
+        an integer numpy array of shape `(67, 87)` will be returned.
+
+    Raises:
+        ValueError: If input `asarray` is not boolean.
+    """
+
+    import os
+    from numpy import asarray
+
+    if not isinstance(array, bool):
+        raise ValueError("Input 'asarray' must be boolean.")
+
+    # Loading the data set
+    resource_package = os.path.dirname(__file__)
+    volcano = os.path.join(resource_package, "data", "volcano.dat")
+
+    # Reading the data set; create recursive list
+    data = []
+    with open(volcano, "r") as fid:
+        for line in fid.readlines():
+            data.append([int(x) for x in line.split()])
+
+    # Return data
+    return data if not array else asarray(data)
