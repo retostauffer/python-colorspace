@@ -908,7 +908,7 @@ class colorlib:
     def RGB_to_HLS(self, r, g, b):
         """Convert RGB to HLS.
 
-        All r/g/b values in ``[0.,1.]``, h in ``[[0., 360.]``, l and s in ``[0., 1.]``.
+        All r/g/b values in ``[0.,1.]``, h in ``[0., 360.]``, l and s in ``[0., 1.]``.
         From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
 
         Args:
@@ -970,7 +970,7 @@ class colorlib:
     def HLS_to_RGB(self, h, l, s):
         """Convert RLS to HLS.
 
-        All r/g/b values in ``[0.,1.]``, h in ``[[0., 360.]``, l and s in ``[0., 1.]``.
+        All r/g/b values in ``[0.,1.]``, h in ``[0., 360.]``, l and s in ``[0., 1.]``.
         From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
 
         Args:
@@ -1543,7 +1543,7 @@ class colorobject:
         return
 
 
-    def _transform_via_path_(self, via, fixup):
+    def _transform_via_path_(self, via, fixup, **kwargs):
         """Helper function to transform a colorobject into a new color
         space. Calls the .to method one or several times along 'a path'
         as specified by ``via``.
@@ -1558,7 +1558,7 @@ class colorobject:
             fixup (bool): Whether or not to correct invalid rgb values outside
                 ``[0.,1.]`` if necessary
         """
-        for v in via:   self.to(v, fixup = fixup)
+        for v in via:   self.to(v, fixup = fixup, **kwargs)
 
     def _colorobject_check_input_arrays_(self, **kwargs):
         """Checks if all inputs in **kwargs are of type np.ndarray OR lists
