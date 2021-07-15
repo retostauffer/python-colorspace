@@ -11,7 +11,7 @@
 # -------------------------------------------------------------------
 
 
-def demoplot(colors, type_, n = 7, title = None, ax = None):
+def demoplot(colors, type_, n = 7, ax = None, **kwargs):
     """Create demo plots.
 
     Arguments:
@@ -26,6 +26,7 @@ def demoplot(colors, type_, n = 7, title = None, ax = None):
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
             Forwarded to different plot types.
+        **kwargs: Forwarded to the corresponding demo plot functions.
 
     Examples:
 
@@ -118,27 +119,55 @@ def demoplot(colors, type_, n = 7, title = None, ax = None):
 
     # Calling the required plotting function
     fun = getattr(demos, fun)
-    fun(colors, title = title, ax = ax)
+    return fun(colors, ax = ax, **kwargs)
 
 
+def _demoplot_set_labels(ax, **kwargs):
+    """Setting axis and labels for demoplots.
 
-def Bar(colors, title = None, ax = None):
+    Args:
+        **kwargs: named arguments to set different labels of the demoplots.
+            Considered are `title`, `xlable`, and `ylabel` only.
+
+    Returns:
+        No return.
+    """
+
+    from matplotlib import pyplot as plt
+
+    # Hide axis ticks and frame (box)
+    ax.axes.xaxis.set_ticks([])
+    ax.axes.yaxis.set_ticks([])
+    ax.set_frame_on(False)
+
+    # In case the user specified title, xlabel, or ylabel as a string
+    # we will call ax.set_title, ax.set_xlabel, and ax.set_ylabel respectively.
+    # For the title boldface font will be used.
+    for x in ["title", "xlabel", "ylabel"]:
+        if x in kwargs.keys():
+            if isinstance(kwargs[x], str):
+                fn = getattr(ax, "set_{:s}".format(x))
+                fn(kwargs[x], fontweight = "bold" if x == "title" else "regular")
+
+    plt.tight_layout()
+
+
+def Bar(colors, ax = None, **kwargs):
     """Plotting the barplot example.
 
     Args:
         colors (list of str): List of hex colors.
-        title (None or str): used to draw the figure title if specified (str).
-            Forwarded to different plot types.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
+        **kwargs: optional. Strings can be set for `title = "My title"`, 
+            `xlabel = "My x label"` and `ylabel = "My y label"`. 
 
     Returns:
         Returns a new figure object if `ax` equals `None`, else the
         same object as provided on `ax` is returned.
 
     Raises:
-        ValueError: If `title` is not None nor string.
         ValueError: If `ax` is neither none nor an object which inherits from
             `matplotlib.axes.Axes`.
     """
@@ -149,8 +178,6 @@ def Bar(colors, title = None, ax = None):
 
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
-    if not isinstance(title, (type(None), str)):
-        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
@@ -158,6 +185,7 @@ def Bar(colors, title = None, ax = None):
         fig = plt.figure()
         ax  = plt.gca()
         showfig = True
+        print('xx')
     else:
         showfig = False
 
@@ -175,9 +203,9 @@ def Bar(colors, title = None, ax = None):
             np.arange(0, len(colors), dtype = float))) / 3
         ax.bar(x, y, color = colors, width = width)
 
-    ax.axis("off")
-    if not title is None: ax.set_title(title)
-    plt.tight_layout()
+
+    # Set and draw axis and labels for the demoplots
+    _demoplot_set_labels(ax, **kwargs)
 
     if not showfig:
         return ax
@@ -186,23 +214,22 @@ def Bar(colors, title = None, ax = None):
         return fig
 
 
-def Pie(colors, title = None, ax = None):
+def Pie(colors, ax = None, **kwargs):
     """Plotting pie chart example.
 
     Args:
         colors (list of str): List of hex colors.
-        title (None or str): used to draw the figure title if specified (str).
-            Forwarded to different plot types.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
+        **kwargs: optional. Strings can be set for `title = "My title"`,
+            `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
         Returns a new figure object if `ax` equals `None`, else the
         same object as provided on `ax` is returned.
 
     Raises:
-        ValueError: If `title` is not None nor string.
         ValueError: If `ax` is neither none nor an object which inherits from
             `matplotlib.axes.Axes`.
     """
@@ -213,8 +240,6 @@ def Pie(colors, title = None, ax = None):
 
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
-    if not isinstance(title, (type(None), str)):
-        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
@@ -229,9 +254,8 @@ def Pie(colors, title = None, ax = None):
     x = 0.01 + np.abs(np.sin(1.5 + np.arange(0, len(colors))))
     ax.pie(x, colors = colors)
 
-    ax.axis("off")
-    if not title is None: ax.set_title(title)
-    plt.tight_layout()
+    # Set and draw axis and labels for the demoplots
+    _demoplot_set_labels(ax, **kwargs)
 
     if not showfig:
         return ax
@@ -240,23 +264,22 @@ def Pie(colors, title = None, ax = None):
         return fig
 
 
-def Spine(colors, title = None, ax = None):
+def Spine(colors, ax = None, **kwargs):
     """Plotting spine plot example.
 
     Args:
         colors (list of str): List of hex colors.
-        title (None or str): used to draw the figure title if specified (str).
-            Forwarded to different plot types.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
+        **kwargs: optional. Strings can be set for `title = "My title"`,
+            `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
         Returns a new figure object if `ax` equals `None`, else the
         same object as provided on `ax` is returned.
 
     Raises:
-        ValueError: If `title` is not None nor string.
         ValueError: If `ax` is neither none nor an object which inherits from
             `matplotlib.axes.Axes`.
     """
@@ -268,8 +291,6 @@ def Spine(colors, title = None, ax = None):
 
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
-    if not isinstance(title, (type(None), str)):
-        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
@@ -299,9 +320,8 @@ def Spine(colors, title = None, ax = None):
             y += heights[i][j]
         x += offset + widths[i]
 
-    ax.axis("off")
-    if not title is None: ax.set_title(title)
-    plt.tight_layout()
+    # Set and draw axis and labels for the demoplots
+    _demoplot_set_labels(ax, **kwargs)
 
     if not showfig:
         return ax
@@ -310,7 +330,7 @@ def Spine(colors, title = None, ax = None):
         return fig
 
 
-def Heatmap(colors, title = None, ax = None):
+def Heatmap(colors, ax = None, **kwargs):
     """Plotting heatmap example.
 
     Dataset source: Digitized from a topographic map by Ross Ihaka. These data
@@ -327,18 +347,17 @@ def Heatmap(colors, title = None, ax = None):
 
     Args:
         colors (list of str): List of hex colors.
-        title (None or str): used to draw the figure title if specified (str).
-            Forwarded to different plot types.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
+        **kwargs: optional. Strings can be set for `title = "My title"`,
+            `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
         Returns a new figure object if `ax` equals `None`, else the
         same object as provided on `ax` is returned.
 
     Raises:
-        ValueError: If `title` is not None nor string.
         ValueError: If `ax` is neither none nor an object which inherits from
             `matplotlib.axes.Axes`.
     """
@@ -352,8 +371,6 @@ def Heatmap(colors, title = None, ax = None):
 
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
-    if not isinstance(title, (type(None), str)):
-        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
@@ -382,11 +399,15 @@ def Heatmap(colors, title = None, ax = None):
     data = get_volcano_data()
 
     # Plotting data
-    ax.imshow(data, cmap = cmap)
+    ax.imshow(data, cmap = cmap, aspect = "auto")
 
-    ax.axis("off")
-    if not title is None: ax.set_title(title)
-    plt.tight_layout()
+    #ax.axis("off")
+    ax.axes.xaxis.set_ticks([])
+    ax.axes.yaxis.set_ticks([])
+    ax.set_frame_on(False)
+
+    # Set and draw axis and labels for the demoplots
+    _demoplot_set_labels(ax, **kwargs)
 
     if not showfig:
         return ax
@@ -396,23 +417,22 @@ def Heatmap(colors, title = None, ax = None):
 
 
 
-def Matrix(colors, title = None, ax = None):
+def Matrix(colors, ax = None, **kwargs):
     """Plotting matrix example.
 
     Args:
         colors (list of str): List of hex colors.
-        title (None or str): used to draw the figure title if specified (str).
-            Forwarded to different plot types.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
+        **kwargs: optional. Strings can be set for `title = "My title"`,
+            `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
         Returns a new figure object if `ax` equals `None`, else the
         same object as provided on `ax` is returned.
 
     Raises:
-        ValueError: If `title` is not None nor string.
         ValueError: If `ax` is neither none nor an object which inherits from
             `matplotlib.axes.Axes`.
     """
@@ -426,8 +446,6 @@ def Matrix(colors, title = None, ax = None):
 
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
-    if not isinstance(title, (type(None), str)):
-        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
@@ -459,9 +477,8 @@ def Matrix(colors, title = None, ax = None):
     # Plotting data
     ax.imshow(data, cmap = cmap)
 
-    ax.axis("off")
-    if not title is None: ax.set_title(title)
-    plt.tight_layout()
+    # Set and draw axis and labels for the demoplots
+    _demoplot_set_labels(ax, **kwargs)
 
     if not showfig:
         return ax
@@ -498,23 +515,22 @@ def Matrix(colors, title = None, ax = None):
 #    if not showfig:  return fig
 #    else:            fig.show()
 
-def Lines(colors, title = None, ax = None):
+def Lines(colors, ax = None, **kwargs):
     """Plotting lineplot example.
 
     Args:
         colors (list of str): List of hex colors.
-        title (None or str): used to draw the figure title if specified (str).
-            Forwarded to different plot types.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
+        **kwargs: optional. Strings can be set for `title = "My title"`,
+            `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
         Returns a new figure object if `ax` equals `None`, else the
         same object as provided on `ax` is returned.
 
     Raises:
-        ValueError: If `title` is not None nor string.
         ValueError: If `ax` is neither none nor an object which inherits from
             `matplotlib.axes.Axes`.
     """
@@ -525,8 +541,6 @@ def Lines(colors, title = None, ax = None):
 
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
-    if not isinstance(title, (type(None), str)):
-        raise ValueError("Argument 'title' must be None or string.")
 
     # Open figure if input "fig" is None, else use
     # input "fig" handler.
@@ -558,16 +572,87 @@ def Lines(colors, title = None, ax = None):
                 color = colors[j], linewidth = lwd,
                 solid_capstyle = "round")
 
-
-    ax.axis("off")
-    if not title is None: ax.set_title(title)
-    plt.tight_layout()
+    # Set and draw axis and labels for the demoplots
+    _demoplot_set_labels(ax, **kwargs)
 
     if not showfig:
         return ax
     else:
         fig.show()
         return fig
+
+
+def Map(colors, ax = None, **kwargs):
+    """Plotting map example.
+
+    Args:
+        colors (list of str): List of hex colors.
+        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
+        **kwargs: optional. Strings can be set for `title = "My title"`,
+            `xlabel = "My x label"` and `ylabel = "My y label"`. In addition
+            `edgecolor = <color>` can be used to specify custom edge color of the
+            polygons.
+
+    Returns:
+        Returns a new figure object if `ax` equals `None`, else the
+        same object as provided on `ax` is returned.
+
+    Raises:
+        ValueError: If `ax` is neither none nor an object which inherits from
+            `matplotlib.axes.Axes`.
+    """
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from matplotlib.axes import Axes
+
+    if not isinstance(ax, (Axes, type(None))):
+        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+
+    # Open figure if input "fig" is None, else use
+    # input "fig" handler.
+    if ax is None:
+        fig = plt.figure()
+        ax  = plt.gca()
+        showfig = True
+    else:
+        showfig = False
+
+
+    # Returns a PatchCollection with the polygons for the map and
+    # a numpy array with the values used for the color coding.
+    collection,vals = get_map_data()
+
+    # Convert the numeric values into integers [0, n-1] to pick
+    # the correct colors for each polygon given the user input
+    # object `colors`.
+    n    = len(colors)
+    vals = np.floor((vals - np.min(vals)) / (np.max(vals) - np.min(vals)) * (n - 1))
+    vals = np.fmin(vals, n - 1)
+    cols = [colors[int(x)] for x in vals]
+
+    # Setting facecolor of the polygons
+    collection.set_facecolor(cols)
+    edgecolor = "black" if not "edgecolor" in kwargs.keys() else kwargs["edgecolor"]
+    collection.set_edgecolor(edgecolor)
+
+    # Draw map
+    ax.add_collection(collection)
+    ax.autoscale_view()
+    ax.set_aspect("equal")
+
+    # Set and draw axis and labels for the demoplots
+    _demoplot_set_labels(ax, **kwargs)
+
+    if not showfig:
+        return ax
+    else:
+        fig.show()
+        return fig
+
+
 
 
 def Spectrum(*args, **kwargs):
@@ -614,4 +699,51 @@ def get_volcano_data(array = False):
             data.append([int(x) for x in line.split()])
 
     # Return data
-    return data if not array else asarray(data)
+    if array:
+        return asarray(data)
+    else:
+        data.reverse()
+        return(data)
+
+def get_map_data():
+    """Loading map data for demoplot.
+
+    Reading a file called `map.json` shipped with the package which
+    contains the definition of the different areas (polygons) and 
+    values to draw the map.
+
+    Returns
+    -------
+        List of length `2`. The first entry is a `PatchCollection` object
+        (`matplotlib.collections`) which sonsists of a series of `Polygon`s
+        for the different districts. The second entry is a `numpy.ndarray`
+        (float) containing the values used to color-code the areas.
+    """
+    import os
+    import json
+
+    from matplotlib import pyplot as plt
+    from matplotlib.collections import PatchCollection
+    from matplotlib.patches import Polygon
+    from colorspace.demos import get_map_data
+    from numpy import column_stack, asarray
+
+
+    # Loading the data set
+    resource_package = os.path.dirname(__file__)
+    mapdata = os.path.join(resource_package, "data", "map.json")
+
+    print(mapdata)
+    with open(mapdata, "r") as fid:
+        mapdata = json.loads(fid.readline())
+
+    patches = []
+    values  = []
+
+    # Prepare the data for return
+    for key,vals in mapdata.items():
+        polygon = Polygon(column_stack((vals["x"], vals["y"])))
+        patches.append(polygon)
+        values.append(vals["value"][0])
+
+    return [PatchCollection(patches), asarray(values)]

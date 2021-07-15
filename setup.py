@@ -1,7 +1,6 @@
 # -------------------------------------------------------------------
 # - NAME:        setup.py
 # - AUTHOR:      Reto Stauffer
-# - DATE:        2017-02-05
 # - LICENSE: GPL-2, Reto Stauffer, copyright 2014
 # -------------------------------------------------------------------
 # - DESCRIPTION: The python-colorpsace package.
@@ -16,7 +15,7 @@
 from setuptools import setup
 
 ISRELEASED    = False
-VERSION       = "0.1.2"
+VERSION       = "0.2.0"
 FULLVERSION   = VERSION
 write_version = True
 

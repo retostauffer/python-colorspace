@@ -1918,12 +1918,14 @@ class rainbow(hclpalette):
         end   = self.settings["end"]
         end   = end(n) if callable(end) else end
 
-        h = mod(linspace(start, end, n), 1.) * 360.
+        h = mod(linspace(start, end, n), 1.)
         s = repeat(self.settings["s"], n)
         v = repeat(self.settings["v"], n)
 
         # Generate HSV colorobject
-        HSV = HSV(h, s, v)
+        HSV = HSV(h * 360., s, v)
+        # If kwargs have a key "colorobject" return HCL colorobject
+        if "colorobject" in kwargs.keys(): return HSV
 
         # Reversing colors if needed
         rev = self._rev
