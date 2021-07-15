@@ -24,6 +24,10 @@ from .palettes import terrain_hcl
 from .palettes import diverging_hsv
 from .palettes import rainbow
 
+# Color manipulation utils
+from .utils import lighten
+from .utils import darken
+
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes
 from .swatchplot import swatchplot

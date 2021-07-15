@@ -1543,7 +1543,7 @@ class colorobject:
         return
 
 
-    def _transform_via_path_(self, via, fixup, **kwargs):
+    def _transform_via_path_(self, via, fixup):
         """Helper function to transform a colorobject into a new color
         space. Calls the .to method one or several times along 'a path'
         as specified by ``via``.
@@ -1558,7 +1558,7 @@ class colorobject:
             fixup (bool): Whether or not to correct invalid rgb values outside
                 ``[0.,1.]`` if necessary
         """
-        for v in via:   self.to(v, fixup = fixup, **kwargs)
+        for v in via:   self.to(v, fixup = fixup)
 
     def _colorobject_check_input_arrays_(self, **kwargs):
         """Checks if all inputs in **kwargs are of type np.ndarray OR lists
@@ -2744,7 +2744,7 @@ class HLS(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to == "hex":
-            # TODO(R): Fails!!!!!
+            # TODO(R): Fails!!!!! Reason: walks trough RGB > sRGB with GAMMA.
             via = ["RGB", "sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 

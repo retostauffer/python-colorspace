@@ -9,7 +9,7 @@ class palette:
     Creates a custom color map based on a list of hex colors (fixed number of
     colors) and a name. Used for e.g., :py:func:`hcl_palettes.swatchplot`.
 
-    Args;
+    Args:
         colors (list): List of strings; a list of hex colors.
         name (str): Name of this custom palette. Thus, `"Set 2"`,
         `"set 2"`, and `"SET2"` all mean the same.
