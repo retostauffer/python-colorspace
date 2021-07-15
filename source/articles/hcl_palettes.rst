@@ -30,8 +30,7 @@ bring out clearly that luminance differences (light-dark contrasts) are crucial
 for sequential and diverging palettes while qualitative palettes are balanced
 at the same luminance.
 
-.. ipython:: python
-    :okwarning:
+.. plot::
 
     from colorspace import *
 
@@ -47,7 +46,6 @@ at the same luminance.
     div1 = palette(div_pal(7), "Color")
     div2 = palette(desaturate(div_pal(7)), "Desaturated")
 
-    @savefig hcl_palettes_dimensions.png width=100% height=90px align=center
     swatchplot({"Qualitative (Set 2)":     [qual1, qual2],
                 "Sequential (Blues 3)":    [seq1, seq2],
                 "Diverging (Green-Brown)": [div1, div2]},

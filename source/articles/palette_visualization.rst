@@ -31,8 +31,7 @@ tweaking in future versions of the package.
 
 
 
-.. ipython:: python
-    :okwarning:
+.. plot::
 
     from colorspace import swatchplot, sequential_hcl, palette
 
@@ -40,7 +39,6 @@ tweaking in future versions of the package.
     chroma    = sequential_hcl(h = 0, c = [100, 0], l = 65, rev = True, power = 1)
     luminance = sequential_hcl(h = 260, c = 25, l = [25, 90], rev = True, power = 1)
 
-    @savefig palette_visualization_swatchplot.png align=center
     swatchplot([palette(hue(5), "Hue"),
                 palette(chroma(5), "Chroma"),
                 palette(luminance(5), "Luminance")],
