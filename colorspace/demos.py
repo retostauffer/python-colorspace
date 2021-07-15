@@ -733,9 +733,7 @@ def get_map_data():
     resource_package = os.path.dirname(__file__)
     mapdata = os.path.join(resource_package, "data", "map.json")
 
-    print(mapdata)
-    with open(mapdata, "r") as fid:
-        mapdata = json.loads(fid.readline())
+    with open(mapdata, "r") as fid: mapdata = json.loads(fid.readline())
 
     patches = []
     values  = []

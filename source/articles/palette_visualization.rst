@@ -238,4 +238,3 @@ palette, using suitable demos for the particular palettes.
 
 .. todo:: Some examples and demoplot types still missing.
 
-
