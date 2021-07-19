@@ -136,6 +136,12 @@ class CVD(object):
         >>> specplot(deut.colors())
         >>> specplot(prot.colors())
         >>> specplot(trit.colors())
+
+    Raises:
+        TypeError: If `type_` not str.
+        ValueError: If `type_` not among the allowed types. Not case sensitive.
+        TypeError: If `severity` is no float or integer.
+        ValueError: If `severity` not in `[0., 1.]`.
     """
 
     ALLOWED   = ["protan", "tritan", "deutan"]
@@ -146,18 +152,24 @@ class CVD(object):
 
         from colorspace import palettes
 
-        # Getting severity
-        if severity < 0.:   severity = 0.
-        elif severity > 1.: severity = 1.
+        if not isinstance(severity, (int, float)):
+            raise TypeError("Argument 'severity' must be float or integer in `[0., 1.]`.")
+        elif isinstance(severity, int): severity = float(severity)
+        if severity < 0. or severity > 1.:
+            raise ValueError("Severity must be in `[0., 1.]`.")
 
         # Checking type
+        if not isinstance(type_, str):
+            raise TypeError("Input 'type_' must be str.")
         if not type_.lower() in self.ALLOWED:
-            raise ValueError("inpyt type_ to {:s} wrong. ".format(self.__class__.__name__) + \
-                    "has to be one of: {:s}".format(", ".join(self.ALLOWED)))
+            raise ValueError("Input 'type_' wrong, has to be one of {:s}.".format(
+                ", ".join(self.ALLOWED)))
+
         self._type     = type_.lower()
         self._severity = severity
 
         # Check if we have a matplotlib.cmap
+        # TODO(R): Really needed? If so write tests and examples
         try:
             from matplotlib.colors import LinearSegmentedColormap
             if isinstance(cols, LinearSegmentedColormap):
@@ -173,6 +185,7 @@ class CVD(object):
             cols = cols.colors()
 
         # Checking input `cols`:
+        # TODO(R): See comment above. Needed?
         if self.CMAP:
             # Create an sRGB object
             from .colorlib import sRGB
@@ -203,7 +216,6 @@ class CVD(object):
             cols = hexcols(cols)
             self._hexinput = True
         else:
-            print(type(cols))
             self._hexinput = False
             from .colorlib import colorobject
             if not isinstance(cols, colorobject):
@@ -414,7 +426,7 @@ class CVD(object):
 # -------------------------------------------------------------------
 # The desaturation function
 # -------------------------------------------------------------------
-def desaturate(col, amount = 1.):
+def desaturate(cols, amount = 1.):
     """Transform a vector of given colors to the corresponding colors
     with chroma reduced (by a tunable amount) in HCL space.
 
@@ -423,8 +435,8 @@ def desaturate(col, amount = 1.):
     back to a colorobject of the same class as the input.
 
     Args:
-        col (colorobject): A colorspace color object such as RGB, hexcols, CIELUV,
-            etc.
+        cols (str, list, or colorobject): A colorspace color object such as
+            RGB, hexcols, CIELUV, etc.
         amount (float): A value in ``[0.,1.]`` defining the degree of desaturation.
             ``amount = 1.`` removes all color, ``amount = 0.`` none, defaults to 1.0.
 
@@ -448,82 +460,84 @@ def desaturate(col, amount = 1.):
 
     from .colorlib import colorobject
     from .colorlib import hexcols
+    from copy import deepcopy
+
+    # Sanity checks
+    if not isinstance(amount, (float, int)):
+        raise TypeError("Argument `amount` must be float or integer.")
+    elif isinstance(amount, int): amount = float(amount)
+    if amount < 0. or amount > 1.:
+        raise ValueError("Argument `amount` must be in `[0., 1.]`.")
+
+    # Keep class of input object for later
+    input_cols = deepcopy(cols)
 
     # Check if we have a matplotlib.cmap
     try:
         from matplotlib.colors import LinearSegmentedColormap
-        if isinstance(col, LinearSegmentedColormap):
+        if isinstance(cols, LinearSegmentedColormap):
             from copy import copy
             CMAP      = True
-            CMAPINPUT = copy(col)
+            CMAPINPUT = copy(cols)
         else:
             CMAP      = False
-            CMAPINPUT = copy(col)
+            CMAPINPUT = copy(cols)
     except:
         CMAP      = False
         CMAPINPUT = None
 
     # If input is a matploblib cmap: convert to sRGB
+    # TODO(R): Really needed? If so write tests and examples
     if CMAP:
         # Create an sRGB object
         from .colorlib import sRGB
-        col = sRGB(R = [x[1] for x in col._segmentdata["red"]],
-                   G = [x[1] for x in col._segmentdata["green"]],
-                   B = [x[1] for x in col._segmentdata["blue"]])
+        cols = sRGB(R = [x[1] for x in cols._segmentdata["red"]],
+                    G = [x[1] for x in cols._segmentdata["green"]],
+                    B = [x[1] for x in cols._segmentdata["blue"]])
     # If we have hex color input: convert to colorspace.colorlib.hexcols
-    elif isinstance(col, list) or isinstance(col, str):
-        col = hexcols(col)
+    elif isinstance(cols, list) or isinstance(cols, str):
+        cols = hexcols(cols)
 
     # From here on "col" needs to be a colorspace.colorlib.colorobject
-    if not isinstance(col, colorobject):
+    if not isinstance(cols, colorobject):
         import inspect
         raise ValueError("input to function {:s} ".format(inspect.stack()[0][3]) + \
                          "has to be of class colorobject (e.g., HCL, CIELUV, ...)")
 
     # Checking amount
-    try:
-        amount = float(amount)
-    except Exception as e:
-        import inspect
-        raise ValueError("input amount to function {:s} ".format(inspect.stack()[0][3]) + \
-                         "has to be a single float: {:s}".format(str(e)))
-    if amount < 0. or amount > 1.:
-        import inspect
-        raise ValueError("input amount to function {:s} ".format(inspect.stack()[0][3]) + \
-                         "has to be in [0., 1.]")
-    elif amount == 0.: return col
+    if amount == 0.: return input_cols
 
     # Keep original class
-    original_class = col.__class__.__name__
+    original_class = cols.__class__.__name__
     original_class = "hex" if original_class == "hexcols" else original_class
 
     from copy import deepcopy
-    col = deepcopy(col)
-    col.to("HCL")
+    cols = deepcopy(cols)
+    cols.to("HCL")
 
     # Desaturation
-    x = (1. - amount) * col.get("C")
-    col.set(C = (1. - amount) * col.get("C"))
+    x = (1. - amount) * cols.get("C")
+    cols.set(C = (1. - amount) * cols.get("C"))
 
     from numpy import where, logical_or
-    idx = where(logical_or(col.get("L") <= 0, col.get("L") >= 100))[0]
+    idx = where(logical_or(cols.get("L") <= 0, cols.get("L") >= 100))[0]
     if len(idx) > 0:
-        C = col.get("C"); C[idx] = 0
-        H = col.get("H"); H[idx] = 0
-        col.set(C = C, H = H)
+        C = cols.get("C"); C[idx] = 0
+        H = cols.get("H"); H[idx] = 0
+        cols.set(C = C, H = H)
 
-    col.to(original_class)
+    cols.to(original_class)
 
     # If input was no matplotlib cmap
     if not CMAP:
-        if original_class == "hex": col = col.colors()
-        return col
+        if original_class == "hex": cols = cols.colors()
+        return cols
     # Else manipulate the original cmap object and return
     # a new cmap object with adjusted colors
     else:
-        r    = col.get("R")
-        g    = col.get("G")
-        b    = col.get("B")
+        r    = cols.get("R")
+        g    = cols.get("G")
+        b    = cols.get("B")
 
         # Get input cmap and manipulate colors
         cmap = CMAPINPUT

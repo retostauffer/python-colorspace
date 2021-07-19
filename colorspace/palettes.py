@@ -1451,7 +1451,7 @@ class sequential_hcl(hclpalette):
     _allowed_parameters = ["h1", "c1", "c2", "cmax", "l1", "l2", "p1", "p2"]
     _name = "Sequential HCL"
 
-    def __init__(self, h = 260, c = [80, 30], l = [30, 90],
+    def __init__(self, h = 260, c = [80, 0], l = [30, 90],
         power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
@@ -1560,6 +1560,7 @@ class sequential_hcl(hclpalette):
         # Calculate the trajectory for the chroma dimension
         i = linspace(1., 0., n)
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
+        print(C)
 
         # Create new HCL color object
         from .colorlib import HCL
