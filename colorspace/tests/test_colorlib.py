@@ -191,7 +191,6 @@ def test_convert_hexcols():
     col = hexcols("#FF5733")
     # ambigious conversion; skip
     ambigious = ["foo"]
-    ambigious += ["HLS"] # TODO(R) Excluded as it fails currently!!!!
     for _to in all_models:
         if _to in ambigious: continue
         convert_from_to(col, "hex", _to)
