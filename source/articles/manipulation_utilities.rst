@@ -4,8 +4,11 @@
 Manipulation Utilities
 ======================
 
-Template. TODO
 
+Overview
+--------
+
+.. todo:: Write once functionality has been implemented.
 
 Desaturation in HCL space
 -------------------------
@@ -117,6 +120,37 @@ of both lightening and darkening, respectively.
                 palette(darken(oi, 0.4), "+40%")])
 
 
+Maximum chroma for given hue and luminance
+------------------------------------------
+
+As the possible combinations of chroma and luminance in HCL space depend on
+hue, it is not obvious which trajectories through HCL space are possible prior
+to trying a specific HCL coordinate by calling :py:func:`polarLUV <colorspace.colorlib.polarLUV>`.
+To avoid having to fix up the color upon conversion to RGB hex color codes, the
+:py:func:`max_chroma <colorspace.utils.max_chroma>` function computes
+(approximately) the maximum chroma possible.
+
+For illustration we show that for given luminance (here: `L = 50`) the maximum
+chroma varies substantially with hue:
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import max_chroma
+    from numpy import linspace
+
+    max_chroma(linspace(0, 360, 7), L = 50)
+
+Similarly, maximum chroma also varies substantially across luminance values for
+a given hue (here: `H = 120`, green):
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import max_chroma
+    from numpy import linspace
+
+    max_chroma(H = 120, L = linspace(0, 100, 6))
 
 
 

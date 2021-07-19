@@ -27,6 +27,7 @@ from .palettes import rainbow
 # Color manipulation utils
 from .utils import lighten
 from .utils import darken
+from .utils import max_chroma
 
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes

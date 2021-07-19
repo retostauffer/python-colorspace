@@ -59,8 +59,8 @@ def max_chroma(H, L, floor = False):
         raise ValueError("Number of values and `H` and `L` do not match or cannot be matched.")
 
     # Make sure that all hue values lie in the range of 0-360 
-    while np.any(H < 0):   H = np.where(H < 0,   H + 360., H)
-    while np.any(H > 360): H = np.where(H > 360, H - 360., H)
+    while np.any(H < 0):    H = np.where(H < 0,    H + 360., H)
+    while np.any(H >= 360): H = np.where(H >= 360, H - 360., H)
 
     # Prepare the values used for the 'table search'.
     # Fix luminance to values between [0., 100.]

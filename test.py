@@ -1,5 +1,16 @@
 
 
+from colorspace import max_chroma
+from numpy import linspace
+
+H = linspace(0, 360, 7)
+C = max_chroma(H, L = 50)
+print(H)
+print(C)
+
+
+import sys; sys.exit(3)
+
 
 from colorspace import palette, swatchplot, lighten, darken
 oi = ["#61A9D9", "#ADD668", "#E6D152", "#CE6BAF", "#797CBA"]
