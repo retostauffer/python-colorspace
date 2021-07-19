@@ -76,7 +76,7 @@ def max_chroma(H, L, floor = False):
 
     # Open file and read line-byline to identify the line we are looking for.
     def get_max(h, l):
-        x = re.findall("^(?s){:d}-{:d},([0-9]+)".format(h, l), content, re.MULTILINE)
+        x = re.findall("(?s)^{:d}-{:d},([0-9]+)".format(h, l), content, re.MULTILINE)
         if not len(x) == 1:
             raise Exception("Whoops, error in max_chroma table search.")
         return(float(x[0]))
@@ -126,7 +126,9 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         >>> swatchplot([lighter, original, darker], show_names = False)
 
     Raises:
+        TypeError: If `method` is not str.
         ValueError: If `method` is not one of `"absolute"` or `"relative"`.
+        TypeError: If `space` is not str.
         ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
         TypeError: If input 'col' is not among the one of the recognized objects.
         ValueError: If `fixup` is not boolean.
@@ -136,10 +138,16 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     from colorspace.palettes import palette
     from numpy import fmin, fmax, where
 
-    if not isinstance(method, str) or not method in ["absolute", "relative"]:
+    if not isinstance(method, str):
+        raise TypeError("Input 'method' must be str.")
+    elif not method in ["absolute", "relative"]:
         raise ValueError("Wrong input for 'method'. Must be `\"absolute\"` or `\"relative\"`.")
-    if not isinstance(space, str) or not space in ["HCL", "HLS", "combined"]:
+
+    if not isinstance(space, str):
+        raise TypeError("Input 'space' must be str.")
+    elif not space in ["HCL", "HLS", "combined"]:
         raise ValueError("Wrong input for 'space'. Must be `\"HCL\"`, `\"HLS\"`, or `\"combined\"`.")
+
     if not isinstance(fixup, bool):
         raise ValueError("Input `fixup` must be boolean `True` or `False`.")
 
