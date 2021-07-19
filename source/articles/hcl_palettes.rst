@@ -21,9 +21,9 @@ on the HCL model:
 
 
 The corresponding functions are
-:py:func:`qualitative_hcl<colorspace.palettes.qualitative_hcl>`,
-:py:func:`sequential_hcl<colorspace.palettes.sequential_hcl>`, and
-:py:func:`diverging_hcl<colorspace.palettes.diverging_hcl>`.
+:py:func:`qualitative_hcl <colorspace.palettes.qualitative_hcl>`,
+:py:func:`sequential_hcl <colorspace.palettes.sequential_hcl>`, and
+:py:func:`diverging_hcl <colorspace.palettes.diverging_hcl>`.
 Their construction principles are exemplified in the following
 color swatches and explained in more detail below. The desaturated palettes
 bring out clearly that luminance differences (light-dark contrasts) are crucial
@@ -62,6 +62,7 @@ yield useful palettes are accessible by name. These can be listed using the
 function :py:func:`hcl_palettes<colorspace.palettes.hcl_palettes>`:
 
 .. ipython:: python
+    :okwarning:
 
     from colorspace import hcl_palettes
     hcl_palettes()
@@ -72,6 +73,7 @@ the palette name where upper- vs. lower-case, spaces, etc. are ignored for
 matching the label, e.g., `"set2"` matches `"Set 2"` as well as `"SET2"` will.
 
 .. ipython:: python
+    :okwarning:
 
     from colorspace import hcl_palettes
     pal = hcl_palettes().get_palette(name = "SET2")
@@ -94,6 +96,8 @@ command yields a modified set of colors (lighter due to a luminance of `80`
 instead of `70`).
 
 .. ipython:: python
+    :okwarning:
+
     from colorspace import qualitative_hcl
     qualitative_hcl(h = [0, 270], c = 60, l = 70)(4)
     qualitative_hcl(h1 = 0, h2 = 270, c1 = 60, l1 = 70)(4)
@@ -123,6 +127,7 @@ luminance (`70`) but the hue is restricted to different intervals.
 .. ipython:: python
     :okwarning:
 
+    from colorspace import hcl_palettes
     @savefig hcl_palettes_qualitative.png width=400px height=350px align=center
     hcl_palettes(5, "Qualitative", plot = True, ncol = 1)
 
@@ -149,6 +154,7 @@ see "Grays" and "Light Grays" below.
 .. ipython:: python
     :okwarning:
 
+    from colorspace import hcl_palettes
     @savefig hcl_palettes_sequential_singlehue.png width=50% align=center
     hcl_palettes(7, "Sequential (single-hue)", plot = True, ncol = 1, figsize = (6, 7.5))
 

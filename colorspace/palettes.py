@@ -1560,7 +1560,6 @@ class sequential_hcl(hclpalette):
         # Calculate the trajectory for the chroma dimension
         i = linspace(1., 0., n)
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
-        print(C)
 
         # Create new HCL color object
         from .colorlib import HCL

@@ -1,6 +1,51 @@
 
 
 
+from colorspace import palette, swatchplot, lighten, darken
+oi = ["#61A9D9", "#ADD668", "#E6D152", "#CE6BAF", "#797CBA"]
+
+swatchplot([palette(lighten(oi, 0.4), "-40%"),
+            palette(lighten(oi, 0.2), "-20%"),
+            palette(oi, "0%"),
+            palette(darken(oi, 0.2), "+20%"),
+            palette(darken(oi, 0.4), "+40%")])
+
+
+
+from matplotlib import pyplot as plt
+from colorspace import rainbow, rainbow_hcl, desaturate
+import numpy as np
+
+col     = rainbow()(8)
+col_hcl = rainbow_hcl()(8)
+
+fig, axes = plt.subplots(2, 2)
+axes[0, 0].pie(np.repeat(1, len(col)),
+               colors = col,
+               labels = range(len(col)))
+axes[0, 1].pie(np.repeat(1, len(col)),
+               colors = desaturate(col),
+               labels = range(len(col)))
+axes[1, 0].pie(np.repeat(1, len(col_hcl)),
+               colors = col_hcl,
+               labels = range(len(col_hcl)))
+axes[1, 1].pie(np.repeat(1, len(col_hcl)),
+               colors = desaturate(col_hcl),
+               labels = range(len(col_hcl)))
+
+
+fig.tight_layout()
+fig.show()
+
+import sys; sys.exit(3)
+
+from colorspace import sequential_hcl
+
+print(sequential_hcl()(3))
+
+print("'#023FA5', '#A1A6C8', '#E2E2E2']")
+import sys; sys.exit(3)
+
 from colorspace.colorlib import *
 
 x = hexcols("#CC99A3")
