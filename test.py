@@ -2,6 +2,29 @@
 
 from colorspace import *
 
+pcol  = diverging_hcl()(4)
+pcol2 = diverging_hcl()(7)
+
+rcol  = ["#023FA5", "#BEC1D4", "#D6BCC0", "#8E063B"]
+rcol2 = ["#023FA5", "#7D87B9", "#BEC1D4", "#E2E2E2", "#D6BCC0", "#BB7784", "#8E063B"]
+
+swatchplot({"R1": rcol, "Py1": pcol, "R2": rcol2, "Py2": pcol2})
+
+import sys; sys.exit(3)
+
+from colorspace import *
+from colorspace.colorlib import HSV
+
+x = HSV(100, 0.5, 0.5)
+x.to("RGB")
+x.to("sRGB")
+#x.to("RGB")
+x.to("HLS")
+print(x)
+import sys; sys.exit(3)
+
+from colorspace import *
+
 import matplotlib.pyplot as plt
 fig, axs = plt.subplots(2, 2)
 

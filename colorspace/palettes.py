@@ -1366,7 +1366,7 @@ class diverging_hcl(hclpalette):
         for i,val in ndenumerate(rval): H[i] = h1 if val > 0 else h2
 
         # Calculate the trajectory for the chroma dimension
-        i = linspace(1., 0., int(ceil(n / 2.)))
+        i = fmax(0, arange(1., -1e-10, -2. / (n - 1.)))
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
         C = fmax(0., concatenate((C, flip(C))))
 
@@ -1382,6 +1382,10 @@ class diverging_hcl(hclpalette):
             except Exception as e:
                 raise ValueError("alpha values provided to {:s}".format(self.__class__.__name__) + \
                         "not of float-type: {:s}".format(str(e)))
+
+
+        for i in range(len(H)):
+            print("  {:7.3f}  {:7.3f}  {:7.3f}".format(H[i], C[i], L[i]))
 
         # Create new HCL color object
         from .colorlib import HCL

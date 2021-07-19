@@ -292,7 +292,7 @@ class colorlib:
 
         return u
 
-    def DEVRGB_to_RGB(self, R, G, B, gamma = 2.4):
+    def sRGB_to_RGB(self, R, G, B, gamma = 2.4):
         """Device dependent sRGB to device independent RGB.
 
         Parameters
@@ -319,7 +319,7 @@ class colorlib:
         # Apply gamma correction
         return [self.ftrans(x, gamma) for x in [R, G, B]]
 
-    def RGB_to_DEVRGB(self, R, G, B, gamma = 2.4):
+    def RGB_to_sRGB(self, R, G, B, gamma = 2.4):
         """Device independent RGB to device dependent sRGB.
 
         Args:
@@ -794,7 +794,7 @@ class colorlib:
     # -------------------------------------------------------------------
     # -------------------------------------------------------------------
     # -------------------------------------------------------------------
-    def RGB_to_HSV(self, r, g, b):
+    def sRGB_to_HSV(self, r, g, b):
         """Convert RGB to HSV.
 
         Args:
@@ -846,8 +846,8 @@ class colorlib:
         return [h, s, v]
 
 
-    def HSV_to_RGB(self, h, s, v):
-        """Convert RGB to HSV.
+    def HSV_to_sRGB(self, h, s, v):
+        """Convert HSV to sRGB.
 
         Args:
         h (nympy.ndarray): Hue values.
@@ -856,7 +856,7 @@ class colorlib:
 
         Returns:
             list: Returns a `numpy.ndarray` with the corresponding coordinates in the
-            RGB color space (``[r, g, b]``). Same length as the inputs.
+            sRGB color space (``[r, g, b]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -905,7 +905,7 @@ class colorlib:
     # -------------------------------------------------------------------
     # -------------------------------------------------------------------
     # -------------------------------------------------------------------
-    def RGB_to_HLS(self, r, g, b):
+    def sRGB_to_HLS(self, r, g, b):
         """Convert RGB to HLS.
 
         All r/g/b values in ``[0.,1.]``, h in ``[0., 360.]``, l and s in ``[0., 1.]``.
@@ -967,8 +967,8 @@ class colorlib:
         return [h, l, s]
 
 
-    def HLS_to_RGB(self, h, l, s):
-        """Convert RLS to HLS.
+    def HLS_to_sRGB(self, h, l, s):
+        """Convert HLC to sRGB.
 
         All r/g/b values in ``[0.,1.]``, h in ``[0., 360.]``, l and s in ``[0., 1.]``.
         From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
@@ -980,7 +980,7 @@ class colorlib:
 
         Returns:
             list: Returns a `numpy.ndarray` with the corresponding coordinates in the
-            RGB color space (``[r, g, b]``). Same length as the inputs.
+            sRGB color space (``[r, g, b]``). Same length as the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1359,7 +1359,7 @@ class colorobject:
     ALPHA = None
     """Used to store (keep) transparency when needed; will be dropped during conversion."""
 
-    GAMMA = 2.4 # Used to adjust RGB (DEVRGB_to_RGB and back).
+    GAMMA = 2.4 # Used to adjust RGB (sRGB_to_RGB and back).
     """Gamma value used used to adjust RGB colors; currently a fixed value of 2.4."""
 
     # Standard representation of colorspace colorobject objects.
@@ -2252,21 +2252,9 @@ class RGB(colorobject):
         if to == self.__class__.__name__:
             return
 
-        # Transform from RGB -> HLS
-        elif to == "HLS":
-            [H, L, S] = clib.RGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"H" : H, "L" : L, "S" : S, "alpha" : self.get("alpha")}
-            self.__class__ = HLS
-
-        # Transform from RGB -> HSV
-        elif to == "HSV":
-            [H, S, V] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
-            self._data_ = {"H" : H, "S" : S, "V" : V, "alpha" : self.get("alpha")}
-            self.__class__ = HSV
-
         # Transform from RGB -> sRGB
         elif to == "sRGB":
-            [R, G, B] = clib.RGB_to_DEVRGB(self.get("R"), self.get("G"), self.get("B"),
+            [R, G, B] = clib.RGB_to_sRGB(self.get("R"), self.get("G"), self.get("B"),
                                            self.GAMMA)
             self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = sRGB
@@ -2279,6 +2267,10 @@ class RGB(colorobject):
             self.__class__ = CIEXYZ
 
         # The rest are transformations along a path
+        elif to in ["HLS", "HSV", "hex"]:
+            via = ["sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
         elif to in ["CIELUV", "CIELAB"]: 
             via = ["CIEXYZ", to]
             self._transform_via_path_(via, fixup = fixup)
@@ -2291,7 +2283,7 @@ class RGB(colorobject):
             via = ["CIEXYZ", "CIELAB", to]
             self._transform_via_path_(via, fixup = fixup)
 
-        elif to == "hex":
+        elif to in ["HLS", "HSV", "hex"]:
             via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
@@ -2368,8 +2360,8 @@ class sRGB(colorobject):
 
         # Transformation sRGB -> RGB
         elif to == "RGB":
-            [R, G, B] = clib.DEVRGB_to_RGB(self.get("R"), self.get("G"), self.get("B"),
-                                           gamma = self.GAMMA)
+            [R, G, B] = clib.sRGB_to_RGB(self.get("R"), self.get("G"), self.get("B"),
+                                         gamma = self.GAMMA)
             self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = RGB
 
@@ -2379,8 +2371,20 @@ class sRGB(colorobject):
             self._data_ = {"hex_" : hex_, "alpha" : self.get("alpha")}
             self.__class__ = hexcols
 
+        # Transform from RGB -> HLS
+        elif to == "HLS":
+            [H, L, S] = clib.sRGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "L" : L, "S" : S, "alpha" : self.get("alpha")}
+            self.__class__ = HLS
+
+        # Transform from RGB -> HSV
+        elif to == "HSV":
+            [H, S, V] = clib.sRGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "S" : S, "V" : V, "alpha" : self.get("alpha")}
+            self.__class__ = HSV
+
         # The rest are transformations along a path
-        elif to in ["HSV", "HLS", "CIEXYZ"]:
+        elif to in ["CIEXYZ"]:
             via = ["RGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
@@ -2649,25 +2653,25 @@ class HSV(colorobject):
             return
 
         # The only transformation we need is back to RGB
-        elif to == "RGB":
-            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
+        elif to == "sRGB":
+            [R, G, B] = clib.HSV_to_sRGB(self.get("H"), self.get("S"), self.get("V"))
             self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
-            self.__class__ = RGB
+            self.__class__ = sRGB
 
         # The rest are transformations along a path
-        elif to == "sRGB":
-            via = ["RGB", to]
+        elif to == "RGB":
+            via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
         elif to == "hex":
-            via = ["RGB", "sRGB", to]
+            via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
         elif to == "HLS":
-            via = ["RGB", to]
+            via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
-        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV", "HCL","polarLAB"]:
+        elif to in ["CIEXYZ", "CIELUV", "CIELAB", "polarLUV", "HCL", "polarLAB"]:
             self._ambiguous(self.__class__.__name__, to)
 
         else: self._cannot(self.__class__.__name__, to)
@@ -2733,26 +2737,26 @@ class HLS(colorobject):
             return
 
         # The only transformation we need is back to RGB
-        elif to == "RGB":
-            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
+        elif to == "sRGB":
+            [R, G, B] = clib.HLS_to_sRGB(self.get("H"), self.get("L"), self.get("S"))
             self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
-            self.__class__ = RGB
+            self.__class__ = sRGB
 
         # The rest are transformations along a path
-        elif to == "sRGB":
-            via = ["RGB", to]
+        elif to == "RGB":
+            via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
         elif to == "hex":
             # TODO(R): Fails!!!!! Reason: walks trough RGB > sRGB with GAMMA.
-            via = ["RGB", "sRGB", to]
+            via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
         elif to == "HSV":
-            via = ["RGB", to]
+            via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
-        elif to in ["CIEXYZ","CIELUV","CIELAB","polarLUV","HCL","polarLAB"]:
+        elif to in ["CIEXYZ", "CIELUV", "CIELAB", "polarLUV", "HCL", "polarLAB"]:
             self._ambiguous(self.__class__.__name__, to)
 
         else: self._cannot(self.__class__.__name__, to)
@@ -2880,7 +2884,11 @@ class hexcols(colorobject):
             via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
-        elif to in ["CIEXYZ", "HLS", "HSV"]:
+        elif to in ["HLS", "HSV"]:
+            via = ["sRGB", to]
+            self._transform_via_path_(via, fixup = fixup)
+
+        elif to in ["CIEXYZ"]:
             via = ["sRGB", "RGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
