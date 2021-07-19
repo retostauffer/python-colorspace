@@ -971,7 +971,6 @@ class colorlib:
         """Convert HLC to sRGB.
 
         All r/g/b values in ``[0.,1.]``, h in ``[0., 360.]``, l and s in ``[0., 1.]``.
-        From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
 
         Args:
             h (nympy.ndarray): Hue values.
@@ -1000,7 +999,7 @@ class colorlib:
 
         # Support function
         def getrgb(h, l, s):
-            p2 = l * (1. + s) if l <= 0.5 else 1 + s - (l * s)
+            p2 = l * (1. + s) if l <= 0.5 else l + s - (l * s)
             p1 = 2 * l - p2
 
             # If saturation is zero
