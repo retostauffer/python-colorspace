@@ -104,4 +104,3 @@ def test_return_colorobject():
     assert isinstance(res, colorobject)
     assert col.length() == res.length()
 
-

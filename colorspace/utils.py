@@ -65,18 +65,14 @@ def max_chroma(H, L, floor = False):
     # Prepare the values used for the 'table search'.
     # Fix luminance to values between [0., 100.]
     L = np.fmin(100, np.fmax(0, L))
+
     # Minimum/maximum hue and luminance
-    #hmin = int(np.floor(np.min(H) + 1e-08))
-    #lmin = int(np.floor(np.min(L) + 1e-08))
-    #hmax = int(np.ceil(np.max(H)  + 1e-08))
-    #lmax = int(np.ceil(np.max(L)  + 1e-08))
-    hmin = [int(np.floor(x + 1e-08)) for x in H]
-    lmin = [int(np.floor(x + 1e-08)) for x in L]
-    hmax = [int(np.ceil(x  + 1e-08)) for x in H]
-    lmax = [int(np.ceil(x  + 1e-08)) for x in L]
+    hmin = np.fmax(0,   [int(np.floor(x + 1e-08)) for x in H])
+    lmin = np.fmax(0,   [int(np.floor(x + 1e-08)) for x in L])
+    hmax = np.fmin(360, [int(np.ceil(x  + 1e-08)) for x in H])
+    lmax = np.fmin(100, [int(np.ceil(x  + 1e-08)) for x in L])
 
     resource_package = os.path.dirname(__file__)
-    #resource_package = "/home/retos/Software/python-colorspace/python-colorspace/colorspace"
     filename = os.path.join(resource_package, "data", "max_chroma_table.csv")
 
     # Open file and read line-byline to identify the line we are looking for.
