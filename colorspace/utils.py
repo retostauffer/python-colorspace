@@ -22,8 +22,8 @@ def max_chroma(H, L, floor = False):
         maximum possible chroma for these hue-luminance combinations.
 
     Raises:
-        ValueError: If unexpected in put on `H` or `L`.
-        ValueError: If length of `H` and `L` are not the same (see above).
+        TypeError: If unexpected input on `H` or `L`.
+        TypeError: If length of `H` and `L` are not the same (see above).
         TypeError: If input `floor` is not boolean.
     """
 
@@ -32,17 +32,18 @@ def max_chroma(H, L, floor = False):
     import re
 
     if isinstance(H, (float, int)):
-        H = np.asarray([H], dtype = "float")
+        H = np.atleast_1d(np.asarray(H, dtype = "float"))
     elif isinstance(H, (list, np.ndarray)):
-        H = np.asarray(H, dtype = "float")
+        #H = np.asarray([H] if len(H.shape) == 0 else H, dtype = "float")
+        H = np.atleast_1d(np.asarray(H, dtype = "float"))
     else:
-        raise ValueError("Unexpected input on argument `H`.")
+        raise TypeError("Unexpected input on argument `H`.")
     if isinstance(L, (float, int)):
-        L = np.asarray([L], dtype = "float")
+        L = np.atleast_1d(np.asarray(L, dtype = "float"))
     elif isinstance(L, (list, np.ndarray)):
-        L = np.asarray(L, dtype = "float")
+        L = np.atleast_1d(np.asarray(L, dtype = "float"))
     else:
-        raise ValueError("Unexpected input on argument `L`.")
+        raise TypeError("Unexpected input on argument `L`.")
     if not isinstance(floor, bool):
         raise TypeError("Input `floor` must be boolean `True` or `False`.")
 
@@ -65,22 +66,29 @@ def max_chroma(H, L, floor = False):
     # Fix luminance to values between [0., 100.]
     L = np.fmin(100, np.fmax(0, L))
     # Minimum/maximum hue and luminance
-    hmin = int(np.floor(np.min(H) + 1e-08))
-    lmin = int(np.floor(np.min(L) + 1e-08))
-    hmax = int(np.ceil(np.max(H) - 1e-08))
-    lmax = int(np.ceil(np.max(L) - 1e-08))
+    #hmin = int(np.floor(np.min(H) + 1e-08))
+    #lmin = int(np.floor(np.min(L) + 1e-08))
+    #hmax = int(np.ceil(np.max(H)  + 1e-08))
+    #lmax = int(np.ceil(np.max(L)  + 1e-08))
+    hmin = [int(np.floor(x + 1e-08)) for x in H]
+    lmin = [int(np.floor(x + 1e-08)) for x in L]
+    hmax = [int(np.ceil(x  + 1e-08)) for x in H]
+    lmax = [int(np.ceil(x  + 1e-08)) for x in L]
 
-    #resource_package = os.path.dirname(__file__)
-    resource_package = "/home/retos/Software/python-colorspace/python-colorspace/colorspace"
+    resource_package = os.path.dirname(__file__)
+    #resource_package = "/home/retos/Software/python-colorspace/python-colorspace/colorspace"
     filename = os.path.join(resource_package, "data", "max_chroma_table.csv")
 
     # Open file and read line-byline to identify the line we are looking for.
     def get_max(h, l):
-        x = re.findall("(?s)^{:d}-{:d},([0-9]+)".format(h, l), content, re.MULTILINE)
-        if not len(x) == 1:
-            raise Exception("Whoops, error in max_chroma table search.")
-        return(float(x[0]))
-
+        res = []
+        for i in range(len(h)):
+            pattern = "(?s)^{:d}-{:d},([0-9\\.]+)".format(h[i], l[i])
+            x = re.findall(pattern, content, re.MULTILINE)
+            if not len(x) == 1:
+                raise Exception("Whoops, error in max_chroma table search.")
+            res.append(float(x[0]))
+        return res
 
     with open(filename, "r") as fid: content = "".join(fid.readlines())
 
@@ -89,7 +97,7 @@ def max_chroma(H, L, floor = False):
         (hmax - H) * (L - lmin) * get_max(hmin, lmax) + \
         (H - hmin) * (lmax - L) * get_max(hmax, lmin) + \
         (H - hmin) * (L - lmin) * get_max(hmax, lmax)
-    C = np.where(np.logical_or(L < 0., L > 100.), 0, C)
+    C = np.where(np.logical_or(L < 0., L > 100.), 999, C)
 
     # Floor if requested and return
     if floor: C = np.floor(C)
