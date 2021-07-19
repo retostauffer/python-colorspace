@@ -1,5 +1,17 @@
 
 
+
+from colorspace.colorlib import *
+
+x = hexcols("#CC99A3")
+print(x)
+x.to("HLS")
+print(x)
+x.to("hex")
+print(x)
+
+import sys; sys.exit(3)
+
 from colorspace import *
 
 pcol  = diverging_hcl()(4)
