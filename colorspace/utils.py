@@ -157,12 +157,10 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         raise TypeError("Input object 'col' must be a colorobject, palette, or a string " + \
                         "or list of strings with valid hex colors.")
 
-    # Manipulate colors
-    tmp = hexcols(x.colors())
-
-    # Working in the HCL color space
-    if space == "HCL":
-        # Convert colors to HCL color space; calculate max chroma
+    # Function to lighten colors in the HCL space.
+    # Returns a colorobject with transformed coordinates.
+    def _lighten_in_HCL(colors, amount, method):
+        tmp = hexcols(x.colors())
         tmp.to("HCL")
         tmp.set(L = fmin(100, fmax(0, tmp.get("L")))) # Fix bounds
         if method == "relative":
@@ -176,10 +174,13 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         tmp.set(C = fmin(max_chroma(tmp.get("H"), tmp.get("L"), floor = True), \
                          fmax(0, tmp.get("C"))))
 
-    elif space == "HLS":
-        raise Exception("space = \"HLS\" not yet working (conversion problem via sRGB with GAMMA).")
+        return tmp
+
+    # Function to lighten colors in the HLS space.
+    # Returns a colorobject with transformed coordinates.
+    def _lighten_in_HLS(colors, amount, method):
+        tmp = hexcols(x.colors())
         tmp.to("HLS")
-        print(tmp)
         if method == "relative":
             tmp.set(L = where(amount >= 0, \
                               1. - (1. - tmp.get("L")) * (1. - amount), \
@@ -187,8 +188,28 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         else:
             tmp.set(L = tmp.get("L") + amount)
         tmp.set(L = fmin(1., fmax(0, tmp.get("L"))))
+
+        return tmp
+
+
+    # Lighten colors depending on the users choice 'space'
+    if space == "HCL":
+        tmp = _lighten_in_HCL(x.colors(), amount, method)
+    elif space == "HLS":
+        tmp = _lighten_in_HLS(x.colors(), amount, method)
     else:
-        raise Exception("space = \"combined\" not yet working (conversion problem via sRGB with GAMMA).")
+        # TODO(R): Differs from colorspace. Reason is that we here
+        #          go to HSL and convert HLS to HCL, I guess.
+        tmp    = _lighten_in_HCL(x.colors(), amount, method) # Via HCL color space
+        tmpHLS = _lighten_in_HLS(x.colors(), amount, method) # Via HLS color space
+        tmpHLS.to("sRGB"); tmpHLS.to("HCL")
+
+        # fix-up L and copy C over from HLS-converted color
+        tmp.set(C = tmpHLS.get("C"))
+
+        # make sure chroma is in allowed range
+        tmp.set(C = fmin(max_chroma(tmp.get("H"), tmp.get("L"), floor = True), \
+                         fmax(0, tmp.get("C"))))
 
     # Job done, convert back to HEX
     tmp.to("hex")
