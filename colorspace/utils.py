@@ -89,18 +89,18 @@ def max_chroma(H, L, floor = False):
         (hmax - H) * (L - lmin) * get_max(hmin, lmax) + \
         (H - hmin) * (lmax - L) * get_max(hmax, lmin) + \
         (H - hmin) * (L - lmin) * get_max(hmax, lmax)
-    C = np.where(L < 0. or L > 100., 0, C)
+    C = np.where(np.logical_or(L < 0., L > 100.), 0, C)
 
     # Floor if requested and return
     if floor: C = np.floor(C)
     return C
 
-def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
+def darken(col, amount = 0.1, space = "HCL", fixup = True):
     """Algorithmically lighten or darken colors.
 
     See `help(lighten)` for more details.
     """
-    return lighten(col, amount = amount * -1., method = method, space = space, fixup = fixup)
+    return lighten(col, amount = amount * -1., method = "relative", space = space, fixup = fixup)
 
 
 def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
@@ -131,7 +131,7 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         TypeError: If `space` is not str.
         ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
         TypeError: If input 'col' is not among the one of the recognized objects.
-        ValueError: If `fixup` is not boolean.
+        TypeError: If `fixup` is not boolean.
     """
 
     from colorspace.colorlib import colorobject, hexcols
@@ -149,7 +149,7 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         raise ValueError("Wrong input for 'space'. Must be `\"HCL\"`, `\"HLS\"`, or `\"combined\"`.")
 
     if not isinstance(fixup, bool):
-        raise ValueError("Input `fixup` must be boolean `True` or `False`.")
+        raise TypeError("Input `fixup` must be boolean `True` or `False`.")
 
     # If the input is a colorobject (hex, HSV, ...) we first
     # put everything into a (temporary) palette.
@@ -189,12 +189,14 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     def _lighten_in_HLS(colors, amount, method):
         tmp = hexcols(x.colors())
         tmp.to("HLS")
+        print(tmp)
         if method == "relative":
             tmp.set(L = where(amount >= 0, \
                               1. - (1. - tmp.get("L")) * (1. - amount), \
                               tmp.get("L") * (1. + amount)))
         else:
             tmp.set(L = tmp.get("L") + amount)
+            print(tmp)
         tmp.set(L = fmin(1., fmax(0, tmp.get("L"))))
 
         return tmp
