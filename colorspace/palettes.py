@@ -1383,9 +1383,8 @@ class diverging_hcl(hclpalette):
                 raise ValueError("alpha values provided to {:s}".format(self.__class__.__name__) + \
                         "not of float-type: {:s}".format(str(e)))
 
-
-        for i in range(len(H)):
-            print("  {:7.3f}  {:7.3f}  {:7.3f}".format(H[i], C[i], L[i]))
+        ####DEV#### for i in range(len(H)):
+        ####DEV####     print("  {:7.3f}  {:7.3f}  {:7.3f}".format(H[i], C[i], L[i]))
 
         # Create new HCL color object
         from .colorlib import HCL
