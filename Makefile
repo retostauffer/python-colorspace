@@ -31,7 +31,7 @@ test:
 cov:
 	(cd colorspace && \
 		coverage run --source colorspace -m pytest && \
-		coverage html)
+		coverage html --directory=../coverage)
 		##chromium-browser htmlcov/index.html)
 
 .PHONY: clean
