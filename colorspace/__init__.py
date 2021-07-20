@@ -28,6 +28,7 @@ from .palettes import rainbow
 from .utils import lighten
 from .utils import darken
 from .utils import max_chroma
+from .utils import contrast_ratio
 
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes

@@ -34,6 +34,9 @@ class palette:
                     "has to be a string")
         self._name = name
 
+    def __len__(self):
+        return len(self._colors)
+
     def __repr__(self):
         str = "Palette Name: {:s}\n".format(self.name()) + \
               "       Type: Custom palette\n" + \
@@ -56,6 +59,7 @@ class palette:
     def _valid_hex(self, colors):
         from re import match, compile
         from numpy import all
+        if isinstance(colors, str): colors = [colors]
         pat   = compile("^#[0-9A-Fa-f]{6}([0-9]{2})?$")
         if not all([isinstance(x, str) for x in colors]):
             raise ValueError("not all colors are strings (invalid)")

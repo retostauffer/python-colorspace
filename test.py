@@ -1,5 +1,23 @@
 
 
+from colorspace import contrast_ratio
+from colorspace.colorlib import hexcols
+from colorspace import rainbow
+
+from colorspace.utils import relative_luminance
+
+cols = hexcols(["#ff0033", "#0033ff", "#00ffff", "#cecece"])
+relative_luminance(cols)
+
+
+#u = contrast_ratio("#0000ff", ["#ff0033", "#cecece"], plot = True)
+u = contrast_ratio(rainbow().colors(7), "#FFFFFF", plot = True)
+print(u)
+
+
+
+import sys; sys.exit(3)
+
 from colorspace import max_chroma
 from numpy import linspace
 

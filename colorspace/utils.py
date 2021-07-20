@@ -1,4 +1,167 @@
 
+
+# Calculate relative luminance
+def relative_luminance(cols):
+    """Calculate relative luminance
+
+    Given a series of colors this function calculates the relative luminance.
+
+    Args:
+        cols (colorobject): Object of class colorobject.
+
+    Returns:
+        numpy.array: Containing relative luminance.
+
+    Examples:
+        >>> cols = hexcols(["#ff0033", "#0033ff", "#00ffff", "#cecece"])
+        >>> relative_luminance(cols)
+
+    Raises:
+        TypeError: If cols is not of class :py:class:`colorspace.colorlib.colorobject`.
+    """
+
+    from colorspace.colorlib import colorobject
+    from numpy import asarray, where, matmul, transpose
+
+    if not isinstance(cols, colorobject):
+        raise TypeError("Input 'cols' must be of class colorobject.")
+
+    cols.to("sRGB")
+
+    rgb = transpose(asarray([cols.get("R"), cols.get("G"), cols.get("B")]))
+    rgb = where(rgb <= 0.03928, rgb / 12.92, ((rgb + 0.055) / 1.055)**2.4)
+    return matmul(rgb, asarray([0.2126, 0.7152, 0.0722]))
+
+
+def contrast_ratio(cols, bg = "#FFFFFF", plot = False, ax = None,
+        fontsize = "xx-large", fontweight = "heavy", ha = "center", va = "center"):
+    """W3C Contrast Ratio
+
+    Compute (and visualize) the contrast ratio of pairs of colors, as defined
+    by the World Wide Web Consortium (W3C).
+
+    The W3C Content Accessibility Guidelines (WCAG) recommend a contrast ratio
+    of at least 4.5 for the color of regular text on the background color, and
+    a ratio of at least 3 for large text. See
+    `https://www.w3.org/TR/WCAG21/#contrast-minimum`_.
+
+    The contrast ratio is defined in `https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio`_
+    as `(L1 + 0.05) / (L2 + 0.05)` where `L1` and `L2` are the relative luminances
+    (see `https://www.w3.org/TR/WCAG21/#dfn-relative-luminance`_) of the lighter and darker
+    colors, respectively. The relative luminances are weighted sums of scaled sRGB coordinates:
+    `0.2126 * R + 0.7152 * G + 0.0722 * B` where each of `R`, `G`, and `B`
+    is defined as `RGB / 12.92 if RGB <= 0.03928 else (RGB + 0.055)/1.055)^2.4` based on
+    the `RGB` coordinates between 0 and 1.
+
+    Args:
+        cols (str, list, colorobject, palette): Single hex color (str), a list of hex colors (list),
+            or an object of class :py:class:`colorobject <colorspace.colorlib.colorobject>`
+            or :py:class:`palette <colorspace.palettes.palette>`.
+        bg (str): background color against which the contrast will be calculated.
+            Defaults to white (`"#FFFFFF"`).
+        plot (bool): logical indicating whether the contrast ratios should also be
+            visualized by simple color swatches.
+        ax (None or matplotlib.axes.Axes): If None, a new matplotlib figure will
+            be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+            will be used to create the demoplot. Handy to create multiple subplots.
+            Forwarded to different plot types.
+        fontsize (float, str): size of text, forwarded to `matplotlib.pyplot.text`.
+            Defaults to `"xx-large"`.
+        fontweight (str): weight of text, forwarded to `matplotlib.pyplot.text`.
+            Defaults to `"heavy"`.
+        ha (str): horizontal alignment, forwarded to `matplotlib.pyplot.text`.
+            Defaults to `"center"`.
+        va (str): vertical alignment, forwarded to `matplotlib.pyplot.text`.
+            Defaults to `"center"`.
+
+    Returns:
+        A numeric vector with the contrast ratios is returned (invisibly, if \code{plot} is \code{TRUE}).
+
+    Examples:
+        >>> # check contrast ratio of default palette on white background
+        >>> from colorspace import rainbow, contrast_ratio
+        >>> cols = rainbow().colors(7)
+        >>> contrast_ratio(cols, "#FFFFFF") # Against white
+        >>> contrast_ratio(cols, "#000000") # Against black
+        >>>
+        >>> contrast_ratio(cols, "#FFFFFF", plot = True) # Visualization
+        >>> contrast_ratio(cols, "#000000", plot = True) # Visualization
+
+    Raises:
+        TypeError: If cols or bg is not one of the recognized types.
+    """
+
+    #contrast_ratio <- function(col, col2 = "white",
+    #  plot = FALSE, border = FALSE, cex = 2, off = 0.05, mar = rep(0.5, 4), digits = 2L, ...)
+    #{
+
+    from colorspace.palettes import palette
+    from colorspace.colorlib import colorobject, hexcols
+    from numpy import resize, where
+
+    def input_to_palette(x, varname):
+        if isinstance(x, palette):          pass
+        elif isinstance(x, (str, list)):    x = palette(x, "_tmp_palette_")
+        elif isinstance(x, colorobject):    x = palette(x.colors(), "_tmp_palette_")
+        else:
+            raise TypeError("Input '{:s}' not one of the recognized valid types.".format(varname))
+        return x
+
+    cols = input_to_palette(cols, "cols")
+    bg   = input_to_palette(bg,   "bg")
+
+    if   len(cols) > len(bg):    bg   = palette(resize(bg.colors(),   len(cols)), "_tmp_palette_")
+    elif len(bg) > len(cols):    cols = palette(resize(cols.colors(), len(bg)),   "_tmp_palette_")
+
+    # Compute contrast ratio
+    cols_hex = hexcols(cols.colors())
+    bg_hex   = hexcols(bg.colors())
+    ratio    = (relative_luminance(cols_hex) + 0.05) / (relative_luminance(bg_hex) + 0.05)
+    ratio    = where(ratio < 1, 1 / ratio, ratio)
+
+    if plot:
+        import matplotlib.pyplot as plt
+        from matplotlib.pyplot import text
+        from matplotlib.patches import Rectangle
+
+        # Open figure if input "fig" is None, else use
+        # input "fig" handler.
+        if ax is None:
+            fig = plt.figure()
+            ax  = plt.gca()
+            showfig = True
+        else:
+            showfig = False
+
+        ax.set_xlim([0, 2]); ax.set_ylim(0, len(cols) - 0.05)
+        n       = len(cols)
+
+        # Drawing the information
+        for i in range(n):
+            # Drawing background
+            rect = Rectangle((0, i), 1, .95, linewidth = 1, facecolor = cols.colors()[i])
+            ax.add_patch(rect)
+            rect = Rectangle((1, i), 1, .95, linewidth = 1, facecolor = bg.colors()[i])
+            ax.add_patch(rect)
+            # Adding text
+            text(0.5, i + 0.5, "{:4.2f}".format(ratio[i]), color = bg.colors()[i],
+                    fontsize = fontsize, fontweight = fontweight, ha = ha, va = va)
+            text(1.5, i + 0.5, "{:4.2f}".format(ratio[i]), color = cols.colors()[i],
+                    fontsize = fontsize, fontweight = fontweight, ha = ha, va = va)
+
+        # Remove axis and make the thing tight
+        ax.axis("off")
+        fig.tight_layout()
+
+        if not showfig:
+            return ax
+        else:
+            fig.show()
+
+    return ratio
+
+
+
 def max_chroma(H, L, floor = False):
     """Get maximum chroma for a specific combination of hue and luminance.
 

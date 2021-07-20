@@ -120,6 +120,37 @@ of both lightening and darkening, respectively.
                 palette(darken(oi, 0.4), "+40%")])
 
 
+
+
+Compute and visualize W3C contrast ratios
+-----------------------------------------
+
+The Web Content Accessibility Guidelines (WCAG) by the World Wide Web
+Consortium (W3C) recommend a contrast ratio of at least 4.5 for the color of
+regular text on the background color, and a ratio of at least 3 for large text.
+See . This relies on a specific definition of relative luminances (essentially
+based on power-transformed sRGB coordinates) that is different from the
+perceptual luminance as defined, for example, in the HCL color model. Note also
+that the WCAG pertain to text and background color and not to colors used in
+data visualization.
+
+For illustration we compute and visualize the contrast ratios of the default
+palette in R compared to a white background.
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import rainbow, contrast_ratio
+    cols = rainbow().colors(7)
+    contrast_ratio(cols, "#FFFFFF") # Against white
+    contrast_ratio(cols, "#000000") # Against black
+
+    @savefig manipulation_utilities_contrast_ratio.png align=center width=60%
+    contrast_ratio(cols, plot = True)
+
+
+
+
 Maximum chroma for given hue and luminance
 ------------------------------------------
 

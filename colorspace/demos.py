@@ -22,7 +22,7 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
             colors must be drawn first. Defaults to 7.
         title (None or str): used to draw the figure title if specified (str).
             Forwarded to different plot types.
-        ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
+        ax (None or matplotlib.axes.Axes): If `None` a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
             Forwarded to different plot types.
@@ -185,7 +185,6 @@ def Bar(colors, ax = None, **kwargs):
         fig = plt.figure()
         ax  = plt.gca()
         showfig = True
-        print('xx')
     else:
         showfig = False
 
