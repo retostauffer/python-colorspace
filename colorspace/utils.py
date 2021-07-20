@@ -287,6 +287,7 @@ def max_chroma(H, L, floor = False):
     """
 
     import numpy as np
+    import json
     import os
     import re
 
@@ -325,27 +326,27 @@ def max_chroma(H, L, floor = False):
     # Fix luminance to values between [0., 100.]
     L = np.fmin(100, np.fmax(0, L))
 
+    # Loading json data set
+    resource_package = os.path.dirname(__file__)
+    filename = os.path.join(resource_package, "data", "max_chroma_table.json")
+    with open(filename, "r") as fid:
+        mctab = json.loads(fid.readline())
+
     # Minimum/maximum hue and luminance
     hmin = np.fmax(0,   [int(np.floor(x + 1e-08)) for x in H])
     lmin = np.fmax(0,   [int(np.floor(x + 1e-08)) for x in L])
     hmax = np.fmin(360, [int(np.ceil(x  + 1e-08)) for x in H])
     lmax = np.fmin(100, [int(np.ceil(x  + 1e-08)) for x in L])
 
-    resource_package = os.path.dirname(__file__)
-    filename = os.path.join(resource_package, "data", "max_chroma_table.csv")
-
-    # Open file and read line-byline to identify the line we are looking for.
-    def get_max(h, l):
+    # Not very efficient. However, the best I came up for now :|
+    # Reading/loading the json data set takes about half of the time,
+    # maybe more efficient to directly code it rather than reading it from
+    # disc. TODO(R): investigate this at some point.
+    def get_max(a, b):
         res = []
-        for i in range(len(h)):
-            pattern = "(?s)^{:d}-{:d},([0-9\\.]+)".format(h[i], l[i])
-            x = re.findall(pattern, content, re.MULTILINE)
-            if not len(x) == 1:
-                raise Exception("Whoops, error in max_chroma table search.")
-            res.append(float(x[0]))
-        return res
-
-    with open(filename, "r") as fid: content = "".join(fid.readlines())
+        for i in range(len(a)):
+            res.append(mctab["{:d}-{:d}".format(a[i], b[i])])
+        return np.asarray(res).flatten()
 
     # Calculate max chroma
     C = (hmax - H) * (lmax - L) * get_max(hmin, lmin) + \

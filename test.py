@@ -1,5 +1,50 @@
 
 
+#from colorspace import *
+#
+#res = max_chroma(10, 10)
+#print(res)
+#import sys; sys.exit(3)
+
+import numpy as np
+L = np.arange(start = 30, stop = 91, step = 20)
+
+H = np.linspace(0, 360, 37, endpoint = True, dtype = "int")
+L = np.linspace(30, 90, 5, endpoint = True, dtype = "int")
+
+#par(mfrow = c(1, 2), xaxs = "i", yaxs = "i", mar = c(5, 4, 1, 5), las = 1)
+#plot(0, 0, type = "n", xlim = c(0, 360), ylim = c(0, 165),
+#  xlab = "Hue (H)", ylab = "Maximum chroma (C)")
+#axis(4, at = C[37, ], labels = paste("L =", L))
+from colorspace.colorlib import HCL
+from colorspace import max_chroma
+
+import matplotlib.pyplot as plt
+
+C = []; Cmax = 0
+for i in range(len(L)):
+    C.append(max_chroma(H, float(L[i])))
+    Cmax = max(Cmax, max(C[i]))
+
+
+fig, ax = plt.subplots()
+ax.set_xlim(0, 360)
+ax.set_ylim(0, Cmax)
+
+for i in range(len(L)):
+    ax.plot(H, C[i])
+
+fig.show()
+
+print(C)
+#for(i in seq_along(L)) {
+#  lines(H, C[, i])
+#  points(H, C[, i], col = hex(polarLUV(L[i], C[, i], H)), pch = 19, cex = 1.5, xpd = TRUE)
+#}
+
+
+import sys; sys.exit(3)
+
 
 from colorspace.colorlib import hexcols
 
