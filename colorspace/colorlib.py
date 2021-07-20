@@ -1293,7 +1293,9 @@ class colorlib:
         def validhex(hex_):
             from re import match
             ##return np.where([match("^#[A-Za-z0-9]{6}([0-9]{2})?$", x) is not None for x in hex_])[0]
-            return np.where([match("^#[0-9A-Fa-f]{6}(o-9]{2})?$$", x) is not None for x in hex_])[0]
+            #TODO(R): Can I outsource this to check_hex_colors not to have
+            #         the same expression hanging around twice?
+            return np.where([match("^#[0-9A-Fa-f]{6}([0-9]{2})?$$", x) is not None for x in hex_])[0]
 
         # Convert hex to rgb
         def getrgb(x):
@@ -1853,6 +1855,9 @@ class colorobject:
         """
         return len(self.get(list(self._data_.keys())[0]))
 
+    def __len__(self):
+        return len(self.get(list(self._data_.keys())[0]))
+
 
     def _cannot(self, from_, to):
         """Helper function, raises an exception if a transformation is
@@ -2329,6 +2334,7 @@ class sRGB(colorobject):
         self._data_ = {} # Dict to store the colors/color dimensions
         tmp = self._colorobject_check_input_arrays_(R = R, G = G, B = B, alpha = alpha)
         for key,val in tmp.items(): self._data_[key] = val
+
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
@@ -2796,58 +2802,55 @@ class hexcols(colorobject):
 
     def __init__(self, hex_):
 
-        if isinstance(hex_,str): hex_ = [hex_]
-        hex_ = np.asarray(hex_)
-        # checking inputs, save inputs on object
-        self._data_ = {} # Dict to store the colors/color dimensions
-        tmp = self._colorobject_check_input_arrays_(hex_ = hex_)
+        from colorspace import check_hex_colors
 
-        # Checking for valid hex colors and alpha values
-        tmp = self._check_hex_(tmp["hex_"])
-        for key,val in tmp.items(): self._data_[key] = val
+        self._data_ = {} # Dict to store the colors/color dimensions
+        # Forwarding input 'hex_' to check_hex_colors which will throw
+        # an error if we do not understand this input type.
+        self._data_["hex_"]  = np.asarray(check_hex_colors(hex_), dtype = "<U7")
 
         # White spot definition (the default)
         self.set_whitepoint(X = 95.047, Y = 100.000, Z = 108.883)
 
 
-    def _check_hex_(self, hex_):
-        """Checking hex colors for validity. Only 6 and 8 digit
-        hex colors with or without alpha (e.g., "#000000", "#00000050")
-        are allowed. The method raises a ValueError if invalid hex colors
-        are found.
+    ##TODO RM?## def _check_hex_(self, hex_):
+    ##TODO RM?##     """Checking hex colors for validity. Only 6 and 8 digit
+    ##TODO RM?##     hex colors with or without alpha (e.g., "#000000", "#00000050")
+    ##TODO RM?##     are allowed. The method raises a ValueError if invalid hex colors
+    ##TODO RM?##     are found.
 
-        Args:
-            hex_ (list of strings): A list of (hopefully) valid hex colors.
+    ##TODO RM?##     Args:
+    ##TODO RM?##         hex_ (list of strings): A list of (hopefully) valid hex colors.
 
-        Returns:
-            dict: Returns a dict with two elements named hex_ and alpha. The hex_
-            element contains valid six-digit hex strings, the alpha element
-            a list of the same length with alpha values. For all hex colors
-            with no alpha an alpha value of ``1.0`` is set.
-        """
+    ##TODO RM?##     Returns:
+    ##TODO RM?##         dict: Returns a dict with two elements named hex_ and alpha. The hex_
+    ##TODO RM?##         element contains valid six-digit hex strings, the alpha element
+    ##TODO RM?##         a list of the same length with alpha values. For all hex colors
+    ##TODO RM?##         with no alpha an alpha value of ``1.0`` is set.
+    ##TODO RM?##     """
 
-        from re import compile, match
-        from numpy import sum
+    ##TODO RM?##     from re import compile, match
+    ##TODO RM?##     from numpy import sum
 
-        r = compile("^(nan|#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?)$")
-        check = [1 if match(r, x) else 0 for x in hex_]
-        if not sum(check) == len(hex_):
-            raise ValueError("invalid hex colors provided while " + \
-                    "initializing class {:s}".format(self.__class__.__name__))
+    ##TODO RM?##     r = compile("^(nan|#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?)$")
+    ##TODO RM?##     check = [1 if match(r, x) else 0 for x in hex_]
+    ##TODO RM?##     if not sum(check) == len(hex_):
+    ##TODO RM?##         raise ValueError("invalid hex colors provided while " + \
+    ##TODO RM?##                 "initializing class {:s}".format(self.__class__.__name__))
 
-        r = compile("^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})$")
-        check = [1 if match(r, x) else 0 for x in hex_]
-        # No colors with alpha
-        if sum(check) == 0:
-            return {"hex_": hex_}
-        # Else extracting alpha colors
-        else:
-            alpha = []
-            for h in hex_:
-                m = match(r, h)
-                if not m: alpha.append(1.)
-                else:     alpha.append(int(m.group(1), 16) / 255.)
-            return {"hex_": hex_, "alpha": alpha}
+    ##TODO RM?##     r = compile("^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})$")
+    ##TODO RM?##     check = [1 if match(r, x) else 0 for x in hex_]
+    ##TODO RM?##     # No colors with alpha
+    ##TODO RM?##     if sum(check) == 0:
+    ##TODO RM?##         return {"hex_": hex_}
+    ##TODO RM?##     # Else extracting alpha colors
+    ##TODO RM?##     else:
+    ##TODO RM?##         alpha = []
+    ##TODO RM?##         for h in hex_:
+    ##TODO RM?##             m = match(r, h)
+    ##TODO RM?##             if not m: alpha.append(1.)
+    ##TODO RM?##             else:     alpha.append(int(m.group(1), 16) / 255.)
+    ##TODO RM?##         return {"hex_": hex_, "alpha": alpha}
 
 
     def to(self, to, fixup = True):

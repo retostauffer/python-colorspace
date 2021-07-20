@@ -29,6 +29,7 @@ from .utils import lighten
 from .utils import darken
 from .utils import max_chroma
 from .utils import contrast_ratio
+from .utils import check_hex_colors
 
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes

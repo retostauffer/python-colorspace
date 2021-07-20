@@ -13,17 +13,20 @@ def test_wrong_usage():
     # Input missing
     raises(TypeError,  contrast_ratio)
 
+    # Unknown argument
+    raises(TypeError,  contrast_ratio, cols = "#ff0033")
+
     # Argument 'cols'
-    raises(TypeError,  contrast_ratio, cols = 1) # integer
-    raises(ValueError, contrast_ratio, cols = "foo")                # no hex color
-    raises(ValueError, contrast_ratio, cols = ["#FF00FF", "foo"])   # invalid hex
+    raises(TypeError,  contrast_ratio, colors = 1) # integer
+    raises(ValueError, contrast_ratio, colors = "foo")                # no hex color
+    raises(ValueError, contrast_ratio, colors = ["#FF00FF", "foo"])   # invalid hex
 
     # Argument 'bg'
-    raises(TypeError,  contrast_ratio, cols = "#FF00FF", b = "foo") # no hex color
-    raises(TypeError,  contrast_ratio, cols = "#FF00FF", b = ["#FF00FF", "foo"]) # invalid hex
+    raises(TypeError,  contrast_ratio, colors = "#FF00FF", b = "foo") # no hex color
+    raises(TypeError,  contrast_ratio, colors = "#FF00FF", b = ["#FF00FF", "foo"]) # invalid hex
 
     # Argument 'plot'
-    raises(TypeError,  contrast_ratio, cols = "#FF00FF", plot = "foo")
+    raises(TypeError,  contrast_ratio, colors = "#FF00FF", plot = "foo")
 
 
 
@@ -32,6 +35,11 @@ def test_wrong_usage():
 # ------------------------------------------
 def test_result():
 
+    from colorspace.colorlib import hexcols
+    from colorspace import palette, contrast_ratio
+    import numpy as np
+
+    from pytest import raises
     # Checking against black
     cols = hexcols(["#FF0000", "#FFBF00", "#80FF00", "#00FF40",
                     "#00FFFF", "#0040FF", "#8000FF", "#FF00BF"])

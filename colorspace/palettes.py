@@ -10,9 +10,9 @@ class palette:
     colors) and a name. Used for e.g., :py:func:`hcl_palettes.swatchplot`.
 
     Args:
-        colors (list): List of strings; a list of hex colors.
-        name (str): Name of this custom palette. Thus, `"Set 2"`,
-        `"set 2"`, and `"SET2"` all mean the same.
+        colors (str, list, colorspace.colorlib.colorobject): One or multiple
+            colors which will make up the custom palette.
+        name (str): Name of this custom palette. Defaults to `"user_palette"`.
 
     Returns:
         An object of class :py:class:`colorspace.palettes.palette`.
@@ -20,71 +20,112 @@ class palette:
     Example:
 
         >>> from colorspace.palettes import palette
-        >>> custom_pal = palette(["#CECECE", "#00ff00", "#ff00ff"], "test palette")
+        >>> colors = ["#070707", "#690056", "#C30E62", "#ED8353", "#FDF5EB"]
+        >>> custom_pal = palette(colors, "test palette")
         >>> print(custom_pal)
         >>>
+        >>> ## Testing different input types (str, list, colorobject)
+        >>> from colorspace.colorlib import hexcols
+        >>> from colorspace import palette
+        >>> hexcols = hexcols(colors)
+        >>> 
+        >>> pal1 = palette("#ff0033")
+        >>> pal2 = palette("#ff0033", name = "custom name")
+        >>> pal3 = palette(colors,  name = "custom 1.1")
+        >>> pal4 = palette(hexcols, name = "custom 1.2")
+        >>> print(pal1)
+        >>> print(pal2)
+        >>> print(pal3)
+        >>> print(pal4)
+        >>>
         >>> from colorspace import swatchplot
-        >>> swatchplot([custom_pal])
+        >>> swatchplot([pal3, pal4])
+
     """
 
-    def __init__(self, colors, name):
-        self._colors = self._valid_hex(colors)
-        if not isinstance(name, str):
-            raise ValueError("Argument name to {:s} ".format(self.__class__.__name__) + \
-                    "has to be a string")
+    def __init__(self, colors, name = None):
+
+        # Sanity check for input
+        from colorspace.colorlib import colorobject
+        from colorspace import check_hex_colors, palette
+
+        # This is a palette object? Well ...
+        if isinstance(colors, palette): colors = colors.colors()
+
+        # Convert and check argument 'colors'. In case it is
+        # a colorobject we pick the hex-list and proceed from there.
+        if isinstance(colors, colorobject): colors = colors.colors()
+        self._colors = check_hex_colors(colors)
+
+        if not isinstance(name, (type(None), str)):
+            raise TypeError("Argument 'name' must be `None` or a string.")
         self._name = name
 
     def __len__(self):
+        """Returns number of colors of this palette
+
+        Returns:
+            int: Number of colors.
+        """
         return len(self._colors)
 
     def __repr__(self):
-        str = "Palette Name: {:s}\n".format(self.name()) + \
+        name = self.name()
+        str = "Palette Name: {:s}\n".format("None" if name is None else name) + \
               "       Type: Custom palette\n" + \
               "       Number of colors: {:d}\n".format(len(self.colors()))
         return str
 
     def rename(self, name):
-        if not isinstance(name, str):
-            raise ValueError("argument name to {:s}.rename ".format(self.__class__.__name__) + \
-                    "has to be a string")
+        """Rename custom palette
+
+        Args:
+            name (None, str): new name for the palette.
+
+        Raises:
+            ValueError: If input 'name' is not of type string.
+        """
+        if not isinstance(name, (type(None), str)):
+            raise ValueError("Argument 'name' must be `None` or a string.")
         self._name = name
 
     def name(self):
+        """Get name of palette
+
+        Returns:
+            None, str: Name of the palette (if set).
+        """
         return self._name
 
     def colors(self, *args, **kwargs):
-        return [str(x) for x in self._colors]
+        """Get colors of palette.
 
-    # Check if all values are valid hex colors
-    def _valid_hex(self, colors):
-        from re import match, compile
-        from numpy import all
-        if isinstance(colors, str): colors = [colors]
-        pat   = compile("^#[0-9A-Fa-f]{6}([0-9]{2})?$")
-        if not all([isinstance(x, str) for x in colors]):
-            raise ValueError("not all colors are strings (invalid)")
-        check = [match(pat, col) for col in colors]
-        if not all(check):
-            raise ValueError("not all colors are valid hex colors")
-        return colors
+        Returns:
+            list: List of all colors of the palette.
+        """
+        return self._colors
+        ###TODO(R) Remove? Return [str(x) for x in self._colors]
 
     def cmap(self, n = None, rev = False):
-        """cmap(n = None, rev = False)
+        """Return matplotlib compatible color map
 
-        Converts the current palette into a matplotlib LinearSegmentedColormap color map.
-        If input argument ``n = Non`` the color map will provide the same number
+        Converts the current palette into a `matplotlib.colors.LinearSegmentedColormap` color map.
+        If input argument `n = None` the color map will provide the same number
         of colors as defined for this palette. Can also be set higher to
         allow matplotlib to interpolate between the colors.
 
         Args:
-            n (None or int): If None, the number of colors of the palette will be
-                used to create the cmap object. Defaults to None.
+            n (None or int): `None` or a positive integer which is greater or equal
+                to the number of colors of the palette (check `len()` of the object).
             rev (bool): If set to ``True`` the color map will be reversed,
                 defaults to False.
 
         Return:
             Returns a :py:class:`matplotlib.colors.LinearSegmentedColormap` (cmap) to be used
             with the matplotlib library.
+
+        Todo:
+            Is `n = None` a good default?
 
         Example:
 
@@ -107,7 +148,11 @@ class palette:
         cobj = hexcols(self.colors())
         cobj.to("sRGB")
 
-        if n is None: n = len(self.colors())
+        if n is None:
+            n = len(self.colors())
+        elif not isinstance(n, int) or n < len(self.colors()):
+            raise ValueError("Argument 'n' must be `None` or a valid positive integer greater " + \
+                             "than the number of colors in the palette.")
 
         # Get coordinates
         pos = round(linspace(0, 1, len(self.colors())), 6)

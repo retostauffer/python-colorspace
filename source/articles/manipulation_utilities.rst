@@ -8,7 +8,25 @@ Manipulation Utilities
 Overview
 --------
 
-.. todo:: Write once functionality has been implemented.
+.. currentmodule:: colorspace
+
+The colorspace package provides several color manipulation utilities that are
+useful for creating, assessing, or transforming color palettes, namely:
+
+* :py:func:`desaturate`:
+  Desaturate colors by chroma removal in HCL space.
+* :py:func:`darken` and :py:func:`lighten`
+  Algorithmically lighten or darken colors in HCL and/or HLS space.
+* :py:func:`contrast_ratio`: Computing and visualizing W3C contrast ratios of colors.
+* :py:func:`max_chroma`: Compute maximum chroma for given hue and luminance in HCL space.
+
+.. todo::
+    Not yet implemented; `colorlib.colorobjects`, however, already have alpha
+    functionality.
+
+    * adjust_transparency() and extract_transparency(): Adjust or extract the transparency of colors.
+    * mixcolor(): Additively mix two colors by computing their convex combination.
+
 
 Desaturation in HCL space
 -------------------------
@@ -18,7 +36,7 @@ In principle, any perceptually-based color model (HCL, HLS, HSV, ...) could be
 employed for this but HCL works particularly well because its coordinates
 capture the perceptual properties better than most other color models.
 
-The :py:func:`desaturate <colorspace.desaturate>` function converts any given
+The :py:func:`desaturate` function converts any given
 hex color code to the corresponding HCL coordinates and sets the chroma to
 zero. Thus, only the luminance matters which captures the "brightness"
 mentioned above. Finally, the resulting HCL coordinates are transformed back to
@@ -41,9 +59,9 @@ color vision deficiency article.
 Even this simple example suffices to show that the three RGB rainbow colors
 have very different grayscale levels. This deficiency is even clearer when
 using a full color wheel (of colors with hues in `[0, 360]` degrees). While the
-RGB :py:func:`rainbow <colorspace.rainbow>` is very unbalanced the HCL
-:py:func:`rainbow_hcl <colorspace.rainbow_hcl>` (or also
-:py:func:`qualitative_hcl <colorspace.qualitative_hcl>`)
+RGB :py:func:`rainbow` is very unbalanced the HCL
+:py:func:`rainbow_hcl` (or also
+:py:func:`qualitative_hcl`)
 is (by design) balanced with respect to luminance.
 
 .. ipython:: python
@@ -99,8 +117,8 @@ strategies in case the default yields unexpected results.
 Regardless of the chosen color space, the adjustment of the L component can
 occur by two methods, relative (the default) and absolute. For example
 `L - 100 * amount` is used for absolute darkening, or `L * (1 - amount)` for relative
-darkening. See :py:func:`lighten <colorspace.lighten>` and
-:py:func:`darken <colorspace.darken>` for more details.
+darkening. See :py:func:`lighten` and
+:py:func:`darken` for more details.
 
 For illustration a qualitative palette (Okabe-Ito) is transformed by two levels
 of both lightening and darkening, respectively.
@@ -156,9 +174,9 @@ Maximum chroma for given hue and luminance
 
 As the possible combinations of chroma and luminance in HCL space depend on
 hue, it is not obvious which trajectories through HCL space are possible prior
-to trying a specific HCL coordinate by calling :py:func:`polarLUV <colorspace.colorlib.polarLUV>`.
+to trying a specific HCL coordinate by calling :py:func:`polarLUV`.  <colorspace.colorlib.polarLUV>.
 To avoid having to fix up the color upon conversion to RGB hex color codes, the
-:py:func:`max_chroma <colorspace.utils.max_chroma>` function computes
+:py:func:`max_chroma` function computes
 (approximately) the maximum chroma possible.
 
 For illustration we show that for given luminance (here: `L = 50`) the maximum

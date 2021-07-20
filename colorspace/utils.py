@@ -1,39 +1,138 @@
 
 
+# --------------------------------------------------------------------
+# Performs the check on hex color strings to see if they are valid.
+# --------------------------------------------------------------------
+def check_hex_colors(colors, allow_nan = False):
+    """Checking hex colors
+
+    Valid hex colors are three digit hex colors (e.g., `#F00`), six digit
+    hex colors (e.g., `#FF00FF`), or six digit colors with additional transparency
+    (eight digit representation).
+
+    Args:
+        colors (str, list, numpy.ndarray): single string or list of strings with hex colors.
+            In case it is a `numpy.ndarray` it well be flattened to 1D if needed.
+        allow_nan (bool): allow for missing values (`np.nan`). Defaults to `False`.
+
+    Returns:
+        list: Returns a list (length 1 or more) in case all values provided
+            are valid hex colors. Three digit colors will be expanded to
+            six digit colors. Else the function will raise a ValueError.
+
+    Examples:
+        >>> check_hex_colors("#ff003311")
+        >>> check_hex_colors("#ff0033")
+        >>> check_hex_colors("#f03")
+        >>> check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
+        >>> from numpy import asarray
+        >>> check_hex_colors(asarray(["#f0f", "#00F", "#00FFFF", "#ff003311"]))
+
+    Raises:
+        TypeError: If `allow_nan` is not boolean `True` or `False`.
+        ValueError: In case `colors` is a list but does not only contain strnigs.
+        TypeError: If `colors` is neither string or list of strings.
+        ValueError: If at least one of the colors is an invalid hex color.
+    """
+    from re import match, compile
+    from numpy import all, repeat, ndarray
+
+    # Saniy checks
+    if not isinstance(allow_nan, bool): raise TypeError("Input 'allow_nan' is not boolean.")
+    if isinstance(colors, str):
+        colors = [colors]
+    elif isinstance(colors, list):
+        if not all([isinstance(x, str) for x in colors]):
+            raise ValueError("List on argument 'colors' must only contain strings.")
+    elif isinstance(colors, ndarray):
+        if not len(colors.shape) == 1:
+            raise TypeError("If an `numpy.ndarray` is provided on 'colors' it must be 1D!")
+        colors = colors.flatten().tolist()
+    else:
+        raise TypeError("Argument 'colors' none of the allowed types.")
+
+
+    # Checking all colors
+    if not allow_nan:
+        pat   = compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
+    else:
+        # TODO(R): Implement this one.
+        raise Exception("allow_nan not yet implemented.")
+
+    # check individual entry. Also extends the color if needed.
+    def check(x, pat):
+        tmp = pat.match(x)
+        # Just not a proper definition
+        if not tmp:
+            raise ValueError("String '{:s}' is no valid hex color.".format(x))
+        elif len(tmp[1]) == 3 and not tmp[2] == None:
+            raise ValueError("String '{:s}' is no valid hex color!".format(x))
+        # Three digit: extend
+        elif len(tmp[1]) == 3:
+            x = "#" + "".join(repeat([x for x in tmp[1]], 2))
+        return x
+
+    colors = [check(x, pat) for x in colors]
+
+    return colors
+
+
+
+# --------------------------------------------------------------------
 # Calculate relative luminance
-def relative_luminance(cols):
+# --------------------------------------------------------------------
+def relative_luminance(colors):
     """Calculate relative luminance
 
     Given a series of colors this function calculates the relative luminance.
 
     Args:
-        cols (colorobject): Object of class colorobject.
+        colors (str, list, palette, colorobject): colors will be extracted from
+            the :py:class:`colorspace.colorlib.colorobject` or
+            :py:class:`colorspace.palette` object if provided. Else the input
+            is passed to :py:func:`colorspace.check_hex_colors`.
 
     Returns:
         numpy.array: Containing relative luminance.
 
     Examples:
-        >>> cols = hexcols(["#ff0033", "#0033ff", "#00ffff", "#cecece"])
-        >>> relative_luminance(cols)
+        >>> colors = hexcols(["#ff0033", "#0033ff", "#00ffff", "#cecece"])
+        >>> relative_luminance(colors)
 
     Raises:
-        TypeError: If cols is not of class :py:class:`colorspace.colorlib.colorobject`.
+        TypeError: If cols is invalid.
     """
 
-    from colorspace.colorlib import colorobject
+    from colorspace.colorlib import colorobject, hexcols
+    from colorspace import palette
     from numpy import asarray, where, matmul, transpose
 
-    if not isinstance(cols, colorobject):
-        raise TypeError("Input 'cols' must be of class colorobject.")
+    ## If the input is a colorobject we take it as it is
+    #if isinstance(colors, colorobject):
+    #    pass
+    #elif isinstance(colors, palette):
+    #    colors = hexcols(colors.colors())
+    ## Else we pass the input trough the hex checker first.
+    #else:
+    #    try:
+    #        colors = hexcols(check_hex_colors(colors))
+    #    except:
+    #        raise TypeError("Input 'colors' non of the recoginzed types or no valid hex colors.")
 
-    cols.to("sRGB")
+    #colors.to("sRGB")
+    colors = hexcols(palette(colors).colors())
+    colors.to("sRGB")
 
-    rgb = transpose(asarray([cols.get("R"), cols.get("G"), cols.get("B")]))
+    rgb = transpose(asarray([colors.get("R"), colors.get("G"), colors.get("B")]))
     rgb = where(rgb <= 0.03928, rgb / 12.92, ((rgb + 0.055) / 1.055)**2.4)
     return matmul(rgb, asarray([0.2126, 0.7152, 0.0722]))
 
 
-def contrast_ratio(cols, bg = "#FFFFFF", plot = False, ax = None,
+
+# --------------------------------------------------------------------
+# Calculate W3C contrast ratio
+# --------------------------------------------------------------------
+def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
         fontsize = "xx-large", fontweight = "heavy", ha = "center", va = "center"):
     """W3C Contrast Ratio
 
@@ -54,7 +153,7 @@ def contrast_ratio(cols, bg = "#FFFFFF", plot = False, ax = None,
     the `RGB` coordinates between 0 and 1.
 
     Args:
-        cols (str, list, colorobject, palette): Single hex color (str), a list of hex colors (list),
+        colors (str, list, colorobject, palette): Single hex color (str), a list of hex colors (list),
             or an object of class :py:class:`colorobject <colorspace.colorlib.colorobject>`
             or :py:class:`palette <colorspace.palettes.palette>`.
         bg (str): background color against which the contrast will be calculated.
@@ -75,17 +174,17 @@ def contrast_ratio(cols, bg = "#FFFFFF", plot = False, ax = None,
             Defaults to `"center"`.
 
     Returns:
-        A numeric vector with the contrast ratios is returned (invisibly, if \code{plot} is \code{TRUE}).
+        A numeric vector with the contrast ratios is returned (invisibly, if `plot` is `True`).
 
     Examples:
         >>> # check contrast ratio of default palette on white background
         >>> from colorspace import rainbow, contrast_ratio
-        >>> cols = rainbow().colors(7)
-        >>> contrast_ratio(cols, "#FFFFFF") # Against white
-        >>> contrast_ratio(cols, "#000000") # Against black
+        >>> colors = rainbow().colors(7)
+        >>> contrast_ratio(colors, "#FFFFFF") # Against white
+        >>> contrast_ratio(colors, "#000000") # Against black
         >>>
-        >>> contrast_ratio(cols, "#FFFFFF", plot = True) # Visualization
-        >>> contrast_ratio(cols, "#000000", plot = True) # Visualization
+        >>> contrast_ratio(colors, "#FFFFFF", plot = True) # Visualization
+        >>> contrast_ratio(colors, "#000000", plot = True) # Visualization
 
     Raises:
         TypeError: If cols or bg is not one of the recognized types.
@@ -96,26 +195,17 @@ def contrast_ratio(cols, bg = "#FFFFFF", plot = False, ax = None,
     from colorspace.colorlib import colorobject, hexcols
     from numpy import resize, where
 
+    # Convert inputs to palettes. They will fail in case the input
+    # is invalid.
+    colors = palette(colors)
+    bg     = palette(bg)
+
     if not isinstance(plot, bool): raise TypeError("Input 'plot' must be boolean.")
-
-    # Convert and check the two main input arguments 'cols' and 'bg'.
-    # Must be convertable to a palette, and must be all valid hex colors.
-    def input_to_palette(x, varname):
-        if isinstance(x, palette):          pass
-        elif isinstance(x, (str, list)):    x = palette(x, "_tmp_palette_")
-        elif isinstance(x, colorobject):    x = palette(x.colors(), "_tmp_palette_")
-        else:
-            raise TypeError("Input '{:s}' not one of the recognized valid types.".format(varname))
-        return x
-
-    cols = input_to_palette(cols, "cols")
-    bg   = input_to_palette(bg,   "bg")
-
-    if   len(cols) > len(bg):    bg   = palette(resize(bg.colors(),   len(cols)), "_tmp_palette_")
-    elif len(bg) > len(cols):    cols = palette(resize(cols.colors(), len(bg)),   "_tmp_palette_")
+    if   len(colors) > len(bg): bg   = palette(resize(bg.colors(),   len(colors)), "_tmp_palette_")
+    elif len(bg) > len(colors): colors = palette(resize(colors.colors(), len(bg)),   "_tmp_palette_")
 
     # Compute contrast ratio
-    cols_hex = hexcols(cols.colors())
+    cols_hex = hexcols(colors.colors())
     bg_hex   = hexcols(bg.colors())
     ratio    = (relative_luminance(cols_hex) + 0.05) / (relative_luminance(bg_hex) + 0.05)
     ratio    = where(ratio < 1, 1 / ratio, ratio)
@@ -134,20 +224,20 @@ def contrast_ratio(cols, bg = "#FFFFFF", plot = False, ax = None,
         else:
             showfig = False
 
-        ax.set_xlim([0, 2]); ax.set_ylim(0, len(cols) - 0.05)
-        n       = len(cols)
+        ax.set_xlim([0, 2]); ax.set_ylim(0, len(cols_hex) - 0.05)
+        n       = len(cols_hex)
 
         # Drawing the information
         for i in range(n):
             # Drawing background
-            rect = Rectangle((0, i), 1, .95, linewidth = 1, facecolor = cols.colors()[i])
+            rect = Rectangle((0, i), 1, .95, linewidth = 1, facecolor = cols_hex.colors()[i])
             ax.add_patch(rect)
-            rect = Rectangle((1, i), 1, .95, linewidth = 1, facecolor = bg.colors()[i])
+            rect = Rectangle((1, i), 1, .95, linewidth = 1, facecolor = bg_hex.colors()[i])
             ax.add_patch(rect)
             # Adding text
-            text(0.5, i + 0.5, "{:4.2f}".format(ratio[i]), color = bg.colors()[i],
+            text(0.5, i + 0.5, "{:4.2f}".format(ratio[i]), color = bg_hex.colors()[i],
                     fontsize = fontsize, fontweight = fontweight, ha = ha, va = va)
-            text(1.5, i + 0.5, "{:4.2f}".format(ratio[i]), color = cols.colors()[i],
+            text(1.5, i + 0.5, "{:4.2f}".format(ratio[i]), color = cols_hex.colors()[i],
                     fontsize = fontsize, fontweight = fontweight, ha = ha, va = va)
 
         # Remove axis and make the thing tight

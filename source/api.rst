@@ -30,6 +30,7 @@ directly via the `colorspace` package, such as
     palette
     diverging_hsv
 
+
 GUI for choosing color palettes
 ================================
 
@@ -74,6 +75,20 @@ Color vision defficiency
     tritan
 
 
+Color manipulation
+==================
+
+.. currentmodule:: colorspace
+
+.. autosummary::
+    :toctree: api/
+    :nosignatures:
+
+    max_chroma
+    contrast_ratio
+    lighten
+    darken
+
 Color library/color transformations
 ===================================
 
@@ -94,4 +109,3 @@ Color library/color transformations
     HSV
     HLS
     hexcols
-
