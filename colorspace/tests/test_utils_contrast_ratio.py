@@ -33,18 +33,15 @@ def test_wrong_usage():
 # ------------------------------------------
 # Checking return values.
 # ------------------------------------------
-def test_result():
 
-    from colorspace.colorlib import hexcols
-    from colorspace import palette, contrast_ratio
-    import numpy as np
+# Testing multiple colors on white bg.
+# Testing len(colors) > len(bg)
+def test_result_on_white_bg():
 
-    from pytest import raises
     # Checking against black
     cols = hexcols(["#FF0000", "#FFBF00", "#80FF00", "#00FF40",
                     "#00FFFF", "#0040FF", "#8000FF", "#FF00BF"])
 
-    # Testing proper usage
     res_white1 = contrast_ratio(cols)
     res_white2 = contrast_ratio(cols, "#FFFFFF")
     sol_white  = np.asarray([3.998477, 1.652981, 1.294551, 1.365584,
@@ -55,6 +52,15 @@ def test_result():
     assert np.all(res_white1 == res_white2)
     assert np.all(np.isclose(res_white1, sol_white))
 
+
+# Testing multiple colors on alternating white/black background.
+# Testing auto-repeat, len(colors) > len(bg)
+def test_result_on_bw_bg():
+
+    # Checking against black
+    cols = hexcols(["#FF0000", "#FFBF00", "#80FF00", "#00FF40",
+                    "#00FFFF", "#0040FF", "#8000FF", "#FF00BF"])
+
     res_bw = contrast_ratio(cols, ["#FFFFFF", "#000000"])
     sol_bw = np.asarray([3.998477, 12.704321, 1.294551, 15.378033,
                          1.253881,  3.177358, 6.246581, 6.004318])
@@ -62,5 +68,21 @@ def test_result():
     res_bw = contrast_ratio(cols, ["#FFFFFF", "#000000"], plot = True)
     assert isinstance(res_bw, np.ndarray)
     assert np.all(np.isclose(res_bw, sol_bw))
+
+# Taking one main color but 5 different shaded of gray for background
+# Testing len(colors) < len(bg)
+def test_result_varying_bg():
+
+    # Define background colors (shades of gray)
+    cols_bg = ["#4D4D4D", "#888888", "#AEAEAE", "#CCCCCC", "#E6E6E6"]
+    res = contrast_ratio("#ff0000", cols_bg)
+    sol = np.asarray([2.114101, 1.127956, 1.802238, 2.489822, 3.203724])
+
+    assert isinstance(res, np.ndarray)
+    assert np.all(np.isclose(res, sol))
+
+
+
+
 
 
