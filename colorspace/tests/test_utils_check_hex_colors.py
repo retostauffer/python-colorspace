@@ -28,6 +28,14 @@ def test_wrong_usage():
     raises(ValueError, check_hex_colors, "FF0")
     raises(ValueError, check_hex_colors, "FFFF00")
 
+    # Not allowed: multi-dimensional numpy array as input
+    raises(TypeError,  check_hex_colors, np.asarray([["#ff0000"], ["#ff00ff"]]))
+
+    # Five digit hex colors are not allowed. This is some sort
+    # of a combination of the three digit representation plus alpha.
+    # Should raise a ValueError
+    raises(ValueError, check_hex_colors, "#F0F33")
+
 
 def test_return_value():
 
@@ -47,11 +55,15 @@ def test_return_value():
     assert x1[0] == x3[0][0:7]                  # Remove alpha - same right?
 
 
+    # List or numpy.ndarray input
     x4 = check_hex_colors(["#000", "#F00", "#00FF00", "#0000FF"])
+    x5 = check_hex_colors(np.asarray(["#000", "#F00", "#00FF00", "#0000FF"]))
 
     assert isinstance(x4, list)
-    assert len(x4) == 4
+    assert isinstance(x5, list)
+    assert len(x4) == len(x5) == 4
     assert np.all([len(x) == 7 for x in x4])
+    assert np.all([len(x) == 7 for x in x5])
 
 
 
