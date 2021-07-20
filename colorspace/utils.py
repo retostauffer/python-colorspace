@@ -89,16 +89,17 @@ def contrast_ratio(cols, bg = "#FFFFFF", plot = False, ax = None,
 
     Raises:
         TypeError: If cols or bg is not one of the recognized types.
+        TypeError: If argument plot is not boolean.
     """
-
-    #contrast_ratio <- function(col, col2 = "white",
-    #  plot = FALSE, border = FALSE, cex = 2, off = 0.05, mar = rep(0.5, 4), digits = 2L, ...)
-    #{
 
     from colorspace.palettes import palette
     from colorspace.colorlib import colorobject, hexcols
     from numpy import resize, where
 
+    if not isinstance(plot, bool): raise TypeError("Input 'plot' must be boolean.")
+
+    # Convert and check the two main input arguments 'cols' and 'bg'.
+    # Must be convertable to a palette, and must be all valid hex colors.
     def input_to_palette(x, varname):
         if isinstance(x, palette):          pass
         elif isinstance(x, (str, list)):    x = palette(x, "_tmp_palette_")
