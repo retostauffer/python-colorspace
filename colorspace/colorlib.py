@@ -435,87 +435,89 @@ class colorlib:
     # -------------------------------------------------------------------
 
 
-    ## ----- CIE-XYZ <-> sRGB -----
-    ## R, G, and B give the levels of red, green and blue as values
-    ## in the interval [0,1].  X, Y and Z give the CIE chromaticies.
-    ## XN, YN, ZN gives the chromaticity of the white point.
-    def sRGB_to_XYZ(self, R, G, B, XN = None, YN = None, ZN = None):
-        """sRGB to CIEXYZ.
+    ## Unused as we are going CIE-XYZ <-> RGB <-> sRGB
+    ##
+    ##  ## ----- CIE-XYZ <-> sRGB -----
+    ##  ## R, G, and B give the levels of red, green and blue as values
+    ##  ## in the interval [0,1].  X, Y and Z give the CIE chromaticies.
+    ##  ## XN, YN, ZN gives the chromaticity of the white point.
+    ##  def sRGB_to_XYZ(self, R, G, B, XN = None, YN = None, ZN = None):
+    ##      """sRGB to CIEXYZ.
 
-        R, G, and B give the levels of red, green and blue as values
-        in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
+    ##      R, G, and B give the levels of red, green and blue as values
+    ##      in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
 
-        Args:
-            R (numpy.ndarray): Indensities for red (``[0.,1.]``).
-            G (numpy.ndarray): Indensities for green (``[0.,1.]``).
-            B (numpy.ndarray): Indensities for blue  (``[0.,1.]``).
-            XN (None or numpy.ndarray): Chromaticity of the white point. If of
-                length 1 the white point specification will be recycled if length of
-                R/G/B is larger than one. If not specified (all three ``None``) default
-                values will be used. Defaults to None, see also YN, ZN.
-            YN: See ``XN``.
-            ZN: See ``XN``.
+    ##      Args:
+    ##          R (numpy.ndarray): Indensities for red (``[0.,1.]``).
+    ##          G (numpy.ndarray): Indensities for green (``[0.,1.]``).
+    ##          B (numpy.ndarray): Indensities for blue  (``[0.,1.]``).
+    ##          XN (None or numpy.ndarray): Chromaticity of the white point. If of
+    ##              length 1 the white point specification will be recycled if length of
+    ##              R/G/B is larger than one. If not specified (all three ``None``) default
+    ##              values will be used. Defaults to None, see also YN, ZN.
+    ##          YN: See ``XN``.
+    ##          ZN: See ``XN``.
 
-        Returns:
-            list: Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
-            of `numpy.ndarray`'s of the same length as the inputs (``[X, Y,
-            Z]``).
-        """
+    ##      Returns:
+    ##          list: Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
+    ##          of `numpy.ndarray`'s of the same length as the inputs (``[X, Y,
+    ##          Z]``).
+    ##      """
 
-        __fname__ = inspect.stack()[0][3] # Name of this method
-        n = len(R) # Number of colors
+    ##      __fname__ = inspect.stack()[0][3] # Name of this method
+    ##      n = len(R) # Number of colors
 
-        # Loading definition of white
-        [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
+    ##      # Loading definition of white
+    ##      [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
 
-        # Checking input
-        self._check_input_arrays_(__fname__, R = R, G = G, B = B)
+    ##      # Checking input
+    ##      self._check_input_arrays_(__fname__, R = R, G = G, B = B)
 
-        # Transform R/G/B
-        R = self.ftrans(R, 2.4)
-        G = self.ftrans(G, 2.4)
-        B = self.ftrans(B, 2.4)
+    ##      # Transform R/G/B
+    ##      R = self.ftrans(R, 2.4)
+    ##      G = self.ftrans(G, 2.4)
+    ##      B = self.ftrans(B, 2.4)
 
-        # Convert to X/Y/Z coordinates
-        return[YN * (0.412453 * R + 0.357580 * G + 0.180423 * B),   # X
-               YN * (0.212671 * R + 0.715160 * G + 0.072169 * B),   # Y
-               YN * (0.019334 * R + 0.119193 * G + 0.950227 * B)]   # Z
+    ##      # Convert to X/Y/Z coordinates
+    ##      return[YN * (0.412453 * R + 0.357580 * G + 0.180423 * B),   # X
+    ##             YN * (0.212671 * R + 0.715160 * G + 0.072169 * B),   # Y
+    ##             YN * (0.019334 * R + 0.119193 * G + 0.950227 * B)]   # Z
 
-    def XYZ_to_sRGB(self, X, Y, Z, XN = None, YN = None, ZN = None):
-        """CIEXYZ to sRGB.
+    ##  def XYZ_to_sRGB(self, X, Y, Z, XN = None, YN = None, ZN = None):
+    ##      """CIEXYZ to sRGB.
 
-        R, G, and B give the levels of red, green and blue as values
-        in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
+    ##      R, G, and B give the levels of red, green and blue as values
+    ##      in the interval ``[0.,1.]``.  X, Y and Z give the CIE chromaticies.
 
-        Args:
-            X (numpy.ndarray): Values for the X dimension.
-            Y (numpy.ndarray): Values for the Y dimension.
-            Z (numpy.ndarray): Values for the Z dimension.
-            XN (None or numpy.ndarray): Chromaticity of the white point. If of
-                length 1 the white point specification will be recycled if length of
-                R/G/B is larger than one. If not specified (all three ``None``) default
-                values will be used. Defaults to None, see also YN, ZN.
-            YN: See ``XN``.
-            ZN: See ``XN``.
+    ##      Args:
+    ##          X (numpy.ndarray): Values for the X dimension.
+    ##          Y (numpy.ndarray): Values for the Y dimension.
+    ##          Z (numpy.ndarray): Values for the Z dimension.
+    ##          XN (None or numpy.ndarray): Chromaticity of the white point. If of
+    ##              length 1 the white point specification will be recycled if length of
+    ##              R/G/B is larger than one. If not specified (all three ``None``) default
+    ##              values will be used. Defaults to None, see also YN, ZN.
+    ##          YN: See ``XN``.
+    ##          ZN: See ``XN``.
 
-        Returns:
-            list: Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
-            of `numpy.ndarray`'s of the same length as the inputs (``[R, G, B]``).
-        """
+    ##      Returns:
+    ##          list: Returns corresponding X/Y/Z coordinates of CIE chromaticies, a list
+    ##          of `numpy.ndarray`'s of the same length as the inputs (``[R, G, B]``).
+    ##      """
 
-        __fname__ = inspect.stack()[0][3] # Name of this method
-        n = len(X) # Number of colors
+    ##      __fname__ = inspect.stack()[0][3] # Name of this method
+    ##      n = len(X) # Number of colors
 
-        # Loading definition of white
-        [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
+    ##      # Loading definition of white
+    ##      [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
 
-        # Checking input
-        self._check_input_arrays_(__fname__, X = X, Y = Y, Z = Z)
+    ##      # Checking input
+    ##      self._check_input_arrays_(__fname__, X = X, Y = Y, Z = Z)
 
-        # Transform and return
-        return [self.gtrans(( 3.240479 * X - 1.537150 * Y - 0.498535 * Z) / YN, 2.4),   # R
-                self.gtrans((-0.969256 * X + 1.875992 * Y + 0.041556 * Z) / YN, 2.4),   # G
-                self.gtrans(( 0.055648 * X - 0.204043 * Y + 1.057311 * Z) / YN, 2.4)]   # B
+    ##      # Transform and return
+    ##      return [self.gtrans(( 3.240479 * X - 1.537150 * Y - 0.498535 * Z) / YN, 2.4),   # R
+    ##              self.gtrans((-0.969256 * X + 1.875992 * Y + 0.041556 * Z) / YN, 2.4),   # G
+    ##              self.gtrans(( 0.055648 * X - 0.204043 * Y + 1.057311 * Z) / YN, 2.4)]   # B
 
 
     # -------------------------------------------------------------------
@@ -651,87 +653,90 @@ class colorlib:
     # -------------------------------------------------------------------
     # -------------------------------------------------------------------
     # -------------------------------------------------------------------
-    def XYZ_to_HLAB(self, X, Y, Z, XN = None, YN = None, ZN = None):
-        """CIE-XYZ to Hunter LAB.
 
-        .. note::
-            Note that the Hunter LAB is no longer part of the public API,
-            but the code is still here in case needed.
+    ## Commented as not yet used
+    ##
+    ## def XYZ_to_HLAB(self, X, Y, Z, XN = None, YN = None, ZN = None):
+    ##     """CIE-XYZ to Hunter LAB.
 
-        Args:
-            X (numpy.ndarray): Values for the X dimension.
-            Y (numpy.ndarray): Values for the Y dimension.
-            Z (numpy.ndarray): Values for the Z dimension.
-            XN (None or numpy.ndarray): Chromaticity of the white point. If of
-                length 1 the white point specification will be recycled if length of
-                R/G/B is larger than one. If not specified (all three ``None``) default
-                values will be used. Defaults to None, see also YN, ZN.
-            YN: See ``XN``.
-            ZN: See ``XN``.
+    ##     .. note::
+    ##         Note that the Hunter LAB is no longer part of the public API,
+    ##         but the code is still here in case needed.
 
-        Returns:
-            list: Returns corresponding Hunter LAB chromaticies, a list of
-            `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
-        """
+    ##     Args:
+    ##         X (numpy.ndarray): Values for the X dimension.
+    ##         Y (numpy.ndarray): Values for the Y dimension.
+    ##         Z (numpy.ndarray): Values for the Z dimension.
+    ##         XN (None or numpy.ndarray): Chromaticity of the white point. If of
+    ##             length 1 the white point specification will be recycled if length of
+    ##             R/G/B is larger than one. If not specified (all three ``None``) default
+    ##             values will be used. Defaults to None, see also YN, ZN.
+    ##         YN: See ``XN``.
+    ##         ZN: See ``XN``.
 
-        __fname__ = inspect.stack()[0][3] # Name of this method
-        n = len(X) # Number of colors
+    ##     Returns:
+    ##         list: Returns corresponding Hunter LAB chromaticies, a list of
+    ##         `numpy.ndarray`'s of the same length as the inputs (``[L, A, B]``).
+    ##     """
 
-        # Loading definition of white
-        [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
+    ##     __fname__ = inspect.stack()[0][3] # Name of this method
+    ##     n = len(X) # Number of colors
 
-        # Checking input
-        self._check_input_arrays_(__fname__, X = X, Y = Y, Z = Z)
+    ##     # Loading definition of white
+    ##     [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
 
-        # Transform
-        X = X / XN; Y = Y / YN; Z = Z / ZN;
-        l = np.sqrt(Y);
-        return [10. * l, 17.5 * (((1.02 * X) - Y) / l), 7. * ((Y - (0.847 * Z)) / l)] # [L, A, B]
+    ##     # Checking input
+    ##     self._check_input_arrays_(__fname__, X = X, Y = Y, Z = Z)
+
+    ##     # Transform
+    ##     X = X / XN; Y = Y / YN; Z = Z / ZN;
+    ##     l = np.sqrt(Y);
+    ##     return [10. * l, 17.5 * (((1.02 * X) - Y) / l), 7. * ((Y - (0.847 * Z)) / l)] # [L, A, B]
 
 
-    def HLAB_to_XYZ(self, L, A, B, XN = None, YN = None, ZN = None):
-        """Hunter LAB to CIE-XYZ.
+    ## def HLAB_to_XYZ(self, L, A, B, XN = None, YN = None, ZN = None):
+    ##     """Hunter LAB to CIE-XYZ.
 
-        .. note::
-            Note that the Hunter LAB is no longer part of the public API,
-            but the code is still here in case needed.
+    ##     .. note::
+    ##         Note that the Hunter LAB is no longer part of the public API,
+    ##         but the code is still here in case needed.
 
-        Args:
-            L (numpy.ndarray): Values for the L dimension.
-            A (numpy.ndarray): Values for the A dimension.
-            B (numpy.ndarray): Values for the B dimension.
-            XN (None or numpy.ndarray): Chromaticity of the white point. If of
-                length 1 the white point specification will be recycled if length of
-                R/G/B is larger than one. If not specified (all three ``None``) default
-                values will be used. Defaults to None, see also YN, ZN.
-            YN: See ``XN``.
-            ZN: See ``XN``.
+    ##     Args:
+    ##         L (numpy.ndarray): Values for the L dimension.
+    ##         A (numpy.ndarray): Values for the A dimension.
+    ##         B (numpy.ndarray): Values for the B dimension.
+    ##         XN (None or numpy.ndarray): Chromaticity of the white point. If of
+    ##             length 1 the white point specification will be recycled if length of
+    ##             R/G/B is larger than one. If not specified (all three ``None``) default
+    ##             values will be used. Defaults to None, see also YN, ZN.
+    ##         YN: See ``XN``.
+    ##         ZN: See ``XN``.
 
-        Returns:
-            list: Returns corresponding CIE-XYZ chromaticies, a list of
-            `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
-        """
+    ##     Returns:
+    ##         list: Returns corresponding CIE-XYZ chromaticies, a list of
+    ##         `numpy.ndarray`'s of the same length as the inputs (``[X, Y, Z]``).
+    ##     """
 
-        __fname__ = inspect.stack()[0][3] # Name of this method
-        n = len(L) # Number of colors
+    ##     __fname__ = inspect.stack()[0][3] # Name of this method
+    ##     n = len(L) # Number of colors
 
-        # Loading definition of white
-        [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
+    ##     # Loading definition of white
+    ##     [XN, YN, ZN] = self._get_white_(__fname__, n, XN, YN, ZN)
 
-        # Checking input
-        self._check_input_arrays_(__fname__, L = L, A = A, B = B)
+    ##     # Checking input
+    ##     self._check_input_arrays_(__fname__, L = L, A = A, B = B)
 
-        # Transform
-        vY = L / 10.;
-        vX = (A / 17.5) * (L / 10);
-        vZ = (B / 7) * (L / 10);
-        vY = vY * vY;
+    ##     # Transform
+    ##     vY = L / 10.;
+    ##     vX = (A / 17.5) * (L / 10);
+    ##     vZ = (B / 7) * (L / 10);
+    ##     vY = vY * vY;
 
-        Y = vY * XN
-        X = (vX + vY) / 1.02 * YN
-        Z = - (vZ - vY) / 0.847 * ZN
+    ##     Y = vY * XN
+    ##     X = (vX + vY) / 1.02 * YN
+    ##     Z = - (vZ - vY) / 0.847 * ZN
 
-        return [X, Y, Z]
+    ##     return [X, Y, Z]
 
 
     # -------------------------------------------------------------------
