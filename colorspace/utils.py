@@ -51,7 +51,6 @@ def check_hex_colors(colors, allow_nan = False):
     else:
         raise TypeError("Argument 'colors' none of the allowed types.")
 
-
     # Checking all colors
     if not allow_nan:
         pat   = compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
@@ -189,6 +188,8 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
     Raises:
         TypeError: If cols or bg is not one of the recognized types.
         TypeError: If argument plot is not boolean.
+        TypeError: If `ax` is not `None` or a `matplotlib.axes.Axes` object. Only
+            checked if `plot = True`.
     """
 
     from colorspace.palettes import palette
@@ -212,8 +213,12 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
 
     if plot:
         import matplotlib.pyplot as plt
+        from matplotlib.axes import Axes
         from matplotlib.pyplot import text
         from matplotlib.patches import Rectangle
+
+        if not isinstance(ax, (type(None), Axes)):
+            raise TypeError("Argument 'ax' must be `None` or a `matplotlib.axes.Axes` object.")
 
         # Open figure if input "fig" is None, else use
         # input "fig" handler.
@@ -242,11 +247,11 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
 
         # Remove axis and make the thing tight
         ax.axis("off")
-        fig.tight_layout()
 
         if not showfig:
             return ax
         else:
+            fig.tight_layout()
             fig.show()
 
     return ratio

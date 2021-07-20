@@ -1,6 +1,8 @@
 
 from colorspace.colorlib import hexcols
 from colorspace import palette, contrast_ratio
+from matplotlib import pyplot as plt
+from matplotlib.axes import Axes
 import numpy as np
 
 from pytest import raises
@@ -28,6 +30,8 @@ def test_wrong_usage():
     # Argument 'plot'
     raises(TypeError,  contrast_ratio, colors = "#FF00FF", plot = "foo")
 
+    # Testint argument 'ax'; wrong type of object
+    raises(TypeError,  contrast_ratio, colors = "#F00", bg = "#000", plot = True, ax = "foo")
 
 
 # ------------------------------------------
@@ -80,6 +84,41 @@ def test_result_varying_bg():
 
     assert isinstance(res, np.ndarray)
     assert np.all(np.isclose(res, sol))
+
+
+# ------------------------------------------
+# Testing plot options
+# ------------------------------------------
+def test_plot_options():
+
+    from colorspace.colorlib import hexcols
+    from colorspace import palette, contrast_ratio
+    from matplotlib import pyplot as plt
+    import numpy as np
+    from matplotlib.axes import Axes
+    from pytest import raises
+
+    # Single axis
+    fig, ax = plt.subplots()
+    res = contrast_ratio("#F00", bg = "#000", plot = True, ax = ax)
+    assert isinstance(res, Axes)
+    del fig, ax, res
+
+    # Multiple subplots
+    fig, axes = plt.subplots(2, 2)
+    res = contrast_ratio("#F00", bg = "#000", plot = True, ax = axes[0, 0])
+    assert isinstance(res, Axes)
+    del fig, axes, res
+
+    # In case plot = False 'ax' should not be checked (object type neglected)
+    res = contrast_ratio("#F00", bg = "#000", plot = False, ax = "foo")
+    assert isinstance(res, np.ndarray)
+    del res
+
+    # Plot set to True but ax = None (default)
+    res = contrast_ratio("#F00", bg = "#000", plot = True, ax = None)
+    assert isinstance(res, np.ndarray)
+    del res
 
 
 
