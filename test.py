@@ -1,46 +1,69 @@
 
 
-#from colorspace import *
-#
-#res = max_chroma(10, 10)
-#print(res)
-#import sys; sys.exit(3)
-
-import numpy as np
-L = np.arange(start = 30, stop = 91, step = 20)
-
-H = np.linspace(0, 360, 37, endpoint = True, dtype = "int")
-L = np.linspace(30, 90, 5, endpoint = True, dtype = "int")
-
-#par(mfrow = c(1, 2), xaxs = "i", yaxs = "i", mar = c(5, 4, 1, 5), las = 1)
-#plot(0, 0, type = "n", xlim = c(0, 360), ylim = c(0, 165),
-#  xlab = "Hue (H)", ylab = "Maximum chroma (C)")
-#axis(4, at = C[37, ], labels = paste("L =", L))
 from colorspace.colorlib import HCL
 from colorspace import max_chroma
-
 import matplotlib.pyplot as plt
+import numpy as np
+
+
+# ----------------------------------------
+# Setting up the plot
+# ----------------------------------------
+fig, [ax1, ax2] = plt.subplots(1, 2, figsize = (9, 4))
+
+# ----------------------------------------
+# C vs. H plot
+# ----------------------------------------
+H = np.linspace(0, 360, 37, endpoint = True, dtype = "int")
+L = np.linspace(30, 90, 4, endpoint = True, dtype = "int")
 
 C = []; Cmax = 0
 for i in range(len(L)):
     C.append(max_chroma(H, float(L[i])))
     Cmax = max(Cmax, max(C[i]))
 
-
-fig, ax = plt.subplots()
-ax.set_xlim(0, 360)
-ax.set_ylim(0, Cmax)
-
 for i in range(len(L)):
-    ax.plot(H, C[i])
+    colors = HCL(H, C[i], np.repeat(L[i], len(H))).colors()
+    ax1.plot(H, C[i], color = "0.5", zorder = 1)
+    ax1.scatter(H, C[i], c = colors, zorder = 2)
 
-fig.show()
+ax1.set_xlim(0, 360)
+ax1.set_ylim(0, Cmax * 1.05)
+yr = ax1.secondary_yaxis("right")
+yr.set_ticks([x[len(x) - 1] for x in C])
+yr.set_yticklabels(["L = {:d}".format(x) for x in L])
+ax1.set_xlabel("Hue (H)")
+ax1.set_ylabel("Maximum chroma (C)")
 
-print(C)
-#for(i in seq_along(L)) {
-#  lines(H, C[, i])
-#  points(H, C[, i], col = hex(polarLUV(L[i], C[, i], H)), pch = 19, cex = 1.5, xpd = TRUE)
-#}
+
+# ----------------------------------------
+# L vs. C plot
+# ----------------------------------------
+L = np.linspace(0, 100, 21, endpoint = True, dtype = "int")
+H = np.asarray([0, 60, 120, 250, 330], dtype = "int")
+
+C = []; Cmax = 0
+for i in range(len(H)):
+    C.append(max_chroma(float(H[i]), L))
+    Cmax = max(Cmax, max(C[i]))
+
+for i in range(len(H)):
+    colors = HCL(np.repeat(H[i], len(L)), C[i], L).colors()
+    ax2.plot(C[i], L, color = "0.5", zorder = 1)
+    ax2.scatter(C[i], L, c = colors, zorder = 2)
+    # Setting label
+    idx = int(np.where(C[i] == max(C[i]))[0])
+    ax2.text(C[i][idx] + Cmax / 15, L[idx], "H = {:d}".format(H[i]),
+             color = colors[idx], va = "center")
+
+
+ax2.set_xlim(0, Cmax * 1.20)
+ax2.set_ylim(0, 100)
+ax2.set_xlabel("Maximum chroma (C)")
+ax2.set_ylabel("Luminance (L)")
+
+fig.tight_layout()
+plt.show()
 
 
 import sys; sys.exit(3)
