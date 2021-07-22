@@ -26,6 +26,7 @@ develop: setup.py
 	python setup.py develop
 
 # Creates baseimages
+.PHONY: baseline
 baseline:
 	pytest --mpl-generate-path=baseline
 

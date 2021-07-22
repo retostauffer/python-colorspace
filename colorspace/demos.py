@@ -70,6 +70,8 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
         TypeError: If `n` is not integer.
         ValueError: `n` must be a positive integer.
     """
+
+    from .palettes import palette
     from . import demos
     from re import match, compile, IGNORECASE
 
@@ -81,23 +83,10 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
     if not n > 0:
         raise ValueError("Argument 'n' must be a positive integer (number of colors).")
 
-    # Now let's deal with the color input.
-    # In case it is a list of strings we assume it is a list of hex colors.
-    # To handle it we will convert it into a palette (which is checking that
-    # all colors are valid hex colors). The argument 'colors' also allowes
-    # for a series of other types.
-    from numpy import all
-    from .palettes import palette, hclpalette, defaultpalette
-    from .colorlib import colorobject
-    if isinstance(colors, list) and all([isinstance(x, str) for x in colors]):
-        colors = palette(colors, "demoplot color palette").colors()
-    elif isinstance(colors, (hclpalette, defaultpalette)):
-        colors = colors(n)
-    elif isinstance(colors, colorobject):
-        colors = colors.colors()
-    else:
-        raise TypeError("No rule to handle argument ``colors`` of type {:s}.".format(str(type(colors))))
-
+    # The palette class does all the checks and conversions for different
+    # types of objects such as a single string hex color, lists of hex colors,
+    # colorobjects, palette objects, and hclpalettes.
+    colors = palette(colors, n = n).colors()
 
     # Loading available demo plot types (functions)
     available_types = []
@@ -177,7 +166,7 @@ def Bar(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -240,7 +229,7 @@ def Pie(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -293,7 +282,7 @@ def Spine(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -375,7 +364,7 @@ def Heatmap(colors, ax = None, **kwargs):
     from .colorlib import hexcols
 
     if not isinstance(ax, (Axes, type(None))):
-        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -452,7 +441,7 @@ def Matrix(colors, ax = None, **kwargs):
     from .colorlib import hexcols
 
     if not isinstance(ax, (Axes, type(None))):
-        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -549,7 +538,7 @@ def Lines(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -620,7 +609,7 @@ def Map(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).

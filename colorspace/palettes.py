@@ -13,6 +13,9 @@ class palette:
         colors (str, list, colorspace.colorlib.colorobject): One or multiple
             colors which will make up the custom palette.
         name (str): Name of this custom palette. Defaults to `"user_palette"`.
+        n (int): positive integer, number of colors drawn from an `hclpalette` object.
+            Only taken into account if the object provided on `colors` inherits
+            from :py:class:`colorspace.palettes.hclpalette`.
 
     Returns:
         An object of class :py:class:`colorspace.palettes.palette`.
@@ -43,22 +46,30 @@ class palette:
 
     """
 
-    def __init__(self, colors, name = None):
+    def __init__(self, colors, name = None, n = 7):
 
         # Sanity check for input
         from colorspace.colorlib import colorobject
+        from colorspace.palettes import hclpalette
         from colorspace import check_hex_colors, palette
 
         # This is a palette object? Well ...
-        if isinstance(colors, palette): colors = colors.colors()
+        if isinstance(colors, hclpalette):
+            colors = colors.colors(n)
+        # Already a palette object? Simply extract the colors from it.
+        elif isinstance(colors, palette):
+            colors = colors.colors()
+        # If the input inherits from colorspace.colorlib.colorobject we
+        # draw the colors as a hex list.
+        elif isinstance(colors, colorobject):
+            colors = colors.colors()
 
-        # Convert and check argument 'colors'. In case it is
-        # a colorobject we pick the hex-list and proceed from there.
-        if isinstance(colors, colorobject): colors = colors.colors()
+        # Now check if all our colors are valid hex colors
         self._colors = check_hex_colors(colors)
 
         if not isinstance(name, (type(None), str)):
             raise TypeError("Argument 'name' must be `None` or a string.")
+
         self._name = name
 
     def __len__(self):
@@ -1388,6 +1399,12 @@ class diverging_hcl(hclpalette):
                 transparency, ``1.`` opaque).  If a single value is provided it will be
                 applied to all colors, if a vector is given the length has to be ``n``.
         """
+
+        # Sanity checks
+        if not isinstance(n, int):
+            raise TypeError("Argument `n` must be integer.")
+        elif not n > 1:
+            raise TypeError("Argument `n` must be integer larger than 1.")
 
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
