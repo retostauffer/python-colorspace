@@ -25,8 +25,11 @@ develop: setup.py
 	python setup.py clean --all && \
 	python setup.py develop
 
+# Creates baseimages
+baseline:
+	pytest --mpl-generate-path=baseline
+
 test:
-	pytest --mpl-generate-path=baseline_images_for_tests
 	pytest -s
 
 cov:
