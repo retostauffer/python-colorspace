@@ -19,7 +19,7 @@ but also in R. For completeness further standard color models are included as
 well in the package. Their connections are illustrated in the following graph:
 
 
-.. image:: images/colorspaces.jpeg
+.. image:: images/colorspaces.png
     :width: 80%
     :alt: Color spaces and their connection.
     :align: center

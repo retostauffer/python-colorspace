@@ -45,7 +45,7 @@ Would Bob Ross approve?
 When you see a (scientific) data visualization with a rainbow, ask yourself:
 Would `Bob Ross <https://www.bobross.com/>`_ approve of this?
 
-.. image:: ../_static/bobross.jpg
+.. image:: images/bobross.jpg
     :width: 100%
     :align: center
 
@@ -65,10 +65,10 @@ sequential heat color palette on the right
 (``sequential_hcl("Heat")(99)``).
 
 
-.. image:: ../_static/bkde-rainbow.png
+.. image:: images/bkde-rainbow.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/bkde-heat.png
+.. image:: images/bkde-heat.png
     :width: 50%
 
 The original palette changes back and forth between dark and light colors and
@@ -76,20 +76,20 @@ hence high- and low-density regions are difficult to tell apart, especially
 when desaturated to grayscale. In contrast, the heat colors go from light to
 dark and still work very well in grayscale.
 
-.. image:: ../_static/bkde-rainbow-gray.png
+.. image:: images/bkde-rainbow-gray.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/bkde-heat-gray.png
+.. image:: images/bkde-heat-gray.png
     :width: 50%
 
 Similarly, high- and low-density regions are much harder to distinguish for
 colorblind viewers in the original rainbow palette compared to the heat colors.
 Below deuteranope vision is emulated.
 
-.. image:: ../_static/bkde-rainbow-deutan.png
+.. image:: images/bkde-rainbow-deutan.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/bkde-heat-deutan.png
+.. image:: images/bkde-heat-deutan.png
     :width: 50%
 
 
@@ -110,20 +110,20 @@ easier to look at the display for a longer time. Instead of diverging to
 red/green the palette diverges to purple/green as this works better for
 colorblind viewers (see below).
 
-.. image:: ../_static/nigeria-rainbow.png
+.. image:: images/nigeria-rainbow.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/nigeria-purplegreen.png
+.. image:: images/nigeria-purplegreen.png
     :width: 50%
 
 Emulating protanope vision most of the green-yellow contrasts in the RGB
 rainbow are collpased, making the plot very misleading while the HCL-based
 purple/green palette still works very well for colorblind viewers.
 
-.. image:: ../_static/nigeria-rainbow-protan.png
+.. image:: images/nigeria-rainbow-protan.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/nigeria-purplegreen-protan.png
+.. image:: images/nigeria-purplegreen-protan.png
     :width: 50%
 
 Another important difference between the two palettes is that the HCL-based
@@ -167,10 +167,10 @@ dark/colorful colors. However, the extremely sharp transitions between “normal
 and “strongly increased” areas (e.g., in the North and the East) might indicate
 some overfitting in the underlying smoothing for the map.
 
-.. image:: ../_static/influenza-rainbow.png
+.. image:: images/influenza-rainbow.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/influenza-purpleyellow.png
+.. image:: images/influenza-purpleyellow.png
     :width: 50%
 
 Converting all colors to grayscale brings out even more clearly why the overall
@@ -179,19 +179,19 @@ discontinuous switching several times between bright and dark. Thus, it is hard
 to identify the high-risk regions while this is more natural and
 straightforward with the HCL-based sequential palette.
 
-.. image:: ../_static/influenza-rainbow-gray.png
+.. image:: images/influenza-rainbow-gray.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/influenza-purpleyellow-gray.png
+.. image:: images/influenza-purpleyellow-gray.png
     :width: 50%
 
 Emulating deuteranope vision emphasizes the same problems as the desaturated
 version above but shows even more problems with the original palette.
 
-.. image:: ../_static/influenza-rainbow-deutan.png
+.. image:: images/influenza-rainbow-deutan.png
     :width: 50%
     :class: img-float-right
-.. image:: ../_static/influenza-purpleyellow-deutan.png
+.. image:: images/influenza-purpleyellow-deutan.png
     :width: 50%
 
 Showing changes in hue/chroma/luminance across the two palettes also highlights
