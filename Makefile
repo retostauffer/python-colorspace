@@ -26,6 +26,7 @@ develop: setup.py
 	python setup.py develop
 
 test:
+	pytest --mpl-generate-path=baseline_images_for_tests
 	pytest -s
 
 cov:

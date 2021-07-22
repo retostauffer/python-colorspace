@@ -239,7 +239,7 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
 
     # Show figure or return the Axes object (in case `ax` has not been None).
     fig.show()
-    return None
+    return fig
 
 
 

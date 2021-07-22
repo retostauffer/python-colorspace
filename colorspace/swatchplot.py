@@ -536,6 +536,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
                 ypos = 1. - ystep / 2.; xpos = xpos + xstep
             xpos, ypos = _plot_swatches(pal, xpos, ypos, xstep, ystep, show_names)
 
-    plt.show()
+    fig.show()
 
-    return
+    return fig

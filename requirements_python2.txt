@@ -1,4 +1,5 @@
 pytest
+pytest-mpl
 coverage
 docutils
 imageio==2.6.1

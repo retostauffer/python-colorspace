@@ -67,7 +67,7 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
     Raises:
         TypeError: If `type_` is not a string.
         ValueError: If `type_` is not an available demo plot type.
-        TypeError: If `n`` is not integer.
+        TypeError: If `n` is not integer.
         ValueError: `n` must be a positive integer.
     """
     from . import demos
@@ -676,7 +676,7 @@ def Spectrum(*args, **kwargs):
     """
 
     from colorspace import specplot
-    specplot(rgb = True, *args, **kwargs)
+    return specplot(rgb = True, *args, **kwargs)
 
 
 def get_volcano_data(array = False):

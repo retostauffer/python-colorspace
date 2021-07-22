@@ -157,7 +157,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
 
     # Show or save image.
     if output is None:
-        plt.show()
+        fig.show()
     else:
         # Write a simple figure:
         if len(cvd) == 1:
