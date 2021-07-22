@@ -1,0 +1,9 @@
+pytest
+coverage
+docutils
+imageio==2.6.1
+ipython
+matplotlib
+numpy
+pandas
+Pillow

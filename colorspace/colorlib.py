@@ -1392,7 +1392,7 @@ class colorobject:
         elif match("^(H|L|S|alpha){3,4}$", "".join(dims)): dims = ["H", "L", "S"]
 
         # Number of colors
-        ncol = len(self._data_[dims[0]])
+        ncol = max([0 if self._data_[x] is None else len(self._data_[x]) for x in dims])
 
         # Start creating the string:
         res = ["{:s} color object ({:d} colors)".format(self.__class__.__name__, ncol)]
@@ -1467,6 +1467,10 @@ class colorobject:
             return res
         else:
             raise StopIteration
+
+    # Required by python2
+    def next(self):
+        return self.__next__()
 
     def __getitem__(self, key):
         if not isinstance(key, int):
@@ -1858,10 +1862,11 @@ class colorobject:
         Return:
             int: Number of colors defined in the object.
         """
-        return len(self.get(list(self._data_.keys())[0]))
+        # Number of colors
+        return max([0 if self._data_[x] is None else len(self._data_[x]) for x in self._data_.keys()])
 
     def __len__(self):
-        return len(self.get(list(self._data_.keys())[0]))
+        return self.length()
 
 
     def _cannot(self, from_, to):
@@ -2974,9 +2979,9 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
 
     from numpy import sqrt, isclose
 
-    if not issubclass(type(a), colorobject):
+    if not isinstance(a, colorobject):
         raise ValueError("Input \"a\" must be an object based on colorspace.colorlib.colorobject.")
-    if not issubclass(type(b), colorobject):
+    if not isinstance(b, colorobject):
         raise TypeError("Input \"b\" must be an object based on colorspace.colorlib.colorobject.")
     if not type(a) == type(b):
         raise TypeError("Input \"a\" and \"b\" not of same class.")

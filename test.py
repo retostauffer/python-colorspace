@@ -1,5 +1,36 @@
 
 
+
+from colorspace.colorlib import *
+compare_colors(hexcols("#ff0000"), hexcols("#FF0000"))
+
+import sys; sys.exit()
+
+
+import pytest
+from colorspace.colorlib import *
+from copy import deepcopy
+
+all_models = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "CIELAB", "CIELUV", "RGB", \
+              "sRGB", "polarLAB", "hex", "HLS", "HSV"]
+colors_to_test            = hexcols(["#000000", "#ff0000", "#00ff00", "#0000ff",
+                                     "#ff00ff", "#ffff00", "#00ffff", "#ffffff"])
+colors_to_test_with_alpha = hexcols(["#00000010", "#ff0000ff", "#00ff0030", "#0000ffAA",
+                                     "#ff00ffce", "#ffff0000", "#00ffffc3", "#ffffffD3"])
+
+
+#import re
+#pat = re.compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
+#
+#from colorspace import *
+#
+#x = "#FF0"
+#q = check_hex_colors(x)
+#print(q)
+
+
+import sys; sys.exit()
+
 from colorspace.colorlib import HCL
 from colorspace import max_chroma
 import matplotlib.pyplot as plt

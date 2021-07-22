@@ -64,11 +64,11 @@ def check_hex_colors(colors, allow_nan = False):
         # Just not a proper definition
         if not tmp:
             raise ValueError("String '{:s}' is no valid hex color.".format(x))
-        elif len(tmp[1]) == 3 and not tmp[2] == None:
+        elif len(tmp.group(1)) == 3 and not tmp.group(2) == None:
             raise ValueError("String '{:s}' is no valid hex color!".format(x))
         # Three digit: extend
-        elif len(tmp[1]) == 3:
-            x = "#" + "".join(repeat([x for x in tmp[1]], 2))
+        elif len(tmp.group(1)) == 3:
+            x = "#" + "".join(repeat([x for x in tmp.group(1)], 2))
         return x
 
     colors = [check(x, pat) for x in colors]
