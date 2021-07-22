@@ -27,6 +27,7 @@ directly via the `colorspace` package, such as
     rainbow_hcl
     heat_hcl
     terrain_hcl
+    rainbow
     palette
     diverging_hsv
 

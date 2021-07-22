@@ -16,6 +16,10 @@ code {
     padding: 0 .25em;
 }
 
+img.img-float-right {
+    float: right;
+}
+
 form.navbar-form {
     display: none;
 }

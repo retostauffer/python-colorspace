@@ -1,5 +1,14 @@
 
 
+from colorspace import *
+import matplotlib.pyplot as plt
+
+pal_rgb = rainbow(start = 0, end = 1 / 3, rev = True)
+
+specplot(pal_rgb(99))
+
+import sys; sys.exit()
+
 
 from colorspace.colorlib import *
 compare_colors(hexcols("#ff0000"), hexcols("#FF0000"))

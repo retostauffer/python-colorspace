@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs):
+def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figargs):
     """Visualization of the RGB and HCL spectrum given a set of hex colors.
     As the hues for low-chroma colors are not (or poorly) identified, by
     default a smoothing is applied to the hues (``fix = TRUE``). Also, to
@@ -20,7 +20,8 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
             Details in the method description.
         rgb (bool): Whether or not to plot the RGB color spectrum. Default is
             False.
-        **kwargs: Currently not used.
+        **figargs: forwarded to `matplotlib.pyplot.subplot`. Only has an effect
+            if `fig = None`.
 
     Example:
 
@@ -34,14 +35,6 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
         Implement the smoothings to improve the look of the plots. Only
         partially implemented, the spline smoother is missing.
     """
-
-    # Check if matplotlib is installed or not (as it is not
-    # a package requirement but a suggested package).
-    try:
-        import matplotlib
-    except:
-        raise Exception("Requires matplotlib to be installed! Stop.")
-
 
     # Support function to draw the color map (the color strip)
     def cmap(ax, hex_):
@@ -140,16 +133,12 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
     from numpy import linspace, arange
     import matplotlib.ticker as ticker
     import matplotlib.pyplot as plt
-    from matplotlib import pyplot as plt
 
     # Create plot
-
     import numpy as np
 
-    # The kwargs figure input is used when the specplot
-    # is used as demo plot in the choose_palette interface.
-    if "fig" in kwargs.keys(): fig = kwargs["fig"]
-    else:                      fig = plt.figure() 
+    # Open new figure.
+    fig = plt.figure()
 
     if rgb and hcl and palette:
         ax1 = plt.subplot2grid((7, 1), (0, 0), rowspan = 3)
@@ -207,8 +196,6 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
             LG, = ax1.plot(x, G, color = rgbcols.colors()[1], linestyle = linestyle)
             LB, = ax1.plot(x, B, color = rgbcols.colors()[2], linestyle = linestyle)
             count += 1
-        #ax1.legend([LR, LG, LB], ["R", "G", "B"],
-        #    bbox_to_anchor = (0., 1., .3, 0.), ncol = 3, frameon = False)
 
     # Plotting the color map
     if palette:
@@ -219,13 +206,22 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
         count = 0
         for key,val in coords.items():
             [H, C, L] = val["HCL"]
+
+            # Setting limits for left y-axis
+            ymax = max(0, max(C), max(L))
+            ax3.set_ylim(0, ymax * 1.05)
+
             x = linspace(0., 1., len(H))
             linestyle = linestyles[count % len(linestyles)] 
             ax3.plot(x,  C, color = hclcols[1], linestyle = linestyle)
             ax3.plot(x,  L, color = hclcols[2], linestyle = linestyle)
             ax33.plot(x, H, color = hclcols[0], linestyle = linestyle)
+
+            # If the minimum of H does not go below 0, set axis to 0, 360
+            ax33.set_yticks(arange(-360, 361, 120))
+            ax33.set_ylim(-360 if min(H) < 0 else 0, 360)
+
             count += 1
-        ax33.set_yticks(arange(-360, 361, 120))
         ax33.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.0f'))
 
     # Labels and annotations
@@ -240,8 +236,11 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **kwargs
         ax3.text(0.5,  -10, "HCL Spectrum", horizontalalignment = "center",
                  verticalalignment = "top")
 
-    if not "fig" in kwargs.keys():
-        plt.show()
+
+    # Show figure or return the Axes object (in case `ax` has not been None).
+    fig.show()
+    return None
+
 
 
 

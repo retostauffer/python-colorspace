@@ -179,8 +179,10 @@ def Bar(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
-    # Open figure if input "fig" is None, else use
-    # input "fig" handler.
+    # Open new figure in case the user has not specified the `ax`
+    # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
+    # In this case this function will also auto-show the image at the end
+    # of the function.
     if ax is None:
         fig = plt.figure()
         ax  = plt.gca()
@@ -240,8 +242,10 @@ def Pie(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
-    # Open figure if input "fig" is None, else use
-    # input "fig" handler.
+    # Open new figure in case the user has not specified the `ax`
+    # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
+    # In this case this function will also auto-show the image at the end
+    # of the function.
     if ax is None:
         fig = plt.figure()
         ax  = plt.gca()
@@ -291,8 +295,10 @@ def Spine(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
-    # Open figure if input "fig" is None, else use
-    # input "fig" handler.
+    # Open new figure in case the user has not specified the `ax`
+    # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
+    # In this case this function will also auto-show the image at the end
+    # of the function.
     if ax is None:
         fig = plt.figure()
         ax  = plt.gca()
@@ -371,8 +377,10 @@ def Heatmap(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
-    # Open figure if input "fig" is None, else use
-    # input "fig" handler.
+    # Open new figure in case the user has not specified the `ax`
+    # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
+    # In this case this function will also auto-show the image at the end
+    # of the function.
     if ax is None:
         fig = plt.figure()
         ax  = plt.gca()
@@ -446,8 +454,10 @@ def Matrix(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
-    # Open figure if input "fig" is None, else use
-    # input "fig" handler.
+    # Open new figure in case the user has not specified the `ax`
+    # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
+    # In this case this function will also auto-show the image at the end
+    # of the function.
     if ax is None:
         fig = plt.figure()
         ax  = plt.gca()
@@ -541,8 +551,10 @@ def Lines(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
-    # Open figure if input "fig" is None, else use
-    # input "fig" handler.
+    # Open new figure in case the user has not specified the `ax`
+    # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
+    # In this case this function will also auto-show the image at the end
+    # of the function.
     if ax is None:
         fig = plt.figure()
         ax  = plt.gca()
@@ -610,8 +622,10 @@ def Map(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise ValueError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
 
-    # Open figure if input "fig" is None, else use
-    # input "fig" handler.
+    # Open new figure in case the user has not specified the `ax`
+    # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
+    # In this case this function will also auto-show the image at the end
+    # of the function.
     if ax is None:
         fig = plt.figure()
         ax  = plt.gca()
