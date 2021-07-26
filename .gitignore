@@ -2,12 +2,14 @@
 
 colorspace.egg-info
 __pycache__
+/dist
 /docs
 /coverage
 
 # Some development folders
 /htmlcov
 /build
+/venv2
 /venv3
 
 
