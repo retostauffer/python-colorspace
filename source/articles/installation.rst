@@ -4,23 +4,24 @@
 Package Installation
 ====================
 
-
 At the moment the package is available via [github](github)
 `github.com/retostauffer/python-colorspace <https://https://github.com/retostauffer/python-colorspace>`_.
-Note that `numpy <https://pypi.org/project/numpy/>`_ needs to be installed to be able to
-use the package.
-A `PyPI <https://pypi.org>`_ release is planned in the future.
+A few requirements are needed to be able to use the package and all its features.
 
+* Python ``3.4+`` or ``2.7`` (limited support)
+* `numpy <https://pypi.org/project/numpy/>`_
+* `imageio <https://pypi.org/project/imageio/>`_ (optional).
+  Check the comment below in case you are still running Python ``2.7``.
 
-**Requirements**:
+A release of the ``colorspace`` package on `PyPi <https://pypi.org>`_ is planned
+in the near future.
 
-.. todo::
-    Python 2.7+ support questionable as `imageio` is no longer available.
-    I think it would be nice to have support for 2.7 if it can be done
-    easily; else ignore and support 3+ only.
+**Python 2.7**
 
-* Python 2.7+ or Python 3+
-* `numpy`
+Imageio has ended support for Python version ``2.7``. Imageio ``2.6.x`` is the last
+release candidate to support Python ``2.7``. Make sure you install the correct version
+in this case (``imageio==2.6.1``).
+
 
 **Install via pip**
 
@@ -41,6 +42,3 @@ Alternatively, clone the git repository and install the package:
     git clone https://github.com/retostauffer/python-colorspace.git
     cd python-colorspace && python setup.py install
 
-.. todo::
-    Update installation notes once the package has been released on
-    `PyPi.org <https://pypi.org/>`_.

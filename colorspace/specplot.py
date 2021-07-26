@@ -70,9 +70,10 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
 
     # Import hexcolors: convert colors to hexcolors for the plot if needed.
     from .colorlib import hexcols
+    from .palettes import palette
     coords = {} 
     if not isinstance(hex_, dict):
-        hex_ = {"colors": hex_}
+        hex_ = {"colors": palette(hex_).colors()}
 
     # If input parameter "fix = True": fixing
     # the hue coordinates to avoid jumping which

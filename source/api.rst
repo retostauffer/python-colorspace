@@ -27,9 +27,10 @@ directly via the `colorspace` package, such as
     rainbow_hcl
     heat_hcl
     terrain_hcl
+    diverging_hsv
     rainbow
     palette
-    diverging_hsv
+    palettes.hclpalette
 
 
 GUI for choosing color palettes

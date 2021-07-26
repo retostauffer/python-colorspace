@@ -117,6 +117,28 @@ class palette:
         return self._colors
         ###TODO(R) Remove? Return [str(x) for x in self._colors]
 
+    def swatchplot(self, **kwargs):
+        """Interfacing the :py:func:`swatchplot.swatchplot` function.
+        Plotting the spectrum of the current color palette.
+
+        Args:
+            **kwargs: forwarded to :py:func:`swatchplot`. Note that
+                ``show_names`` will always be set to ``False``.
+
+        Example:
+
+            >>> from colorspace import palette
+            >>> pal = palette(["#FCFFC9", "#E8C167", "#D67500", "#913640", "#1D0B14"],
+            >>>               name = "Custom Palette")
+            >>> pal.swatchplot()
+            >>> pal.swatchplot(figsize = (5, 1))
+        """
+
+        from .swatchplot import swatchplot
+        if "show_names" in kwargs.keys():
+            del kwargs["show_names"]
+        swatchplot(pals = self.colors(), show_names = False, **kwargs)
+
     def cmap(self, n = None, rev = False):
         """Return matplotlib compatible color map
 
@@ -135,7 +157,7 @@ class palette:
             Returns a :py:class:`matplotlib.colors.LinearSegmentedColormap` (cmap) to be used
             with the matplotlib library.
 
-        Todo:
+        TODO:
             Is `n = None` a good default?
 
         Example:
@@ -420,7 +442,7 @@ class hclpalettes:
         >>> hclpals.plot()
         >>> hclpals.plot(n = 11)
 
-    Todo:
+    TODO:
         * Check if the files option is useful. If so, provide some
           more information about the config files and where/how to use.
     """
@@ -940,7 +962,7 @@ class hclpalette:
         return [n, h, c, l, p, palette]
 
 
-    def cmap(self, n = 51, name = "custom_hcl_cmap"):
+    def cmap(self, n = 101, name = "custom_hcl_cmap"):
         """Allows to retrieve a matplotlib LinearSegmentedColormap color map.
         Clasically LinearSegmentedColormaps allow to retrieve a set of ``N``
         colors from a set of ``n`` colors where ``N >> n``. The matplotlib
@@ -957,7 +979,7 @@ class hclpalette:
         palettes in your existing workflow.
 
         Args:
-            n (int): Number of colors the cmap should be based on; default is ``n = 51``.
+            n (int): Number of colors the cmap should be based on; default is ``n = 101``.
             name (str): Name of the custom color map. Default is ``custom_hcl_cmap``
 
         Returns:
@@ -1070,6 +1092,15 @@ class qualitative_hcl(hclpalette):
         >>> # The standard call of the object also returns hex colors. Thus,
         >>> # you can make your code slimmer by calling:
         >>> qualitative_hcl("Dynamic")(10)
+
+
+    TODO:
+        Class does not allow for lambda function for h. Thus, the colors
+        on both ends of a qualitative color map with ``h = [0, 360]`` are
+        identical. See also palette definition (text files). I would need
+        to allow for lambda functions which will require quite some adaptions
+        of the current code (reading config files; _checkinput function; evaluation
+        of the function whenever needed).
     """
 
     _name = "Qualitative"

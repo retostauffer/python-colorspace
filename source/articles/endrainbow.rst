@@ -23,11 +23,11 @@ demos).
 
 For more details on the limitations of the rainbow palette and further pointers
 see "`The End of the Rainbow <http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/>`_"
-by :cite:p:`color:Hawkins+McNeall+Stephenson:2014`,
+by :cite:t:`color:Hawkins+McNeall+Stephenson:2014`,
 "`Examining Implicit Discretization in Spectral Schemes <https://vdl.sci.utah.edu/publications/2019_eurovis_implicit-discretization/>`_"
-by :cite:p:`color:Quinan+Padilla+CreemRegehr:2019`, or
+by :cite:t:`color:Quinan+Padilla+CreemRegehr:2019`, or
 "`Somewhere over the Rainbow: How to Make Effective Use of Colors in Meteorological Visualizations <https://dx.doi.org/10.1175/BAMS-D-13-00155.1>`_"
-by :cite:p:`color:Stauffer+Mayr+Dabernig:2015` as well as the
+by :cite:t:`color:Stauffer+Mayr+Dabernig:2015` as well as the
 `#endrainbow <https://twitter.com/hashtag/endrainbow>`_ hashtag on Twitter.
 
 In a nutshell, the (in-)famous RGB rainbow palette is virtually always a poor choice and properly balanced qualitative, sequential, or diverging palettes - such as the
@@ -57,8 +57,9 @@ less flashy colors that change smoothly ... very much in the spirit of
 Heatmap from The Grammar of Graphics
 ------------------------------------
 
-Even in the excellent book "The Grammar of Graphics <https://www.cs.uic.edu/~wilkinson/TheGrammarOfGraphics/GOG.html>_`"
-by :cite:p:`color:Wilkinson:2005`, the rainbow palette is used in one of the
+Even in the excellent book
+"`The Grammar of Graphics <https://www.cs.uic.edu/~wilkinson/TheGrammarOfGraphics/GOG.html>`_"
+by :cite:t:`color:Wilkinson:2005`, the rainbow palette is used in one of the
 first figures, depicting a heatmap of a bivariate kernel density estimate. The
 figure is shown below on the left and is contrasted with an HCL-based
 sequential heat color palette on the right
@@ -100,7 +101,7 @@ Often a subset of the RGB rainbow palette is used as a "traffic light", coding
 "positive" (green) and "negative" (red) deviations from some neutral value
 (yellow), e.g., forecast errors or other model deviations, correlations,
 slopes, etc. A typical example is shown below, taken from Figure 5 of
-:cite:p:`color:Kneib:2006`, where deviations from a childhood moratlity model
+:cite:t:`color:Kneib:2006`, where deviations from a childhood moratlity model
 (without spatial effect) for Nigeria are depicted.
 
 The original palette is ``rainbow(start = 0, end = 1/3, rev = True)(99)`` (left)

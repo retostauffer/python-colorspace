@@ -13,7 +13,7 @@ palettes in python. Based on the Hue-Chroma-Luminance (HCL) color space
 effective color palettes can be designed and implemented in your own daily
 workflow.
 
-This package is based on the code and ideas of the
+This package is based on the
 `R colorspace <https://cran.r-project.org/package=colorspace>`_ package
 as it has often been requested by Python enthusiasts. More information
 and an interactive interface can also be found on
@@ -33,7 +33,6 @@ Contents
 
     articles/installation
     articles/color_spaces
-    articles/colorlib
     articles/hcl_palettes
     articles/palette_visualization
     articles/choose_palette
@@ -49,7 +48,7 @@ Other Packages and Further Reading
 More information and further reading:
 
 * `HCLwizard.org <http://hclwizard.org>`__: more information about the HCL color
-  space, introduction to the colorspace packages (in R and python), and some
+  space, introduction to the ``colorspace`` packages (in R and python), and some
   interactive tools to define effective HCL-based color palettes, pick colors,
   and check existing plots and figures for possible problems in terms of color
   vision deficiencies.

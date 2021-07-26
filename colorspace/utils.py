@@ -36,6 +36,7 @@ def check_hex_colors(colors, allow_nan = False):
     """
     from re import match, compile
     from numpy import all, repeat, ndarray
+    from .colorlib import colorobject
 
     # Saniy checks
     if not isinstance(allow_nan, bool): raise TypeError("Input 'allow_nan' is not boolean.")
@@ -48,6 +49,8 @@ def check_hex_colors(colors, allow_nan = False):
         if not len(colors.shape) == 1:
             raise TypeError("If an `numpy.ndarray` is provided on 'colors' it must be 1D!")
         colors = colors.flatten().tolist()
+    elif isinstance(colors, colorobject):
+        colors = colors.colors()
     else:
         raise TypeError("Argument 'colors' none of the allowed types.")
 

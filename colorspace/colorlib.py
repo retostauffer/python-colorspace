@@ -1688,12 +1688,13 @@ class colorobject:
             specplot(cols.colors(), **kwargs)
 
 
-    def swatchplot(self):
+    def swatchplot(self, **kwargs):
         """Interfacing the :py:func:`swatchplot.swatchplot` function.
         Plotting the spectrum of the current color palette.
 
         Args:
-            n (int): Number of colors, defaults to 7.
+            **kwargs: forwarded to :py:func:`swatchplot`. Note that
+                ``show_names`` will always be set to ``False``.
 
         Example:
 
@@ -1705,8 +1706,9 @@ class colorobject:
         """
 
         from .swatchplot import swatchplot
-        swatchplot(self.colors())
-
+        if "show_names" in kwargs.keys():
+            del kwargs["show_names"]
+        swatchplot(pals = self.colors(), show_names = False, **kwargs)
 
     def colors(self, fixup = True, rev = False):
         """colors(fixup = True)

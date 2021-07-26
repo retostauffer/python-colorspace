@@ -15,10 +15,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         of palettes.
     * An object of class :py:class:`colorspace.palettes.hclpalettes`.
 
-    Note: ``**kwargs`` can be used to specify the figure size of the resulting
-    image by specifying ``figsize = (height, width)`` where both, ``height``
-    and ``width`` must be int/float, specifying the height and width in inches.
-
     Args:
         pals: The color palettes or color objects to be visualized.
             See description for details and examples to demonstrate different
@@ -34,7 +30,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             :py:func:`tritan<colorspace.CVD.tritan>`,
             :py:func:`deutan<colorspace.CVD.deutan>`,
             :py:func:`desaturate<colorspace.CVD.desaturate>`.
-        **kwargs: See function description.
+        **kwargs: forwarded to `matplotlib.pyplot.subplot`, can be used to control e.g.,
+            ``figsize``.
 
     Raises:
         TypeError: If ``nrow`` or ``n`` no integers.
@@ -484,7 +481,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     # Plot
     # ---------------------------------------------------------------
     # Initialize new figure
-    fig, ax = plt.subplots(figsize = figsize)
+    #fig, ax = plt.subplots(figsize = figsize)
+    fig, ax = plt.subplots(**kwargs)
 
     # Compute number of columns needed. Thus, we first of all have to check
     # if 'data' is a list (no group-titles) or a dictionary (each block/group

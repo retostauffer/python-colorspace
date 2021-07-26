@@ -1,13 +1,82 @@
 
 
-from colorspace import *
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
+from colorspace import demoplot, qualitative_hcl
 
-pal_rgb = rainbow(start = 0, end = 1 / 3, rev = True)
 
-specplot(pal_rgb(99))
+x = qualitative_hcl().colors(4)
+print(x)
 
-import sys; sys.exit()
+import sys; sys.exit(3)
+x = qualitative_hcl("Pastel 1").colors(4)
+print(x)
+#demoplot(qualitative_hcl("Pastel 1"), type_ = "Lines", n = 6)
+
+
+import sys; sys.exit(3)
+
+from matplotlib import pyplot as plt
+import numpy as np
+
+fig, [ax1, ax2, ax3] = plt.subplots(1, 3, figsize = (10, 4))
+i = np.linspace(0, 1, 51) # intensity
+
+# Setting title and axis labels
+for t,a in {"Constant": ax1, "Linear": ax2, "Triangular": ax3}.items():
+    a.set_title(t); a.set_xlabel("Intensity (i)"); a.set_ylabel("Coordinate")
+    a.set_xlim(1, 0); a.set_ylim(0, 100)
+
+# ---------------------
+# First subplot
+# ---------------------
+y = np.repeat(80, len(i))
+ax1.plot(i, y, color = "black", linestyle = "-")
+
+# ---------------------
+# Second subplot
+# ---------------------
+y1 = 10 - (10 - 80) * i**1.0
+y2 = 10 - (10 - 80) * i**1.6
+
+bbox = dict(edgecolor = "black", facecolor = "white", alpha = 0.5)
+
+ax2.plot(i, y1, color = "black", linestyle = "-")  # linear
+ax2.plot(i, y2, color = "black", linestyle = "--") # power-transformed
+
+# Adding texts and labels
+ax2.text(0.96, 82, "c1", va = "bottom", ha = "left",  bbox = bbox)
+ax2.text(0.04,  8, "c2", va = "top",    ha = "right", bbox = bbox)
+ax2.text(0.5,  52, "p1 = 1.0", va = "bottom", ha = "left",  bbox = bbox)
+ax2.text(0.55, 30, "p1 = 1.6", va = "top",    ha = "right", bbox = bbox)
+
+# ---------------------
+# Third subplot
+# ---------------------
+def get_coord(c1, c2, cmax, p1):
+    j = (1. + np.abs(cmax - c1) / np.abs(cmax - c2))**(-1.)
+    return np.where(i**p1 <= j,
+                    c2   - (c2   - cmax) * i**p1 / j,
+                    cmax - (cmax - c1)   * (i**p1 - j) / (1 - j))
+y1 = get_coord(60, 10, 80, 1.0)
+y2 = get_coord(60, 10, 80, 1.6)
+
+bbox = dict(edgecolor = "black", facecolor = "white", alpha = 0.5)
+
+ax3.plot(i, y1, color = "black", linestyle = "-")  # linear
+ax3.plot(i, y2, color = "black", linestyle = "--") # power-transformed
+
+# Adding texts and labels
+ax3.text(0.96, 54, "c1",   va = "top",    ha = "left",   bbox = bbox)
+ax3.text(0.04,  8, "c2",   va = "top",    ha = "right",  bbox = bbox)
+ax3.text(0.70, 81, "cmax", va = "bottom", ha = "left",   bbox = bbox)
+ax3.text(0.45, 58, "p1 = 1.0", va = "bottom", ha = "left",  bbox = bbox)
+ax3.text(0.55, 35, "p1 = 1.6", va = "top",    ha = "right", bbox = bbox)
+
+# Tighten up and display
+plt.tight_layout()
+fig.show()
+
+import sys; sys.exit(0)
 
 
 from colorspace.colorlib import *

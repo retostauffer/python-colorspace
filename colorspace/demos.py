@@ -244,7 +244,8 @@ def Pie(colors, ax = None, **kwargs):
 
     # Generate pie plot
     x = 0.01 + np.abs(np.sin(1.5 + np.arange(0, len(colors))))
-    ax.pie(x, colors = colors)
+    ax.pie(x, colors = colors,
+           wedgeprops = {"edgecolor": "0", "linewidth": 1, "antialiased": True})
 
     # Set and draw axis and labels for the demoplots
     _demoplot_set_labels(ax, **kwargs)

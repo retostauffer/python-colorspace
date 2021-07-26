@@ -72,7 +72,6 @@ More detailed overviews and examples are provided in the articles:
     articles/installation
     articles/color_spaces
     articles/hcl_palettes
-    articles/colorlib
     articles/classes_and_methods
     articles/palette_visualization
     articles/choose_palette
