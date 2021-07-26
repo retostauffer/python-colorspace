@@ -267,9 +267,70 @@ for lines (right).
     @savefig palette_visualization_demos_qualitative.png width=66% align=center
     fig.show()
 
+*Sequential palettes*: Heatmaps (left) often employ almost continuous gradients
+with strong luminance contrasts. In contrast, when only a few ordered
+categories are to be displayed (e.g., in a spine plot, right) more colorful
+sequential palettes like the viridis palette can be useful.
 
+.. ipython:: python
+    :okwarning:
 
+    from matplotlib import pyplot as plt
+    from colorspace import demoplot, sequential_hcl
 
+    fig, [ax1, ax2] = plt.subplots(1, 2, figsize = (6.5, 3))
+
+    ax1 = demoplot(sequential_hcl("Purple-Blue", rev = True), type_ = "Heatmap", n = 99, ax = ax1)
+    ax2 = demoplot(sequential_hcl("Viridis"),                 type_ = "Spine",   n =  4, ax = ax2)
+
+    @savefig palette_visualization_demos_sequential.png width=66% align=center
+    fig.show()
+
+*Diverging palettes*: In some displays (such as the map, left), it is useful to
+employ an almost continuous gradient with strong luminance contrast to bring
+out the extremes. Here, this contrast is amplified by a larger power
+transformation emphasizing the extremes even further. In contrast, when fewer
+colors are needed more colorful palettes with lower luminance contrasts can be
+desired. This is exemplified by a mosaic (center) and bar plot (right).
+
+.. ipython:: python
+    :okwarning:
+
+    from matplotlib import pyplot as plt
+    from colorspace import demoplot, sequential_hcl
+
+    fig, [ax1, ax2, ax3] = plt.subplots(1, 3, figsize = (10, 3))
+
+    ax1 = demoplot(diverging_hcl("Tropic", power = 2.5), type_ = "Map",    n = 99, ax = ax1)
+    ax2 = demoplot(diverging_hcl("Green-Orange"),        type_ = "Matrix", n =  5, ax = ax2)
+    ax3 = demoplot(diverging_hcl("Blue-Red 2"),          type_ = "Bar",    n =  5, ax = ax3)
+
+    @savefig palette_visualization_demos_diverging.png width=100% align=center
+    fig.show()
+
+All displays above focus on palettes designed for light/white backgrounds.
+Therefore, to conclude, some palettes are highlighted that work well on
+dark/black backgrounds.
+
+.. ipython:: python
+    :okwarning:
+
+    from matplotlib import pyplot as plt
+    from colorspace import demoplot, sequential_hcl, qualitative_hcl, diverging_hcl
+
+    fig, axes = plt.subplots(2, 3, figsize = (10, 6))
+    plt.style.use("dark_background")
+
+    axes[0, 0] = demoplot(sequential_hcl("Oslo", rev = True),  "Heatmap", ax = axes[0, 0])
+    axes[0, 1] = demoplot(sequential_hcl("Turku", rev = True), "Heatmap", ax = axes[0, 1])
+    axes[0, 2] = demoplot(sequential_hcl("Inferno"),           "Heatmap", ax = axes[0, 2])
+
+    axes[1, 0] = demoplot(qualitative_hcl("Set 2"), "Lines", ax = axes[1, 0])
+    axes[1, 1] = demoplot(diverging_hcl("Berlin"),  "Lines", ax = axes[1, 1])
+    axes[1, 2] = demoplot(diverging_hcl("Cyan-Magenta", l2 = 20), "Lines", ax = axes[1, 2])
+
+    @savefig palette_visualization_demos_dark.png width=100% align=center
+    fig.show()
 
 
 
