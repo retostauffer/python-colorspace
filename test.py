@@ -1,220 +1,43 @@
 
 
-from matplotlib import pyplot as plt
-from colorspace import demoplot, qualitative_hcl
+from colorspace import check_hex_colors
 
 
-x = qualitative_hcl().colors(4)
-print(x)
+print(check_hex_colors(["#FF0033", "#FFF", "#FF0033CC"]))
 
-import sys; sys.exit(3)
-x = qualitative_hcl("Pastel 1").colors(4)
-print(x)
-#demoplot(qualitative_hcl("Pastel 1"), type_ = "Lines", n = 6)
+print(check_hex_colors(["red", "0", "#FFF"]))
 
 
-import sys; sys.exit(3)
-
-from matplotlib import pyplot as plt
-import numpy as np
-
-fig, [ax1, ax2, ax3] = plt.subplots(1, 3, figsize = (10, 4))
-i = np.linspace(0, 1, 51) # intensity
-
-# Setting title and axis labels
-for t,a in {"Constant": ax1, "Linear": ax2, "Triangular": ax3}.items():
-    a.set_title(t); a.set_xlabel("Intensity (i)"); a.set_ylabel("Coordinate")
-    a.set_xlim(1, 0); a.set_ylim(0, 100)
-
-# ---------------------
-# First subplot
-# ---------------------
-y = np.repeat(80, len(i))
-ax1.plot(i, y, color = "black", linestyle = "-")
-
-# ---------------------
-# Second subplot
-# ---------------------
-y1 = 10 - (10 - 80) * i**1.0
-y2 = 10 - (10 - 80) * i**1.6
-
-bbox = dict(edgecolor = "black", facecolor = "white", alpha = 0.5)
-
-ax2.plot(i, y1, color = "black", linestyle = "-")  # linear
-ax2.plot(i, y2, color = "black", linestyle = "--") # power-transformed
-
-# Adding texts and labels
-ax2.text(0.96, 82, "c1", va = "bottom", ha = "left",  bbox = bbox)
-ax2.text(0.04,  8, "c2", va = "top",    ha = "right", bbox = bbox)
-ax2.text(0.5,  52, "p1 = 1.0", va = "bottom", ha = "left",  bbox = bbox)
-ax2.text(0.55, 30, "p1 = 1.6", va = "top",    ha = "right", bbox = bbox)
-
-# ---------------------
-# Third subplot
-# ---------------------
-def get_coord(c1, c2, cmax, p1):
-    j = (1. + np.abs(cmax - c1) / np.abs(cmax - c2))**(-1.)
-    return np.where(i**p1 <= j,
-                    c2   - (c2   - cmax) * i**p1 / j,
-                    cmax - (cmax - c1)   * (i**p1 - j) / (1 - j))
-y1 = get_coord(60, 10, 80, 1.0)
-y2 = get_coord(60, 10, 80, 1.6)
-
-bbox = dict(edgecolor = "black", facecolor = "white", alpha = 0.5)
-
-ax3.plot(i, y1, color = "black", linestyle = "-")  # linear
-ax3.plot(i, y2, color = "black", linestyle = "--") # power-transformed
-
-# Adding texts and labels
-ax3.text(0.96, 54, "c1",   va = "top",    ha = "left",   bbox = bbox)
-ax3.text(0.04,  8, "c2",   va = "top",    ha = "right",  bbox = bbox)
-ax3.text(0.70, 81, "cmax", va = "bottom", ha = "left",   bbox = bbox)
-ax3.text(0.45, 58, "p1 = 1.0", va = "bottom", ha = "left",  bbox = bbox)
-ax3.text(0.55, 35, "p1 = 1.6", va = "top",    ha = "right", bbox = bbox)
-
-# Tighten up and display
-plt.tight_layout()
-fig.show()
 
 import sys; sys.exit(0)
 
 
-from colorspace.colorlib import *
-compare_colors(hexcols("#ff0000"), hexcols("#FF0000"))
-
-import sys; sys.exit()
-
-
-import pytest
-from colorspace.colorlib import *
-from copy import deepcopy
-
-all_models = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "CIELAB", "CIELUV", "RGB", \
-              "sRGB", "polarLAB", "hex", "HLS", "HSV"]
-colors_to_test            = hexcols(["#000000", "#ff0000", "#00ff00", "#0000ff",
-                                     "#ff00ff", "#ffff00", "#00ffff", "#ffffff"])
-colors_to_test_with_alpha = hexcols(["#00000010", "#ff0000ff", "#00ff0030", "#0000ffAA",
-                                     "#ff00ffce", "#ffff0000", "#00ffffc3", "#ffffffD3"])
-
-
-#import re
-#pat = re.compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
-#
-#from colorspace import *
-#
-#x = "#FF0"
-#q = check_hex_colors(x)
-#print(q)
-
-
-import sys; sys.exit()
-
-from colorspace.colorlib import HCL
-from colorspace import max_chroma
-import matplotlib.pyplot as plt
+from colorspace import *
+from colorspace.colorlib import hexcols
+from colorspace.utils import extract_transparency, adjust_transparency
 import numpy as np
 
+# Three colors without alpha
+cols1 = ['#023FA5',   '#E2E2E2',   '#8E063B']
+# Same colors with transparency 80%, 40%, 80%
+cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
 
-# ----------------------------------------
-# Setting up the plot
-# ----------------------------------------
-fig, [ax1, ax2] = plt.subplots(1, 2, figsize = (9, 4))
-
-# ----------------------------------------
-# C vs. H plot
-# ----------------------------------------
-H = np.linspace(0, 360, 37, endpoint = True, dtype = "int")
-L = np.linspace(30, 90, 4, endpoint = True, dtype = "int")
-
-C = []; Cmax = 0
-for i in range(len(L)):
-    C.append(max_chroma(H, float(L[i])))
-    Cmax = max(Cmax, max(C[i]))
-
-for i in range(len(L)):
-    colors = HCL(H, C[i], np.repeat(L[i], len(H))).colors()
-    ax1.plot(H, C[i], color = "0.5", zorder = 1)
-    ax1.scatter(H, C[i], c = colors, zorder = 2)
-
-ax1.set_xlim(0, 360)
-ax1.set_ylim(0, Cmax * 1.05)
-yr = ax1.secondary_yaxis("right")
-yr.set_ticks([x[len(x) - 1] for x in C])
-yr.set_yticklabels(["L = {:d}".format(x) for x in L])
-ax1.set_xlabel("Hue (H)")
-ax1.set_ylabel("Maximum chroma (C)")
-
-
-# ----------------------------------------
-# L vs. C plot
-# ----------------------------------------
-L = np.linspace(0, 100, 21, endpoint = True, dtype = "int")
-H = np.asarray([0, 60, 120, 250, 330], dtype = "int")
-
-C = []; Cmax = 0
-for i in range(len(H)):
-    C.append(max_chroma(float(H[i]), L))
-    Cmax = max(Cmax, max(C[i]))
-
-for i in range(len(H)):
-    colors = HCL(np.repeat(H[i], len(L)), C[i], L).colors()
-    ax2.plot(C[i], L, color = "0.5", zorder = 1)
-    ax2.scatter(C[i], L, c = colors, zorder = 2)
-    # Setting label
-    idx = int(np.where(C[i] == max(C[i]))[0])
-    ax2.text(C[i][idx] + Cmax / 15, L[idx], "H = {:d}".format(H[i]),
-             color = colors[idx], va = "center")
-
-
-ax2.set_xlim(0, Cmax * 1.20)
-ax2.set_ylim(0, 100)
-ax2.set_xlabel("Maximum chroma (C)")
-ax2.set_ylabel("Luminance (L)")
-
-fig.tight_layout()
-plt.show()
-
-
-import sys; sys.exit(3)
-
-
-from colorspace.colorlib import hexcols
-
-x1 = hexcols(["#ff00ff", "#00ff00", "#0000ff"])
+# Convert 'cols1' into a hexcols object and modify transparency
+x1 = hexcols(cols1)
 print(x1)
-x2 = hexcols(["#f0f", "#00ff00", "#0000ff"])
+extract_transparency(x1)           # Extract transparency
+x1 = adjust_transparency(x1, 0.5)  # Set constant transparency
+print(x1)
+x1 = adjust_transparency(x1, [0.8, 0.4, 0.8]) # Add transparency
+print(x1)
+
+# Convert 'cols2' into a hexcols object and extract/remove/add transparency
+x2 = hexcols(cols2)
+extract_transparency(x2)           # Extract current transparency
+x2 = adjust_transparency(x2, None) # Remove transparency
 print(x2)
-import sys; sys.exit(3)
-
-from colorspace import check_hex_colors
-
-#check_hex_colors("#ff003311")
-#check_hex_colors("#ff0033")
-#check_hex_colors("#f03")
-#check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
-#import sys; sys.exit(3)
-
-
-from colorspace.palettes import palette
-colors = ["#070707", "#690056", "#C30E62", "#ED8353", "#FDF5EB"]
-custom_pal = palette(colors, "test palette")
-print(custom_pal)
-
-## Testing different input types (str, list, colorobject)
-from colorspace.colorlib import hexcols
-from colorspace import palette
-hexcols = hexcols(colors)
-
-pal1 = palette("#ff0033")
-pal2 = palette("#ff0033", name = "custom name")
-pal3 = palette(colors, name = "custom 1.1")
-pal4 = palette(hexcols, name = "custom 1.2")
-print(pal1)
-print(pal2)
-print(pal3)
-print(pal4)
-
-from colorspace import swatchplot
-swatchplot([pal3, pal4])
-
+extract_transparency(x2)
+x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8])) # Add again
+print(x2)
+extract_transparency(x2)
 
