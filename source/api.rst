@@ -90,6 +90,8 @@ Color manipulation
     contrast_ratio
     lighten
     darken
+    extract_transparency
+    adjust_transparency
 
 Color library/color transformations
 ===================================
@@ -111,3 +113,4 @@ Color library/color transformations
     HSV
     HLS
     hexcols
+

@@ -105,7 +105,7 @@ def check_hex_colors(colors, allow_nan = False):
 # --------------------------------------------------------------------
 # Get transparency (or None if there is none defined)
 # --------------------------------------------------------------------
-def extract_transparency(x):
+def extract_transparency(x, mode = "float"):
     """Extracting alpha transparency.
 
     Currently only for colorobjects. This function interfaces the
@@ -113,13 +113,17 @@ def extract_transparency(x):
 
     Args:
         x: an object which inherits from colorsspace.colorlib.colorobject.
+        mode (str): mode of the return. One of `"float"`, `"int"`, or `"str"`.
 
     Returns:
         numpy.ndarray or None: None if the colorobject has no defined transparency,
-            else a numpy.ndarray is returned.
+            else a numpy.ndarray is returned. The `dtype` of the array depends
+            on the `mode` specified.
 
     Raises:
         TypeError: If input object does not inherit from :py:class:`colorspace.colorlib.colorobject`.
+        TypeError: If 'mode' is not string.
+        ValueError: If 'mode' is not one of the allowed types shown in the arguments description.
 
     Examples:
         >>> from colorspace import *
@@ -137,16 +141,39 @@ def extract_transparency(x):
         >>> # Extract transparency
         >>> extract_transparency(x1)
         >>> extract_transparency(x2)
+        >>>
+        >>> # Return mode
+        >>> extract_transparency(x2, mode = "float")
+        >>> extract_transparency(x2, mode = "int")
+        >>> extract_transparency(x2, mode = "str")
 
     TODO:
         Implement this for palettes and things?
     """
 
     from colorspace.colorlib import colorobject
-    if not isinstance(x, colorobject):
-        raise TypeError("Input must inherit from `colorspace.colorlib.colorobject`.")
+    from numpy import asarray, int16
 
-    return x.get("alpha")
+    if not isinstance(x, colorobject):
+        raise TypeError("Input 'x' must inherit from `colorspace.colorlib.colorobject`.")
+    if not isinstance(mode, str):
+        raise TypeError("Input 'mode' must be a string.")
+    elif not mode in ["float", "int", "str"]:
+        raise ValueError("Input 'mode' must be one of \"float\", \"int\", or \"str\".")
+
+    alpha = x.get("alpha")
+
+    # If not none we have to convert it given input argument 'mode'.
+    # If mode == "float" we do not have to do anything, but for the other
+    # two options we do.
+    if not alpha is None:
+        if mode == "int":
+            alpha = asarray(alpha * 255, int16)
+        elif mode == "str":
+            alpha = asarray(["{:02X}".format(int(x * 255)) for x in alpha], dtype = "S2")
+            alpha = alpha.astype(str)
+
+    return alpha
 
 
 # --------------------------------------------------------------------

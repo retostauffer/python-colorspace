@@ -15,7 +15,11 @@ def test_wrong_usage():
 
     # Too many inputs
     x = hexcols("#ff0033")
-    raises(TypeError,  extract_transparency, x, x)
+    raises(TypeError,  extract_transparency, x, x, x)
+
+    # Wrong input on 'mode'
+    raises(TypeError,  extract_transparency, x = x, mode = 12345) # no string
+    raises(ValueError, extract_transparency, x = x, mode = "foo") # does not exist
 
     # Wrong input type. Testing some generic
     # types first and then colorspace objects which not yet work
@@ -31,7 +35,7 @@ def test_wrong_usage():
 
 
 # ------------------------------------------
-# Wrong usage
+# Default extraction
 # ------------------------------------------
 def test_extract_transparency():
 
@@ -53,6 +57,25 @@ def test_extract_transparency():
     assert isinstance(res2, np.ndarray)
     assert np.all(np.isclose(res2, [.8, .4, .8]))
 
+
+# ------------------------------------------
+# Testing the different return modes
+# ------------------------------------------
+def test_extract_transparency_modes():
+
+    # Three colors without alpha
+    x1 = hexcols(['#023FA5',   '#E2E2E2',   '#8E063B'])
+    # Same colors with transparency 80%, 40%, 80%
+    x2 = hexcols(['#023FA5CC', '#E2E2E266', '#8E063BCC'])
+
+    # Convert hex color lists to colorobjects
+    assert extract_transparency(x1, mode = "float") is None
+    assert extract_transparency(x1, mode = "int")   is None
+    assert extract_transparency(x1, mode = "str")   is None
+
+    assert np.all(np.isclose(extract_transparency(x2, mode = "float"), [0.8, 0.4, 0.8]))
+    assert np.all(np.isclose(extract_transparency(x2, mode = "int"), [0.8 * 255, 0.4 * 255, 0.8 * 255]))
+    assert np.all(extract_transparency(x2, mode = "str") == ["CC", "66", "CC"])
 
 
 

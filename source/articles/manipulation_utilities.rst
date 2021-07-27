@@ -138,6 +138,83 @@ of both lightening and darkening, respectively.
                 palette(darken(oi, 0.4), "+40%")])
 
 
+Adjust or extract the transparency of colors
+--------------------------------------------
+
+Alpha transparency is useful for making colors semi-transparent, e.g., for
+overlaying different elements in graphics. An alpha value (or alpha channel) of
+``0`` (or ``00`` in hex strings) corresponds to fully transparent and an alpha value of
+``1`` (or ``FF`` in hex strings) corresponds to fully opaque. If a color hex string
+does not provide an explicit alpha transparency, the color is assumed to be
+fully opaque.
+
+Currently the package only allows to manipulate the transparency of objects
+inheriting from :py:class:`colorlib.colorobject`
+(see :ref:`article-color_spaces`).
+
+The :py:func:`adjust_transparency` function can be used to adjust the alpha
+transparency of a set of colors. It always returns a hex color specification.
+This hex color can have the alpha transparency added/removed/modified depending
+on the specification of the argument ``alpha``. The function returns an object
+of the same class as provided on ``x`` with (possibly) adjusted transparency.
+
+* None: If ``alpha = None`` existing transparency will be removed (if any exists).
+* Constant: In case a single float or integer (:math:`\in [0., 1.]`) is provided constant transparency will be added to all colors on ``x``.
+* List or numpy ndarray: If a list or :py:class:`numpy.ndarray` is provided the length of the object must match the number of colors of the object provided on ``x``. All elements of the list/array must be convertable to float and must be in :math:`\in [0., 1.]`.
+
+For illustration, the transparency of a single black color is modified to three
+alpha levels: fully transparent, semi-transparent, and fully opaque,
+respectively. Black can be equivalently specified by name (``"black"``), hex string
+(``"#000000"``), or integer position in the standard palette (``"0"``).
+
+.. ipython:: python
+
+    from colorspace.colorlib import hexcols
+    from colorspace import adjust_transparency
+
+    cols = hexcols(["black", "#000000", "0"])
+    print(cols)
+    print(cols.colors())
+    cols = adjust_transparency(cols, [0.0, 0.5, 1.0])
+    print(cols)
+    print(cols.colors())
+
+Subsequently we can set a constant transparency for all colors by providing
+one single value, or remove transparency information by setting ``alpha = None``.
+Given the same object as above:
+
+.. ipython:: python
+
+    from colorspace import extract_transparency
+
+    cols = adjust_transparency(cols, 0.8)   # Set to constant
+    print(cols)
+    cols = adjust_transparency(cols, None)  # Remove transparency
+    print(cols)
+
+
+The :py:func:`extract_transparency` function can be used to extract the alpha
+transparency from a set of colors.
+It allows to define the mode of the return value. This can either be
+``"float"`` (:math:`\in [0., 1.]`), ``"int"`` (:math:`0, 1, ..., 255`),
+or ``"str"`` (``"00"``, ``"01"``, ..., ``"FF"``).
+In case no transparency is defined at all, ``None`` will be returned.
+
+For illustration we extract the transparency from the gray colors in ``x`` in
+different formats.
+
+.. ipython:: python
+
+    from colorspace.colorlib import hexcols
+    # Some colors with transparency 80%, 40%, 80%
+    x = hexcols(['#023FA5CC', '#E2E2E266', '#8E063BCC'])
+
+    extract_transparency(x, mode = "float")
+    extract_transparency(x, mode = "int")
+    extract_transparency(x, mode = "str")
+
+
+
 
 
 Compute and visualize W3C contrast ratios
