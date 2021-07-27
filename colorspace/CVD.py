@@ -34,6 +34,11 @@ def deutan(cols, severity = 1.):
         >>> specplot(cols)
         >>> specplot(deutan(cols))
         >>> specplot(deutan(cols, 0.5))
+        >>>
+        >>> # List of (hex) colors
+        >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
+        >>> deutan(cols)
+        >>> swatchplot([cols, deutan(cols)], show_names = False)
     """
 
     from .CVD import CVD
@@ -66,6 +71,11 @@ def protan(cols, severity = 1.):
         >>> specplot(cols)
         >>> specplot(protan(cols))
         >>> specplot(protan(cols, 0.5))
+        >>>
+        >>> # List of (hex) colors
+        >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
+        >>> protan(cols)
+        >>> swatchplot([cols, protan(cols)], show_names = False)
     """
 
     from .CVD import CVD
@@ -97,6 +107,11 @@ def tritan(cols, severity = 1.):
         >>> specplot(cols)
         >>> specplot(tritan(cols))
         >>> specplot(tritan(cols, 0.5))
+        >>>
+        >>> # List of (hex) colors
+        >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
+        >>> tritan(cols)
+        >>> swatchplot([cols, tritan(cols)], show_names = False)
     """
 
     from .CVD import CVD
@@ -195,32 +210,22 @@ class CVD(object):
             self._hexinput = False
 
         elif isinstance(cols, (str, list, tuple)):
-            cols = list(cols)
-            from numpy import all, isnan
-            from re import match, compile
-            pat = compile("^(nan|#[0-9A-Fa-f]{6}([0-9]{2})?)$")
-            def fun(x, pat):
-                if isinstance(x, (str)):
-                    if match(pat,x):  return True
-                elif isnan(x):        return True
-                return False
-            if not all([fun(x, pat) for x in cols]):
-                raise ValueError("got non-hex colors in {:s}. ".format(self.__class__.__name__) + \
-                        "If you use hex colors (or a list of hex colors) as input all elements " + \
-                        "have to be valid")
+            from .utils import check_hex_colors
+            from .colorlib import hexcols
+
+            # Check/convert colors
+            cols = check_hex_colors(list(cols))
 
             # Internally: create a hexcols object and store
             # self._hexinput = True. Will be used to also return
             # a hex color list at the end.
-            from .colorlib import hexcols
             cols = hexcols(cols)
             self._hexinput = True
         else:
             self._hexinput = False
             from .colorlib import colorobject
             if not isinstance(cols, colorobject):
-                raise ValueError("input cols to {:s} has to be ".format(self.__class__.__name__) + \
-                        "a colorobject (e.g., HCL, RGB, CIEXYZ)")
+                raise TypeError("Input 'cols' does not match any of the allowed types.")
 
         # Convert
         from copy import deepcopy
@@ -451,10 +456,12 @@ def desaturate(cols, amount = 1.):
         >>> from colorspace import specplot
         >>> specplot(desaturate(cols))
         >>> specplot(desaturate(cols, 0.5))
+        >>>
+        >>> # List of (hex) colors
+        >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
+        >>> desaturate(cols)
+        >>> swatchplot([cols, desaturate(cols)], show_names = False)
 
-    .. todo::
-        Handling of alpha values. And, in addition, add support for hex colors.
-        Currently a list of hex colors as input is not allowed (fix it).
     """
 
 

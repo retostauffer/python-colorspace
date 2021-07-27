@@ -167,31 +167,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     from numpy import all, max, sum, where
     from .palettes import palette, defaultpalette, hclpalette, hclpalettes
     from .colorlib import colorobject
+    from .utils import check_hex_colors
     allowed = (palette, defaultpalette, hclpalette)
-
-
-    # Helper functiin; return boolean True if this is a list of character
-    # strings and all entries are valid hex colors.
-    def _check_is_hex_list(vals):
-        """Helper function: Check if input is a list of valid hex colors.
-
-        Checking in put argument ``vals``. In case this is a list of
-        strings we will furthermore check if these strings are valid
-        HEX strings.
-
-        Args:
-            vals: Any kind of object.
-
-        Returns:
-            bool: Returns ``True`` if the input is a list of strings of valid hex colors.
-            Else ``False`` will be returned.
-        """
-        check = False
-        if isinstance(vals, list) and all([isinstance(x, str) for x in vals]):
-            from re import match
-            check = all([match(u"^#[0-9A-Fa-f]{6}(o-9]{2})?$$", x) is not None for x in vals])
-        return check
-
 
     # Helper function; Convert whatever we get (and can) into a simple
     # dictionary containing "name" (name of palette, defaults to None)
@@ -219,8 +196,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
 
         # In case argument 'pals' is a list we first check if this is
         # a valid list of hex colors. If so: convert to dictionary.
-        if isinstance(x, list) and _check_is_hex_list(x):
-            res = {"name": None, "colors": x}
+        if isinstance(x, list):
+            res = {"name": None, "colors": check_hex_colors(x)}
         # Single colorobject (e.g., RGB, HCL, CIELUV, ...)
         elif isinstance(x, colorobject):
             res = {"name": None, "colors": x.colors(n)}
@@ -265,9 +242,17 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             ``colors`` (list) which is a list of hex colors (str), the colors
             to be displayed.
         """
-        if (isinstance(pals, list) and _check_is_hex_list(pals)) or \
-           isinstance(pals, colorobject) or isinstance(pals, hclpalette) or \
-           isinstance(pals, palette):
+
+        # In case we get a list let's check if we have a valid hex list.
+        # Can also be a list of list processed later on.
+        if isinstance(pals, (str, list)):
+            try:
+                pals = [check_hex_colors(pals)]
+            except:
+                pass
+
+        if isinstance(pals, colorobject) or \
+           isinstance(pals, hclpalette) or isinstance(pals, palette):
             res = [_pal_to_dict(pals, n)]
         # What else? If we have a list we now iterate over the different items
         # and convert each entry into a dict using _pal_to_dict(). Will fail

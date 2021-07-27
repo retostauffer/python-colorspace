@@ -13,19 +13,11 @@ Overview
 The colorspace package provides several color manipulation utilities that are
 useful for creating, assessing, or transforming color palettes, namely:
 
-* :py:func:`desaturate`:
-  Desaturate colors by chroma removal in HCL space.
-* :py:func:`darken` and :py:func:`lighten`
-  Algorithmically lighten or darken colors in HCL and/or HLS space.
+* :py:func:`desaturate`: Desaturate colors by chroma removal in HCL space.
+* :py:func:`darken` and :py:func:`lighten`: Algorithmically lighten or darken colors in HCL and/or HLS space.
+* :py:func:`adjust_transparency` and :py:func:`extract_transparency`: Remove, adjust, and extract the transparency.
 * :py:func:`contrast_ratio`: Computing and visualizing W3C contrast ratios of colors.
 * :py:func:`max_chroma`: Compute maximum chroma for given hue and luminance in HCL space.
-
-.. todo::
-    Not yet implemented; `colorlib.colorobjects`, however, already have alpha
-    functionality.
-
-    * adjust_transparency() and extract_transparency(): Adjust or extract the transparency of colors.
-    * mixcolor(): Additively mix two colors by computing their convex combination.
 
 
 Desaturation in HCL space
@@ -347,7 +339,8 @@ increasing luminance given hue.
     plt.show()
 
 
-.. todo:: Additive color mixing on col
+.. todo::
+    Missing feature: additive color mixing on :py:func:`colorlib.colorobject` objects.
 
 
 
