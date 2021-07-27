@@ -8,11 +8,15 @@ def check_hex_colors(colors, allow_nan = False):
 
     Valid hex colors are three digit hex colors (e.g., `#F00`), six digit
     hex colors (e.g., `#FF00FF`), or six digit colors with additional transparency
-    (eight digit representation).
+    (eight digit representation). If the inputs do not match one of these hex
+    representations :py:func:`matplotlib.color.to_hex` will be called. This allows
+    to also convert standard colors such as `"0"`, `"black"`, or `"magenta"` into
+    their corresponding hex representation.
 
     Args:
-        colors (str, list, numpy.ndarray): single string or list of strings with hex colors.
-            In case it is a `numpy.ndarray` it well be flattened to 1D if needed.
+        colors (str, list, numpy.ndarray): single string or list of strings
+            with colors.  See function description for details.  In case it is a
+            `numpy.ndarray` it well be flattened to 1D if needed.
         allow_nan (bool): allow for missing values (`np.nan`). Defaults to `False`.
 
     Returns:
@@ -25,8 +29,11 @@ def check_hex_colors(colors, allow_nan = False):
         >>> check_hex_colors("#ff0033")
         >>> check_hex_colors("#f03")
         >>> check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
+        >>> check_hex_colors(["#FFF", "0", "black", "blue", "magenta"])
+        >>>
         >>> from numpy import asarray
         >>> check_hex_colors(asarray(["#f0f", "#00F", "#00FFFF", "#ff003311"]))
+        >>>
 
     Raises:
         TypeError: If `allow_nan` is not boolean `True` or `False`.
@@ -35,6 +42,7 @@ def check_hex_colors(colors, allow_nan = False):
         ValueError: If at least one of the colors is an invalid hex color.
     """
     from re import match, compile
+    from matplotlib.colors import to_hex
     from numpy import all, repeat, ndarray
     from .colorlib import colorobject
 
@@ -54,6 +62,7 @@ def check_hex_colors(colors, allow_nan = False):
     else:
         raise TypeError("Argument 'colors' none of the allowed types.")
 
+
     # Checking all colors
     if not allow_nan:
         pat   = compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
@@ -64,7 +73,21 @@ def check_hex_colors(colors, allow_nan = False):
     # check individual entry. Also extends the color if needed.
     def check(x, pat):
         tmp = pat.match(x)
-        # Just not a proper definition
+
+        # In case this is no hex definition (not matching the regular expression
+        # above) we try if we can convert the color via matplotlib.colors.to_hex.
+        # This allows to convert e.g., "0" or "black" into hex cols. If this works
+        # We once again shoot it trough our regular expression.
+        if not tmp:
+            if x[0] == "#":
+                raise ValueError("String '{:s}' is not a valid 3/6/8 digit hex color.".format(x))
+            try:
+                x = to_hex(x)
+            except:
+                raise ValueError("String '{:s}' could not be converted to valid hex color.".format(x))
+            x = x.upper()
+
+        tmp = pat.match(x)
         if not tmp:
             raise ValueError("String '{:s}' is no valid hex color.".format(x))
         elif len(tmp.group(1)) == 3 and not tmp.group(2) == None:
@@ -78,6 +101,147 @@ def check_hex_colors(colors, allow_nan = False):
 
     return colors
 
+
+# --------------------------------------------------------------------
+# Get transparency (or None if there is none defined)
+# --------------------------------------------------------------------
+def extract_transparency(x):
+    """Extracting alpha transparency.
+
+    Currently only for colorobjects. This function interfaces the
+    ``.get()`` method of the object.
+
+    Args:
+        x: an object which inherits from colorsspace.colorlib.colorobject.
+
+    Returns:
+        numpy.ndarray or None: None if the colorobject has no defined transparency,
+            else a numpy.ndarray is returned.
+
+    Raises:
+        TypeError: If input object does not inherit from :py:class:`colorspace.colorlib.colorobject`.
+
+    Examples:
+        >>> from colorspace import *
+        >>> from colorspace.colorlib import hexcols
+        >>> 
+        >>> # Three colors without alpha
+        >>> cols1 = ['#023FA5',   '#E2E2E2',   '#8E063B']
+        >>> # Same colors with transparency 80%, 40%, 80%
+        >>> cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
+        >>> 
+        >>> # Convert hex color lists to colorobjects
+        >>> x1 = hexcols(cols1)
+        >>> x2 = hexcols(cols2)
+        >>>
+        >>> # Extract transparency
+        >>> extract_transparency(x1)
+        >>> extract_transparency(x2)
+
+    TODO:
+        Implement this for palettes and things?
+    """
+
+    from colorspace.colorlib import colorobject
+    if not isinstance(x, colorobject):
+        raise TypeError("Input must inherit from `colorspace.colorlib.colorobject`.")
+
+    return x.get("alpha")
+
+
+# --------------------------------------------------------------------
+# Remove or adjust transparency
+# --------------------------------------------------------------------
+def adjust_transparency(x, alpha):
+    """Adjust alpha transparency.
+
+    Allows to remove, set, or adjust the alpha transparency.
+    In case `alpha` is a single float a constant
+    transparency will be added to all colors. In case it is a list or `numpy.ndarray`
+    it must be the same length as the number of colors in the object `x` and all
+    values must be convertable to float/int in the range of `[0., 1.]`. If not, an error
+    will be raised.
+
+    Args:
+        x: an object which inherits from colorsspace.colorlib.colorobject.
+        alpha (None, float, int, list, numpy.ndarray): ``None`` will remove existing
+            transparency (if existing). If `float`, `list`, or numpy.ndarray` 
+            trnasparency will be added. See function description for more details.
+
+    Returns:
+        numpy.ndarray or None: None if the colorobject has no defined transparency,
+            else a numpy.ndarray is returned.
+
+    Raises:
+        TypeError: If input object does not inherit from :py:class:`colorspace.colorlib.colorobject`.
+        TypeError: If `alpha` is not one of the expected types.
+
+    Examples:
+        >>> from colorspace import *
+        >>> from colorspace.colorlib import hexcols
+        >>> import numpy as np
+        >>> 
+        >>> # Three colors without alpha
+        >>> cols1 = ['#023FA5',   '#E2E2E2',   '#8E063B']
+        >>> # Same colors with transparency 80%, 40%, 80%
+        >>> cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
+        >>> 
+        >>> # Convert 'cols1' into a hexcols object and modify transparency
+        >>> x1 = hexcols(cols1)
+        >>> print(x1)
+        >>> extract_transparency(x1)           # Extract transparency
+        >>> x1 = adjust_transparency(x1, 0.5)  # Set constant transparency
+        >>> print(x1)
+        >>> x1 = adjust_transparency(x1, [0.8, 0.4, 0.8]) # Add transparency
+        >>> print(x1)
+        >>> 
+        >>> # Convert 'cols2' into a hexcols object and extract/remove/add transparency
+        >>> x2 = hexcols(cols2)
+        >>> extract_transparency(x2)           # Extract current transparency
+        >>> x2 = adjust_transparency(x2, None) # Remove transparency
+        >>> print(x2)
+        >>> extract_transparency(x2)
+        >>> x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8])) # Add again
+        >>> print(x2)
+        >>> extract_transparency(x2)
+
+    TODO:
+        Implement this for palettes and things?
+    """
+
+    import numpy as np
+    from colorspace.colorlib import colorobject
+    from copy import deepcopy
+
+    if not isinstance(x, colorobject):
+        raise TypeError("Input must inherit from `colorspace.colorlib.colorobject`.")
+    x = deepcopy(x)
+    # Checking the alpha object
+    if not isinstance(alpha, (type(None), list, float, int, np.ndarray)):
+        raise TypeError("Unexpected input on argument 'alpha'.")
+
+    # Remove transparency as alpha was set to None
+    if isinstance(alpha, type(None)):
+        if "alpha" in x._data_.keys(): del x._data_["alpha"]
+    # Adding constant transparency to all colors
+    elif isinstance(alpha, (float, int)):
+        if alpha < 0 or alpha > 1:
+            raise ValueError("Transparency (alpha) must be in the range of `[0., 1.]`.")
+        x._data_["alpha"] = np.repeat(float(alpha), len(x))
+    # Using same procedure for lists and np.ndarrays.
+    elif isinstance(alpha, (list, np.ndarray)):
+        if not len(alpha) == len(x):
+            raise ValueError("Lengt of object 'alpha' must match length of object 'x'.")
+        try:
+            alpha = np.asarray(alpha, dtype = "float")
+        except:
+            raise ValueError("Input on 'alpha' cannot be converted to float.")
+        # Check values
+        if np.any(alpha < 0) or np.any(alpha > 1):
+            raise ValueError("Transparency (alpha) must be in the range of `[0., 1.]`.")
+        x._data_["alpha"] = alpha
+
+    return x
 
 
 # --------------------------------------------------------------------

@@ -66,6 +66,12 @@ def test_return_value():
     assert np.all([len(x) == 7 for x in x5])
 
 
+def test_matplotlib_to_hex():
+
+    assert check_hex_colors("0")[0]       == "#000000" # Color 0 equals black
+    assert check_hex_colors("black")[0]   == "#000000" 
+    assert check_hex_colors("white")[0]   == "#FFFFFF" 
+    assert check_hex_colors("magenta")[0] == "#FF00FF" 
 
 
 
