@@ -11,7 +11,7 @@ cols = diverging_hcl()(7)
 # Wrong use
 # ---------------------------------
 def test_wrong_usage():
-    raises(ValueError, specplot, hex_ = cols, hcl = False, palette = False, rgb = False)
+    raises(ValueError, specplot, x = cols, hcl = False, palette = False, rgb = False)
 
 
 # ---------------------------------

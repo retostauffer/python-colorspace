@@ -6,13 +6,6 @@ from matplotlib.figure import Figure
 from colorspace import *
 
 
-# ---------------------------------
-# Wrong use
-# ---------------------------------
-def test_wrong_usage():
-    cols = diverging_hcl()(10)
-    raises(ValueError, specplot, hex_ = cols, hcl = False, palette = False, rgb = False)
-
 
 # ---------------------------------
 # Testing a series of swatchplot options

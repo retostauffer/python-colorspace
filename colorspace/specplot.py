@@ -3,7 +3,8 @@ import os
 import sys
 
 
-def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figargs):
+def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
+             title = None, **figargs):
     """Visualization of the RGB and HCL spectrum given a set of hex colors.
     As the hues for low-chroma colors are not (or poorly) identified, by
     default a smoothing is applied to the hues (``fix = TRUE``). Also, to
@@ -13,13 +14,17 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
     No return, creates an interactive figure.
 
     Args:
-        hex_ (list or numpy.ndarray): Hex color codes.
+        x (list): list of strings (hex colors or standard-names of colors).
+        y (None or list): if set it must be a list of strings (see `x`) with the very
+            same length as the object provided on argument `x`. Allows to draw
+            two sets of colors for comparison. Defaults to `None`.
         hcl (bool): Whether or not to plot the HCL color spectrum.
         palette : bool Whether or not to plot the colors as a color map.
         fix (bool): Should the hues be fixed to be on a smooth(er) curve?
             Details in the method description.
         rgb (bool): Whether or not to plot the RGB color spectrum. Default is
             False.
+        title (None or str): title of the figure. Defaults to `None` (no title).
         **figargs: forwarded to `matplotlib.pyplot.subplot`. Only has an effect
             if `fig = None`.
 
@@ -34,15 +39,31 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
     Todo:
         Implement the smoothings to improve the look of the plots. Only
         partially implemented, the spline smoother is missing.
+
+
+    Raises:
+        TypeError: If `x` is not a list.
+        TypeError: If `y` is neither a list nor `None`.
+        ValueError: If `x` contains strings which can not be converted to hex colors.
+        ValueError: If `y` contains strings which can not be converted to hex colors.
+        ValueError: If `y` is not the same length as `y`. Only checked if `y` is not `None`.
+        TypeError: If either `rgb`, `hcl`, or `palette` is not boolean.
+        ValueError: If all, `rgb`, `hcl` and `palette` are set to `False` as this would
+            result in an empty plot.
+        TypeError: If 'title' is neither `None` nor `str`.
     """
 
+    from .utils import check_hex_colors
+
     # Support function to draw the color map (the color strip)
-    def cmap(ax, hex_):
+    def cmap(ax, hex_, ylo = 0):
         """Plotting a color map given a set of colors.
 
         Args:
             ax (matplotlib.Axis): The axis object on which the color map should be drawn
             hex_ (list): List of hex colors.
+            ylo (float): Lower limit where the rectangles are plotted. Height is always
+                1, if multiple palettes have to be plotted xlo has to be set to 0, 1, ...
         """
 
         from numpy import linspace
@@ -52,28 +73,48 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
         w = 1. / float(n - 1)
         x = linspace(-w / 2., 1. + w / 2, n + 1)
         for i in range(0,n):
-            rect = Rectangle((x[i],0.), w, 1., color = hex_[i])
+            rect = Rectangle((x[i], 0. + ylo), w, 1. + ylo, color = hex_[i])
             ax.add_patch(rect)
+        if ylo > 0:
+            ax.plot([0, 1], [ylo] * 2, ls = "-", c = "0")
+
+
+    # Checking main arguments 'x' and 'y'
+    if not isinstance(x, list):
+        raise TypeError("Argument `x` must be a list.")
+    x = check_hex_colors(x) # Checks if all entries are valid
+
+    # Checking y
+    if not isinstance(y, (type(None), list)):
+        raise TypeError("Argument `x` must be `None` or a list.")
+    if not isinstance(y, type(None)):
+        y = check_hex_colors(y) # Checks if all entries are valid
+        if not len(x) == len(y):
+            raise ValueError("If argument `y` is provided it must be of the same length as `x`.")
+
 
     # Sanity check for input arguemnts to control the different parts
     # of the spectogram plot. Namely rgb spectrum, hcl spectrum, and the palette.
     if not isinstance(rgb, bool):
-        raise ValueError("Argument 'rgb' must be boolean True or False.")
+        raise TypeError("Argument 'rgb' must be boolean True or False.")
     if not isinstance(hcl, bool):
-        raise ValueError("Argument 'hcl' must be boolean True or False.")
+        raise TypeError("Argument 'hcl' must be boolean True or False.")
     if not isinstance(palette, bool):
-        raise ValueError("Argument 'palette' must be boolean True or False.")
+        raise TypeError("Argument 'palette' must be boolean True or False.")
     if not rgb and not hcl and not palette:
         import inspect
         raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible " + \
                   "when calling \"{:s}\".".format(inspect.stack()[0][3]))
 
+    if not isinstance(title, (type(None), str)):
+        raise TypeError("Argument 'title' must be either `None` or `str`.")
+
     # Import hexcolors: convert colors to hexcolors for the plot if needed.
     from .colorlib import hexcols
     from .palettes import palette
-    coords = {} 
-    if not isinstance(hex_, dict):
-        hex_ = {"colors": palette(hex_).colors()}
+
+    # TODO Why am I doing it this way? Is this dict required?
+    colors = {"x": x, "y": y}
 
     # If input parameter "fix = True": fixing
     # the hue coordinates to avoid jumping which
@@ -106,7 +147,11 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
 
     # Calculate coordinates
     coords = {}
-    for key,vals in hex_.items():
+    for key, vals in colors.items():
+        # This happens if 'y' is set to 'None' (default)
+        if vals is None: continue
+
+        # Else get HCL and RGB coordinates for all colors
         cols = hexcols(vals)
         cols.to("sRGB")
         coords[key] = {"hex":vals}
@@ -116,11 +161,6 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
             cols.to("HCL")
             coords[key]["HCL"] = [cols.get("H"), cols.get("C"), cols.get("L")]
             if fix: coords[key]["HCL"] = fixcoords(coords[key]["HCL"])
-
-
-    # If we have multiple color maps: disable palette
-    if len(coords) > 1:
-        palette = False
 
 
     from .colorlib import sRGB
@@ -170,11 +210,11 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
     # Setting axis properties
     # ax1: RGB
     if rgb:
-        ax1.set_xlim(0,1); ax1.set_ylim(0,1);
+        ax1.set_xlim(0, 1); ax1.set_ylim(0, 1);
         ax1.get_xaxis().set_visible(False)
     # ax2: color map
     if palette:
-        ax2.set_xlim(0,1); ax2.set_ylim(0,1);
+        ax2.set_xlim(0, 1); ax2.set_ylim(len(coords), 0);
         ax2.get_xaxis().set_visible(False)
         ax2.get_yaxis().set_visible(False)
     # ax3 and ax33: HCL
@@ -200,7 +240,8 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
 
     # Plotting the color map
     if palette:
-        cmap(ax2, coords[list(coords.keys())[0]]["hex"])
+        for i in range(len(coords)):
+            cmap(ax2, coords[list(coords.keys())[i]]["hex"], ylo = i)
 
     # Plotting HCL spectrum
     if hcl:
@@ -236,6 +277,10 @@ def specplot(hex_, hcl = True, palette = True, fix = True, rgb = False, **figarg
         ax33.set_ylabel("Hue")
         ax3.text(0.5,  -10, "HCL Spectrum", horizontalalignment = "center",
                  verticalalignment = "top")
+
+    if isinstance(title, str):
+        plt.gcf().get_axes()[0].set_title(title, va = "top",
+                fontdict = dict(fontsize = "large", fontweight = "semibold"))
 
 
     # Show figure or return the Axes object (in case `ax` has not been None).
