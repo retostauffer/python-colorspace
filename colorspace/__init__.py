@@ -17,6 +17,7 @@ from .palettes import hclpalettes
 from .palettes import palette
 from .palettes import qualitative_hcl
 from .palettes import diverging_hcl
+from .palettes import divergingx_hcl
 from .palettes import sequential_hcl
 from .palettes import rainbow_hcl
 from .palettes import heat_hcl
@@ -35,6 +36,7 @@ from .utils import adjust_transparency
 
 # Helper functions and methods
 from .hcl_palettes import hcl_palettes
+from .hcl_palettes import divergingx_palettes
 from .swatchplot import swatchplot
 from .specplot import specplot
 from .choose_palette import choose_palette

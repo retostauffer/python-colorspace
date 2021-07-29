@@ -194,6 +194,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             ValueError: If the palette does not provide any color at all.
         """
 
+
         # In case argument 'pals' is a list we first check if this is
         # a valid list of hex colors. If so: convert to dictionary.
         if isinstance(x, list):
@@ -209,6 +210,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             res = {"name": x.name(), "colors": x.colors(n)}
         else:
             raise Exception("Could not convert 'pals', improper input (type {:s}).".format(str(type(x))))
+
         # Checking length of color list
         if not len(res["colors"]) > 0:
             raise ValueError("Got at least one color object/palette with 0 colors.")
@@ -331,7 +333,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             tmp_data = []
             for rec in data.values(): tmp_data += rec
             data = tmp_data; del tmp_data
-            print(data)
 
         # Convert list back into a dictionary; each entry is one of the
         # palettes provided by the user with a series of palettes according
@@ -467,6 +468,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     # ---------------------------------------------------------------
     # Initialize new figure
     #fig, ax = plt.subplots(figsize = figsize)
+    if "files_regex" in kwargs.keys(): del kwargs["files_regex"]
     fig, ax = plt.subplots(**kwargs)
 
     # Compute number of columns needed. Thus, we first of all have to check

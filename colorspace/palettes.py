@@ -330,21 +330,24 @@ class defaultpalette:
             corresponding value. Allowed value types are bool, int, and float.
         """
         for key,val in kwargs.items():
-            if not key in self._settings_.keys():
-                raise ValueError("{:s} named {:s}".format(self.__class__.__name__, self.name()) + \
-                        "has no parameter called {:s}".format(key))
+            #if not key in self._settings_.keys():
+            #    raise ValueError("{:s} named {:s}".format(self.__class__.__name__, self.name()) + \
+            #            " has no parameter called {:s}".format(key))
             # Else check current type specification and append
             # if possible (and convert to the new type).
-            if not isinstance(val, int) and \
-               not isinstance(val, float) and \
-               not isinstance(val, bool):
+            if not isinstance(val, (int, float, bool)):
                 raise ValueError("input {:s} to {:s}".format(key, self.__class__.__name__) + \
                         " is of type {:s}. Only bool, int, and float allowed.".format(type(val)))
             if isinstance(val, bool):
                 val = 1 if val else 0
-            if isinstance(self._settings_[key],int):
+
+            # Not yet a parameter in our dictionary? Add None first
+            if not key in self._settings_.keys():
+                self._settings_[key] = val
+            # If already existing we convert the new value into the existing type.
+            elif isinstance(self._settings_[key], int):
                 self._settings_[key] = int(val)
-            elif isinstance(self._settings_[key],float):
+            elif isinstance(self._settings_[key], float):
                 self._settings_[key] = int(val)
             else:
                 raise Exception("whoops, some code needed here in {:s}.set".format(
@@ -384,33 +387,34 @@ class defaultpalette:
         from copy import copy
         args = copy(self.get_settings())
 
-        # If Remove h1/h2 and store them in h
-        for dim in ["h", "c", "l", "p"]:
-            dim1 = "{:s}1".format(dim)
-            dim2 = "{:s}2".format(dim)
-            dim3 = "{:s}max".format(dim)
-            dim = "power" if dim == "p" else dim
-            if dim1 in args.keys() and dim2 in args.keys() and dim3 in args.keys():
-                args[dim] = [args[dim1], args[dim2], args[dim3]]
-                del args[dim1]; del args[dim2]; del args[dim3]
-            # For Chroma we can have [c1, c2, cmax] for sequential palettes.
-            # For diverging it can be [c1] or [c1, cmax].
-            elif dim1 in args.keys() and dim3 in args.keys():
-                if not self._method_ == "diverging_hcl":
-                    args[dim] = [args[dim1], args[dim1], args[dim3]] 
-                else:
-                    args[dim] = [args[dim1], args[dim3]] 
-                del args[dim1]; del args[dim3]
-            # For Hue, Luminance, and Power there are only two (for now)
-            elif dim1 in args.keys() and dim2 in args.keys():
-                args[dim] = [args[dim1], args[dim2]]
-                del args[dim1]; del args[dim2]
-            elif dim1 in args.keys():
-                args[dim] = args[dim1]
-                del args[dim1]
-            elif dim2 in args.keys():
-                args[dim] = args[dim2]
-                del args[dim2]
+        #TODO(R): No one needs this, right?
+        ## If Remove h1/h2 and store them in h
+        #for dim in ["h", "c", "l", "p"]:
+        #    dim1 = "{:s}1".format(dim)
+        #    dim2 = "{:s}2".format(dim)
+        #    dim3 = "{:s}max".format(dim)
+        #    dim = "power" if dim == "p" else dim
+        #    if dim1 in args.keys() and dim2 in args.keys() and dim3 in args.keys():
+        #        args[dim] = [args[dim1], args[dim2], args[dim3]]
+        #        del args[dim1]; del args[dim2]; del args[dim3]
+        #    # For Chroma we can have [c1, c2, cmax] for sequential palettes.
+        #    # For diverging it can be [c1] or [c1, cmax].
+        #    elif dim1 in args.keys() and dim3 in args.keys():
+        #        if not self._method_ == "diverging_hcl":
+        #            args[dim] = [args[dim1], args[dim1], args[dim3]] 
+        #        else:
+        #            args[dim] = [args[dim1], args[dim3]] 
+        #        del args[dim1]; del args[dim3]
+        #    # For Hue, Luminance, and Power there are only two (for now)
+        #    elif dim1 in args.keys() and dim2 in args.keys():
+        #        args[dim] = [args[dim1], args[dim2]]
+        #        del args[dim1]; del args[dim2]
+        #    elif dim1 in args.keys():
+        #        args[dim] = args[dim1]
+        #        del args[dim1]
+        #    elif dim2 in args.keys():
+        #        args[dim] = args[dim2]
+        #        del args[dim2]
 
         pal = cfun(**args)
         return [str(x) for x in pal.colors(n, fixup = True)]
@@ -428,6 +432,8 @@ class hclpalettes:
             configuration from within the package will be loaded. Technically, a
             list of file names (`str`) can be provided to load user-defined color
             palettes. Not yet tested!
+        files_regex (None or str): if a string is provided it will be checked
+            if the files match the expression. If not, they will not be read.
 
     Return:
         :py:class:`colorspace.palettes.hclpalettes`: Collection of predefined
@@ -446,12 +452,25 @@ class hclpalettes:
         * Check if the files option is useful. If so, provide some
           more information about the config files and where/how to use.
     """
-    def __init__(self, files = None):
+    def __init__(self, files = None, files_regex = None):
+
+        if not isinstance(files_regex, (str, type(None))):
+            raise TypeError("Argument 'files_regex' must be 'None' or 'str'.")
 
         if files is None:
             import glob
             resource_package = os.path.dirname(__file__)
             files = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
+
+        # Is a regular expression given to subset the files by name?
+        if isinstance(files_regex, str):
+            import re
+            tmp = []   # Reset to empty list
+            files_regex = re.compile(files_regex)
+            # If a file matches the expression: append to 'files'
+            for rec in files:
+                if files_regex.match(rec): tmp.append(rec)
+            files = tmp # Overwrite 'files'
 
         # Input 'files' specified:
         if len(files) == 0:
@@ -586,12 +605,13 @@ class hclpalettes:
     # Helper method to load the palette config files.
     def _load_palette_config_(self, file):
 
+        import re
         import sys
+
         if sys.version_info.major < 3:
             from ConfigParser import ConfigParser
         else:
             from configparser import ConfigParser
-        import re
 
         CNF = ConfigParser()
         CNF.read(file)
@@ -619,14 +639,14 @@ class hclpalettes:
             # "p1/p1": interpreted as float
             # "fixup": interpreted as boolean
             # rest:    interpreted as integer
-            settings = {} 
+            settings = {}
             for key,val in CNF.items(sec):
                 key  = key.lower()
                 if key in ["desc"]:
                     settings[key] = val
                 elif key in ["fixup"]:
                     settings[key] = True if int(val) else False
-                elif key in ["p1","p2"]:
+                elif key in ["p1","p2", "p3", "p4"]:
                     settings[key] = float(val)
                 else:
                     settings[key] = int(val)
@@ -788,17 +808,39 @@ class hclpalette:
             else:
                 return "{:7.1f}".format(val)
 
-        print("Class:  {:s}".format(self.__class__.__name__))
-        print("h1    {:s}    ".format(get("h1"))),
-        print("h2    {:s}    ".format(get("h2")))
-        print("c1    {:s}    ".format(get("c1"))),
-        print("c2    {:s}    ".format(get("c2")))
-        print("cmax  {:s}    ".format(get("cmax"))),
-        print("l1    {:s}    ".format(get("l1"))),
-        print("l2    {:s}    ".format(get("l2")))
-        print("p1    {:s}    ".format(get("p1"))),
-        print("p2    {:s}    ".format(get("p2")))
-        print("fixup {:s}    ".format(get("fixup")))
+        from .palettes import divergingx_hcl
+
+        # Not very pretty ...
+        if not isinstance(self, divergingx_hcl):
+            print("Class:  {:s}".format(self.__class__.__name__))
+            print("h1    {:s}    ".format(get("h1"))),
+            print("h2    {:s}    ".format(get("h2")))
+            print("c1    {:s}    ".format(get("c1"))),
+            print("c2    {:s}    ".format(get("c2")))
+            print("cmax  {:s}    ".format(get("cmax"))),
+            print("l1    {:s}    ".format(get("l1"))),
+            print("l2    {:s}    ".format(get("l2")))
+            print("p1    {:s}    ".format(get("p1"))),
+            print("p2    {:s}    ".format(get("p2")))
+            print("fixup {:s}    ".format(get("fixup")))
+        else:
+            print("Class:  {:s}".format(self.__class__.__name__))
+            print("h1    {:s}    ".format(get("h1"))),
+            print("h2    {:s}    ".format(get("h2")))
+            print("h3    {:s}    ".format(get("h3"))),
+            print("c1    {:s}    ".format(get("c1"))),
+            print("c2    {:s}    ".format(get("c2")))
+            print("c3    {:s}    ".format(get("c3")))
+            print("cmax1 {:s}    ".format(get("cmax1"))),
+            print("cmax2 {:s}    ".format(get("cmax2"))),
+            print("l1    {:s}    ".format(get("l1"))),
+            print("l2    {:s}    ".format(get("l2")))
+            print("l3    {:s}    ".format(get("l3")))
+            print("p1    {:s}    ".format(get("p1"))),
+            print("p2    {:s}    ".format(get("p2")))
+            print("p3    {:s}    ".format(get("p3"))),
+            print("p4    {:s}    ".format(get("p4")))
+            print("fixup {:s}    ".format(get("fixup")))
 
 
     # Better input handling
@@ -836,7 +878,7 @@ class hclpalette:
         # Support function
         def fun(key, value, dtype, length_min, length_max, recycle, nansallowed):
 
-            from numpy import vstack, asarray, isnan, nan, any
+            from numpy import vstack, asarray, isnan, nan, any, atleast_1d
 
             # If None
             if value == None: return value
@@ -884,7 +926,7 @@ class hclpalette:
             # Return single value if length is set to 1.
             if len(value) == 1: value = value[0]
 
-            return value
+            return atleast_1d(value) # Return 1d array
 
         # Looping over all kwargs
         for key,value in kwargs.items():
@@ -1480,8 +1522,253 @@ class diverging_hcl(hclpalette):
                 raise ValueError("alpha values provided to {:s}".format(self.__class__.__name__) + \
                         "not of float-type: {:s}".format(str(e)))
 
-        ####DEV#### for i in range(len(H)):
-        ####DEV####     print("  {:7.3f}  {:7.3f}  {:7.3f}".format(H[i], C[i], L[i]))
+        # Create new HCL color object
+        from .colorlib import HCL
+        HCL = HCL(H, C, L, alpha)
+
+        # If kwargs have a key "colorobject" return HCL colorobject
+        if "colorobject" in kwargs.keys(): return HCL
+
+        # Reversing colors
+        rev = self._rev
+        if "rev" in kwargs.keys(): rev = kwargs["rev"]
+
+        # Return hex colors
+        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
+
+
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+class divergingx_hcl(hclpalette):
+    """Diverging HCL color palette.
+
+    Args:
+        h (list of float or int): Hue values (color), divergingx color palettes should
+            have different hues for both ends and the center of the palette.
+            For this class three values must be provided. If input ``h`` is a string
+            this argument acts like the ``palette`` argument (see ``palette`` input
+            parameter).
+        c (list of float or int): Chroma value (colorfullness), list of floats. In case two
+            values are provided the firt is taken as `c1` and `c3` while the second
+            one is used for `c2` (center value). When three or more are provided
+            the first three are used for `c1`, `c2`, and `c3`. `cmax1` and `cmax2`
+            have to provided as extra arguments.
+        l (list of float or int): luminance values (lightness). In case two
+            values are provided the firt is taken as `c1` and `c3` while the second
+            one is used for `c2` (center value). When three or more are provided
+            the first three are used for `c1`, `c2`, and `c3`. `cmax1` and `cmax2`
+            have to provided as extra arguments.
+        power (list of float): Power parameters for non-linear behaviour of the color
+            palette. Up to four values can be provided for `p1`, `p2`, `p3`, `p4`.
+            If two values are provided `power[0]` will be used for `p1` and `p4`
+            while `power[1]` is used for `p2` and `p3` (symmetric).
+        cmax (list of float or int): Maximum chroma. If one value is provided this
+            will be used for both, `cmax1` and `cmax2`. Else the first two elements
+            will be used for `cmax1` and `cmax2` respectively.
+        fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
+            values outside the defined RGB color space be corrected?
+        palette (string): Can be used to load a default diverging color palette
+            specification. If the palette does not exist an exception will be raised.
+            Else the settings of the palette as defined will be used to create the
+            color palette.
+        rev (bool): Should the color map be reversed.
+        *args: Currently unused.
+        **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
+            to be documented.
+
+    Returns:
+        Initialize new object, no return. Raises a set of errors if the parameters
+        are misspecified. Note that the object is callable, the default object call
+        can be used to return hex colors (identical to the ``.colors()`` method),
+        see examples.
+
+    Example:
+
+        >>> from colorspace import diverging_hcl
+        >>> a = diverging_hcl()
+        >>> a.colors(10)
+        >>> b = diverging_hcl("Blue-Yellow 3")
+        >>> b.colors(10)
+        >>> # The standard call of the object also returns hex colors. Thus,
+        >>> # you can make your code slimmer by calling:
+        >>> diverging_hcl("Dynamic")(10)
+    """
+
+    _allowed_parameters = ["h1", "h2", "h3", "c1", "c2", "c3",
+                           "l1", "l2", "l3", "p1", "p2", "p3", "p4",
+                           "cmax1", "cmax2"]
+    _name = "DivergingX HCL"
+
+    def __init__(self, h = [192, 77, 21], c = [40, 35, 100], l = [50, 95, 50], \
+                 power = [1.0, 1.0, 1.2, 1.0], cmax = 20, \
+                 fixup = True, palette = None, rev = False, *args, **kwargs):
+
+
+        # Store reverse
+        self._rev = rev
+
+        if isinstance(h, str):
+            palette = h; h = None
+        if isinstance(power, int) or isinstance(power, float):
+            power = [power]
+
+        # _checkinput_ parameters (in the correct order):
+        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        try:
+            h     = self._checkinput_(int,   3, 3, False, False, h = h)
+            c     = self._checkinput_(int,   2, 3, False, False, c = c)
+            l     = self._checkinput_(int,   2, 3, False, False, l = l)
+            power = self._checkinput_(float, 2, 4, False, False, power = power)
+            cmax  = self._checkinput_(float, 1, 2, False, False, cmax = cmax)
+        except Exception as e:
+            raise ValueError(str(e))
+
+        if len(c) == 2: c = [c[0], c[1], c[0]]
+        if len(l) == 2: l = [l[0], l[1], l[0]]
+        if len(power) < 4: power = [power[0], power[1], power[1], power[0]]
+        if len(cmax) < 2:  cmax  = [cmax[0], cmax[0]]
+
+        # If user selected a named palette: load palette settings
+        if isinstance(palette, str):
+            from .hcl_palettes import divergingx_palettes
+            from numpy import where
+            pals = divergingx_palettes().get_palettes("Divergingx")
+            idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
+            if len(idx) == 0:
+                raise ValueError("palette {:s} is not a valid divergingx palette. ".format(palette) + \
+                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+            pal = pals[idx[0]]
+            del pals, idx
+
+            # Allow to overule few things
+            for key,value in kwargs.items():
+                if key in self._allowed_parameters:
+                    pal.set(**{key: value})
+
+            # Extending h2 if h1 = h2 (h2 None)
+            def isNone(x): return isinstance(x, type(None))
+            if isNone(pal.get("p1")): pal.set(p1 = 1.0)
+            # Second coordinate
+            if isNone(pal.get("h2")): pal.set(h2 = pal.get("h1"))
+            if isNone(pal.get("c2")): pal.set(c2 = 0.0)
+            if isNone(pal.get("l2")): pal.set(l2  = pal.get("l1"))
+            if isNone(pal.get("p2")): pal.set(p2  = pal.get("p1"))
+            ## third coordinate
+            if isNone(pal.get("h3")):
+                raise Exception("Third hue coordinate (h3) must be specified.")
+            if isNone(pal.get("c3")): pal.set(c3 = pal.get("c1"))
+            if isNone(pal.get("l3")): pal.set(l3 = pal.get("l1"))
+            if isNone(pal.get("p3")): pal.set(p3 = pal.get("p1"))
+            if isNone(pal.get("p4")): pal.set(p4 = pal.get("p2"))
+
+            # Getting settings
+            settings = pal.get_settings()
+        else:
+            settings = {}
+
+            from numpy import ndarray
+
+            # User settings
+            for i in range(3): settings["h{:d}".format(i + 1)] = h[i]
+            for i in range(3): settings["c{:d}".format(i + 1)] = c[i]
+            for i in range(3): settings["l{:d}".format(i + 1)] = l[i]
+            for i in range(4): settings["p{:d}".format(i + 1)] = power[i]
+            for i in range(2): settings["cmax{:d}".format(i + 1)] = cmax[i]
+            settings["fixup"] = fixup
+            settings["rev"]   = rev
+
+        # If keyword arguments are set:
+        # overwrite the settings if possible.
+        if kwargs:
+            for key,val in kwargs.items():
+                if key in self._allowed_parameters:
+                    settings[key] = val
+
+        # Save settings
+        self.settings = settings
+
+
+    # Return hex colors
+    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
+        """Returns the colors of the current color palette.
+
+        Args:
+            n (int): Number of colors which should be returned.
+            fixup (None, bool): Should sRGB colors be corrected if they lie
+                outside the defined color space?  If ``None`` the ``fixup``
+                parameter from the object will be used. Can be set to ``True`` or
+                ``False`` to explicitly control the fixup here.
+            alpha (None, float): Float (single value) or vector of floats in the
+                range of ``[0.,1.]`` for alpha transparency channel (``0.`` means full
+                transparency, ``1.`` opaque).  If a single value is provided it will be
+                applied to all colors, if a vector is given the length has to be ``n``.
+
+        Todo:
+            Move the function `get_one_side` to the `hclpalette` class. Rename it
+            to `seqhcl` or something and also make use of this in sequential_hcl
+            as it is basically the same.
+        """
+
+        # Sanity checks
+        if not isinstance(n, int):
+            raise TypeError("Argument `n` must be integer.")
+        elif not n > 1:
+            raise TypeError("Argument `n` must be integer larger than 1.")
+
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
+
+        from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
+        from numpy import asarray, ndarray, ndenumerate, concatenate, flip
+        from numpy import vstack, transpose
+        from . import colorlib
+
+        # Calculate H/C/L by basically calculating the sequential palette twice;
+        # once for each side.
+
+        # Helper function to get the two sides (multi-hue sequential)
+        def get_one_side(n, ha, hb, ca, cb, la, lb, pa, pb, cmax):
+            # Calculate H/C/L
+            rval = linspace(1., 0., n)
+
+            # Hue and Luminance
+            H = hb - (hb - ha) * rval
+            L = lb - (lb - la) * power(rval, pb)
+
+            # Calculate the trajectory for the chroma dimension
+            i = linspace(1., 0., n2)
+            C = self._chroma_trajectory(i, pa, ca, cb, cmax)
+
+            return [H, C, L]
+
+        # n2 is half the number of colors, thus the number of colors on each of the two sides.
+        n2 = int(ceil(n / 2))
+
+        # Calculate H/C/L coordinates for both sides (called 'a' and 'b' not to get
+        # confused with the numbering of the parameters).
+        Ha, Ca, La = get_one_side(n2, ha = self.get("h1"), hb = self.get("h2"), 
+                                      ca = self.get("c1"), cb = self.get("c2"),
+                                      la = self.get("l1"), lb = self.get("l2"),
+                                      pa = self.get("p1"), pb = self.get("p2"),
+                                      cmax = self.get("cmax1"))
+        Hb, Cb, Lb = get_one_side(n2, ha = self.get("h3"), hb = self.get("h2"), 
+                                      ca = self.get("c3"), cb = self.get("c2"),
+                                      la = self.get("l3"), lb = self.get("l2"),
+                                      pa = self.get("p3"), pb = self.get("p4"),
+                                      cmax = self.get("cmax2"))
+
+        # In case the user requested an odd number of colors we need to
+        # cut away one of one of the two sides (remove it from 'b').
+        if not n == (2 * n2):
+            Hb = Hb[:-1]
+            Cb = Cb[:-1]
+            Lb = Lb[:-1]
+
+        # Concatenate the two sides
+        H = concatenate((Ha, Hb[::-1]))
+        C = concatenate((Ca, Cb[::-1]))
+        L = concatenate((La, Lb[::-1]))
 
         # Create new HCL color object
         from .colorlib import HCL
@@ -1545,7 +1832,7 @@ class sequential_hcl(hclpalette):
     """
 
     # Allowed to overwrite via **kwargs
-    _allowed_parameters = ["h1", "c1", "c2", "cmax", "l1", "l2", "p1", "p2"]
+    _allowed_parameters = ["h1", "h2", "c1", "c2", "cmax", "l1", "l2", "p1", "p2"]
     _name = "Sequential HCL"
 
     def __init__(self, h = 260, c = [80, 0], l = [30, 90],

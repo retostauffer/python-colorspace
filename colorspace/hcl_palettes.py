@@ -1,5 +1,21 @@
 
 
+def divergingx_palettes(n = 5, **kwargs):
+    """Gives access to divergingx palettes of the colorspace package.
+
+    Args:
+        n (int): number of colors used when plotting. Defaults to `5`.
+        **kwargs: forwarded to :py:func:`hcl_palettes`. For a list and description
+            of available arguments see the description of :py:func:`hcl_palettes`.
+
+    Return:
+        See :py:func:`hcl_palettes`.
+    """
+
+    from .hcl_palettes import hcl_palettes
+    return hcl_palettes(n = n, **kwargs, files_regex = ".*divergingx.*")
+
+
 def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, ncol = 4, **kwargs):
     """Gives access to the default color palettes of the colorspace package.
 
@@ -85,7 +101,10 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
 
     # Loading pre-defined palettes from within the package
     from . import hclpalettes
-    pals = hclpalettes()                    # Loading palettes
+    # Loading palettes. Ignore all files labeled 'divergingx' in some way as long
+    # as no files_regex is provided on **kwargs
+    files_regex = "(?!.*divergingx.*)" if not "files_regex" in kwargs.keys() else kwargs["files_regex"]
+    pals = hclpalettes(files_regex = files_regex)
 
     # Sanity type checks
     if not isinstance(n, int):     raise TypeError("Input 'n' must be of type integer.")
