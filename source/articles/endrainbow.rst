@@ -31,7 +31,7 @@ by :cite:t:`color:Stauffer+Mayr+Dabernig:2015` as well as the
 `#endrainbow <https://twitter.com/hashtag/endrainbow>`_ hashtag on Twitter.
 
 In a nutshell, the (in-)famous RGB rainbow palette is virtually always a poor choice and properly balanced qualitative, sequential, or diverging palettes - such as the
-:ref:`HCL-based color palettes <_article-hcl_palettes>` provided here - are
+:ref:`article-hcl_palettes` provided here - are
 preferable. Despite such alternatives becoming more and more widely available
 the rainbow palette is unfortunately still widely used. Below we illustrate
 some wild-caught examples, highlight their problems (e.g., by desaturation to
@@ -148,6 +148,64 @@ colors).
     specplot(pal(99))
 
 
+Weather map: Dewpoint temperature
+---------------------------------
+
+Another shaded map for communicating a weather forecast is shown below,
+depicting dewpoint temperature forecasts from a certain FV3 Global Forecast
+System (GFS) product. It also does not use a standard rainbow but a palette of
+similarly highly-saturated colors from a wide range of hues (left panel).
+
+As in the previous section, the palette is very discontinuous and breaks the
+values down into separate "classes" or "bands". For experienced users this may
+help locating bands with very specific numeric values but leads to an uneven
+overall picture. In contrast, the ``sequential_hcl("ag_Sunset").colors(23)`` palette
+(right panel) shows a smooth gradient, giving somewhat more emphasis to the
+darker low-temperature regions.
+
+.. image:: images/fv3gfs-rainbow.png
+    :width: 50%
+    :class: img-float-right
+.. image:: images/fv3gfs-sunset.png
+    :width: 50%
+
+Depicting the hue/chroma/luminance trajectories of both palettes also shows the
+abrupt changes in the original palette which do not convey a continuous
+temperature scale. Instead, the HCL-based sunset palette is also built from a
+wide range of hues but changes hue, chroma, and luminance smoothly.
+
+.. plot::
+    :width: 80%
+
+    from colorspace import specplot
+    original = ["f6c77b", "a8373a", "009bff", "d35252", "0dd189", "e3af36",
+                "9ce743", "ee8130", "fe9e23", "e4e4e4", "acfba4", "4ef159",
+                "1ba120", "00de28", "92cdf8", "3d8ff0", "205fcd", "0ec6c6",
+                "bcaefd", "4d33c4", "9b00c4", "2829fb", "f83940"]
+    specplot(original)
+
+.. plot::
+    :width: 80%
+
+    from colorspace import sequential_hcl, specplot
+    pal = sequential_hcl("ag_Sunset").colors(23)
+    specplot(pal)
+
+Consequently, the figure with the sunset palette also works reasonably well in
+grayscale or for colorblind viewers while the original palette is rather
+problematic
+
+.. image:: images/fv3gfs-rainbow-gray.png
+    :width: 50%
+    :class: img-float-right
+.. image:: images/fv3gfs-sunset-gray.png
+    :width: 50%
+￼
+.. image:: images/fv3gfs-rainbow-deutan.png
+    :width: 50%
+    :class: img-float-right
+.. image:: images/fv3gfs-sunset-deutan.png
+    :width: 50%
 
 Risk map: Influenza
 -------------------
