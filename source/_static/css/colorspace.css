@@ -16,9 +16,9 @@ code {
     padding: 0 .25em;
 }
 
-img.img-float-right {
-    float: right;
-}
+/* Used to pack two .. image:: directives side-by-side
+ * in the articles.                                    */
+img.img-float-left  { float: left;  }
 
 form.navbar-form {
     display: none;

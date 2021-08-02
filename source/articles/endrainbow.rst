@@ -68,7 +68,7 @@ sequential heat color palette on the right
 
 .. image:: images/bkde-rainbow.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/bkde-heat.png
     :width: 50%
 
@@ -79,7 +79,7 @@ dark and still work very well in grayscale.
 
 .. image:: images/bkde-rainbow-gray.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/bkde-heat-gray.png
     :width: 50%
 
@@ -89,7 +89,7 @@ Below deuteranope vision is emulated.
 
 .. image:: images/bkde-rainbow-deutan.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/bkde-heat-deutan.png
     :width: 50%
 
@@ -113,7 +113,7 @@ colorblind viewers (see below).
 
 .. image:: images/nigeria-rainbow.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/nigeria-purplegreen.png
     :width: 50%
 
@@ -123,7 +123,7 @@ purple/green palette still works very well for colorblind viewers.
 
 .. image:: images/nigeria-rainbow-protan.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/nigeria-purplegreen-protan.png
     :width: 50%
 
@@ -165,7 +165,7 @@ darker low-temperature regions.
 
 .. image:: images/fv3gfs-rainbow.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/fv3gfs-sunset.png
     :width: 50%
 
@@ -197,13 +197,13 @@ problematic.
 
 .. image:: images/fv3gfs-rainbow-gray.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/fv3gfs-sunset-gray.png
     :width: 50%
 
 .. image:: images/fv3gfs-rainbow-deutan.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/fv3gfs-sunset-deutan.png
     :width: 50%
 
@@ -228,7 +228,7 @@ some overfitting in the underlying smoothing for the map.
 
 .. image:: images/influenza-rainbow.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/influenza-purpleyellow.png
     :width: 50%
 
@@ -240,7 +240,7 @@ straightforward with the HCL-based sequential palette.
 
 .. image:: images/influenza-rainbow-gray.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/influenza-purpleyellow-gray.png
     :width: 50%
 
@@ -249,7 +249,7 @@ version above but shows even more problems with the original palette.
 
 .. image:: images/influenza-rainbow-deutan.png
     :width: 50%
-    :class: img-float-right
+    :class: img-float-left
 .. image:: images/influenza-purpleyellow-deutan.png
     :width: 50%
 

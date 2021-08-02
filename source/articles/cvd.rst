@@ -215,6 +215,45 @@ This is preferable to the RGB rainbow which hides all differences in the
 green-yellow arm of the palette. (However, if grayscale printing is desired a
 sequential rather than a diverging palette is probably necessary.)
 
+
+.. _article-color_vision_deficiency_emulation_cvd_emulator:
+
+Manipulating figures
+--------------------
+
+In addition of converting colors and palettes the function :py:func:`cvd_emulation`
+allows to take an existing pixel image (JPG, PNG) and emulate how people with 
+visual constraints will receive the same picture.
+
+The first argument of :py:func:`cvd_emulation` can be a path to any pixel image
+on your local computer *OR* the string `"DEMO"`. When `"DEMO"` is used a demo
+image included in the package will be used (thanks to `@mariogogh <https://unsplash.com/@mariogogh>` on
+`unsplash.com <https://unsplash.com>`; the bird is used to show handling of transparency).
+The following shows the original (full color) image.
+
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import cvd_emulator
+    @savefig cvd_cvd_emulator_demo_original.png width=70% align=center
+    cvd_emulator("DEMO", "original", figsize = (8, 3.5))
+
+:py:func:`cvd_emulation` allows simulate deuteranope, protanope, tritanope, and desaturated
+versions with different severities (defaults to ``severity = 1.0``).
+
+.. ipython:: python
+    :okwarning:
+
+    from colorspace import cvd_emulator
+    @savefig cvd_cvd_emulator_demo_2x2.png width=100% align=center
+    cvd_emulator("DEMO", ["deutan", "protan", "tritan", "desaturate"], figsize = (10, 6))
+
+
+The additional argument `output` (path to file) can be used to store the result rather
+than displaying it.
+
+
 References
 ----------
 

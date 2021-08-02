@@ -1,7 +1,7 @@
 
 
 def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
-        output = None, dropalpha = False):
+        output = None, dropalpha = False, **figargs):
     """Simulate color deficiencies on png/jpg/jpeg figures.
     Takes an existing pixel image and simulates different color vision
     deficiencies.
@@ -29,6 +29,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
             ``output``.
         dropalpha (bool): Whether or not to drop the alpha channel.  Only
             useful for figures having an alpha channel (png w/ alpha).
+        **figargs: forwarded to `matplotlib.pyplot.subplot`.
 
     Example:
 
@@ -112,14 +113,15 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
 
     from numpy import ceil
     if len(cvd) <= 3: [nrow, ncol] = [1, len(cvd)]
-    else:             [nrow, ncol] = [ceil(len(cvd)/2.), 2]
+    else:             [nrow, ncol] = [int(ceil(len(cvd)/2.)), 2]
 
     # Start plotting
+    plt.subplots(nrow, ncol, **figargs)
     for c in range(0, len(cvd)):
 
         # Start plotting
         if len(cvd) == 1:
-            fig = plt.figure()
+            fig = plt.figure(**figargs)
         else:
             fig = plt.subplot(nrow, ncol, c + 1)
 
@@ -153,11 +155,12 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         plt.axis("off")
 
     # Adjusting outer margins
-    plt.subplots_adjust(left = 0., right = 1., top = 1., bottom = 0.1)
+    #plt.subplots_adjust(left = 0., right = 1., top = 1., bottom = 0.1)
+    plt.tight_layout()
 
     # Show or save image.
     if output is None:
-        fig.show()
+        plt.show()
     else:
         # Write a simple figure:
         if len(cvd) == 1:
