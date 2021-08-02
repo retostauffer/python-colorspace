@@ -1874,7 +1874,6 @@ class sequential_hcl(hclpalette):
             def isNone(x): return isinstance(x, type(None))
 
             if isNone(pal.get("h2")): pal.set(h2 = pal.get("h1"))
-            print(pal.get_settings())
 
             # Allow to overule few things
             for key,value in kwargs.items():
