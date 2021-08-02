@@ -178,10 +178,10 @@ wide range of hues but changes hue, chroma, and luminance smoothly.
     :width: 80%
 
     from colorspace import specplot
-    original = ["f6c77b", "a8373a", "009bff", "d35252", "0dd189", "e3af36",
-                "9ce743", "ee8130", "fe9e23", "e4e4e4", "acfba4", "4ef159",
-                "1ba120", "00de28", "92cdf8", "3d8ff0", "205fcd", "0ec6c6",
-                "bcaefd", "4d33c4", "9b00c4", "2829fb", "f83940"]
+    original = ["#F6C77B", "#A8373A", "#009BFF", "#D35252", "#0DD189", "#E3AF36",
+                "#9CE743", "#EE8130", "#FE9E23", "#E4E4E4", "#ACFBA4", "#4EF159",
+                "#1BA120", "#00DE28", "#92CDF8", "#3D8FF0", "#205FCD", "#0EC6C6",
+                "#BCAEFD", "#4D33C4", "#9B00C4", "#2829FB", "#F83940"]
     specplot(original)
 
 .. plot::
@@ -193,14 +193,14 @@ wide range of hues but changes hue, chroma, and luminance smoothly.
 
 Consequently, the figure with the sunset palette also works reasonably well in
 grayscale or for colorblind viewers while the original palette is rather
-problematic
+problematic.
 
 .. image:: images/fv3gfs-rainbow-gray.png
     :width: 50%
     :class: img-float-right
 .. image:: images/fv3gfs-sunset-gray.png
     :width: 50%
-￼
+
 .. image:: images/fv3gfs-rainbow-deutan.png
     :width: 50%
     :class: img-float-right
