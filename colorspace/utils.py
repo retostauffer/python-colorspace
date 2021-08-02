@@ -1,5 +1,100 @@
 
 
+#def mixcolor(alpha, color1, color2, where = "hcl"):
+#    """Compute the convex combination of two colors
+#
+#    This function can be used to compute the result of color mixing (it assumes
+#    additive mixing).
+#
+#    Args:
+#        alpha (float): The mixed color is obtained by combining an amount
+#            `1 - alpha` of `color1` with an amount `alpha` of `color2`.
+#        color1: an object that can be converted into a
+#            :py:class:`colorspace.palette`.
+#        color2: a second object that can be converted into a
+#            :py:class:`colorspace.palette`. Must have the same number
+#            of colors as the argument on `color1`.
+#        where (str): in which space the colors should be mixed. Defaults to HCL.
+#
+#    Return:
+#        list: Returns an object of class :py:class:`colorspace.colorlib.hexcols`.
+#            Call `.swatchplot()` to check the result or `.colors()` to get a list
+#            of mixed hex colors.
+#
+#    Examples:
+#        >>> from colorspace.colorlib import sRGB
+#        >>> from colorspace.colorlib import hexcols
+#        >>> from colorspace import *
+#        >>>
+#        >>> # Mixing two colors defined in the RGB space
+#        >>> # via colorspace.colorlib.RGB. Mixing half-half
+#        >>> # in the RGB color space (M1) and in the HCL space (M2).
+#        >>> RGB_1  = sRGB(R = 1, G = 0, B = 0)
+#        >>> RGB_2  = sRGB(R = 0, G = 1, B = 0)
+#        >>> RGB_M1 = mixcolor(0.5, RGB_1, RGB_2, "RGB")
+#        >>> RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "HCL")
+#        >>> swatchplot([RGB_1, RGB_2, RGB_M1, RGB_M2], show_names = False)
+#        >>>
+#        >>> # Mixing two lists of hex-colors of length 5.
+#        >>> # Mixing takes place once in the RGB color space (M1)
+#        >>> # and once in the HCL color space (M2)
+#        >>> HEX_1  = diverging_hcl()(5)
+#        >>> HEX_2  = diverging_hcl(rev = True)(5)
+#        >>> HEX_M1 = mixcolor(0.5, HEX_1, HEX_2, "RGB")
+#        >>> HEX_M2 = mixcolor(0.5, HEX_1, HEX_2, "HCL")
+#        >>> swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2], show_names = False)
+#
+#    Raises:
+#        TypeError: In case `alpha` is not float.
+#        ValueError: If `alpha` is not larger than `0.0` and smaller than `1.0`.
+#        ValueError: If the number of colors (length) of `objec1` and `object2` differ.
+#        TypeError: If `where` is not a string.
+#        ValueError: If the argument provided on `where` is not one of the recognized
+#            strings.
+#    """
+#
+#    from .palettes import palette
+#    from .colorlib import hexcols
+#
+#    if not isinstance(alpha, float):
+#        raise TypeError("Argument `alpha` must be of type `float`.")
+#    elif alpha <= 0. or alpha >= 1.0:
+#        raise ValueError("Argument `alpha` must be larger than 0 and smaller than 0.")
+#
+#    _allowed_where = ["RGB", "HSV", "XYZ", "LAB", "polarLAB", "LUV", "polarLUV", "HCL"]
+#
+#    # Checking where
+#    if not isinstance(where, str):
+#        raise TypeError("Argument `where` must be a string.")
+#    elif not where in _allowed_where:
+#        raise ValueError("Argument `where` not among the allowed ones. Allowed: {:s}".format(
+#            ", ".join(_allowed_where)))
+#
+#    # Now trying to convert `color1` and `color2` by calling the palette function.
+#    color1 = palette(color1, name = "color set 1")
+#    color2 = palette(color2, name = "color set 2")
+#
+#    # Now check that we do have the same number of colors.
+#    if not len(color1) == len(color2):
+#        raise ValueError("Number of colors (length) of `color1` and `color2` not identical.")
+#
+#    # We can now start the mixing
+#    x1 = hexcols(color1.colors()); x1.to(where)
+#    x2 = hexcols(color2.colors()); x2.to(where)
+#
+#    # Looping over the coordinates and mix the colors on `x1`.
+#    # 'alpha' dimension will be ignored if existing.
+#    for dim,vals in x1.get().items():
+#        if not dim == "alpha":
+#            x1.set(**{dim: x1.get(dim) * (1. - alpha) + x2.get(dim) * alpha})
+#
+#    x1.to("hex")
+#    return x1
+
+
+
+
+
 # --------------------------------------------------------------------
 # Performs the check on hex color strings to see if they are valid.
 # --------------------------------------------------------------------
