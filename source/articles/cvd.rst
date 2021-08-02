@@ -221,14 +221,16 @@ sequential rather than a diverging palette is probably necessary.)
 Manipulating figures
 --------------------
 
-In addition of converting colors and palettes the function :py:func:`cvd_emulation`
+In addition of converting colors and palettes the function :py:func:`cvd_emulator`
 allows to take an existing pixel image (JPG, PNG) and emulate how people with 
-visual constraints will receive the same picture.
+visual constraints will receive the same picture. This requires `imageio` to be
+installed (see :ref:`article-installation`).
 
-The first argument of :py:func:`cvd_emulation` can be a path to any pixel image
+The first argument of :py:func:`cvd_emulator` can be a path to any pixel image
 on your local computer *OR* the string `"DEMO"`. When `"DEMO"` is used a demo
-image included in the package will be used (thanks to `@mariogogh <https://unsplash.com/@mariogogh>` on
-`unsplash.com <https://unsplash.com>`; the bird is used to show handling of transparency).
+image included in the package will be used
+(thanks to `@mariogogh <https://unsplash.com/@mariogogh>`_ on
+`unsplash.com <https://unsplash.com>`_; the bird is used to show handling of transparency).
 The following shows the original (full color) image.
 
 
@@ -239,8 +241,11 @@ The following shows the original (full color) image.
     @savefig cvd_cvd_emulator_demo_original.png width=70% align=center
     cvd_emulator("DEMO", "original", figsize = (8, 3.5))
 
-:py:func:`cvd_emulation` allows simulate deuteranope, protanope, tritanope, and desaturated
-versions with different severities (defaults to ``severity = 1.0``).
+:py:func:`cvd_emulator` allows simulate deuteranope, protanope, tritanope, and desaturated
+versions with different severities (defaults to ``severity = 1.0``). The function reads
+the RGB(+alpha) coordinates of the pixel image, creates an `sRGB <colorspace.colorlib.sRGB>`
+object, and calls the requested functions (:py:class:`deutan`, :py:class:`protan`,
+:py:class:`tritan`, and :py:class:`desaturate`) before re-creating the image.
 
 .. ipython:: python
     :okwarning:
