@@ -1850,8 +1850,8 @@ class sequential_hcl(hclpalette):
         # dtype, length_min = None, length_max = None,
         # recycle = False, nansallowed = False, **kwargs
         try:
-            h     = self._checkinput_(int,   2, 2, True,  False, h = h)
-            c     = self._checkinput_(int,   2, 3, True,  False, c = c)
+            h     = self._checkinput_(int,   1, 2, True,  False, h = h)
+            c     = self._checkinput_(int,   1, 3, True,  False, c = c)
             l     = self._checkinput_(int,   2, 2, True,  False, l = l)
             power = self._checkinput_(float, 2, 2, True,  False, power = power)
         except Exception as e:
@@ -1871,6 +1871,11 @@ class sequential_hcl(hclpalette):
                         "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
             pal = pals[idx[0]]
 
+            def isNone(x): return isinstance(x, type(None))
+
+            if isNone(pal.get("h2")): pal.set(h2 = pal.get("h1"))
+            print(pal.get_settings())
+
             # Allow to overule few things
             for key,value in kwargs.items():
                 if key in self._allowed_parameters: pal.set(**{key: value})
@@ -1881,14 +1886,18 @@ class sequential_hcl(hclpalette):
             # User settings
             settings = {}
             settings["h1"]        = h[0]
-            settings["h2"]        = h[0] if len(h) == 1 else h[1]
+            settings["h2"]        = None if len(h) == 1 else h[1]
+            #settings["h2"]        = h[0] if len(h) == 1 else h[1]
             if len(c) == 3:
                 settings["c1"]    = c[0]
                 settings["c2"]    = c[1]
                 settings["cmax"]  = c[2]
-            else:
+            elif len(c) == 2:
                 settings["c1"]    = c[0]
                 settings["c2"]    = c[1]
+            else:
+                settings["c1"]    = c[0]
+                settings["c2"]    = 0
             settings["l1"]        = l[0]
             settings["l2"]        = l[1]
             settings["p1"]        = power[0]
@@ -1902,6 +1911,8 @@ class sequential_hcl(hclpalette):
             for key,val in kwargs.items():
                 if key in self._allowed_parameters:
                     settings[key] = val
+
+        if isinstance(settings["h2"], type(None)): settings["h2"] = settings["h1"]
 
         # Save settings
         self.settings = settings

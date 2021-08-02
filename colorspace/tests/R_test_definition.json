@@ -12,7 +12,7 @@
     },
     {
       "fun": "diverging_hcl",
-      "args": {"n": 7, "h": [0, 180], "c": [60, 5], "l": [30, 80]},
+      "args": {"n": 7, "h": [0, 180], "c": 60, "l": [30, 80]},
       "colors": null
     },
     {
@@ -35,7 +35,41 @@
       "args": {"n": 7, "rev": true},
       "colors": null
     },
-
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "h2": 270, "c": [60, 5], "l": [30, 80]},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "h1": 270, "c": [60, 5], "l": [30, 80]},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "c": [60, 5], "c1": 70, "l": [30, 80]},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "c": 60, "c1": 70, "l": [30, 80]},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "c": 60, "l": [30, 80], "l1": 40},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "c": 60, "l": [30, 80], "l2": 70},
+      "colors": null
+    },
+    {
+      "fun": "diverging_hcl",
+      "args": {"n": 7, "h": [0, 180], "c": 60, "l": [30, 80], "l1": 40, "l2": 70},
+      "colors": null
+    },
 
 
     {"_comment": "Testing qualitative_hcl"},
@@ -63,8 +97,201 @@
       "fun": "qualitative_hcl",
       "args": {"n": 7, "h": [0, 300], "rev": true},
       "colors": null
-    }
-]
-        
+    },
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 7, "h": [0, 300], "h1": 90, "c": 60, "l": 30},
+      "colors": null
+    },
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 7, "h": [0, 300], "h2": 270, "c": 60, "l": 30},
+      "colors": null
+    },
+    {
+      "fun": "qualitative_hcl",
+      "args": {"n": 7, "h": [0, 300], "h1": 90, "h2": 270, "c": 60, "c1": 50, "l": 30, "l1": 40},
+      "colors": null
+    },
 
+
+
+    {"_comment": "Testing sequential_hcl"},
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": 260, "c": 80, "l": [30, 90], "power": 1.5},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": 260, "h1": 100, "c": 80, "l": [30, 90], "power": 1.5},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": 260, "c": 80, "c1": 70, "l": [30, 90], "power": 1.5},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": 260, "c": 80, "c1": 70, "l": [30, 90], "l1": 40, "power": 1.5},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": 260, "c": 80, "c1": 70, "l": [30, 90], "l2": 80, "power": 1.5},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": 260, "c": 80, "c1": 70, "l": [30, 90], "l1": 40, "l2": 80, "power": 1.5},
+      "colors": null
+    },
+
+
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "c": [70, 45], "l": [25, 85], "power": [0.6, 1.0]},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "h1": 45, "c": [70, 45], "l": [25, 85], "power": [0.6, 1.0]},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "h2": 100, "c": [70, 45], "l": [25, 85], "power": [0.6, 1.0]},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "c": [70, 45], "c1": 60, "l": [25, 85], "power": [0.6, 1.0]},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "c": [70, 45], "c2": 35, "l": [25, 85], "power": [0.6, 1.0]},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "c": [70, 45], "l": [25, 85], "l1": 35, "power": [0.6, 1.0]},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "c": [70, 45], "l": [25, 85], "l2": 75, "power": [0.6, 1.0]},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "c": [70, 45], "l": [25, 85], "power": [0.6, 1.0], "p1": 1.0},
+      "colors": null
+    },
+    {
+      "fun": "sequential_hcl",
+      "args": {"n": 7, "h": [-85,  75], "c": [70, 45], "l": [25, 85], "power": [0.6, 1.0], "p2": 1.5},
+      "colors": null
+    },
+
+
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Blue-Red"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Blue-Red"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Blue-Red 2"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Blue-Red 3"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Red-Green"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Purple-Green"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Purple-Brown"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Green-Brown"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Blue-Yellow 2"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Blue-Yellow 3"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Green-Orange"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Cyan-Magenta"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Tropic"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Broc"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Cork"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Vik"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Berlin"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Lisbon"}, "colors": null},
+    {"fun": "diverging_hcl", "args": {"n": 7, "palette": "Tofino"}, "colors": null},
+
+
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Grays"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Light Grays"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Blues 2"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Blues 3"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Purples 2"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Purples 3"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Reds 2"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Reds 3"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Greens 2"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Greens 3"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Oslo"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Purple-Blue"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Red-Purple"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Red-Blue"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Purple-Orange"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Purple-Yellow"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Blue-Yellow"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Green-Yellow"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Red-Yellow"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Heat"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Heat 2"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Terrain"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Terrain 2"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Viridis"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Plasma"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Inferno"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Rocket"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Mako"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Dark Mint"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Mint"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "BluGrn"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Teal"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "TealGrn"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Emrld"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "BluYl"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "ag_GrnYl"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Peach"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "PinkYl"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Burg"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "BurgYl"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "RedOr"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "OrYel"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Purp"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "PurpOr"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Sunset"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Magenta"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "SunsetDark"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "ag_Sunset"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "BrwnYl"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "YlOrRd"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "YlOrBr"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "OrRd"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Oranges"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "YlGn"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "YlGnBu"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Reds"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "RdPu"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "PuRd"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Purples"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "PuBuGn"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "PuBu"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Greens"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "BuGn"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "GnBu"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "BuPu"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Blues"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Lajolla"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Turku"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Hawaii"}, "colors": null},
+    {"fun": "sequential_hcl", "args": {"n": 7, "palette": "Batlow"}, "colors": null}
+
+]
 
