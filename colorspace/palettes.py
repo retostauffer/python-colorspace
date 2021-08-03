@@ -439,6 +439,9 @@ class hclpalettes:
         :py:class:`colorspace.palettes.hclpalettes`: Collection of predefined
         hcl color palettes.
 
+    See Also:
+        :py:func:`divergingx_palettes`.
+
     Examples:
 
         >>> from colorspace import hclpalettes
@@ -1118,6 +1121,17 @@ class qualitative_hcl(hclpalette):
         **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
             to be documented.
 
+    See Also:
+        :py:class:`sequential_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`terrain_hcl`,
+        :py:class:`diverging_hsv`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
+
     Returns:
         Initialize new object. Raises a set of errors if the parameters are
         misspecified. Note that the object is callable, the default object call can
@@ -1273,6 +1287,17 @@ class rainbow_hcl(qualitative_hcl):
         **kwargs: Processed internally; can be used to overwrite ``h1``,
             ``h2``, ``c1``, ``l1``, ``l2`` and ``p1``.
 
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`sequential_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`terrain_hcl`,
+        :py:class:`diverging_hsv`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
+
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
@@ -1356,6 +1381,17 @@ class diverging_hcl(hclpalette):
         *args: Currently unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
             to be documented.
+
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`sequential_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`terrain_hcl`,
+        :py:class:`diverging_hsv`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -1577,6 +1613,17 @@ class divergingx_hcl(hclpalette):
         *args: Currently unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
             to be documented.
+
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`sequential_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`terrain_hcl`,
+        :py:class:`diverging_hsv`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -1813,6 +1860,17 @@ class sequential_hcl(hclpalette):
         *args: Currently unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
 
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`terrain_hcl`,
+        :py:class:`diverging_hsv`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
+
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
@@ -1989,6 +2047,17 @@ class heat_hcl(sequential_hcl):
         *args: Currently unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
 
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`sequential_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`terrain_hcl`,
+        :py:class:`diverging_hsv`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
+
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
@@ -2061,6 +2130,17 @@ class terrain_hcl(sequential_hcl):
         rev (bool): Should the color map be reversed.
         *args: unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
+
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`sequential_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`diverging_hsv`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -2135,6 +2215,17 @@ class diverging_hsv(hclpalette):
         rev (bool): Should the color map be reversed.
         *args: Unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
+
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`sequential_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`terrain_hcl`,
+        and :py:class:`rainbow`.
+        All inherit from :py:class:`hclpalette`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -2243,6 +2334,17 @@ class rainbow(hclpalette):
         rev (bool): Should the color map be reversed.
         *args: Unused.
         **kwargs: Unused.
+
+    See Also:
+        :py:class:`qualitative_hcl`,
+        :py:class:`sequential_hcl`,
+        :py:class:`diverging_hcl`,
+        :py:class:`divergingx_hcl`,
+        :py:class:`rainbow_hcl`,
+        :py:class:`heat_hcl`,
+        :py:class:`terrain_hcl`,
+        and :py:class:`diverging_hsv`.
+        All inherit from :py:class:`hclpalette`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
