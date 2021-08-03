@@ -38,6 +38,11 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png")
         >>> cvd_emulator("DEMO", ["original", "deutan", "protan"], 0.5, dropalpha = True)
 
+    See Also:
+        Internally calling :py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
+        and :py:func:`desaturate` which can also be used directly when working
+        with colors, palettes, and color objects.
+
     .. note::
         Requires the modules ``matplotlib`` and ``imageio``.
     """

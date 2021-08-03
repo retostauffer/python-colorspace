@@ -27,6 +27,10 @@ def deutan(cols, severity = 1.):
         colorobject: Returns an object of the same type as the input object ``cols`` with
         modified colors as people with deuteranomaly see these colors (simulated).
 
+    See Also:
+        :py:func:`protan`, :py:func:`tritan`,
+        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
+
     Example:
 
         >>> from colorspace import rainbow_hcl, specplot
@@ -64,6 +68,10 @@ def protan(cols, severity = 1.):
         ``cols`` with modified colors as people with protanope color vision
         might see the colors (simulated).
 
+    See Also:
+        :py:func:`deutan`, :py:func:`tritan`,
+        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
+
     Example:
 
         >>> from colorspace import rainbow_hcl, specplot
@@ -95,6 +103,10 @@ def tritan(cols, severity = 1.):
             A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency,
             one maximum deficiency, defaults to 1.0.
+
+    See Also:
+        :py:func:`deutan`, :py:func:`protan`,
+        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
 
     Returns:
         colorobject: Returns an object of the same type as the input object ``cols`` with
@@ -137,6 +149,10 @@ class CVD(object):
             allowed are ``deutan``, ``protan``, and ``tritan``
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency,
             one maximum deficiency, defaults to 1.0.
+
+    See Also:
+        :py:func:`deutan`, :py:func:`protan`, and :py:func:`tritan`, which are
+        convenience interfaces for this class.
 
     Example:
 
@@ -447,6 +463,10 @@ def desaturate(cols, amount = 1.):
 
     Returns:
         list: Returns a list of modified hex colors.
+
+    See Also:
+        :py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
+        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
 
     Example:
 
