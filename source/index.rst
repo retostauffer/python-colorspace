@@ -48,7 +48,9 @@ Other Packages and Further Reading
 More information and further reading:
 
 * `HCLwizard.org <http://hclwizard.org>`__: more information about the HCL color
-  space, introduction to the ``colorspace`` packages (in R and python), and some
+  space, introduction to the ``colorspace`` packages (available for
+  `R <https://cran.r-project.org/package=colorspace>`_ and
+  `python <https://github.com/retostauffer/python-colorspace>`_), and some
   interactive tools to define effective HCL-based color palettes, pick colors,
   and check existing plots and figures for possible problems in terms of color
   vision deficiencies.
@@ -92,7 +94,7 @@ maps) wich might be of interest:
 
 * `seaborn <https://seaborn.pydata.org>`_:
   statistical data visualization. The package also provides access to a
-  range of (mostly) well specified.
+  range of (mostly) well specified
   `color palettes <https://seaborn.pydata.org/tutorial/color_palettes.html>`_.
 * `palettable <https://jiffyclub.github.io/palettable>`_: color palettes for python.
   Formely known as ``brewer2mpl``. Provides a range of color palettes including

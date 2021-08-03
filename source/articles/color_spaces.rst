@@ -28,7 +28,7 @@ well in the package. Their connections are illustrated in the following graph:
 
 Color models that are (or try to be) perceptually-based are displayed with
 circles and models that are not are displayed with rectangles. The
-corresponding classes and eponymous class constructors in colorspace are:
+corresponding classes in colorspace are:
 
 
 * :py:class:`RGB`
@@ -37,7 +37,7 @@ corresponding classes and eponymous class constructors in colorspace are:
   advantage of this color model is (or was) that it corresponded to how
   computer and TV screens generated colors, hence it was widely adopted and
   still is the basis for color specifications in many systems. For example, hex
-  color codes are employed in HTML but also in R. However, the RGB model also
+  color codes are employed in HTML but also in Python. However, the RGB model also
   has some important drawbacks: It does not take into account the output device
   properties, it is not perceptually uniform (a unit step within RGB does not
   produce a constant perceptual change in color), and it is unintuitive for
@@ -56,7 +56,7 @@ corresponding classes and eponymous class constructors in colorspace are:
   the perceptual axes: hue (dominant wavelength, the type of color), saturation
   (colorfulness), and value (brightness, i.e., light vs. dark). Unfortunately,
   the three axes in the HSV model are confounded so that, e.g., brightness
-  changes dramaticaly with hue. :cite:`cs-color:Wiki+Webcolors`
+  changes dramatically with hue. :cite:`cs-color:Wiki+Webcolors`
 * :py:class:`HSL`
   (Hue-Lightness-Saturation) is another transformation of (s)RGB that
   tries to capture the perceptual axes. It does a somewhat better job but the
@@ -156,7 +156,7 @@ model:
     :okwarning:
 
     from colorspace.colorlib import HCL
-    x = HCL(L = [70.] * 3, C = [50.] * 3, H = [0, 120, 240])
+    x = HCL(H = [0, 120, 240], C = [50.] * 3, L = [70.] * 3)
     print(x)
 
 The resulting three colors are pastel red (hue = 0), green (hue = 120), and
@@ -170,17 +170,17 @@ systems an sRGB representation might be needed:
     print(x)
 
 The displayed coordinates can also be extracted as numeric matrices by
-``x.get()`` or ``x.get("H")`` to get a specific dimension only.
-We can also, for example, coerce from sRGB to HSV:
+:py:func:`x.get() <colorobject.get>` to get the values of all or a specific
+coordinate of the color space the :py:class:`colorobject` is currently in.
+As an example we convert the three colors to the :py:class:`HSV` color space
+and extract the saturation coordinate only by calling :py:func:`x.get("S") <HSV.get>`:
 
 .. ipython:: python
     :okwarning:
 
     x.to("HSV")
     print(x)
-    print(x.get("S"))
-
-    #print(cols.colors()) # Get HEX color list
+    print(x.get("S"))     # Saturation dimension only
 
 For display in many systems hex color codes based on the
 sRGB coordinates can be created:
@@ -206,8 +206,8 @@ The workhorse of these transformations is the
 
 The following classes (all inheriting from :py:class:`colorobject`) are
 available to create colors in different color spaces. Colors can be transformed
-from and to (mostly all) color spaces using the ``.to(<name of color space>)``
-method.
+from and to (mostly all) color spaces using the
+``.to(\<name of color space\>)`` method (see e.g., :py:func:`hexcols.to`).
 
 .. currentmodule:: colorspace.colorlib
 
@@ -230,10 +230,10 @@ method.
 Matplotlib color maps
 ---------------------
 
-In addition many ``colorspace`` objects allow to convert
-a series of colors (color palette) into a
+In addition many objects provided by the colorspace package allow to convert a
+series of colors (color palette) into a
 :py:class:`matplotlib.colors.LinearSegmentedColormap`
-'cmap' used by matplotlib. As an example:
+'cmap' used by matplotlib. As an example using the object ``x`` from above:
 
 .. ipython:: python
     :okwarning:
@@ -256,7 +256,7 @@ HCL color space using :py:class:`qualitative_hcl`,
 
 These classes define color palettes via functions in the HCL color space
 and allow to draw large numbers of colors along the function space.
-The `.cmap()` method will still return a 
+The :py:func:`.cmap() <colorspace.palettes.hclpalette.cmap>` method will still return a 
 :py:class:`LinearSegmentedColormap <matplotlib.colors.LinearSegmentedColormap>`
 but (by default) based on ``N = 101`` distinct colors which will require
 less linear interpolation.
@@ -307,6 +307,7 @@ with a custom HCL based color palette
 
     # Automatic selection of levels works; setting the
     # log locator tells contourf to use a log scale:
+    # Matlplotlib.contourf decides to draw 9 levels
     fig, ax = plt.subplots()
     cs = ax.contourf(X, Y, z, locator=ticker.LogLocator(), cmap=cmap)
 
