@@ -244,12 +244,14 @@ class defaultpalette:
         #for key,val in self._settings_.items():
         keys = list(self.get_settings().keys())
         keys.sort()
+        print(keys)
         for key in keys:
             if key in ["desc"]: continue
             val = self.get(key)
-            if   isinstance(val,bool):   val = " True" if val else "False"
-            elif isinstance(val,int):    val = "{:5d}".format(val)
-            elif isinstance(val,float):  val = "{:5.1f}".format(val)
+            if   isinstance(val, bool):   val = " True" if val else "False"
+            elif isinstance(val, int):    val = "{:5d}".format(val)
+            elif isinstance(val, float):  val = "{:5.1f}".format(val)
+            elif callable(val):           val = "{:s}".format(str(val))
             res.append("         {:10s} {:s}".format(key,val))
 
         return "\n".join(res)
@@ -621,7 +623,7 @@ class hclpalettes:
 
         # Reading type (or name)
         try:
-            palette_type = CNF.get("main", "type")
+            palette_type   = CNF.get("main", "type")
             palette_method = CNF.get("main", "method")
         except Exception as e:
             raise Exception("misspecification in palconfig file {:s}: {:s}".format(file,str(e)))
@@ -651,6 +653,21 @@ class hclpalettes:
                     settings[key] = True if int(val) else False
                 elif key in ["p1","p2", "p3", "p4"]:
                     settings[key] = float(val)
+                elif key in ["h1", "h2"]:
+                    if re.match("^-?[0-9\\.]+$", val):
+                        settings[key] = int(val)
+                    else:
+                        # Try to evaluate this as a lambda function.
+                        print(val)
+                        try:
+                            val = eval(val)
+                            if not callable(val): raise Exception
+                        except:
+                            raise ValueError("Element '{:s}' for palette '{:s}' neither an integer nor a proper lambda function!".format(
+                                             key, sec))
+                        # Append lambda function to the settings
+                        settings[key] = val
+
                 else:
                     settings[key] = int(val)
 
@@ -1107,7 +1124,8 @@ class qualitative_hcl(hclpalette):
             palettes require two hues. If more than two values are provided the first
             two will be used while the rest is ignored.  If input `h` is a string this
             argument acts like the `palette` argument (see `palette` input parameter).
-            Can also be lambda functions or a list of lambda functions (see default).
+            Can also be lambda functions or a list of lambda functions which take up
+            one single argument `n` (number of colors; see default value).
         c (numeric): Chroma value (colorfullness), a single numeric value. If
             multiple values are provided only the first one will be used.
         l (numeric): luminance value (lightness), a single numeric value. If
@@ -1158,11 +1176,19 @@ class qualitative_hcl(hclpalette):
         to allow for lambda functions which will require quite some adaptions
         of the current code (reading config files; _checkinput function; evaluation
         of the function whenever needed).
+
+        Just adding lambda. Write tests for this.
+
+
+    Raises:
+        TypeError: If `h` is not a single int or float, or a list (see next).
+        TypeError: If `h` is a list but not all elements are of type int, float, or 
+            callable (lambda functions).
     """
 
     _name = "Qualitative"
 
-    def __init__(self, h = [0, 360.], c = 80, l = 60,
+    def __init__(self, h = [0, lambda n: 360. * (n - 1.) / n], c = 80, l = 60,
         fixup = True, palette = None, rev = False, **kwargs):
 
         # Store reverse flag
@@ -1172,10 +1198,21 @@ class qualitative_hcl(hclpalette):
         if isinstance(h, str):
             palette = h; h = None
 
+        # Custom check for 'h' as we also allow for lambda functions
+        if not isinstance(h, (list, float, int)):
+            raise TypeError("Wrong type of input on argument 'h'.")
+        else:
+            if not isinstance(h, list): h = [h]
+            for rec in h:
+                if   callable(rec):                 pass
+                elif isinstance(rec, (float, int)): pass
+                else:
+                    raise TypeError("Wrong type of input on argument 'h'.")
+
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            h     = self._checkinput_(int,   2, False, False, h = h)
+            #h     = self._checkinput_(int,   2, False, False, h = h)
             c     = self._checkinput_(int,   1, False, False, c = c)
             l     = self._checkinput_(int,   1, False, False, l = l)
         except Exception as e:
@@ -1242,15 +1279,20 @@ class qualitative_hcl(hclpalette):
                 control the fixup here.
         """
 
-        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
-
         from numpy import repeat, linspace, asarray
         from numpy import vstack, transpose
         from . import colorlib
 
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
+
+        # If either h1 or h2 is a lambda function: evaluate now.
+        h1 = self.get("h1")(n) if callable(self.get("h1")) else self.get("h1")
+        h2 = self.get("h2")(n) if callable(self.get("h2")) else self.get("h2")
+
+        # Calculate the coordinates for our HCL color(s)
         L = repeat(self.get("l1"), n)
         C = repeat(self.get("c1"), n)
-        H = linspace(self.get("h1"), self.get("h2"), n)
+        H = linspace(h1, h2, n)
 
         # Create new HCL color object
         from .colorlib import HCL
