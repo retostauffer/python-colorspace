@@ -12,12 +12,12 @@ color palettes, as its three axes match those of the human visual system very
 well. Therefore, the *colorspace* package provides three types of palettes based
 on the HCL model:
 
-* *Qualitative*: Designed for coding categorical information, i.e., where no
+* *Qualitative:* Designed for coding categorical information, i.e., where no
   particular ordering of categories is available and every color should receive
   the same perceptual weight.
-* *Sequential*: Designed for coding ordered/numeric information, i.e., going
+* *Sequential:* Designed for coding ordered/numeric information, i.e., going
   from high to low (or vice versa).
-* *Diverging*: Designed for coding ordered/numeric information around a central
+* *Diverging:* Designed for coding ordered/numeric information around a central
   neutral value, i.e., where colors diverge from neutral to two extremes.
 
 The corresponding classes are :py:class:`qualitative_hcl`,
@@ -51,9 +51,8 @@ at the same luminance.
 
 
 More details about the construction of such palettes is provided in the
-following while the article on :ref:`article-palette_visualization` Palette
-Visualization and Assessment introduces further tools to better understand the
-properties of color palettes.
+following while the article on :ref:`article-palette_visualization`
+introduces further tools to better understand the properties of color palettes.
 
 To facilitate obtaining good sets of colors, HCL parameter combinations that
 yield useful palettes are accessible by name. These can be listed using the
@@ -77,14 +76,21 @@ matching the label, e.g., ``"set2"`` matches ``"Set 2"`` as well as ``"SET2"`` w
     print(pal)
     print(pal.get_settings())
 
-To compute the actual color hex codes (representing sRGB coordinates), the
-functions :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`, and
-:py:class:`diverging_hcl` respectively, can be used.
-Either all parameters can be specified "by hand"
+
+Calling :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`, and
+:py:class:`diverging_hcl` respectively, will return an object of class
+:py:class:`hclpalette` defined by a series of parameters which specify
+the color palette.
+All parameters can either be specified "by hand"
 through the HCL parameters, an entire palette can be specified "by name", or
 the name-based specification can be modified by a few HCL parameters. In case
 of the HCL parameters, either a vector-based specification such as
 ``h = [0, 270]`` or individual parameters ``h1 = 0`` and ``h2 = 270`` can be used.
+
+To compute the actual color hex codes (representing sRGB coordinates), the
+method :py:func:`hclpalette.colors()` or :py:func:`hclpalette.__call__` are used
+which return a list of :math:`N` colors along the coordinates defined by parameters
+specified when constructing the object.
 
 The first three of the following commands lead to equivalent output. The fourth
 command yields a modified set of colors (lighter due to a luminance of ``80``
@@ -96,8 +102,13 @@ instead of ``70``).
     from colorspace import qualitative_hcl
     qualitative_hcl(h = [0, 270], c = 60, l = 70)(4)
     qualitative_hcl(h1 = 0, h2 = 270, c1 = 60, l1 = 70)(4)
+    qualitative_hcl("set2").colors(4)
     qualitative_hcl("Set 2", l = 80).colors(4)
 
+
+.. todo::
+    Incorrect description. Missing support for the lambda function which, here,
+    controls ``h2`` by default. Once implemented please check code/result/text.
 
 
 Qualitative palettes
@@ -141,8 +152,8 @@ Sequential palettes (single-hue)
 --------------------------------
 
 :py:class:`sequential_hcl` codes the underlying numeric values by a monotonic
-sequence of increasing (or decreasing) luminance. Thus, the function's l
-argument should provide a vector of length 2 with starting and ending luminance
+sequence of increasing (or decreasing) luminance. Thus, the function's ``l``
+argument should provide a vector of length :math:`2` with starting and ending luminance
 (equivalently, ``l1`` and ``l2`` can be used).  Without chroma (i.e., ``c = 0``),
 this simply corresponds to a gray-scale palette, see "Grays" and "Light Grays"
 below.
@@ -155,12 +166,12 @@ below.
     hcl_palettes(7, "Sequential (single-hue)", plot = True,
                  ncol = 1, figsize = (6, 7.5))
 
-All except the last are inspired by the ColorBrewer.org palettes with the same
-base name :cite:p:`HCL-color:Harrower+Brewer:2003` but restricted to a single hue only. They
-are intended for a white/light background. The last palette (Oslo) is taken
-from the scientific color maps of :cite:t:`HCL-color:Crameri:2018` and is intended for a
-black/dark background and hence the order is reversed starting from a light
-blue (not a light gray).
+All except the last are inspired by the `ColorBrewer.org <http://ColorBrewer.org>`_
+palettes with the same base name :cite:p:`HCL-color:Harrower+Brewer:2003` but
+restricted to a single hue only. They are intended for a white/light
+background. The last palette (Oslo) is taken from the scientific color maps of
+:cite:t:`HCL-color:Crameri:2018` and is intended for a black/dark background
+and hence the order is reversed starting from a light blue (not a light gray).
 
 To distinguish many colors in a sequential palette it is important to have a
 strong contrast on the luminance axis, possibly enhanced by an accompanying
@@ -186,10 +197,10 @@ respectively), luminance (``l`` and ``l1``/``l2``, respectively), and power
 transformations for the chroma and luminance trajectories (power and
 ``p1``/``p2``, respectively). This yields a broad variety of sequential
 palettes, including many that closely match other well-known color palettes.
-The plot below shows all the named multi-hue sequential palettes in colorspace:
+The plot below shows all the named multi-hue sequential palettes in *colorspace*:
 
 * "Purple-Blue" to "Terrain 2" are various palettes created during the
-  development of colorspace, e.g., by :cite:t:`HCL-color:Zeileis+Hornik+Murrell:2009` or
+  development of *colorspace*, e.g., by :cite:t:`HCL-color:Zeileis+Hornik+Murrell:2009` or
   :cite:t:`HCL-color:Stauffer+Mayr+Dabernig:2015` among others.
 * "Viridis" to "Inferno" closely match the palettes that
   :cite:t:`HCL-color:Smith+VanDerWalt:2015`
@@ -226,7 +237,7 @@ Diverging palettes
 ------------------
 
 :py:class:`diverging_hcl` codes the underlying numeric values by a triangular
-luminance sequence with different hues in the left and in the right “arms” of
+luminance sequence with different hues in the left and in the right "arms" of
 the palette. Thus, it can be seen as a combination of two sequential palettes
 with some restrictions: (a) a single hue is used for each arm of the palette,
 (b) chroma and luminance trajectory are balanced between the two arms, (c) the
@@ -235,16 +246,13 @@ two hues h (or equivalently ``h1`` and ``h2``), either a single chroma value
 ``c`` (or ``c1``) or a vector of two chroma values ``c`` (or ``c1`` and
 ``cmax``), a vector of two luminances ``l`` (or ``l1`` and ``l2``), and power
 parameter(s) power (or ``p1`` and ``p2``) are used.
+For more flexible diverging palettes without the restrictions above (and
+consequently more parameters) see the :py:class:`divergingx_hcl` palettes
+introduced below.
 
-.. todo::
-    Do we have/need divergingx_hcl?
-    Quote: "For more flexible diverging palettes without the restrictions above
-    (and consequently more parameters) see the divergingx_hcl() palettes
-    introduced below."
+The plot below shows all such diverging palettes that have been named in *colorspace*:
 
-The plot below shows all such diverging palettes that have been named in colorspace:
-
-* "Blue-Red" to "Cyan-Magenta" have been developed for colorspace starting from
+* "Blue-Red" to "Cyan-Magenta" have been developed for *colorspace* starting from
   Zeileis, Hornik, and Murrell (2009), taking inspiration from various other
   palettes, including more balanced and simplified versions of several
   ColorBrewer.org palettes :cite:p:`HCL-color:Harrower+Brewer:2003`.
@@ -281,15 +289,17 @@ are all constructed by combining three different types of trajectories
 (constant, linear, triangular) for the three different coordinates (hue H,
 chroma C, luminance L):
 
-+---------------+-----------------------------------------------+-----------------------------------------------+--------------------------+
-|**Type**       | **H**                                         | **C**                                         | **L**                    |
-+---------------+-----------------------------------------------+-----------------------------------------------+--------------------------+
-| Qualitative   | Linear                                        | Constant                                      | Constant                 |
-+---------------+-----------------------------------------------+-----------------------------------------------+--------------------------+
-| Sequential    | Constant (single-hue) _or_ Linear (multi-hue) | Linear (+ power) _or_ Triangular (+ power)    | Linear (+ power)         |
-+---------------+-----------------------------------------------+-----------------------------------------------+--------------------------+
-| Diverging     | Constant (2x)                                 | Linear (+ power) _or_ Triangular (+ power)    | Linear (+ power)         |
-+---------------+-----------------------------------------------+-----------------------------------------------+--------------------------+
++---------------+---------------------------+-----------------------------+--------------------+
+|**Type**       | **H**                     | **C**                       | **L**              |
++---------------+---------------------------+-----------------------------+--------------------+
+| Qualitative   | Linear                    | Constant                    | Constant           |
++---------------+---------------------------+-----------------------------+--------------------+
+| | Sequential  | | Constant (single-hue)   | | Linear (+ power)          | | Linear (+ power) |
+| |             | | *or* Linear (multi-hue) | | *or* Triangular (+ power) | |                  |
++---------------+---------------------------+-----------------------------+--------------------+
+| | Diverging   | | Constant (2x)           | | Linear (+ power)          | | Linear (+ power) |
+| |             | |                         | | *or* Triangular (+ power) | |                  |
++---------------+---------------------------+-----------------------------+--------------------+
 
 
 As pointed out initially in this article, luminance is probably the most
@@ -426,7 +436,41 @@ Registering your own palettes
 Flexible diverging palettes
 ---------------------------
 
-.. todo:: Requires `divergingx_hcl` object; planned extension.
+The :py:class:`divergingx_hcl` function provides more flexible diverging palettes by
+simply calling :py:class:`sequential_hcl` twice with prespecified sets of hue, chroma,
+and luminance parameters. Thus, it does not pose any restrictions that the two
+"arms" of the palette need to be balanced and also may go through a non-gray
+neutral color (typically light yellow). Consequently, the chroma/luminance
+paths can be rather unbalanced.
+
+The plot below shows all such flexible diverging palettes that have been named in *colorspace*:
+
+* "ArmyRose" to "Tropic" closely match the palettes of the same name from CARTO
+  :cite:p:`color:CARTO`.
+* "PuOr" to "Spectral" closely match the palettes of the same name from
+  ColorBrewer.org :cite:p:`color:Harrower+Brewer:2003`.
+* "Zissou 1" closely matches the palette of the same name from wesanderson
+  :cite:p:`color:wesanderson`
+* "Cividis" closely matches the palette of the same name from the viridis
+  family (Garnier 2018). Note that despite having two "arms" with blue vs.
+  yellow colors and a low-chroma center color, this is probably better
+  classified as a sequential palette due to the monotonic chroma going from
+  dark to light. (See Approximating Palettes from Other Packages for more
+  details.)
+* "Roma" closely matches the palette of the same name by
+  :cite:t:`color:Crameri:2018`.
+
+.. plot::
+    :width: 60%
+    :align: center
+
+    from colorspace import divergingx_palettes
+    divergingx_palettes(ncol = 1, plot = True, figsize = (5, 8))
+
+Typically, the more restricted :py:class:`diverging_hcl` palettes should be preferred
+because they are more balanced. However, by being able to go through light
+yellow as the neutral color warmer diverging palettes are available.
+
 
 
 References

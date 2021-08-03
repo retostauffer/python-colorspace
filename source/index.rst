@@ -8,7 +8,7 @@
 A Toolbox for Manipulating and Assessing Colors and Palettes
 ============================================================
 
-``colorspace`` is a python package to create and handle colors and color
+*colorspace* is a python package to create and handle colors and color
 palettes in python. Based on the Hue-Chroma-Luminance (HCL) color space
 effective color palettes can be designed and implemented in your own daily
 workflow.
@@ -48,7 +48,7 @@ Other Packages and Further Reading
 More information and further reading:
 
 * `HCLwizard.org <http://hclwizard.org>`__: more information about the HCL color
-  space, introduction to the ``colorspace`` packages (available for
+  space, introduction to the *colorspace* packages (available for
   `R <https://cran.r-project.org/package=colorspace>`_ and
   `python <https://github.com/retostauffer/python-colorspace>`_), and some
   interactive tools to define effective HCL-based color palettes, pick colors,

@@ -14,7 +14,7 @@ A few requirements are needed to be able to use the package and all its features
 * `imageio <https://pypi.org/project/imageio/>`_ (optional).
   Check the comment below in case you are still running Python ``2.7``.
 
-A release of the ``colorspace`` package on `PyPi <https://pypi.org>`_ is planned
+A release of the *colorspace* package on `PyPi <https://pypi.org>`_ is planned
 in the near future. Please use the
 `git issues <https://github.com/retostauffer/python-colorspace/issues>`_
 to report bugs and issues as well as feature requests. There is no
@@ -76,7 +76,7 @@ to set up a virtual environment for Python 2 or Python 3 as follows:
     make install
 
 This will set up a virtual environment and also install the required
-python packages before installing the latest version of the ``colorspace``
+python packages before installing the latest version of the *colorspace*
 package from the repository.
 
 

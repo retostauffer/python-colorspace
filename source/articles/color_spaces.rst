@@ -8,7 +8,7 @@ Color Spaces: Classes and Utilities
 Overview
 --------
 
-At the core of the colorspace package are various utilities for computing with
+At the core of the *colorspace* package are various utilities for computing with
 color spaces :cite:`cs-color:Wiki+Colorspace`, as the name conveys. Thus, the package helps to
 map various three-dimensional representations of color to each other :cite:`cs-color:Ihaka:2003`.
 A particularly important mapping is the one from the perceptually-based
@@ -28,7 +28,7 @@ well in the package. Their connections are illustrated in the following graph:
 
 Color models that are (or try to be) perceptually-based are displayed with
 circles and models that are not are displayed with rectangles. The
-corresponding classes in colorspace are:
+corresponding classes in *colorspace* are:
 
 
 * :py:class:`RGB`
@@ -146,7 +146,7 @@ orange can become much more colorful compared to blue or red.
 .. todo:: This is an R image; functionality not yet included in the python package.
 
 
-Illustration of basic colorspace functionality
+Illustration of basic *colorspace* functionality
 ----------------------------------------------
 
 As an example a vector of colors x can be specified in the HCL (or polar LUV)
@@ -230,7 +230,7 @@ from and to (mostly all) color spaces using the
 Matplotlib color maps
 ---------------------
 
-In addition many objects provided by the colorspace package allow to convert a
+In addition many objects provided by the *colorspace* package allow to convert a
 series of colors (color palette) into a
 :py:class:`matplotlib.colors.LinearSegmentedColormap`
 'cmap' used by matplotlib. As an example using the object ``x`` from above:

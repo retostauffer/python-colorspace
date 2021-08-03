@@ -1103,10 +1103,11 @@ class qualitative_hcl(hclpalette):
     """Qualitative HCL color palette.
 
     Args:
-        h (numeric list): Hue values defining the 'color'. Qualitative color
+        h (float, int, or list): Hue values defining the 'color'. Qualitative color
             palettes require two hues. If more than two values are provided the first
             two will be used while the rest is ignored.  If input `h` is a string this
             argument acts like the `palette` argument (see `palette` input parameter).
+            Can also be lambda functions or a list of lambda functions (see default).
         c (numeric): Chroma value (colorfullness), a single numeric value. If
             multiple values are provided only the first one will be used.
         l (numeric): luminance value (lightness), a single numeric value. If
