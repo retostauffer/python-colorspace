@@ -505,10 +505,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     type_args["size"] = "large" if meta["n_palettes"] > 20 else "xx-large"
     name_args = {"va": "center", "ha": "left"}
 
-    # Single swatch
-    ##if meta["n_palettes"] == 1 and isinstance(data, dict):
-    ##    xpos, ypos = _plot_swatches(data, xpos, ypos, xstep, ystep, show_names, True)
-    # Multiple palettes but no titles/grouping
+    # One or multiple palettes but no titles/grouping
     if isinstance(data, list):
         xpos, ypos = _plot_swatches(data, xpos, ypos, xstep, ystep, show_names)
     # Else dictionary: adding additional titles for grouping
