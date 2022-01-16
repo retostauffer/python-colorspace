@@ -147,7 +147,7 @@ orange can become much more colorful compared to blue or red.
 
 
 Illustration of basic *colorspace* functionality
-----------------------------------------------
+------------------------------------------------
 
 As an example a vector of colors x can be specified in the HCL (or polar LUV)
 model:

@@ -1196,10 +1196,11 @@ class qualitative_hcl(hclpalette):
 
         # If a string is given on "h": exchange with "palette".
         if isinstance(h, str):
-            palette = h; h = None
+            palette = h
+            h       = [0, lambda n: 360. * (n - 1.) / n]
 
         # Custom check for 'h' as we also allow for lambda functions
-        if not isinstance(h, (list, float, int)):
+        if not isinstance(h, (list, float, int)) and not callable(h):
             raise TypeError("Wrong type of input on argument 'h'.")
         else:
             if not isinstance(h, list): h = [h]
