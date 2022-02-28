@@ -17,12 +17,12 @@ venv3: requirements.txt
 	venv3/bin/pip install -r requirements.txt
 
 install: setup.py
-	$(info ********* REMOVE AND REINSTALL PY PACKAGE *********)
+	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
 	python setup.py clean --all && \
-	python setup.py install
+	pip install -e .
 
 develop: setup.py
-	$(info ********* REMOVE AND REINSTALL PY PACKAGE *********)
+	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
 	python setup.py clean --all && \
 	#python setup.py develop
 	pip install -e .[dev]
@@ -38,9 +38,10 @@ wheel:
 	python setup.py bdist_wheel --universal
 
 testpypi:
+	make sdist
 	$(eval VERSION = $(shell cat colorspace/version.py | egrep "^version" | egrep -oE "[0-9\.]+"))
-	echo "uploading dist/colorspace-$(VERSION).tar.gz"
-	twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/colorspace-$(VERSION).tar.gz
+	@echo "********** Uploading dist/colorspace-$(VERSION).tar.gz **********"
+	#twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/colorspace-$(VERSION).tar.gz
 
 
 # Creates baseimages
