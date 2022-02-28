@@ -14,6 +14,16 @@ h4 { font-size: 1em; }
 
 code {
     padding: 0 .25em;
+    color: #3F7CAD;
+}
+
+/* Increase branding image size */
+a.navbar-brand {
+    padding: 10px 10px 10px 20px;
+}
+span.navbar-version {
+    padding: 2em 2em 0 0;
+    margin: 0;
 }
 
 /* Used to pack two .. image:: directives side-by-side
@@ -36,7 +46,7 @@ form.navbar-form {
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
     color: white;
-    background-color: #E94C6F;
+    background-color: #3F7CAD;
 }
 .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
 .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
@@ -48,7 +58,7 @@ form.navbar-form {
 .seealso { background-color: #f7f5fa; color: black; }
 
 a, a:hover, a:focus {
-    color: #E94C6F;
+    color: #3F7CAD;
 }
 
 /* Show number in references */
