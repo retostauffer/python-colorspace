@@ -3,7 +3,7 @@ pytest-mpl
 coverage
 docutils
 imageio
-ipython
+ipython==8.0.1
 matplotlib
 numpy
 pandas

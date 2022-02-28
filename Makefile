@@ -2,7 +2,8 @@
 # -------------------------------------------------------------------
 # Install and test the package
 # -------------------------------------------------------------------
-#
+
+
 #  Imageio does not longer exist for python 2.7 via pip.
 #  Can we already neglect python2?
 venv2: requirements_python2.txt
@@ -35,6 +36,11 @@ sdist:
 
 wheel:
 	python setup.py bdist_wheel --universal
+
+testpypi:
+	$(eval VERSION = $(shell cat colorspace/version.py | egrep "^version" | egrep -oE "[0-9\.]+"))
+	echo "uploading dist/colorspace-$(VERSION).tar.gz"
+	twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/colorspace-$(VERSION).tar.gz
 
 
 # Creates baseimages

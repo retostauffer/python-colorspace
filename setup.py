@@ -11,10 +11,11 @@
 # -------------------------------------------------------------------
 
 
+import os
 from setuptools import setup
 
 ISRELEASED    = False
-VERSION       = "0.2.0"
+VERSION       = "0.2.1"
 FULLVERSION   = VERSION
 WRITE_VERSION = True
 
@@ -35,15 +36,32 @@ isreleased = %s
     finally:
         a.close()
 
+# Write version information
 if WRITE_VERSION:
     write_version_py()
 
-# Setup
+# Reading 'README.md'; replaces Markdown-style hyperrefs with rst style
+# links as expected by PyPI for the long description of the package.
+def README():
+    from re import findall, match
+    content  = open(os.path.join(os.path.dirname(__file__), "README.md")).read()
+    return content
 
+    ## Find markdown links; replace them with rst-compatible links
+    #md_links = findall("\[.*?[^\]].*?(?<=\))", content)
+    #def md_to_rst(x):
+    #    link = match("\[(.*?)\]\((.*?)\)", x).groups()
+    #    if not link: raise ValueError(f"Problems encoding {x} (changing link format).")
+    #    return f"`{link[0]} <{link[1]}>_`"
+    #for x in md_links: content = content.replace(x, md_to_rst(x))
+    #return content
+
+# Setup
 setup(name="colorspace",     # This is the package name
       version = VERSION,     # Current package version, what else
       description = "Color space package for python",
-      long_description = "Provides a set of color transformation functions and an interface to chose efficient color maps based on the HCL color space. This package is inspired and based on the R package 'colorspace'.",
+      long_description = README(),
+      long_description_content_type = "text/markdown",
       url = "https://github.com/retostauffer/python-colorspace",
       author = "Reto Stauffer [aut,cre], Ross Ihaka [ctb], Paul Murrell [ctb], Kurt Hornik [ctb], Jason C. Fisher [ctb], Claus O. Wilke [ctb], Claire D. Mc White [ctb], Achim Zeileis [ctb]",
       author_email = "Reto.Stauffer@uibk.ac.at",
@@ -52,11 +70,10 @@ setup(name="colorspace",     # This is the package name
       license = "GPL-2",
       keywords = "colors HCL",
       classifiers = [
-        "Development Status :: 3 - Alpha",
-        #"Development Status :: 4 - Beta",
-        "GNU Lesser General Public License v2 (GPL-2)",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.8",
+          "Development Status :: 3 - Alpha",
+          "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3.8",
       ],
       install_requires = ["numpy"],
 
