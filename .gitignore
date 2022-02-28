@@ -12,7 +12,6 @@ __pycache__
 /venv2
 /venv3
 
-
 # Testing
 .coverage
 colorspace/htmlcov

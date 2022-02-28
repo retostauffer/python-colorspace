@@ -23,7 +23,19 @@ install: setup.py
 develop: setup.py
 	$(info ********* REMOVE AND REINSTALL PY PACKAGE *********)
 	python setup.py clean --all && \
-	python setup.py develop
+	#python setup.py develop
+	pip install -e .[dev]
+
+# Prepare for PyPI
+check:
+	python setup.py check
+
+sdist:
+	python setup.py sdist
+
+wheel:
+	python setup.py bdist_wheel --universal
+
 
 # Creates baseimages
 .PHONY: baseline

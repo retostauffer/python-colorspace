@@ -11,13 +11,12 @@
 # -------------------------------------------------------------------
 
 
-##from distutils.command.build import build
 from setuptools import setup
 
 ISRELEASED    = False
 VERSION       = "0.2.0"
 FULLVERSION   = VERSION
-write_version = True
+WRITE_VERSION = True
 
 # Write version string
 def write_version_py(filename=None):
@@ -36,7 +35,7 @@ isreleased = %s
     finally:
         a.close()
 
-if write_version:
+if WRITE_VERSION:
     write_version_py()
 
 # Setup
@@ -45,6 +44,13 @@ setup(name="colorspace",     # This is the package name
       version = VERSION,     # Current package version, what else
       description = "Color space package for python",
       long_description = "Provides a set of color transformation functions and an interface to chose efficient color maps based on the HCL color space. This package is inspired and based on the R package 'colorspace'.",
+      url = "https://github.com/retostauffer/python-colorspace",
+      author = "Reto Stauffer [aut,cre], Ross Ihaka [ctb], Paul Murrell [ctb], Kurt Hornik [ctb], Jason C. Fisher [ctb], Claus O. Wilke [ctb], Claire D. Mc White [ctb], Achim Zeileis [ctb]",
+      author_email = "Reto.Stauffer@uibk.ac.at",
+      maintainer = "Reto Stauffer",
+      maintainer_email = "reto.stauffer@uibk.ac.at",
+      license = "GPL-2",
+      keywords = "colors HCL",
       classifiers = [
         "Development Status :: 3 - Alpha",
         #"Development Status :: 4 - Beta",
@@ -52,15 +58,8 @@ setup(name="colorspace",     # This is the package name
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.8",
       ],
-      keywords = "colors HCL",
-      url = "https://github.com/retostauffer/python-colorspace",
-      maintainer = "Reto Stauffer",
-      maintainer_email = "reto.stauffer@uibk.ac.at",
-      author = "Reto Stauffer [aut,cre], Ross Ihaka [ctb], Paul Murrell [ctb], Kurt Hornik [ctb], Jason C. Fisher [ctb], Claus O. Wilke [ctb], Claire D. Mc White [ctb], Achim Zeileis [ctb]",
-      license = "GPL-2",
       install_requires = ["numpy"],
 
       packages = ["colorspace"],
-      include_package_data = True,
-      czip_save = False)
+      include_package_data = True)
 
