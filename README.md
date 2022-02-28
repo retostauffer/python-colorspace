@@ -27,11 +27,11 @@ Feel free to contact me via e-mail (Reto.Stauffer _at_ uibk.ac.at).
 Contributor List
 ----------------
 
-* [Reto Stauffer](https://retostauffer.org) (_author, maintainer_), University of Innsbruck, AT
-* [Achim Zeileis](https://eeecon.uibk.ac.at:~/zeileis) (_contributor_), University of Innsbruck, AT
+* [Reto Stauffer](https://retostauffer.org) (_author, maintainer_), Universität Innsbruck, AT
+* [Achim Zeileis](https://eeecon.uibk.ac.at:~/zeileis) (_contributor_), Universität Innsbruck, AT
 * [Ross Ihaka](https://www.stat.auckland.ac.nz/~ihaka/) (_contributor_), University of Auckland, NZ
 * [Paul Murrell](https://www.stat.auckland.ac.nz/~paul/) (_contributor_), University of Auckland, NZ
-* [Kurt Hornik](http://statmath.wu.ac.at/~hornik/) (_contributor_), Vienna University of Economics and Business, AT
+* [Kurt Hornik](http://statmath.wu.ac.at/~hornik/) (_contributor_), WU Wirtschaftsuniversität Wien, AT
 * [Jason C. Fisher](https://www.usgs.gov/staff-profiles/jason-c-fisher) (_contributor_), Idaho Water Science Center (USGS), USA
 * [Claus O. Wilke](http://wilkelab.org/) (_contributor_), University of Texas at Austin, USA
 * [Claire D. McWhite](http://clairemcwhite.github.io/) (_contributor_), University of Texas at Austin, USA
