@@ -40,7 +40,7 @@ wavelength), chroma (= colorfulness), luminance (= brightness).
     L = palette(sequential_hcl(h = 0, c = 0, l = [90, 25]).colors(5), "Luminance")
 
     @savefig hcl_dimensions.png scale=100% align=center
-    swatchplot([H, C, L], figsize = (3, 1.5))
+    fig = swatchplot([H, C, L], figsize = (3, 1.5))
 
 
 The colorspace package provides three types of palettes based on the HCL model:
@@ -192,25 +192,20 @@ The Purples 3 palette is used which is quite similar to the
 `ColorBrewer2.org <https://colorbrewer2.org/>`_ palette Purples.
 Here, only two colors are employed, yielding a dark purple and a light gray.
 
-.. todo::
-    Currently using 'Purple' not 'Purple 3' as this is an advanced
-    palette which is not yet implemented!
-
 .. ipython:: python
     :okwarning:
 
     import numpy as np
     import matplotlib.pyplot as plt
     import statsmodels.api as sm
-    data = sm.datasets.elnino.load(as_pandas = False)
+    data = sm.datasets.elnino.load()
 
     from colorspace import sequential_hcl
-    #pal = sequential_hcl("Purples 3")
-    pal = sequential_hcl("Purples")
+    pal = sequential_hcl("Purples 3")
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    res = sm.graphics.rainbowplot(data.raw_data[:, 1:], ax = ax, cmap = pal.cmap())
+    res = sm.graphics.rainbowplot(data.raw_data.iloc[:, 1:], ax = ax, cmap = pal.cmap())
     dead_end = ax.set_xlabel("Month of the year")
     dead_end = ax.set_ylabel("Sea surface temperature (C)")
     dead_end = ax.set_xticks(np.arange(13, step=3) - 1)
@@ -255,7 +250,7 @@ graphically assess the spectrum of a series of colors in the RGB and HCL spectru
     from colorspace import diverging_hcl, specplot
     pal = diverging_hcl("Purple-Green")
     @savefig getstarted_specplot.png scale=70% width=800px height=600px align=center
-    specplot(pal(100), hcl = True, palette = True, rgb = True)
+    fig = specplot(pal(100), hcl = True, palette = True, rgb = True)
 
 
 .. ipython:: python
@@ -264,7 +259,7 @@ graphically assess the spectrum of a series of colors in the RGB and HCL spectru
     from colorspace import diverging_hcl, demos
     pal = diverging_hcl("Purple-Green")
     @savefig getstarted_demos_Bar.png scale=70% width=600px height=300px align=center
-    demos.Bar(pal(10))
+    fig = demos.Bar(pal(10))
 
 
 

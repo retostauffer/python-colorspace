@@ -332,7 +332,8 @@ dark/black backgrounds.
     @savefig palette_visualization_demos_dark.png width=100% align=center
     fig.show()
 
-
+    import matplotlib as mpl
+    mpl.rcParams.update(mpl.rcParamsDefault)
 
 
 
