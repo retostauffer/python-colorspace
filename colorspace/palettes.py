@@ -431,11 +431,9 @@ class hclpalettes:
 
     Args:
         files (None, str list): If `None` (default) the default color palette
-            configuration from within the package will be loaded. Technically, a
-            list of file names (`str`) can be provided to load user-defined color
-            palettes. Not yet tested!
-        files_regex (None or str): if a string is provided it will be checked
-            if the files match the expression. If not, they will not be read.
+            configuration from within the package will be loaded. A path to a custom
+            config file (str) or a list of paths can be provided to read custom
+            palettes.
 
     Return:
         :py:class:`colorspace.palettes.hclpalettes`: Collection of predefined
@@ -452,48 +450,31 @@ class hclpalettes:
         >>>
         >>> hclpals.plot()
         >>> hclpals.plot(n = 11)
-
-    TODO:
-        * Check if the files option is useful. If so, provide some
-          more information about the config files and where/how to use.
     """
     def __init__(self, files = None, files_regex = None):
 
-        if not isinstance(files_regex, (str, type(None))):
-            raise TypeError("Argument 'files_regex' must be 'None' or 'str'.")
+
+        assert isinstance(files, (type(None), str, list)), TypeError("argument 'files' must either be None, str, or list of str")
+        if isinstance(files, str): files = [files]
+        if isinstance(files, list):
+            for file in files: assert isinstance(file, str), TypeError("not all elements in 'files' are of type str")
 
         if files is None:
             import glob
             resource_package = os.path.dirname(__file__)
             files = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
 
-        # Is a regular expression given to subset the files by name?
-        if isinstance(files_regex, str):
-            import re
-            tmp = []   # Reset to empty list
-            files_regex = re.compile(files_regex)
-            # If a file matches the expression: append to 'files'
-            for rec in files:
-                if files_regex.match(rec): tmp.append(rec)
-            files = tmp # Overwrite 'files'
-
         # Input 'files' specified:
-        if len(files) == 0:
-            raise ValueError("No palette config files provided ({:s}.".format(self.__class__.__name__))
-        else:
-            for file in files:
-                if not os.path.isfile(file):
-                    raise Exception("Cannot find file {:s}. Stop.".format(file))
+        assert len(files) > 0, ValueError(f"no palette config files provided ({self.__class__.__name__})")
+        for file in files:
+            assert os.path.isfile(file), FileNotFoundError(f"file {file} does not exist")
 
 
         # Else trying to load palettes and append thenm to _palettes_
         self._palettes_ = {}
         for file in files:
             [palette_type, pals] = self._load_palette_config_(file)
-            if not pals: continue
-
-            # Append
-            self._palettes_[palette_type] = pals
+            if pals: self._palettes_[palette_type] = pals  # append
 
         # A poor attempt to order the palettes somehow
         x = list(self._palettes_.keys())
@@ -612,11 +593,7 @@ class hclpalettes:
 
         import re
         import sys
-
-        if sys.version_info.major < 3:
-            from ConfigParser import ConfigParser
-        else:
-            from configparser import ConfigParser
+        from configparser import ConfigParser
 
         CNF = ConfigParser()
         CNF.read(file)

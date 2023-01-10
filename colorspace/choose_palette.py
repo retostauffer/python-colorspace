@@ -1,12 +1,6 @@
 
-# Tkinter was renamed to tkinter Py2->Py3,
-# make sure the correct module is loaded.
 import sys
-if sys.version_info.major < 3:
-    from Tkinter import *
-else:
-    from tkinter import *
-
+from tkinter import *
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -409,8 +403,8 @@ def choose_palette(**kwargs):
 
     # Prepare new default arguments
     for key in ["h","c","l","p"]:
-        k1  = "{:s}1".format(key)
-        k2  = "{:s}2".format(key)
+        k1  = f"{key}1"
+        k2  = f"{key}2"
         key = "power" if key == "p" else key
         if k1 in settings.keys() and k2 in settings.keys():
             settings[key] = [settings[k1], settings[k2]]
@@ -427,8 +421,6 @@ def choose_palette(**kwargs):
         if key in settings.keys():
             defaults[idx] = settings[key]
 
-    # Ugly but functional
-    # Possibly nicer with functools.partial
     import types
     method.__init__ = types.FunctionType(method.__init__.__code__,
                                          method.__init__.__globals__,
@@ -1025,7 +1017,7 @@ class gui(object):
             update (bool): Default is false.
 
         Todo;
-            * Implement and test.
+            * Tcl/Tk demo plots no longer working as expected.
 
         .. note::
             Requires matplotlib. Will show a message if matplotlib is
@@ -1081,7 +1073,7 @@ class gui(object):
                 self._demoTk = Tk()
                 self._demoTk.protocol("WM_DELETE_WINDOW", self._close_demo) #demoTk.destroy)
                 self._demoTk.wm_title("colorspace demoplot")
-                self._demo_Axis   = self._demo_Figure.add_subplot(211)
+                #self._demo_Axis   = self._demo_Figure.add_subplot(211)
                 self._demo_Canvas = FigureCanvasTkAgg(self._demo_Figure, master=self._demoTk)
                 self._demo_Canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -1090,6 +1082,7 @@ class gui(object):
             fun = getattr(demos, self._DEMO.get())
 
             # Update plot
+            fun(self.get_colors(), fig = self._demo_Figure)
             fun(self.get_colors(), fig = self._demo_Figure)
             self._demo_Canvas.draw()
             self._demo_Canvas.flush_events()

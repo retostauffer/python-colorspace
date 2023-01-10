@@ -143,8 +143,6 @@ orange can become much more colorful compared to blue or red.
     :width: 100%
     :align: center
 
-.. todo:: This is an R image; functionality not yet included in the python package.
-
 
 Illustration of basic *colorspace* functionality
 ------------------------------------------------

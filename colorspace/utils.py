@@ -284,15 +284,15 @@ def extract_transparency(x, mode = "float"):
 def adjust_transparency(x, alpha):
     """Adjust alpha transparency.
 
-    Allows to remove, set, or adjust the alpha transparency.
-    In case `alpha` is a single float a constant
-    transparency will be added to all colors. In case it is a list or `numpy.ndarray`
+    Allows to set, adjust, or remove transparency (alpha channel).
+    In case `alpha` is a single float, a constant
+    transparency will be added to all colors. If `alpha` is a list or `numpy.ndarray`
     it must be the same length as the number of colors in the object `x` and all
-    values must be convertable to float/int in the range of `[0., 1.]`. If not, an error
-    will be raised.
+    values must be convertable to float/int in the range of `[0., 1.]`. Allows to
+    add individual transparency for each color in `x`.
 
     Args:
-        x: an object which inherits from colorsspace.colorlib.colorobject.
+        x: sequence of colors; an object which inherits from colorsspace.colorlib.colorobject.
         alpha (None, float, int, list, numpy.ndarray): ``None`` will remove existing
             transparency (if existing). If `float`, `list`, or numpy.ndarray` 
             trnasparency will be added. See function description for more details.
@@ -309,21 +309,28 @@ def adjust_transparency(x, alpha):
         >>> from colorspace import *
         >>> from colorspace.colorlib import hexcols
         >>> import numpy as np
-        >>> 
-        >>> # Three colors without alpha
+        >>>
+        >>> # Three colors without transparency
         >>> cols1 = ['#023FA5',   '#E2E2E2',   '#8E063B']
+        >>>
         >>> # Same colors with transparency 80%, 40%, 80%
         >>> cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
         >>> 
         >>> # Convert 'cols1' into a hexcols object and modify transparency
         >>> x1 = hexcols(cols1)
         >>> print(x1)
-        >>> extract_transparency(x1)           # Extract transparency
-        >>> x1 = adjust_transparency(x1, 0.5)  # Set constant transparency
+        >>>
+        >>> # Extract transparency
+        >>> extract_transparency(x1)
+        >>>
+        >>> # Setting constant transparency of 0.5 for all three colors
+        >>> x1 = adjust_transparency(x1, 0.5)
         >>> print(x1)
+        >>>
+        >>> # Setting custom transparency (adjusting; overwrite existing 0.5)
         >>> x1 = adjust_transparency(x1, [0.8, 0.4, 0.8]) # Add transparency
         >>> print(x1)
-        >>> 
+        >>>
         >>> # Convert 'cols2' into a hexcols object and extract/remove/add transparency
         >>> x2 = hexcols(cols2)
         >>> extract_transparency(x2)           # Extract current transparency
@@ -333,9 +340,6 @@ def adjust_transparency(x, alpha):
         >>> x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8])) # Add again
         >>> print(x2)
         >>> extract_transparency(x2)
-
-    TODO:
-        Implement this for palettes and things?
     """
 
     import numpy as np

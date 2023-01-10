@@ -25,7 +25,7 @@ def test_against_R():
             continue
 
         # Print for debugging shown when running pytest -s
-        print("[compare against R]: {:s}".format(rec["id"]))
+        print(f"[compare against R]: {rec['id']}"),
         fun = eval(rec["fun"])
         arg = rec["args"]
         n   = arg["n"]

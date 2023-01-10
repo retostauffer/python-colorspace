@@ -162,34 +162,24 @@ desaturated or when color blindness is emulated.
 
 To illustrate that much more balanced palettes for the same purpose are
 available the Geyser palette (mimicked from CARTO 2019) is adopted:
-:py:func:`divergingx_hcl("Red-Green"")(11) <colorspace.diverging_hcl>`.
-
-.. todo::
-    This demo originally uses `divergingx_hcl` and Geyser, not yet implemented.
-    Thus I switched to 'Red-Green' for now (`diverging_hcl`).
-
-    This also goes from red via yellow to
-    a green/blue and hence needs the :py:func:`divergingx_hcl <colorspace.diverging_hcl>`
-    function (as opposed to
-    :py:func:`diverging_hcl <colorspace.diverging_hcl>` which always uses a neutral gray).
-
+:py:func:`divergingx_hcl("Geyser"")(11) <colorspace.divergingx_hcl>`.
 
 .. plot::
 
     from matplotlib import pyplot as plt
-    from colorspace import demoplot, diverging_hcl, rainbow
+    from colorspace import demoplot, divergingx_hcl, rainbow
     from colorspace import desaturate, protan, deutan, tritan
 
     fig, axes = plt.subplots(5, 2, figsize = (9, 13))
 
     # Picking 11 colors from two different color palettes
     col_rainbow = rainbow(end = 1/3)(11)
-    col_hcl     = diverging_hcl("Red-Green")(11)
+    col_hcl     = divergingx_hcl("Geyser")(11)
 
     demoplot(col_rainbow, type_ = "Map", ax = axes[0, 0], ylabel = "Original",
              title = "rainbow(end = 1/3)(11)")
     demoplot(col_hcl,     type_ = "Map", ax = axes[0, 1], ylabel = "Original",
-             title = "sequential_hcl(\"Red-Green\")(11)")
+             title = "divergingx_hcl(\"Geyser\")(11)")
 
     demoplot(desaturate(col_rainbow), type_ = "Map", ax = axes[1, 0], ylabel = "Desaturated")
     demoplot(desaturate(col_hcl),     type_ = "Map", ax = axes[1, 1], ylabel = "Desaturated")

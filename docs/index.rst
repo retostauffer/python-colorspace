@@ -98,14 +98,6 @@ maps) wich might be of interest:
 * `ColorBrewer2.org <http://colorbrewer2.org>`_: the source of the brewer colors,
   interactive webpage by Cynthia Brewer, Mark Harrower and The Pennsylvania State University.
 
-Known issues
-------------
-
-.. _index-known-issues:
-
-.. warning::
-    White point implemented but might require some additional testing.
-
 
 TODO's
 ------

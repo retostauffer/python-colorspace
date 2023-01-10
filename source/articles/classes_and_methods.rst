@@ -20,9 +20,6 @@ systems based on the corresponding hex codes (Wikipedia 2020i), e.g., in HTML
 but also in R. For completeness further standard color models are included as
 well in the package. Their connections are illustrated in the following graph:
 
-.. todo::
-    colorspace.palette: rethink. ``cmap()`` and ``swatchplot()`` not woking as expected?
-
 .. ipython:: python
     :okwarning:
 

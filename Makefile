@@ -14,6 +14,7 @@ venv2: requirements_python2.txt
 venv3: requirements.txt
 	-rm -rf venv3
 	virtualenv -p python3 venv3
+	venv3/bin/pip install --update pip
 	venv3/bin/pip install -r requirements.txt
 
 install: setup.py
@@ -24,7 +25,6 @@ install: setup.py
 develop: setup.py
 	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
 	python setup.py clean --all && \
-	#python setup.py develop
 	pip install -e .[dev]
 
 # Prepare for PyPI

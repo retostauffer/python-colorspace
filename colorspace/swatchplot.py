@@ -13,7 +13,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     * Dictionary with lists of objects as above. If a dictionary is used
         the keys of the dictionary are used as 'subtitles' to group sets
         of palettes.
-    * An object of class :py:class:`colorspace.palettes.hclpalettes`.
+    * Object of class :py:class:`colorspace.palettes.hclpalettes`.
+    * Object of class `matplotlib.colors.LinearSegmentedColormap`
 
     Args:
         pals: The color palettes or color objects to be visualized.
@@ -47,35 +48,29 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         color objects (``cobject``; :py:class:`colorspace.colorlib.colorobject`).
 
         >>> from colorspace import *
-        >>> 
+        >>>
         >>> # List of hex colors
         >>> swatchplot(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'])
-        >>> 
+        >>>
         >>> # Create a custom 'palette' (named):
         >>> from colorspace import palette
         >>> pal = palette(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'], "named palette")
         >>> swatchplot(pal)
-        >>> 
+        >>>
         >>> # A HCL palette. 'n' defines the number of colors.
         >>> swatchplot(sequential_hcl("PuBu"), n = 10)
-        >>> 
+        >>>
         >>> # Combine all three
         >>> swatchplot([['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
         >>>             pal, sequential_hcl("PuBu")], n = 7)
-        >>> 
-        >>> 
-        >>> 
-        >>> #from matplotlib import pyplot as plt
-        >>> #fig, axs = plt.subplots(2)
-        >>> #fig.suptitle('Vertically stacked subplots')
-        >>> 
+        >>>
         >>> # A color object (e.g., RGB, HCL, CIELUV, ...)
         >>> from colorspace.colorlib import hexcols
         >>> cobject  = hexcols(heat_hcl()(5))
         >>> cobject.to("HCL")
         >>> print(cobject)
         >>> swatchplot(cobject)
-        >>> 
+        >>>
         >>> # Using dictionaries to add subtitles
         >>> # to 'group' different palettes.
         >>> swatchplot({"Diverging": [diverging_hcl(), diverging_hcl("Red-Green")],
@@ -245,6 +240,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             to be displayed.
         """
 
+        from matplotlib.colors import LinearSegmentedColormap
+
         # In case we get a list let's check if we have a valid hex list.
         # Can also be a list of list processed later on.
         if isinstance(pals, (str, list)):
@@ -261,6 +258,17 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         # if we have no rule for this.
         elif isinstance(pals, list):
             res = [_pal_to_dict(x, n) for x in pals]
+        # Matplotlib colormap? Convert
+        elif isinstance(pals, LinearSegmentedColormap):
+            from .colorlib import sRGB
+            from numpy import linspace
+            tmp_R = []; tmp_G = []; tmp_B = []
+            for i in linspace(0, 1, n):
+                print(f" Drawing i = {i} from N = {pals.N}")
+                tmp = pals(i)
+                tmp_R.append(tmp[0]); tmp_G.append(tmp[1]); tmp_B.append(tmp[2])
+            res = [_pal_to_dict(palette(sRGB(tmp_R, tmp_G, tmp_B), name = pals.name), n)]
+            del tmp_R, tmp_G, tmp_B, tmp
         # If we got a dictionary we keep the keys as names and extract
         # the colors from the object(s) itself.
         elif isinstance(pals, dict):

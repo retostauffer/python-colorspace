@@ -75,7 +75,7 @@ def test_hclpalettes_file_does_not_exist():
         colorspace.palettes.hclpalettes(files = "foo")
 
 def test_hclpalettes_file_no_file():
-    with pytest.raises(ValueError):
+    with pytest.raises(AssertionError):
         colorspace.palettes.hclpalettes(files = [])
 
 def test_hclpalettes_repr():
