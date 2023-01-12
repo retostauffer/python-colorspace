@@ -197,24 +197,18 @@ respectively), luminance (``l`` and ``l1``/``l2``, respectively), and power
 transformations for the chroma and luminance trajectories (power and
 ``p1``/``p2``, respectively). This yields a broad variety of sequential
 palettes, including many that closely match other well-known color palettes.
-The plot below shows all the named multi-hue sequential palettes in *colorspace*:
+The plot below shows all the named multi-hue sequential palettes in *colorspace*
+which consist of various palettes created during the development of *colorspace*,
+e.g., by :cite:t:`HCL-color:Zeileis+Hornik+Murrell:2009` or
+:cite:t:`HCL-color:Stauffer+Mayr+Dabernig:2015` among others.
 
-* "Purple-Blue" to "Terrain 2" are various palettes created during the
-  development of *colorspace*, e.g., by :cite:t:`HCL-color:Zeileis+Hornik+Murrell:2009` or
-  :cite:t:`HCL-color:Stauffer+Mayr+Dabernig:2015` among others.
-* "Viridis" to "Inferno" closely match the palettes that
-  :cite:t:`HCL-color:Smith+VanDerWalt:2015`
-  developed for matplotlib and that gained popularity recently.
-* "Dark Mint" to "BrwnYl" closely match palettes provided in :cite:t:`HCL-color:CARTO`
-* "YlOrRd" to "Blues" closely match ColorBrewer.org palettes
-  :cite:p:`HCL-color:Harrower+Brewer:2003`.
-* "Lajolla" to "Batlow" closely match the scientific color maps of the same
-  name by :cite:t:`HCL-color:Crameri:2018` and the first two of these are intended for a
-  black/dark background.
-
-.. todo::
-    I do not have the same order as I do not mix basic and advanced.
-    Thus, this list above is invalid for the python package. Fix this.
+In addition palettes are provided which closely match the palettes
+developed by
+:cite:t:`HCL-color:Smith+VanDerWalt:2015` for matplotlib,
+matching CARTO palettes :cite:p:`HCL-color:CARTO`,
+ColorBrewer.org palettes :cite:p:`HCL-color:Harrower+Brewer:2003`,
+and palettes closely matching the scientific palettes by
+:cite:t:`HCL-color:Crameri:2018`.
 
 .. ipython:: python
     :okwarning:

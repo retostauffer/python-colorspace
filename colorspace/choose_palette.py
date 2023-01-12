@@ -484,11 +484,10 @@ class gui(object):
     _control        = None
 
     # Initialize defaults
-    _setting_names = ["h1","h2","c1","cmax","c2","l1","l2","p1","p2","n"]
+    _setting_names = ["h1", "h2", "c1", "cmax", "c2", "l1", "l2", "p1", "p2", "n"]
     _settings       = {}
     for key in _setting_names:
         _settings[key] = 7 if key == "n" else None
-
 
     def __init__(self, **kwargs):
 
@@ -515,6 +514,7 @@ class gui(object):
 
         # Initialize gui
         self._master         = self._init_master()
+
         # The different palette types
         self._Dropdown       = self._add_paltype_dropdown(pal.type())
         # Adding current palette has to be before the sliders
@@ -703,10 +703,17 @@ class gui(object):
         master.configure()
         master.resizable(width=False, height=False)
         master.geometry("{:d}x{:d}".format(self.WIDTH, self.HEIGHT))
+        master.bind("<Destroy>", self._return_to_python)
         master.bind("<Return>", self._return_to_python)
         master.bind("<Escape>", self._return_to_python)
 
         return master
+
+    def _destroy(self, x, *args, **kwargs):
+        try:
+            x.destroy()
+        except:
+            pass
 
     def master(self):
         """
@@ -947,7 +954,7 @@ class gui(object):
         self._draw_currentpalette()
 
         # Is the demo running?
-        if self._demoTk: self._show_demo(True)
+        if self._demoTk: self._show_demo()
 
 
     def _add_demo_options(self):
@@ -995,26 +1002,16 @@ class gui(object):
         settings of the sliders and control elements. Used to create the
         palette which will then be returned to the console/user console.
         """
-        # Destroy the demo figure if not already closed
-        try:
-            import matplotlib.pyplot as plt
-            plt.close(self._demo_Figure)
-        except:
-            pass
         # Close demo window if not already closed
         try:
             self._demoTk.destroy()
         except:
             pass
-        self.master().destroy()
         self.master().quit()
 
 
-    def _show_demo(self, update = False):
+    def _show_demo(self):
         """Show demo.
-
-        Args:
-            update (bool): Default is false.
 
         Todo;
             * Tcl/Tk demo plots no longer working as expected.
@@ -1060,32 +1057,17 @@ class gui(object):
                 return photo
 
 
-
-            import matplotlib
-            matplotlib.use("TkAgg")
-            from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-            import matplotlib.pyplot as plt
-
-            # Initialize plot
-            if not hasattr(self, "_demo_Figure"):
-                self._demo_Figure = plt.figure()
-            if not update:
-                self._demoTk = Tk()
-                self._demoTk.protocol("WM_DELETE_WINDOW", self._close_demo) #demoTk.destroy)
-                self._demoTk.wm_title("colorspace demoplot")
-                #self._demo_Axis   = self._demo_Figure.add_subplot(211)
-                self._demo_Canvas = FigureCanvasTkAgg(self._demo_Figure, master=self._demoTk)
-                self._demo_Canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
-
-            # Getting demo function
+            # Getting demo plotting function
             from . import demos
             fun = getattr(demos, self._DEMO.get())
 
-            # Update plot
-            fun(self.get_colors(), fig = self._demo_Figure)
-            fun(self.get_colors(), fig = self._demo_Figure)
-            self._demo_Canvas.draw()
-            self._demo_Canvas.flush_events()
+            # Initialize (or update) the app
+            if not self._demoTk:
+                root = Tk()
+                self._demoTk = ChooseApp(root, fun, self.get_colors())
+                self._demoTk.bind("<Destroy>", self._close_demo)
+            else:
+                self._demoTk.plot(fun, self.get_colors())
 
         else:
 
@@ -1100,11 +1082,33 @@ class gui(object):
             txt.pack()
             txt.insert(END, "\n".join(info))
 
-    def _close_demo(self):
-
-        import matplotlib.pyplot as plt
+    def _close_demo(self, *args, **kwargs):
         if not self._demoTk is None: self._demoTk.destroy()
         self._demoTk = None
 
 
+# Tcl/Tk helper class for demo plots
+class ChooseApp(Frame):
+    def __init__(self, master, fun, colors):
+        from tkinter import Frame
+        from matplotlib import pyplot as plt
+        from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+        Frame.__init__(self, master)
+        self.fig    = plt.figure(figsize = (8, 8), clear = True)
+        self.master = master
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master = self.master)
+
+        self.plot(fun, colors)
+        self.canvas.get_tk_widget().grid(row = 0, column = 1)
+
+    def plot(self, fun, colors):
+        assert callable(fun), TypeError("argument 'fun' must be a callable function")
+
+        # Clearing figure, adding axis and call plotting function
+        self.fig.clear(True)
+        ax     = self.fig.add_axes([0.025, 0.025, 0.95, 0.95])
+        fun(colors, ax = ax, fig = self.fig)
+        self.canvas.draw()
 

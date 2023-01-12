@@ -21,6 +21,7 @@ Version 0.3.0 (January 2022)
 
 * Removed support for python2
 * Adding functionality for swatchplots for `LinearSegmentedColormap` (single object)
+* Fixed GUI `choose_palette()`
 
 Version 0.1.0 (September 17, 2018)
 ----------------------------------

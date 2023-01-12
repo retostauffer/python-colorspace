@@ -4,7 +4,7 @@ import sys
 
 
 def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
-             title = None, **figargs):
+             title = None, fig = None, **figargs):
     """Visualization of the RGB and HCL spectrum given a set of hex colors.
     As the hues for low-chroma colors are not (or poorly) identified, by
     default a smoothing is applied to the hues (``fix = TRUE``). Also, to
@@ -80,34 +80,27 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
 
     # Checking main arguments 'x' and 'y'
-    if not isinstance(x, list):
-        raise TypeError("Argument `x` must be a list.")
+    assert isinstance(x, list), TypeError("Argument `x` must be a list.")
     x = check_hex_colors(x) # Checks if all entries are valid
 
     # Checking y
-    if not isinstance(y, (type(None), list)):
-        raise TypeError("Argument `x` must be `None` or a list.")
+    assert isinstance(y, (type(None), list)), TypeError("Argument `x` must be `None` or a list.")
     if not isinstance(y, type(None)):
         y = check_hex_colors(y) # Checks if all entries are valid
-        if not len(x) == len(y):
-            raise ValueError("If argument `y` is provided it must be of the same length as `x`.")
+        assert len(x) == len(y), ValueError("If argument `y` is provided it must be of the same length as `x`.")
 
 
     # Sanity check for input arguemnts to control the different parts
     # of the spectogram plot. Namely rgb spectrum, hcl spectrum, and the palette.
-    if not isinstance(rgb, bool):
-        raise TypeError("Argument 'rgb' must be boolean True or False.")
-    if not isinstance(hcl, bool):
-        raise TypeError("Argument 'hcl' must be boolean True or False.")
-    if not isinstance(palette, bool):
-        raise TypeError("Argument 'palette' must be boolean True or False.")
+    assert isinstance(rgb, bool),     TypeError("argument 'rgb' must be boolean True or False.")
+    assert isinstance(hcl, bool),     TypeError("argument 'hcl' must be boolean True or False.")
+    assert isinstance(palette, bool), TypeError("argument 'palette' must be boolean True or False.")
     if not rgb and not hcl and not palette:
         import inspect
         raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible " + \
                   "when calling \"{:s}\".".format(inspect.stack()[0][3]))
 
-    if not isinstance(title, (type(None), str)):
-        raise TypeError("Argument 'title' must be either `None` or `str`.")
+    assert isinstance(title, (type(None), str)), TypeError("Argument 'title' must be either `None` or `str`.")
 
     # Import hexcolors: convert colors to hexcolors for the plot if needed.
     from .colorlib import hexcols
@@ -179,7 +172,10 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     import numpy as np
 
     # Open new figure.
-    fig = plt.figure()
+    if not fig:
+        hfig = plt.figure()
+    else:
+        hfig = fig
 
     if rgb and hcl and palette:
         ax1 = plt.subplot2grid((7, 1), (0, 0), rowspan = 3)
@@ -201,8 +197,8 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     elif palette:
         # Adjusting outer margins
         ax2 = plt.subplot2grid((1, 1), (0, 0))
-        fig.subplots_adjust(left = 0., bottom = 0., right  = 1.,
-                            top  = 1., wspace = 0., hspace = 0.)
+        hfig.subplots_adjust(left = 0., bottom = 0., right  = 1.,
+                             top  = 1., wspace = 0., hspace = 0.)
     else:
         import inspect
         raise ValueError("Unexpected condition in \"{:s}\". Sorry.".format(inspect.stack()[0][3]))
@@ -284,8 +280,9 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
 
     # Show figure or return the Axes object (in case `ax` has not been None).
-    fig.show()
-    return fig
+    if not fig: hfig.show()
+
+    return hfig
 
 
 

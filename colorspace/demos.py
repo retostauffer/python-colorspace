@@ -138,8 +138,6 @@ def _demoplot_set_labels(ax, **kwargs):
                 fn = getattr(ax, "set_{:s}".format(x))
                 fn(kwargs[x], fontweight = "bold" if x == "title" else "regular")
 
-    plt.tight_layout()
-
 
 def Bar(colors, ax = None, **kwargs):
     """Plotting the barplot example.
@@ -509,7 +507,6 @@ def Matrix(colors, ax = None, **kwargs):
 #    x = 0.01 + np.abs(np.sin(1.5 + np.arange(0, len(colors))))
 #    plt.pie(x, colors = colors)
 #    plt.axis("off")
-#    plt.tight_layout()
 #
 #    if not showfig:  return fig
 #    else:            fig.show()
