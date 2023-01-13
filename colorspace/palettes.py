@@ -157,13 +157,11 @@ class palette:
             Returns a :py:class:`matplotlib.colors.LinearSegmentedColormap` (cmap) to be used
             with the matplotlib library.
 
-        TODO:
-            Is `n = None` a good default?
-
         Example:
 
-            >>> from colorspace import diverging_hcl
+            >>> from colorspace import diverging_hcl, palette
             >>> pal = diverging_hcl()
+            >>> pal = palette(pal(5), name = "diverging palette with 5 colors")
             >>>
             >>> cmap = pal.cmap()
             >>> print(type(cmap))
