@@ -4,16 +4,9 @@
 # -------------------------------------------------------------------
 
 
-#  Imageio does not longer exist for python 2.7 via pip.
-#  Can we already neglect python2?
-venv2: requirements_python2.txt
-	-rm -rf venv2
-	virtualenv -p python2 venv2
-	venv2/bin/pip install -r requirements_python2.txt
-
-venv3: requirements.txt
-	-rm -rf venv3
-	virtualenv -p python3 venv3
+venv: requirements.txt
+	-rm -rf venv
+	virtualenv -p python3 venv
 	venv3/bin/pip install --update pip
 	venv3/bin/pip install -r requirements.txt
 

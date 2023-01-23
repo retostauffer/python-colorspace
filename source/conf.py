@@ -43,7 +43,7 @@ import colorspace
 
 project   = "colorspace-pythondoc"
 author    = "Reto Stauffer"
-copyright = "2021, {:s}".format(author)
+copyright = "2023, {:s}".format(author)
 
 # The short X.Y version
 version = colorspace.__version__

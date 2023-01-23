@@ -179,7 +179,7 @@ class Slider(object):
         return self._name
 
     def set(self, val):
-        # Reading text value and adjust slider
+        # Setting slider
         self._Scale.set(val)
         # Setting Text
         self._Entry.delete(0, END)
@@ -313,7 +313,7 @@ class defaultpalettecanvas(object):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-class currentpalettecanvas(object):
+class currentpalettecanvas:
     """Draws the current palette (the palette as specified on the
     GUI), will be displayed in the lower part of the GUI.
 
@@ -379,6 +379,7 @@ def choose_palette(**kwargs):
     """
 
     obj = gui(**kwargs)
+    obj.mainloop()
 
     from . import palettes
     method = getattr(palettes, obj.method())
@@ -435,7 +436,7 @@ def choose_palette(**kwargs):
 # This is the GUI itself (called by choose_palette which is handling
 # the return).
 # -------------------------------------------------------------------
-class gui(object):
+class gui(Tk):
     """Graphical user interface to choose custom HCL-basec color palettes.
 
     Args:
@@ -490,6 +491,7 @@ class gui(object):
         _settings[key] = 7 if key == "n" else None
 
     def __init__(self, **kwargs):
+        super().__init__()
 
         # Initialization arguments, if any
         init_args = {}
@@ -536,7 +538,8 @@ class gui(object):
         self._control = self._add_control()
 
         # Initialize interface
-        mainloop()
+        print("INITIALIZEDDDDD")
+        #self.mainloop()
 
     def _add_paltype_dropdown(self, type_):
         """Adds a drop down menu to the GUI which allowes to
@@ -548,12 +551,12 @@ class gui(object):
         """
         opts = self.palettes().get_palette_types()
 
-        paltypevar = StringVar(self.master())
+        paltypevar = StringVar(self)
         paltypevar.set(type_) # default value
 
         # Option menu
-        menu = OptionMenu(self.master(), paltypevar, *opts,
-                          command = self.OnPaltypeChange) #obj.selected)
+        menu = OptionMenu(self, paltypevar, *opts,
+                          command = self.OnPaltypeChange)
         menu.config(width = 40, pady = 5, padx = 5)
         menu.grid(column = 1, row = len(opts))
         menu.place(x = 10, y = 30)
@@ -565,6 +568,7 @@ class gui(object):
         every time the drop down element changes.
         """
 
+        print("TRIGGERING OnPaltypeChange")
         # Updating the palette-frame.
         self._palframe = self._add_palframe(args[0])
 
@@ -591,7 +595,7 @@ class gui(object):
         """
         control = {}
 
-        frame = Frame(self.master(), height = 30, width = self.WIDTH - 20)
+        frame = Frame(self, height = 30, width = self.WIDTH - 20)
         frame.grid()
         frame.place(x = 10, y = self.HEIGHT - 140)
         col = 0; row = 0
@@ -698,29 +702,19 @@ class gui(object):
         """Initializes the ``Tk`` GUI window."""
 
         # initialize mater TK interface
-        master = Tk()
-        master.wm_title("Colorspace - Choose Color Palette")
-        master.configure()
-        master.resizable(width=False, height=False)
-        master.geometry("{:d}x{:d}".format(self.WIDTH, self.HEIGHT))
-        master.bind("<Destroy>", self._return_to_python)
-        master.bind("<Return>", self._return_to_python)
-        master.bind("<Escape>", self._return_to_python)
-
-        return master
+        self.wm_title("Colorspace - Choose Color Palette")
+        self.configure()
+        self.resizable(width=False, height=False)
+        self.geometry("{:d}x{:d}".format(self.WIDTH, self.HEIGHT))
+        self.bind("<Destroy>", self._return_to_python)
+        self.bind("<Return>", self._return_to_python)
+        self.bind("<Escape>", self._return_to_python)
 
     def _destroy(self, x, *args, **kwargs):
         try:
             x.destroy()
         except:
             pass
-
-    def master(self):
-        """
-        Returns:
-            ``Tk``: Returns the ``Tk`` GUI object.
-        """
-        return self._master
 
     def palettes(self):
         """
@@ -754,7 +748,7 @@ class gui(object):
         ##scroll dev### if hasattr(self, "_palframe"):
         ##scroll dev###     if not self._palframe is None: self._palframe.destroy()
 
-        ##scroll dev### frame = Frame(self.master())
+        ##scroll dev### frame = Frame(self)
         ##scroll dev### frame.place(x = 10, y = 80)
 
         ##scroll dev### # Loading palettes of currently selected palette type
@@ -773,10 +767,7 @@ class gui(object):
         ##scroll dev### canvas.config(xscrollcommand = scroll.set)
         ##scroll dev### canvas.pack(fill = BOTH, expand = True)
 
-        if hasattr(self, "_palframe"):
-            if not self._palframe is None: self._palframe.destroy()
-
-        frame = Frame(self.master(), bg = "#ffffff",
+        frame = Frame(self, bg = "#ffffff",
                       height = self.FRAMEHEIGHT, width = self.FRAMEWIDTH)
         frame.place(x = 10, y = 80)
 
@@ -806,7 +797,7 @@ class gui(object):
         Returns:
             ``Tk.Canvas``: Returns the canvas.
         """
-        canvas = currentpalettecanvas(self.master(),
+        canvas = currentpalettecanvas(self,
                x = 20, y = 500, width = self.WIDTH - 40, height = 30) 
 
         return canvas
@@ -923,7 +914,7 @@ class gui(object):
         # Tkinter.Label element with bindings).
         for idx,key in enumerate(self._setting_names):
             # Initialize with default 0 if nothing yet specified.
-            s = Slider(self.master(),
+            s = Slider(self,
                        key,                                            # name
                        10, 100 + idx * 30 + self.FRAMEHEIGHT,          # x, y
                        self.WIDTH - 20, 30,                            # width, height
@@ -940,8 +931,7 @@ class gui(object):
 
         # Add the trace element to make them interactive
         # (an observer, call OnChange whenever the Scale changes).
-        for x in sliders:
-            x.trace("w", self.OnChange)
+        for x in sliders: x.trace("w", self.OnChange)
 
         return sliders
 
@@ -964,18 +954,18 @@ class gui(object):
         Todo:
             * Currently not enabled (have had some problems with the interaction/update).
         """
-        but = Button(self.master(), text = "Demo",
+        but = Button(self, text = "Demo",
                 command = self._show_demo,
                 pady = 5, padx = 5)
         but.place(x = self.WIDTH - 70, y = self.HEIGHT - 40)
 
         # Variable to store current selection
         opts = ["Bar", "Heatmap", "Pie", "Spine", "Matrix", "Lines", "Spectrum"]
-        demovar = StringVar(self.master())
+        demovar = StringVar(self)
         demovar.set(opts[0]) # default value
 
         # Demo plot option menu. No callback
-        menu = OptionMenu(self.master(), demovar, *opts,
+        menu = OptionMenu(self, demovar, *opts,
                           command = self.OnChange)
         menu.config(width = 10, pady = 5, padx = 5)
         menu.grid(column = 1, row = len(opts))
@@ -990,7 +980,7 @@ class gui(object):
         function for this button).
         """
 
-        but = Button(self.master(), text = "Return to python",
+        but = Button(self, text = "Return to python",
                 command = self._return_to_python, pady = 5, padx = 5)
         but.place(x = 10, y = self.HEIGHT - 40)
 
@@ -1002,12 +992,15 @@ class gui(object):
         settings of the sliders and control elements. Used to create the
         palette which will then be returned to the console/user console.
         """
+        print("Calling _return_to_python")
+        from pprint import pprint
+        pprint(*args)
         # Close demo window if not already closed
         try:
-            self._demoTk.destroy()
+            self._demoTk.quit() # or .destroy()
         except:
             pass
-        self.master().quit()
+        self.quit()
 
 
     def _show_demo(self):
@@ -1064,7 +1057,7 @@ class gui(object):
             # Initialize (or update) the app
             if not self._demoTk:
                 root = Tk()
-                self._demoTk = ChooseApp(root, fun, self.get_colors())
+                self._demoTk = DemoApp(root, fun, self.get_colors())
                 self._demoTk.bind("<Destroy>", self._close_demo)
             else:
                 self._demoTk.plot(fun, self.get_colors())
@@ -1088,7 +1081,7 @@ class gui(object):
 
 
 # Tcl/Tk helper class for demo plots
-class ChooseApp(Frame):
+class DemoApp(Frame):
     def __init__(self, master, fun, colors):
         from tkinter import Frame
         from matplotlib import pyplot as plt
