@@ -4,6 +4,12 @@ Publishing package
 
 * https://www.youtube.com/watch?v=GIF3LaRqgXo&ab_channel=CodingTech
 
+
+Todo
+----
+
+* `specplot()` does not have a smoother for the line; loess smoother in R
+
 Missing features
 ----------------
 

@@ -342,12 +342,3 @@ increasing luminance given hue.
     plt.show()
 
 
-.. todo::
-    Missing feature: additive color mixing on :py:func:`colorlib.colorobject` objects.
-    Implemented in ``utils.py`` but does not reassemble what R does; requires some
-    digging/changes.
-
-
-
-
-

@@ -1,7 +1,4 @@
 
-import os
-import sys
-
 
 def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
              title = None, fig = None, **figargs):
@@ -35,11 +32,6 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
        >>> pal = rainbow_hcl(100)
        >>> specplot(pal.colors())
        >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False)
-
-    Todo:
-        Implement the smoothings to improve the look of the plots. Only
-        partially implemented, the spline smoother is missing.
-
 
     Raises:
         TypeError: If `x` is not a list.
