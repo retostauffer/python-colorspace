@@ -537,10 +537,6 @@ class gui(Tk):
         # Adding control checkboxes and radio buttons
         self._control = self._add_control()
 
-        # Initialize interface
-        print("INITIALIZEDDDDD")
-        #self.mainloop()
-
     def _add_paltype_dropdown(self, type_):
         """Adds a drop down menu to the GUI which allowes to
         switch between the different types of the default
@@ -568,7 +564,6 @@ class gui(Tk):
         every time the drop down element changes.
         """
 
-        print("TRIGGERING OnPaltypeChange")
         # Updating the palette-frame.
         self._palframe = self._add_palframe(args[0])
 
@@ -992,9 +987,6 @@ class gui(Tk):
         settings of the sliders and control elements. Used to create the
         palette which will then be returned to the console/user console.
         """
-        print("Calling _return_to_python")
-        from pprint import pprint
-        pprint(*args)
         # Close demo window if not already closed
         try:
             self._demoTk.quit() # or .destroy()
@@ -1016,9 +1008,6 @@ class gui(Tk):
         try:
             import matplotlib
             matplotlib.use("TkAgg")
-            #from matplotlib.backends.backend_tkagg import FigureCanvasAgg
-            #import matplotlib.backends.tkagg as tkagg
-            #from matplotlib.figure import Figure
             hasmatplotlib = True
         except:
             hasmatplotlib = False

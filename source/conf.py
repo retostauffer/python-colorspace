@@ -97,7 +97,7 @@ exclude_patterns = []
 bibtex_bibfiles      = ['references.bib']
 bibtex_default_style = 'label'
 bibtex_encoding      = 'latin'
-bibtex_reference_style = "author_year_round" # Requires 'custom style round' below
+#bibtex_reference_style = author_year_round" # Requires custom function included below
 
 # Custom style round brackets
 import dataclasses

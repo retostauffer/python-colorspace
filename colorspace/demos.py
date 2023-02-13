@@ -335,9 +335,6 @@ def Heatmap(colors, ax = None, **kwargs):
     and 61 columns, rows corresponding to grid lines running east to west and
     columns to grid lines running south to north.
 
-    Todo:
-        Add source/link.
-
     Args:
         colors (list of str): List of hex colors.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
@@ -651,8 +648,6 @@ def Map(colors, ax = None, **kwargs):
     else:
         fig.show()
         return fig
-
-
 
 
 def Spectrum(*args, **kwargs):

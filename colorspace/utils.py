@@ -1,10 +1,9 @@
 
-
-def mixcolor(alpha, color1, color2, where = "hcl"):
+def mixcolor(alpha, color1, color2, where = 1):
     """Compute the convex combination of two colors
 
-    This function can be used to compute the result of color mixing (it assumes
-    additive mixing).
+    This function can be used to compute the result of color mixing, assuming
+    additive mixing (e.g., as appropriate for RGB and XYZ).
 
     Args:
         alpha (float): The mixed color is obtained by combining an amount
@@ -17,9 +16,9 @@ def mixcolor(alpha, color1, color2, where = "hcl"):
         where (str): in which space the colors should be mixed. Defaults to HCL.
 
     Return:
-        list: Returns an object of class :py:class:`colorspace.colorlib.hexcols`.
-            Call `.swatchplot()` to check the result or `.colors()` to get a list
-            of mixed hex colors.
+        colorspace.colorlib.*: Returns an object of the same class as either `color1` (if `where
+        = 1`) or `color2` (if `where = 2`).  Call `.swatchplot()` to check the
+        result or `.colors()` to get a list of mixed hex colors.
 
     Examples:
         >>> from colorspace.colorlib import RGB
@@ -41,64 +40,84 @@ def mixcolor(alpha, color1, color2, where = "hcl"):
         >>> HEX_1  = diverging_hcl()(5)
         >>> HEX_2  = diverging_hcl(rev = True)(5)
         >>> HEX_M1 = mixcolor(0.5, HEX_1, HEX_2, "RGB")
-        >>> HEX_M2 = mixcolor(0.5, HEX_1, HEX_2, "HCL")
+        >>> HEX_M2 = mixcolor(0.5, HEX_1, HEX_2, "XYZ")
         >>> swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2], show_names = False)
-
-    Todo:
-        The example works as expected, however, I think this function requires
-        some attention. We cannot do additive mixing in all color spaces. E.g.,
-        when mixing HCL we do not account for the circular behavior of the H 
-        dimension which yields strange results (e.g., 10 and 350 with alpha 0.5
-        yeidls 180 and not 0).
+        >>>
+        >>> # Mixing objects of different length and type
+        >>> # Coordinates of the shorter object (RGB_1) will be recycled
+        >>> # to the same number of colors as in the longer object (HEX_2)
+        >>> RES_1 = mixcolor(0.2, RGB_1, HEX_2, "RGB")
+        >>> RES1.colors()
+        >>> RES_2 = mixcolor(0.8, RGB_1, HEX_2, "RGB")
+        >>> RES2.colors()
+        >>> swatchplot([RGB_1, RES_2, HEX_2, RES], show_names = False)
 
     Raises:
-        TypeError: In case `alpha` is not float.
+        TypeError: In case `alpha` is not float or `int`.
         ValueError: If `alpha` is not larger than `0.0` and smaller than `1.0`.
-        ValueError: If the number of colors (length) of `objec1` and `object2` differ.
         TypeError: If `where` is not a string.
-        ValueError: If the argument provided on `where` is not one of the recognized
-            strings.
+        ValueError: If `where` is not among the allowed color spaces used for adaptive mixing.
+        Exception: If `color1` or `color2` cannot be converted into a palette object.
     """
 
-    from .palettes import palette
-    from .colorlib import hexcols
+    from numpy import resize
+    from colorspace.colorlib import colorobject, hexcols
+    from colorspace.palettes import palette
 
-    if not isinstance(alpha, float):
-        raise TypeError("Argument `alpha` must be of type `float`.")
-    elif alpha <= 0. or alpha >= 1.0:
-        raise ValueError("Argument `alpha` must be larger than 0 and smaller than 0.")
-
-    _allowed_where = ["sRGB", "RGB", "HSV", "CIEXYZ", "CIELAB", "polarLAB", "CIELUV", "polarLUV", "HCL"]
-
-    # Checking where
+    if not isinstance(alpha, (float, int)):
+        raise TypeError("argument 'alpha' must be float or int")
+    if isinstance(alpha, int): alpha = float(alpha)
+    if alpha < 0. or alpha > 1.:
+        raise ValueError("argument 'alpha' must be in the range of [0., 1.]")
     if not isinstance(where, str):
-        raise TypeError("Argument `where` must be a string.")
-    elif not where in _allowed_where:
-        raise ValueError("Argument `where` not among the allowed ones. Allowed: {:s}".format(
-            ", ".join(_allowed_where)))
+        raise TypeError("argument 'where' must be str")
 
-    # Now trying to convert `color1` and `color2` by calling the palette function.
-    color1 = palette(color1, name = "color set 1")
-    color2 = palette(color2, name = "color set 2")
+    # Allowed color types:
+    #allowed_spaces = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "RGB", "sRGB",
+    #                  "CIELAB", "polarLAB", "HSV", "HLS"]
+    allowed_spaces = ["RGB", "XYZ"],
+    if not where in allowed_spaces:
+        raise ValueError(f"argument '{where}' none of the allowed types: {', '.join(allowed_spaces)}")
+    elif where == "HCL":
+        where = "polarLUV"
 
-    # Now check that we do have the same number of colors.
-    if not len(color1) == len(color2):
-        raise ValueError("Number of colors (length) of `color1` and `color2` not identical.")
+    # Converting colors
+    try:
+        color1 = hexcols(palette(color1).colors())
+    except:
+        raise Exception("cannot convert object provided on `color1` into a `colorspace.palettes.palette`")
+    try:
+        color2 = hexcols(palette(color2).colors())
+    except:
+        raise Exception("cannot convert object provided on `color2` into a `colorspace.palettes.palette`")
 
-    # We can now start the mixing
-    x1 = hexcols(color1.colors()); x1.to(where)
-    x2 = hexcols(color2.colors()); x2.to(where)
+    # Convert and extract coordinates
+    color1.to(where)
+    color2.to(where)
+    coord1 = color1.get()
+    coord2 = color2.get()
 
-    # Looping over the coordinates and mix the colors on `x1`.
-    # 'alpha' dimension will be ignored if existing.
-    for dim,vals in x1.get().items():
-        if not dim == "alpha":
-            x1.set(**{dim: x1.get(dim) * (1. - alpha) + x2.get(dim) * alpha})
+    # If length is not equal; recycle shorter color object
+    if len(color1) > len(color2):
+        for k in coord2:
+            if coord2[k] is None: continue
+            coord2[k] = resize(coord2[k], len(color1))
+    elif len(color1) < len(color2):
+        for k in coord1:
+            if coord1[k] is None: continue
+            coord1[k] = resize(coord1[k], len(color2))
 
-    x1.to("hex")
-    return x1
+    # Mixing
+    res = dict()
+    for k in coord1:
+        if coord1[k] is None or coord2[k] is None: continue
+        res[k] = coord1[k] * (1. - alpha) + coord2[k] * alpha
 
-
+    import importlib
+    module = importlib.import_module("colorspace.colorlib")
+    FUN    = getattr(module, where)
+    res    = FUN(**res)
+    return res
 
 
 
@@ -214,7 +233,8 @@ def extract_transparency(x, mode = "float"):
     ``.get()`` method of the object.
 
     Args:
-        x: an object which inherits from colorsspace.colorlib.colorobject.
+        x: an object which inherits from `colorsspace.colorlib.colorobject` or
+           an object of class `colorspace.palettes.palette`.
         mode (str): mode of the return. One of `"float"`, `"int"`, or `"str"`.
 
     Returns:
@@ -248,21 +268,30 @@ def extract_transparency(x, mode = "float"):
         >>> extract_transparency(x2, mode = "float")
         >>> extract_transparency(x2, mode = "int")
         >>> extract_transparency(x2, mode = "str")
-
-    TODO:
-        Implement this for palettes and things?
+        >>>
+        >>> # Extract transparency from palette objects
+        >>> from colorspace import palette
+        >>> p1 = palette(cols1, name = "custom palette 1")
+        >>> p2 = palette(cols2, name = "custom palette 2")
+        >>>
+        >>> extract_transparency(p1, mode = "str")
+        >>> extract_transparency(p2, mode = "str")
     """
 
+    from colorspace.palettes import palette
     from colorspace.colorlib import colorobject
     from numpy import asarray, int16
 
-    if not isinstance(x, colorobject):
-        raise TypeError("Input 'x' must inherit from `colorspace.colorlib.colorobject`.")
-    if not isinstance(mode, str):
-        raise TypeError("Input 'mode' must be a string.")
-    elif not mode in ["float", "int", "str"]:
-        raise ValueError("Input 'mode' must be one of \"float\", \"int\", or \"str\".")
+    assert isinstance(x, (colorobject, palette)), TypeError("Input 'x' must inherit from `colorspace.colorlib.colorobject` or `colorspace.palettes.palette`.")
+    assert isinstance(mode, str), TypeError("Input 'mode' must be a string.")
+    assert mode in ["float", "int", "str"],  ValueError("Input 'mode' must be one of \"float\", \"int\", or \"str\".")
 
+    # Convert colorspace.palettes.palette to colorspace.colorlib.hexcols
+    if isinstance(x, palette):
+        from colorspace.colorlib import hexcols
+        x = hexcols(x.colors())
+
+    # Extract alpha dimension
     alpha = x.get("alpha")
 
     # If not none we have to convert it given input argument 'mode'.

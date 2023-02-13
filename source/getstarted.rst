@@ -232,6 +232,7 @@ graphically assess the spectrum of a series of colors in the RGB and HCL spectru
 
 .. autosummary::
     :toctree: demos/
+    :nosignatures:
 
     specplot
     demos.Bar

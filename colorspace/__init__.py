@@ -26,6 +26,7 @@ from .palettes import diverging_hsv
 from .palettes import rainbow
 
 # Color manipulation utils
+from .utils import mixcolor
 from .utils import lighten
 from .utils import darken
 from .utils import max_chroma

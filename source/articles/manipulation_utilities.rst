@@ -38,15 +38,18 @@ For illustration, a few simple examples are presented below. More examples in
 the context of palettes for statistical graphics are discussed along with the
 color vision deficiency article.
 
-
-.. todo:: The function also allows to convert `colorobject`s and cmaps. Extend description.
-
 .. ipython:: python
     :okwarning:
 
     from colorspace import rainbow, desaturate
     rainbow().colors(3)
     desaturate(rainbow().colors(3))
+
+    # Allows for `colorspace.palettes.palette` objects and cmaps
+    from colorspace import palette
+    pal = palette(rainbow()(4), name = "custom palette")
+    desaturate(pal)
+    desaturate(pal.cmap())   # Returns cmap
 
 Even this simple example suffices to show that the three RGB rainbow colors
 have very different grayscale levels. This deficiency is even clearer when

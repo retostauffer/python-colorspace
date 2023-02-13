@@ -198,6 +198,7 @@ The workhorse of these transformations is the
 
 .. autosummary::
     :toctree: ../colorlib/
+    :nosignatures:
 
     colorlib
     colorobject
@@ -211,6 +212,7 @@ from and to (mostly all) color spaces using the
 
 .. autosummary::
     :toctree: ../colorlib/
+    :nosignatures:
 
     CIELAB
     CIELUV

@@ -4,6 +4,13 @@ Publishing package
 
 * https://www.youtube.com/watch?v=GIF3LaRqgXo&ab_channel=CodingTech
 
+Missing features
+----------------
+
+* Demoplot: Currently no implementation for clustered scatter plot (clustering algorithm required)
+    and perspective (requires `perspective = "3d"` axis; currently gets 2t axis only).
+* `mixcolor()` only allows for mixing in `"RGB"` and `"XYZ"` now; are there others where
+    linear mixing is OKish?
 
 Gamma handling
 --------------

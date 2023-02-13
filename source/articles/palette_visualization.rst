@@ -12,6 +12,7 @@ Overview
 
 .. autosummary::
     :toctree: ../api/
+    :nosignatures:
 
     swatchplot
     specplot
@@ -235,16 +236,14 @@ built-in demos are displayed with the same sequential heat colors palette:
     @savefig palette_visualization_demons.png width=100% align=center
     fig.show()
 
-.. todo:: Still missing: Scatter (clustering) and Perspective.
-
 All types of demos can, in principle, deal with arbitrarily many colors from
 any palette, but the graphics differ in various respects such as:
 
-* Working best for fewer colors (e.g., bar, pie, scatter, lines, ...)
-  vs. many colors (e.g., heatmap, perspective, ...).
+* Working best for fewer colors (e.g., bar, pie, lines, ...)
+  vs. many colors (e.g., heatmap, ...).
 * Intended for categorical data (e.g., bar, pie, ...)
-  vs. continuous numeric data (e.g., heatmap, perspective, ...).
-* Shading areas (e.g., map, bar, pie, …) vs. coloring points or lines (scatter, lines).
+  vs. continuous numeric data (e.g., heatmap, ...).
+* Shading areas (e.g., map, bar, pie, …) vs. coloring points or lines.
 
 Hence, in the following some further illustrations are organized by type of
 palette, using suitable demos for the particular palettes.

@@ -2443,8 +2443,7 @@ class sRGB(colorobject):
 
 
 class CIELAB(colorobject):
-    """CIELAB color object.
-
+    """
     Allowes conversions to: :py:class:`CIEXYZ`, :py:class:`CIELUV`,
     :py:class:`CIELAB`, :py:class:`RGB`, :py:class:`polarLUV`,
     :py:class:`polarLAB`, `"hex"` (:py:class:`hexcols`).  Not possible are

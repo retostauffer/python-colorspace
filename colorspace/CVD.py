@@ -43,6 +43,13 @@ def deutan(cols, severity = 1.):
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
         >>> deutan(cols)
         >>> swatchplot([cols, deutan(cols)], show_names = False)
+        >>>
+        >>> # From palette object
+        >>> pal = palette(cols, name = "custom palette")
+        >>> deutan(pal)
+        >>>
+        >>> # From cmap (returns cmap)
+        >>> deutan(pal.cmap())
     """
 
     from .CVD import CVD
@@ -84,6 +91,13 @@ def protan(cols, severity = 1.):
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
         >>> protan(cols)
         >>> swatchplot([cols, protan(cols)], show_names = False)
+        >>>
+        >>> # From palette object
+        >>> pal = palette(cols, name = "custom palette")
+        >>> protan(pal)
+        >>>
+        >>> # From cmap (returns cmap)
+        >>> protan(pal.cmap())
     """
 
     from .CVD import CVD
@@ -124,6 +138,13 @@ def tritan(cols, severity = 1.):
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
         >>> tritan(cols)
         >>> swatchplot([cols, tritan(cols)], show_names = False)
+        >>>
+        >>> # From palette object
+        >>> pal = palette(cols, name = "custom palette")
+        >>> tritan(pal)
+        >>>
+        >>> # From cmap (returns cmap)
+        >>> tritan(pal.cmap())
     """
 
     from .CVD import CVD
@@ -481,11 +502,18 @@ def desaturate(cols, amount = 1.):
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
         >>> desaturate(cols)
         >>> swatchplot([cols, desaturate(cols)], show_names = False)
-
+        >>>
+        >>> # From palette object
+        >>> pal = palette(cols, name = "custom palette")
+        >>> desaturate(pal)
+        >>>
+        >>> # From cmap (returns cmap)
+        >>> desaturate(pal.cmap())
     """
 
 
     from .colorlib import colorobject
+    from .palettes import palette
     from .colorlib import hexcols
     from copy import deepcopy
 
@@ -498,6 +526,9 @@ def desaturate(cols, amount = 1.):
 
     # Keep class of input object for later
     input_cols = deepcopy(cols)
+
+    # Convert palette object to list of hex colors
+    if isinstance(cols, palette): cols = cols.colors()
 
     # Check if we have a matplotlib.cmap
     try:
