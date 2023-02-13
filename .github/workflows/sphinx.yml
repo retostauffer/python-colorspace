@@ -5,7 +5,7 @@ on:
     branches:
       - main
 
-job:
+jobs:
   sphinx_gh-pages:
     runs-on: 'ubuntu-latest'
     steps:
