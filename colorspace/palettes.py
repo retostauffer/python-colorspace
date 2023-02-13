@@ -452,10 +452,13 @@ class hclpalettes:
     def __init__(self, files = None, files_regex = None):
 
 
-        assert isinstance(files, (type(None), str, list)), TypeError("argument 'files' must either be None, str, or list of str")
+        if not isinstance(files, (type(None), str, list)):
+            raise TypeError("argument 'files' must either be None, str, or list of str")
         if isinstance(files, str): files = [files]
         if isinstance(files, list):
-            for file in files: assert isinstance(file, str), TypeError("not all elements in 'files' are of type str")
+            for file in files:
+                if not isinstance(file, str):
+                    raise TypeError("not all elements in 'files' are of type str")
 
         if files is None:
             import glob
@@ -463,9 +466,11 @@ class hclpalettes:
             files = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
 
         # Input 'files' specified:
-        assert len(files) > 0, ValueError(f"no palette config files provided ({self.__class__.__name__})")
+        if not len(files) > 0:
+            raise ValueError(f"no palette config files provided ({self.__class__.__name__})")
         for file in files:
-            assert os.path.isfile(file), FileNotFoundError(f"file {file} does not exist")
+            if not os.path.isfile(file):
+                raise FileNotFoundError(f"file {file} does not exist")
 
 
         # Else trying to load palettes and append thenm to _palettes_

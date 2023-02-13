@@ -1101,9 +1101,7 @@ class colorlib:
         return [L, 13. * L * (u - uN), 13. * L * (v - vN)]  # [L, U, V]
 
     def LUV_to_XYZ(self, L, U, V, XN = None, YN = None, ZN = None):
-        """LUV_to_XYZ(L, U, V, XN = None, YN = None, ZN = None)
-
-        CIE-LUV to CIE-XYZ.
+        """CIE-LUV to CIE-XYZ.
 
         Args:
             L (numpy.ndarray): Values for the L dimension

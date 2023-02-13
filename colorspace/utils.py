@@ -31,7 +31,7 @@ def mixcolor(alpha, color1, color2, where = 1):
         >>> RGB_1  = RGB(R = 1, G = 0, B = 0)
         >>> RGB_2  = RGB(R = 0, G = 1, B = 0)
         >>> RGB_M1 = mixcolor(0.5, RGB_1, RGB_2, "RGB")
-        >>> RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "HCL")
+        >>> RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "XYZ")
         >>> swatchplot([RGB_1, RGB_2, RGB_M1, RGB_M2], show_names = False)
         >>>
         >>> # Mixing two lists of hex-colors of length 5.
@@ -39,8 +39,8 @@ def mixcolor(alpha, color1, color2, where = 1):
         >>> # and once in the HCL color space (M2)
         >>> HEX_1  = diverging_hcl()(5)
         >>> HEX_2  = diverging_hcl(rev = True)(5)
-        >>> HEX_M1 = mixcolor(0.5, HEX_1, HEX_2, "RGB")
-        >>> HEX_M2 = mixcolor(0.5, HEX_1, HEX_2, "XYZ")
+        >>> HEX_M1 = mixcolor(0.2, HEX_1, HEX_2, "RGB")
+        >>> HEX_M2 = mixcolor(0.8, HEX_1, HEX_2, "XYZ")
         >>> swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2], show_names = False)
         >>>
         >>> # Mixing objects of different length and type
@@ -75,7 +75,7 @@ def mixcolor(alpha, color1, color2, where = 1):
     # Allowed color types:
     #allowed_spaces = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "RGB", "sRGB",
     #                  "CIELAB", "polarLAB", "HSV", "HLS"]
-    allowed_spaces = ["RGB", "XYZ"],
+    allowed_spaces = ["RGB", "XYZ"]
     if not where in allowed_spaces:
         raise ValueError(f"argument '{where}' none of the allowed types: {', '.join(allowed_spaces)}")
     elif where == "HCL":
@@ -282,9 +282,12 @@ def extract_transparency(x, mode = "float"):
     from colorspace.colorlib import colorobject
     from numpy import asarray, int16
 
-    assert isinstance(x, (colorobject, palette)), TypeError("Input 'x' must inherit from `colorspace.colorlib.colorobject` or `colorspace.palettes.palette`.")
-    assert isinstance(mode, str), TypeError("Input 'mode' must be a string.")
-    assert mode in ["float", "int", "str"],  ValueError("Input 'mode' must be one of \"float\", \"int\", or \"str\".")
+    if not isinstance(x, (colorobject, palette)):
+        raise TypeError("Input 'x' must inherit from `colorspace.colorlib.colorobject` or `colorspace.palettes.palette`.")
+    if not isinstance(mode, str):
+        raise TypeError("Input 'mode' must be a string.")
+    if not mode in ["float", "int", "str"]:
+        raise ValueError("Input 'mode' must be one of \"float\", \"int\", or \"str\".")
 
     # Convert colorspace.palettes.palette to colorspace.colorlib.hexcols
     if isinstance(x, palette):

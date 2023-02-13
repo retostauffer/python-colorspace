@@ -80,27 +80,30 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
 
     # Checking main arguments 'x' and 'y'
-    assert isinstance(x, list), TypeError("Argument `x` must be a list.")
+    if not isinstance(x, list): raise TypeError("Argument `x` must be a list.")
     x = check_hex_colors(x) # Checks if all entries are valid
 
     # Checking y
-    assert isinstance(y, (type(None), list)), TypeError("Argument `x` must be `None` or a list.")
+    if not isinstance(y, (type(None), list)):
+        raise TypeError("Argument `x` must be `None` or a list.")
     if not isinstance(y, type(None)):
         y = check_hex_colors(y) # Checks if all entries are valid
-        assert len(x) == len(y), ValueError("If argument `y` is provided it must be of the same length as `x`.")
+        if not len(x) == len(y):
+            raise ValueError("If argument `y` is provided it must be of the same length as `x`.")
 
 
     # Sanity check for input arguemnts to control the different parts
     # of the spectogram plot. Namely rgb spectrum, hcl spectrum, and the palette.
-    assert isinstance(rgb, bool),     TypeError("argument 'rgb' must be boolean True or False.")
-    assert isinstance(hcl, bool),     TypeError("argument 'hcl' must be boolean True or False.")
-    assert isinstance(palette, bool), TypeError("argument 'palette' must be boolean True or False.")
+    if not isinstance(rgb, bool):     raise TypeError("argument 'rgb' must be boolean True or False.")
+    if not isinstance(hcl, bool):     raise TypeError("argument 'hcl' must be boolean True or False.")
+    if not isinstance(palette, bool): raise TypeError("argument 'palette' must be boolean True or False.")
     if not rgb and not hcl and not palette:
         import inspect
         raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible " + \
                   "when calling \"{:s}\".".format(inspect.stack()[0][3]))
 
-    assert isinstance(title, (type(None), str)), TypeError("Argument 'title' must be either `None` or `str`.")
+    if not isinstance(title, (type(None), str)):
+        raise TypeError("Argument 'title' must be either `None` or `str`.")
 
     # Import hexcolors: convert colors to hexcolors for the plot if needed.
     from .colorlib import hexcols

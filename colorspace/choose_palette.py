@@ -1086,7 +1086,8 @@ class DemoApp(Frame):
         self.canvas.get_tk_widget().grid(row = 0, column = 1)
 
     def plot(self, fun, colors):
-        assert callable(fun), TypeError("argument 'fun' must be a callable function")
+        if not callable(fun):
+            raise TypeError("argument 'fun' must be a callable function")
 
         # Clearing figure, adding axis and call plotting function
         self.fig.clear(True)
