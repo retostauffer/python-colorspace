@@ -30,8 +30,6 @@ def test_wrong_usage():
 
     # hclpalette object
     raises(TypeError,  extract_transparency, x = diverging_hcl())
-    # A custom palette
-    raises(TypeError,  extract_transparency, x = palette(diverging_hcl().colors(3)))
 
 
 # ------------------------------------------
@@ -56,6 +54,15 @@ def test_extract_transparency():
     res2 = extract_transparency(x2)
     assert isinstance(res2, np.ndarray)
     assert np.all(np.isclose(res2, [.8, .4, .8]))
+
+    # Testing custom palettes
+    res3 = extract_transparency(palette(x1, name = "custom palette"))
+    assert isinstance(res3, type(None))
+
+    # Convert hex color lists to colorobjects
+    res4 = extract_transparency(palette(x2, name = "custom palette"))
+    assert isinstance(res4, np.ndarray)
+    assert np.all(np.isclose(res4, [.8, .4, .8]))
 
 
 # ------------------------------------------

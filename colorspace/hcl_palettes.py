@@ -16,12 +16,12 @@ def divergingx_palettes(n = 5, **kwargs):
     return hcl_palettes(n = n, **kwargs, files_regex = ".*divergingx.*")
 
 
-def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None, ncol = 4, **kwargs):
+def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, ncol = 4, **kwargs):
     """Gives access to the default color palettes of the colorspace package.
 
     The method can be used to display the default color palettes or subsets or
     to get a :py:class:`colorspace.palettes.hclpalettes` object. 
-    The inputs ``paltype`` and ``name`` can be used to retrieve a custom subset,
+    The inputs ``type_`` and ``name`` can be used to retrieve a custom subset,
     ``custom`` can be used to add custom :py:class:`colorspace.palettes.defaultpalette`
     objects if needed.
 
@@ -32,11 +32,11 @@ def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None
 
     Args:
         n (int): The number of colors to be plotted, default is 7. Only used if ``plot = True``.
-        paltype (None, str, list of str): Given a string or a list of strings
+        type_ (None, str, list of str): Given a string or a list of strings
             only a subset of all available default color maps will be displayed. If
             not set, all default palettes will be returned/plotted. Can be used in
             combination with input argument ``name``. Uses partial matching, not case sensitive.
-        name (None, str, list of str): Similar to ``paltype``. If not specified
+        name (None, str, list of str): Similar to ``type_``. If not specified
             all palettes will be returned.  Can be set to a string or a list of
             strings containing the names of the palettes which should be
             returned/plotted.
@@ -59,17 +59,17 @@ def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None
     Example:
 
         >>> from colorspace import hcl_palettes
-        >>> hcl_palettes(paltype = "Basic: Diverging")
-        >>> hcl_palettes(n = 5,  paltype = "Basic: Diverging", plot = True, ncol = 1)
-        >>> hcl_palettes(n = 51, paltype = "Advanced: Diverging", plot = True, ncol = 1)
+        >>> hcl_palettes(type_ = "Basic: Diverging")
+        >>> hcl_palettes(n = 5,  type_ = "Basic: Diverging", plot = True, ncol = 1)
+        >>> hcl_palettes(n = 51, type_ = "Advanced: Diverging", plot = True, ncol = 1)
 
     Raises:
         TypeError: If 'n'/'ncol' not of type integer.
-        TypeError: If 'paltype' is not None or string.
+        TypeError: If 'type_' is not None or string.
         TypeError: If not is boolean 'plot'.
         TypeError: In case 'custom' is an invalid input.
         ValueError: If 'n' or 'ncol' are not positive.
-        Exception: If no palettes can be found matching the 'paltype' argument.
+        Exception: If no palettes can be found matching the 'type_' argument.
 
     Examples:
 
@@ -78,10 +78,10 @@ def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None
         >>> from colorspace.hcl_palettes import hcl_palettes
         >>>
         >>> print hcl_palettes()
-        >>> print hcl_palettes(paltype = "Diverging")
+        >>> print hcl_palettes(type_ = "Diverging")
         >>> print hcl_palettes(name = ["Oranges", "Tropic"]) 
         >>>
-        >>> print hcl_palettes(paltype = "Diverging", plot = True)
+        >>> print hcl_palettes(type_ = "Diverging", plot = True)
         >>> print hcl_palettes(name = ["Oranges", "Tropic"], plot = True) 
         >>>
         >>> # Loading all available palettes (just to make custom palettes)
@@ -96,7 +96,7 @@ def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None
         >>> c2.set(h1 = -30, l1 = 40, l2 = 30, c1 = 30, c2 = 40)
         >>> c2.rename("Retos custom 1")
         >>> 
-        >>> hcl_palettes(paltype = "Custom", custom = [c1, c2], plot = True)
+        >>> hcl_palettes(type_ = "Custom", custom = [c1, c2], plot = True)
     """
 
     # Loading pre-defined palettes from within the package
@@ -109,8 +109,8 @@ def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None
     # Sanity type checks
     if not isinstance(n, int):     raise TypeError("Input 'n' must be of type integer.")
     if not isinstance(ncol, int):  raise TypeError("Input 'ncol' must be of type integer.")
-    if not isinstance(paltype, (type(None), str)):
-        raise TypeError("Argument 'paltype' must be None (default) or string.")
+    if not isinstance(type_, (type(None), str)):
+        raise TypeError("Argument 'type_' must be None (default) or string.")
     if not isinstance(plot, bool): raise TypeError("Input 'plot' must be boolean True or False")
 
     # Sanity value checks
@@ -138,16 +138,16 @@ def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None
             raise TypeError("Argument 'custom' not one of the allowed types.")
 
 
-    if not paltype is None:
-        if isinstance(paltype, str): paltype = [paltype]
+    if not type_ is None:
+        if isinstance(type_, str): type_ = [type_]
 
         # Drop palettes from hclpalettes object not requested
         # by the user.
         for t in pals.get_palette_types():
-            if not any([x.upper() in t.upper() for x in paltype]):
+            if not any([x.upper() in t.upper() for x in type_]):
                 del pals._palettes_[t]
     else:
-        paltype = pals.get_palette_types()
+        type_ = pals.get_palette_types()
 
     # Now dropping all color maps not matching a name, if the
     # user has set a name.
@@ -170,7 +170,7 @@ def hcl_palettes(n = 5, paltype = None, name = None, plot = False, custom = None
     if len(pals.get_palettes()) == 0:
         import inspect
         raise Exception("No palettes found in {:s} matching one of: {:s}".format(
-                inspect.stack()[0][3], ", ".join(paltype)))
+                inspect.stack()[0][3], ", ".join(type_)))
 
     # Return if plot is not required
     if not plot:

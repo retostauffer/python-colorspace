@@ -71,11 +71,11 @@ def test_hclpalettes_class():
     assert x.length() > 0
 
 def test_hclpalettes_file_does_not_exist():
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError):
         colorspace.palettes.hclpalettes(files = "foo")
 
 def test_hclpalettes_file_no_file():
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         colorspace.palettes.hclpalettes(files = [])
 
 def test_hclpalettes_repr():
