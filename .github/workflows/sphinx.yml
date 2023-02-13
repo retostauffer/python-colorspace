@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.10
       # Runs the action with the following inputs or defaults if not specified.
-      - uses: cascode-labs/build-sphinx-action/action.yml@v0
+      - uses: retostauffer/python-colorspace/action.yml@v0
         with:
           docs_path: "docs"
           artifact_name: "build/html"
