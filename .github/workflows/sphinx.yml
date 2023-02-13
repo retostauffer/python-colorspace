@@ -3,15 +3,14 @@ name: Sphinx build
 on:
   push:
     branches:
-      - main
+      - DISABLED
 
 jobs:
   sphinx_gh-pages:
     runs-on: ubuntu-latest
     name: Sphinx docs to gh-pages
     steps:
-      - name: Git checkout
-        uses: actions/checkout
+      - uses: actions/checkout
       - name: Make conda environment
         uses: conda-incubator/setup-miniconda@v2
         with:
