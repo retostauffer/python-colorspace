@@ -7,16 +7,29 @@ on:
 
 jobs:
   sphinx_gh-pages:
-    runs-on: 'ubuntu-latest'
+    runs-on: ubuntu-latest
+    name: Sphinx docs to gh-pages
     steps:
       - uses: actions/checkout@v2
-      # Initializes Conda on a GitHub hosted Runner
-      - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: 3.10
-      # Runs the action with the following inputs or defaults if not specified.
-      - uses: retostauffer/python-colorspace@something
+          fetch-depth: 0
+      - name: Make conda environment
+        uses: conda-incubator/setup-miniconda@v2
         with:
-          docs_path: "docs"
-          artifact_name: "build/html"
-          package_name: "python-colorspace"
+          python-version: 3.7    # Python version to build the html sphinx documentation
+          environment-file: devtools/conda-envs/docs_env.yaml    # Path to the documentation conda environment
+          auto-update-conda: false
+          auto-activate-base: false
+          show-channel-urls: true
+      - name: Installing the library
+        shell: bash -l {0}
+        run: |
+          pip install -r requirements.txt
+          python setup.py install
+      - name: Running the Sphinx to gh-pages Action
+        uses: retostauffer/python-colorspace@main
+        with:
+          branch: main
+          dir_docs: source
+          sphinxapiopts: '--separate -o . ../'
+          sphinxopts: ''
