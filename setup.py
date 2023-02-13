@@ -11,7 +11,7 @@ import os
 from setuptools import setup
 
 ISRELEASED    = False
-VERSION       = "0.3.0"
+VERSION       = "0.4.0"
 FULLVERSION   = VERSION
 WRITE_VERSION = True
 

@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Build HTML
-      uses: retostauffer/python-colorspace@doc
+      uses: retostauffer/python-colorspace@master
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
