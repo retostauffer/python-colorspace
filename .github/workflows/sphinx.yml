@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.10
       # Runs the action with the following inputs or defaults if not specified.
-      - uses: retostauffer/python-colorspace/action.yml@v0
+      - uses: retostauffer/python-colorspace@something
         with:
           docs_path: "docs"
           artifact_name: "build/html"
