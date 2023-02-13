@@ -1,18 +1,22 @@
 name: Sphinx build
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
-job-name:
-  runs-on: 'ubuntu-latest'
-  steps:
-    - uses: actions/checkout@v2
-    # Initializes Conda on a GitHub hosted Runner
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        python-version: 3.10
-    # Runs the action with the following inputs or defaults if not specified.
-    - uses: cascode-labs/build-sphinx-action/action.yml@v0
-      with:
-        docs_path: "docs"
-        artifact_name: "build/html"
-        package_name: "python-colorspace"
+job:
+  sphinx_gh-pages:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v2
+      # Initializes Conda on a GitHub hosted Runner
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.10
+      # Runs the action with the following inputs or defaults if not specified.
+      - uses: cascode-labs/build-sphinx-action/action.yml@v0
+        with:
+          docs_path: "docs"
+          artifact_name: "build/html"
+          package_name: "python-colorspace"
