@@ -9,10 +9,14 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: retostauffer/python-colorspace@main
-      with:
-        docs-folder: "docs/"
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          pip install -r requirements.txt
 #jobs:
 #    jekyll:
 #        runs-on: ubuntu-latest
