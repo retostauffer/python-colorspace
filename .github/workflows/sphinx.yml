@@ -29,4 +29,6 @@ jobs:
           ls -l
           python3 -m pip install -r ./requirements.txt
 
-      - run: ${{ github.action_path }}/make html
+      - name: Call make html
+        shell: bash
+        run: make html
