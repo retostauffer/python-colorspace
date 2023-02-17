@@ -24,10 +24,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          printf " =================== "
-          pwd
-          ls -l
           python3 -m pip install -r ./requirements.txt
+
+      - name: Installing colorspace
+        shell: bash
+        run: make install
 
       - name: Call make html
         shell: bash
