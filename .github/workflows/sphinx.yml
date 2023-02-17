@@ -29,7 +29,9 @@ jobs:
 
       - name: Installing colorspace
         shell: bash
-        run: make install
+        run: |
+          export DISPLAY=localhost:0.0
+          make install
 
       - name: Call make html
         shell: bash
