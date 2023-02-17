@@ -136,7 +136,7 @@ html_scaled_image_link = False
 # list of builtin themes.
 html_theme      = 'bootstrap'
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-html_logo       = 'static/logo_wide.png'
+html_logo       = 'logo_wide.png'
 
 html_css_files = ['css/colorspace.css']
 
