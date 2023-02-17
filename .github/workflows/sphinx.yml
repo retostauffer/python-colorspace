@@ -54,13 +54,12 @@ jobs:
         shell: bash
         run: |
           make html
-          mv build/html docs
-          rm -rf build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "docs"
+          path: "build/html"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
