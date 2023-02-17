@@ -1,5 +1,6 @@
 name: Sphinx build
 
+# Or solely use on: push
 on:
   push:
     branches:
@@ -59,7 +60,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "build/html"
+          path: "docs"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
