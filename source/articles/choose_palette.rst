@@ -12,7 +12,7 @@ a Tcl/Tk based is provided within the package using pythons
 
 ``choose_palette()``.
 
-.. image:: ../_static/img_gui.jpeg
+.. image:: ../static/img_gui.jpeg
 
 
 Web App

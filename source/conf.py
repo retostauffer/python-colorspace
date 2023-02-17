@@ -136,7 +136,7 @@ html_scaled_image_link = False
 # list of builtin themes.
 html_theme      = 'bootstrap'
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-html_logo       = '_static/logo_wide.png'
+html_logo       = 'static/logo_wide.png'
 
 html_css_files = ['css/colorspace.css']
 
@@ -231,7 +231,7 @@ html_sidebars = {"**": ["localtoc.html", "sourcelink.html", "searchbox.html"]}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ['static']
 
 # -- Autodoc configuration
 
