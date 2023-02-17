@@ -29,6 +29,10 @@ jobs:
           #      ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: python3 -m pip install -r ./requirements.txt
+        run: |
+          printf " =================== "
+          pwd
+          ls -l
+          python3 -m pip install -r ./requirements.txt
 
       - run: make html
