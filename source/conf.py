@@ -11,7 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 try:
     import matplotlib
-    matplotlib.use('TkAgg')
+    #matplotlib.use('TkAgg')
     print("matplotlib: %s, %s" % (matplotlib.__version__, matplotlib.__file__))
 except ImportError:
     print("no matplotlib")
