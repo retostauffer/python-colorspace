@@ -20,6 +20,7 @@ jobs:
         run: |
           pwd
           ls
+          ls ../
           pip install -r requirements.txt
 #jobs:
 #    jekyll:
