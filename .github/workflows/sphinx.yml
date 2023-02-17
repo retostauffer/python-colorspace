@@ -21,7 +21,7 @@ jobs:
           python3 -m pip install --upgrade pip
 
       - name: Checking out repository
-        uses: action/checkout@main
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: |
