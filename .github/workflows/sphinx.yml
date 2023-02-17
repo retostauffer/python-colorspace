@@ -9,24 +9,18 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
+      - name: Checking out repository
+        uses: action/checkout@v3
+
       - name: Setting up python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-            #- name: Use main branch
-            #  uses: retostauffer/python-colorspace@main
-            #
+          cache: "pip"
+
       - name: Upgrading pip
         run: |
           python3 -m pip install --upgrade pip
-
-          #- name: Cache dependencies
-          #  uses: actions/cache@v2
-          #  with:
-          #    path: ${{ steps.pip-cache.outputs.dir }}
-          #    key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          #    restore-keys: |
-          #      ${{ runner.os }}-pip-
 
       - name: Install dependencies
         run: |
@@ -35,4 +29,4 @@ jobs:
           ls -l
           python3 -m pip install -r ./requirements.txt
 
-      - run: make html
+      - run: ${{ github.action_path }}/make html
