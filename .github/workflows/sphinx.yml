@@ -3,31 +3,27 @@ name: Sphinx build
 on:
   push:
     branches:
-      - DISABLED
+      - main
 
 jobs:
-  sphinx_gh-pages:
-    runs-on: ubuntu-latest
-    name: Sphinx docs to gh-pages
-    steps:
-      - uses: actions/checkout
-      - name: Make conda environment
-        uses: conda-incubator/setup-miniconda@v2
+    jekyll:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+
+        # Standard usage
+        - uses:  totaldebug/action-sphinx@v2
         with:
-          python-version: 3.7    # Python version to build the html sphinx documentation
-          environment-file: devtools/conda-envs/docs_env.yaml    # Path to the documentation conda environment
-          auto-update-conda: false
-          auto-activate-base: false
-          show-channel-urls: true
-      - name: Installing the library
-        shell: bash -l {0}
-        run: |
-          pip install -r requirements.txt
-          python setup.py install
-      - name: Running the Sphinx to gh-pages Action
-        uses: retostauffer/python-colorspace@main
+            token: ${{ secrets.GITHUB_TOKEN }}
+
+        # Specify the Sphinx source location as a parameter
+        - uses: totaldebug/action-sphinx@v2
         with:
-          branch: main
-          dir_docs: source
-          sphinxapiopts: '--separate -o . ../'
-          sphinxopts: ''
+            token: ${{ secrets.GITHUB_TOKEN }}
+            sphinx_src: "source"
+
+        # Specify the target branch (optional)
+        - uses: totaldebug/action-sphinx@v2
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            target_branch: "gh-pages"
