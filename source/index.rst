@@ -21,7 +21,7 @@ and an interactive interface can also be found on
 
 The package itself can be found on
 `github <https://github.com/retostauffer/python-colorspace>`_ this documentation
-is also available on `ReadTheDocs <https://python-colorspace.readthedocs.io>`_.
+is also available on `Github Pages <https://retostauffer.github.io/python-colorspace/>`_.
 
 
 

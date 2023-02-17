@@ -20,7 +20,7 @@ I'll try to write them as soon as I can find some time.
 
 The latest documentation is available here:
 
-* [python-colorspace: on ReadTheDocs](https://python-colorspace.readthedocs.io)
+* [python-colorspace: on Github Pages](https://retostauffer.github.io/python-colorspace/)
 
 Feel free to contact me via e-mail (Reto.Stauffer _at_ uibk.ac.at).
 
