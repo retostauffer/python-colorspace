@@ -9,8 +9,6 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checking out repository
-        uses: action/checkout
 
       - name: Setting up python
         uses: actions/setup-python@v4
@@ -21,6 +19,9 @@ jobs:
       - name: Upgrading pip
         run: |
           python3 -m pip install --upgrade pip
+
+      - name: Checking out repository
+        uses: action/checkout@v3
 
       - name: Install dependencies
         run: |
