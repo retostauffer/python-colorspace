@@ -8,20 +8,20 @@
 A Toolbox for Manipulating and Assessing Colors and Palettes
 ============================================================
 
-*colorspace* is a python package to create and handle colors and color
-palettes in python. Based on the Hue-Chroma-Luminance (HCL) color space
+*colorspace* is a Python package to create and handle colors and color
+palettes in Python. Based on the Hue-Chroma-Luminance (HCL) color space
 effective color palettes can be designed and implemented in your own daily
 workflow.
 
 This package is based on the
-`R colorspace <https://cran.r-project.org/package=colorspace>`_ package
-as it has often been requested by Python enthusiasts. More information
+`R colorspace <https://colorspace.R-Forge.R-project.org/>`_ package
+to make the tools easily available for Python enthusiasts. More information
 and an interactive interface can also be found on
 `HCLwizard.org <https://hclwizard.org>`__.
 
 The package itself can be found on
-`github <https://github.com/retostauffer/python-colorspace>`_ this documentation
-is also available on `Github Pages <https://retostauffer.github.io/python-colorspace/>`_.
+`GitHub <https://github.com/retostauffer/python-colorspace>`_ and this documentation
+is also available on `GitHub Pages <https://retostauffer.github.io/python-colorspace/>`_.
 
 
 
@@ -47,18 +47,18 @@ Other Packages and Further Reading
 
 More information and further reading:
 
-* `HCLwizard.org <http://hclwizard.org>`__: more information about the HCL color
+* `HCLwizard.org <http://hclwizard.org>`__: More information about the HCL color
   space, introduction to the *colorspace* packages (available for
   `R <https://cran.r-project.org/package=colorspace>`_ and
-  `python <https://github.com/retostauffer/python-colorspace>`_), and some
+  `Python <https://github.com/retostauffer/python-colorspace>`_), and some
   interactive tools to define effective HCL-based color palettes, pick colors,
   and check existing plots and figures for possible problems in terms of color
   vision deficiencies.
 * `A list of scientific articles <http://www.hclwizard.org/references/>`__
-  which provide more detailed insights, e.g.
+  which provide more detailed insights, e.g.,
 
 * `The end of the rainbow <http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/>`_:
-  an open letter to the climate science community by 
+  An open letter to the climate science community by 
   Ed Hawkins, Doug McNeall, David Stephenson, Jonny Williams & Dave Carlson.
 * `Better Figures <https://betterfigures.org/>`_: Constructive criticism of the
   graphics of climate science by Doug McNeall.
@@ -77,7 +77,7 @@ Scientific articles with more detailed insights:
   `10.1175/BAMS-D-13-00155.1 <https://doi.org/10.1175/BAMS-D-13-00155.1>`_.
 * Zeileis, A., Hornik, K., & Murrell, P. (2009). `Escaping RGBland: Selecting
   colors for statistical graphics <https://doi.org/10.1016/j.csda.2008.11.033>`_.
-  Computational Statistics &Amp; Data
+  Computational Statistics & Data
   Analysis , 53(9), 3259–3270,
   doi:`10.1016/j.csda.2008.11.033 <https://doi.org/10.1016/j.csda.2008.11.033>`_.
 * Ihaka, R., 2003.  `Colour for presentation graphics
@@ -89,18 +89,18 @@ Scientific articles with more detailed insights:
 * `And others <http://www.hclwizard.org/references/>`__.
   (`HCLwizard.org <https://hclwizard.org>`__ reference list).
 
-Some other packages providing color maps in python (on top of the default color
+Some other packages providing color maps in Python (on top of the default color
 maps) wich might be of interest:
 
 * `seaborn <https://seaborn.pydata.org>`_:
-  statistical data visualization. The package also provides access to a
+  Statistical data visualization. The package also provides access to a
   range of (mostly) well specified
   `color palettes <https://seaborn.pydata.org/tutorial/color_palettes.html>`_.
-* `palettable <https://jiffyclub.github.io/palettable>`_: color palettes for python.
+* `palettable <https://jiffyclub.github.io/palettable>`_: Color palettes for Python.
   Formely known as ``brewer2mpl``. Provides a range of color palettes including
   "Brewer2" and "Carto" palettes.
-* `ColorBrewer2.org <http://colorbrewer2.org>`_: the source of the brewer colors,
-  interactive webpage by Cynthia Brewer, Mark Harrower and The Pennsylvania State University.
+* `ColorBrewer2.org <http://colorbrewer2.org>`_: The source of the brewer colors,
+  interactive web page by Cynthia Brewer, Mark Harrower, and The Pennsylvania State University.
 
 Known issues
 ------------

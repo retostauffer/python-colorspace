@@ -5,7 +5,7 @@ Package Installation
 ====================
 
 At the moment the package is available via
-`<https://https://github.com/retostauffer/python-colorspace>`_.
+`<https://github.com/retostauffer/python-colorspace>`_.
 A few requirements are needed to be able to use the package and all its features.
 
 * Python ``3.10+``
@@ -13,7 +13,7 @@ A few requirements are needed to be able to use the package and all its features
 * `matplotlib <https://pypi.org/project/matplotlib/>`_
 * `imageio <https://pypi.org/project/imageio/>`_ (optional).
 
-A release of the *colorspace* package on `PyPi <https://pypi.org>`_ is planned
+A release of the *colorspace* package on `PyPI <https://pypi.org>`_ is planned
 in the near future. Please use the
 `git issues <https://github.com/retostauffer/python-colorspace/issues>`_
 to report bugs and issues as well as feature requests. There is no
