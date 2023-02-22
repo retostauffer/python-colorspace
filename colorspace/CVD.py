@@ -11,7 +11,7 @@
 #' CVD. See \code{\link{simulate_cvd}} for the corresponding simulation functions.
 #' 
 
-def deutan(cols, severity = 1.):
+def deutan(cols, severity = 1., linear = True):
     """Transformation of R colors by simulating color vision
     deficiencies, based on a CVD transform matrix.
     This function is a interface to the CVD object and
@@ -22,6 +22,9 @@ def deutan(cols, severity = 1.):
         cols (list of str or colorobject): A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency, one
             maximum deficiency, defaults to 1.0.
+        linear (bool): Should the color vision deficiency transformation be applied to the
+            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
     Returns:
         colorobject: Returns an object of the same type as the input object ``cols`` with
@@ -54,11 +57,11 @@ def deutan(cols, severity = 1.):
 
     from .CVD import CVD
 
-    CVD = CVD(cols, "deutan", severity)
+    CVD = CVD(cols, "deutan", severity, linear)
     return CVD.colors()
 
 
-def protan(cols, severity = 1.):
+def protan(cols, severity = 1., linear = True):
     """Transformation of R colors by simulating color vision
     deficiencies, based on a CVD transform matrix.
     This function is a interface to the CVD object and
@@ -69,6 +72,9 @@ def protan(cols, severity = 1.):
             HCL, CIEXYZ) or a list of hex colors
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency, one
             maximum deficiency, defaults to 1.0.
+        linear (bool): Should the color vision deficiency transformation be applied to the
+            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
     Returns:
         colorobject: Returns an object of the same type as the input object
@@ -102,11 +108,11 @@ def protan(cols, severity = 1.):
 
     from .CVD import CVD
 
-    CVD = CVD(cols, "protan", severity)
+    CVD = CVD(cols, "protan", severity, linear)
     return CVD.colors()
 
 
-def tritan(cols, severity = 1.):
+def tritan(cols, severity = 1., linear = True):
     """Transformation of R colors by simulating color vision
     deficiencies, based on a CVD transform matrix.
     This function is a interface to the CVD object and
@@ -117,6 +123,9 @@ def tritan(cols, severity = 1.):
             A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency,
             one maximum deficiency, defaults to 1.0.
+        linear (bool): Should the color vision deficiency transformation be applied to the
+            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
     See Also:
         :py:func:`deutan`, :py:func:`protan`,
@@ -149,7 +158,7 @@ def tritan(cols, severity = 1.):
 
     from .CVD import CVD
 
-    CVD = CVD(cols, "tritan", severity)
+    CVD = CVD(cols, "tritan", severity, linear)
     return CVD.colors()
 
 
@@ -170,6 +179,9 @@ class CVD(object):
             allowed are ``deutan``, ``protan``, and ``tritan``
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency,
             one maximum deficiency, defaults to 1.0.
+        linear (bool): Should the color vision deficiency transformation be applied to the
+            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
     See Also:
         :py:func:`deutan`, :py:func:`protan`, and :py:func:`tritan`, which are
@@ -194,13 +206,14 @@ class CVD(object):
         ValueError: If `type_` not among the allowed types. Not case sensitive.
         TypeError: If `severity` is no float or integer.
         ValueError: If `severity` not in `[0., 1.]`.
+        TypeError: If `linear` is no boolean.
     """
 
     ALLOWED   = ["protan", "tritan", "deutan"]
     CMAP      = False
     CMAPINPUT = None
 
-    def __init__(self, cols, type_, severity = 1.):
+    def __init__(self, cols, type_, severity = 1., linear = True):
 
         from colorspace import palettes
 
@@ -209,6 +222,8 @@ class CVD(object):
         elif isinstance(severity, int): severity = float(severity)
         if severity < 0. or severity > 1.:
             raise ValueError("Severity must be in `[0., 1.]`.")
+        if not isinstance(linear, bool):
+            raise TypeError("Input `linear` must be boolean `True` or `False`.")
 
         # Checking type
         if not isinstance(type_, str):
@@ -219,6 +234,7 @@ class CVD(object):
 
         self._type     = type_.lower()
         self._severity = severity
+        self._linear   = linear
 
         # Check if we have a matplotlib.cmap
         # TODO(R): Really needed? If so write tests and examples
@@ -412,8 +428,11 @@ class CVD(object):
             raise ValueError("input cols to {:s}".format(self.__class__.__name__) + \
                     "has to be a colorobject (e.g., CIELAB, RGB, hexcols).")
 
-        # Convert to sRGB
-        cols.to("sRGB")
+        # Convert to linear RGB or gamma-corrected sRGB
+        if self._linear:
+            cols.to("RGB")
+        else:
+            cols.to("sRGB")
 
         # Transform color
         from numpy import dot, vstack
