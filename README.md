@@ -1,10 +1,10 @@
 python-colorspace
 =================
 
-A Python 2/Python 3 package mimicking the
+A Python 3 package mimicking the
 [R colorspace](https://cran.r-project.org/package=colorspace) package.
 
-The current package state can be seen as an **early beta**. Feel free to
+The current package state can be seen as an advanced **beta** version. Feel free to
 test and report errors and malfunctions. The package has been ported/written
 within just two weeks, please do not expect that every last detail is working
 like a charm! If something goes wrong feel free to **contribute** and/or to
