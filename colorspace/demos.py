@@ -15,14 +15,16 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
     """Create demo plots.
 
     Arguments:
+        colors: The colors, any type which can be handled by 
+            :py:func:`palette <colorspace.palettes.palette>`.
         type_ (str): Name of the demoplot; name of the demo function to be called.
             Not case sensitive.
         n (int): Positive integer, number of colors for the plot. Only used
             if argument ``colors`` is a palette where a dedicated number of
             colors must be drawn first. Defaults to 7.
-        title (None or str): used to draw the figure title if specified (str).
+        title (None, str): used to draw the figure title if specified (str).
             Forwarded to different plot types.
-        ax (None or matplotlib.axes.Axes): If `None` a new matplotlib figure will
+        ax (None, matplotlib.axes.Axes): If `None` a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
             Forwarded to different plot types.

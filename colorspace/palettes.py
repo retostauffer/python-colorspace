@@ -112,6 +112,10 @@ class palette:
     def colors(self, *args, **kwargs):
         """Get colors of palette.
 
+        Args:
+            *args: Ignored.
+            **kwargs: Ignored.
+
         Returns:
             list: List of all colors of the palette.
         """
@@ -435,6 +439,8 @@ class hclpalettes:
             configuration from within the package will be loaded. A path to a custom
             config file (str) or a list of paths can be provided to read custom
             palettes.
+        files_regex (None, str): Additional regular expression to filter files.
+            Only used if `files = None`.
 
     Return:
         hclpalettes: Collection of predefined hcl color palettes.
@@ -704,7 +710,7 @@ class hclpalette:
 
         Args:
             *args: Unnamd arguments forwarded to the color method.
-            **kwargs:: Named arguments forwarded to the color method.
+            **kwargs: Named arguments forwarded to the color method.
 
         Returns:
             See colors method.
@@ -733,12 +739,13 @@ class hclpalette:
 
         return
 
-    def swatchplot(self, n = 7, *args, **kwargs):
+    def swatchplot(self, n = 7, **kwargs):
         """Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
         function. Plotting the spectrum of the current color palette.
 
         Args:
             n (int): Number of colors, defaults to 7.
+            **kwargs: forwarded to :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`.
 
         Example:
 
@@ -749,7 +756,7 @@ class hclpalette:
         """
 
         from .swatchplot import swatchplot
-        swatchplot(self.colors(n))
+        swatchplot(self.colors(n), **kwargs)
 
 
     def name(self):
@@ -1251,6 +1258,11 @@ class qualitative_hcl(hclpalette):
                 the defined color space?  If `None` the `fixup` parameter from the
                 object will be used. Can be set to `True` or `False` to explicitly
                 control the fixup here.
+            **kwargs: If any `colorobject =` argument is specified, HCL colors
+                will be returned.
+
+        TODO: Check kwargs and where the current version is used or if it is no
+        longer needed; else think about revamping this functionality.
         """
 
         from numpy import repeat, linspace, asarray
@@ -1512,6 +1524,11 @@ class diverging_hcl(hclpalette):
                 range of `[0.,1.]` for alpha transparency channel (`0.` means full
                 transparency, `1.` opaque).  If a single value is provided it will be
                 applied to all colors, if a vector is given the length has to be `n`.
+            **kwargs: Currently allows for `rev = True` to reverse the colors and
+                `colorobject = 'anything'` to get HCL colors as return.
+
+        TODO: Check kwargs and where the current version is used or if it is no
+        longer needed; else think about revamping this functionality.
         """
 
         # Sanity checks
@@ -1750,6 +1767,11 @@ class divergingx_hcl(hclpalette):
                 range of `[0.,1.]` for alpha transparency channel (`0.` means full
                 transparency, `1.` opaque).  If a single value is provided it will be
                 applied to all colors, if a vector is given the length has to be `n`.
+            **kwargs: Currently allows for `rev = True` to reverse the colors and
+                `colorobject = 'anything'` to get HCL colors as return.
+
+        TODO: Check kwargs and where the current version is used or if it is no
+        longer needed; else think about revamping this functionality.
 
         Todo:
             Move the function `get_one_side` to the `hclpalette` class. Rename it
@@ -1978,6 +2000,11 @@ class sequential_hcl(hclpalette):
                 outside the defined color space?  If `None` the `fixup`
                 parameter from the object will be used. Can be set to `True` or
                 `False` to explicitly control the fixup here.
+            **kwargs: Currently allows for `rev = True` to reverse the colors and
+                `colorobject = 'anything'` to get HCL colors as return.
+
+        TODO: Check kwargs and where the current version is used or if it is no
+        longer needed; else think about revamping this functionality.
         """
 
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
@@ -2264,6 +2291,11 @@ class diverging_hsv(hclpalette):
                 outside the defined color space?  If `None` the `fixup`
                 parameter from the object will be used. Can be set to `True` or
                 `False` to explicitly control the fixup here.
+            **kwargs: Currently allows for `rev = True` to reverse the colors and
+                `colorobject = 'anything'` to get HCL colors as return.
+
+        TODO: Check kwargs and where the current version is used or if it is no
+        longer needed; else think about revamping this functionality.
         """
 
         from numpy import linspace, power, abs, repeat
@@ -2367,6 +2399,11 @@ class rainbow(hclpalette):
                 range of `[0.,1.]` for alpha transparency channel (`0.` means full
                 transparency, `1.` opaque).  If a single value is provided it will be
                 applied to all colors, if a vector is given the length has to be `n`.
+            **kwargs: Currently allows for `rev = True` to reverse the colors and
+                `colorobject = 'anything'` to get HCL colors as return.
+
+        TODO: Check kwargs and where the current version is used or if it is no
+        longer needed; else think about revamping this functionality.
 
         Raises:
             ValueError: If input `n` is not float/integer or smaller than 1.

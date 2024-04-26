@@ -21,38 +21,38 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
 
     The method can be used to display the default color palettes or subsets or
     to get a `colorspace.palettes.hclpalettes` object. 
-    The inputs ``type_`` and ``name`` can be used to retrieve a custom subset,
-    ``custom`` can be used to add custom `colorspace.palettes.defaultpalette`
+    The inputs `type_` and `name` can be used to retrieve a custom subset,
+    `custom` can be used to add custom `colorspace.palettes.defaultpalette`
     objects if needed.
 
-    Details: ``**kwargs`` can be used to specify the figure size of the resulting
-    image by specifying ``figsize = (height, width)`` where both, ``height``
-    and ``width`` must be int/float, specifying the height and width in inches.
+    Details: `**kwargs` can be used to specify the figure size of the resulting
+    image by specifying `figsize = (height, width)` where both, `height`
+    and `width` must be int/float, specifying the height and width in inches.
 
 
     Args:
-        n (int): The number of colors to be plotted, default is 7. Only used if ``plot = True``.
+        n (int): The number of colors to be plotted, default is 7. Only used if `plot = True`.
         type_ (None, str, list of str): Given a string or a list of strings
             only a subset of all available default color maps will be displayed. If
             not set, all default palettes will be returned/plotted. Can be used in
-            combination with input argument ``name``. Uses partial matching, not case sensitive.
-        name (None, str, list of str): Similar to ``type_``. If not specified
+            combination with input argument `name`. Uses partial matching, not case sensitive.
+        name (None, str, list): Similar to `type_`. If not specified
             all palettes will be returned.  Can be set to a string or a list of
             strings containing the names of the palettes which should be
             returned/plotted.
-        plot (bool): If ``False`` (default) an object of type
+        plot (bool): If `False` (default) an object of type
             `colorspace.palettes.hclpalette` will be returned containing the
             (subset) of default color palettes.  Note that matplotlib has to be
-            installed if ``plot = True``.
-        custom (:py:class:`colorspace.palettes.defaultpalette`): One or multiple
+            installed if `plot = True`.
+        custom (defaultpalette): One or multiple
             defaultpalettes can be provided in addition.
         ncol (int): Positive integer, number of columns, defaults to 4.
         **kwargs: Forwarded to :py:func:`colorspace.swatchplot.swatchplot` if
-            argument ``plot = True``.
+            argument `plot = True`.
 
     Returns:
-        None or `colorspace.palettes.hclpalettes`: If ``plot = True``
-        ``None`` a plot will be created and ``None`` is returned. If ``plot = False`` (default)
+        None or `colorspace.palettes.hclpalettes`: If `plot = True`
+        `None` a plot will be created and `None` is returned. If `plot = False` (default)
         an object of class `colorspace.palettes.hclpalettes` will
         be returned.
 

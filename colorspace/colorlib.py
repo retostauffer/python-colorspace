@@ -1553,9 +1553,9 @@ class colorobject:
         method can be used to extract the currently used definition.
 
         Args:
-            X (float): White specification for dimension `X`.
-            Y (float): White specification for dimension `Y`.
-            Z (float): White specification for dimension `Z`.
+            **kwargs: Named arguments. Allowed are `X`, `Y`, and `Z`,
+                each of which must be float: White specification for
+                dimension `X`/`Y`/`Z`.
 
         Returns:
             No return, stores the new definition on the object.
@@ -2440,6 +2440,8 @@ class sRGB(colorobject):
         alpha (None, float, list, numpy.array): Numeric value(s) for the alpha
             channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
             opacity. If `None` (default) no transparency is added.
+        gamma (None, float): If `None` (default) the default gamma value is used.
+            Can be specified to overwrite the default.
 
     Example:
 
