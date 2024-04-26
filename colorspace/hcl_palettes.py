@@ -20,9 +20,9 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     """Gives access to the default color palettes of the colorspace package.
 
     The method can be used to display the default color palettes or subsets or
-    to get a :py:class:`colorspace.palettes.hclpalettes` object. 
+    to get a `colorspace.palettes.hclpalettes` object. 
     The inputs ``type_`` and ``name`` can be used to retrieve a custom subset,
-    ``custom`` can be used to add custom :py:class:`colorspace.palettes.defaultpalette`
+    ``custom`` can be used to add custom `colorspace.palettes.defaultpalette`
     objects if needed.
 
     Details: ``**kwargs`` can be used to specify the figure size of the resulting
@@ -41,7 +41,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             strings containing the names of the palettes which should be
             returned/plotted.
         plot (bool): If ``False`` (default) an object of type
-            :py:func:`colorspace.palettes.hclpalette` will be returned containing the
+            `colorspace.palettes.hclpalette` will be returned containing the
             (subset) of default color palettes.  Note that matplotlib has to be
             installed if ``plot = True``.
         custom (:py:class:`colorspace.palettes.defaultpalette`): One or multiple
@@ -51,9 +51,9 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             argument ``plot = True``.
 
     Returns:
-        None or :py:class:`colorspace.palettes.hclpalettes`: If ``plot = True``
+        None or `colorspace.palettes.hclpalettes`: If ``plot = True``
         ``None`` a plot will be created and ``None`` is returned. If ``plot = False`` (default)
-        an object of class :py:class:`colorspace.palettes.hclpalettes` will
+        an object of class `colorspace.palettes.hclpalettes` will
         be returned.
 
     Example:

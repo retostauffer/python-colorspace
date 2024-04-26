@@ -3,7 +3,19 @@
 # The color library which contains all the
 # color objects and required transformation
 # methods.
-from .colorlib import colorlib
+#from .colorlib import colorlib
+#from .colorlib import colorobject
+from .colorlib import polarLUV
+from .colorlib import CIELUV
+from .colorlib import CIEXYZ
+from .colorlib import RGB
+from .colorlib import sRGB
+from .colorlib import CIELAB
+from .colorlib import polarLAB
+from .colorlib import HSV
+from .colorlib import HLS
+from .colorlib import hexcols
+from .colorlib import compare_colors
 
 # Color vision deficiency functions.
 from .CVD import tritan

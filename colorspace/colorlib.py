@@ -1529,7 +1529,7 @@ class colorobject:
         """Get White Point
 
         This method returns the definition of the white point in use. If not
-        explicitly set via the :py:func:`set_whitepoint` method, a default white
+        explicitly set via the :py:method:`set_whitepoint` method, a default white
         point is used.
 
         Returns:
@@ -1549,7 +1549,7 @@ class colorobject:
 
         A white point definition is used to adjust the colors.
         This method allows to set custom values. If not explicitly
-        set a default specification is used. The :py:func:`get_whitepoint`
+        set a default specification is used. The :py:method:`get_whitepoint`
         method can be used to extract the currently used definition.
 
         Args:
@@ -1710,7 +1710,7 @@ class colorobject:
         """Remove Alpha Channel
 
         Remove alpha channel from the color object, if defined
-        (see :py:func:`hasalpha`).
+        (see :py:method:`hasalpha`).
         """
         if self.hasalpha():
             del self._data_["alpha"]

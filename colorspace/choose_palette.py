@@ -360,22 +360,24 @@ class currentpalettecanvas:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 def choose_palette(**kwargs):
-    """Graphical user interface to choose HCL based color palettes.  Returns an
-    object of :py:class:`palettes.diverging_hcl`,
-    :py:class:`palettes.qualitative_hcl`, or
-    :py:class:`palettes.sequential_hcl` with user-defined default settings.
+    """Graphical user interface to choose HCL based color palettes.
+
+    Returns an object of
+    :py:class:`diverging_hcl <colorspace.palettes.diverging_hcl>`,
+    :py:class:`qualitative_hcl <colorspace.palettes.qualitative_hcl>`, or
+    :py:class:`sequential_hcl <colorspace.palettes.sequential_hcl>`
+    with user-defined default settings.
 
     Args:
-        kwargs: See :py:class:`choose_palette.gui`.
+        kwargs: See :py:function:`gui`.
 
     Returns:
-        `palettes.hclpalette` object
-        The object allows to get colors in different ways, the default is a
-        list with hex colors. See :py:class:`palettes.hclpalette` or, more
-        specifically, the manual of the depending palette
-        (:py:class:`palettes.diverging_hcl`,
-        :py:class:`palettes.qualitative_hcl`, or
-        :py:class:`palettes.sequential_hcl`).
+        hclpalette: HCL palette object which allows to extract the colors in
+        different ways. The default is to retrieve hex colors.
+        More details on:
+        :py:class:`diverging_hcl <colorspace.palettes.diverging_hcl>`,
+        :py:class:`qualitative_hcl <colorspace.palettes.qualitative_hcl>`, or
+        :py:class:`sequential_hcl <colorspace.palettes.sequential_hcl>`.
     """
 
     obj = gui(**kwargs)

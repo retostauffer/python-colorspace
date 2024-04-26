@@ -7,15 +7,16 @@ import sys
 class palette:
     """A class for custom color palettes with a fixed number of colors.
     Creates a custom color map based on a list of hex colors (fixed number of
-    colors) and a name. Used for e.g., :py:func:`hcl_palettes.swatchplot`.
+    colors) and a name.
 
     Args:
         colors (str, list, colorspace.colorlib.colorobject): One or multiple
             colors which will make up the custom palette.
         name (str): Name of this custom palette. Defaults to `"user_palette"`.
+            Used for object representation/visualization.
         n (int): positive integer, number of colors drawn from an `hclpalette` object.
             Only taken into account if the object provided on `colors` inherits
-            from :py:class:`colorspace.palettes.hclpalette`.
+            from `colorspace.palettes.hclpalette`.
 
     Returns:
         An object of class :py:class:`colorspace.palettes.palette`.
@@ -118,12 +119,12 @@ class palette:
         ###TODO(R) Remove? Return [str(x) for x in self._colors]
 
     def swatchplot(self, **kwargs):
-        """Interfacing the :py:func:`colorspace.swatchplot.swatchplot` function.
-        Plotting the spectrum of the current color palette.
+        """Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
+        function. Plotting the spectrum of the current color palette.
 
         Args:
-            **kwargs: forwarded to :py:func:`swatchplot`. Note that
-                ``show_names`` will always be set to ``False``.
+            **kwargs: forwarded to :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`.
+                Note that `show_names` will always be set to `False`.
 
         Example:
 
@@ -150,7 +151,7 @@ class palette:
         Args:
             n (None or int): `None` or a positive integer which is greater or equal
                 to the number of colors of the palette (check `len()` of the object).
-            rev (bool): If set to ``True`` the color map will be reversed,
+            rev (bool): If set to `True` the color map will be reversed,
                 defaults to False.
 
         Return:
@@ -220,7 +221,7 @@ class defaultpalette:
         settings (dict): A python dictionary containing the parameter settings.
 
     Returns:
-        Object of class :py:class:`colorspace.palettes.defaultpalette`.
+        Object of class `colorspace.palettes.defaultpalette`.
     """
 
     def __init__(self, type, method, name, settings):
@@ -300,7 +301,7 @@ class defaultpalette:
 
     def get(self, what):
         """Allows to load the settings of the palette for the
-        different parameters (e.g., ``h1``, ``h2``, ...). Returns
+        different parameters (e.g., `h1`, `h2`, ...). Returns
         `None` if the parameter does not exist.
         Another method (:py:func:`set`) allows to set the
         parameters.
@@ -310,8 +311,8 @@ class defaultpalette:
                 returned from the settings of this color palette.
 
         Returns:
-            Returns `None` if the parameter ``what`` cannot be found,
-            else the value of the parameter ``what`` is returned.
+            Returns `None` if the parameter `what` cannot be found,
+            else the value of the parameter `what` is returned.
         """
         if what in self._settings_.keys():
             return self._settings_[what]
@@ -320,12 +321,12 @@ class defaultpalette:
 
 
     def set(self, **kwargs):
-        """Allows to set/overwrite color palette parameters (e.g., ``h1``,
-        ``h2``, ...).  Another method (:py:func:`get`) allows to retrieve the
+        """Allows to set/overwrite color palette parameters (e.g., `h1`,
+        `h2`, ...).  Another method (:py:func:`get`) allows to retrieve the
         parameters.
 
         Args:
-            **kwargs: A set of named arguments (``key = value`` pairs) where the key
+            **kwargs: A set of named arguments (`key = value` pairs) where the key
                 defines the parameter which should be overruled, value the
                 corresponding value. Allowed value types are bool, int, and float.
         """
@@ -366,7 +367,7 @@ class defaultpalette:
         return self._settings_
 
     def colors(self, n = 11):
-        """Load a set of ``n`` colors from this palette.  This method evaluates
+        """Load a set of `n` colors from this palette.  This method evaluates
         the `method` argument to generate a set of hex colors which will be
         returned.  Please note that it is possible that none-values will be
         returned if the fixup-setting is set to `False` (see
@@ -425,7 +426,9 @@ class defaultpalette:
 # -------------------------------------------------------------------
 class hclpalettes:
     """Prepares the pre-specified hclpalettes.  Reads the config files and creates
-    a set of :py:class:`palettes.defaultpalette` objects.
+    a set of `defaultpalette` objects.
+
+    See also: :py:func:`divergingx_palettes <colorspace.hcl_palettes.divergingx_palettes>`.
 
     Args:
         files (None, str list): If `None` (default) the default color palette
@@ -434,11 +437,7 @@ class hclpalettes:
             palettes.
 
     Return:
-        :py:class:`colorspace.palettes.hclpalettes`: Collection of predefined
-        hcl color palettes.
-
-    See Also:
-        :py:func:`divergingx_palettes`.
+        hclpalettes: Collection of predefined hcl color palettes.
 
     Examples:
 
@@ -534,7 +533,7 @@ class hclpalettes:
                 have to match but are not case sensitive, defaults to None.
 
         Returns:
-            Returns a `list` containing :py:class:`defaultpalette` objects.
+            Returns a `list` containing `defaultpalette` objects objects.
         """
         if not isinstance(type_, str) and not type_ is None:
             raise ValueError("input type_ to {:s} has to be None or a single string.".format(
@@ -568,7 +567,7 @@ class hclpalettes:
                 case sensitive; blanks are ignored (removed).
 
         Returns:
-            Returns an object of class :py:class:`defaultpalette` if a palette with
+            Returns an object of class `defaultpalette` if a palette with
             the name as specified can be found.  Else an error will be dropped.
         """
 
@@ -701,7 +700,7 @@ class hclpalette:
     def __call__(self, *args, **kwargs):
         """__call__(*args, **kwargs)
 
-        Call interface, calls objects ``colors(...)`` method.
+        Call interface, calls objects `colors(...)` method.
 
         Args:
             *args: Unnamd arguments forwarded to the color method.
@@ -735,8 +734,8 @@ class hclpalette:
         return
 
     def swatchplot(self, n = 7, *args, **kwargs):
-        """Interfacing the :py:func:`colorspace.swatchplot.swatchplot` function.
-        Plotting the spectrum of the current color palette.
+        """Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
+        function. Plotting the spectrum of the current color palette.
 
         Args:
             n (int): Number of colors, defaults to 7.
@@ -763,14 +762,14 @@ class hclpalette:
 
     def get(self, key):
         """Returns one specific item of the palette settings,
-        e.g., the current value for ``h1`` or ``l2``.
+        e.g., the current value for `h1` or `l2`.
         If not existing a `None` will be returned.
 
         Args:
             key (str): Name of the setting to be returned.
 
         Returns:
-            None if ``key`` does ont exist, else the current value will be
+            None if `key` does ont exist, else the current value will be
             returned.
 
         Example:
@@ -852,15 +851,15 @@ class hclpalette:
             dtype (object): E.g. int or float, the type in which the inputs
                 should be converted.
             length_min (None, int): Optional. Minimum length of the input data.
-                If not fulfilled and ``recycle`` is set to True it expands the
-                input to ``length_min``. Defaults to None, see also ``length_max``.
+                If not fulfilled and `recycle` is set to True it expands the
+                input to `length_min`. Defaults to None, see also `length_max`.
             lenth_max (None, int): Optional. Maximum length of the input data.
-                If longer, the script will stop. If not set (default is ``None``)
-                only the ``length_min`` will be checked.
-            recycle (bool): if set to ``True`` the user inputs will be recycled
+                If longer, the script will stop. If not set (default is `None`)
+                only the `length_min` will be checked.
+            recycle (bool): if set to `True` the user inputs will be recycled
                 to match the expected number of inputs, defaults to False.
             nansallowed (bool): if False an error will be raised if the final
-                arguments contain ``numpy.nan`` values. Else ``numpy.nan``s are
+                arguments contain `numpy.nan` values. Else `numpy.nan`s are
                 passed trough and will be returned, defaults to False.
             **kwargs: List of named arguments, the ones to be checked. If only
                 one is given the function returns the values of this specific
@@ -868,9 +867,9 @@ class hclpalette:
                 returned with the names corresponding to the user input.
 
         Returns:
-            If ``kwargs`` is of length one the values of this specific variable
-            will be returned. If multiple ``kwargs`` arguments are set a dict is
-            returned.  Note that ``None`` will simply stay ``None``.  The function
+            If `kwargs` is of length one the values of this specific variable
+            will be returned. If multiple `kwargs` arguments are set a dict is
+            returned.  Note that `None` will simply stay `None`.  The function
             raises errors if the user inputs do not match the required
             specifications.
         """
@@ -1006,26 +1005,26 @@ class hclpalette:
 
     def cmap(self, n = 101, name = "custom_hcl_cmap"):
         """Allows to retrieve a matplotlib LinearSegmentedColormap color map.
-        Clasically LinearSegmentedColormaps allow to retrieve a set of ``N``
-        colors from a set of ``n`` colors where ``N >> n``. The matplotlib
-        simply linearely interpolates between all ``n`` colors to extend
-        the number of colors to ``N``.
+        Clasically LinearSegmentedColormaps allow to retrieve a set of `N`
+        colors from a set of `n` colors where `N >> n`. The matplotlib
+        simply linearely interpolates between all `n` colors to extend
+        the number of colors to `N`.
 
-        In case of :py:func:`colorspace.palettes.hclpalette` objects this is not necessary as
-        :py:func:`colorspace.palettes.hclpalette` objects allow to retrieve ``N`` colors directly
+        In case of `hclpalette` objects this is not necessary as
+        `hclpalette` objects allow to retrieve `N` colors directly
         along well-specified Hue-Chroma-Luminance paths. Thus, this method
-        returns a matplotlib color map with ``n==N`` colors. The linear 
+        returns a matplotlib color map with `n = N` colors. The linear 
         interpolation between the colors (as typically done by
         LinearSegmentedColormap) is not necessary. However, for convenience
         cmaps have been implemented such that you can easily use hcl based
         palettes in your existing workflow.
 
         Args:
-            n (int): Number of colors the cmap should be based on; default is ``n = 101``.
-            name (str): Name of the custom color map. Default is ``custom_hcl_cmap``
+            n (int): Number of colors the cmap should be based on; default is `n = 101`.
+            name (str): Name of the custom color map. Default is `custom_hcl_cmap`
 
         Returns:
-            Returns a ``LinearSegmentedColormap`` (cmap) to be used
+            Returns a `LinearSegmentedColormap` (cmap) to be used
             with the matplotlib library.
         """
         import matplotlib
@@ -1099,42 +1098,36 @@ class hclpalette:
 class qualitative_hcl(hclpalette):
     """Qualitative HCL color palette.
 
+    See also: :py:class:`sequential_hcl`, :py:class:`diverging_hcl`,
+    :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
+    :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
+    :py:class:`rainbow`.
+
     Args:
-        h (float, int, or list): Hue values defining the 'color'. Qualitative color
+        h (int, float, list): Hue values defining the 'color'. Qualitative color
             palettes require two hues. If more than two values are provided the first
             two will be used while the rest is ignored.  If input `h` is a string this
             argument acts like the `palette` argument (see `palette` input parameter).
             Can also be lambda functions or a list of lambda functions which take up
             one single argument `n` (number of colors; see default value).
-        c (numeric): Chroma value (colorfullness), a single numeric value. If
+        c (int, float): Chroma value (colorfullness), a single numeric value. If
             multiple values are provided only the first one will be used.
-        l (numeric): luminance value (lightness), a single numeric value. If
+        l (int, float): luminance value (lightness), a single numeric value. If
             multiple values are provided only the first one will be used.
         fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
             values outside the defined RGB color space be corrected?
-        palette (None, string): Can be used to load a default diverging color
+        palette (None, str): Can be used to load a default diverging color
             qpalette specification. If the palette does not exist an exception will be
             qraised.  Else the settings of the palette as defined will be used to create
             qthe color palette.
-        rev (bool): Should the color map be reversed? Default ``False``.
+        rev (bool): Should the color map be reversed? Default `False`.
         **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
             to be documented.
 
-    See Also:
-        :py:class:`sequential_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`terrain_hcl`,
-        :py:class:`diverging_hsv`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
-        Initialize new object. Raises a set of errors if the parameters are
+        qualitative_hcl: Initialize new object. Raises exceptions if the parameters are
         misspecified. Note that the object is callable, the default object call can
-        be used to return hex colors (identical to the ``.colors()`` method), see
+        be used to return hex colors (identical to the `.colors()` method), see
         examples.
 
     Example:
@@ -1151,7 +1144,7 @@ class qualitative_hcl(hclpalette):
 
     TODO:
         Class does not allow for lambda function for h. Thus, the colors
-        on both ends of a qualitative color map with ``h = [0, 360]`` are
+        on both ends of a qualitative color map with `h = [0, 360]` are
         identical. See also palette definition (text files). I would need
         to allow for lambda functions which will require quite some adaptions
         of the current code (reading config files; _checkinput function; evaluation
@@ -1255,8 +1248,8 @@ class qualitative_hcl(hclpalette):
         Args:
             n (int): Number of colors which should be returned, defaults to 11.
             fixup (None, bool): should sRGB colors be corrected if they lie outside
-                the defined color space?  If ``None`` the ``fixup`` parameter from the
-                object will be used. Can be set to ``True`` or ``False`` to explicitly
+                the defined color space?  If `None` the `fixup` parameter from the
+                object will be used. Can be set to `True` or `False` to explicitly
                 control the fixup here.
         """
 
@@ -1297,35 +1290,29 @@ class rainbow_hcl(qualitative_hcl):
     """HCL rainbow, a qualitative cyclic rainbow color palette with uniform
     luminance and chroma.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
+    :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
+    :py:class:`heat_hcl`, :py:class:`terrain_hcl`, :py:class:`diverging_hsv`,
+    and :py:class:`rainbow`.
+
     Args:
-        c (int): Chroma (colorfullness) of the color map ``[0-100+]``.
-        l (int): Luminance (lightness) of the color map ``[0-100]``.
+        c (int): Chroma (colorfullness) of the color map `[0-100+]`.
+        l (int): Luminance (lightness) of the color map `[0-100]`.
         start (int): Hue at which the rainbow should start.
         end (int): Hue at which the rainbow should end.
         gamma (float): Gamma value used for transfiromation from/to sRGB.
             @TODO implemented? Check!
         fixup (bool): Only used when converting the HCL colors to hex.  Should
             RGB values outside the defined RGB color space be corrected?
-        rev (bool): Should the color map be reversed? Default ``False``.
+        rev (bool): Should the color map be reversed? Default `False`.
         *args: Currently unused.
-        **kwargs: Processed internally; can be used to overwrite ``h1``,
-            ``h2``, ``c1``, ``l1``, ``l2`` and ``p1``.
-
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`sequential_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`terrain_hcl`,
-        :py:class:`diverging_hsv`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
+        **kwargs: Processed internally; can be used to overwrite `h1`,
+            `h2`, `c1`, `l1`, `l2` and `p1`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -1380,13 +1367,18 @@ class rainbow_hcl(qualitative_hcl):
 class diverging_hcl(hclpalette):
     """Diverging HCL color palette.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
+    :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
+    :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
+    :py:class:`rainbow`.
+
     Args:
         h (list of numerics): Hue values (color), diverging color palettes should
             have different hues for both ends of the palette. If only one value is
             present it will be recycled ending up in a diverging color palette with the
             same colors on both ends.  If more than two values are provided the first
-            two will be used while the rest is ignored.  If input ``h`` is a string
-            this argument acts like the ``palette`` argument (see ``palette`` input
+            two will be used while the rest is ignored.  If input `h` is a string
+            this argument acts like the `palette` argument (see `palette` input
             parameter).
         c (numeric): Chroma value (colorfullness), a single numeric value. If two
             values are provided the first will be taken as `c1`, the second as `cmax`.
@@ -1406,21 +1398,10 @@ class diverging_hcl(hclpalette):
         **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
             to be documented.
 
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`sequential_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`terrain_hcl`,
-        :py:class:`diverging_hsv`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -1524,13 +1505,13 @@ class diverging_hcl(hclpalette):
         Args:
             n (int): Number of colors which should be returned.
             fixup (None, bool): Should sRGB colors be corrected if they lie
-                outside the defined color space?  If ``None`` the ``fixup``
-                parameter from the object will be used. Can be set to ``True`` or
-                ``False`` to explicitly control the fixup here.
+                outside the defined color space?  If `None` the `fixup`
+                parameter from the object will be used. Can be set to `True` or
+                `False` to explicitly control the fixup here.
             alpha (None, float): Float (single value) or vector of floats in the
-                range of ``[0.,1.]`` for alpha transparency channel (``0.`` means full
-                transparency, ``1.`` opaque).  If a single value is provided it will be
-                applied to all colors, if a vector is given the length has to be ``n``.
+                range of `[0.,1.]` for alpha transparency channel (`0.` means full
+                transparency, `1.` opaque).  If a single value is provided it will be
+                applied to all colors, if a vector is given the length has to be `n`.
         """
 
         # Sanity checks
@@ -1604,11 +1585,16 @@ class diverging_hcl(hclpalette):
 class divergingx_hcl(hclpalette):
     """Diverging HCL color palette.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
+    :py:class:`diverging_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
+    :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
+    :py:class:`rainbow`.
+
     Args:
         h (list of float or int): Hue values (color), divergingx color palettes should
             have different hues for both ends and the center of the palette.
-            For this class three values must be provided. If input ``h`` is a string
-            this argument acts like the ``palette`` argument (see ``palette`` input
+            For this class three values must be provided. If input `h` is a string
+            this argument acts like the `palette` argument (see `palette` input
             parameter).
         c (list of float or int): Chroma value (colorfullness), list of floats. In case two
             values are provided the firt is taken as `c1` and `c3` while the second
@@ -1638,21 +1624,10 @@ class divergingx_hcl(hclpalette):
         **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
             to be documented.
 
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`sequential_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`terrain_hcl`,
-        :py:class:`diverging_hsv`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -1768,13 +1743,13 @@ class divergingx_hcl(hclpalette):
         Args:
             n (int): Number of colors which should be returned.
             fixup (None, bool): Should sRGB colors be corrected if they lie
-                outside the defined color space?  If ``None`` the ``fixup``
-                parameter from the object will be used. Can be set to ``True`` or
-                ``False`` to explicitly control the fixup here.
+                outside the defined color space?  If `None` the `fixup`
+                parameter from the object will be used. Can be set to `True` or
+                `False` to explicitly control the fixup here.
             alpha (None, float): Float (single value) or vector of floats in the
-                range of ``[0.,1.]`` for alpha transparency channel (``0.`` means full
-                transparency, ``1.`` opaque).  If a single value is provided it will be
-                applied to all colors, if a vector is given the length has to be ``n``.
+                range of `[0.,1.]` for alpha transparency channel (`0.` means full
+                transparency, `1.` opaque).  If a single value is provided it will be
+                applied to all colors, if a vector is given the length has to be `n`.
 
         Todo:
             Move the function `get_one_side` to the `hclpalette` class. Rename it
@@ -1863,6 +1838,11 @@ class divergingx_hcl(hclpalette):
 class sequential_hcl(hclpalette):
     """Sequential HCL color palette.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`diverging_hcl`,
+    :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
+    :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
+    :py:class:`rainbow`.
+
     Args:
         h (numeric): Hue values (color). If only one value is given the value
             is recycled which yields a single-hue sequential color palette.  If
@@ -1884,21 +1864,10 @@ class sequential_hcl(hclpalette):
         *args: Currently unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
 
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`terrain_hcl`,
-        :py:class:`diverging_hsv`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -2006,9 +1975,9 @@ class sequential_hcl(hclpalette):
         Args:
             n (int): Number of colors which should be returned.
             fixup (None, bool): Should sRGB colors be corrected if they lie
-                outside the defined color space?  If ``None`` the ``fixup``
-                parameter from the object will be used. Can be set to ``True`` or
-                ``False`` to explicitly control the fixup here.
+                outside the defined color space?  If `None` the `fixup`
+                parameter from the object will be used. Can be set to `True` or
+                `False` to explicitly control the fixup here.
         """
 
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
@@ -2058,6 +2027,11 @@ class sequential_hcl(hclpalette):
 class heat_hcl(sequential_hcl):
     """HEAT hcl, a sequential color palette.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
+    :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
+    :py:class:`rainbow_hcl`, :py:class:`terrain_hcl`,
+    :py:class:`diverging_hsv`, and :py:class:`rainbow`.
+
     Args:
         h (list of int): Hue parameters (h1/h2).
         c (list of int): Chroma parameters (c1/c2).
@@ -2071,21 +2045,10 @@ class heat_hcl(sequential_hcl):
         *args: Currently unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
 
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`sequential_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`terrain_hcl`,
-        :py:class:`diverging_hsv`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -2142,6 +2105,11 @@ class heat_hcl(sequential_hcl):
 class terrain_hcl(sequential_hcl):
     """HCL terrain colors, a sequential palette.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
+    :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
+    :py:class:`rainbow_hcl`, :py:class:`heat_hcl`, :py:class:`diverging_hsv`,
+    and :py:class:`rainbow`.
+
     Args:
         h (list of int): Hue parameters (h1/h2).
         c (list of int): Chroma parameters (c1/c2).
@@ -2155,21 +2123,10 @@ class terrain_hcl(sequential_hcl):
         *args: unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
 
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`sequential_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`diverging_hsv`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -2222,13 +2179,18 @@ class terrain_hcl(sequential_hcl):
 class diverging_hsv(hclpalette):
     """Diverging HSV color palette.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
+    :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
+    :py:class:`rainbow_hcl`, :py:class:`heat_hcl`, :py:class:`terrain_hcl`, and
+    :py:class:`rainbow`.
+
     Args:
         h (list of numerics): Hue values, diverging color palettes should have
             different hues for both ends of the palette. If only one value is present
             it will be recycled ending up in a diverging color palette with the same
             colors on both ends.  If more than two values are provided the first two
-            will be used while the rest is ignored.  If input ``h`` is a string this
-            argument acts like the ``palette`` argument (see ``palette`` input
+            will be used while the rest is ignored.  If input `h` is a string this
+            argument acts like the `palette` argument (see `palette` input
             parameter).
         s (float): Saturation value for the two ends of the palette.
         v (float): Value (the HSV value) of the two ends of the palette.
@@ -2240,21 +2202,10 @@ class diverging_hsv(hclpalette):
         *args: Unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
 
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`sequential_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`terrain_hcl`,
-        and :py:class:`rainbow`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -2310,9 +2261,9 @@ class diverging_hsv(hclpalette):
         Args:
             n (int): Number of colors which should be returned.
             fixup (None, bool): Should sRGB colors be corrected if they lie
-                outside the defined color space?  If ``None`` the ``fixup``
-                parameter from the object will be used. Can be set to ``True`` or
-                ``False`` to explicitly control the fixup here.
+                outside the defined color space?  If `None` the `fixup`
+                parameter from the object will be used. Can be set to `True` or
+                `False` to explicitly control the fixup here.
         """
 
         from numpy import linspace, power, abs, repeat
@@ -2346,6 +2297,11 @@ class diverging_hsv(hclpalette):
 class rainbow(hclpalette):
     """Infamous rainbow palette.
 
+    See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
+    :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
+    :py:class:`rainbow_hcl`, :py:class:`heat_hcl`, :py:class:`terrain_hcl`, and
+    :py:class:`diverging_hsv`.
+
     Args:
         s (float, int): saturation value, a value in `[0., 1.]`. Defaults to `1.0`.
         v (float, int): value, a value in `[0., 1.]`. Defaults to `1.0`.
@@ -2359,21 +2315,10 @@ class rainbow(hclpalette):
         *args: Unused.
         **kwargs: Unused.
 
-    See Also:
-        :py:class:`qualitative_hcl`,
-        :py:class:`sequential_hcl`,
-        :py:class:`diverging_hcl`,
-        :py:class:`divergingx_hcl`,
-        :py:class:`rainbow_hcl`,
-        :py:class:`heat_hcl`,
-        :py:class:`terrain_hcl`,
-        and :py:class:`diverging_hsv`.
-        All inherit from :py:class:`hclpalette`.
-
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
         are misspecified. Note that the object is callable, the default object call
-        can be used to return hex colors (identical to the ``.colors()`` method),
+        can be used to return hex colors (identical to the `.colors()` method),
         see examples.
 
     Example:
@@ -2419,9 +2364,9 @@ class rainbow(hclpalette):
         Args:
             n (int): Number of colors which should be returned. Defaults to `11`.
             alpha (None, float): Float (single value) or vector of floats in the
-                range of ``[0.,1.]`` for alpha transparency channel (``0.`` means full
-                transparency, ``1.`` opaque).  If a single value is provided it will be
-                applied to all colors, if a vector is given the length has to be ``n``.
+                range of `[0.,1.]` for alpha transparency channel (`0.` means full
+                transparency, `1.` opaque).  If a single value is provided it will be
+                applied to all colors, if a vector is given the length has to be `n`.
 
         Raises:
             ValueError: If input `n` is not float/integer or smaller than 1.

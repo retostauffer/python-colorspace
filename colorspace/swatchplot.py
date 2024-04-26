@@ -3,20 +3,20 @@
 def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     """Create color palette swatch plots.
 
-    The first argument ``pals`` is very flexible. It can be
+    The first argument `pals` is very flexible. It can be
 
-    * List of hex colors
-    * Single object which inherits :py:class:`colorspace.palettes.palette`,
-        :py:class:`colorspace.palettes.hclpalette`,
-        :py:class:`colorspace.colorlib.colorobject`
-    * List of objects listed above (all of the same type or mixed).
-    * Dictionary with lists of objects as above. If a dictionary is used
+    * List of hex colors,
+    * a single object which inherits from `colorspace.palettes.palette`,
+        `colorspace.palettes.hclpalette`,
+        `colorspace.colorlib.colorobject`,
+    * a list of objects listed above (all of the same type or mixed),
+    * a dictionary with lists of objects as above. If a dictionary is used
         the keys of the dictionary are used as 'subtitles' to group sets
-        of palettes.
-    * Object of class :py:class:`colorspace.palettes.hclpalettes`.
-    * Object of class `matplotlib.colors.LinearSegmentedColormap`
+        of palettes,
+    * an object of class `colorspace.palettes.hclpalettes`,
+    * or an object of class `matplotlib.colors.LinearSegmentedColormap`.
 
-    Requires the ``matplotlib`` to be installed.
+    Requires the `matplotlib` to be installed.
 
     Args:
         pals: The color palettes or color objects to be visualized.
@@ -29,25 +29,25 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             with emulated color vision deficiencies. If `None`, this is not applied.
             Can be set to a list of characters. Allowed:
             `"protan"`, `"tritan"`, `"deutan"`, `"desaturate"` corresponding to the functions
-            :py:func:`protan<colorspace.CVD.protan>`,
-            :py:func:`tritan<colorspace.CVD.tritan>`,
-            :py:func:`deutan<colorspace.CVD.deutan>`,
-            :py:func:`desaturate<colorspace.CVD.desaturate>`.
+            :py:func:`protan <colorspace.CVD.protan>`,
+            :py:func:`tritan <colorspace.CVD.tritan>`,
+            :py:func:`deutan <colorspace.CVD.deutan>`,
+            :py:func:`desaturate <colorspace.CVD.desaturate>`.
         **kwargs: forwarded to `matplotlib.pyplot.subplot`, can be used to control e.g.,
-            ``figsize``.
+            `figsize`.
 
     Raises:
-        TypeError: If ``nrow`` or ``n`` no integers.
-        TypeError: If ``show_names`` not boolean.
-        ValueERror: If ``nrow`` or ``n`` are not positive.
+        TypeError: If `nrow` or `n` no integers.
+        TypeError: If `show_names` not boolean.
+        ValueERror: If `nrow` or `n` are not positive.
 
     Example:
 
-        Some examples using different types of palettes/objects from
-        simple lists of hex colors over HCL palettes
-        (e.g., :py:class:`colorspace.diverging_hcl`), custom palette objects (``pal``;
-        :py:class:`colorspace.palettes.palette`) to custom
-        color objects (``cobject``; :py:class:`colorspace.colorlib.colorobject`).
+        Some examples using different types of palettes/objects from simple
+        lists of hex colors over HCL palettes (e.g.,
+        :py:class:`diverging_hcl <colorspace.palettes.diverging_hcl>`),
+        custom palette objects (`pal`; :py:class:`palette <colorspace.palettes.palette>`)
+        to custom color objects.
 
         >>> from colorspace import *
         >>>
@@ -185,11 +185,11 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             n (int): Number of colors to be drawn from non-fixed palettes.
 
         Return:
-            dict: Returns a single dict with ``name`` (name of the palette)
-            and ``color`` (list of hex colors).
+            dict: Returns a single dict with `name` (name of the palette)
+            and `color` (list of hex colors).
 
         Raises:
-            Exception: If input ``x`` is of unknown type/format and cannot be converted.
+            Exception: If input `x` is of unknown type/format and cannot be converted.
             ValueError: If the palette does not provide any color at all.
         """
 
@@ -236,11 +236,11 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         Returns:
             list: A dictionary and a list consiting of dictionaries. 
             The first dictionary contains meta information about the number
-            of named palettes (``n_named``), the number of palettes (``n_palettes``),
+            of named palettes (`n_named`), the number of palettes (`n_palettes`),
             and the highest number of colors among these palettes as it can differ.
             The second list contains dictionaries where each dictionary contains
-            two elements: ``name`` (str) defining name of the palette, and 
-            ``colors`` (list) which is a list of hex colors (str), the colors
+            two elements: `name` (str) defining name of the palette, and 
+            `colors` (list) which is a list of hex colors (str), the colors
             to be displayed.
         """
 

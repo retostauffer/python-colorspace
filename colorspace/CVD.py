@@ -20,10 +20,11 @@ def deutan(cols, severity = 1., linear = True):
     weakness).
 
     See also :py:func:`protan`, :py:func:`tritan`, :py:func:`desaturate`, and
-    :py:func:`cvd_emulator`.
+    :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
 
     Args:
-        cols (list of str or colorobject): A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
+        cols (list of str, colorobject): A list of valid hex colors (str)
+            or a colorobject (such as RGB, HCL, CIEXYZ).
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency, one
             maximum deficiency, defaults to 1.0.
         linear (bool): Should the color vision deficiency transformation be applied to the
@@ -75,11 +76,11 @@ def protan(cols, severity = 1., linear = True):
     returns simulated colors for protanope vision.
 
     See also :py:func:`deutan`, :py:func:`tritan`, :py:func:`desaturate`, and
-    :py:func:`cvd_emulator`.
+    :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
 
     Args:
-        cols (list of str or :py:class:`colorobject`): A colorobject (such as RGB,
-            HCL, CIEXYZ) or a list of hex colors
+        cols (list of str, colorobject): A list of valid hex colors (str)
+            or a colorobject (such as RGB, HCL, CIEXYZ).
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency, one
             maximum deficiency, defaults to 1.0.
         linear (bool): Should the color vision deficiency transformation be applied to the
@@ -132,11 +133,11 @@ def tritan(cols, severity = 1., linear = True):
     and returns simulated colors for tritanope vision.
 
     See also :py:func:`deutan`, :py:func:`protan`, :py:func:`desaturate`, and
-    :py:func:`cvd_emulator`.
+    :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
 
     Args:
-        cols (list of str or :py:class:`colorobject`):
-            A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
+        cols (list of str, colorobject): A list of valid hex colors (str)
+            or a colorobject (such as RGB, HCL, CIEXYZ).
         severity (float): Severity in ``[0., 1.]``. Zero means no deficiency,
             one maximum deficiency, defaults to 1.0.
         linear (bool): Should the color vision deficiency transformation be applied to the
@@ -516,7 +517,7 @@ def desaturate(cols, amount = 1.):
     back to a colorobject of the same class as the input.
 
     See also::py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
-    :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
+    :py:func:`desaturate`, and `:py:func:`colorspace.cvd_emulator.cvd_emulator`.
 
 
     Args:

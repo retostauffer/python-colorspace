@@ -9,9 +9,9 @@ def mixcolor(alpha, color1, color2, where = 1):
         alpha (float): The mixed color is obtained by combining an amount
             `1 - alpha` of `color1` with an amount `alpha` of `color2`.
         color1: an object that can be converted into a
-            :py:class:`colorspace.palette`.
+            :py:class:`palette <colorspace.palettes.palette>`.
         color2: a second object that can be converted into a
-            :py:class:`colorspace.palette`. Must have the same number
+            :py:class:`palette <colorspace.palettes.palette>`. Must have the same number
             of colors as the argument on `color1`.
         where (str): in which space the colors should be mixed. Defaults to HCL.
 
@@ -130,7 +130,7 @@ def check_hex_colors(colors, allow_nan = False):
     Valid hex colors are three digit hex colors (e.g., `#F00`), six digit
     hex colors (e.g., `#FF00FF`), or six digit colors with additional transparency
     (eight digit representation). If the inputs do not match one of these hex
-    representations :py:func:`matplotlib.color.to_hex` will be called. This allows
+    representations `matplotlib.color.to_hex` will be called. This allows
     to also convert standard colors such as `"0"`, `"black"`, or `"magenta"` into
     their corresponding hex representation.
 
@@ -485,7 +485,7 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
 
     Args:
         colors (str, list, colorobject, palette): Single hex color (str), a list of hex colors (list),
-            or an object of class :py:class:`colorobject <colorspace.colorlib.colorobject>`
+            a color object ,
             or :py:class:`palette <colorspace.palettes.palette>`.
         bg (str): background color against which the contrast will be calculated.
             Defaults to white (`"#FFFFFF"`).
@@ -698,7 +698,7 @@ def darken(col, amount = 0.1, space = "HCL", fixup = True):
 
     Args:
         col: color (or colors) to be manipulated. Can be a
-            :py:class:`colorobject <colorspace.colorlib.colorobject>`,,
+            color object,
             a :py:class:`palette <colorspace.palettes.palette>` object, or a
             single string/list of strings with valid hex colors.
         amount (float): value between `[0., 1.]` with the amount the colors
@@ -728,13 +728,12 @@ def darken(col, amount = 0.1, space = "HCL", fixup = True):
 
 
 def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
-    """Algorithmically lighten colors.
+    """Algorithmically lighten colors
 
     See also: :py:func:`darken <colorspace.utils.darken>`.
 
     Args:
-        col: color (or colors) to be manipulated. Can be a
-            :py:class:`colorobject <colorspace.colorlib.colorobject>`,,
+        col: color (or colors) to be manipulated. Can be a color object
             a :py:class:`palette <colorspace.palettes.palette>` object, or a
             single string/list of strings with valid hex colors.
         amount (float): value between `[0., 1.]` with the amount the colors
