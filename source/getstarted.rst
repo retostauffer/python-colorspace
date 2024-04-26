@@ -101,7 +101,7 @@ the following command:
 
 .. code-block:: console
 
-    pip install https://github.com/retostauffer/python-colorspace
+    pip install git+https://github.com/retostauffer/python-colorspace
 
 
 **Clone git Repository**

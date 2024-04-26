@@ -3,7 +3,7 @@
 # The color library which contains all the
 # color objects and required transformation
 # methods.
-#from .colorlib import colorlib
+from .colorlib import colorlib
 #from .colorlib import colorobject
 from .colorlib import polarLUV
 from .colorlib import CIELUV

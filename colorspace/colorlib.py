@@ -2012,12 +2012,12 @@ class polarLUV(colorobject):
         >>> from colorspace.colorlib import polarLUV, HCL
         >>> # Constructing color object with one single color via float
         >>> polarLUV(100., 30, 50.)
-        >>> #' polarLUV is the HCL color space, this
+        >>> #: polarLUV is the HCL color space, this
         >>> #  is equivalent to the command above.
         >>> HCL(100., 30, 50.)
-        >>> #' Constructing object via lists
+        >>> #: Constructing object via lists
         >>> HCL([100, 80], [30, 50], [30, 80])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> HCL(asarray([100, 80]), asarray([30, 50]), asarray([30, 80]))
     """
@@ -2124,9 +2124,9 @@ class CIELUV(colorobject):
         >>> from colorspace.colorlib import CIELUV
         >>> # Constructing color object with one single color via float
         >>> CIELUV(0, 10, 10)
-        >>> #' Constructing object via lists
+        >>> #: Constructing object via lists
         >>> CIELUV([10, 30], [20, 80], [100, 40])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> CIELUV(asarray([10, 30]), asarray([20, 80]), asarray([100, 40]))
 
@@ -2232,9 +2232,9 @@ class CIEXYZ(colorobject):
         >>> from colorspace.colorlib import CIEXYZ
         >>> # Constructing color object with one single color via float
         >>> CIEXYZ(80, 30, 10)
-        >>> #' Constructing object via lists
+        >>> #: Constructing object via lists
         >>> CIEXYZ([10, 0], [20, 80], [40, 40])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> CIEXYZ(asarray([10, 0]), asarray([20, 80]), asarray([40, 40]))
 
@@ -2341,9 +2341,9 @@ class RGB(colorobject):
         >>> from colorspace.colorlib import RGB
         >>> # Constructing color object with one single color via float
         >>> RGB(1., 0.3, 0.5)
-        >>> #' Constructing object via lists
+        >>> #: Constructing object via lists
         >>> RGB([1., 0.8], [0.5, 0.5], [0.0, 0.2])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> RGB(asarray([1., 0.8]), asarray([0.5, 0.5]), asarray([0.0, 0.2]))
 
@@ -2448,9 +2448,9 @@ class sRGB(colorobject):
         >>> from colorspace.colorlib import sRGB
         >>> # Constructing color object with one single color via float
         >>> sRGB(1., 0.3, 0.5)
-        >>> #' Constructing object via lists
+        >>> #: Constructing object via lists
         >>> sRGB([1., 0.8], [0.5, 0.5], [0.0, 0.2])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> sRGB(asarray([1., 0.8]), asarray([0.5, 0.5]), asarray([0.0, 0.2]))
 
@@ -2564,9 +2564,9 @@ class CIELAB(colorobject):
         >>> from colorspace.colorlib import CIELAB
         >>> # Constructing color object with one single color via float
         >>> CIELAB(-30, 10, 10)
-        >>> #' Constructing object via lists
+        >>> #: Constructing object via lists
         >>> CIELAB([-30, 30], [20, 80], [40, 40])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> CIELAB(asarray([-30, 30]), asarray([20, 80]), asarray([40, 40]))
 
@@ -2772,7 +2772,7 @@ class HSV(colorobject):
         >>> HSV(150, 150, 10)
         >>> #: Constructing object via lists
         >>> HSV([150, 150, 10], [1.5, 0, 1.5], [0.1, 0.7, 0.1])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> cols = HSV(asarray([150, 150, 150]),
         >>>            asarray([1.5, 0, 1.5]),
@@ -2871,7 +2871,7 @@ class HLS(colorobject):
         >>> HLS(150, 0.1, 3)
         >>> #: Constructing object via lists
         >>> HLS([150, 0, 10], [0.1, 0.7, 0.1], [3, 0, 3])
-        >>> #' Constructing object via numpy arrays
+        >>> #: Constructing object via numpy arrays
         >>> from numpy import asarray
         >>> cols = HLS(asarray([150, 0, 10]),
         >>>            asarray([0.1, 0.7, 0.1]),

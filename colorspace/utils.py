@@ -1,6 +1,6 @@
 
 def mixcolor(alpha, color1, color2, where = 1):
-    """Compute the convex combination of two colors
+    """Compute the Convex Combination of Two Colors
 
     This function can be used to compute the result of color mixing, assuming
     additive mixing (e.g., as appropriate for RGB and XYZ).
@@ -13,7 +13,7 @@ def mixcolor(alpha, color1, color2, where = 1):
         color2: a second object that can be converted into a
             :py:class:`palette <colorspace.palettes.palette>`. Must have the same number
             of colors as the argument on `color1`.
-        where (str): in which space the colors should be mixed. Defaults to HCL.
+        where (str): The color space where the mixing is to take place.
 
     Return:
         colorspace.colorlib.*: Returns an object of the same class as either `color1` (if `where
@@ -31,26 +31,46 @@ def mixcolor(alpha, color1, color2, where = 1):
         >>> RGB_1  = RGB(R = 1, G = 0, B = 0)
         >>> RGB_2  = RGB(R = 0, G = 1, B = 0)
         >>> RGB_M1 = mixcolor(0.5, RGB_1, RGB_2, "RGB")
+        >>> RGB_M1
+        >>> #: Mixing via XYZ color space
+        >>> #  TODO: Not yet implemented, will throw an exception.
         >>> RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "XYZ")
-        >>> swatchplot([RGB_1, RGB_2, RGB_M1, RGB_M2], show_names = False)
+        >>> RGB_M2
         >>>
-        >>> # Mixing two lists of hex-colors of length 5.
-        >>> # Mixing takes place once in the RGB color space (M1)
-        >>> # and once in the HCL color space (M2)
+        >>> #:
+        >>> swatchplot([RGB_1, RGB_2, RGB_M1, RGB_M2],
+        >>>            show_names = False, figsize = (6, 1));
+        >>>
+        >>> #: Mixing two lists of hex-colors of length 5.
+        >>> #  Mixing takes place once in the RGB color space (M1)
+        >>> #  and once in the HCL color space (M2)
         >>> HEX_1  = diverging_hcl()(5)
         >>> HEX_2  = diverging_hcl(rev = True)(5)
         >>> HEX_M1 = mixcolor(0.2, HEX_1, HEX_2, "RGB")
-        >>> HEX_M2 = mixcolor(0.8, HEX_1, HEX_2, "XYZ")
-        >>> swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2], show_names = False)
+        >>> HEX_M1
         >>>
-        >>> # Mixing objects of different length and type
-        >>> # Coordinates of the shorter object (RGB_1) will be recycled
-        >>> # to the same number of colors as in the longer object (HEX_2)
+        >>> #: Mixing via XYZ color space
+        >>> #  TODO: Not yet implemented, will throw an exception.
+        >>> HEX_M2 = mixcolor(0.8, HEX_1, HEX_2, "XYZ")
+        >>> MEX_M2
+        >>>
+        >>> #:
+        >>> swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2],
+        >>>            show_names = False, figsize = (6, 1));
+        >>>
+        >>> #: Mixing objects of different length and type
+        >>> #  Coordinates of the shorter object (RGB_1) will be recycled
+        >>> #  to the same number of colors as in the longer object (HEX_2)
         >>> RES_1 = mixcolor(0.2, RGB_1, HEX_2, "RGB")
         >>> RES1.colors()
+        >>>
+        >>> #:
         >>> RES_2 = mixcolor(0.8, RGB_1, HEX_2, "RGB")
         >>> RES2.colors()
-        >>> swatchplot([RGB_1, RES_2, HEX_2, RES], show_names = False)
+        >>>
+        >>> #:
+        >>> swatchplot([RGB_1, RES_2, HEX_2, RES],
+        >>>            show_names = False, figsize = (6, 1));
 
     Raises:
         TypeError: In case `alpha` is not float or `int`.
@@ -262,11 +282,14 @@ def extract_transparency(x, mode = "float"):
         >>>
         >>> # Extract transparency
         >>> extract_transparency(x1)
+        >>> #:
         >>> extract_transparency(x2)
         >>>
-        >>> # Return mode
+        >>> #: Return mode
         >>> extract_transparency(x2, mode = "float")
+        >>> #:
         >>> extract_transparency(x2, mode = "int")
+        >>> #:
         >>> extract_transparency(x2, mode = "str")
         >>>
         >>> # Extract transparency from palette objects
@@ -275,6 +298,7 @@ def extract_transparency(x, mode = "float"):
         >>> p2 = palette(cols2, name = "custom palette 2")
         >>>
         >>> extract_transparency(p1, mode = "str")
+        >>> #:
         >>> extract_transparency(p2, mode = "str")
     """
 
@@ -370,7 +394,8 @@ def adjust_transparency(x, alpha):
         >>>
         >>> #: Adding transparency again
         >>> x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8]))
-        >>> print(x2)
+        >>> x2
+        >>> #:
         >>> extract_transparency(x2)
     """
 
@@ -691,7 +716,7 @@ def max_chroma(H, L, floor = False):
     if floor: C = np.floor(C)
     return C
 
-def darken(col, amount = 0.1, space = "HCL", fixup = True):
+def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
     """Algorithmically darken colors.
 
     See also: :py:func:`lighten <colorspace.utils.lighten>`.
@@ -714,7 +739,8 @@ def darken(col, amount = 0.1, space = "HCL", fixup = True):
         >>> original = "#ff3322"
         >>> lighter  = lighten(original, amount = 0.3, method = "relative", space = "HCL")
         >>> darker   = darken(original,  amount = 0.3, method = "relative", space = "HCL")
-        >>> swatchplot([lighter, original, darker], show_names = False)
+        >>> swatchplot([lighter, original, darker],
+        >>>            show_names = False, figsize = (6, 1));
 
     Raises:
         TypeError: If `method` is not str.
@@ -724,7 +750,7 @@ def darken(col, amount = 0.1, space = "HCL", fixup = True):
         TypeError: If input 'col' is not among the one of the recognized objects.
         TypeError: If `fixup` is not boolean.
     """
-    return lighten(col, amount = amount * -1., method = "relative", space = space, fixup = fixup)
+    return lighten(col, amount = amount * -1., method = method, space = space, fixup = fixup)
 
 
 def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
@@ -749,7 +775,8 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         >>> original = "#ff3322"
         >>> lighter  = lighten(original, amount = 0.3, method = "relative", space = "HCL")
         >>> darker   = darken(original,  amount = 0.3, method = "relative", space = "HCL")
-        >>> swatchplot([lighter, original, darker], show_names = False)
+        >>> swatchplot([lighter, original, darker],
+        >>>            show_names = False, figsize = (6, 1));
 
     Raises:
         TypeError: If `method` is not str.
@@ -815,14 +842,12 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     def _lighten_in_HLS(colors, amount, method):
         tmp = hexcols(x.colors())
         tmp.to("HLS")
-        print(tmp)
         if method == "relative":
             tmp.set(L = where(amount >= 0, \
                               1. - (1. - tmp.get("L")) * (1. - amount), \
                               tmp.get("L") * (1. + amount)))
         else:
             tmp.set(L = tmp.get("L") + amount)
-            print(tmp)
         tmp.set(L = fmin(1., fmax(0, tmp.get("L"))))
 
         return tmp

@@ -247,7 +247,6 @@ class defaultpalette:
         #for key,val in self._settings_.items():
         keys = list(self.get_settings().keys())
         keys.sort()
-        print(keys)
         for key in keys:
             if key in ["desc"]: continue
             val = self.get(key)
@@ -456,7 +455,6 @@ class hclpalettes:
     """
     def __init__(self, files = None, files_regex = None):
 
-
         if not isinstance(files, (type(None), str, list)):
             raise TypeError("argument 'files' must either be None, str, or list of str")
         if isinstance(files, str): files = [files]
@@ -468,7 +466,14 @@ class hclpalettes:
         if files is None:
             import glob
             resource_package = os.path.dirname(__file__)
-            files = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
+            tmp = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
+            if files_regex:
+                from re import match
+                files = []
+                for f in tmp:
+                    if match(files_regex, f): files.append(f)
+            else:
+                files = tmp
 
         # Input 'files' specified:
         if not len(files) > 0:
@@ -643,7 +648,6 @@ class hclpalettes:
                         settings[key] = int(val)
                     else:
                         # Try to evaluate this as a lambda function.
-                        print(val)
                         try:
                             val = eval(val)
                             if not callable(val): raise Exception

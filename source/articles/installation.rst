@@ -27,7 +27,7 @@ The package can be installed via `pip <https://pypi.org/project/pip/>`_ using th
 
 .. code-block:: console
 
-    pip install https://github.com/retostauffer/python-colorspace
+    pip install git+https://github.com/retostauffer/python-colorspace
 
 
 **Cloning the git repository**

@@ -1,15 +1,14 @@
 # All matrices in this file are adapted from https://github.com/njsmith/colorspacious/blob/master/colorspacious/cvd.py
 
-#' Color Vision Deficiency (CVD) Conversion Functions.
-#' 
-#' Conversion tables for simulating different types of color vision deficiency (CVD):
-#' Protanomaly, deutanomaly, tritanomaly.
-#' 
-#' Machado et al. (2009) have established a novel model, that allows to handle normal color
-#' vision, anomalous trichromacy, and dichromacy in a unified way. They also provide conversion
-#' formulas along with tables of certain constants that allow to simulate various types of
-#' CVD. See \code{\link{simulate_cvd}} for the corresponding simulation functions.
-#' 
+# Color Vision Deficiency (CVD) Conversion Functions.
+# 
+# Conversion tables for simulating different types of color vision deficiency (CVD):
+# Protanomaly, deutanomaly, tritanomaly.
+# 
+# Machado et al. (2009) have established a novel model, that allows to handle normal color
+# vision, anomalous trichromacy, and dichromacy in a unified way. They also provide conversion
+# formulas along with tables of certain constants that allow to simulate various types of
+# CVD. See \code{\link{simulate_cvd}} for the corresponding simulation functions.
 
 def deutan(cols, severity = 1., linear = True):
     """Simulate Color Vision Deficiency

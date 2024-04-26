@@ -10,6 +10,15 @@ def divergingx_palettes(n = 5, **kwargs):
 
     Return:
         See :py:func:`hcl_palettes`.
+
+    Examples:
+        >>> from colorspace import divergingx_palettes
+        >>>
+        >>> # Get palettes
+        >>> divergingx_palettes()
+        >>>
+        >>> #: Visualize palettes
+        >>> divergingx_palettes(n = 15, ncol = 2, plot = True, figsize = (6, 4));
     """
 
     from .hcl_palettes import hcl_palettes
@@ -17,7 +26,7 @@ def divergingx_palettes(n = 5, **kwargs):
 
 
 def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, ncol = 4, **kwargs):
-    """Gives access to the default color palettes of the colorspace package.
+    """Load Pre-Defined HCL Palettes
 
     The method can be used to display the default color palettes or subsets or
     to get a `colorspace.palettes.hclpalettes` object. 
@@ -47,21 +56,14 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         custom (defaultpalette): One or multiple
             defaultpalettes can be provided in addition.
         ncol (int): Positive integer, number of columns, defaults to 4.
-        **kwargs: Forwarded to :py:func:`colorspace.swatchplot.swatchplot` if
-            argument `plot = True`.
+        **kwargs: Forwarded to the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>` 
+            function if `plot = True`.
 
     Returns:
         None or `colorspace.palettes.hclpalettes`: If `plot = True`
         `None` a plot will be created and `None` is returned. If `plot = False` (default)
         an object of class `colorspace.palettes.hclpalettes` will
         be returned.
-
-    Example:
-
-        >>> from colorspace import hcl_palettes
-        >>> hcl_palettes(type_ = "Basic: Diverging")
-        >>> hcl_palettes(n = 5,  type_ = "Basic: Diverging", plot = True, ncol = 1)
-        >>> hcl_palettes(n = 51, type_ = "Advanced: Diverging", plot = True, ncol = 1)
 
     Raises:
         TypeError: If 'n'/'ncol' not of type integer.
@@ -75,28 +77,48 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
 
         Basic usage:
 
-        >>> from colorspace.hcl_palettes import hcl_palettes
+        >>> from colorspace import hcl_palettes
+        >>> # Get all pre-defined HCL palettes shipped with the package
+        >>> hcl_palettes()
+        >>> #: Get all diverging HCL palettes (basic and advanced)
+        >>> hcl_palettes(type_ = "Diverging")
+        >>> #: Get only basic diverging HCL palettes
+        >>> hcl_palettes(type_ = "Basic: Diverging")
+        >>> #: Get specific HCL palettes by name
+        >>> hcl_palettes(name = ["Oranges", "Tropic"]) 
         >>>
-        >>> print hcl_palettes()
-        >>> print hcl_palettes(type_ = "Diverging")
-        >>> print hcl_palettes(name = ["Oranges", "Tropic"]) 
+        >>> #: Visualize all diverging HCL palettes
+        >>> hcl_palettes(type_ = "Diverging",
+        >>>              plot = True, figsize = (10, 6));
+        >>> #: Visualize specific palettes selected by name
+        >>> hcl_palettes(name = ["Oranges", "Tropic"],
+        >>>              plot = True, ncol = 1, figsize = (6, 2));
         >>>
-        >>> print hcl_palettes(type_ = "Diverging", plot = True)
-        >>> print hcl_palettes(name = ["Oranges", "Tropic"], plot = True) 
+        >>> #: Specify number of colors shown
+        >>> hcl_palettes(n = 5,  type_ = "Basic: Diverging",
+        >>>              plot = True, ncol = 1, figsize = (6, 3))
+        >>> #:
+        >>> hcl_palettes(n = 51, type_ = "Advanced: Diverging",
+        >>>              plot = True, ncol = 1, figsize = (6, 8))
         >>>
-        >>> # Loading all available palettes (just to make custom palettes)
-        >>> from colorspace.palettes import hclpalettes
-        >>> pal = hclpalettes()
-        >>> c1 = pal.get_palette("Oranges")
-        >>> c2 = pal.get_palette("Greens")
+        >>> #: Extract specific palettes after loading
+        >>> palettes = hcl_palettes()
+        >>> c1 = palettes.get_palette("Oranges")
+        >>> c1
+        >>> #:
+        >>> c2 = palettes.get_palette("Greens")
+        >>> c2
         >>>
-        >>> # Modify the custom palettes
+        >>> #: Modify palettes by overwriting palette settings
         >>> c1.set(h1 = 99, l2 = 30, l1 = 30)
         >>> c1.rename("Retos custom 1")
         >>> c2.set(h1 = -30, l1 = 40, l2 = 30, c1 = 30, c2 = 40)
         >>> c2.rename("Retos custom 1")
         >>> 
-        >>> hcl_palettes(type_ = "Custom", custom = [c1, c2], plot = True)
+        >>> # Visualize customized palettes
+        >>> hcl_palettes(type_ = "Custom", custom = [c1, c2],
+        >>>              plot = True, ncol = 1, figsize = (6, 1))
+
     """
 
     # Loading pre-defined palettes from within the package
@@ -180,7 +202,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         from numpy import ceil
         nrow = int(ceil((pals.length() + len(pals.get_palette_types())) / ncol))
         swatchplot(pals, nrow = nrow, n = n, **kwargs)
-        return False
+        return
 
 
 
