@@ -30,6 +30,10 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
 
     Examples:
 
+        >>> # Importing modules
+        >>> from colorspace import *
+        >>> from colorspace.colorlib import *
+        >>>
         >>> # Custom list of hex colors (n = 5)
         >>> hexlist    = ["#BCBE57", "#DEDFC0", "#F1F1F1", "#F7D3E7", "#FB99D7"]
         >>> hexlist

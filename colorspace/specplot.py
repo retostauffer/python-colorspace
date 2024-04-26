@@ -16,12 +16,14 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
             same length as the object provided on argument `x`. Allows to draw
             two sets of colors for comparison. Defaults to `None`.
         hcl (bool): Whether or not to plot the HCL color spectrum.
-        palette : bool Whether or not to plot the colors as a color map.
+        palette: bool Whether or not to plot the colors as a color map.
         fix (bool): Should the hues be fixed to be on a smooth(er) curve?
             Details in the method description.
         rgb (bool): Whether or not to plot the RGB color spectrum. Default is
             False.
         title (None or str): title of the figure. Defaults to `None` (no title).
+        fig (None, matplotlib.figure.Figure): If `None`, a new
+            `matplotlib.figure.Figure` is created. 
         **figargs: forwarded to `matplotlib.pyplot.subplot`. Only has an effect
             if `fig = None`.
 

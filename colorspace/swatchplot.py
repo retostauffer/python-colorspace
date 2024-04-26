@@ -16,6 +16,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     * Object of class :py:class:`colorspace.palettes.hclpalettes`.
     * Object of class `matplotlib.colors.LinearSegmentedColormap`
 
+    Requires the ``matplotlib`` to be installed.
+
     Args:
         pals: The color palettes or color objects to be visualized.
             See description for details and examples to demonstrate different
@@ -50,37 +52,39 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         >>> from colorspace import *
         >>>
         >>> # List of hex colors
-        >>> swatchplot(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'])
+        >>> swatchplot(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
+        >>>            figsize = (7, 0.5));
         >>>
-        >>> # Create a custom 'palette' (named):
+        >>> #: Create a custom 'palette' (named):
         >>> from colorspace import palette
-        >>> pal = palette(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'], "named palette")
-        >>> swatchplot(pal)
+        >>> pal = palette(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
+        >>>               "named palette")
+        >>> swatchplot(pal, figsize = (7, 0.5));
         >>>
-        >>> # A HCL palette. 'n' defines the number of colors.
-        >>> swatchplot(sequential_hcl("PuBu"), n = 10)
+        >>> #: A HCL palette. 'n' defines the number of colors.
+        >>> swatchplot(sequential_hcl("PuBu"), n = 10,
+        >>>            figsize = (7, 0.5));
         >>>
-        >>> # Combine all three
+        >>> #: Combine all three
         >>> swatchplot([['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
-        >>>             pal, sequential_hcl("PuBu")], n = 7)
+        >>>             pal, sequential_hcl("PuBu")], n = 7,
+        >>>             figsize = (7, 1.5));
         >>>
-        >>> # A color object (e.g., RGB, HCL, CIELUV, ...)
+        >>> #: A color object (e.g., RGB, HCL, CIELUV, ...)
         >>> from colorspace.colorlib import hexcols
         >>> cobject  = hexcols(heat_hcl()(5))
         >>> cobject.to("HCL")
         >>> print(cobject)
-        >>> swatchplot(cobject)
+        >>> #:
+        >>> swatchplot(cobject, figsize = (7, 0.5));
         >>>
-        >>> # Using dictionaries to add subtitles
+        >>> #: Using dictionaries to add subtitles
         >>> # to 'group' different palettes.
         >>> swatchplot({"Diverging": [diverging_hcl(), diverging_hcl("Red-Green")],
         >>>             "Sequential": [sequential_hcl("ag_Sunset"), sequential_hcl("OrRd")],
         >>>             "Others": [['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
-        >>>                        pal, sequential_hcl("PuBu")]}, n = 15)
+        >>>                        pal, sequential_hcl("PuBu")]}, n = 15);
 
-
-    .. note:
-        Requires the ``matplotlib`` module to be installed.
     """
 
     from numpy import all

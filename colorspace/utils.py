@@ -349,27 +349,27 @@ def adjust_transparency(x, alpha):
         >>> cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
         >>> 
         >>> # Convert 'cols1' into a hexcols object and modify transparency
-        >>> x1 = hexcols(cols1)
-        >>> print(x1)
+        >>> hexcols(cols1)
         >>>
-        >>> # Extract transparency
+        >>> #: Extract transparency
         >>> extract_transparency(x1)
         >>>
-        >>> # Setting constant transparency of 0.5 for all three colors
-        >>> x1 = adjust_transparency(x1, 0.5)
-        >>> print(x1)
+        >>> #: Setting constant transparency of 0.5 for all three colors
+        >>> adjust_transparency(x1, 0.5)
         >>>
-        >>> # Setting custom transparency (adjusting; overwrite existing 0.5)
-        >>> x1 = adjust_transparency(x1, [0.8, 0.4, 0.8]) # Add transparency
-        >>> print(x1)
+        >>> #: Setting custom transparency (adjusting; overwrite existing 0.5)
+        >>> adjust_transparency(x1, [0.8, 0.4, 0.8]) # Add transparency
         >>>
-        >>> # Convert 'cols2' into a hexcols object and extract/remove/add transparency
+        >>> #: Convert 'cols2' into a hexcols object, adding transparency
         >>> x2 = hexcols(cols2)
-        >>> extract_transparency(x2)           # Extract current transparency
-        >>> x2 = adjust_transparency(x2, None) # Remove transparency
-        >>> print(x2)
         >>> extract_transparency(x2)
-        >>> x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8])) # Add again
+        >>>
+        >>> #: Removing transparency, extracting new values (None)
+        >>> x2 = adjust_transparency(x2, None)
+        >>> extract_transparency(x2)
+        >>>
+        >>> #: Adding transparency again
+        >>> x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8]))
         >>> print(x2)
         >>> extract_transparency(x2)
     """
@@ -692,15 +692,9 @@ def max_chroma(H, L, floor = False):
     return C
 
 def darken(col, amount = 0.1, space = "HCL", fixup = True):
-    """Algorithmically lighten or darken colors.
+    """Algorithmically darken colors.
 
-    See `help(lighten)` for more details.
-    """
-    return lighten(col, amount = amount * -1., method = "relative", space = space, fixup = fixup)
-
-
-def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
-    """Algorithmically lighten or darken colors.
+    See also: :py:func:`lighten <colorspace.utils.lighten>`.
 
     Args:
         col: color (or colors) to be manipulated. Can be a
@@ -716,6 +710,43 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
 
     Example:
 
+        >>> from colorspace import darken, lighten, swatchplot
+        >>> original = "#ff3322"
+        >>> lighter  = lighten(original, amount = 0.3, method = "relative", space = "HCL")
+        >>> darker   = darken(original,  amount = 0.3, method = "relative", space = "HCL")
+        >>> swatchplot([lighter, original, darker], show_names = False)
+
+    Raises:
+        TypeError: If `method` is not str.
+        ValueError: If `method` is not one of `"absolute"` or `"relative"`.
+        TypeError: If `space` is not str.
+        ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
+        TypeError: If input 'col' is not among the one of the recognized objects.
+        TypeError: If `fixup` is not boolean.
+    """
+    return lighten(col, amount = amount * -1., method = "relative", space = space, fixup = fixup)
+
+
+def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
+    """Algorithmically lighten colors.
+
+    See also: :py:func:`darken <colorspace.utils.darken>`.
+
+    Args:
+        col: color (or colors) to be manipulated. Can be a
+            :py:class:`colorobject <colorspace.colorlib.colorobject>`,,
+            a :py:class:`palette <colorspace.palettes.palette>` object, or a
+            single string/list of strings with valid hex colors.
+        amount (float): value between `[0., 1.]` with the amount the colors
+            should be lightened. Defaults to `0.1`.
+        method (str): either `"relative"` (default) or `"absolute"`.
+        space (str): one of `"HCL"` or `"HSV"`. Defaults to `"HCL"`.
+        fixup (bool): should colors which fall outside the defined RGB space
+            be fixed (corrected)? Defaults to `True`.
+
+    Example:
+
+        >>> from colorspace import darken, lighten, swatchplot
         >>> original = "#ff3322"
         >>> lighter  = lighten(original, amount = 0.3, method = "relative", space = "HCL")
         >>> darker   = darken(original,  amount = 0.3, method = "relative", space = "HCL")

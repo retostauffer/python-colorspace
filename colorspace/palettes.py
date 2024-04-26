@@ -118,7 +118,7 @@ class palette:
         ###TODO(R) Remove? Return [str(x) for x in self._colors]
 
     def swatchplot(self, **kwargs):
-        """Interfacing the :py:func:`swatchplot.swatchplot` function.
+        """Interfacing the :py:func:`colorspace.swatchplot.swatchplot` function.
         Plotting the spectrum of the current color palette.
 
         Args:
@@ -326,8 +326,8 @@ class defaultpalette:
 
         Args:
             **kwargs: A set of named arguments (``key = value`` pairs) where the key
-            defines the parameter which should be overruled, value the
-            corresponding value. Allowed value types are bool, int, and float.
+                defines the parameter which should be overruled, value the
+                corresponding value. Allowed value types are bool, int, and float.
         """
         for key,val in kwargs.items():
             #if not key in self._settings_.keys():
@@ -425,7 +425,7 @@ class defaultpalette:
 # -------------------------------------------------------------------
 class hclpalettes:
     """Prepares the pre-specified hclpalettes.  Reads the config files and creates
-    a set of :py:class:`defaultpalette` objects.
+    a set of :py:class:`palettes.defaultpalette` objects.
 
     Args:
         files (None, str list): If `None` (default) the default color palette
@@ -713,13 +713,13 @@ class hclpalette:
         return self.colors(*args, **kwargs)
 
     def specplot(self, n = 180, *args, **kwargs):
-        """Interfacing the :py:func:`specplot.specplot` function.
+        """Interfacing the :py:func:`colorspace.specplot.specplot` function.
         Plotting the spectrum of the current color palette.
 
         Args:
             n (int): Number of colors, defaults to 180.
-            *args: Forwarded to :py:func:`specplot.specplot`.
-            **kwargs: Forwarded to :py:func:`specplot.specplot`.
+            *args: Forwarded to :py:func:`colorspace.specplot.specplot`.
+            **kwargs: Forwarded to :py:func:`colorspace.specplot.specplot`.
 
         Example:
 
@@ -735,7 +735,7 @@ class hclpalette:
         return
 
     def swatchplot(self, n = 7, *args, **kwargs):
-        """Interfacing the :py:func:`swatchplot.swatchplot` function.
+        """Interfacing the :py:func:`colorspace.swatchplot.swatchplot` function.
         Plotting the spectrum of the current color palette.
 
         Args:
@@ -1432,7 +1432,7 @@ class diverging_hcl(hclpalette):
         >>> b.colors(10)
         >>> # The standard call of the object also returns hex colors. Thus,
         >>> # you can make your code slimmer by calling:
-        >>> diverging_hcl("Dynamic")(10)
+        >>> diverging_hcl("Temp")(10)
     """
 
     _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]

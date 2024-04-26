@@ -12,11 +12,15 @@
 #' 
 
 def deutan(cols, severity = 1., linear = True):
-    """Transformation of R colors by simulating color vision
-    deficiencies, based on a CVD transform matrix.
-    This function is a interface to the CVD object and
-    returns simulated colors for deuteranope vision
-    (green-yellow-red weakness).
+    """Simulate Color Vision Deficiency
+
+    Transformation of colors by simulating color vision deficiencies, based on
+    a CVD transform matrix. This function is a interface to the CVD object and
+    returns simulated colors for deuteranope vision (green-yellow-red
+    weakness).
+
+    See also :py:func:`protan`, :py:func:`tritan`, :py:func:`desaturate`, and
+    :py:func:`cvd_emulator`.
 
     Args:
         cols (list of str or colorobject): A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
@@ -30,28 +34,30 @@ def deutan(cols, severity = 1., linear = True):
         colorobject: Returns an object of the same type as the input object ``cols`` with
         modified colors as people with deuteranomaly see these colors (simulated).
 
-    See Also:
-        :py:func:`protan`, :py:func:`tritan`,
-        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
-
     Example:
 
-        >>> from colorspace import rainbow_hcl, specplot
+        >>> from colorspace import rainbow_hcl, deutan, palette
+        >>> from colorspace import specplot, swatchplot
+        >>>
+        >>> # Drawing 100 colors along the HCL rainbow color palette
         >>> cols = rainbow_hcl()(100)
-        >>> specplot(cols)
-        >>> specplot(deutan(cols))
-        >>> specplot(deutan(cols, 0.5))
+        >>> specplot(cols);
+        >>> specplot(deutan(cols));
+        >>> specplot(deutan(cols, 0.5));
         >>>
-        >>> # List of (hex) colors
+        >>> #: List of (hex) colors
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
-        >>> deutan(cols)
-        >>> swatchplot([cols, deutan(cols)], show_names = False)
+        >>> deutan(cols);
         >>>
-        >>> # From palette object
+        >>> #: Visualize original and simulated color swatches
+        >>> swatchplot([cols, deutan(cols)], show_names = False,
+        >>>            figsize = (7, 1));
+        >>>
+        >>> #: From palette object
         >>> pal = palette(cols, name = "custom palette")
         >>> deutan(pal)
         >>>
-        >>> # From cmap (returns cmap)
+        >>> #: From cmap (returns cmap)
         >>> deutan(pal.cmap())
     """
 
@@ -62,10 +68,14 @@ def deutan(cols, severity = 1., linear = True):
 
 
 def protan(cols, severity = 1., linear = True):
-    """Transformation of R colors by simulating color vision
-    deficiencies, based on a CVD transform matrix.
-    This function is a interface to the CVD object and
+    """Simulate Color Vision Deficiency
+
+    Transformation of colors by simulating color vision deficiencies, based on
+    a CVD transform matrix. This function is a interface to the CVD object and
     returns simulated colors for protanope vision.
+
+    See also :py:func:`deutan`, :py:func:`tritan`, :py:func:`desaturate`, and
+    :py:func:`cvd_emulator`.
 
     Args:
         cols (list of str or :py:class:`colorobject`): A colorobject (such as RGB,
@@ -81,28 +91,30 @@ def protan(cols, severity = 1., linear = True):
         ``cols`` with modified colors as people with protanope color vision
         might see the colors (simulated).
 
-    See Also:
-        :py:func:`deutan`, :py:func:`tritan`,
-        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
-
     Example:
 
-        >>> from colorspace import rainbow_hcl, specplot
-        >>> cols = rainbow_hcl()(100)
-        >>> specplot(cols)
-        >>> specplot(protan(cols))
-        >>> specplot(protan(cols, 0.5))
+        >>> from colorspace import rainbow_hcl, protan, palette
+        >>> from colorspace import specplot, swatchplot
         >>>
-        >>> # List of (hex) colors
+        >>> # Drawing 100 colors along the HCL rainbow color palette
+        >>> cols = rainbow_hcl()(100)
+        >>> specplot(cols);
+        >>> specplot(protan(cols));
+        >>> specplot(protan(cols, 0.5));
+        >>>
+        >>> #: List of (hex) colors
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
         >>> protan(cols)
-        >>> swatchplot([cols, protan(cols)], show_names = False)
         >>>
-        >>> # From palette object
+        >>> #: Visualize original and simulated color swatches
+        >>> swatchplot([cols, protan(cols)], show_names = False,
+        >>>            figsize = (7, 1));
+        >>>
+        >>> #: From palette object
         >>> pal = palette(cols, name = "custom palette")
         >>> protan(pal)
         >>>
-        >>> # From cmap (returns cmap)
+        >>> #: From cmap (returns cmap)
         >>> protan(pal.cmap())
     """
 
@@ -113,10 +125,14 @@ def protan(cols, severity = 1., linear = True):
 
 
 def tritan(cols, severity = 1., linear = True):
-    """Transformation of R colors by simulating color vision
-    deficiencies, based on a CVD transform matrix.
-    This function is a interface to the CVD object and
-    returns simulated colors for tritanope vision.
+    """Simulate Color Vision Deficiency
+
+    Transformation of R colors by simulating color vision deficiencies, based
+    on a CVD transform matrix. This function is a interface to the CVD object
+    and returns simulated colors for tritanope vision.
+
+    See also :py:func:`deutan`, :py:func:`protan`, :py:func:`desaturate`, and
+    :py:func:`cvd_emulator`.
 
     Args:
         cols (list of str or :py:class:`colorobject`):
@@ -127,32 +143,34 @@ def tritan(cols, severity = 1., linear = True):
             linearized RGB coordinates (default)? If `False`, the transformation is applied to the
             gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
-    See Also:
-        :py:func:`deutan`, :py:func:`protan`,
-        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
-
     Returns:
         colorobject: Returns an object of the same type as the input object ``cols`` with
         modified colors as people with tritanomaly see these colors (simulated).
 
     Example:
 
-        >>> from colorspace import rainbow_hcl, specplot
-        >>> cols = rainbow_hcl()(100)
-        >>> specplot(cols)
-        >>> specplot(tritan(cols))
-        >>> specplot(tritan(cols, 0.5))
+        >>> from colorspace import rainbow_hcl, tritan, palette
+        >>> from colorspace import specplot, swatchplot
         >>>
-        >>> # List of (hex) colors
+        >>> # Drawing 100 colors along the HCL rainbow color palette
+        >>> cols = rainbow_hcl()(100)
+        >>> specplot(cols);
+        >>> specplot(tritan(cols));
+        >>> specplot(tritan(cols, 0.5));
+        >>>
+        >>> #: List of (hex) colors
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
         >>> tritan(cols)
-        >>> swatchplot([cols, tritan(cols)], show_names = False)
         >>>
-        >>> # From palette object
+        >>> #: Visualize original and simulated color swatches
+        >>> swatchplot([cols, tritan(cols)], show_names = False,
+        >>>            figsize = (7, 1));
+        >>>
+        >>> #: From palette object
         >>> pal = palette(cols, name = "custom palette")
         >>> tritan(pal)
         >>>
-        >>> # From cmap (returns cmap)
+        >>> #: From cmap (returns cmap)
         >>> tritan(pal.cmap())
     """
 
@@ -172,6 +190,9 @@ class CVD(object):
     No return values, initializes a new CVD object which provides functions
     to manipulate the colors acording to the color deficiency (``type_``).
 
+    See also: :py:func:`deutan`, :py:func:`protan`, and :py:func:`tritan`, which are
+    convenience functions for this class.
+
     Args:
         cols (list of str or :py:class:`colorobject`):
             A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
@@ -183,23 +204,23 @@ class CVD(object):
             linearized RGB coordinates (default)? If `False`, the transformation is applied to the
             gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
-    See Also:
-        :py:func:`deutan`, :py:func:`protan`, and :py:func:`tritan`, which are
-        convenience interfaces for this class.
 
     Example:
 
         >>> from colorspace import rainbow_hcl
         >>> cols = rainbow_hcl()(10)
+        >>>
+        >>> # Modify colors by emulating color vision deficiency
         >>> from colorspace.CVD import CVD
         >>> deut = CVD(cols, "deutan")
         >>> prot = CVD(cols, "protan")
         >>> trit = CVD(cols, "tritan")
         >>>
+        >>> # Spectrum plots of modified colors
         >>> from colorspace import specplot
-        >>> specplot(deut.colors())
-        >>> specplot(prot.colors())
-        >>> specplot(trit.colors())
+        >>> specplot(deut.colors(), figsize = (7, 0.5));
+        >>> specplot(prot.colors(), figsize = (7, 0.5));
+        >>> specplot(trit.colors(), figsize = (7, 0.5));
 
     Raises:
         TypeError: If `type_` not str.
@@ -414,8 +435,7 @@ class CVD(object):
         Returns:
             list: Returns a list of hex colors.
 
-        .. todo::
-            Alpha handling in CVD._simulate.
+        TODO: Alpha handling in CVD._simulate.
         """
 
 
@@ -495,6 +515,10 @@ def desaturate(cols, amount = 1.):
     space. In HCL, In HCL, chroma is reduced and then the color is transformed
     back to a colorobject of the same class as the input.
 
+    See also::py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
+    :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
+
+
     Args:
         cols (str, list, or colorobject): A colorspace color object such as
             RGB, hexcols, CIELUV, etc.
@@ -503,10 +527,6 @@ def desaturate(cols, amount = 1.):
 
     Returns:
         list: Returns a list of modified hex colors.
-
-    See Also:
-        :py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
-        :py:func:`desaturate`, and `:py:func:`cvd_emulator`.
 
     Example:
 
