@@ -14,7 +14,7 @@ def deutan(cols, severity = 1., linear = True):
     """Simulate Color Vision Deficiency
 
     Transformation of colors by simulating color vision deficiencies, based on
-    a CVD transform matrix. This function is a interface to the CVD object and
+    a CVD transform matrix. This function is an interface to the CVD object and
     returns simulated colors for deuteranope vision (green-yellow-red
     weakness).
 
@@ -22,16 +22,17 @@ def deutan(cols, severity = 1., linear = True):
     :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
 
     Args:
-        cols (list of str, colorobject): A list of valid hex colors (str)
-            or a colorobject (such as RGB, HCL, CIEXYZ).
-        severity (float): Severity in ``[0., 1.]``. Zero means no deficiency, one
-            maximum deficiency, defaults to 1.0.
+        cols (list, colorobject, matplotlib.colors.LinearSegmentedColormap):
+            Single hex color, list of hex colors (str), a matoplotlib cmap, or
+            a color color object (such as RGB, hexcols, CIELUV).
+        severity (float): Severity in `[0., 1.]`. Zero means no deficiency, one
+            maximum deficiency, defaults to `1.`.
         linear (bool): Should the color vision deficiency transformation be applied to the
-            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            linearised RGB coordinates (default)? If `False`, the transformation is applied to the
             gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
     Returns:
-        colorobject: Returns an object of the same type as the input object ``cols`` with
+        colorobject: Returns an object of the same type as the input object `cols` with
         modified colors as people with deuteranomaly see these colors (simulated).
 
     Example:
@@ -71,24 +72,24 @@ def protan(cols, severity = 1., linear = True):
     """Simulate Color Vision Deficiency
 
     Transformation of colors by simulating color vision deficiencies, based on
-    a CVD transform matrix. This function is a interface to the CVD object and
+    a CVD transform matrix. This function is an interface to the CVD object and
     returns simulated colors for protanope vision.
 
     See also :py:func:`deutan`, :py:func:`tritan`, :py:func:`desaturate`, and
     :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
 
     Args:
-        cols (list of str, colorobject): A list of valid hex colors (str)
+        cols (list, colorobject, matplotlib.colors.LinearSegmentedColormap): A list of valid hex colors (str)
             or a colorobject (such as RGB, HCL, CIEXYZ).
-        severity (float): Severity in ``[0., 1.]``. Zero means no deficiency, one
-            maximum deficiency, defaults to 1.0.
+        severity (float): Severity in `[0., 1.]`. Zero means no deficiency, one
+            maximum deficiency, defaults to `1.`.
         linear (bool): Should the color vision deficiency transformation be applied to the
-            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            linearised RGB coordinates (default)? If `False`, the transformation is applied to the
             gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
     Returns:
         colorobject: Returns an object of the same type as the input object
-        ``cols`` with modified colors as people with protanope color vision
+        `cols` with modified colors as people with protanope color vision
         might see the colors (simulated).
 
     Example:
@@ -128,23 +129,24 @@ def tritan(cols, severity = 1., linear = True):
     """Simulate Color Vision Deficiency
 
     Transformation of R colors by simulating color vision deficiencies, based
-    on a CVD transform matrix. This function is a interface to the CVD object
+    on a CVD transform matrix. This function is an interface to the CVD object
     and returns simulated colors for tritanope vision.
 
     See also :py:func:`deutan`, :py:func:`protan`, :py:func:`desaturate`, and
     :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
 
     Args:
-        cols (list of str, colorobject): A list of valid hex colors (str)
-            or a colorobject (such as RGB, HCL, CIEXYZ).
-        severity (float): Severity in ``[0., 1.]``. Zero means no deficiency,
-            one maximum deficiency, defaults to 1.0.
+        cols (list, colorobject, matplotlib.colors.LinearSegmentedColormap):
+            Single hex color, list of hex colors (str), a matoplotlib cmap, or
+            a color color object (such as RGB, hexcols, CIELUV).
+        severity (float): Severity in `[0., 1.]`. Zero means no deficiency,
+            one maximum deficiency, defaults to `1.`.
         linear (bool): Should the color vision deficiency transformation be applied to the
-            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            linearised RGB coordinates (default)? If `False`, the transformation is applied to the
             gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
     Returns:
-        colorobject: Returns an object of the same type as the input object ``cols`` with
+        colorobject: Returns an object of the same type as the input object `cols` with
         modified colors as people with tritanomaly see these colors (simulated).
 
     Example:
@@ -181,27 +183,26 @@ def tritan(cols, severity = 1., linear = True):
 
 
 class CVD(object):
-    """Object to simulate color vision deficiencies (CVD)
+    """Simulate Color Vision Defficiency
+
+    Class simulating color vision deficiencies (CVD)
     for protanope, deteranope, and tritanope visual constraints.
-    There are wrapper functions to provide simple access for
-    the users, see :py:func:`deutan`, :py:func:`protan`, and
-    :py:func:`tritan`.
+    End-users are advised to use the convenience functions
+    :py:func:`deutan`, :py:func:`protan`, and :py:func:`tritan`.
 
-    No return values, initializes a new CVD object which provides functions
-    to manipulate the colors acording to the color deficiency (``type_``).
-
-    See also: :py:func:`deutan`, :py:func:`protan`, and :py:func:`tritan`, which are
-    convenience functions for this class.
+    No return values, initializes a new CVD object providing methods
+    to manipulate the colors according to the color deficiency (`type_`).
 
     Args:
-        cols (list of str or :py:class:`colorobject`):
-            A colorobject (such as RGB, HCL, CIEXYZ) or a list of hex colors
-        type_ (str): Type of the deficiency which should be simulated. Currently
-            allowed are ``deutan``, ``protan``, and ``tritan``
-        severity (float): Severity in ``[0., 1.]``. Zero means no deficiency,
+        cols (list, colorobject, matplotlib.colors.LinearSegmentedColormap):
+            Single hex color, list of hex colors (str), a matoplotlib cmap, or
+            a color color object (such as RGB, hexcols, CIELUV).
+        type_ (str): Type of the deficiency which should be simulated; one
+            of `"deutan"`, `"protan"`, and `"tritan"`
+        severity (float): Severity in `[0., 1.]`. Zero means no deficiency,
             one maximum deficiency, defaults to 1.0.
         linear (bool): Should the color vision deficiency transformation be applied to the
-            linearized RGB coordinates (default)? If `False`, the transformation is applied to the
+            linearised RGB coordinates (default)? If `False`, the transformation is applied to the
             gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).
 
 
@@ -223,11 +224,11 @@ class CVD(object):
         >>> specplot(trit.colors(), figsize = (7, 0.5));
 
     Raises:
-        TypeError: If `type_` not str.
-        ValueError: If `type_` not among the allowed types. Not case sensitive.
-        TypeError: If `severity` is no float or integer.
-        ValueError: If `severity` not in `[0., 1.]`.
-        TypeError: If `linear` is no boolean.
+        TypeError: If argument `type_` not string.
+        ValueError: If argument `type_` not among the allowed types. Not case sensitive.
+        TypeError: If argument `severity` is no float or integer.
+        ValueError: If argument `severity` not in `[0., 1.]`.
+        TypeError: If argument `linear` is no boolean.
     """
 
     ALLOWED   = ["protan", "tritan", "deutan"]
@@ -239,26 +240,24 @@ class CVD(object):
         from colorspace import palettes
 
         if not isinstance(severity, (int, float)):
-            raise TypeError("Argument 'severity' must be float or integer in `[0., 1.]`.")
+            raise TypeError("argument `severity` must be float (`[0., 1.]`) or int (`[0, 1]`).")
         elif isinstance(severity, int): severity = float(severity)
         if severity < 0. or severity > 1.:
-            raise ValueError("Severity must be in `[0., 1.]`.")
+            raise ValueError("argument `severity` must be in `[0., 1.]`.")
         if not isinstance(linear, bool):
-            raise TypeError("Input `linear` must be boolean `True` or `False`.")
+            raise TypeError("argument `linear` must be boolean `True` or `False`.")
 
         # Checking type
         if not isinstance(type_, str):
-            raise TypeError("Input 'type_' must be str.")
+            raise TypeError("argument `type_` must be str.")
         if not type_.lower() in self.ALLOWED:
-            raise ValueError("Input 'type_' wrong, has to be one of {:s}.".format(
-                ", ".join(self.ALLOWED)))
+            raise ValueError(f"argument `type_` wrong, has to be one of {', '.join(self.ALLOWED)}.")
 
         self._type     = type_.lower()
         self._severity = severity
         self._linear   = linear
 
         # Check if we have a matplotlib.cmap
-        # TODO(R): Really needed? If so write tests and examples
         try:
             from matplotlib.colors import LinearSegmentedColormap
             if isinstance(cols, LinearSegmentedColormap):
@@ -272,6 +271,9 @@ class CVD(object):
         # store it in a list. Will then be handled further down as 'list' object.
         if isinstance(cols, palettes.palette):
             cols = cols.colors()
+        # Single hex string to list
+        elif isinstance(cols, str):
+            cols = [cols]
 
         # Checking input `cols`:
         # TODO(R): See comment above. Needed?
@@ -283,12 +285,12 @@ class CVD(object):
                         B = [x[1] for x in cols._segmentdata["blue"]])
             self._hexinput = False
 
-        elif isinstance(cols, (str, list, tuple)):
+        elif isinstance(cols, (str, list)):
             from .utils import check_hex_colors
             from .colorlib import hexcols
 
             # Check/convert colors
-            cols = check_hex_colors(list(cols))
+            cols = check_hex_colors(cols)
 
             # Internally: create a hexcols object and store
             # self._hexinput = True. Will be used to also return
@@ -304,32 +306,42 @@ class CVD(object):
         # Convert
         from copy import deepcopy
         self._colors_ = deepcopy(cols)
+        print(self._colors_)
 
     def _tomat(self, x):
-        """Helper function to convert input ``x`` to a proper ``(3x3)``
-        `numpy.ndarray`` matrix.
+        """Transformation/Rotation Matrix
+
+        Helper function to convert input `x` to a proper (3 x 3)
+        `numpy.ndarray` (matrix).
 
         Returns:
-            numpy.ndarray: Returns a numpy float matrix of shape ``3 x 3``.
+            numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The color deficiency transformation or rotation matrix.
         """
         from numpy import reshape, asarray
         return asarray(x, dtype = float).reshape((3,3), order = "F")
 
     def protan_cvd_matrizes(self, s):
-        """Returns the transformation matrix to simpulate
+        """Protanope Transformation Matrix
+
+        Returns the transformation matrix to simulate
         protanope color vision deficiency.
 
         Args:
-            s (int): An integer in ``[0, 11]`` to specify which matrix sould be
-                returned.
+            s (int): An integer in `[0, 11]` to specify which matrix to be returned.
 
         Returns:
-            numpy.ndarray: Returns a numpy float matrix of shape ``3 x 3``.
+            numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The color deficiency transformation or rotation matrix.
-        """
 
-        # Protan CVD
+        Raises:
+            TypeError: If argument `s` is no integer.
+            ValueError: If argument `s` is not in `[0, 11]`.
+        """
+        if not isinstance(s, int): raise TypeError("argument `s` must be int")
+        elif s < 0 or s > 11:      raise ValueError("argument `s` must be in [0, 11]")
+
+        # Protanope CDV transformation matrix definition
         x = []
         x.append(self._tomat(( 1.000000,  0.000000, -0.000000, 0.000000,  1.000000,  0.000000, -0.000000, -0.000000,  1.000000)))
         x.append(self._tomat(( 0.856167,  0.182038, -0.038205, 0.029342,  0.955115,  0.015544, -0.002880, -0.001563,  1.004443)))
@@ -345,19 +357,27 @@ class CVD(object):
         return x[s]
 
 
-    # deutan CVD
     def deutan_cvd_matrizes(self, s):
-        """Returns the transformation matrix to simpulate
+        """Deuteranope Transformation Matrix
+
+        Returns the transformation matrix to simulate
         deuteranope color vision deficiency.
 
         Args:
-            s (int): An integer in ``[0, 11]`` to specify which matrix sould be
-                returned.
+            s (int): An integer in `[0, 11]` to specify which matrix to be returned.
 
         Returns:
-            numpy.ndarray: Returns a numpy float matrix of shape ``3 x 3``.
+            numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The color deficiency transformation or rotation matrix.
+
+        Raises:
+            TypeError: If argument `s` is no integer.
+            ValueError: If argument `s` is not in `[0, 11]`.
         """
+        if not isinstance(s, int): raise TypeError("argument `s` must be int")
+        elif s < 0 or s > 11:      raise ValueError("argument `s` must be in [0, 11]")
+
+        # Deuteranope CDV transformation matrix definition
         x = []
         x.append(self._tomat(( 1.000000,  0.000000, -0.000000, 0.000000,  1.000000,  0.000000, -0.000000, -0.000000,  1.000000)))
         x.append(self._tomat(( 0.866435,  0.177704, -0.044139, 0.049567,  0.939063,  0.011370, -0.003453,  0.007233,  0.996220)))
@@ -375,18 +395,26 @@ class CVD(object):
 
     # tritanomaly CVD
     def tritan_cvd_matrizes(self, s):
-        """Returns the transformation matrix to simpulate
+        """Tritanope Transformation Matrix
+
+        Returns the transformation matrix to simulate
         tritanope color vision deficiency.
 
         Args:
-            s (int): An integer in ``[0, 11]`` to specify which matrix sould be
-                returned.
+            s (int): An integer in `[0, 11]` to specify which matrix to be returned.
 
         Returns:
-            numpy.ndarray: Returns a numpy float matrix of shape ``3 x 3``.
+            numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The color deficiency transformation or rotation matrix.
-        """
 
+        Raises:
+            TypeError: If argument `s` is no integer.
+            ValueError: If argument `s` is not in `[0, 11]`.
+        """
+        if not isinstance(s, int): raise TypeError("argument `s` must be int")
+        elif s < 0 or s > 11:      raise ValueError("argument `s` must be in [0, 11]")
+
+        # Tritanope CDV transformation matrix definition
         x = []
         x.append(self._tomat(( 1.000000,  0.000000, -0.000000,  0.000000,  1.000000,  0.000000, -0.000000, -0.000000,  1.000000)))
         x.append(self._tomat(( 0.926670,  0.092514, -0.019184,  0.021191,  0.964503,  0.014306,  0.008437,  0.054813,  0.936750)))
@@ -402,16 +430,20 @@ class CVD(object):
         return x[s]
 
     def _interpolate_cvd_transform(self):
-        """Method to interpolate the color vision deficiendy transformation
-        or rotation matrices.
+        """Interpolate Transformation Matrices
+
+        The package provides 12 transformation matrices for deuteranope,
+        protanope, and tritanope color vision deficiencies. To allow for
+        more gradual changes, these matrices are linearly interpolated
+        depending on the severity requested, performed by this method.
 
         Returns:
-            numpy.ndarray: Returns a numpy float matrix of shape ``3 x 3``.
+            numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The interpolated color deficiency transformation or rotation matrix.
         """
 
         # Getting severity
-        fun = getattr(self, "{:s}_cvd_matrizes".format(self._type.lower()))
+        fun = getattr(self, f"{self._type.lower()}_cvd_matrizes")
         severity = self._severity
         if severity <= 0.:
             cvd = fun(0)
@@ -430,10 +462,13 @@ class CVD(object):
         return cvd
 
     def _simulate(self):
-        """Performs the color transformation/simulation.
+        """Perform Color Transformation
+
+        Performs the transformation of colors to simulate color
+        vision deficiency.
 
         Returns:
-            list: Returns a list of hex colors.
+            list: Returns a list of hex colors (str).
 
         TODO: Alpha handling in CVD._simulate.
         """
@@ -474,12 +509,16 @@ class CVD(object):
             return copy(cols)
 
     def colors(self):
-        """Get color object.
+        """Get Color Object
+
+        Allows to extract the modified colors (simulated color vision deficiency)
+        to be used otherwise. The return is a color object of the same class
+        as the original input to `CVD`.
 
         Returns:
-            colorobject: Returns the colors of the object with simulated colors
-            for the color vision deficiency as specified when initializing the
-            object.
+            colorobject, matplotlib.colors.LinearSegmentedColormap: Returns
+            the colors of the object with simulated colors for the color vision
+            deficiency as specified when initializing the object.
         """
 
         # If input was no matplotlib cmap
@@ -493,13 +532,17 @@ class CVD(object):
             b    = sRGB.get("B")
 
             # Get input cmap and manipulate colors
+            from copy import deepcopy
             cmap = self.CMAPINPUT
-            pos  = [x[0] for x in cmap._segmentdata["red"]]
-            cmap._segmentdata = {"red": [], "green": [], "blue": []}
-            for i in range(0, len(pos)):
-                cmap._segmentdata["red"].append(   (pos[i], r[i], r[i]) )
-                cmap._segmentdata["green"].append( (pos[i], g[i], g[i]) )
-                cmap._segmentdata["blue"].append(  (pos[i], b[i], b[i]) )
+            sd   = deepcopy(cmap._segmentdata)
+
+            for i in range(len(sd["red"])):
+                sd["red"][i]   = (sd["red"][i][0],   sd["red"][i][1],   r[i])
+                sd["green"][i] = (sd["green"][i][0], sd["green"][i][1], g[i])
+                sd["blue"][i]  = (sd["blue"][i][0],  sd["blue"][i][1],  b[i])
+            
+            from matplotlib.colors import LinearSegmentedColormap
+            cmap = LinearSegmentedColormap(cmap.name, sd, cmap.N)
 
             return cmap
 
@@ -508,22 +551,24 @@ class CVD(object):
 # The desaturation function
 # -------------------------------------------------------------------
 def desaturate(cols, amount = 1.):
-    """Transform a vector of given colors to the corresponding colors
+    """Desaturate Colors by Chroma Removal in HCL Space
+
+    Transform a vector of given colors to the corresponding colors
     with chroma reduced (by a tunable amount) in HCL space.
 
-    The colors of the color object ``col`` are transformed to the HCL color
-    space. In HCL, In HCL, chroma is reduced and then the color is transformed
-    back to a colorobject of the same class as the input.
+    The color object (`col`) is transformed to the HCL color
+    space where the chroma is reduced, before converted back to the original
+    color space.
 
-    See also::py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
+    See also: :py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
     :py:func:`desaturate`, and `:py:func:`colorspace.cvd_emulator.cvd_emulator`.
 
-
     Args:
-        cols (str, list, or colorobject): A colorspace color object such as
-            RGB, hexcols, CIELUV, etc.
-        amount (float): A value in ``[0.,1.]`` defining the degree of desaturation.
-            ``amount = 1.`` removes all color, ``amount = 0.`` none, defaults to 1.0.
+        cols (str, list, matplotlib.colors.LinearSegmentedColormap, colorobject):
+            Single hex color, list of hex colors (str), a matoplotlib cmap, or
+            a color color object (such as RGB, hexcols, CIELUV).
+        amount (float): A value in `[0.,1.]` defining the degree of desaturation.
+            `amount = 1.` removes all color, `amount = 0.` none, defaults to `1.`.
 
     Returns:
         list: Returns a list of modified hex colors.
@@ -594,12 +639,13 @@ def desaturate(cols, amount = 1.):
     # If we have hex color input: convert to colorspace.colorlib.hexcols
     elif isinstance(cols, list) or isinstance(cols, str):
         cols = hexcols(cols)
+    elif not isinstance(cols, colorobject):
+        import inspect
+        raise TypeError(f"argument `cols` to {inspect.stack()[0][3]} not among the allowed types.")
 
     # From here on "col" needs to be a colorspace.colorlib.colorobject
     if not isinstance(cols, colorobject):
-        import inspect
-        raise ValueError("input to function {:s} ".format(inspect.stack()[0][3]) + \
-                         "has to be of class colorobject (e.g., HCL, CIELUV, ...)")
+        raise Exception("internal error; `cols` should be a colorobject by now but is not")
 
     # Checking amount
     if amount == 0.: return input_cols
@@ -638,17 +684,17 @@ def desaturate(cols, amount = 1.):
 
         # Get input cmap and manipulate colors
         cmap = CMAPINPUT
-        pos  = [x[0] for x in cmap._segmentdata["red"]]
-        cmap._segmentdata = {"red": [], "green": [], "blue": []}
-        for i in range(0, len(pos)):
-            cmap._segmentdata["red"].append(   (pos[i], r[i], r[i]) )
-            cmap._segmentdata["green"].append( (pos[i], g[i], g[i]) )
-            cmap._segmentdata["blue"].append(  (pos[i], b[i], b[i]) )
+        sd   = deepcopy(cmap._segmentdata)
+
+        for i in range(len(sd["red"])):
+            sd["red"][i]   = (sd["red"][i][0],   sd["red"][i][1],   r[i])
+            sd["green"][i] = (sd["green"][i][0], sd["green"][i][1], g[i])
+            sd["blue"][i]  = (sd["blue"][i][0],  sd["blue"][i][1],  b[i])
+        
+        from matplotlib.colors import LinearSegmentedColormap
+        cmap = LinearSegmentedColormap(cmap.name, sd, cmap.N)
 
         return cmap
-
-
-
 
 
 
