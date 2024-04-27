@@ -105,7 +105,7 @@ def protan(cols, severity = 1., linear = True):
         >>>
         >>> #: List of (hex) colors
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
-        >>> protan(cols)
+        >>> protan(cols);
         >>>
         >>> #: Visualize original and simulated color swatches
         >>> swatchplot([cols, protan(cols)], show_names = False,
@@ -162,7 +162,7 @@ def tritan(cols, severity = 1., linear = True):
         >>>
         >>> #: List of (hex) colors
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
-        >>> tritan(cols)
+        >>> tritan(cols);
         >>>
         >>> #: Visualize original and simulated color swatches
         >>> swatchplot([cols, tritan(cols)], show_names = False,
@@ -306,7 +306,6 @@ class CVD(object):
         # Convert
         from copy import deepcopy
         self._colors_ = deepcopy(cols)
-        print(self._colors_)
 
     def _tomat(self, x):
         """Transformation/Rotation Matrix
@@ -535,11 +534,12 @@ class CVD(object):
             from copy import deepcopy
             cmap = self.CMAPINPUT
             sd   = deepcopy(cmap._segmentdata)
+            pos  = [x[0] for x in sd["red"]]
 
             for i in range(len(sd["red"])):
-                sd["red"][i]   = (sd["red"][i][0],   sd["red"][i][1],   r[i])
-                sd["green"][i] = (sd["green"][i][0], sd["green"][i][1], g[i])
-                sd["blue"][i]  = (sd["blue"][i][0],  sd["blue"][i][1],  b[i])
+                sd["red"][i]   = (pos[i], r[i], r[i])
+                sd["green"][i] = (pos[i], g[i], g[i])
+                sd["blue"][i]  = (pos[i], b[i], b[i])
             
             from matplotlib.colors import LinearSegmentedColormap
             cmap = LinearSegmentedColormap(cmap.name, sd, cmap.N)
@@ -561,7 +561,7 @@ def desaturate(cols, amount = 1.):
     color space.
 
     See also: :py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
-    :py:func:`desaturate`, and `:py:func:`colorspace.cvd_emulator.cvd_emulator`.
+    :py:func:`desaturate`, and :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
 
     Args:
         cols (str, list, matplotlib.colors.LinearSegmentedColormap, colorobject):
@@ -685,11 +685,12 @@ def desaturate(cols, amount = 1.):
         # Get input cmap and manipulate colors
         cmap = CMAPINPUT
         sd   = deepcopy(cmap._segmentdata)
+        pos  = [x[0] for x in sd["red"]]
 
         for i in range(len(sd["red"])):
-            sd["red"][i]   = (sd["red"][i][0],   sd["red"][i][1],   r[i])
-            sd["green"][i] = (sd["green"][i][0], sd["green"][i][1], g[i])
-            sd["blue"][i]  = (sd["blue"][i][0],  sd["blue"][i][1],  b[i])
+            sd["red"][i]   = (pos[i], r[i], r[i])
+            sd["green"][i] = (pos[i], g[i], g[i])
+            sd["blue"][i]  = (pos[i], b[i], b[i])
         
         from matplotlib.colors import LinearSegmentedColormap
         cmap = LinearSegmentedColormap(cmap.name, sd, cmap.N)
