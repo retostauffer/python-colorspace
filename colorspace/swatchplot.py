@@ -268,7 +268,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             from numpy import linspace
             tmp_R = []; tmp_G = []; tmp_B = []
             for i in linspace(0, 1, n):
-                print(f" Drawing i = {i} from N = {pals.N}")
                 tmp = pals(i)
                 tmp_R.append(tmp[0]); tmp_G.append(tmp[1]); tmp_B.append(tmp[2])
             res = [_pal_to_dict(palette(sRGB(tmp_R, tmp_G, tmp_B), name = pals.name), n)]
