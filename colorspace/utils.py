@@ -16,8 +16,8 @@ def mixcolor(alpha, color1, color2, where = 1):
         where (str): The color space where the mixing is to take place.
 
     Return:
-        colorspace.colorlib.*: Returns an object of the same class as either `color1` (if `where
-        = 1`) or `color2` (if `where = 2`).  Call `.swatchplot()` to check the
+        colorspace.colorlib.*: Returns an object of the same class as either `color1`
+        (if `where = 1`) or `color2` (if `where = 2`). Call `.swatchplot()` to check the
         result or `.colors()` to get a list of mixed hex colors.
 
     Examples:
@@ -145,7 +145,7 @@ def mixcolor(alpha, color1, color2, where = 1):
 # Performs the check on hex color strings to see if they are valid.
 # --------------------------------------------------------------------
 def check_hex_colors(colors, allow_nan = False):
-    """Checking hex colors
+    """Checking Hex Colors Validity
 
     Valid hex colors are three digit hex colors (e.g., `#F00`), six digit
     hex colors (e.g., `#FF00FF`), or six digit colors with additional transparency
@@ -167,14 +167,18 @@ def check_hex_colors(colors, allow_nan = False):
 
     Examples:
         >>> check_hex_colors("#ff003311")
+        >>> #'
         >>> check_hex_colors("#ff0033")
+        >>> #'
         >>> check_hex_colors("#f03")
+        >>> #'
         >>> check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
+        >>> #'
         >>> check_hex_colors(["#FFF", "0", "black", "blue", "magenta"])
         >>>
+        >>> #'
         >>> from numpy import asarray
         >>> check_hex_colors(asarray(["#f0f", "#00F", "#00FFFF", "#ff003311"]))
-        >>>
 
     Raises:
         TypeError: If `allow_nan` is not boolean `True` or `False`.
@@ -247,7 +251,7 @@ def check_hex_colors(colors, allow_nan = False):
 # Get transparency (or None if there is none defined)
 # --------------------------------------------------------------------
 def extract_transparency(x, mode = "float"):
-    """Extracting alpha transparency.
+    """Extract Alpha Channel
 
     Currently only for colorobjects. This function interfaces the
     ``.get()`` method of the object.
@@ -258,8 +262,8 @@ def extract_transparency(x, mode = "float"):
         mode (str): mode of the return. One of `"float"`, `"int"`, or `"str"`.
 
     Returns:
-        numpy.ndarray or None: None if the colorobject has no defined transparency,
-            else a numpy.ndarray is returned. The `dtype` of the array depends
+        None, numpy.ndarray: `None` if the colorobject has no alpha channel,
+            else a numpy.ndarray. The `dtype` of the array depends
             on the `mode` specified.
 
     Raises:
@@ -338,7 +342,7 @@ def extract_transparency(x, mode = "float"):
 # Remove or adjust transparency
 # --------------------------------------------------------------------
 def adjust_transparency(x, alpha):
-    """Adjust alpha transparency.
+    """Adjust Alpha Channel
 
     Allows to set, adjust, or remove transparency (alpha channel).
     In case `alpha` is a single float, a constant
@@ -438,7 +442,7 @@ def adjust_transparency(x, alpha):
 # Calculate relative luminance
 # --------------------------------------------------------------------
 def relative_luminance(colors):
-    """Calculate relative luminance
+    """Calculate Relative Luminance
 
     Given a series of colors this function calculates the relative luminance.
 
@@ -616,15 +620,15 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
 
 
 def max_chroma(H, L, floor = False):
-    """Get maximum chroma for a specific combination of hue and luminance.
+    """Compute Maximum Chroma for Given Hue and Luminance in HCL
 
-    Extracted from a lookup table. Input `H` and `L` can be single values (float, int),
-    lists of values which can be converted to. 
+    Compute approximately the maximum chroma possible for a given hue
+    and luminance combination in the HCL color space.
 
-    H and L can be single values or multiple values. If both have length `> 1` the length
-    must match. If one is of length `1` it will be repeated to match the length of the
-    second argument. In case the function is not able to create two arrays of the same
-    length an error will be thrown.
+    `H` and `L` can be single values or multiple values. If both have length `>
+    1`, the length must match. If one is of length `1` it will be recycled to
+    match the length of the other argument. In case the function is not able to
+    create two arrays of the same length an error will be thrown.
 
     Args:
         H (int, float, list, numpy.ndarray): hue, one or multiple values (must be
@@ -634,12 +638,12 @@ def max_chroma(H, L, floor = False):
         floor (bool): should return be rounded? Defaults to `False`.
 
     Returns:
-        `numpy.array` of the same length as `max(len(H), len(L))` with
+        numpy.ndarray: Array of the same length as `max(len(H), len(L))` with
         maximum possible chroma for these hue-luminance combinations.
 
     Raises:
         TypeError: If unexpected input on `H` or `L`.
-        TypeError: If length of `H` and `L` are not the same (see above).
+        TypeError: If length of `H` and `L` do not match (see description).
         TypeError: If input `floor` is not boolean.
     """
 
@@ -717,9 +721,10 @@ def max_chroma(H, L, floor = False):
     return C
 
 def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
-    """Algorithmically darken colors.
+    """Algorithmically Darken Colors
 
-    See also: :py:func:`lighten <colorspace.utils.lighten>`.
+    Takes one or multiple colors and adjust them sucht hat they apper
+    darkened. See also: :py:func:`lighten`.
 
     Args:
         col: color (or colors) to be manipulated. Can be a
@@ -754,9 +759,10 @@ def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
 
 
 def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
-    """Algorithmically lighten colors
+    """Algorithmically Lighten Colors
 
-    See also: :py:func:`darken <colorspace.utils.darken>`.
+    Takes one or multiple colors and adjust them sucht hat they apper
+    lightened. See also: :py:func:`darken`.
 
     Args:
         col: color (or colors) to be manipulated. Can be a color object
