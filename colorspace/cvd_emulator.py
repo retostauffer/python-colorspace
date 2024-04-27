@@ -2,49 +2,57 @@
 
 def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         output = None, dropalpha = False, **figargs):
-    """Simulate color deficiencies on png/jpg/jpeg figures.
-    Takes an existing pixel image and simulates different color vision
-    deficiencies.
+    """Check Images for Color Constraints
 
-    The function displays a matplotlib figure if output is set to None.
-    If the parameter output is set, the converted figure will be stored.
-    If only one color vision deficiency is defined (e.g., ``cvd = "desaturate"``)
-    a figure of the same type and size as the input figure will be saved to
-    the disc. If multiple cvd's are specified a multi-panel plot will be
-    stored under `output`.
+    Simulate color deficiencies on png, jpg, and jpeg files. Takes an existing
+    pixel image and simulates different color vision deficiencies.
+
+    The function displays a matplotlib figure if `output = None`.
+    If `output` is set, a new figure will be stored with simulated colors.
+    If only one color vision deficiency is defined (e.g., `cvd = "desaturate"`)
+    a figure of the same type and size as the input figure is created.
+    When multiple `cvd`'s are specified, a multi-panel plot will be created.
+
+    Requires the python modules `matplotlib` and `imageio` to be installed.
 
     Args:
         image (str): Name of the figure which should be converted
-            (png/jpg/jpeg).  If ``image = "DEMO"`` the package demo figure will be
-            used.
-        cvd (str, list): The color vision deficiency. Allowed types are
-            deutanope, protanope, tritanope, and desaturated.  Input is either a
-            single string or a list of strings which define the cvd's which should
-            be simulated.
+            (png/jpg/jpeg). If `image = "DEMO"` the package demo figure is used.
+        cvd (str, list): Color vision deficiency or deficiencies. Allowed types are
+            `"deutanope"`, `"protanope"`, `"tritanope"`, `"desaturated"`,
+            and `"original"` (unmodified).
         severity (float): How severe the color vision deficiency is
-            (``[0.,1.]``).  Also used as the amount of desaturation if ``cvd =
-            "desaturate"``.
-        output (string): Optional. It None an interactive plotting window will
-            be opened. If a string is given the figure will be written to
-            ``output``.
-        dropalpha (bool): Whether or not to drop the alpha channel.  Only
-            useful for figures having an alpha channel (png w/ alpha).
+            (`[0.,1.]`).  Also used as the amount of desaturation if `cvd`
+            includes `"desaturate"`.
+        output (None, string): If `None` an interactive plotting window will
+            be opened. A string (file name/path) can be given to write the result
+            to disc.
+        dropalpha (bool): Drop alpha channel, defaults to `False`.  Only
+            useful for png figures having an alpha channel.
         **figargs: forwarded to `matplotlib.pyplot.subplot`.
+
+    Returns:
+        matplotlib.figure.Figure, str: If `output = None` the figure
+        handler is returned, else the return of the function is identical
+        to `output`; the figure which has just been created.
 
     Example:
 
         >>> from colorspace.cvd_emulator import cvd_emulator
-        >>> cvd_emulator("DEMO", "deutan", 0.5)
-        >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png")
-        >>> cvd_emulator("DEMO", ["original", "deutan", "protan"], 0.5, dropalpha = True)
+        >>> cvd_emulator("DEMO", "deutan", 0.5);
+        >>> #:
+        >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png");
+        >>> #:
+        >>> cvd_emulator("DEMO", ["original", "deutan", "protan"],
+        >>>              0.5, dropalpha = True);
 
-    See Also:
-        Internally calling :py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
-        and :py:func:`desaturate` which can also be used directly when working
-        with colors, palettes, and color objects.
-
-    .. note::
-        Requires the modules ``matplotlib`` and ``imageio``.
+    Raises:
+        ValueError: If `cvd` is empty.
+        ValueError: If no valid `cvd` method is provided.
+        FileNotFounderror: If the file specified on `image` does not exist.
+        ImportError: When python module 'imageio' cannot be imported (not installed).
+        IOError: If file `image` cannot be read using `imageio.imread`.
+        ImportError: If `matplotlib.pyplot` cannot be imported (`matplotlib` not installed?).
     """
 
     import os
@@ -54,14 +62,14 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     allowed = ["protan", "tritan", "deutan", "desaturate", "original"]
     tmp     = []
     if isinstance(cvd, str): cvd = [cvd]
-    for c in cvd:
-        if c in allowed:
-            tmp.append(c)
-        else:
-            raise ValueError("cvd type {:s} not allowed. ".format(cvd) + \
-                    "Use {:s}".format(", ".join(allowed)))
     if len(cvd) == 0:
-        raise ValueError("no valid \"cvd\" methods")
+        raise ValueError("no valid `cvd` method provided")
+    else:
+        for c in cvd:
+            if c in allowed:
+                tmp.append(c)
+            else:
+                raise ValueError(f"cvd = \"{cvd}\" not allowed. Allowed: {', '.join(allowed)}.")
     cvd = tmp; del tmp
 
     # If image = "DEMO": use package demo image.
@@ -71,8 +79,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
 
     # Check if file exists
     if not os.path.isfile(image):
-        raise Exception("method {:s}".format(inspect.stack()[0][3]) + \
-                "cannot find image file {:s}".format(image))
+        raise FileNotFoundError(f"file \"{image}\" not found")
 
     # Wrong input for output
     if not output is None and not isinstance(output, str):
@@ -82,15 +89,13 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     try:
         import imageio
     except Exception as e:
-        raise Exception("the {:s} requires the ".format(inspect.stack()[0][3]) + \
-                "python module imageio to be installed: {:s}".format(str(e)))
-
+        raise ImportError(f"requires python module \"imageio\" which is not installed: {e}")
 
     # Read image data
     try:
         img = imageio.imread(image)
     except Exception as e:
-        raise Exception(str(e))
+        raise IOError(str(e))
 
     # Extracting colors (scale from [0,255] to [0.,1.])
     data = {}
@@ -108,13 +113,15 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     else:
         rgba = sRGB(data["R"], data["G"], data["B"], data["alpha"])
 
-
     # Drop alpha
     if dropalpha: rgba.dropalpha()
 
     # Apply color deficiency
     from . import CVD
-    import matplotlib.pyplot as plt
+    try:
+        import matplotlib.pyplot as plt
+    except Exception as e:
+        raise ImportError(f"problems importing `matplotlib.pyplot`: {e}")
 
     from numpy import ceil
     if len(cvd) <= 3: [nrow, ncol] = [1, len(cvd)]
@@ -166,6 +173,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     # Show or save image.
     if output is None:
         plt.show()
+        return plt
     else:
         # Write a simple figure:
         if len(cvd) == 1:
@@ -174,5 +182,5 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         else:
             plt.savefig(output)
 
-
+    return output
 
