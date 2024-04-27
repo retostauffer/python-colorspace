@@ -1,10 +1,13 @@
 
 
 def divergingx_palettes(n = 5, **kwargs):
-    """Gives access to divergingx palettes of the colorspace package.
+    """Diverging X HCL Palettes
+
+    Returns pre-defined 'diverging xtra' color palettes based on the HCL
+    (Hue-Chroma-Luminance) color model.
 
     Args:
-        n (int): number of colors used when plotting. Defaults to `5`.
+        n (int): number of colors used when plotting, defaults to `5`.
         **kwargs: forwarded to :py:func:`hcl_palettes`. For a list and description
             of available arguments see the description of :py:func:`hcl_palettes`.
 
@@ -26,44 +29,46 @@ def divergingx_palettes(n = 5, **kwargs):
 
 
 def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, ncol = 4, **kwargs):
-    """Load Pre-Defined HCL Palettes
+    """Pre-Defined HCL Palettes
 
-    The method can be used to display the default color palettes or subsets or
-    to get a `colorspace.palettes.hclpalettes` object. 
+    Function to retrieve and/or display pre-defined color palettes based on the
+    HCL (Hue-Chroma-Luminance) color model, excludes 'diverging xtra'
+    (see :py:func:`divergingx_palettes`).
+
     The inputs `type_` and `name` can be used to retrieve a custom subset,
-    `custom` can be used to add custom `colorspace.palettes.defaultpalette`
-    objects if needed.
+    `custom` can be used to add custom palettes if if needed.
 
-    Details: `**kwargs` can be used to specify the figure size of the resulting
+    If `plot = True`, `**kwargs` can be used to specify the figure size of the resulting
     image by specifying `figsize = (height, width)` where both, `height`
     and `width` must be int/float, specifying the height and width in inches.
+    Note that `matplotlib` must be installed when `plot = True`.
 
 
     Args:
-        n (int): The number of colors to be plotted, default is 7. Only used if `plot = True`.
-        type_ (None, str, list of str): Given a string or a list of strings
-            only a subset of all available default color maps will be displayed. If
-            not set, all default palettes will be returned/plotted. Can be used in
-            combination with input argument `name`. Uses partial matching, not case sensitive.
+        n (int): The number of colors to be plotted, defaults to `7`.
+            Only used if `plot = True`.
+        type_ (None, str, list): Given a string or a list of strings,
+            only a subset of all available default color maps will
+            returned/displayed. Can be used in combination with input argument
+            `name`. Uses partial matching, not case sensitive.
         name (None, str, list): Similar to `type_`. If not specified
-            all palettes will be returned.  Can be set to a string or a list of
+            all palettes will be returned. Can be set to a string or a list of
             strings containing the names of the palettes which should be
             returned/plotted.
         plot (bool): If `False` (default) an object of type
-            `colorspace.palettes.hclpalette` will be returned containing the
-            (subset) of default color palettes.  Note that matplotlib has to be
-            installed if `plot = True`.
+            :py:class:`hclpalettes` is returned, containing the
+            (subset) of pre-defined HCL color palettes.
         custom (defaultpalette): One or multiple
             defaultpalettes can be provided in addition.
-        ncol (int): Positive integer, number of columns, defaults to 4.
-        **kwargs: Forwarded to the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>` 
+        ncol (int): Positive integer, number of columns, defaults to `4`.
+        **kwargs: Forwarded to the main
+            :py:func:`swatchplot <colorspace.swatchplot.swatchplot>` 
             function if `plot = True`.
 
     Returns:
-        None or `colorspace.palettes.hclpalettes`: If `plot = True`
-        `None` a plot will be created and `None` is returned. If `plot = False` (default)
-        an object of class `colorspace.palettes.hclpalettes` will
-        be returned.
+        None or hclpalettes: If `plot = True`
+        a plot will be created and `None` is returned. If `plot = False` (default)
+        an object of class :py:class:`hclpalettes` is returned.
 
     Raises:
         TypeError: If 'n'/'ncol' not of type integer.
@@ -96,10 +101,10 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         >>>
         >>> #: Specify number of colors shown
         >>> hcl_palettes(n = 5,  type_ = "Basic: Diverging",
-        >>>              plot = True, ncol = 1, figsize = (6, 3))
+        >>>              plot = True, ncol = 1, figsize = (6, 3));
         >>> #:
         >>> hcl_palettes(n = 51, type_ = "Advanced: Diverging",
-        >>>              plot = True, ncol = 1, figsize = (6, 8))
+        >>>              plot = True, ncol = 1, figsize = (6, 8));
         >>>
         >>> #: Extract specific palettes after loading
         >>> palettes = hcl_palettes()
@@ -117,7 +122,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         >>> 
         >>> # Visualize customized palettes
         >>> hcl_palettes(type_ = "Custom", custom = [c1, c2],
-        >>>              plot = True, ncol = 1, figsize = (6, 1))
+        >>>              plot = True, ncol = 1, figsize = (6, 1));
 
     """
 
@@ -190,9 +195,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
 
     # No palettes survived the selection above?
     if len(pals.get_palettes()) == 0:
-        import inspect
-        raise Exception("No palettes found in {:s} matching one of: {:s}".format(
-                inspect.stack()[0][3], ", ".join(type_)))
+        raise Exception(f"no palettes found matching one of: {', '.join(type_)}")
 
     # Return if plot is not required
     if not plot:

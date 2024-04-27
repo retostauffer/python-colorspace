@@ -1,9 +1,10 @@
 
 
 def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
-    """Create color palette swatch plots.
+    """Palette Swatch Plot
 
-    The first argument `pals` is very flexible. It can be
+    Visualization of color palettes in columns of color swatches.
+    The first argument `pals` is very flexible and can be:
 
     * List of hex colors,
     * a single object which inherits from `colorspace.palettes.palette`,
@@ -23,8 +24,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             See description for details and examples to demonstrate different
             usages.
         show_names (bool): Should palette names be shown (if available), defaults to True.
-        nrow (int): Positive; maximum number of rows of swatches, defaults to 20.
-        n (int): (Positive) number of colors to be drawn from palette objects, defaults to 5.
+        nrow (int): Maximum number of rows of swatches, defaults to `20`.
+        n (int): Number of colors to be drawn from palette objects, defaults to `5`.
         cvd (None or list): Allows to display one or multiple palettes and how they look
             with emulated color vision deficiencies. If `None`, this is not applied.
             Can be set to a list of characters. Allowed:
@@ -39,7 +40,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     Raises:
         TypeError: If `nrow` or `n` no integers.
         TypeError: If `show_names` not boolean.
-        ValueERror: If `nrow` or `n` are not positive.
+        ValueError: If `nrow` or `n` are not positive.
+        ImportError: If `matplotlib.pyplot` cannot be imported, maybe `matplotlib` not installed?
 
     Example:
 
@@ -122,21 +124,18 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     try:
         import matplotlib.pyplot as plt
     except ImportError as e:
-        import inspect
-        msg = "{:s} requires matplotlib to be installed: {:s}".format(
-                inspect.stack()[0][3], str(e))
-        raise ImportError(msg)
+        raise ImportError("problems importing `matplotlib.pyplt` (not installed?)")
 
     # Allow the user to specify figure size if needed
     if "figsize" in kwargs:
         figsize = kwargs["figsize"]
         if not isinstance(figsize, tuple) or not len(figsize) == 2:
-            raise ValueError("\"figsize\" must be a tuple of length 2.")
+            raise ValueError("`figsize` must be a tuple of length 2.")
         for i in range(0, 1):
             if not isinstance(figsize[i], int) and not isinstance(figsize[i], float):
-                raise ValueError("Element {:d} in \"figsize\" not int/float.".format(i))
+                raise ValueError(f"element [{i}] in `figsize` not int/float.")
     else:
-        figsize = (5, 4) # default
+        figsize = (5, 4) # default figure size
 
 
     # ---------------------------------------------------------------
@@ -532,3 +531,5 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     fig.show()
 
     return fig
+
+

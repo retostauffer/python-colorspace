@@ -1,28 +1,22 @@
-# -------------------------------------------------------------------
-# - NAME:        demos.py
-# - AUTHOR:      Reto Stauffer
-# - DATE:        2018-09-15
-# -------------------------------------------------------------------
-# - DESCRIPTION:
-# -------------------------------------------------------------------
-# - EDITORIAL:   2018-09-15, RS: Created file on thinkreto.
-# -------------------------------------------------------------------
-# - L@ST MODIFIED: 2018-09-17 16:30 on marvin
-# -------------------------------------------------------------------
-
 
 def demoplot(colors, type_, n = 7, ax = None, **kwargs):
-    """Create demo plots.
+    """Create Demo Plots
+
+    This function is intended to be used by the GUI
+    (:py:func:`choose_palette <colorspace.choose_palette.choose_palette>`)
+    to visualize the color palette selected for a series of different
+    types of plots. It can, however, also be used directly if needed.
+
 
     Arguments:
         colors: The colors, any type which can be handled by 
             :py:func:`palette <colorspace.palettes.palette>`.
-        type_ (str): Name of the demoplot; name of the demo function to be called.
+        type_ (str): Name of the demo function to be called.
             Not case sensitive.
-        n (int): Positive integer, number of colors for the plot. Only used
-            if argument ``colors`` is a palette where a dedicated number of
-            colors must be drawn first. Defaults to 7.
-        title (None, str): used to draw the figure title if specified (str).
+        n (int): Number of colors for the plot. Only used if argument `colors`
+            is a palette where a dedicated number of colors must be drawn first.
+            Defaults to 7.
+        title (None, str): used to draw the figure title, if specified (str).
             Forwarded to different plot types.
         ax (None, matplotlib.axes.Axes): If `None` a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
@@ -39,34 +33,37 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
         >>> # Custom list of hex colors (n = 5)
         >>> hexlist    = ["#BCBE57", "#DEDFC0", "#F1F1F1", "#F7D3E7", "#FB99D7"]
         >>> hexlist
-        >>> # A (HCL based) colorobject with (n = 3)
+        >>> #: A (HCL based) colorobject with (n = 3)
         >>> colorobj = HCL([0, 90, 180], [60, 60, 60], [60, 60, 60])
         >>> colorobj
-        >>> # Default diverging HCL palette
+        >>> #: Default diverging HCL palette
         >>> hclpalette = diverging_hcl()
         >>> hclpalette
-        >>> # Default color palette shipped with the package
+        >>> #: Default color palette shipped with the package
         >>> defaultpalette = hcl_palettes(name = "Berlin").get_palettes()[0]
         >>> defaultpalette
-        >>> # Demoplots
-        >>> demoplot(hexlist,        "Bar")
-        >>> demoplot(colorobj,       "Lines")
-        >>> demoplot(hclpalette,     "Pie", n = 4)
-        >>> demoplot(defaultpalette, "Matrix", n = 11)
+        >>> #: Demoplots
+        >>> demoplot(hexlist,        "Bar");
+        >>> #:
+        >>> demoplot(colorobj,       "Lines");
+        >>> #:
+        >>> demoplot(hclpalette,     "Pie", n = 4);
+        >>> #:
+        >>> demoplot(defaultpalette, "Matrix", n = 11);
         >>>
-        >>> # Using custom subplots and plot titles
+        >>> #: Using custom subplots and plot titles
         >>> from matplotlib import pyplot as plt
         >>> from colorspace import protan, deutan, desaturate
         >>> fig, axes = plt.subplots(2, 2)
         >>> colors = diverging_hcl("Green-Orange").colors(7)
-        >>> demoplot(colors,             "Bar",
-        >>>          title = "Original",           ax = axes[0, 0])
-        >>> demoplot(protan(colors),     "Bar",
-        >>>          title = "Protanope vision",   ax = axes[0, 1])
-        >>> demoplot(deutan(colors),     "Bar",
-        >>>          title = "Deuteranope vision", ax = axes[1, 0])
+        >>> demoplot(colors, "Bar",
+        >>>          title = "Original", ax = axes[0, 0]);
+        >>> demoplot(protan(colors), "Bar",
+        >>>          title = "Protanope vision", ax = axes[0, 1]);
+        >>> demoplot(deutan(colors), "Bar",
+        >>>          title = "Deuteranope vision", ax = axes[1, 0]);
         >>> demoplot(desaturate(colors), "Bar",
-        >>>          title = "Desaturated",        ax = axes[1, 1])
+        >>>          title = "Desaturated", ax = axes[1, 1]);
         >>> fig.show()
 
 
@@ -83,11 +80,11 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
 
     # Sanity checks
     if not isinstance(type_, str):
-        raise TypeError("Argument 'type_' must be string.")
+        raise TypeError("argument 'type_' must be string.")
     if not isinstance(n, int):
-        raise TypeError("Argument 'n' must be integer.")
+        raise TypeError("argument 'n' must be integer.")
     if not n > 0:
-        raise ValueError("Argument 'n' must be a positive integer (number of colors).")
+        raise ValueError("argument 'n' must be a positive integer (number of colors).")
 
     # The palette class does all the checks and conversions for different
     # types of objects such as a single string hex color, lists of hex colors,
@@ -102,15 +99,14 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
 
     # Is the user asking for an available demo plot?
     fun   = None
-    check = compile("^{:s}$".format(type_), IGNORECASE)
+    check = compile(f"^{type_}$", IGNORECASE)
     for avtype in available_types:
         if not check.match(avtype): continue
         fun = avtype
 
     # Not found?
     if fun is None:
-        raise ValueError("No demoplot available for {:s} (Available: {:s}).".format(
-                type_, ", ".join(available_types)))
+        raise ValueError(f"no demoplot available for {type_}. Available: {', '.join(available_types)}")
 
     # Calling the required plotting function
     fun = getattr(demos, fun)
@@ -146,14 +142,14 @@ def _demoplot_set_labels(ax, **kwargs):
 
 
 def Bar(colors, ax = None, **kwargs):
-    """Plotting the barplot example.
+    """Bar Plot Demo
 
     Args:
         colors (list of str): List of hex colors.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
-        **kwargs: optional. Strings can be set for `title = "My title"`, 
+        **kwargs: Optional; Strings can be set for `title = "My title"`, 
             `xlabel = "My x label"` and `ylabel = "My y label"`. 
 
     Returns:
@@ -209,14 +205,14 @@ def Bar(colors, ax = None, **kwargs):
 
 
 def Pie(colors, ax = None, **kwargs):
-    """Plotting pie chart example.
+    """Pie Chart Demo
 
     Args:
         colors (list of str): List of hex colors.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
-        **kwargs: optional. Strings can be set for `title = "My title"`,
+        **kwargs: Optional; Strings can be set for `title = "My title"`,
             `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
@@ -262,14 +258,14 @@ def Pie(colors, ax = None, **kwargs):
 
 
 def Spine(colors, ax = None, **kwargs):
-    """Plotting spine plot example.
+    """Spine Plot Demo
 
     Args:
         colors (list of str): List of hex colors.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
-        **kwargs: optional. Strings can be set for `title = "My title"`,
+        **kwargs: Optional; Strings can be set for `title = "My title"`,
             `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
@@ -330,7 +326,7 @@ def Spine(colors, ax = None, **kwargs):
 
 
 def Heatmap(colors, ax = None, **kwargs):
-    """Plotting heatmap example.
+    """Heat Map Demo
 
     Dataset source: Digitized from a topographic map by Ross Ihaka. These data
     should not be regarded as accurate.
@@ -346,7 +342,7 @@ def Heatmap(colors, ax = None, **kwargs):
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
-        **kwargs: optional. Strings can be set for `title = "My title"`,
+        **kwargs: Optional; Strings can be set for `title = "My title"`,
             `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
@@ -416,14 +412,14 @@ def Heatmap(colors, ax = None, **kwargs):
 
 
 def Matrix(colors, ax = None, **kwargs):
-    """Plotting matrix example.
+    """Matrix (Image) Demo Plot
 
     Args:
         colors (list of str): List of hex colors.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
-        **kwargs: optional. Strings can be set for `title = "My title"`,
+        **kwargs: Optional; Strings can be set for `title = "My title"`,
             `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
@@ -515,14 +511,14 @@ def Matrix(colors, ax = None, **kwargs):
 #    else:            fig.show()
 
 def Lines(colors, ax = None, **kwargs):
-    """Plotting lineplot example.
+    """Line Plot Demo
 
     Args:
         colors (list of str): List of hex colors.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
-        **kwargs: optional. Strings can be set for `title = "My title"`,
+        **kwargs: Optional; Strings can be set for `title = "My title"`,
             `xlabel = "My x label"` and `ylabel = "My y label"`.
 
     Returns:
@@ -584,14 +580,14 @@ def Lines(colors, ax = None, **kwargs):
 
 
 def Map(colors, ax = None, **kwargs):
-    """Plotting map example.
+    """Map Demo Plot
 
     Args:
         colors (list of str): List of hex colors.
         ax (None or matplotlib.axes.Axes): If none a new matplotlib figure will
             be created. If `ax` inherits from `matplotlib.axes.Axes` this object
             will be used to create the demoplot. Handy to create multiple subplots.
-        **kwargs: optional. Strings can be set for `title = "My title"`,
+        **kwargs: Optional; Strings can be set for `title = "My title"`,
             `xlabel = "My x label"` and `ylabel = "My y label"`. In addition
             `edgecolor = <color>` can be used to specify custom edge color of the
             polygons.
@@ -657,7 +653,9 @@ def Map(colors, ax = None, **kwargs):
 
 
 def Spectrum(*args, **kwargs):
-    """Plotting example. Simply interfaces the specplot function.
+    """Color Spectrum Demo Plot
+
+    Plotting example. Simply interfaces the specplot function.
 
     Args:
         colors (list of str): List of hex colors.
@@ -668,7 +666,7 @@ def Spectrum(*args, **kwargs):
 
 
 def get_volcano_data(array = False):
-    """Loading vulcano data set
+    """Load Vulcano Data
 
     Args:
         array (bool): should the return be a list (default) or 2d
@@ -707,15 +705,14 @@ def get_volcano_data(array = False):
         return(data)
 
 def get_map_data():
-    """Loading map data for demoplot.
+    """Load Map Data
 
     Reading a file called `map.json` shipped with the package which
     contains the definition of the different areas (polygons) and 
     values to draw the map.
 
-    Returns
-    -------
-        List of length `2`. The first entry is a `PatchCollection` object
+    Returns:
+        list: List of length `2`. The first entry is a `PatchCollection` object
         (`matplotlib.collections`) which sonsists of a series of `Polygon`s
         for the different districts. The second entry is a `numpy.ndarray`
         (float) containing the values used to color-code the areas.
@@ -746,3 +743,4 @@ def get_map_data():
         values.append(vals["value"][0])
 
     return [PatchCollection(patches), asarray(values)]
+

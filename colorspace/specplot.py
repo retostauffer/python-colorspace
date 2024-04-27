@@ -2,25 +2,26 @@
 
 def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
              title = None, fig = None, **figargs):
-    """Visualization of the RGB and HCL spectrum given a set of hex colors.
-    As the hues for low-chroma colors are not (or poorly) identified, by
-    default a smoothing is applied to the hues (``fix = TRUE``). Also, to
-    avoid jumps from 0 to 360 or vice versa, the hue coordinates are shifted
-    suitably.
+    """Color Spectrum Plot
 
-    No return, creates an interactive figure.
+    Visualization of color palettes (given as hex codes) in HCL and/or
+    RGB coordinates.
+
+    As the hues for low-chroma colors are not (or poorly) identified, by
+    default a smoothing is applied to the hues (`fix = TRUE`). Also, to avoid
+    jumps from `0` to `360` or vice versa, the hue coordinates are shifted
+    suitably.
 
     Args:
         x (list): list of strings (hex colors or standard-names of colors).
         y (None or list): if set it must be a list of strings (see `x`) with the very
             same length as the object provided on argument `x`. Allows to draw
-            two sets of colors for comparison. Defaults to `None`.
+            two sets of colors for comparison, defaults to `None`.
         hcl (bool): Whether or not to plot the HCL color spectrum.
-        palette: bool Whether or not to plot the colors as a color map.
+        palette (bool): Whether or not to plot the colors as a color map.
         fix (bool): Should the hues be fixed to be on a smooth(er) curve?
-            Details in the method description.
-        rgb (bool): Whether or not to plot the RGB color spectrum. Default is
-            False.
+            Details in the functions description.
+        rgb (bool): Whether or not to plot the RGB color spectrum, defaults to `False`.
         title (None or str): title of the figure. Defaults to `None` (no title).
         fig (None, matplotlib.figure.Figure): If `None`, a new
             `matplotlib.figure.Figure` is created. 
@@ -32,8 +33,9 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
        >>> from colorspace import rainbow_hcl
        >>> from colorspace import specplot
        >>> pal = rainbow_hcl(100)
-       >>> specplot(pal.colors())
-       >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False)
+       >>> specplot(pal.colors());
+       >>> #:
+       >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False);
 
     Raises:
         TypeError: If `x` is not a list.
@@ -51,7 +53,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
     # Support function to draw the color map (the color strip)
     def cmap(ax, hex_, ylo = 0):
-        """Plotting a color map given a set of colors.
+        """Plotting cmap-based palettes
 
         Args:
             ax (matplotlib.Axis): The axis object on which the color map should be drawn
@@ -88,13 +90,14 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
     # Sanity check for input arguemnts to control the different parts
     # of the spectogram plot. Namely rgb spectrum, hcl spectrum, and the palette.
-    if not isinstance(rgb, bool):     raise TypeError("argument 'rgb' must be boolean True or False.")
-    if not isinstance(hcl, bool):     raise TypeError("argument 'hcl' must be boolean True or False.")
-    if not isinstance(palette, bool): raise TypeError("argument 'palette' must be boolean True or False.")
+    if not isinstance(rgb, bool):
+        raise TypeError("argument 'rgb' must be boolean True or False.")
+    if not isinstance(hcl, bool):
+        raise TypeError("argument 'hcl' must be boolean True or False.")
+    if not isinstance(palette, bool):
+        raise TypeError("argument 'palette' must be boolean True or False.")
     if not rgb and not hcl and not palette:
-        import inspect
-        raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible " + \
-                  "when calling \"{:s}\".".format(inspect.stack()[0][3]))
+        raise ValueError("disabling rgb, hcl, and palette all at the same time is not possible ")
 
     if not isinstance(title, (type(None), str)):
         raise TypeError("Argument 'title' must be either `None` or `str`.")
@@ -197,8 +200,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         hfig.subplots_adjust(left = 0., bottom = 0., right  = 1.,
                              top  = 1., wspace = 0., hspace = 0.)
     else:
-        import inspect
-        raise ValueError("Unexpected condition in \"{:s}\". Sorry.".format(inspect.stack()[0][3]))
+        raise Exception("unexpected condition (ups, sorry)")
 
     # Setting axis properties
     # ax1: RGB
@@ -280,10 +282,5 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     if not fig: hfig.show()
 
     return hfig
-
-
-
-
-
 
 
