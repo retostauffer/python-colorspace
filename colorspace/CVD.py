@@ -252,18 +252,18 @@ class CVD(object):
         from colorspace import palettes
 
         if not isinstance(severity, (int, float)):
-            raise TypeError("argument `severity` must be float (`[0., 1.]`) or int (`[0, 1]`).")
+            raise TypeError("argument `severity` must be float (`[0., 1.]`) or int (`[0, 1]`)")
         elif isinstance(severity, int): severity = float(severity)
         if severity < 0. or severity > 1.:
-            raise ValueError("argument `severity` must be in `[0., 1.]`.")
+            raise ValueError("argument `severity` must be in `[0., 1.]`")
         if not isinstance(linear, bool):
-            raise TypeError("argument `linear` must be boolean `True` or `False`.")
+            raise TypeError("argument `linear` must be bool")
 
         # Checking type
         if not isinstance(type_, str):
             raise TypeError("argument `type_` must be str.")
         if not type_.lower() in self.ALLOWED:
-            raise ValueError(f"argument `type_` wrong, has to be one of {', '.join(self.ALLOWED)}.")
+            raise ValueError(f"argument `type_` wrong, has to be one of {', '.join(self.ALLOWED)}")
 
         self._type     = type_.lower()
         self._severity = severity
@@ -313,7 +313,7 @@ class CVD(object):
             self._hexinput = False
             from .colorlib import colorobject
             if not isinstance(cols, colorobject):
-                raise TypeError("Input 'cols' does not match any of the allowed types.")
+                raise TypeError("argument `cols` does not match any of the allowed types")
 
         # Convert
         from copy import deepcopy
@@ -620,10 +620,10 @@ def desaturate(cols, amount = 1.):
 
     # Sanity checks
     if not isinstance(amount, (float, int)):
-        raise TypeError("Argument `amount` must be float or integer.")
+        raise TypeError("argument `amount` must be float or int")
     elif isinstance(amount, int): amount = float(amount)
     if amount < 0. or amount > 1.:
-        raise ValueError("Argument `amount` must be in `[0., 1.]`.")
+        raise ValueError("argument `amount` must be in `[0., 1.]`")
 
     # Keep class of input object for later
     input_cols = deepcopy(cols)

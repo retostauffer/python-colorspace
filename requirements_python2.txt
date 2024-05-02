@@ -1,5 +1,0 @@
-pytest
-pytest-mpl
-imageio==2.6.1
-matplotlib
-numpy

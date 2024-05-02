@@ -82,11 +82,11 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
 
     # Sanity checks
     if not isinstance(type_, str):
-        raise TypeError("argument 'type_' must be string.")
+        raise TypeError("argument `type_` must be str")
     if not isinstance(n, int):
-        raise TypeError("argument 'n' must be integer.")
+        raise TypeError("argument `n` must be int")
     if not n > 0:
-        raise ValueError("argument 'n' must be a positive integer (number of colors).")
+        raise ValueError("argument `n` must be a positive int (number of colors)")
 
     # The palette class does all the checks and conversions for different
     # types of objects such as a single string hex color, lists of hex colors,
@@ -168,7 +168,7 @@ def Bar(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -231,7 +231,7 @@ def Pie(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -285,7 +285,7 @@ def Spine(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -364,7 +364,7 @@ def Heatmap(colors, ax = None, **kwargs):
     from .colorlib import hexcols
 
     if not isinstance(ax, (Axes, type(None))):
-        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -441,7 +441,7 @@ def Matrix(colors, ax = None, **kwargs):
     from .colorlib import hexcols
 
     if not isinstance(ax, (Axes, type(None))):
-        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -537,7 +537,7 @@ def Lines(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -608,7 +608,7 @@ def Map(colors, ax = None, **kwargs):
     from matplotlib.axes import Axes
 
     if not isinstance(ax, (Axes, type(None))):
-        raise TypeError("Wrong input: ax must be None or inherit from matplotlib.axes.Axes.")
+        raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -687,7 +687,7 @@ def get_volcano_data(array = False):
     from numpy import asarray
 
     if not isinstance(array, bool):
-        raise ValueError("Input 'asarray' must be boolean.")
+        raise ValueError("argument `asarray` must be bool")
 
     # Loading the data set
     resource_package = os.path.dirname(__file__)

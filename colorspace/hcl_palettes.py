@@ -134,14 +134,14 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     pals = hclpalettes(files_regex = files_regex)
 
     # Sanity type checks
-    if not isinstance(n, int):     raise TypeError("Input 'n' must be of type integer.")
-    if not isinstance(ncol, int):  raise TypeError("Input 'ncol' must be of type integer.")
+    if not isinstance(n, int):     raise TypeError("argument `n` must be int")
+    if not isinstance(ncol, int):  raise TypeError("argument `ncol` must be int")
     if not isinstance(type_, (type(None), str)):
         raise TypeError("Argument 'type_' must be None (default) or string.")
-    if not isinstance(plot, bool): raise TypeError("Input 'plot' must be boolean True or False")
+    if not isinstance(plot, bool): raise TypeError("argument `plot` must be bool")
 
     # Sanity value checks
-    if not n > 0 or not ncol > 0: raise ValueError("Arguments 'n' and 'ncol' must be positive.")
+    if not n > 0 or not ncol > 0: raise ValueError("arguments `n` and `ncol` must be positive int")
 
     # If custom palettes have been added: add them as well (if
     # the types are correct, of course).
@@ -162,7 +162,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             pals._palettes_["Custom"] = custom
         # Else append pals._palettes_["Custom"] = custom
         else:
-            raise TypeError("Argument 'custom' not one of the allowed types.")
+            raise TypeError("argument `custom` not one of the allowed types")
 
 
     if not type_ is None:

@@ -6,9 +6,8 @@
 
 venv: requirements.txt
 	-rm -rf venv
-	virtualenv -p python3 venv
-	venv3/bin/pip install --update pip
-	venv3/bin/pip install -r requirements.txt
+	virtualenv -p 3 venv
+	venv/bin/pip install -r requirements.txt
 
 install: setup.py
 	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
@@ -57,23 +56,23 @@ clean:
 	-rm source/api/*
 	-rm source/colorlib/*
 
-# You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
-SOURCEDIR     = source
-BUILDDIR      = build
-
-# Put it first so that "make" without argument is like "make help".
-help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-.PHONY: help Makefile
-
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-html: Makefile
-	#-rm -rf build
-	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+########   # You can set these variables from the command line.
+########   SPHINXOPTS    =
+########   SPHINXBUILD   = sphinx-build
+########   SOURCEDIR     = source
+########   BUILDDIR      = build
+########   
+########   # Put it first so that "make" without argument is like "make help".
+########   help:
+########   	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+########   
+########   .PHONY: help Makefile
+########   
+########   # Catch-all target: route all unknown targets to Sphinx using the new
+########   # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+########   html: Makefile
+########   	#-rm -rf build
+########   	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 
 

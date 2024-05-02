@@ -76,7 +76,7 @@ class palette:
         self._colors = check_hex_colors(colors)
 
         if not isinstance(name, (type(None), str)):
-            raise TypeError("Argument 'name' must be `None` or a string.")
+            raise TypeError("argument `name` must be None or a str")
 
         self._name = name
 
@@ -105,7 +105,7 @@ class palette:
             ValueError: If input 'name' is not of type string.
         """
         if not isinstance(name, (type(None), str)):
-            raise ValueError("Argument 'name' must be `None` or a string.")
+            raise ValueError("argument `name` must be None or a str")
         self._name = name
 
     def name(self):
@@ -175,7 +175,7 @@ class palette:
 
             >>> from colorspace import diverging_hcl, palette
             >>> pal = diverging_hcl()
-            >>> pal = palette(pal(5), name = "diverging palette with 5 colors")
+            >>> pal = palette(pal(5), name = "Diverging Palette with 5 Colors")
             >>>
             >>> cmap = pal.cmap()
             >>> print(type(cmap))
@@ -196,8 +196,8 @@ class palette:
         if n is None:
             n = len(self.colors())
         elif not isinstance(n, int) or n < len(self.colors()):
-            raise ValueError("Argument 'n' must be `None` or a valid positive integer greater " + \
-                             "than the number of colors in the palette.")
+            raise ValueError("argument `n` must be None or int greater or equal to" + \
+                             f"the number of colors in the palette (>= {len(self.colors)})")
 
         # Get coordinates
         pos = round(linspace(0, 1, len(self.colors())), 6)
@@ -363,8 +363,8 @@ class defaultpalette:
             # Else check current type specification and append
             # if possible (and convert to the new type).
             if not isinstance(val, (int, float, bool)):
-                raise ValueError("input {:s} to {:s}".format(key, self.__class__.__name__) + \
-                        " is of type {:s}. Only bool, int, and float allowed.".format(type(val)))
+                raise ValueError(f"argument `{key}` to {self.__class__.__name__}" + \
+                                 f" is of type {type(val)}; only bool, int, and float allowed.")
             if isinstance(val, bool):
                 val = 1 if val else 0
 
@@ -377,8 +377,7 @@ class defaultpalette:
             elif isinstance(self._settings_[key], float):
                 self._settings_[key] = int(val)
             else:
-                raise Exception("whoops, some code needed here in {:s}.set".format(
-                    self.__class__.__name__))
+                raise Exception(f"whoops, some code needed here in {self.__class__.__name__}.set")
 
         self._settings_[key] = val
 
@@ -484,12 +483,12 @@ class hclpalettes:
     def __init__(self, files = None, files_regex = None):
 
         if not isinstance(files, (type(None), str, list)):
-            raise TypeError("argument 'files' must either be None, str, or list of str")
+            raise TypeError("argument `files` must either be None, str, or list of str")
         if isinstance(files, str): files = [files]
         if isinstance(files, list):
             for file in files:
                 if not isinstance(file, str):
-                    raise TypeError("not all elements in 'files' are of type str")
+                    raise TypeError("not all elements in `files` are of type str")
 
         if files is None:
             import glob
@@ -508,7 +507,7 @@ class hclpalettes:
             raise ValueError(f"no palette config files provided ({self.__class__.__name__})")
         for file in files:
             if not os.path.isfile(file):
-                raise FileNotFoundError(f"file {file} does not exist")
+                raise FileNotFoundError(f"file \"{file}\" does not exist")
 
 
         # Else trying to load palettes and append thenm to _palettes_
@@ -581,8 +580,7 @@ class hclpalettes:
             Returns a `list` containing `defaultpalette` objects objects.
         """
         if not isinstance(type_, str) and not type_ is None:
-            raise ValueError("input type_ to {:s} has to be None or a single string.".format(
-                self.__class__.__name__))
+            raise ValueError(f"argument `type_` to {self.__class__.__name__} has to be None or str")
 
         if not type_:
             res = []
@@ -597,7 +595,7 @@ class hclpalettes:
                     found = t
                     res += self._palettes_[t]
             if not found:
-                raise ValueError("No palettes for type \"{:s}\".".format(type_))
+                raise ValueError(f"no palettes for type \"{type}\"")
             else:
                 type_ = found
 
@@ -631,7 +629,7 @@ class hclpalettes:
 
         # If none: not found
         if take_pal is None:
-            raise ValueError("Palette {:s} not found.".format(name))
+            raise ValueError(f"palette \"{name}\" not found")
 
         # Else return list with palettes
         return take_pal
@@ -652,7 +650,7 @@ class hclpalettes:
             palette_type   = CNF.get("main", "type")
             palette_method = CNF.get("main", "method")
         except Exception as e:
-            raise Exception("misspecification in palconfig file {:s}: {:s}".format(file,str(e)))
+            raise Exception("fmisspecification in palconfig file = \"{file}\": {str(e)}")
 
         # The dictionary which will be returned.
         pals = []
@@ -688,8 +686,7 @@ class hclpalettes:
                             val = eval(val)
                             if not callable(val): raise Exception
                         except:
-                            raise ValueError("Element '{:s}' for palette '{:s}' neither an integer nor a proper lambda function!".format(
-                                             key, sec))
+                            raise ValueError(f"element '{key}' for palette '{sec}' neither an int nor proper lambda function")
                         # Append lambda function to the settings
                         settings[key] = val
 
@@ -730,8 +727,8 @@ class hclpalettes:
             TypeError: If 'n' is not an integer.
             ValueError: If 'n' is not positive.
         """
-        if not isinstance(n, int): raise TypeError("Argument 'n' must be integer.")
-        if not n > 0:              raise ValueError("Argument 'n' must be positive.")
+        if not isinstance(n, int): raise TypeError("argument `n` must be int")
+        if not n > 0:              raise ValueError("argument `n` must be positive")
 
         from .swatchplot import swatchplot
         swatchplot(self, n = n)
@@ -948,9 +945,7 @@ class hclpalette:
             try:
                 value = asarray([value], dtype = dtype).flatten()
             except Exception as e:
-                msg = "wrong input for \"{:s}\" to {:s}: {:s}".format(key,
-                        self.__class__.__name__, str(e))
-                raise ValueError(msg)
+                raise ValueError(f"wrong input for \"{key}\" to {self.__class__.__name__}: {str(e)}")
 
             # Not enough input values, check if we are allowed to
             # recycle.
@@ -958,10 +953,8 @@ class hclpalette:
                 # Input was too short: check if we are allowed to
                 # recycle the value or not.
                 if not recycle:
-                    msg = "wrong length of input \"{:s}\", ".format(key) + \
-                          "expected min {:d} elements, got {:d} ".format(length_min, len(value)) + \
-                          "when calling {:s}".format(self.__class__.__name__)
-                    raise ValueError(msg)
+                    raise ValueError(f"wrong length of input \"{key}\", expected min {length_min} elements, " + \
+                                     f"got {len(value)} when calling {self.__class__.__name}")
                 else:
                     value = vstack([value] * length_min).flatten()[0:length_min]
             elif length_min and not length_max and len(value) > length_min:
@@ -969,20 +962,16 @@ class hclpalette:
 
             # Check if the input exceeds length_max if set
             if length_max and len(value) > length_max:
-                msg = "wrong length of input \"{:s}\", ".format(key) + \
-                      "expected max {:d} elements, got {:d} ".format(length_max, len(value)) + \
-                      "when calling {:s}".format(self.__class__.__name__)
-                raise ValueError(msg)
+                raise ValueError(f"wrong length of input \"{key}\", expected max {length_max} elements, " + \
+                                 f"got {len(value)} when calling {self.__class__.__name__}")
             # Cropping data if too much elements are given.
             elif length_max and len(value) > length_max:
                 value = value[0:length_max]
 
             # Checking nan's
             if not nansallowed and any(isnan(value)):
-                msg = "arguments for \"{:s}\" ".format(key) + \
-                      "to function calling {:s} ".format(self.__class__.__name__) + \
-                      "contain nan values: not allowed"
-                raise ValueError(msg)
+                raise ValueError(f"arguments for \"{key}\" to function calling {self.__class__.__name__}" + \
+                                 "contain nan values: not allowed")
 
             # Return single value if length is set to 1.
             if len(value) == 1: value = value[0]
@@ -1016,9 +1005,9 @@ class hclpalette:
             elif isinstance(x, list):
                 x = [totype(e) for e in x]
             else:
-                raise ValueError("don't know how to convert {:s} to list".format(type(x)))
+                raise ValueError(f"don't know how to convert {type(x)} to list")
             if not all([isinstance(e, totype) for e in x]):
-                raise ValueError("problems with inputs for {:s}: {:s}".format(self.__class__.__name__, e))
+                raise ValueError(f"problems with inputs for {self.__class__.__name__}: {e}")
             # Checking length
             if len(x) < n:   x = x * n
             elif len(x) > n: x = x[0:2]
@@ -1041,7 +1030,7 @@ class hclpalette:
         if isinstance(n, int) or isinstance(n, float):
             n = int(n)
         else:
-            raise ValueError("input \"n\" to {:s} has to be a single integer".format(self.__class__.__name__))
+            raise ValueError(f"argument `n` has to be a int")
 
         # For sequential hcl palettes
         if isinstance(self, sequential_hcl):
@@ -1060,7 +1049,7 @@ class hclpalette:
 
         # If "n" is set to small: exit
         if n <= 0:
-            raise ValueError("input \"n\" to {:s} has to be a positive integer".format(self.__class__.__name__))
+            raise ValueError("argument `n` has to be larger or equal to zero")
 
         return [n, h, c, l, p, palette]
 
@@ -1240,14 +1229,14 @@ class qualitative_hcl(hclpalette):
 
         # Custom check for 'h' as we also allow for lambda functions
         if not isinstance(h, (list, float, int)) and not callable(h):
-            raise TypeError("Wrong type of input on argument 'h'.")
+            raise TypeError("unexpected type on argument `h`")
         else:
             if not isinstance(h, list): h = [h]
             for rec in h:
                 if   callable(rec):                 pass
                 elif isinstance(rec, (float, int)): pass
                 else:
-                    raise TypeError("Wrong type of input on argument 'h'.")
+                    raise TypeError("unexpected type on argument `h`")
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1265,8 +1254,8 @@ class qualitative_hcl(hclpalette):
             pals = hclpalettes().get_palettes("Qualitative")
             idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
-                raise ValueError("palette {:s} is not a valid qualitative palette. ".format(palette) + \
-                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+                raise ValueError(f"palette {palette} is not a valid qualitative palette. " + \
+                                 f"Choose one of: {', '.join([x.name() for x in pals])}")
             pal = pals[idx[0]]
 
             # Allow to overrule few things
@@ -1524,8 +1513,8 @@ class diverging_hcl(hclpalette):
             pals = hclpalettes().get_palettes("Diverging")
             idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
-                raise ValueError("palette {:s} is not a valid diverging palette. ".format(palette) + \
-                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+                raise ValueError(f"palette {palette} is not a valid diverging palette. " + \
+                                 f"Choose one of: {', '.join([x.name() for x in pals])}")
             pal = pals[idx[0]]
 
             # Allow to overule few things
@@ -1600,9 +1589,9 @@ class diverging_hcl(hclpalette):
 
         # Sanity checks
         if not isinstance(n, int):
-            raise TypeError("Argument `n` must be integer.")
+            raise TypeError("argument `n` must be int")
         elif not n > 1:
-            raise TypeError("Argument `n` must be integer larger than 1.")
+            raise TypeError("argument `n` must be positive")
 
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
@@ -1769,8 +1758,8 @@ class divergingx_hcl(hclpalette):
             pals = divergingx_palettes().get_palettes("Divergingx")
             idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
-                raise ValueError("palette {:s} is not a valid divergingx palette. ".format(palette) + \
-                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+                raise ValueError(f"palette {palette} is not a valid divergingx palette. " + \
+                                 f"Choose one of: {', '.join([x.name() for x in pals])}")
             pal = pals[idx[0]]
             del pals, idx
 
@@ -1789,7 +1778,7 @@ class divergingx_hcl(hclpalette):
             if isNone(pal.get("p2")): pal.set(p2  = pal.get("p1"))
             ## third coordinate
             if isNone(pal.get("h3")):
-                raise Exception("Third hue coordinate (h3) must be specified.")
+                raise Exception("third hue coordinate (h3) must be specified")
             if isNone(pal.get("c3")): pal.set(c3 = pal.get("c1"))
             if isNone(pal.get("l3")): pal.set(l3 = pal.get("l1"))
             if isNone(pal.get("p3")): pal.set(p3 = pal.get("p1"))
@@ -1852,9 +1841,9 @@ class divergingx_hcl(hclpalette):
 
         # Sanity checks
         if not isinstance(n, int):
-            raise TypeError("Argument `n` must be integer.")
+            raise TypeError("argument `n` must be int")
         elif not n > 1:
-            raise TypeError("Argument `n` must be integer larger than 1.")
+            raise TypeError("argument `n` must be positive")
 
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
@@ -2013,8 +2002,8 @@ class sequential_hcl(hclpalette):
             pals = hclpalettes().get_palettes("Sequential")
             idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
-                raise ValueError("palette {:s} is not a valid sequential palette. ".format(palette) + \
-                        "Choose one of: {:s}".format(", ".join([x.name() for x in pals])))
+                raise ValueError(f"palette {palette} is not a valid sequential palette. " + \
+                                 f"Choose one of: {', '.join([x.name() for x in pals])}")
             pal = pals[idx[0]]
 
             def isNone(x): return isinstance(x, type(None))
@@ -2195,7 +2184,7 @@ class heat_hcl(sequential_hcl):
             raise ValueError("wrong inputs to {:s}: {:s}".format(
                 self.__class__.__name__, str(e)))
         except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
+            raise Exception(f"in {self.__class__.__name__}: {str(e)}")
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -2273,10 +2262,9 @@ class terrain_hcl(sequential_hcl):
                              "p1": power[0],  "p2": power[1],
                              "fixup": bool(fixup)}
         except ValueError as e:
-            raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, str(e)))
+            raise ValueError(f"wrong inputs to {self.__class__.__name__}: {str(e)}")
         except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
+            raise Exception(f"in {self.__class__.__name__}: {str(e)}")
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -2354,10 +2342,9 @@ class diverging_hsv(hclpalette):
                              "s":  s,  "v": v,  "power": power,
                              "fixup": bool(fixup)}
         except ValueError as e:
-            raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, str(e)))
+            raise ValueError(f"wrong inputs to {self.__class__.__name__}: {str(e)}")
         except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
+            raise Exception(f"in {self.__class__.__name__}: {str(e)}")
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
@@ -2469,17 +2456,17 @@ class rainbow(hclpalette):
         self._rev = rev
 
         # Doing all the sanity checks.
-        if not isinstance(s, (float, int)): raise ValueError("Input 's' must be float.")
-        if not isinstance(v, (float, int)): raise ValueError("Input 'v' must be float.")
-        if s < 0. or s > 1.:                raise ValueError("Input 's' must be in [0, 1].")
-        if v < 0. or v > 1.:                raise ValueError("Input 'v' must be in [0, 1].")
+        if not isinstance(s, (float, int)): raise ValueError("argument 's' must be float")
+        if not isinstance(v, (float, int)): raise ValueError("argument 'v' must be float")
+        if s < 0. or s > 1.:                raise ValueError("argument 's' must be in [0., 1.]")
+        if v < 0. or v > 1.:                raise ValueError("argument 'v' must be in [0., 1.]")
         # Check start and end. Either functions (lambda functions)
         # or a single floating point number in [0-1].
         if callable(start):                     pass
         elif isinstance(start, (float, int)):   start = float(start)
         if callable(end):                       pass
         elif isinstance(end, (float, int)):     end   = float(end)
-        if not isinstance(rev, bool):       raise ValueError("Input 'rev' must be boolean.")
+        if not isinstance(rev, bool):       raise ValueError("argument `rev` must be bool")
 
         # Store these settings
         self.settings = {"s": float(s), "v": float(v), "start": start, "end": end}
@@ -2511,9 +2498,9 @@ class rainbow(hclpalette):
         from .colorlib import HSV
 
         if not isinstance(n, (float, int)):
-            raise ValueError("Input 'n' must be numeric (float/int).")
+            raise ValueError("argument `n` must be float or int")
         n = int(n)
-        if n < 1: raise ValueError("Input 'n' must be larger than 0.")
+        if n < 1: raise ValueError("argument `n` must be positive (>= 1)")
 
         # Evaluate start and end given 'n'
         start = self.settings["start"]

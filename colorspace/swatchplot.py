@@ -86,27 +86,25 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     from numpy import all
 
     # Sanity checks: nrow and n only
-    if not isinstance(nrow, int) or not isinstance(n, int):
-        raise TypeError("Argument 'n' and 'nrow' must be integers.")
-    if not isinstance(show_names, bool):
-        raise TypeError("Argument 'show_names' must be boolean True or False.")
-    if not nrow > 0 or not n > 0:
-        raise ValueError("Argument 'nrow' and 'n' must both be positive integers.")
+    if not isinstance(nrow, int):         raise TypeError("argument `nrow` must be int")
+    if not isinstance(n, int):            raise TypeError("argument `n` must be int")
+    if not isinstance(show_names, bool):  raise TypeError("argument `show_names` must be bool")
+    if not nrow > 0:                      raise ValueError("argument `nrow` must be positive")
+    if not n > 0:                         raise ValueError("argument `n` must be positive")
 
     # Checking optional cvd argument
     if not isinstance(cvd, (str, list, type(None))):
-        raise TypeError("Wrong input argument for 'cvd'.")
+        raise TypeError("unexpected input on argument `cvd`")
     if isinstance(cvd, list):
         if not all([isinstance(x, str) for x in cvd]):
-            raise ValueError("Wrong input argument for 'cvd'.")
+            raise ValueError("unexpected input on argument for `cvd`")
     elif isinstance(cvd, str):
         cvd = [cvd]
     # Checking values
     if isinstance(cvd, list):
         valid_cvd_types = ["protan", "tritan", "deutan", "desaturate"]
         if not all(x in valid_cvd_types for x in cvd):
-            raise ValueError("Allowed values for argument 'cvd' are: {:s}".format(
-                    ", ".join(valid_cvd_types)))
+            raise ValueError(f"allowed values for argument `cvd` are: {', '.join(valid_cvd_types)}")
 
 
     # ---------------------------------------------------------------
@@ -118,16 +116,16 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     try:
         import matplotlib.pyplot as plt
     except ImportError as e:
-        raise ImportError("problems importing `matplotlib.pyplt` (not installed?)")
+        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
 
     # Allow the user to specify figure size if needed
     if "figsize" in kwargs:
         figsize = kwargs["figsize"]
         if not isinstance(figsize, tuple) or not len(figsize) == 2:
-            raise ValueError("`figsize` must be a tuple of length 2.")
+            raise ValueError("argument `figsize` must be a tuple of length 2")
         for i in range(0, 1):
             if not isinstance(figsize[i], int) and not isinstance(figsize[i], float):
-                raise ValueError(f"element [{i}] in `figsize` not int/float.")
+                raise ValueError(f"element [{i}] in `figsize` not int or float.")
     else:
         figsize = (5, 4) # default figure size
 
@@ -201,11 +199,11 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         elif isinstance(x, (palette, defaultpalette)):
             res = {"name": x.name(), "colors": x.colors(n)}
         else:
-            raise Exception("Could not convert 'pals', improper input (type {:s}).".format(str(type(x))))
+            raise Exception(f"could not convert `pals`, improper input (type {type(x)}).")
 
         # Checking length of color list
         if not len(res["colors"]) > 0:
-            raise ValueError("Got at least one color object/palette with 0 colors.")
+            raise ValueError(f"got at least one color object/palette with 0 colors")
         return res
 
 
@@ -273,7 +271,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
                 tmp = _pal_to_dict(pal, n)
                 res.append({"name": key, "colors": tmp["colors"]})
         else:
-            raise TypeError("Cannot deal with object of type {:s}".format(str(type(pals))))
+            raise TypeError(f"cannot deal with object of type \"{type(pals)}\"")
 
 
         # Extract number of palettes, number of named palettes,
@@ -388,10 +386,10 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         if not isinstance(xpos, float)  or not isinstance(ypos, float) or \
            not isinstance(xstep, float) or not isinstance(ystep, float) or \
            not isinstance(show_names, bool) or not isinstance(single_palette, bool):
-               raise TypeError("Non-suitable input argument (wrong type).")
+               raise TypeError("non-suitable input argument (wrong type)")
         if not xpos  >= 0. or not xpos  <= 1. or not ypos  >= 0. or not ypos  <= 1. or \
            not xstep >= 0. or not xstep <= 1. or not ystep >= 0. or not ystep <= 1:
-            raise ValueError("At least one of xpos/ypos/xstep/ystep out of valid bounds.")
+            raise ValueError("at least one of xpos/ypos/xstep/ystep out of valid bounds")
 
 
         # Plotting one swatch after another.

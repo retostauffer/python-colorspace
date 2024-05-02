@@ -136,7 +136,7 @@ class colorlib:
 
         # Checking type
         if not np.all(isinstance(x, np.ndarray) for x in [XN, YN, ZN]):
-            raise TypeError(f"Inputs to {__fname__} have to be of class `numpy.ndarray`.")
+            raise TypeError(f"argument `{__fname__}` must be numpy.ndarray")
 
         # Expand if required
         if len(XN) == 1 and not len(XN) == n: XN = np.repeat(XN, n)
@@ -145,7 +145,7 @@ class colorlib:
 
         # Check if all lengths match
         if not np.all([len(x) == n for x in [XN, YN, ZN]]):
-            raise ValueError(f"Inputs XN/YN/ZN to {__fname__} have to be of the same length.")
+            raise ValueError(f"arguments XN/YN/ZN to `{__fname__} have to be of the same length")
 
         return [XN, YN, ZN]
 
@@ -176,7 +176,7 @@ class colorlib:
             try:
                 val = asarray(val)
             except Exception as e:
-                raise ValueError(f"input `{key}` to {self.__class__.__name__} " + \
+                raise ValueError(f"argument `{key}` to {self.__class__.__name__} " + \
                                   "could not have been converted to numpy.ndarray")
             # Else append length and proceed
             lengths.append(len(val))
@@ -898,7 +898,7 @@ class colorlib:
             elif i == 4:       return [n, m, v]
             elif i == 5:       return [v, m, n]
             else:
-                Exception("Ended up in a non-defined ifelse with i = %d".format(i))
+                raise Exception(f"ended up in a non-defined ifelse with i = {i:d}")
 
         # Result arrays
         r = np.ndarray(len(h), dtype = "float"); r[:] = 0.
@@ -1274,7 +1274,7 @@ class colorlib:
             # Converts integers to hex string
             def applyfun(x):
                 x = np.asarray(x * 255. + .5, dtype = int)
-                return "#{:02X}{:02X}{:02X}".format(x[0], x[1], x[2])
+                return f"#{x[0]:02X}{x[1]:02X}{x[2]:02X}"
 
             h = np.vstack([r,g,b]).transpose().flatten().reshape([len(r), 3])
             return np.apply_along_axis(applyfun, 1, h)
@@ -1574,8 +1574,8 @@ class colorobject:
             elif key == "Y":  self.WHITEY = float(arg)
             elif key == "Z":  self.WHITEZ = float(arg)
             else: 
-                raise ValueError("error in {:s}.set_whitepoint: ".format(self.__class__name__) + \
-                        "argument \"{:s}\" not recognized.".format(key))
+                raise ValueError(f"error in {self.__class__name__}.set_whitepoint: " + \
+                                  "argument \"{key}\" not recognized.")
 
 
     def _check_if_allowed_(self, x):
@@ -1592,9 +1592,9 @@ class colorobject:
             No return, raises an Exception if the transformation is invalid.
         """
         if not x in self.ALLOWED:
-            raise Exception("transformation from {:s}".format(self.__class__.__name__) + \
-                    f" to \"{x}\" is unknown (not implemented). " + \
-                    f"The following are allowed: {', '.join(self.ALLOWED)}")
+            raise Exception(f"transformation from {self.__class__.__name__}" + \
+                            f" to \"{x}\" is unknown (not implemented). " + \
+                            f"The following are allowed: {', '.join(self.ALLOWED)}")
         return
 
 
@@ -1663,8 +1663,8 @@ class colorobject:
             if isinstance(self, RGB) or isinstance(self, sRGB):
                 if np.max(val) > 1. or np.max(val) < 0.:
                     raise ValueError("wrong values specified for " + \
-                            f"dimension {key} in {self.__class__.__name__}: " + \
-                            "values have to lie within [0., 1.]")
+                                     f"dimension {key} in {self.__class__.__name__}: " + \
+                                     "values have to lie within [0., 1.]")
 
             # Check object type
             from numpy import asarray
@@ -1672,7 +1672,7 @@ class colorobject:
                 val = asarray(val)
             except Exception as e:
                 raise ValueError(f"input {key} to {self.__class__.__name__}" + \
-                        f" could not have been converted to `numpy.ndarray`: {str(e)}")
+                                 f" could not have been converted to `numpy.ndarray`: {str(e)}")
 
             # Else append length and proceed
             lengths.append(len(val))
@@ -1864,7 +1864,7 @@ class colorobject:
             if dimname == "alpha":
                 return None
             else:
-                raise ValueError(f"{self.__class__.__name__} has no dimension {dimname}.")
+                raise ValueError(f"{self.__class__.__name__} has no dimension {dimname}")
 
         return copy(self._data_[dimname])
 
@@ -1923,7 +1923,7 @@ class colorobject:
                     vals = np.asarray(vals, dtype = t)
                 except Exception as e:
                     raise ValueError(f"problems converting new data to {t} " + \
-                            f" in {self.__class__.__name__}: {str(e)}")
+                                     f" in {self.__class__.__name__}: {str(e)}")
 
             # New values do have to have the same length as the old ones,
             n = len(self.get(key))
@@ -1931,11 +1931,11 @@ class colorobject:
             try:
                 vals = np.asarray(vals, dtype = t)
             except Exception as e:
-                raise ValueError("problems converting new data to {:s} ".format(t) + \
-                    " in {:s}: {:s}".format(self.__class__.__name__, str(e)))
+                raise ValueError(f"problems converting new data to {t} " + \
+                                 f" in {self.__class__.__name__}: {str(e)}")
             if not vals.size == n:
                 raise ValueError("number of values to be stored on the object " + \
-                    f"{self.__class__.__name__} have to match the current dimension")
+                                 f"{self.__class__.__name__} have to match the current dimension")
 
             self._data_[key] = vals
 
@@ -1967,7 +1967,7 @@ class colorobject:
         Raises:
             Exception: Always, that is the intent of this method.
         """
-        raise Exception(f"Cannot convert class \"{from_}\" to \"{to}\".")
+        raise Exception(f"cannot convert class \"{from_}\" to \"{to}\"")
 
     def _ambiguous(self, from_, to):
         """Error: Conversion Ambiguous
@@ -1982,7 +1982,7 @@ class colorobject:
         Raises:
             Exception: Always, that is the intent of this method.
         """
-        raise Exception(f"Conversion not possible, ambiguous conversion from \"{from_}\" to \"{to}\".")
+        raise Exception(f"conversion not possible, ambiguous conversion from \"{from_}\" to \"{to}\"")
 
 
 # -------------------------------------------------------------------
@@ -2670,7 +2670,15 @@ class polarLAB(colorobject):
             channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
             opacity. If `None` (default) no transparency is added.
 
-    TODO: Add examples.
+    Examples:
+
+         >>> from colorspace import polarLAB
+         >>> cols = polarLAB([50, 80, 30], [100, 120, 140], [40, 130, 300])
+         >>> cols
+         >>> #: Convert to hex colors
+         >>> cols.to("hex")
+         >>> cols
+
     """
 
     def __init__(self, L, A, B, alpha = None):
@@ -3143,19 +3151,19 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
     from numpy import sqrt, isclose
 
     if not isinstance(a, colorobject):
-        raise TypeError("argument `a` must be an object based on colorspace.colorlib.colorobject.")
+        raise TypeError("argument `a` must be an object based on colorspace.colorlib.colorobject")
     if not isinstance(b, colorobject):
-        raise TypeError("argument `b` must be an object based on colorspace.colorlib.colorobject.")
+        raise TypeError("argument `b` must be an object based on colorspace.colorlib.colorobject")
     if not type(a) == type(b):
-        raise TypeError("Input `a` and `b` not of same class.")
+        raise TypeError("Input `a` and `b` not of same type")
     if not a.length() == b.length():
-        raise ValueError("Objects do not contain the same number of colors.")
+        raise ValueError("Objects do not contain the same number of colors")
     if not isinstance(exact, bool):
-        raise TypeError("argument `exact` must be boolean.")
+        raise TypeError("argument `exact` must be bool")
     if not isinstance(_all, bool):
-        raise TypeError("argument `_all` must be boolean.")
+        raise TypeError("argument `_all` must be bool")
     if not isinstance(atol, float) and not isinstance(atol, type(None)):
-        raise TypeError("argument `atol` must be float or None.")
+        raise TypeError("argument `atol` must be float or None")
 
     if exact: atol = 1e-6
 

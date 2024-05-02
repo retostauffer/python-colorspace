@@ -13,7 +13,7 @@ def mixcolor(alpha, color1, color2, where = 1):
         color2: a second object that can be converted into a
             :py:class:`palette <colorspace.palettes.palette>`. Must have the same number
             of colors as the argument on `color1`.
-        where (str): The color space where the mixing is to take place.
+        where (str): The color space where the mixing is to take place, either `"RGB"` or `"CIEXYZ"`.
 
     Return:
         colorspace.colorlib.*: Returns an object of the same class as either `color1`
@@ -33,13 +33,8 @@ def mixcolor(alpha, color1, color2, where = 1):
         >>> RGB_M1 = mixcolor(0.5, RGB_1, RGB_2, "RGB")
         >>> RGB_M1
         >>> #: Mixing via XYZ color space
-        >>> #  TODO: Not yet implemented, will throw an exception.
-        >>> RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "XYZ")
+        >>> RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "CIEXYZ")
         >>> RGB_M2
-        >>>
-        >>> #:
-        >>> swatchplot([RGB_1, RGB_2, RGB_M1, RGB_M2],
-        >>>            show_names = False, figsize = (6, 1));
         >>>
         >>> #: Mixing two lists of hex-colors of length 5.
         >>> #  Mixing takes place once in the RGB color space (M1)
@@ -50,27 +45,26 @@ def mixcolor(alpha, color1, color2, where = 1):
         >>> HEX_M1
         >>>
         >>> #: Mixing via XYZ color space
-        >>> #  TODO: Not yet implemented, will throw an exception.
-        >>> HEX_M2 = mixcolor(0.8, HEX_1, HEX_2, "XYZ")
-        >>> MEX_M2
+        >>> HEX_M2 = mixcolor(0.8, HEX_1, HEX_2, "CIEXYZ")
+        >>> HEX_M2
         >>>
         >>> #:
         >>> swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2],
-        >>>            show_names = False, figsize = (6, 1));
+        >>>            show_names = False, figsize = (5.5, 1));
         >>>
         >>> #: Mixing objects of different length and type
         >>> #  Coordinates of the shorter object (RGB_1) will be recycled
         >>> #  to the same number of colors as in the longer object (HEX_2)
         >>> RES_1 = mixcolor(0.2, RGB_1, HEX_2, "RGB")
-        >>> RES1.colors()
+        >>> RES_1.colors()
         >>>
         >>> #:
         >>> RES_2 = mixcolor(0.8, RGB_1, HEX_2, "RGB")
-        >>> RES2.colors()
+        >>> RES_2.colors()
         >>>
         >>> #:
-        >>> swatchplot([RGB_1, RES_2, HEX_2, RES],
-        >>>            show_names = False, figsize = (6, 1));
+        >>> swatchplot([RGB_1, RES_2, HEX_2, RES_1, RES_2],
+        >>>            show_names = False, figsize = (5.5, 2));
 
     Raises:
         TypeError: In case `alpha` is not float or `int`.
@@ -85,19 +79,17 @@ def mixcolor(alpha, color1, color2, where = 1):
     from colorspace.palettes import palette
 
     if not isinstance(alpha, (float, int)):
-        raise TypeError("argument 'alpha' must be float or int")
+        raise TypeError("argument `alpha` must be float or int")
     if isinstance(alpha, int): alpha = float(alpha)
     if alpha < 0. or alpha > 1.:
-        raise ValueError("argument 'alpha' must be in the range of [0., 1.]")
+        raise ValueError("argument `alpha` must be in the range of [0., 1.]")
     if not isinstance(where, str):
-        raise TypeError("argument 'where' must be str")
+        raise TypeError("argument `where` must be str")
 
     # Allowed color types:
-    #allowed_spaces = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "RGB", "sRGB",
-    #                  "CIELAB", "polarLAB", "HSV", "HLS"]
-    allowed_spaces = ["RGB", "XYZ"]
+    allowed_spaces = ["RGB", "CIEXYZ"]
     if not where in allowed_spaces:
-        raise ValueError(f"argument '{where}' none of the allowed types: {', '.join(allowed_spaces)}")
+        raise ValueError(f"argument `{where}` none of the allowed types: {', '.join(allowed_spaces)}")
     elif where == "HCL":
         where = "polarLUV"
 
@@ -158,7 +150,6 @@ def check_hex_colors(colors, allow_nan = False):
         colors (str, list, numpy.ndarray): single string or list of strings
             with colors.  See function description for details.  In case it is a
             `numpy.ndarray` it well be flattened to 1D if needed.
-        allow_nan (bool): allow for missing values (`np.nan`). Defaults to `False`.
 
     Returns:
         list: Returns a list (length 1 or more) in case all values provided
@@ -183,42 +174,37 @@ def check_hex_colors(colors, allow_nan = False):
         >>> check_hex_colors(asarray(["#f0f", "#00F", "#00FFFF", "#ff003311"]))
 
     Raises:
-        TypeError: If `allow_nan` is not boolean `True` or `False`.
         ValueError: In case `colors` is a list but does not only contain strnigs.
         TypeError: If `colors` is neither string or list of strings.
         ValueError: If at least one of the colors is an invalid hex color.
     """
     from re import match, compile
     from matplotlib.colors import to_hex
-    from numpy import all, repeat, ndarray
+    from numpy import all, repeat, ndarray, nan, isnan
     from .colorlib import colorobject
 
     # Saniy checks
-    if not isinstance(allow_nan, bool): raise TypeError("Input 'allow_nan' is not boolean.")
     if isinstance(colors, str):
         colors = [colors]
     elif isinstance(colors, list):
         if not all([isinstance(x, str) for x in colors]):
-            raise ValueError("List on argument 'colors' must only contain strings.")
+            raise ValueError("list on argument `colors` must only contain str")
     elif isinstance(colors, ndarray):
         if not len(colors.shape) == 1:
-            raise TypeError("If an `numpy.ndarray` is provided on 'colors' it must be 1D!")
+            raise TypeError("if an `numpy.ndarray` is provided on argument `colors` it must be 1-dimensional")
         colors = colors.flatten().tolist()
     elif isinstance(colors, colorobject):
         colors = colors.colors()
     else:
-        raise TypeError("Argument 'colors' none of the allowed types.")
+        raise TypeError("argument `colors` none of the allowed types")
 
 
-    # Checking all colors
-    if not allow_nan:
-        pat   = compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
-    else:
-        # TODO(R): Implement this one.
-        raise Exception("allow_nan not yet implemented.")
+    # Regular expression for checking for valid hex colors
+    pat   = compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
 
     # check individual entry. Also extends the color if needed.
     def check(x, pat):
+        # Check if string is of allowed type
         tmp = pat.match(x)
 
         # In case this is no hex definition (not matching the regular expression
@@ -227,18 +213,18 @@ def check_hex_colors(colors, allow_nan = False):
         # We once again shoot it trough our regular expression.
         if not tmp:
             if x[0] == "#":
-                raise ValueError("String '{:s}' is not a valid 3/6/8 digit hex color.".format(x))
+                raise ValueError(f"string \"{x}\" is not a valid 3/6/8 digit hex color")
             try:
                 x = to_hex(x)
             except:
-                raise ValueError("String '{:s}' could not be converted to valid hex color.".format(x))
+                raise ValueError(f"string \"{x}\" could not be converted to valid hex color")
             x = x.upper()
 
         tmp = pat.match(x)
         if not tmp:
-            raise ValueError("String '{:s}' is no valid hex color.".format(x))
+            raise ValueError(f"string \"{x}\" is no valid hex color")
         elif len(tmp.group(1)) == 3 and not tmp.group(2) == None:
-            raise ValueError("String '{:s}' is no valid hex color!".format(x))
+            raise ValueError(f"string \"{x}\" is no valid hex color")
         # Three digit: extend
         elif len(tmp.group(1)) == 3:
             x = "#" + "".join(repeat([x for x in tmp.group(1)], 2))
@@ -269,7 +255,7 @@ def extract_transparency(x, mode = "float"):
             on the `mode` specified.
 
     Raises:
-        TypeError: If input object does not inherit from :py:class:`colorspace.colorlib.colorobject`.
+        TypeError: If input object does not inherit from `colorobject`.
         TypeError: If 'mode' is not string.
         ValueError: If 'mode' is not one of the allowed types shown in the arguments description.
 
@@ -314,11 +300,11 @@ def extract_transparency(x, mode = "float"):
     from numpy import asarray, int16
 
     if not isinstance(x, (colorobject, palette)):
-        raise TypeError("Input 'x' must inherit from `colorspace.colorlib.colorobject` or `colorspace.palettes.palette`.")
+        raise TypeError("argument `x` must inherit from `colorspace.colorlib.colorobject` or `colorspace.palettes.palette`")
     if not isinstance(mode, str):
-        raise TypeError("Input 'mode' must be a string.")
+        raise TypeError("argument `mode` must be a str")
     if not mode in ["float", "int", "str"]:
-        raise ValueError("Input 'mode' must be one of \"float\", \"int\", or \"str\".")
+        raise ValueError("argument `mode` must be one of \"float\", \"int\", or \"str\"")
 
     # Convert colorspace.palettes.palette to colorspace.colorlib.hexcols
     if isinstance(x, palette):
@@ -412,11 +398,11 @@ def adjust_transparency(x, alpha):
     from copy import deepcopy
 
     if not isinstance(x, colorobject):
-        raise TypeError("Input must inherit from `colorspace.colorlib.colorobject`.")
+        raise TypeError("argument `x` must inherit from `colorspace.colorlib.colorobject`")
     x = deepcopy(x)
     # Checking the alpha object
     if not isinstance(alpha, (type(None), list, float, int, np.ndarray)):
-        raise TypeError("Unexpected input on argument 'alpha'.")
+        raise TypeError("unexpected input on argument `alpha`")
 
     # Remove transparency as alpha was set to None
     if isinstance(alpha, type(None)):
@@ -424,19 +410,19 @@ def adjust_transparency(x, alpha):
     # Adding constant transparency to all colors
     elif isinstance(alpha, (float, int)):
         if alpha < 0 or alpha > 1:
-            raise ValueError("Transparency (alpha) must be in the range of `[0., 1.]`.")
+            raise ValueError("transparency (`alpha`) must be in the range of `[0., 1.]`")
         x._data_["alpha"] = np.repeat(float(alpha), len(x))
     # Using same procedure for lists and np.ndarrays.
     elif isinstance(alpha, (list, np.ndarray)):
         if not len(alpha) == len(x):
-            raise ValueError("Lengt of object 'alpha' must match length of object 'x'.")
+            raise ValueError("lengt of `alpha` must match length of `x`")
         try:
             alpha = np.asarray(alpha, dtype = "float")
         except:
-            raise ValueError("Input on 'alpha' cannot be converted to float.")
+            raise ValueError("argument `alpha` cannot be converted to float")
         # Check values
         if np.any(alpha < 0) or np.any(alpha > 1):
-            raise ValueError("Transparency (alpha) must be in the range of `[0., 1.]`.")
+            raise ValueError("transparency (`alpha`) must be in the range of `[0., 1.]`")
         x._data_["alpha"] = alpha
 
     return x
@@ -554,7 +540,7 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
 
     Raises:
         TypeError: If cols or bg is not one of the recognized types.
-        TypeError: If argument plot is not boolean.
+        TypeError: If argument plot is not bool.
         TypeError: If `ax` is not `None` or a `matplotlib.axes.Axes` object. Only
             checked if `plot = True`.
 
@@ -571,7 +557,7 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
     bg     = palette(bg)
 
     if not isinstance(plot, bool):
-        raise TypeError("Input 'plot' must be boolean.")
+        raise TypeError("argument `plot` must be bool")
     if len(colors) > len(bg):
         bg = palette(resize(bg.colors(),   len(colors)), "_tmp_palette_")
     elif len(bg) > len(colors):
@@ -590,7 +576,7 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
         from matplotlib.patches import Rectangle
 
         if not isinstance(ax, (type(None), Axes)):
-            raise TypeError("Argument 'ax' must be `None` or a `matplotlib.axes.Axes` object.")
+            raise TypeError("argument `ax` must be `None` or a `matplotlib.axes.Axes` object")
 
         # Open figure if input "fig" is None, else use
         # input "fig" handler.
@@ -671,7 +657,7 @@ def max_chroma(H, L, floor = False):
     Raises:
         TypeError: If unexpected input on `H` or `L`.
         TypeError: If length of `H` and `L` do not match (see description).
-        TypeError: If input `floor` is not boolean.
+        TypeError: If input `floor` is not bool.
     """
 
     import numpy as np
@@ -685,15 +671,15 @@ def max_chroma(H, L, floor = False):
         #H = np.asarray([H] if len(H.shape) == 0 else H, dtype = "float")
         H = np.atleast_1d(np.asarray(H, dtype = "float"))
     else:
-        raise TypeError("Unexpected input on argument `H`.")
+        raise TypeError("unexpected input on argument `H`")
     if isinstance(L, (float, int)):
         L = np.atleast_1d(np.asarray(L, dtype = "float"))
     elif isinstance(L, (list, np.ndarray)):
         L = np.atleast_1d(np.asarray(L, dtype = "float"))
     else:
-        raise TypeError("Unexpected input on argument `L`.")
+        raise TypeError("unexpected input on argument `L`")
     if not isinstance(floor, bool):
-        raise TypeError("Input `floor` must be boolean `True` or `False`.")
+        raise TypeError("argument `floor` must be bool")
 
     # Check if we have to repeat one of the two inputs.
     # This is only used if one is of length > 1 while the other
@@ -704,7 +690,7 @@ def max_chroma(H, L, floor = False):
     # Now both arrays must have the same number of elements. If not,
     # stop execution and throw an error.
     if not len(H) == len(L):
-        raise ValueError("Number of values and `H` and `L` do not match or cannot be matched.")
+        raise ValueError("number of values and `H` and `L` do not match or cannot be matched")
 
     # Make sure that all hue values lie in the range of 0-360 
     while np.any(H < 0):    H = np.where(H < 0,    H + 360., H)
@@ -733,7 +719,7 @@ def max_chroma(H, L, floor = False):
     def get_max(a, b):
         res = []
         for i in range(len(a)):
-            res.append(mctab["{:d}-{:d}".format(a[i], b[i])])
+            res.append(mctab[f"{a[i]:d}-{b[i]:d}"])
         return np.asarray(res).flatten()
 
     # Calculate max chroma
@@ -780,7 +766,7 @@ def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
         TypeError: If `space` is not str.
         ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
         TypeError: If input 'col' is not among the one of the recognized objects.
-        TypeError: If `fixup` is not boolean.
+        TypeError: If `fixup` is not bool.
 
     TODO: Warning when used non-interactively, same for both lighten and darken
           (see rendered Examples).
@@ -820,7 +806,7 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         TypeError: If `space` is not str.
         ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
         TypeError: If input 'col' is not among the one of the recognized objects.
-        TypeError: If `fixup` is not boolean.
+        TypeError: If `fixup` is not bool.
 
     TODO: Warning when used non-interactively, same for both lighten and darken
           (see rendered Examples).
@@ -831,17 +817,17 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     from numpy import fmin, fmax, where
 
     if not isinstance(method, str):
-        raise TypeError("Input 'method' must be str.")
+        raise TypeError("argument `method` must be str")
     elif not method in ["absolute", "relative"]:
         raise ValueError("Wrong input for 'method'. Must be `\"absolute\"` or `\"relative\"`.")
 
     if not isinstance(space, str):
-        raise TypeError("Input 'space' must be str.")
+        raise TypeError("argument `space` must be str")
     elif not space in ["HCL", "HLS", "combined"]:
-        raise ValueError("Wrong input for 'space'. Must be `\"HCL\"`, `\"HLS\"`, or `\"combined\"`.")
+        raise ValueError("unexpected value on argument `space`. Must be `\"HCL\"`, `\"HLS\"`, or `\"combined\"`.")
 
     if not isinstance(fixup, bool):
-        raise TypeError("Input `fixup` must be boolean `True` or `False`.")
+        raise TypeError("argument `fixup` must be bool")
 
     # If the input is a colorobject (hex, HSV, ...) we first
     # put everything into a (temporary) palette.
@@ -854,8 +840,8 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     # If the input is a palette object; keep it as it is.
     elif isinstance(col, palette):    x = col
     else:
-        raise TypeError("Input object 'col' must be a colorobject, palette, or a string " + \
-                        "or list of strings with valid hex colors.")
+        raise TypeError("argument `col` must be a colorobject, palette, a string, " + \
+                        "or list of strings with valid hex colors")
 
     # Function to lighten colors in the HCL space.
     # Returns a colorobject with transformed coordinates.

@@ -86,7 +86,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
 
     # Wrong input for output
     if not output is None and not isinstance(output, str):
-        raise ValueError("output has to be None or a string (file name)")
+        raise ValueError("output has to be None or a str (file name)")
 
     # Import imageio
     try:
@@ -124,7 +124,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     try:
         import matplotlib.pyplot as plt
     except Exception as e:
-        raise ImportError(f"problems importing `matplotlib.pyplot`: {e}")
+        raise ImportError(f"problems importing matplotlib.pyplot: {e}")
 
     from numpy import ceil
     if len(cvd) <= 3: [nrow, ncol] = [1, len(cvd)]

@@ -55,7 +55,7 @@ class Slider(object):
             self._Value = DoubleVar(master)
             vcmd = getattr(self, "isValidFloat")
         else:
-            raise Exception("unknown type_ when initializing {:s}".format(self.__class__.__name__))
+            raise Exception(f"unexpected input on argument `type_` when initializing {self.__class__.__name__}")
 
         self._name = name
 
@@ -475,6 +475,7 @@ class gui(Tk):
             is used.
 
     Example:
+
         >>> colorspace.choose_palette()
     """
 
@@ -574,7 +575,7 @@ class gui(Tk):
         palettes (see also :py:class:`palettes.hclpalettes`).
 
         Args:
-        type_ (str): The default selected palette type on GUI initialization.
+            type_ (str): The default selected palette type on GUI initialization.
         """
         opts = self.palettes().get_palette_types()
 
@@ -1052,12 +1053,7 @@ class gui(Tk):
     def _show_demo(self):
         """Show Demo Plot
 
-        Todo;
-            * Tcl/Tk demo plots no longer working as expected.
-
-        .. note::
-            Requires matplotlib. Will show a message if matplotlib is
-            not installed on the machine.
+        Requires matplotlib to be installed.
         """
         try:
             import matplotlib
@@ -1072,7 +1068,7 @@ class gui(Tk):
             def draw_figure(canvas, figure, loc=(0, 0)):
                 """Draw a matplotlib figure onto a Tk canvas
 
-                loc: location of top-left corner of figure on canvas in pixels.
+                loc (list of int): location of top-left corner of figure on canvas in pixels.
 
                 Inspired by matplotlib source: lib/matplotlib/backends/backend_tkagg.py
                 """
@@ -1141,7 +1137,7 @@ class DemoApp(Frame):
 
     def plot(self, fun, colors):
         if not callable(fun):
-            raise TypeError("argument 'fun' must be a callable function")
+            raise TypeError("argument `fun` must be a callable function")
 
         # Clearing figure, adding axis and call plotting function
         self.fig.clear(True)
