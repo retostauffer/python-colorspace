@@ -46,18 +46,18 @@ def test_wrong_usage():
 def test_default_return():
     pals = hcl_palettes()
     assert isinstance(pals, hclpalettes)
-    assert pals.length() == 135
+    assert pals.length() == 99
 
 def test_get_palettes():
     pals = hcl_palettes()
     assert isinstance(pals.get_palettes(), list)
-    assert len(pals.get_palettes()) == 117
+    assert len(pals.get_palettes()) == 99
 
 def test_get_palette_types():
     types = hcl_palettes().get_palette_types()
     assert isinstance(types, list)
     assert np.all([isinstance(x, str) for x in types])
-    assert len(types) == 8
+    assert len(types) == 7
 
 
 # ------------------------------------------

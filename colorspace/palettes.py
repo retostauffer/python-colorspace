@@ -197,7 +197,7 @@ class palette:
             n = len(self.colors())
         elif not isinstance(n, int) or n < len(self.colors()):
             raise ValueError("argument `n` must be None or int greater or equal to" + \
-                             f"the number of colors in the palette (>= {len(self.colors)})")
+                             f"the number of colors in the palette (>= {len(self.colors())})")
 
         # Get coordinates
         pos = round(linspace(0, 1, len(self.colors())), 6)

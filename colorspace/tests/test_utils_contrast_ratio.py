@@ -102,22 +102,26 @@ def test_plot_options():
     fig, ax = plt.subplots()
     res = contrast_ratio("#F00", bg = "#000", plot = True, ax = ax)
     assert isinstance(res, Axes)
+    plt.close()
     del fig, ax, res
 
     # Multiple subplots
     fig, axes = plt.subplots(2, 2)
     res = contrast_ratio("#F00", bg = "#000", plot = True, ax = axes[0, 0])
     assert isinstance(res, Axes)
+    plt.close()
     del fig, axes, res
 
     # In case plot = False 'ax' should not be checked (object type neglected)
     res = contrast_ratio("#F00", bg = "#000", plot = False, ax = "foo")
     assert isinstance(res, np.ndarray)
+    plt.close()
     del res
 
     # Plot set to True but ax = None (default)
     res = contrast_ratio("#F00", bg = "#000", plot = True, ax = None)
     assert isinstance(res, np.ndarray)
+    plt.close()
     del res
 
 

@@ -18,9 +18,6 @@ def test_wrong_usage():
     raises(ValueError, check_hex_colors, [1, 2, 3])
     raises(ValueError, check_hex_colors, [1, 2, "foo"])
 
-    # Non-boolean for allow_nan
-    raises(TypeError,  check_hex_colors, "#ff0033", "foo")
-
     # Wrong hex color
     raises(ValueError, check_hex_colors, "#ff")
     raises(ValueError, check_hex_colors, "#ff00")

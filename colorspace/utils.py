@@ -136,7 +136,7 @@ def mixcolor(alpha, color1, color2, where = 1):
 # --------------------------------------------------------------------
 # Performs the check on hex color strings to see if they are valid.
 # --------------------------------------------------------------------
-def check_hex_colors(colors, allow_nan = False):
+def check_hex_colors(colors):
     """Checking Hex Color Validity
 
     Valid hex colors are three digit hex colors (e.g., `#F00`), six digit

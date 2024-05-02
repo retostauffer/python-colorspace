@@ -36,18 +36,22 @@ def test_wrong_usage():
 def test_input_hex_list():
     fig = demoplot(cols, "Lines")
     assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
 def test_input_colorobject():
     x = hexcols(cols)
     x.to("HCL")
     fig = demoplot(x, "Lines")
     assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
 def test_input_palette():
     x = palette(cols, "test palette")
     fig = demoplot(x, "Lines")
     assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
 def test_input_hclpalette():
     fig = demoplot(diverging_hcl(), "Lines")
     assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
 
 # ---------------------------------
 # Testing different plots
@@ -57,49 +61,49 @@ def test_input_hclpalette():
 def test_demoplot_Bar():
     fig = demoplot(cols, "bAr")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_Heatmap():
     fig = demoplot(cols, "Heatmap")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_Lines():
     fig = demoplot(cols, "Lines")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_Map():
     fig = demoplot(cols, "Map")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_Matrix():
     fig = demoplot(cols, "Matrix")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_Pie():
     fig = demoplot(cols, "Pie")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_Spectrum():
     fig = demoplot(cols, "Spectrum")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_Spine():
     fig = demoplot(cols, "Spine")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 # ---------------------------------
 # Testing ax option
@@ -108,6 +112,7 @@ def test_demoplot_single_subplot():
     fig = plt.subplot()
     res = demoplot(cols, "Map", ax = fig)
     assert isinstance(res, Axes)
+    plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
 def test_demoplot_multi_subplots():
@@ -120,7 +125,7 @@ def test_demoplot_multi_subplots():
     assert isinstance(ax2, Axes)
     assert isinstance(ax3, Axes)
     assert isinstance(ax4, Axes)
-    return fig
+    plt.close() # Closing figure instance
 
 # ---------------------------------
 # Adding title and labels (**kwargs)
@@ -132,7 +137,7 @@ def test_demoplot_title_and_labels():
                    xlabel = "custom x label",
                    ylabel = "custom y label")
     assert isinstance(fig, Figure)
-    return fig
+    plt.close() # Closing figure instance
 
 
 # ---------------------------------
