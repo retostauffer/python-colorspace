@@ -43,7 +43,9 @@ def deutan(cols, severity = 1., linear = True):
         >>> # Drawing 100 colors along the HCL rainbow color palette
         >>> cols = rainbow_hcl()(100)
         >>> specplot(cols);
+        >>> #:
         >>> specplot(deutan(cols));
+        >>> #:
         >>> specplot(deutan(cols, 0.5));
         >>>
         >>> #: List of (hex) colors
@@ -51,8 +53,8 @@ def deutan(cols, severity = 1., linear = True):
         >>> deutan(cols);
         >>>
         >>> #: Visualize original and simulated color swatches
-        >>> swatchplot([cols, deutan(cols)], show_names = False,
-        >>>            figsize = (7, 1));
+        >>> swatchplot([cols, deutan(cols)],
+        >>>            show_names = False, figsize = (5, 1.5));
         >>>
         >>> #: From palette object
         >>> pal = palette(cols, name = "custom palette")
@@ -100,7 +102,9 @@ def protan(cols, severity = 1., linear = True):
         >>> # Drawing 100 colors along the HCL rainbow color palette
         >>> cols = rainbow_hcl()(100)
         >>> specplot(cols);
+        >>> #:
         >>> specplot(protan(cols));
+        >>> #:
         >>> specplot(protan(cols, 0.5));
         >>>
         >>> #: List of (hex) colors
@@ -108,8 +112,8 @@ def protan(cols, severity = 1., linear = True):
         >>> protan(cols);
         >>>
         >>> #: Visualize original and simulated color swatches
-        >>> swatchplot([cols, protan(cols)], show_names = False,
-        >>>            figsize = (7, 1));
+        >>> swatchplot([cols, protan(cols)],
+        >>>            show_names = False, figsize = (5, 1.5));
         >>>
         >>> #: From palette object
         >>> pal = palette(cols, name = "custom palette")
@@ -157,7 +161,9 @@ def tritan(cols, severity = 1., linear = True):
         >>> # Drawing 100 colors along the HCL rainbow color palette
         >>> cols = rainbow_hcl()(100)
         >>> specplot(cols);
+        >>> #:
         >>> specplot(tritan(cols));
+        >>> #:
         >>> specplot(tritan(cols, 0.5));
         >>>
         >>> #: List of (hex) colors
@@ -165,8 +171,8 @@ def tritan(cols, severity = 1., linear = True):
         >>> tritan(cols);
         >>>
         >>> #: Visualize original and simulated color swatches
-        >>> swatchplot([cols, tritan(cols)], show_names = False,
-        >>>            figsize = (7, 1));
+        >>> swatchplot([cols, tritan(cols)],
+        >>>            show_names = False, figsize = (5, 1.5));
         >>>
         >>> #: From palette object
         >>> pal = palette(cols, name = "custom palette")
@@ -174,7 +180,11 @@ def tritan(cols, severity = 1., linear = True):
         >>>
         >>> #: From cmap (returns cmap)
         >>> tritan(pal.cmap())
+
+    TODO: Something goes wrong here when converting colors to cmap; rgb in cmap
+          seems to be wrong not matching the original RGB colors.
     """
+
 
     from .CVD import CVD
 
@@ -220,7 +230,9 @@ class CVD(object):
         >>> # Spectrum plots of modified colors
         >>> from colorspace import specplot
         >>> specplot(deut.colors(), figsize = (7, 0.5));
+        >>> #:
         >>> specplot(prot.colors(), figsize = (7, 0.5));
+        >>> #:
         >>> specplot(trit.colors(), figsize = (7, 0.5));
 
     Raises:
@@ -575,23 +587,28 @@ def desaturate(cols, amount = 1.):
 
     Example:
 
-        >>> from colorspace import diverging_hcl
+        >>> from colorspace import palette, diverging_hcl, desaturate
+        >>> from colorspace import specplot, swatchplot
         >>> from colorspace.colorlib import hexcols
-        >>> cols = hexcols(diverging_hcl()(10))
-        >>> from colorspace import specplot
-        >>> specplot(desaturate(cols))
-        >>> specplot(desaturate(cols, 0.5))
         >>>
-        >>> # List of (hex) colors
+        >>> cols = hexcols(diverging_hcl()(10))
+        >>> specplot(desaturate(cols));
+        >>> #:
+        >>> specplot(desaturate(cols, 0.5));
+        >>>
+        >>> #: Take a list of colors which can be interpreted/translated to hex
+        >>> # colors and desaturate them via the HCL color space
         >>> cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
         >>> desaturate(cols)
-        >>> swatchplot([cols, desaturate(cols)], show_names = False)
+        >>> #:
+        >>> swatchplot([cols, desaturate(cols)],
+        >>>            show_names = False, figsize = (5, 1.5));
         >>>
-        >>> # From palette object
+        >>> #: Desaturate palette object (same colors as above)
         >>> pal = palette(cols, name = "custom palette")
         >>> desaturate(pal)
         >>>
-        >>> # From cmap (returns cmap)
+        >>> #: Desaturate a matplotlib cmap object
         >>> desaturate(pal.cmap())
     """
 

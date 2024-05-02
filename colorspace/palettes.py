@@ -5,9 +5,10 @@ import sys
 
 
 class palette:
-    """A class for custom color palettes with a fixed number of colors.
-    Creates a custom color map based on a list of hex colors (fixed number of
-    colors) and a name.
+    """Custom Color Palette
+
+    Allows for the construction of custom (named) color palettes with a fixed
+    set of colors based on hex color inputs.
 
     Args:
         colors (str, list, colorspace.colorlib.colorobject): One or multiple
@@ -26,24 +27,30 @@ class palette:
         >>> from colorspace.palettes import palette
         >>> colors = ["#070707", "#690056", "#C30E62", "#ED8353", "#FDF5EB"]
         >>> custom_pal = palette(colors, "test palette")
-        >>> print(custom_pal)
+        >>> custom_pal
         >>>
-        >>> ## Testing different input types (str, list, colorobject)
+        >>> #: Creating custom palettes based on different input
+        >>> # types (str, list, colorobject)
         >>> from colorspace.colorlib import hexcols
         >>> from colorspace import palette
         >>> hexcols = hexcols(colors)
         >>> 
-        >>> pal1 = palette("#ff0033")
-        >>> pal2 = palette("#ff0033", name = "custom name")
-        >>> pal3 = palette(colors,  name = "custom 1.1")
-        >>> pal4 = palette(hexcols, name = "custom 1.2")
+        >>> # Creating a series of custom palette objects
+        >>> pal1 = palette("#ff0033") # unnamed
+        >>> pal2 = palette("#ff0033", name = "Custom Palette")
+        >>> pal3 = palette(colors,  name = "Custom Palette #3")
+        >>> pal4 = palette(hexcols, name = "Custom Palette #4")
         >>> print(pal1)
+        >>> #:
         >>> print(pal2)
+        >>> #:
         >>> print(pal3)
+        >>> #:
         >>> print(pal4)
         >>>
+        >>> #: Palette Swatch Plot
         >>> from colorspace import swatchplot
-        >>> swatchplot([pal3, pal4])
+        >>> swatchplot([pal3, pal4], figsize = (5.5, 2.0));
 
     """
 
@@ -74,7 +81,7 @@ class palette:
         self._name = name
 
     def __len__(self):
-        """Returns number of colors of this palette
+        """Number of Colors
 
         Returns:
             int: Number of colors.
@@ -89,7 +96,7 @@ class palette:
         return str
 
     def rename(self, name):
-        """Rename custom palette
+        """Rename Custom Palette
 
         Args:
             name (None, str): new name for the palette.
@@ -102,7 +109,7 @@ class palette:
         self._name = name
 
     def name(self):
-        """Get name of palette
+        """Get Palette Name
 
         Returns:
             None, str: Name of the palette (if set).
@@ -110,7 +117,7 @@ class palette:
         return self._name
 
     def colors(self, *args, **kwargs):
-        """Get colors of palette.
+        """Get Palette Colors
 
         Args:
             *args: Ignored.
@@ -123,7 +130,9 @@ class palette:
         ###TODO(R) Remove? Return [str(x) for x in self._colors]
 
     def swatchplot(self, **kwargs):
-        """Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
+        """Palette Swatch Plot
+
+        Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
         function. Plotting the spectrum of the current color palette.
 
         Args:
@@ -145,7 +154,7 @@ class palette:
         swatchplot(pals = self.colors(), show_names = False, **kwargs)
 
     def cmap(self, n = None, rev = False):
-        """Return matplotlib compatible color map
+        """Get matplotlib Compatible Color Map
 
         Converts the current palette into a `matplotlib.colors.LinearSegmentedColormap` color map.
         If input argument `n = None` the color map will provide the same number
@@ -237,7 +246,9 @@ class defaultpalette:
 
     # Default representation of defaultpalette objects.
     def __repr__(self):
-        """Prints the current settings on stdout.
+        """Standard Representation
+
+        Prints the current settings on stdout.
         Development method."""
 
         res = []
@@ -259,7 +270,9 @@ class defaultpalette:
         return "\n".join(res)
 
     def __call__(self, n = 11):
-        """Wrapper function for :py:func:`colors`.
+        """Get Colors
+
+        Wrapper function for :py:func:`colors`.
 
         Args:
             n (int): Number of colors, defaults to 7.
@@ -270,7 +283,9 @@ class defaultpalette:
         return self.colors(n)
 
     def method(self):
-        """Returns method used to create this palette.
+        """Get Construction Method
+
+        Returns method used to create this palette.
 
         Returns:
             Returns the method (`str`, name of the function to be called
@@ -279,7 +294,9 @@ class defaultpalette:
         return self._method_
 
     def type(self):
-        """Get type of the color palette.
+        """Get Palette Type
+
+        Get type of the color palette.
 
         Returns:
             Returns the type (`str`) of the palette.
@@ -287,7 +304,9 @@ class defaultpalette:
         return self._type_
 
     def name(self):
-        """Get name of color palette.
+        """Get Palette Name
+
+        Get name of color palette.
 
         Returns:
             Returns the name (`str`) of the palette.
@@ -295,7 +314,9 @@ class defaultpalette:
         return self._name_
 
     def rename(self, name):
-        """Allows to rename the palette.
+        """Rename Palette
+
+        Allows to rename the palette.
 
         Args:
             name (str): New palette name.
@@ -303,11 +324,11 @@ class defaultpalette:
         self._name_ = name
 
     def get(self, what):
-        """Allows to load the settings of the palette for the
-        different parameters (e.g., `h1`, `h2`, ...). Returns
-        `None` if the parameter does not exist.
-        Another method (:py:func:`set`) allows to set the
-        parameters.
+        """Get Specific Palette Settings
+
+        Allows to load the settings of the palette for the different parameters
+        (e.g., `h1`, `h2`, ...). Returns `None` if the parameter does not
+        exist. Another method (:py:func:`set`) allows to set the parameters.
 
         Args:
             what (str): Name of the parameter which should be extracted and
@@ -324,8 +345,10 @@ class defaultpalette:
 
 
     def set(self, **kwargs):
-        """Allows to set/overwrite color palette parameters (e.g., `h1`,
-        `h2`, ...).  Another method (:py:func:`get`) allows to retrieve the
+        """Set Specific Palette Settings
+
+        Allows to set/overwrite color palette parameters (e.g., `h1`, `h2`,
+        ...).  Another method (:py:func:`get`) allows to retrieve the
         parameters.
 
         Args:
@@ -360,7 +383,9 @@ class defaultpalette:
         self._settings_[key] = val
 
     def get_settings(self):
-        """Allows to get the current settings of the palette object.
+        """Get All Palette Settings
+
+        Allows to get the current settings of the palette object.
         To retrieve single parameters use :py:func:`get`.
 
         Returns:
@@ -370,7 +395,9 @@ class defaultpalette:
         return self._settings_
 
     def colors(self, n = 11):
-        """Load a set of `n` colors from this palette.  This method evaluates
+        """Get Colors
+
+        Load a set of `n` colors from this palette.  This method evaluates
         the `method` argument to generate a set of hex colors which will be
         returned.  Please note that it is possible that none-values will be
         returned if the fixup-setting is set to `False` (see
@@ -448,10 +475,11 @@ class hclpalettes:
 
         >>> from colorspace import hclpalettes
         >>> hclpals = hclpalettes()
-        >>> print(hclpals)
-        >>>
-        >>> hclpals.plot()
-        >>> hclpals.plot(n = 11)
+        >>> hclpals
+        >>> #: Palette swatch plots with 5 colors each
+        >>> hclpals.plot(n = 5);
+        >>> #: Palette swatch plots with 11 colors each
+        >>> hclpals.plot(n = 11);
     """
     def __init__(self, files = None, files_regex = None):
 
@@ -499,7 +527,9 @@ class hclpalettes:
 
 
     def __repr__(self):
-        """Standard representation of the object."""
+        """Standard Representation
+
+        Standard representation of the object."""
         res = ["HCL palettes"]
 
         for type_ in self.get_palette_types():
@@ -525,7 +555,9 @@ class hclpalettes:
 
 
     def get_palette_types(self):
-        """Get all palette types.
+        """Get Palette Types
+
+        Get all palette types.
 
         Returns:
             list: Returns a `list` of strings (`str`) with the names of all palette types
@@ -535,7 +567,9 @@ class hclpalettes:
         return list(self._palettes_.keys())
 
     def get_palettes(self, type_ = None):
-        """Get all palettes of a specific type.
+        """Get Type-Specific Palettes
+
+        Get all palettes of a specific type.
 
         Args:
             type_ (None, str): (Partial) Name of the palettes which should be returned.
@@ -571,7 +605,9 @@ class hclpalettes:
         return res
 
     def get_palette(self, name):
-        """Get a palette with a specific name.
+        """Get Palette by Name
+
+        Get a palette with a specific name.
 
         Args:
             name (str): Name of the color palette which should be returned. Not
@@ -669,7 +705,9 @@ class hclpalettes:
             return [palette_type, pals]
 
     def length(self):
-        """Get length of palette.
+        """Get Number of Palettes
+
+        Get length of palette.
 
         Returns:
             int: Integer, number of palettes in the object.
@@ -702,9 +740,12 @@ class hclpalettes:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalette:
-    """Hy, I am the base class.  Is extended by the different HCL based color
-    palettes such as the classes diverging_hcl, qualitative_hcl, rainbow_hcl,
-    sequential_hcl, and maybe more in the future."""
+    """Base Class for HCL Palettes
+
+    Hy, I am the base class.  Is extended by the different HCL based color
+    palettes such as the classes :py:class:`diverging_hcl`, :py:class:`qualitative_hcl`,
+    :py:class:`rainbow_hcl`, :py:class:`sequential_hcl`, and maybe even more in the future.
+    """
 
     # Default call: return n hex colors
     def __call__(self, *args, **kwargs):
@@ -722,7 +763,9 @@ class hclpalette:
         return self.colors(*args, **kwargs)
 
     def specplot(self, n = 180, *args, **kwargs):
-        """Interfacing the :py:func:`colorspace.specplot.specplot` function.
+        """Color Spectrum Plot
+
+        Interfacing the :py:func:`colorspace.specplot.specplot` function.
         Plotting the spectrum of the current color palette.
 
         Args:
@@ -744,7 +787,9 @@ class hclpalette:
         return
 
     def swatchplot(self, n = 7, **kwargs):
-        """Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
+        """Palette Swatch Plot
+
+        Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
         function. Plotting the spectrum of the current color palette.
 
         Args:
@@ -764,7 +809,9 @@ class hclpalette:
 
 
     def name(self):
-        """Get name of color palette.
+        """Get Palette Name
+
+        Get name of color palette.
 
         Returns:
             Returns the name of the palette, string.
@@ -772,7 +819,9 @@ class hclpalette:
         return self._name
 
     def get(self, key):
-        """Returns one specific item of the palette settings,
+        """Get Specific Palette Setting
+
+        Returns one specific item of the palette settings,
         e.g., the current value for `h1` or `l2`.
         If not existing a `None` will be returned.
 
@@ -797,7 +846,9 @@ class hclpalette:
         return self.settings[key]
 
     def show_settings(self):
-        """Shows the current settings (table like print to stdout). Should more be
+        """Show Palette Settings
+
+        Shows the current settings (table like print to stdout). Should more be
         seen as a development method than a very useful thing.
 
         Example:
@@ -1015,7 +1066,9 @@ class hclpalette:
 
 
     def cmap(self, n = 101, name = "custom_hcl_cmap"):
-        """Allows to retrieve a matplotlib LinearSegmentedColormap color map.
+        """Get matplotlib Compatible Color Map
+
+        Allows to retrieve a matplotlib LinearSegmentedColormap color map.
         Clasically LinearSegmentedColormaps allow to retrieve a set of `N`
         colors from a set of `n` colors where `N >> n`. The matplotlib
         simply linearely interpolates between all `n` colors to extend
@@ -1143,14 +1196,16 @@ class qualitative_hcl(hclpalette):
 
     Example:
 
-        >>> from colorspace import diverging_hcl
+        >>> from colorspace import qualitative_hcl
         >>> a = qualitative_hcl()
         >>> a.colors(10)
-        >>> b = qualitative_hcl("Dynamic")
+        >>> #:
+        >>> b = qualitative_hcl("Warm")
         >>> b.colors(10)
-        >>> # The standard call of the object also returns hex colors. Thus,
-        >>> # you can make your code slimmer by calling:
-        >>> qualitative_hcl("Dynamic")(10)
+        >>> #:
+        >>> b.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> qualitative_hcl("Warm")(10)
 
 
     TODO:
@@ -1254,7 +1309,9 @@ class qualitative_hcl(hclpalette):
 
 
     def colors(self, n = 11, fixup = None, **kwargs):
-        """Returns the colors of the current color palette.
+        """Get Colors
+
+        Returns the colors of the current color palette.
 
         Args:
             n (int): Number of colors which should be returned, defaults to 11.
@@ -1335,10 +1392,12 @@ class rainbow_hcl(qualitative_hcl):
 
         >>> from colorspace import rainbow_hcl
         >>> pal = rainbow_hcl()
-        >>> pal.colors(3); pal.colors(20)
-        >>> # The standard call of the object also returns hex colors. Thus,
-        >>> # you can make your code slimmer by calling:
-        >>> rainbow_hcl("Dynamic")(10)
+        >>> pal.colors(10)
+        >>> #:
+        >>> pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors. Thus,
+        >>> # you can make your code slimmer by calling
+        >>> rainbow_hcl()(10)
     """
 
     _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
@@ -1425,11 +1484,13 @@ class diverging_hcl(hclpalette):
         >>> from colorspace import diverging_hcl
         >>> a = diverging_hcl()
         >>> a.colors(10)
-        >>> b = diverging_hcl("Blue-Yellow 3")
+        >>> #: Different color palette by name
+        >>> b = diverging_hcl("Tropic")
         >>> b.colors(10)
-        >>> # The standard call of the object also returns hex colors. Thus,
-        >>> # you can make your code slimmer by calling:
-        >>> diverging_hcl("Temp")(10)
+        >>> #:
+        >>> b.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> diverging_hcl("Tropic")(10)
     """
 
     _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
@@ -1516,7 +1577,9 @@ class diverging_hcl(hclpalette):
 
     # Return hex colors
     def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
-        """Returns the colors of the current color palette.
+        """Get Colors
+
+        Returns the colors of the current color palette.
 
         Args:
             n (int): Number of colors which should be returned.
@@ -1656,11 +1719,13 @@ class divergingx_hcl(hclpalette):
         >>> from colorspace import diverging_hcl
         >>> a = diverging_hcl()
         >>> a.colors(10)
+        >>> #: Different color palette by name
         >>> b = diverging_hcl("Blue-Yellow 3")
         >>> b.colors(10)
-        >>> # The standard call of the object also returns hex colors. Thus,
-        >>> # you can make your code slimmer by calling:
-        >>> diverging_hcl("Dynamic")(10)
+        >>> #:
+        >>> b.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> diverging_hcl("Temps")(10)
     """
 
     _allowed_parameters = ["h1", "h2", "h3", "c1", "c2", "c3",
@@ -1759,7 +1824,9 @@ class divergingx_hcl(hclpalette):
 
     # Return hex colors
     def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
-        """Returns the colors of the current color palette.
+        """Get Colors
+
+        Returns the colors of the current color palette.
 
         Args:
             n (int): Number of colors which should be returned.
@@ -1901,11 +1968,13 @@ class sequential_hcl(hclpalette):
         >>> from colorspace import sequential_hcl
         >>> a = sequential_hcl()
         >>> a.colors(10)
-        >>> b = sequential_hcl("Reds")
+        >>> #: Different color palette by name
+        >>> b = sequential_hcl("Peach")
         >>> b.colors(10)
-        >>> # The standard call of the object also returns hex colors. Thus,
-        >>> # you can make your code slimmer by calling:
-        >>> sequential_hcl("Dynamic")(10)
+        >>> #:
+        >>> b.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> sequential_hcl("Peach")(10)
     """
 
     # Allowed to overwrite via **kwargs
@@ -1996,7 +2065,9 @@ class sequential_hcl(hclpalette):
 
     # Return hex colors
     def colors(self, n = 11, fixup = True, **kwargs):
-        """Returns the colors of the current color palette.
+        """Get Colors
+
+        Returns the colors of the current color palette.
 
         Args:
             n (int): Number of colors which should be returned.
@@ -2086,7 +2157,11 @@ class heat_hcl(sequential_hcl):
 
         >>> from colorspace.palettes import heat_hcl
         >>> pal = heat_hcl()
-        >>> pal.colors(3); pal.colors(20)
+        >>> pal.colors(3)
+        >>> #:
+        >>> pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> heat_hcl()(10)
     """
 
 
@@ -2164,7 +2239,11 @@ class terrain_hcl(sequential_hcl):
 
         >>> from colorspace import terrain_hcl
         >>> pal = terrain_hcl()
-        >>> pal.colors(3); pal.colors(20)
+        >>> pal.colors(10)
+        >>> #:
+        >>> pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> terrain_hcl()(10)
     """
 
     _allowed_parameters = ["h1", "h2", "c1", "c2", "l1", "l2", "p1", "p2"]
@@ -2242,8 +2321,12 @@ class diverging_hsv(hclpalette):
     Example:
 
         >>> from colorspace import diverging_hsv
-        >>> a = diverging_hsv()
-        >>> a.colors(10)
+        >>> pal = diverging_hsv()
+        >>> pal.colors(10)
+        >>> #:
+        >>> pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> diverging_hsv()(10)
     """
 
     _allowed_parameters = ["h1", "h2", "s", "v"]
@@ -2287,7 +2370,9 @@ class diverging_hsv(hclpalette):
 
     # Return hex colors
     def colors(self, n = 11, fixup = True, **kwargs):
-        """Returns the colors of the current color palette.
+        """Get Colors
+
+        Returns the colors of the current color palette.
 
         Args:
             n (int): Number of colors which should be returned.
@@ -2359,6 +2444,13 @@ class rainbow(hclpalette):
 
     Example:
 
+        >>> from colorspace import rainbow
+        >>> pal = rainbow()
+        >>> pal.colors(10)
+        >>> #:
+        >>> pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> #: The standard call of the object also returns hex colors
+        >>> rainbow()(10)
 
     Raises:
         ValueError: If `s` or `v` are not single floating point values (or integers)
@@ -2395,7 +2487,9 @@ class rainbow(hclpalette):
 
     # Return hex colors
     def colors(self, n = 11, alpha = None, **kwargs):
-        """Returns the colors of the current color palette.
+        """Get Colors
+
+        Returns the colors of the current color palette.
 
         Args:
             n (int): Number of colors which should be returned. Defaults to `11`.

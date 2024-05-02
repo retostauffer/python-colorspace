@@ -53,6 +53,9 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         ImportError: When python module 'imageio' cannot be imported (not installed).
         IOError: If file `image` cannot be read using `imageio.imread`.
         ImportError: If `matplotlib.pyplot` cannot be imported (`matplotlib` not installed?).
+
+    TODO: Issues with non-interactive plot; getting two empty plots alongside
+          the result we are expecting (see rendered Examples).
     """
 
     import os

@@ -145,7 +145,7 @@ def mixcolor(alpha, color1, color2, where = 1):
 # Performs the check on hex color strings to see if they are valid.
 # --------------------------------------------------------------------
 def check_hex_colors(colors, allow_nan = False):
-    """Checking Hex Colors Validity
+    """Checking Hex Color Validity
 
     Valid hex colors are three digit hex colors (e.g., `#F00`), six digit
     hex colors (e.g., `#FF00FF`), or six digit colors with additional transparency
@@ -166,17 +166,19 @@ def check_hex_colors(colors, allow_nan = False):
             six digit colors. Else the function will raise a ValueError.
 
     Examples:
+
+        >>> from colorspace import check_hex_colors
         >>> check_hex_colors("#ff003311")
-        >>> #'
+        >>> #:
         >>> check_hex_colors("#ff0033")
-        >>> #'
+        >>> #:
         >>> check_hex_colors("#f03")
-        >>> #'
+        >>> #:
         >>> check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
-        >>> #'
+        >>> #:
         >>> check_hex_colors(["#FFF", "0", "black", "blue", "magenta"])
         >>>
-        >>> #'
+        >>> #:
         >>> from numpy import asarray
         >>> check_hex_colors(asarray(["#f0f", "#00F", "#00FFFF", "#ff003311"]))
 
@@ -296,13 +298,14 @@ def extract_transparency(x, mode = "float"):
         >>> #:
         >>> extract_transparency(x2, mode = "str")
         >>>
-        >>> # Extract transparency from palette objects
+        >>> #: Extracting transparency from palette objects
         >>> from colorspace import palette
         >>> p1 = palette(cols1, name = "custom palette 1")
         >>> p2 = palette(cols2, name = "custom palette 2")
         >>>
+        >>> #: No return as colors in palette `p1` have no transparency
         >>> extract_transparency(p1, mode = "str")
-        >>> #:
+        >>> #: Extracting transparency from colors in palette `p2`
         >>> extract_transparency(p2, mode = "str")
     """
 
@@ -372,29 +375,30 @@ def adjust_transparency(x, alpha):
         >>>
         >>> # Three colors without transparency
         >>> cols1 = ['#023FA5',   '#E2E2E2',   '#8E063B']
-        >>>
-        >>> # Same colors with transparency 80%, 40%, 80%
+        >>> # Same colors as in `cols1` with transparency of 80%, 40%, 80%
         >>> cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
         >>> 
-        >>> # Convert 'cols1' into a hexcols object and modify transparency
-        >>> hexcols(cols1)
+        >>> # Converting list of hex colors `cols1` into `hexcolor` objects
+        >>> x1 = hexcols(cols1)
+        >>> x1
         >>>
         >>> #: Extract transparency
-        >>> extract_transparency(x1)
+        >>> extract_transparency(x1) # Returns 'None' (no transparency)
         >>>
-        >>> #: Setting constant transparency of 0.5 for all three colors
+        >>> #: `x1`: Setting constant transparency of 0.5 for all colors
         >>> adjust_transparency(x1, 0.5)
         >>>
         >>> #: Setting custom transparency (adjusting; overwrite existing 0.5)
-        >>> adjust_transparency(x1, [0.8, 0.4, 0.8]) # Add transparency
+        >>> adjust_transparency(x1, [0.7, 0.3, 0.7]) # Add transparency
         >>>
-        >>> #: Convert 'cols2' into a hexcols object, adding transparency
+        >>> #: Converting list of hex colors `cols2` into `hexcolor` objects
+        >>> # and extract transparency defined via 8 digit hex color strings
         >>> x2 = hexcols(cols2)
         >>> extract_transparency(x2)
         >>>
         >>> #: Removing transparency, extracting new values (None)
         >>> x2 = adjust_transparency(x2, None)
-        >>> extract_transparency(x2)
+        >>> extract_transparency(x2) # Returns 'None' (no transparency)
         >>>
         >>> #: Adding transparency again
         >>> x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8]))
@@ -497,7 +501,7 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
     """W3C Contrast Ratio
 
     Compute (and visualize) the contrast ratio of pairs of colors, as defined
-    by the World Wide Web Consortium (W3C).
+    by the World Wide Web Consortium (W3C). Requires `matplotlib` to be installed.
 
     The W3C Content Accessibility Guidelines (WCAG) recommend a contrast ratio
     of at least 4.5 for the color of regular text on the background color, and
@@ -543,14 +547,18 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
         >>> contrast_ratio(colors, "#FFFFFF") # Against white
         >>> contrast_ratio(colors, "#000000") # Against black
         >>>
-        >>> contrast_ratio(colors, "#FFFFFF", plot = True) # Visualization
-        >>> contrast_ratio(colors, "#000000", plot = True) # Visualization
+        >>> #: Visualize contrast ratio against white
+        >>> contrast_ratio(colors, "#FFFFFF", plot = True);
+        >>> #: Visualize contrast ratio against black
+        >>> contrast_ratio(colors, "#000000", plot = True);
 
     Raises:
         TypeError: If cols or bg is not one of the recognized types.
         TypeError: If argument plot is not boolean.
         TypeError: If `ax` is not `None` or a `matplotlib.axes.Axes` object. Only
             checked if `plot = True`.
+
+    TODO: Provide argument to control figsize?
     """
 
     from colorspace.palettes import palette
@@ -562,9 +570,12 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
     colors = palette(colors)
     bg     = palette(bg)
 
-    if not isinstance(plot, bool): raise TypeError("Input 'plot' must be boolean.")
-    if   len(colors) > len(bg): bg   = palette(resize(bg.colors(),   len(colors)), "_tmp_palette_")
-    elif len(bg) > len(colors): colors = palette(resize(colors.colors(), len(bg)),   "_tmp_palette_")
+    if not isinstance(plot, bool):
+        raise TypeError("Input 'plot' must be boolean.")
+    if len(colors) > len(bg):
+        bg = palette(resize(bg.colors(),   len(colors)), "_tmp_palette_")
+    elif len(bg) > len(colors):
+        colors = palette(resize(colors.colors(), len(bg)),   "_tmp_palette_")
 
     # Compute contrast ratio
     cols_hex = hexcols(colors.colors())
@@ -640,6 +651,22 @@ def max_chroma(H, L, floor = False):
     Returns:
         numpy.ndarray: Array of the same length as `max(len(H), len(L))` with
         maximum possible chroma for these hue-luminance combinations.
+
+    Examples:
+
+        >>> from colorspace import max_chroma
+        >>> # Max Chroma for Hue = 0 (red) with Luminance = 50
+        >>> max_chroma(0, 50)
+        >>>
+        >>> #: Max Chroma for Hue = 0 (red) for different Luminance levels
+        >>> max_chroma(0, [25, 50, 75])
+        >>>
+        >>> #: Max Chroma for Hue in sequence [0, 360] by 60, Luminace = 50
+        >>> import numpy as np
+        >>> max_chroma(np.arange(0, 360, 60), 50)
+        >>> 
+        >>> #: Same as above but floored
+        >>> max_chroma(np.arange(0, 360, 60), 50, floor = True)
 
     Raises:
         TypeError: If unexpected input on `H` or `L`.
@@ -754,6 +781,9 @@ def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
         ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
         TypeError: If input 'col' is not among the one of the recognized objects.
         TypeError: If `fixup` is not boolean.
+
+    TODO: Warning when used non-interactively, same for both lighten and darken
+          (see rendered Examples).
     """
     return lighten(col, amount = amount * -1., method = method, space = space, fixup = fixup)
 
@@ -791,6 +821,9 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
         TypeError: If input 'col' is not among the one of the recognized objects.
         TypeError: If `fixup` is not boolean.
+
+    TODO: Warning when used non-interactively, same for both lighten and darken
+          (see rendered Examples).
     """
 
     from colorspace.colorlib import colorobject, hexcols

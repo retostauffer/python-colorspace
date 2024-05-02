@@ -21,7 +21,7 @@ def divergingx_palettes(n = 5, **kwargs):
         >>> divergingx_palettes()
         >>>
         >>> #: Visualize palettes
-        >>> divergingx_palettes(n = 15, ncol = 2, plot = True, figsize = (6, 4));
+        >>> divergingx_palettes(n = 15, ncol = 2, plot = True, figsize = (7, 5));
     """
 
     from .hcl_palettes import hcl_palettes
@@ -93,8 +93,8 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         >>> hcl_palettes(name = ["Oranges", "Tropic"]) 
         >>>
         >>> #: Visualize all diverging HCL palettes
-        >>> hcl_palettes(type_ = "Diverging",
-        >>>              plot = True, figsize = (10, 6));
+        >>> hcl_palettes(type_ = "Diverging", ncol = 2,
+        >>>              plot = True, figsize = (6, 4));
         >>> #: Visualize specific palettes selected by name
         >>> hcl_palettes(name = ["Oranges", "Tropic"],
         >>>              plot = True, ncol = 1, figsize = (6, 2));
@@ -116,9 +116,9 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         >>>
         >>> #: Modify palettes by overwriting palette settings
         >>> c1.set(h1 = 99, l2 = 30, l1 = 30)
-        >>> c1.rename("Retos custom 1")
+        >>> c1.rename("Custom Palette #1")
         >>> c2.set(h1 = -30, l1 = 40, l2 = 30, c1 = 30, c2 = 40)
-        >>> c2.rename("Retos custom 1")
+        >>> c2.rename("Custom Palette #2")
         >>> 
         >>> # Visualize customized palettes
         >>> hcl_palettes(type_ = "Custom", custom = [c1, c2],

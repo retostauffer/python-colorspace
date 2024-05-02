@@ -43,8 +43,10 @@ class colorlib:
     and is not intended to be used by end-users (not exported).
 
     Users should use the dedicated classes for the available color spaces which
-    all extend this class. These are: CIELAB, CIELUV, CIEXYZ, hexcols, HLS,
-    HSV, polarLAB, polarLUV, RGB, and sRGB.
+    all extend this class. These are
+    :py:class:`CIELAB`, :py:class:`CIELUV`, :py:class:`CIEXYZ`,
+    :py:class:`HLS`, :py:class:`HSV`, :py:class:`RGB`, :py:class:`hexcols`,
+    :py:class:`polarLAB`, :py:class:`polarLUV`, and :py:class:`sRGB`.
     """
 
     # No initialization method, but some constants are specified here
@@ -2968,7 +2970,7 @@ class hexcols(colorobject):
         >>> hexcols(["#ff0000", "#00ff00"])
         >>> #: Creating hex colors via numpy array
         >>> from numpy import asarray
-        >>> cols = hexcols(asarray(["#ff000030", "#00ff0030"], dtype = "|S9"))
+        >>> cols = hexcols(asarray(["#ff000030", "#00ff0030"]))
         >>> cols
         >>> #: Convert hex colors to another color space (CIEXYZ)
         >>> cols.to("CIEXYZ")
@@ -3108,15 +3110,15 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
         >>> #:
         >>> compare_colors(a, b, exact = True, _all = False)
         >>>
-        >>> #: Two HEX colors
+        >>> #: Same example using two sets of hexcolor objects
         >>> x = hexcols(["#ff00ff", "#003300"])
         >>> y = hexcols(["#ff00ff", "#003301"])
         >>> compare_colors(x, y)
         >>> #:
         >>> compare_colors(x, y, _all = False)
         >>>
-        >>> #: Convert HEX to HCL (polarLUV) and back; check if
-        >>> #  we end up with the original colors
+        >>> #: Convert HEX to HCL (polarLUV) and back, compare the
+        >>> # resulting colors to the original ones; should be identical
         >>> from copy import deepcopy
         >>> z  = hexcols(["#ff00ff", "#003301"])
         >>> zz = deepcopy(z)

@@ -72,6 +72,8 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
         ValueError: If `type_` is not an available demo plot type.
         TypeError: If `n` is not integer.
         ValueError: `n` must be a positive integer.
+
+    TODO: Issue with non-interactive plot (see rendered Examples).
     """
 
     from .palettes import palette

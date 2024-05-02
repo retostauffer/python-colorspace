@@ -388,14 +388,15 @@ class currentpalettecanvas:
 def choose_palette(**kwargs):
     """Graphical user interface to choose HCL based color palettes
 
-    Returns an object of
-    :py:class:`diverging_hcl <colorspace.palettes.diverging_hcl>`,
-    :py:class:`qualitative_hcl <colorspace.palettes.qualitative_hcl>`, or
-    :py:class:`sequential_hcl <colorspace.palettes.sequential_hcl>`
-    with user-defined default settings.
+    Opens a tcltk based graphical user interface (GUI) which allows
+    to tweak existing Hue-Chroma-Luminance (HCL) based color palettes
+    and define custom palettes.
 
     Args:
-        kwargs: See :py:function:`gui`.
+        **kwargs: Optional, can be used to change the defaults when starting the
+            GUI. Currently a parameter called `palette` is allowed to
+            specify the initial color palette. If not set, `palette="Blue-Red"`
+            is used.
 
     Returns:
         hclpalette: An HCL palette object which allows to extract the colors in

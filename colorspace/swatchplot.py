@@ -45,22 +45,16 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
 
     Example:
 
-        Some examples using different types of palettes/objects from simple
-        lists of hex colors over HCL palettes (e.g.,
-        :py:class:`diverging_hcl <colorspace.palettes.diverging_hcl>`),
-        custom palette objects (`pal`; :py:class:`palette <colorspace.palettes.palette>`)
-        to custom color objects.
-
-        >>> from colorspace import *
+        >>> from colorspace import swatchplot, palette
+        >>> from colorspace import sequential_hcl, diverging_hcl, heat_hcl
         >>>
         >>> # List of hex colors
         >>> swatchplot(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
         >>>            figsize = (7, 0.5));
         >>>
         >>> #: Create a custom 'palette' (named):
-        >>> from colorspace import palette
         >>> pal = palette(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
-        >>>               "named palette")
+        >>>               "Custom Named Palette")
         >>> swatchplot(pal, figsize = (7, 0.5));
         >>>
         >>> #: A HCL palette. 'n' defines the number of colors.
