@@ -181,10 +181,9 @@ def tritan(cols, severity = 1., linear = True):
         >>> #: From cmap (returns cmap)
         >>> tritan(pal.cmap())
 
-    TODO: Something goes wrong here when converting colors to cmap; rgb in cmap
-          seems to be wrong not matching the original RGB colors.
+    TODO: Converting cmap to tritan; underlying sRGB seems to be fine,
+          my guess is that this matplotlib default plot does something strange.
     """
-
 
     from .CVD import CVD
 
@@ -287,6 +286,9 @@ class CVD(object):
         elif isinstance(cols, str):
             cols = [cols]
 
+        # Default; overwritten if input was not hex (nor cmap)
+        self._hexinput = True
+
         # Checking input `cols`:
         # If cmap (matplotlib LinearSegmentedColormap: Convert to sRGB
         if self.CMAP:
@@ -295,7 +297,7 @@ class CVD(object):
             cols = sRGB(R = [x[1] for x in cols._segmentdata["red"]],
                         G = [x[1] for x in cols._segmentdata["green"]],
                         B = [x[1] for x in cols._segmentdata["blue"]])
-            self._hexinput = False
+            cols.to("hex") # Faking 'hex input'
 
         elif isinstance(cols, (str, list)):
             from .utils import check_hex_colors
@@ -304,11 +306,9 @@ class CVD(object):
             # Check/convert colors
             cols = check_hex_colors(cols)
 
-            # Internally: create a hexcols object and store
-            # self._hexinput = True. Will be used to also return
-            # a hex color list at the end.
+            # Internally: create a hexcols object; will return hex colors
+            # when calling .colors() method
             cols = hexcols(cols)
-            self._hexinput = True
         else:
             self._hexinput = False
             from .colorlib import colorobject
@@ -537,10 +537,14 @@ class CVD(object):
             return self._simulate()
         # Else simulate and re-create the colormap
         else:
-            sRGB = self._simulate()
-            r    = sRGB.get("R")
-            g    = sRGB.get("G")
-            b    = sRGB.get("B")
+            # We converted the cmap rgbs to hex, now revert this
+            from .colorlib import hexcols
+            cols = hexcols(self._simulate())
+            cols.to("sRGB")
+
+            r    = cols.get("R")
+            g    = cols.get("G")
+            b    = cols.get("B")
 
             # Get input cmap and manipulate colors
             from copy import deepcopy
@@ -646,7 +650,7 @@ def desaturate(cols, amount = 1.):
         CMAPINPUT = None
 
     # If input is a matploblib cmap: convert to sRGB
-    # TODO(R): Really needed? If so write tests and examples
+    # TODO: Really needed? If yes, write some tests and examples
     if CMAP:
         # Create an sRGB object
         from .colorlib import sRGB
