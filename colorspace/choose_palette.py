@@ -111,7 +111,7 @@ class Slider(object):
     def isValidInt(self, x, from_ = -999, to = 999):
         """Check for Valid Integer
 
-        Helper function to check whether `x` is a valid integer
+        Helper function to check whether `x` is a valid int
         in the range `[from_, to]`.
 
         Args:
@@ -126,7 +126,7 @@ class Slider(object):
         # If empty
         if len(x) == 0: return True
         import re
-        # If not matching signed integer: return False
+        # If not matching signed int: return False
         if not re.match("^-?(0|[1-9]|[1-9][0-9]{1,2})?$", x): return False
         # Only a "-": that's OK
         if re.match("^-$", x): return True
@@ -996,9 +996,6 @@ class gui(Tk):
         """Add Demo Plot Options
 
         Adds a `Tk.Button` to open the demo plot window.
-
-        Todo:
-            * Currently not enabled (have had some problems with the interaction/update).
         """
         but = Button(self, text = "Demo",
                 command = self._show_demo,

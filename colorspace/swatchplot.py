@@ -38,8 +38,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             `figsize`.
 
     Raises:
-        TypeError: If `nrow` or `n` no integers.
-        TypeError: If `show_names` not boolean.
+        TypeError: If `nrow` or `n` no int.
+        TypeError: If `show_names` not bool.
         ValueError: If `nrow` or `n` are not positive.
         ImportError: If `matplotlib.pyplot` cannot be imported, maybe `matplotlib` not installed?
 
@@ -520,7 +520,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
                 ypos = 1. - ystep / 2.; xpos = xpos + xstep
             xpos, ypos = _plot_swatches(pal, xpos, ypos, xstep, ystep, show_names)
 
-    fig.show()
+    # Show figure
+    plt.show()
 
     return fig
 

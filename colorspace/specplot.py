@@ -13,8 +13,8 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     suitably.
 
     Args:
-        x (list): list of strings (hex colors or standard-names of colors).
-        y (None or list): if set it must be a list of strings (see `x`) with the very
+        x (list): list of str (hex colors or standard-names of colors).
+        y (None or list): if set it must be a list of str (see `x`) with the very
             same length as the object provided on argument `x`. Allows to draw
             two sets of colors for comparison, defaults to `None`.
         hcl (bool): Whether or not to plot the HCL color spectrum.
@@ -40,10 +40,10 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     Raises:
         TypeError: If `x` is not a list.
         TypeError: If `y` is neither a list nor `None`.
-        ValueError: If `x` contains strings which can not be converted to hex colors.
-        ValueError: If `y` contains strings which can not be converted to hex colors.
+        ValueError: If `x` contains str which can not be converted to hex colors.
+        ValueError: If `y` contains str which can not be converted to hex colors.
         ValueError: If `y` is not the same length as `y`. Only checked if `y` is not `None`.
-        TypeError: If either `rgb`, `hcl`, or `palette` is not boolean.
+        TypeError: If either `rgb`, `hcl`, or `palette` is not bool.
         ValueError: If all, `rgb`, `hcl` and `palette` are set to `False` as this would
             result in an empty plot.
         TypeError: If 'title' is neither `None` nor `str`.
@@ -103,8 +103,6 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     from .colorlib import hexcols
     from .palettes import palette
 
-    # TODO Why am I doing it this way? Is this dict required?
-    colors = {"x": x, "y": y}
 
     # If input parameter "fix = True": fixing
     # the hue coordinates to avoid jumping which
@@ -136,6 +134,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
 
     # Calculate coordinates
+    colors = {"x": x, "y": y}
     coords = {}
     for key, vals in colors.items():
         # This happens if 'y' is set to 'None' (default)
@@ -276,7 +275,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
 
     # Show figure or return the Axes object (in case `ax` has not been None).
-    if not fig: hfig.show()
+    if not fig: plt.show() # Show figure
 
     return hfig
 

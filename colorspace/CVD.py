@@ -236,11 +236,11 @@ class CVD(object):
         >>> specplot(trit.colors(), figsize = (7, 0.5));
 
     Raises:
-        TypeError: If argument `type_` not string.
+        TypeError: If argument `type_` not str.
         ValueError: If argument `type_` not among the allowed types. Not case sensitive.
-        TypeError: If argument `severity` is no float or integer.
+        TypeError: If argument `severity` is no float or int.
         ValueError: If argument `severity` not in `[0., 1.]`.
-        TypeError: If argument `linear` is no boolean.
+        TypeError: If argument `linear` is no bool.
     """
 
     ALLOWED   = ["protan", "tritan", "deutan"]
@@ -288,7 +288,7 @@ class CVD(object):
             cols = [cols]
 
         # Checking input `cols`:
-        # TODO(R): See comment above. Needed?
+        # If cmap (matplotlib LinearSegmentedColormap: Convert to sRGB
         if self.CMAP:
             # Create an sRGB object
             from .colorlib import sRGB
@@ -339,14 +339,14 @@ class CVD(object):
         protanope color vision deficiency.
 
         Args:
-            s (int): An integer in `[0, 11]` to specify which matrix to be returned.
+            s (int): An int in `[0, 11]` to specify which matrix to be returned.
 
         Returns:
             numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The color deficiency transformation or rotation matrix.
 
         Raises:
-            TypeError: If argument `s` is no integer.
+            TypeError: If argument `s` is no int.
             ValueError: If argument `s` is not in `[0, 11]`.
         """
         if not isinstance(s, int): raise TypeError("argument `s` must be int")
@@ -375,14 +375,14 @@ class CVD(object):
         deuteranope color vision deficiency.
 
         Args:
-            s (int): An integer in `[0, 11]` to specify which matrix to be returned.
+            s (int): An int in `[0, 11]` to specify which matrix to be returned.
 
         Returns:
             numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The color deficiency transformation or rotation matrix.
 
         Raises:
-            TypeError: If argument `s` is no integer.
+            TypeError: If argument `s` is no int.
             ValueError: If argument `s` is not in `[0, 11]`.
         """
         if not isinstance(s, int): raise TypeError("argument `s` must be int")
@@ -412,14 +412,14 @@ class CVD(object):
         tritanope color vision deficiency.
 
         Args:
-            s (int): An integer in `[0, 11]` to specify which matrix to be returned.
+            s (int): An int in `[0, 11]` to specify which matrix to be returned.
 
         Returns:
             numpy.ndarray: Returns a numpy float matrix of shape `3 x 3`.
             The color deficiency transformation or rotation matrix.
 
         Raises:
-            TypeError: If argument `s` is no integer.
+            TypeError: If argument `s` is no int.
             ValueError: If argument `s` is not in `[0, 11]`.
         """
         if not isinstance(s, int): raise TypeError("argument `s` must be int")

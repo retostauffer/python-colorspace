@@ -19,9 +19,5 @@ colorspace/htmlcov
 *.swp
 
 # Development test files
-/xxx.py
 /test.py
-/foo.py
-/lighten.py
-/plot.py
 /*.png

@@ -15,7 +15,7 @@ class palette:
             colors which will make up the custom palette.
         name (str): Name of this custom palette. Defaults to `"user_palette"`.
             Used for object representation/visualization.
-        n (int): positive integer, number of colors drawn from an `hclpalette` object.
+        n (int): positive int, number of colors drawn from an `hclpalette` object.
             Only taken into account if the object provided on `colors` inherits
             from `colorspace.palettes.hclpalette`.
 
@@ -102,7 +102,7 @@ class palette:
             name (None, str): new name for the palette.
 
         Raises:
-            ValueError: If input 'name' is not of type string.
+            ValueError: If input 'name' is not of type str.
         """
         if not isinstance(name, (type(None), str)):
             raise ValueError("argument `name` must be None or a str")
@@ -162,7 +162,7 @@ class palette:
         allow matplotlib to interpolate between the colors.
 
         Args:
-            n (None or int): `None` or a positive integer which is greater or equal
+            n (None or int): `None` or a positive int which is greater or equal
                 to the number of colors of the palette (check `len()` of the object).
             rev (bool): If set to `True` the color map will be reversed,
                 defaults to False.
@@ -559,7 +559,7 @@ class hclpalettes:
         Get all palette types.
 
         Returns:
-            list: Returns a `list` of strings (`str`) with the names of all palette types
+            list: Returns a `list` of str with the names of all palette types
             or groups.
         """
 
@@ -666,8 +666,8 @@ class hclpalettes:
             # Loading all available setting elements.
             # "desc":  interpreted as character
             # "p1/p1": interpreted as float
-            # "fixup": interpreted as boolean
-            # rest:    interpreted as integer
+            # "fixup": interpreted as bool
+            # rest:    interpreted as int
             settings = {}
             for key,val in CNF.items(sec):
                 key  = key.lower()
@@ -721,10 +721,10 @@ class hclpalettes:
         """Create swatchplot.
 
         Args:
-            n (int): Positive integer, number of colors.
+            n (int): Positive int, number of colors.
 
         Raises:
-            TypeError: If 'n' is not an integer.
+            TypeError: If 'n' is not an int.
             ValueError: If 'n' is not positive.
         """
         if not isinstance(n, int): raise TypeError("argument `n` must be int")
@@ -811,7 +811,7 @@ class hclpalette:
         Get name of color palette.
 
         Returns:
-            Returns the name of the palette, string.
+            Returns the name of the palette, str.
         """
         return self._name
 
@@ -1022,7 +1022,7 @@ class hclpalette:
             else:
                 raise ValueError("problems with inputs for {:s}: {:s}".format(self.__class__.__name__, e))
 
-        # If "h" is a string this is ment to be the palette
+        # If "h" is a str this is ment to be the palette
         # argument, switch "palette" and "h"
         if isinstance(h, str):
             palette = h; h = None 
@@ -1159,7 +1159,7 @@ class qualitative_hcl(hclpalette):
     Args:
         h (int, float, list): Hue values defining the 'color'. Qualitative color
             palettes require two hues. If more than two values are provided the first
-            two will be used while the rest is ignored.  If input `h` is a string this
+            two will be used while the rest is ignored.  If input `h` is a str this
             argument acts like the `palette` argument (see `palette` input parameter).
             Can also be lambda functions or a list of lambda functions which take up
             one single argument `n` (number of colors; see default value).
@@ -1222,7 +1222,7 @@ class qualitative_hcl(hclpalette):
         # Store reverse flag
         self._rev = rev
 
-        # If a string is given on "h": exchange with "palette".
+        # If a str is given on "h": exchange with "palette".
         if isinstance(h, str):
             palette = h
             h       = [0, lambda n: 360. * (n - 1.) / n]
@@ -1410,8 +1410,8 @@ class rainbow_hcl(qualitative_hcl):
 
         # Save settins
         try:
-            self.settings = {"h1": int(start), "h2": int(end),
-                             "c1": int(c), "l1": int(l),
+            self.settings = {"h1": int(start[0]), "h2": int(end[0]),
+                             "c1": int(c[0]),     "l1": int(l[0]),
                              "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
@@ -1441,7 +1441,7 @@ class diverging_hcl(hclpalette):
             have different hues for both ends of the palette. If only one value is
             present it will be recycled ending up in a diverging color palette with the
             same colors on both ends.  If more than two values are provided the first
-            two will be used while the rest is ignored.  If input `h` is a string
+            two will be used while the rest is ignored.  If input `h` is a str
             this argument acts like the `palette` argument (see `palette` input
             parameter).
         c (numeric): Chroma value (colorfullness), a single numeric value. If two
@@ -1453,7 +1453,7 @@ class diverging_hcl(hclpalette):
             palette.
         fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
             values outside the defined RGB color space be corrected?
-        palette (string): Can be used to load a default diverging color palette
+        palette (str): Can be used to load a default diverging color palette
             specification. If the palette does not exist an exception will be raised.
             Else the settings of the palette as defined will be used to create the
             color palette.
@@ -1666,7 +1666,7 @@ class divergingx_hcl(hclpalette):
     Args:
         h (list of float or int): Hue values (color), divergingx color palettes should
             have different hues for both ends and the center of the palette.
-            For this class three values must be provided. If input `h` is a string
+            For this class three values must be provided. If input `h` is a str
             this argument acts like the `palette` argument (see `palette` input
             parameter).
         c (list of float or int): Chroma value (colorfullness), list of floats. In case two
@@ -1688,7 +1688,7 @@ class divergingx_hcl(hclpalette):
             will be used for `cmax1` and `cmax2` respectively.
         fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
             values outside the defined RGB color space be corrected?
-        palette (string): Can be used to load a default diverging color palette
+        palette (str): Can be used to load a default diverging color palette
             specification. If the palette does not exist an exception will be raised.
             Else the settings of the palette as defined will be used to create the
             color palette.
@@ -1928,7 +1928,7 @@ class sequential_hcl(hclpalette):
     Args:
         h (numeric): Hue values (color). If only one value is given the value
             is recycled which yields a single-hue sequential color palette.  If
-            input `h` is a string this argument acts like the `palette` argument
+            input `h` is a str this argument acts like the `palette` argument
             (see `palette` input parameter).
         c (numeric list): Chroma values (colorfullness), numeric of length one
             (constant chroma), two (linear), or three (advanced; [c1, c2, cmax]).
@@ -1938,7 +1938,7 @@ class sequential_hcl(hclpalette):
             of the color palette. One or two values can be provided.
         fixup (bool): Only used when converting the HCL colors to hex.  Should
             RGB values outside the defined RGB color space be corrected?
-        palette (string): Can be used to load a default diverging color palette
+        palette (str): Can be used to load a default diverging color palette
             specification. If the palette does not exist an exception will be
             raised.  Else the settings of the palette as defined will be used to
             create the color palette.
@@ -1977,7 +1977,7 @@ class sequential_hcl(hclpalette):
         # Save reverse flag
         self._rev = rev
 
-        # If input "h" is a string: exchange with "palette"
+        # If input "h" is a str: exchange with "palette"
         if isinstance(h, str):
             palette = h; h = None
 
@@ -2287,7 +2287,7 @@ class diverging_hsv(hclpalette):
             different hues for both ends of the palette. If only one value is present
             it will be recycled ending up in a diverging color palette with the same
             colors on both ends.  If more than two values are provided the first two
-            will be used while the rest is ignored.  If input `h` is a string this
+            will be used while the rest is ignored.  If input `h` is a str this
             argument acts like the `palette` argument (see `palette` input
             parameter).
         s (float): Saturation value for the two ends of the palette.
@@ -2440,10 +2440,10 @@ class rainbow(hclpalette):
         >>> rainbow()(10)
 
     Raises:
-        ValueError: If `s` or `v` are not single floating point values (or integers)
+        ValueError: If `s` or `v` are not single floating point values (or int)
             in the range of `[0., 1.]`.
         ValueError: If `start` and `end` are not float/int in `[0., 1.]` or functions.
-        ValueError: If `rev` is not boolean `True` or `False`.
+        ValueError: If `rev` is not bool.
     """
 
     _allowed_parameters = ["s", "v", "start", "end"]
@@ -2491,7 +2491,7 @@ class rainbow(hclpalette):
         longer needed; else think about revamping this functionality.
 
         Raises:
-            ValueError: If input `n` is not float/integer or smaller than 1.
+            ValueError: If input `n` is not float/int or smaller than 1.
         """
 
         from numpy import linspace, mod, repeat

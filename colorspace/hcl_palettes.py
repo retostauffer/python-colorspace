@@ -47,20 +47,20 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     Args:
         n (int): The number of colors to be plotted, defaults to `7`.
             Only used if `plot = True`.
-        type_ (None, str, list): Given a string or a list of strings,
+        type_ (None, str, list): Given a str or a list of str,
             only a subset of all available default color maps will
             returned/displayed. Can be used in combination with input argument
             `name`. Uses partial matching, not case sensitive.
         name (None, str, list): Similar to `type_`. If not specified
-            all palettes will be returned. Can be set to a string or a list of
-            strings containing the names of the palettes which should be
+            all palettes will be returned. Can be set to a str or a list of
+            str containing the names of the palettes which should be
             returned/plotted.
         plot (bool): If `False` (default) an object of type
             :py:class:`hclpalettes` is returned, containing the
             (subset) of pre-defined HCL color palettes.
         custom (defaultpalette): One or multiple
             defaultpalettes can be provided in addition.
-        ncol (int): Positive integer, number of columns, defaults to `4`.
+        ncol (int): Positive int, number of columns, defaults to `4`.
         **kwargs: Forwarded to the main
             :py:func:`swatchplot <colorspace.swatchplot.swatchplot>` 
             function if `plot = True`.
@@ -71,12 +71,12 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         an object of class :py:class:`hclpalettes` is returned.
 
     Raises:
-        TypeError: If 'n'/'ncol' not of type integer.
-        TypeError: If 'type_' is not None or string.
-        TypeError: If not is boolean 'plot'.
-        TypeError: In case 'custom' is an invalid input.
-        ValueError: If 'n' or 'ncol' are not positive.
-        Exception: If no palettes can be found matching the 'type_' argument.
+        TypeError: If `n`/`ncol` not of type int.
+        TypeError: If `type_` is not None or str.
+        TypeError: If not is bool `plot`.
+        TypeError: In case `custom` is an invalid input.
+        ValueError: If `n` or `ncol` are not positive.
+        Exception: If no palettes can be found matching the `type_` argument.
 
     Examples:
 
@@ -137,7 +137,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     if not isinstance(n, int):     raise TypeError("argument `n` must be int")
     if not isinstance(ncol, int):  raise TypeError("argument `ncol` must be int")
     if not isinstance(type_, (type(None), str)):
-        raise TypeError("Argument 'type_' must be None (default) or string.")
+        raise TypeError("Argument 'type_' must be None (default) or str.")
     if not isinstance(plot, bool): raise TypeError("argument `plot` must be bool")
 
     # Sanity value checks

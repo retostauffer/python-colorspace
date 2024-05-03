@@ -1,6 +1,7 @@
 
-from colorspace.CVD import *
 from colorspace import sequential_hcl
+from colorspace import deutan, protan, tritan
+from colorspace.CVD import CVD
 import numpy as np
 from pytest import raises
 
@@ -24,45 +25,6 @@ def test_wrong_usage():
 
 
 # ------------------------------------------
-# Ensure that the default usage stays the same
-# ------------------------------------------
-def test_default():
-
-    cols = sequential_hcl()(3)
-    assert np.all(cols == ["#023FA5", "#A1A6C8", "#E2E2E2"])
-
-    x1   = CVD(cols, "deutan")
-    x2   = CVD(cols = cols, type_ = "deutan", severity = 1.0)
-    # TODO(R): Seems we have some roundoff errors here.
-    #x3   = ["#1132A2", "#9CA6C7", "#E1E1E2"] # Copy from R
-    assert isinstance(x1, CVD)
-    assert isinstance(x2, CVD)
-    assert np.all(x1.colors() == x2.colors())
-    #assert np.all(x1.colors() == x3)
-    del x1, x2 #, x3
-
-    x1   = CVD(cols, "protan")
-    x2   = CVD(cols = cols, type_ = "protan", severity = 1.0)
-    # TODO(R): Seems we have some roundoff errors here.
-    #x3   = ["#2042AA", "#9EA8C9", "#E2E2E2"]
-    assert isinstance(x1, CVD)
-    assert isinstance(x2, CVD)
-    assert np.all(x1.colors() == x2.colors())
-    # assert np.all(x1.colors() == x3)
-    del x1, x2 #, x3
-
-    x1   = CVD(cols, "protan")
-    x2   = CVD(cols = cols, type_ = "protan", severity = 1.0)
-    # TODO(R): Seems we have some roundoff errors here.
-    #x3   = ["#00525D", "#99ABB0", "#E1E2E2"]
-    assert isinstance(x1, CVD)
-    assert isinstance(x2, CVD)
-    assert np.all(x1.colors() == x2.colors())
-    #assert np.all(x1.colors() == x3)
-    del x1, x2 #, x3
-
-
-# ------------------------------------------
 # Testing interfacing functions
 # ------------------------------------------
 def test_default():
@@ -71,25 +33,65 @@ def test_default():
 
     x1   = CVD(cols, "deutan")
     x2   = deutan(cols)
+    R    = ["#0040A3", "#9BA6C7", "#E2E2E2"] # From R colorspace, severity = 1
     assert isinstance(x1, CVD)
     assert isinstance(x2, list)
     assert np.all(x1.colors() == x2)
-    del x1, x2
+    assert np.all(x1.colors() == R)
+    del x1, x2, R
 
     x1   = CVD(cols, "protan")
     x2   = protan(cols)
+    R    = ["#004EA8", "#9DA9CA", "#E2E2E2"] # From R colorspace, severity = 1
     assert isinstance(x1, CVD)
     assert isinstance(x2, list)
     assert np.all(x1.colors() == x2)
-    del x1, x2
+    assert np.all(x1.colors() == R)
+    del x1, x2, R
 
     x1   = CVD(cols, "tritan")
     x2   = tritan(cols)
+    R    = ["#005A6C", "#98ACB1", "#E2E2E2"] # From R colorspace, severity = 1
     assert isinstance(x1, CVD)
     assert isinstance(x2, list)
     assert np.all(x1.colors() == x2)
-    del x1, x2
+    assert np.all(x1.colors() == R)
+    del x1, x2, R
 
+
+#def test_cvd_severity05():
+#
+#    cols = sequential_hcl()(3)
+#
+#    # TODO: Small round-off problems it seems!
+#    x1   = CVD(cols, "deutan", severity = 0.5)
+#    x2   = deutan(cols, severity = 0.5)
+#    R    = ["#0041A4", "#9DA7C8", "#E2E2E2"] # From R colorspace, severity = 0.5
+#    assert isinstance(x1, CVD)
+#    assert isinstance(x2, list)
+#    assert np.all(x1.colors() == x2)
+#    assert np.all(x1.colors() == R)
+#    del x1, x2, R
+#
+#    # TODO: Small round-off problems it seems!
+#    x1   = CVD(cols, "protan", severity = 0.5)
+#    x2   = protan(cols, severity = 0.5)
+#    R    = ["#0048A7", "#9EA8C9", "#E2E2E2"] # From R colorspace, severity = 0.5
+#    assert isinstance(x1, CVD)
+#    assert isinstance(x2, list)
+#    assert np.all(x1.colors() == x2)
+#    assert np.all(x1.colors() == R)
+#    del x1, x2, R
+#
+#    # TODO: Small round-off problems it seems!
+#    x1   = CVD(cols, "tritan", severity = 0.5)
+#    x2   = tritan(cols, severity = 0.5)
+#    R    = ["#004893", "#9FA8C0", "#E2E2E2"] # From R colorspace, severity = 0.5
+#    assert isinstance(x1, CVD)
+#    assert isinstance(x2, list)
+#    assert np.all(x1.colors() == x2)
+#    assert np.all(x1.colors() == R)
+#    del x1, x2, R
 
 # ------------------------------------------
 # Testing interfacing functions

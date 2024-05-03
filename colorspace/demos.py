@@ -40,16 +40,16 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
         >>> hclpalette = diverging_hcl()
         >>> hclpalette
         >>> #: Default color palette shipped with the package
-        >>> defaultpalette = hcl_palettes(name = "Berlin").get_palettes()[0]
-        >>> defaultpalette
+        >>> berlin = hcl_palettes(name = "Berlin").get_palettes()[0]
+        >>> berlin
         >>> #: Demoplots
-        >>> demoplot(hexlist,        "Bar");
+        >>> demoplot(hexlist, "Bar");
         >>> #:
-        >>> demoplot(colorobj,       "Lines");
+        >>> demoplot(colorobj, "Lines");
         >>> #:
-        >>> demoplot(hclpalette,     "Pie", n = 4);
+        >>> demoplot(hclpalette, "Pie", n = 4);
         >>> #:
-        >>> demoplot(defaultpalette, "Matrix", n = 11);
+        >>> demoplot(berlin.colors(), "Matrix", n = 11);
         >>>
         >>> #: Using custom subplots and plot titles
         >>> from matplotlib import pyplot as plt
@@ -64,14 +64,14 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
         >>>          title = "Deuteranope vision", ax = axes[1, 0]);
         >>> demoplot(desaturate(colors), "Bar",
         >>>          title = "Desaturated", ax = axes[1, 1]);
-        >>> fig.show()
+        >>> plt.show()
 
 
     Raises:
-        TypeError: If `type_` is not a string.
+        TypeError: If `type_` is not a str.
         ValueError: If `type_` is not an available demo plot type.
-        TypeError: If `n` is not integer.
-        ValueError: `n` must be a positive integer.
+        TypeError: If `n` is not int.
+        ValueError: `n` must be a positive int.
 
     TODO: Issue with non-interactive plot (see rendered Examples).
     """
@@ -202,7 +202,7 @@ def Bar(colors, ax = None, **kwargs):
     if not showfig:
         return ax
     else:
-        fig.show()
+        plt.show()
         return fig
 
 
@@ -255,7 +255,7 @@ def Pie(colors, ax = None, **kwargs):
     if not showfig:
         return ax
     else:
-        fig.show()
+        plt.show()
         return fig
 
 
@@ -323,7 +323,7 @@ def Spine(colors, ax = None, **kwargs):
     if not showfig:
         return ax
     else:
-        fig.show()
+        plt.show()
         return fig
 
 
@@ -408,7 +408,7 @@ def Heatmap(colors, ax = None, **kwargs):
     if not showfig:
         return ax
     else:
-        fig.show()
+        plt.show()
         return fig
 
 
@@ -481,7 +481,7 @@ def Matrix(colors, ax = None, **kwargs):
     if not showfig:
         return ax
     else:
-        fig.show()
+        plt.show()
         return fig
 
 #def Scatter(colors, fig = None):
@@ -510,7 +510,7 @@ def Matrix(colors, ax = None, **kwargs):
 #    plt.axis("off")
 #
 #    if not showfig:  return fig
-#    else:            fig.show()
+#    else:            plt.show()
 
 def Lines(colors, ax = None, **kwargs):
     """Line Plot Demo
@@ -577,7 +577,7 @@ def Lines(colors, ax = None, **kwargs):
     if not showfig:
         return ax
     else:
-        fig.show()
+        plt.show()
         return fig
 
 
@@ -626,7 +626,7 @@ def Map(colors, ax = None, **kwargs):
     # a numpy array with the values used for the color coding.
     collection,vals = get_map_data()
 
-    # Convert the numeric values into integers [0, n-1] to pick
+    # Convert the numeric values into int [0, n-1] to pick
     # the correct colors for each polygon given the user input
     # object `colors`.
     n    = len(colors)
@@ -650,7 +650,7 @@ def Map(colors, ax = None, **kwargs):
     if not showfig:
         return ax
     else:
-        fig.show()
+        plt.show()
         return fig
 
 
@@ -675,12 +675,12 @@ def get_volcano_data(array = False):
             numpy array?
 
     Returns:
-        Returns a list of length 67 where each entry is a list of integers
+        Returns a list of length 67 where each entry is a list of int
         of lenth 87 if `asarray = False` (default). If `asarray = True`
-        an integer numpy array of shape `(67, 87)` will be returned.
+        an int numpy array of shape `(67, 87)` will be returned.
 
     Raises:
-        ValueError: If input `asarray` is not boolean.
+        ValueError: If input `asarray` is not bool.
     """
 
     import os

@@ -24,8 +24,8 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         severity (float): How severe the color vision deficiency is
             (`[0.,1.]`).  Also used as the amount of desaturation if `cvd`
             includes `"desaturate"`.
-        output (None, string): If `None` an interactive plotting window will
-            be opened. A string (file name/path) can be given to write the result
+        output (None, str): If `None` an interactive plotting window will
+            be opened. A str (file name/path) can be given to write the result
             to disc.
         dropalpha (bool): Drop alpha channel, defaults to `False`.  Only
             useful for png figures having an alpha channel.
@@ -38,7 +38,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
 
     Example:
 
-        >>> from colorspace.cvd_emulator import cvd_emulator
+        >>> from colorspace import cvd_emulator
         >>> cvd_emulator("DEMO", "deutan", 0.5);
         >>> #:
         >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png");
@@ -53,9 +53,6 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         ImportError: When python module 'imageio' cannot be imported (not installed).
         IOError: If file `image` cannot be read using `imageio.imread`.
         ImportError: If `matplotlib.pyplot` cannot be imported (`matplotlib` not installed?).
-
-    TODO: Issues with non-interactive plot; getting two empty plots alongside
-          the result we are expecting (see rendered Examples).
     """
 
     import os

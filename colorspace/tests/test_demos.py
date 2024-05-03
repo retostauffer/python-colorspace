@@ -13,6 +13,8 @@ cols = sequential_hcl()(7)
 
 from pytest import raises
 
+plt.switch_backend("Agg")
+
 # ---------------------------------
 # Wrong use
 # ---------------------------------

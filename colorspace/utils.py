@@ -69,7 +69,7 @@ def mixcolor(alpha, color1, color2, where = 1):
     Raises:
         TypeError: In case `alpha` is not float or `int`.
         ValueError: If `alpha` is not larger than `0.0` and smaller than `1.0`.
-        TypeError: If `where` is not a string.
+        TypeError: If `where` is not a str.
         ValueError: If `where` is not among the allowed color spaces used for adaptive mixing.
         Exception: If `color1` or `color2` cannot be converted into a palette object.
     """
@@ -134,7 +134,7 @@ def mixcolor(alpha, color1, color2, where = 1):
 
 
 # --------------------------------------------------------------------
-# Performs the check on hex color strings to see if they are valid.
+# Performs the check on hex color str to see if they are valid.
 # --------------------------------------------------------------------
 def check_hex_colors(colors):
     """Checking Hex Color Validity
@@ -147,9 +147,9 @@ def check_hex_colors(colors):
     their corresponding hex representation.
 
     Args:
-        colors (str, list, numpy.ndarray): single string or list of strings
-            with colors.  See function description for details.  In case it is a
-            `numpy.ndarray` it well be flattened to 1D if needed.
+        colors (str, list, numpy.ndarray): str or list of str with colors.
+            See function description for details. In case it is a
+            `numpy.ndarray` it will be flattened to 1-dimensional if needed.
 
     Returns:
         list: Returns a list (length 1 or more) in case all values provided
@@ -175,7 +175,7 @@ def check_hex_colors(colors):
 
     Raises:
         ValueError: In case `colors` is a list but does not only contain strnigs.
-        TypeError: If `colors` is neither string or list of strings.
+        TypeError: If `colors` is neither str or list of str.
         ValueError: If at least one of the colors is an invalid hex color.
     """
     from re import match, compile
@@ -204,7 +204,7 @@ def check_hex_colors(colors):
 
     # check individual entry. Also extends the color if needed.
     def check(x, pat):
-        # Check if string is of allowed type
+        # Check if str is of allowed type
         tmp = pat.match(x)
 
         # In case this is no hex definition (not matching the regular expression
@@ -256,7 +256,7 @@ def extract_transparency(x, mode = "float"):
 
     Raises:
         TypeError: If input object does not inherit from `colorobject`.
-        TypeError: If 'mode' is not string.
+        TypeError: If 'mode' is not str.
         ValueError: If 'mode' is not one of the allowed types shown in the arguments description.
 
     Examples:
@@ -351,7 +351,7 @@ def adjust_transparency(x, alpha):
             else a numpy.ndarray is returned.
 
     Raises:
-        TypeError: If input object does not inherit from :py:class:`colorspace.colorlib.colorobject`.
+        TypeError: If input object does not inherit from `colorspace.colorlib.colorobject`.
         TypeError: If `alpha` is not one of the expected types.
 
     Examples:
@@ -378,7 +378,7 @@ def adjust_transparency(x, alpha):
         >>> adjust_transparency(x1, [0.7, 0.3, 0.7]) # Add transparency
         >>>
         >>> #: Converting list of hex colors `cols2` into `hexcolor` objects
-        >>> # and extract transparency defined via 8 digit hex color strings
+        >>> # and extract transparency defined via 8 digit hex color str
         >>> x2 = hexcols(cols2)
         >>> extract_transparency(x2)
         >>>
@@ -483,7 +483,8 @@ def relative_luminance(colors):
 # Calculate W3C contrast ratio
 # --------------------------------------------------------------------
 def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
-        fontsize = "xx-large", fontweight = "heavy", ha = "center", va = "center"):
+        fontsize = "xx-large", fontweight = "heavy", ha = "center", va = "center",
+        **kwargs):
     """W3C Contrast Ratio
 
     Compute (and visualize) the contrast ratio of pairs of colors, as defined
@@ -492,11 +493,11 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
     The W3C Content Accessibility Guidelines (WCAG) recommend a contrast ratio
     of at least 4.5 for the color of regular text on the background color, and
     a ratio of at least 3 for large text. See
-    `https://www.w3.org/TR/WCAG21/#contrast-minimum`_.
+    <https://www.w3.org/TR/WCAG21/#contrast-minimum>.
 
-    The contrast ratio is defined in `https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio`_
+    The contrast ratio is defined in <https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio>
     as `(L1 + 0.05) / (L2 + 0.05)` where `L1` and `L2` are the relative luminances
-    (see `https://www.w3.org/TR/WCAG21/#dfn-relative-luminance`_) of the lighter and darker
+    (see <https://www.w3.org/TR/WCAG21/#dfn-relative-luminance>) of the lighter and darker
     colors, respectively. The relative luminances are weighted sums of scaled sRGB coordinates:
     `0.2126 * R + 0.7152 * G + 0.0722 * B` where each of `R`, `G`, and `B`
     is defined as `RGB / 12.92 if RGB <= 0.03928 else (RGB + 0.055)/1.055)^2.4` based on
@@ -522,6 +523,8 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
             Defaults to `"center"`.
         va (str): vertical alignment, forwarded to `matplotlib.pyplot.text`.
             Defaults to `"center"`.
+        **kwargs: Allows to specify `figsize` forwarded to `maptlotlib.pyplot.figure`,
+            only used if `ax` is None.
 
     Returns:
         A numeric vector with the contrast ratios is returned (invisibly, if `plot` is `True`).
@@ -537,14 +540,14 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
         >>> contrast_ratio(colors, "#FFFFFF", plot = True);
         >>> #: Visualize contrast ratio against black
         >>> contrast_ratio(colors, "#000000", plot = True);
+        >>> #: Changing figure size
+        >>> contrast_ratio(colors, "#000000", plot = True, figsize = (4, 3));
 
     Raises:
         TypeError: If cols or bg is not one of the recognized types.
         TypeError: If argument plot is not bool.
         TypeError: If `ax` is not `None` or a `matplotlib.axes.Axes` object. Only
             checked if `plot = True`.
-
-    TODO: Provide argument to control figsize?
     """
 
     from colorspace.palettes import palette
@@ -581,7 +584,9 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
         # Open figure if input "fig" is None, else use
         # input "fig" handler.
         if ax is None:
-            fig = plt.figure()
+            figsize = (5., 5.) # Default
+            figsize = (5., 5.) if not "figsize" in kwargs else kwargs["figsize"]
+            fig = plt.figure(figsize = figsize)
             ax  = plt.gca()
             showfig = True
         else:
@@ -713,9 +718,9 @@ def max_chroma(H, L, floor = False):
     lmax = np.fmin(100, [int(np.ceil(x  + 1e-08)) for x in L])
 
     # Not very efficient. However, the best I came up for now :|
-    # Reading/loading the json data set takes about half of the time,
-    # maybe more efficient to directly code it rather than reading it from
-    # disc. TODO(R): investigate this at some point.
+    # Reading/loading the json data set takes about half of the time, maybe
+    # more efficient to directly code it rather than reading it from disc.
+    # TODO: Investigate this at some point; room for improvement.
     def get_max(a, b):
         res = []
         for i in range(len(a)):
@@ -743,7 +748,7 @@ def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
         col: color (or colors) to be manipulated. Can be a
             color object,
             a :py:class:`palette <colorspace.palettes.palette>` object, or a
-            single string/list of strings with valid hex colors.
+            str/list of str with valid hex colors.
         amount (float): value between `[0., 1.]` with the amount the colors
             should be lightened. Defaults to `0.1`.
         method (str): either `"relative"` (default) or `"absolute"`.
@@ -765,11 +770,8 @@ def darken(col, amount = 0.1, method = "relative", space = "HCL", fixup = True):
         ValueError: If `method` is not one of `"absolute"` or `"relative"`.
         TypeError: If `space` is not str.
         ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
-        TypeError: If input 'col' is not among the one of the recognized objects.
+        TypeError: If 'col' is not among the one of the recognized objects.
         TypeError: If `fixup` is not bool.
-
-    TODO: Warning when used non-interactively, same for both lighten and darken
-          (see rendered Examples).
     """
     return lighten(col, amount = amount * -1., method = method, space = space, fixup = fixup)
 
@@ -783,11 +785,11 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     Args:
         col: color (or colors) to be manipulated. Can be a color object
             a :py:class:`palette <colorspace.palettes.palette>` object, or a
-            single string/list of strings with valid hex colors.
+            str/list of str with valid hex colors.
         amount (float): value between `[0., 1.]` with the amount the colors
             should be lightened. Defaults to `0.1`.
         method (str): either `"relative"` (default) or `"absolute"`.
-        space (str): one of `"HCL"` or `"HSV"`. Defaults to `"HCL"`.
+        space (str): one of `"HCL"` or `"HLS"`. Defaults to `"HCL"`.
         fixup (bool): should colors which fall outside the defined RGB space
             be fixed (corrected)? Defaults to `True`.
 
@@ -804,12 +806,9 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
         TypeError: If `method` is not str.
         ValueError: If `method` is not one of `"absolute"` or `"relative"`.
         TypeError: If `space` is not str.
-        ValueError: If `space` is not one of `"HCL"` or `"HSV"`.
+        ValueError: If `space` is not one of `"HCL"`, `"HLS"`, or `"combined"`.
         TypeError: If input 'col' is not among the one of the recognized objects.
         TypeError: If `fixup` is not bool.
-
-    TODO: Warning when used non-interactively, same for both lighten and darken
-          (see rendered Examples).
     """
 
     from colorspace.colorlib import colorobject, hexcols
@@ -832,7 +831,7 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     # If the input is a colorobject (hex, HSV, ...) we first
     # put everything into a (temporary) palette.
     if isinstance(col, colorobject):  x = palette(col.colors(), "_temp_palette_object_")
-    # In case the input is a string or a list of strings
+    # In case the input is a str or a list of str
     # we convert the input (temporarily) into a palette.
     # This allows us to check if all colors are valid hex colors.
     elif isinstance(col, str):        x = palette([col], "_temp_palette_object_")
@@ -840,8 +839,8 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     # If the input is a palette object; keep it as it is.
     elif isinstance(col, palette):    x = col
     else:
-        raise TypeError("argument `col` must be a colorobject, palette, a string, " + \
-                        "or list of strings with valid hex colors")
+        raise TypeError("argument `col` must be a colorobject, palette, a str, " + \
+                        "or list of str with valid hex colors")
 
     # Function to lighten colors in the HCL space.
     # Returns a colorobject with transformed coordinates.
@@ -884,8 +883,8 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     elif space == "HLS":
         tmp = _lighten_in_HLS(x.colors(), amount, method)
     else:
-        # TODO(R): Differs from colorspace. Reason is that we here
-        #          go to HSL and convert HLS to HCL, I guess.
+        # TODO: Differs from colorspace. Reason is that we here
+        #       go to HSL and convert HLS to HCL I assume.
         tmp    = _lighten_in_HCL(x.colors(), amount, method) # Via HCL color space
         tmpHLS = _lighten_in_HLS(x.colors(), amount, method) # Via HLS color space
         tmpHLS.to("sRGB"); tmpHLS.to("HCL")
@@ -900,7 +899,7 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     # Job done, convert back to HEX
     tmp.to("hex")
 
-    # If the original input was a single string: return str
+    # If the original input was a single str: return str
     if isinstance(col, str):              res = tmp.colors()[0]
     # In case the original input has been a list, return list
     elif isinstance(col, list):           res = tmp.colors()

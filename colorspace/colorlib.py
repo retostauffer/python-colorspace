@@ -379,8 +379,6 @@ class colorlib:
         # Checking input
         self._check_input_arrays_(__fname__, R = R, G = G, B = B)
 
-        # TODO only YN is used as in the original code. Is this correct, or
-        # correct by accident?
         return [YN * (0.412453 * R + 0.357580 * G + 0.180423 * B),   # X
                 YN * (0.212671 * R + 0.715160 * G + 0.072169 * B),   # Y
                 YN * (0.019334 * R + 0.119193 * G + 0.950227 * B)]   # Z
@@ -1244,7 +1242,7 @@ class colorlib:
                 defaults to `True`.
 
         Returns:
-            list: A list with hex color strings.
+            list: A list with hex color str.
         """
 
         # Color fixup: limit r/g/b to [0-1]
@@ -1271,7 +1269,7 @@ class colorlib:
         # Support function to create hex coded colors
         def gethex(r, g, b):
 
-            # Converts integers to hex string
+            # Converts int to hex string
             def applyfun(x):
                 x = np.asarray(x * 255. + .5, dtype = int)
                 return f"#{x[0]:02X}{x[1]:02X}{x[2]:02X}"
@@ -1302,7 +1300,7 @@ class colorlib:
         """Convert Hex Colors to Standard RGB (sRGB)
 
         Args:
-            hex_ (str, list of str): hex color string or list of strings.
+            hex_ (str, list of str): hex color str or list of str.
             gamma (float): Gamma correction factor, defaults to `2.4`.
 
         Returns:
@@ -1316,9 +1314,7 @@ class colorlib:
         # Check for valid hex colors
         def validhex(hex_):
             from re import match
-            #TODO(R): Can I outsource this to check_hex_colors not to have
-            #         the same expression hanging around twice?
-            return np.where([match("^#[0-9A-Fa-f]{6}([0-9]{2})?$$", x) is not None for x in hex_])[0]
+            return np.where([match("^#[0-9A-Fa-f]{6}([0-9]{2})?$", x) is not None for x in hex_])[0]
 
         # Convert hex to rgb
         def getrgb(x):
@@ -1390,7 +1386,7 @@ class colorobject:
             digits (int): Number of digits, defaults to `2`.
 
         Returns:
-            str: Returns a string of the colors/coordinates of the current object.
+            str: Returns a str of the colors/coordinates of the current object.
         """
         dims = list(self._data_.keys())    # Dimensions
 
@@ -1503,18 +1499,9 @@ class colorobject:
         else:
             raise StopIteration
 
-    ## Required by python2
-    ## TODO(R) Can be removed?
-    #def next(self):
-    #    """Next method
-
-    #    Originally required by python2.
-    #    """
-    #    return self.__next__()
-
     def __getitem__(self, key):
         if not isinstance(key, int):
-            raise TypeError("argument `key` must be integer (index)")
+            raise TypeError("argument `key` must be int (index)")
 
         from copy import deepcopy
         from numpy import array, newaxis
@@ -1609,7 +1596,7 @@ class colorobject:
             No return, converts the current color space object (see method :py:func:`to`).
 
         Args:
-            via (list of strings): The path via which the current color object
+            via (list of str): The path via which the current color object
                 should be transformed. For example: A :py:class:`hexcols`
                 object can be transformed into CIEXYZ by specifying
                 `via = ["sRGB", "RGB", "CIEXYZ"]`.
@@ -2939,7 +2926,6 @@ class HLS(colorobject):
             self._transform_via_path_(via, fixup = fixup)
 
         elif to == "hex":
-            # TODO(R): Fails!!!!! Reason: walks trough RGB > sRGB with GAMMA.
             via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
@@ -2956,7 +2942,7 @@ class HLS(colorobject):
 class hexcols(colorobject):
     """Create Hex Color Object
 
-    Creates a color object using hex colors (string).
+    Creates a color object using hex colors (str).
     Can be converted to all other color spaces: :py:class:`CIELAB`,
     :py:class:`CIELUV`, :py:class:`CIEXYZ`, :py:class:`HLS`, :py:class:`HSV`,
     :py:class:`RGB`, :py:class:`polarLAB`, :py:class:`polarLUV`, and
@@ -3085,9 +3071,9 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
             (see `atol`). If set to `True` the coordinates must be identical.
             Note: in case `a` and `b` are hex colors
             (colorspace.colorlib.hexcols) strings will always be matched exactly.
-        _all (boolean): Default `True`; the function will return `True` if
+        _all (bool): Default `True`; the function will return `True` if
             all colors are identical/nearly equal. If set to `False` the return
-            will be a list of booleans containing `True` and `False` for each
+            will be a list of bool containing `True` and `False` for each
             pair of colors.
         atol (None or float): Absolute tolerance for the distance measure
             between two colors to be considered as nearly equal. Only used if
@@ -3099,7 +3085,7 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
     Returns:
         bool, list: Returns `True` if all colors of `a` are exactly equal or
         nearly equal (see arguments) to the colors in object `b`. If `_all =
-        False`, a list of booleans is returned indicating pair-wise comparison
+        False`, a list of bool is returned indicating pair-wise comparison
         of all colors in `a` and `b`.
 
     Example:
@@ -3140,11 +3126,11 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
 
     Raises:
         TypeError: If `a` or `b` are not objects of a class which inherits from
-            `colorspace.colorlib.colorobject`.
+            :py:class:`colorobject <colorspace.colorlib.colorobject>`.
         TypeError: If `a` and `b` are not of the same class.
         ValueError: If `a` and `b` are not of the same length, i.e., do not contain
             the same number of colors.
-        ValueError: If `exact` or `_all` are not boolean.
+        ValueError: If `exact` or `_all` are not bool.
         ValueError: If `atol` is neither `None` nor float.
     """
 
@@ -3186,10 +3172,10 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
         res = [distance(a[i], b[i]) for i in range(0, a.length())]
         res = isclose(res, 0, atol = atol)
     # HCL or polarLUV (both return instance polarLUV)
-    # TODO(R): Calculating the Euclidean distance on HCL and (if available) alpha
-    #          which itself is in [0, 1]. Should be weighted differently?
+    # TODO: Calculating the Euclidean distance on HCL and (if available) alpha
+    #       which itself is in [0, 1]. Should be weighted differently (scaled distance)?
     elif isinstance(a, polarLUV) or isinstance(a, CIELUV) or isinstance(a, CIELAB) or \
-         isinstance(a, polarLAB) or isinstance(a, CIEXYZ) :
+         isinstance(a, polarLAB) or isinstance(a, CIEXYZ):
 
         if not atol: atol = 1
         res = [distance(a[i], b[i]) for i in range(0, a.length())]
