@@ -180,9 +180,6 @@ def tritan(cols, severity = 1., linear = True):
         >>>
         >>> #: From cmap (returns cmap)
         >>> tritan(pal.cmap())
-
-    TODO: Converting cmap to tritan; underlying sRGB seems to be fine,
-          my guess is that this matplotlib default plot does something strange.
     """
 
     from .CVD import CVD
