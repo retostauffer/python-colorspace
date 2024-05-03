@@ -127,7 +127,6 @@ class palette:
             list: List of all colors of the palette.
         """
         return self._colors
-        ###TODO(R) Remove? Return [str(x) for x in self._colors]
 
     def swatchplot(self, **kwargs):
         """Palette Swatch Plot
@@ -417,38 +416,8 @@ class defaultpalette:
         from copy import copy
         args = copy(self.get_settings())
 
-        #TODO(R): No one needs this, right?
-        ## If Remove h1/h2 and store them in h
-        #for dim in ["h", "c", "l", "p"]:
-        #    dim1 = "{:s}1".format(dim)
-        #    dim2 = "{:s}2".format(dim)
-        #    dim3 = "{:s}max".format(dim)
-        #    dim = "power" if dim == "p" else dim
-        #    if dim1 in args.keys() and dim2 in args.keys() and dim3 in args.keys():
-        #        args[dim] = [args[dim1], args[dim2], args[dim3]]
-        #        del args[dim1]; del args[dim2]; del args[dim3]
-        #    # For Chroma we can have [c1, c2, cmax] for sequential palettes.
-        #    # For diverging it can be [c1] or [c1, cmax].
-        #    elif dim1 in args.keys() and dim3 in args.keys():
-        #        if not self._method_ == "diverging_hcl":
-        #            args[dim] = [args[dim1], args[dim1], args[dim3]] 
-        #        else:
-        #            args[dim] = [args[dim1], args[dim3]] 
-        #        del args[dim1]; del args[dim3]
-        #    # For Hue, Luminance, and Power there are only two (for now)
-        #    elif dim1 in args.keys() and dim2 in args.keys():
-        #        args[dim] = [args[dim1], args[dim2]]
-        #        del args[dim1]; del args[dim2]
-        #    elif dim1 in args.keys():
-        #        args[dim] = args[dim1]
-        #        del args[dim1]
-        #    elif dim2 in args.keys():
-        #        args[dim] = args[dim2]
-        #        del args[dim2]
-
         pal = cfun(**args)
         return [str(x) for x in pal.colors(n, fixup = True)]
-
 
 
 # -------------------------------------------------------------------
@@ -858,47 +827,26 @@ class hclpalette:
         def get(key):
             val = self.get(key)
             if val is None:
-                return "    ---"
-            elif isinstance(val, int):
-                return "{:7d}".format(val)
+                return f"{key:7s}      ---"
+            elif callable(val):
+                return f"{key:7s} <lambda>"
             elif isinstance(val, bool):
-                return "{:7s}".format("True" if val else "False")
+                return f"{key:7s} {str(val):>8s}"
+            elif isinstance(val, int):
+                return f"{key:7s} {val:8d}"
             else:
-                return "{:7.1f}".format(val)
+                return f"{key:7s} {val:8.1f}"
 
         from .palettes import divergingx_hcl
 
-        # Not very pretty ...
         if not isinstance(self, divergingx_hcl):
-            print("Class:  {:s}".format(self.__class__.__name__))
-            print("h1    {:s}    ".format(get("h1"))),
-            print("h2    {:s}    ".format(get("h2")))
-            print("c1    {:s}    ".format(get("c1"))),
-            print("c2    {:s}    ".format(get("c2")))
-            print("cmax  {:s}    ".format(get("cmax"))),
-            print("l1    {:s}    ".format(get("l1"))),
-            print("l2    {:s}    ".format(get("l2")))
-            print("p1    {:s}    ".format(get("p1"))),
-            print("p2    {:s}    ".format(get("p2")))
-            print("fixup {:s}    ".format(get("fixup")))
+            keys = ["h1", "h2", "c1", "c2", "cmax", "l1", "l2", "p1", "p2", "fixup"]
         else:
-            print("Class:  {:s}".format(self.__class__.__name__))
-            print("h1    {:s}    ".format(get("h1"))),
-            print("h2    {:s}    ".format(get("h2")))
-            print("h3    {:s}    ".format(get("h3"))),
-            print("c1    {:s}    ".format(get("c1"))),
-            print("c2    {:s}    ".format(get("c2")))
-            print("c3    {:s}    ".format(get("c3")))
-            print("cmax1 {:s}    ".format(get("cmax1"))),
-            print("cmax2 {:s}    ".format(get("cmax2"))),
-            print("l1    {:s}    ".format(get("l1"))),
-            print("l2    {:s}    ".format(get("l2")))
-            print("l3    {:s}    ".format(get("l3")))
-            print("p1    {:s}    ".format(get("p1"))),
-            print("p2    {:s}    ".format(get("p2")))
-            print("p3    {:s}    ".format(get("p3"))),
-            print("p4    {:s}    ".format(get("p4")))
-            print("fixup {:s}    ".format(get("fixup")))
+            keys = ["h1", "h1", "h2", "h3", "c1", "c2", "c3", "cmax1", "cmax2",
+                    "l1", "l2", "l3", "p1", "p2", "p3", "p4", "fixup"]
+
+        print(f"Class:  {self.__class__.__name__}")
+        for k in keys: print(get(k))
 
 
     # Better input handling
@@ -1174,8 +1122,7 @@ class qualitative_hcl(hclpalette):
             qraised.  Else the settings of the palette as defined will be used to create
             qthe color palette.
         rev (bool): Should the color map be reversed? Default `False`.
-        **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
-            to be documented.
+        **kwargs: Additional arguments to overwrite the h/c/l settings. TODO: has to be documented.
 
     Returns:
         qualitative_hcl: Initialize new object. Raises exceptions if the parameters are
@@ -1197,15 +1144,8 @@ class qualitative_hcl(hclpalette):
         >>> qualitative_hcl("Warm")(10)
 
 
-    TODO:
-        Class does not allow for lambda function for h. Thus, the colors
-        on both ends of a qualitative color map with `h = [0, 360]` are
-        identical. See also palette definition (text files). I would need
-        to allow for lambda functions which will require quite some adaptions
-        of the current code (reading config files; _checkinput function; evaluation
-        of the function whenever needed).
-
-        Just adding lambda. Write tests for this.
+    TODO: Currently the config files for the pre-defined palettes do not allow for lambda functions.
+    TODO: Write some tests for lambda functions on h; document properly.
 
 
     Raises:
@@ -1335,6 +1275,7 @@ class qualitative_hcl(hclpalette):
         HCL = HCL(H, C, L)
 
         # If kwargs have a key "colorobject" return HCL colorobject
+        # TODO: What is the usecase for this?
         if "colorobject" in kwargs.keys(): return HCL
 
         # Reversing colors
@@ -1360,8 +1301,11 @@ class rainbow_hcl(qualitative_hcl):
     Args:
         c (int): Chroma (colorfullness) of the color map `[0-100+]`.
         l (int): Luminance (lightness) of the color map `[0-100]`.
-        start (int): Hue at which the rainbow should start.
-        end (int): Hue at which the rainbow should end.
+        start (int, lambda): Hue at which the rainbow should start or lambda function
+            with one argument. Defaults to 0.
+        end (int, lambda): Hue (int) at which the rainbow should end or lambda function
+            with one argument. By default a lambda function evaluated when
+            drawing colors (`360 * (n - 1) / n`).
         gamma (float): Gamma value used for transfiromation from/to sRGB.
             @TODO implemented? Check!
         fixup (bool): Only used when converting the HCL colors to hex.  Should
@@ -1387,12 +1331,19 @@ class rainbow_hcl(qualitative_hcl):
         >>> #: The standard call of the object also returns hex colors. Thus,
         >>> # you can make your code slimmer by calling
         >>> rainbow_hcl()(10)
+        >>>
+        >>> #: Testing lambda function for both, start and end
+        >>> pal = rainbow_hcl(start = lambda n: (n - 1) / n,
+        >>>                   end = lambda n: 360 - (n - 1) / n)
+        >>> pal(5)
+        >>> #:
+        >>> pal(11)
     """
 
     _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
     _name = "Rainbow HCL"
 
-    def __init__(self, c = 50, l = 70, start = 0, end = 360,
+    def __init__(self, c = 50, l = 70, start = 0, end = lambda n: 360 * (n - 1) / n,
                  gamma = None, fixup = True, rev = False, *args, **kwargs):
 
         # Store reverse
@@ -1403,15 +1354,33 @@ class rainbow_hcl(qualitative_hcl):
         try:
             c     = self._checkinput_(int,   1, False, False, c = c)
             l     = self._checkinput_(int,   1, False, False, l = l)
-            start = self._checkinput_(int,   1, False, False, start = start)
-            end   = self._checkinput_(int,   1, False, False, end = end)
         except Exception as e:
             raise ValueError(str(e))
 
+        # Checking start and end. If int, use _checkinput_, if callable make
+        # sure it is a lambda function with one single input argument.
+        if isinstance(start, int):
+            start = self._checkinput_(int,   1, False, False, start = start)
+        elif callable(start):
+            if not start.__code__.co_argcount == 1:
+                raise Exception("if `start` is a lambda function it must have only one argument")
+        else:
+            raise TypeError("argument `start` must be int or lambda function")
+
+        if isinstance(end, int):
+            end   = self._checkinput_(int,   1, False, False, end = end)
+        elif callable(end):
+            if not end.__code__.co_argcount == 1:
+                raise Exception("if `end` is a lambda function it must have only one argument")
+        else:
+            raise TypeError("argument `end` must be int or lambda function")
+
         # Save settins
         try:
-            self.settings = {"h1": int(start[0]), "h2": int(end[0]),
-                             "c1": int(c[0]),     "l1": int(l[0]),
+            self.settings = {"h1": start if callable(start) else int(start[0]),
+                             "h2": end if callable(end) else int(end[0]),
+                             "c1": int(c[0]),
+                             "l1": int(l[0]),
                              "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError("wrong inputs to {:s}: {:s}".format(
