@@ -24,8 +24,9 @@ def test_wrong_usage():
     raises(ValueError, contrast_ratio, colors = ["#FF00FF", "foo"])   # invalid hex
 
     # Argument 'bg'
-    raises(TypeError,  contrast_ratio, colors = "#FF00FF", b = "foo") # no hex color
-    raises(TypeError,  contrast_ratio, colors = "#FF00FF", b = ["#FF00FF", "foo"]) # invalid hex
+    raises(ValueError,  contrast_ratio, colors = "foo") # invalid hex
+    raises(ValueError,  contrast_ratio, colors = "#FF00") # invalid hex
+    raises(ValueError,  contrast_ratio, colors = ["#FF00FF", "foo"]) # invalid hex
 
     # Argument 'plot'
     raises(TypeError,  contrast_ratio, colors = "#FF00FF", plot = "foo")

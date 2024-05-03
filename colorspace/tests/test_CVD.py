@@ -1,6 +1,6 @@
 
 from colorspace import sequential_hcl
-from colorspace import deutan, protan, tritan
+from colorspace import deutan, protan, tritan, desaturate
 from colorspace.CVD import CVD
 import numpy as np
 from pytest import raises
