@@ -10,6 +10,11 @@ __pycache__
 /build
 /venv
 
+# pyp2qmd testing
+/makedocs.py
+/make_doc_test.py
+/_quarto
+
 # Testing
 .coverage
 colorspace/htmlcov

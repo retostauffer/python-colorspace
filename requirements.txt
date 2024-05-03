@@ -9,7 +9,3 @@ numpy
 pandas
 statsmodels
 Pillow
-Sphinx
-sphinx-bootstrap-theme
-sphinxcontrib-bibtex
-sphinxcontrib-jsmath
