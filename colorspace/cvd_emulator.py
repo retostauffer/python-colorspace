@@ -1,7 +1,7 @@
 
 
 def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
-        output = None, dropalpha = False, **figargs):
+        output = None, dropalpha = False):
     """Check Images for Color Constraints
 
     Simulate color deficiencies on png, jpg, and jpeg files. Takes an existing
@@ -29,7 +29,6 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
             to disc.
         dropalpha (bool): Drop alpha channel, defaults to `False`.  Only
             useful for png figures having an alpha channel.
-        **figargs: forwarded to `matplotlib.pyplot.subplot`.
 
     Returns:
         matplotlib.figure.Figure, str: If `output = None` the figure
@@ -128,12 +127,12 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     else:             [nrow, ncol] = [int(ceil(len(cvd)/2.)), 2]
 
     # Start plotting
-    plt.subplots(nrow, ncol, **figargs)
+    plt.subplots(nrow, ncol)
     for c in range(0, len(cvd)):
 
         # Start plotting
         if len(cvd) == 1:
-            fig = plt.figure(**figargs)
+            fig = plt.figure(nrow, ncol, 1)
         else:
             fig = plt.subplot(nrow, ncol, c + 1)
 
@@ -167,7 +166,6 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         plt.axis("off")
 
     # Adjusting outer margins
-    #plt.subplots_adjust(left = 0., right = 1., top = 1., bottom = 0.1)
     plt.tight_layout()
 
     # Show or save image.
