@@ -56,7 +56,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             str containing the names of the palettes which should be
             returned/plotted.
         plot (bool): If `False` (default) an object of type
-            :py:class:`hclpalettes` is returned, containing the
+            :py:class:`hclpalettes <colorspace.palettes.hclpalettes>` is returned, containing the
             (subset) of pre-defined HCL color palettes.
         custom (defaultpalette): One or multiple
             defaultpalettes can be provided in addition.
@@ -68,7 +68,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
     Returns:
         None or hclpalettes: If `plot = True`
         a plot will be created and `None` is returned. If `plot = False` (default)
-        an object of class :py:class:`hclpalettes` is returned.
+        an object of class :py:class:`hclpalettes <colorspace.palettes.hclpalettes>` is returned.
 
     Raises:
         TypeError: If `n`/`ncol` not of type int.

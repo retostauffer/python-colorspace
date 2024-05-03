@@ -748,7 +748,7 @@ class colorlib:
 
         Converts colors from the CIELAB color space into its polar
         representation (`polarLAB`).
-        Inverse function of :py:func:`polarLAB_to_LAB`.
+        Inverse function of :py:meth:`polarLAB_to_LAB`.
 
         Args:
             L (numpy.ndarray): Values for the `L` dimension.
@@ -781,7 +781,7 @@ class colorlib:
 
         Convert colors from the polar representation of the CIELAB
         color space into CIELAB coordinates.
-        Inverse function of :py:func:`LAB_to_polarLAB`.
+        Inverse function of :py:meth:`LAB_to_polarLAB`.
 
         Args:
             L (numpy.ndarray): Values for the polar `L` dimension.
@@ -1176,7 +1176,7 @@ class colorlib:
         representation (`polarLUV`). The `polarLUV` color space
         is also known as the HCL (Hue-Chroma-Luminance) color space
         which this package uses frequently, e.g., when creating
-        efficient color maps. Inverse function of :py:func:`polarLUV_to_LUV`.
+        efficient color maps. Inverse function of :py:meth:`polarLUV_to_LUV`.
 
         Args:
             L (numpy.ndarray): Values for the `L` dimension.
@@ -1209,7 +1209,7 @@ class colorlib:
         Convert colors from the polar representation of the CIELUV color space,
         also known as HCL (Hue-Chroma-Luminance) color space, into CIELAB
         coordinates.
-        Inverse function of :py:func:`LUV_to_polarLUV`.
+        Inverse function of :py:meth:`LUV_to_polarLUV`.
 
         Args:
             L (numpy.ndarray): Values for the polar `L` dimension.
@@ -3126,7 +3126,7 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
 
     Raises:
         TypeError: If `a` or `b` are not objects of a class which inherits from
-            :py:class:`colorobject <colorspace.colorlib.colorobject>`.
+            `colorobject`.
         TypeError: If `a` and `b` are not of the same class.
         ValueError: If `a` and `b` are not of the same length, i.e., do not contain
             the same number of colors.
