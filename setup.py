@@ -43,15 +43,6 @@ def README():
     content  = open(os.path.join(os.path.dirname(__file__), "README.md")).read()
     return content
 
-    ## Find markdown links; replace them with rst-compatible links
-    #md_links = findall("\[.*?[^\]].*?(?<=\))", content)
-    #def md_to_rst(x):
-    #    link = match("\[(.*?)\]\((.*?)\)", x).groups()
-    #    if not link: raise ValueError(f"Problems encoding {x} (changing link format).")
-    #    return f"`{link[0]} <{link[1]}>_`"
-    #for x in md_links: content = content.replace(x, md_to_rst(x))
-    #return content
-
 # Setup
 setup(name="colorspace",     # This is the package name
       version = VERSION,     # Current package version, what else

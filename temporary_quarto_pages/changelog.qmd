@@ -1,14 +1,11 @@
+---
+title: Release Notes
+---
 
-.. _page-news:
-
-Release Notes
-=============
-
-Availability
--------------
+## Availability
 
 The software is published under the Gnu Public License
-on `github <https://github.com/retostauffer/python-colorspace>`_.
+on [github](https://github.com/retostauffer/python-colorspace)
 Please feel free to use, share, improve, and redistribute the
 software as long as the attribution is given correctly.
 
@@ -16,16 +13,21 @@ Please also feel free to help improving the software (via pull
 requests, or simply get in touch with me, helping hands would
 be very welcome)!
 
-Version 0.3.0 (January 2022)
-----------------------------
+## Version 0.4 (Early 2024)
+
+* Removed support for python2
+* Once more revamped documentation
+* Fixed a series of smaller bugs
+* Adjusted pytest to current version
+
+## Version 0.3.0 (January 2022)
 
 * Removed support for python2
 * Adding functionality for swatchplots for `LinearSegmentedColormap` (single object)
 * Fixed GUI `choose_palette()`
-* Added `mixcolor()` for additive color mixing (RGB, XYZ)
+* Added `mixcolor()` for additive color mixing (RGB, CIEXYZ)
 
-Version 0.1.0 (September 17, 2018)
-----------------------------------
+## Version 0.1.0 (September 17, 2018)
 
 **Early beta release**.
 
@@ -37,8 +39,7 @@ than I do! Feel free to report bugs, ideas, or even contribute.
 I'll try to update update the documentation as soon as possible
 and to improve the package itself, if I can find a free time slot.
 
-Version 0.0.1 (beginning of September 2018)
--------------------------------------------
+## Version 0.0.1 (beginning of September 2018)
 
 Development version.
 

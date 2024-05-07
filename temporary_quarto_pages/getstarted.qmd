@@ -1,0 +1,275 @@
+---
+title: "colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes"
+bibliography: references.bib
+---
+
+The colorspace package provides a broad toolbox for selecting individual colors
+or color palettes, manipulating these colors, and employing them in various
+kinds of visualizations.
+
+At the core of the package there are various utilities for computing with color
+spaces (as the name of the package conveys). Thus, the package helps to map
+various three-dimensional representations of color to each other. A
+particularly important mapping is the one from the perceptually-based and
+device-independent color model HCL (Hue-Chroma-Luminance) to standard
+Red-Green-Blue (sRGB) which is the basis for color specifications in many
+systems based on the corresponding hex codes (e.g., in HTML but also in R). For
+completeness further standard color models are included as well in the package:
+[`polarLUV`](../man/colorspace.colorlib.polarLUV.qmd) (=HCL),
+[`CIELUV`](../man/colorspace.colorlib.CIELUV.qmd),
+[`polarLAB`](../man/colorspace.colorlib.polarLAB.qmd),
+[`CIELAB`](../man/colorspace.colorlib.CIELAB.qmd),
+[`CIEXYZ`](../man/colorspace.colorlib.CIEXYZ.qmd),
+[`RGB`](../man/colorspace.colorlib.RGB.qmd),
+[`sRGB`](../man/colorspace.colorlib.sRGB.qmd),
+[`HLS`](../man/colorspace.colorlib.HLS.qmd),
+[`HSV`](../man/colorspace.colorlib.HSV.qmd).
+
+The HCL space (= polar coordinates in CIELUV) is particularly useful for
+specifying individual colors and color palettes as its three axes match those
+of the human visual system very well: Hue (= type of color, dominant
+wavelength), chroma (= colorfulness), luminance (= brightness).
+
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+from colorspace import palette, sequential_hcl, swatchplot
+
+H = palette(sequential_hcl(h = [0, 300], c = 60, l = 65).colors(5), "Hue")
+C = palette(sequential_hcl(h = 0, c = [0, 100], l = 65).colors(5), "Chroma")
+L = palette(sequential_hcl(h = 0, c = 0, l = [90, 25]).colors(5), "Luminance")
+
+swatchplot([H, C, L], figsize = (3, 1.5));
+```
+
+
+The colorspace package provides three types of palettes based on the HCL model:
+
+* *Qualitative*: Designed for coding categorical information, i.e., where no
+  particular ordering of categories is available and every color should receive
+  the same perceptual weight.
+  Class: [`qualitative_hcl`](../man/colorspace.palettes.qualitative_hcl.qmd).
+* *Sequential*: Designed for coding ordered/numeric information, i.e., where
+  colors go from high to low (or vice versa).
+  Class: [`sequential_hcl`](../man/colorspace.palettes.sequential_hcl.qmd).
+* *Diverging*: Designed for coding ordered/numeric information around a central
+  neutral value, i.e., where colors diverge from neutral to two extremes.
+  Class: [`diverging_hcl`](../man/colorspace.palettes.diverging_hcl.qmd).
+
+To aid choice and application of these palettes there are: scales for use with
+matplotlib and an app for interactive exploration; visualizations of palette
+properties; accompanying manipulation utilities (like
+[`desaturation`](../man/colorspace.CVD.desaturate.qmd),
+[`lighten`](../man/colorspace.utils.lighten.qmd)/[`darken`](../man/colorspace.utils.darken.qmd),
+and emulation of color vision deficiencies).
+
+
+More detailed overviews and examples are provided in the articles:
+
+* articles/installation
+* articles/color_spaces
+* articles/hcl_palettes
+* articles/classes_and_methods
+* articles/palette_visualization
+* articles/choose_palette
+* articles/cvd
+* articles/manipulation_utilities
+* articles/approximations
+* articles/endrainbow
+
+## Installation
+
+At the moment the package is available via
+[github](https://https://github.com/retostauffer/python-colorspace>).
+Note that [`numpy`](https://pypi.org/project/numpy/) needs to be installed to be able to
+use the package. A [PyPI](https://pypi.org) release is planned in the future.
+
+**Requirements**
+
+* Python Python 3+
+* `numpy`
+
+**Install via pip**
+
+The package can be installed via [`pip`](https://pypi.org/project/pip/) using
+the following command:
+
+```
+pip install git+https://github.com/retostauffer/python-colorspace
+```
+
+
+**Clone git Repository**
+
+Alternatively, clone the git repository and install the package:
+
+```
+git clone https://github.com/retostauffer/python-colorspace.git
+cd python-colorspace && python setup.py install
+```
+
+
+TODO: Update once released on PyPI.
+
+## Choosing HCL-based color palettes
+
+The colorspace package ships with a wide range of predefined color palettes,
+specified through suitable trajectories in the HCL (hue-chroma-luminance) color
+space. A quick overview can be gained easily with the
+[`hcl_palettes`](../man/colorspace.hcl_palettes.hcl_palettes.qmd) function:
+
+
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+from colorspace import hcl_palettes
+hcl_palettes(plot = True, figsize = (15, 10));
+```
+
+
+A suitable palette object can be easily computed by specifying the desired
+palette name (see the plot above), e.g.,
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+from colorspace import qualitative_hcl
+pal = qualitative_hcl("Dark 3")
+pal(4)  # Draw list of 4 colors across the palette
+```
+
+
+The functions [`sequential_hcl`](../man/colorspace.palettes.sequential_hcl.qmd)and
+[`diverging_hcl`](../man/colorspace.palettes.diverging_hcl.qmd) work analogously.
+Additionally, their hue/chroma/luminance parameters can be modified, thus
+allowing for easy customization of each palette. Moreover, the
+[`choose_palette`](../man/colorspace.choose_palette.choose_palette.qmd) app
+provides a convenient user interfaces to perform palette customization
+interactively.
+
+TODO: Adjust text when adding `divergingx_hcl()` (_Finally, even more
+    flexible diverging HCL palettes are provided by divergingx_hcl()
+
+
+Use with matplotlib graphics
+============================
+
+All color palettes come with a `cmap()` method to generate objects
+of class `LinearSegmentedColormap` as used by the `matplotlib` and can
+thus usually be passed directly to most matplotlib plotting functions, typically
+trough the `cmap` argument. Here, a `pcolormesh()` example is shown using
+the diverging HCL color palette "*Blue-Red 3*".
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+from colorspace import diverging_hcl
+pal = diverging_hcl("Blue-Red 3")
+
+np.random.seed(19680801)
+Z = np.random.rand(6, 10)
+x = np.arange(-0.5, 10, 1)  # len = 11
+y = np.arange(4.5, 11, 1)  # len = 7
+
+fig, ax = plt.subplots()
+dead_end = ax.pcolormesh(x, y, Z, cmap = pal.cmap())
+
+plt.show()
+```
+
+
+As another example for a sequential palette, we demonstrate how to create a
+line plot using `rainbowplot()` provided by the `statsmodels` package.
+The Purples 3 palette is used which is quite similar to the
+[ColorBrewer2.org](https://colorbrewer2.org/) palette Purples.
+Here, only two colors are employed, yielding a dark purple and a light gray.
+
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+data = sm.datasets.elnino.load()
+
+from colorspace import sequential_hcl
+pal = sequential_hcl("Purples 3")
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+res = sm.graphics.rainbowplot(data.raw_data.iloc[:, 1:], ax = ax, cmap = pal.cmap())
+dead_end = ax.set_xlabel("Month of the year")
+dead_end = ax.set_ylabel("Sea surface temperature (C)")
+dead_end = ax.set_xticks(np.arange(13, step=3) - 1)
+dead_end = ax.set_xticklabels(["", "Mar", "Jun", "Sep", "Dec"])
+dead_end = ax.set_xlim([-0.2, 11.2])
+
+plt.show()
+```
+
+
+## Palette visualization and assessment
+
+The colorspace package also provides a number of functions that aid
+visualization and assessment of its palettes. The `demos` module
+contains a series of generic/basic plot types as used by the
+interactive interface ([`choose_palette`](../man/colorspace.choose_palette.choose_palette.qmd)
+which can also be used in-line to test color palettes.
+In addition [`specplot`](../man/colorspace.specplot.specplot.qmd)` allows to visualize and
+graphically assess the spectrum of a series of colors in the RGB and HCL spectrum.
+
+
+* specplot
+* demos.Bar
+* demos.Pie
+* demos.Spine
+* demos.Heatmap
+* demos.Matrix
+* demos.Lines
+* demos.Spectrum
+
+
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+from colorspace import diverging_hcl, specplot
+pal = diverging_hcl("Purple-Green")
+specplot(pal(100), hcl = True, palette = True, rgb = True);
+```
+
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+from colorspace import diverging_hcl, demos
+pal = diverging_hcl("Purple-Green")
+demos.Bar(pal(10));
+```
+
+
+
+
+
+
+

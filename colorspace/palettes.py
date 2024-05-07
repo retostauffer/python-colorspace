@@ -1104,6 +1104,10 @@ class qualitative_hcl(hclpalette):
     :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
     :py:class:`rainbow`.
 
+    Argument `h` uses a list with `[0, lambda x: 360. * (n - 1.) / n]` by default
+    such that the colors drawn from the palet are uniformly distributed around the
+    circle (`[0., 360.]`).
+
     Args:
         h (int, float, list): Hue values defining the 'color'. Qualitative color
             palettes require two hues. If more than two values are provided the first

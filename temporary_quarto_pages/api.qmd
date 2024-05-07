@@ -1,0 +1,69 @@
+---
+title: "API Reference"
+---
+
+
+## Color palettes
+
+Most functions listed above are exported and can be accessed
+directly via the `colorspace` package, such as 
+`colorspace.hcl_palettes()`, `colorspace.qualitative_hcl()` and more.
+
+* hcl_palettes
+* qualitative_hcl
+* sequential_hcl
+* diverging_hcl
+* rainbow_hcl
+* heat_hcl
+* terrain_hcl
+* diverging_hsv
+* rainbow
+* palette
+* palettes.hclpalette
+
+
+## GUI for choosing color palettes
+
+Exported function, can be accessed via `colorspace.choose_palette()`.
+
+* choose_palette
+
+
+## Assessing colors and palettes
+
+* specplot
+* swatchplot
+
+
+## Color vision defficiency
+
+* CVD
+* desaturate
+* deutan
+* protan
+* tritan
+
+
+## Color manipulation
+
+* max_chroma
+* contrast_ratio
+* lighten
+* darken
+* extract_transparency
+* adjust_transparency
+
+## Color library/color transformations
+
+* polarLUV
+* HCL
+* CIELUV
+* CIEXYZ
+* RGB
+* sRGB
+* CIELAB
+* polarLAB
+* HSV
+* HLS
+* hexcols
+
