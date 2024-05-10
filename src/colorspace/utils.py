@@ -41,7 +41,7 @@ def mixcolor(alpha, color1, color2, where = 1):
         >>> #  and once in the HCL color space (M2)
         >>> HEX_1  = diverging_hcl()(5)
         >>> HEX_2  = diverging_hcl(rev = True)(5)
-        >>> HEX_M1 = mixcolor(0.2, HEX_1, HEX_2, "RGB")
+        >>> HEX_M1 = mixcolor(0.2, HEX_1, HEX_2, "sRGB")
         >>> HEX_M1
         >>>
         >>> #: Mixing via XYZ color space
@@ -55,11 +55,11 @@ def mixcolor(alpha, color1, color2, where = 1):
         >>> #: Mixing objects of different length and type
         >>> #  Coordinates of the shorter object (RGB_1) will be recycled
         >>> #  to the same number of colors as in the longer object (HEX_2)
-        >>> RES_1 = mixcolor(0.2, RGB_1, HEX_2, "RGB")
+        >>> RES_1 = mixcolor(0.2, RGB_1, HEX_2, "sRGB")
         >>> RES_1.colors()
         >>>
         >>> #:
-        >>> RES_2 = mixcolor(0.8, RGB_1, HEX_2, "RGB")
+        >>> RES_2 = mixcolor(0.8, RGB_1, HEX_2, "sRGB")
         >>> RES_2.colors()
         >>>
         >>> #:
@@ -87,11 +87,9 @@ def mixcolor(alpha, color1, color2, where = 1):
         raise TypeError("argument `where` must be str")
 
     # Allowed color types:
-    allowed_spaces = ["RGB", "CIEXYZ"]
+    allowed_spaces = ["sRGB", "CIEXYZ"]
     if not where in allowed_spaces:
         raise ValueError(f"argument `{where}` none of the allowed types: {', '.join(allowed_spaces)}")
-    elif where == "HCL":
-        where = "polarLUV"
 
     # Converting colors
     try:
