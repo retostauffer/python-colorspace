@@ -423,7 +423,9 @@ class defaultpalette:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalettes:
-    """Prepares the pre-specified hclpalettes.  Reads the config files and creates
+    """Prepare Predefined HCL Palettes
+
+    Prepares the pre-specified hclpalettes.  Reads the config files and creates
     a set of `defaultpalette` objects.
 
     See also: :py:func:`divergingx_palettes <colorspace.hcl_palettes.divergingx_palettes>`.
@@ -706,7 +708,7 @@ class hclpalettes:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalette:
-    """Base Class for HCL Palettes
+    """HCL Palettes Superclass
 
     Hy, I am the base class.  Is extended by the different HCL based color
     palettes such as the classes :py:class:`diverging_hcl`, :py:class:`qualitative_hcl`,
@@ -1097,7 +1099,7 @@ class hclpalette:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class qualitative_hcl(hclpalette):
-    """Qualitative HCL color palette.
+    """Qualitative HCL Color Palettes
 
     See also: :py:class:`sequential_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -1294,7 +1296,9 @@ class qualitative_hcl(hclpalette):
 # The rainbow class extends the qualitative_hcl class.
 # -------------------------------------------------------------------
 class rainbow_hcl(qualitative_hcl):
-    """HCL rainbow, a qualitative cyclic rainbow color palette with uniform
+    """HCL Based Rainbow Palette
+
+    HCL rainbow, a qualitative cyclic rainbow color palette with uniform
     luminance and chroma.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
@@ -1402,7 +1406,7 @@ class rainbow_hcl(qualitative_hcl):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class diverging_hcl(hclpalette):
-    """Diverging HCL color palette.
+    """Diverging HCL Color Palettes
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -1629,7 +1633,7 @@ class diverging_hcl(hclpalette):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class divergingx_hcl(hclpalette):
-    """Diverging HCL color palette.
+    """Diverging X HCL Color Palettes
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -1891,7 +1895,7 @@ class divergingx_hcl(hclpalette):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class sequential_hcl(hclpalette):
-    """Sequential HCL color palette.
+    """Sequential HCL Color Palettes
 
     See also: :py:class:`qualitative_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -2089,7 +2093,9 @@ class sequential_hcl(hclpalette):
 # The rainbow class extends the qualitative_hcl class.
 # -------------------------------------------------------------------
 class heat_hcl(sequential_hcl):
-    """HEAT hcl, a sequential color palette.
+    """HCL Based Heat Color Palette
+
+    Heat hcl, a sequential HCL color palette.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
@@ -2171,7 +2177,9 @@ class heat_hcl(sequential_hcl):
 # The rainbow class extends the qualitative_hcl class.
 # -------------------------------------------------------------------
 class terrain_hcl(sequential_hcl):
-    """HCL terrain colors, a sequential palette.
+    """HCL Based Terrain Color Palette
+
+    Terrain colors, a sequential HCL palette.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
@@ -2248,7 +2256,7 @@ class terrain_hcl(sequential_hcl):
 
 
 class diverging_hsv(hclpalette):
-    """Diverging HSV color palette.
+    """Diverging HSV Color Palettes
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
@@ -2376,7 +2384,7 @@ class diverging_hsv(hclpalette):
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class rainbow(hclpalette):
-    """Infamous rainbow palette.
+    """Infamous sRGB Rainbow Color Palette
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
