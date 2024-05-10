@@ -1,6 +1,6 @@
 ---
 title: "Color Vision Deficiency Emulation"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 ## Overview

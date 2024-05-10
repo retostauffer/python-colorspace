@@ -1,6 +1,6 @@
 ---
 title: "HCL-Based Color Palettes"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 As motivated in the previous article ([Color Spaces: Classes and Methods](color_spaces.qmd)),

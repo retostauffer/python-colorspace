@@ -1,6 +1,6 @@
 ---
 title: "Main Classes and Methods"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 ## Overview

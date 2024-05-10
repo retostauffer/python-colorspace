@@ -1,6 +1,6 @@
 ---
 title: "Palette Visualization and Assessment"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 

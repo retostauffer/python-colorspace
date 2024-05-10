@@ -1,6 +1,6 @@
 ---
 title: "Color Manipulation and Utilities"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 

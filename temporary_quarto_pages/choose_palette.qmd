@@ -1,6 +1,6 @@
 ---
 title: "Apps for Choosing Colors and Palettes Interactively"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 To facilitate exploring the package and employing it when working with colors,

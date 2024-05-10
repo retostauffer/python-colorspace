@@ -1,6 +1,6 @@
 ---
 title: "Approximating Palettes from Other Packages"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 

@@ -1,6 +1,6 @@
 ---
 title: Somewhere over the Rainbow
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 ## Overview

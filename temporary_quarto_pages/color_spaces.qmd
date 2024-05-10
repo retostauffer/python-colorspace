@@ -1,6 +1,6 @@
 ---
 title: "Color Spaces: Classes and Utilities"
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 ## Overview
