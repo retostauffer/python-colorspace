@@ -52,9 +52,7 @@ cov:
 
 .PHONY: clean
 clean:
-	-rm -rf build
-	-rm source/api/*
-	-rm source/colorlib/*
+	-rm -rf src/colorspace.egg-info
 
 
 
