@@ -9,3 +9,6 @@ numpy
 pandas
 statsmodels
 Pillow
+jupyter
+jupyter-cache
+pyp2qmd @ git+https://github.com/retostauffer/pyp2qmd@main

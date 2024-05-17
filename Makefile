@@ -14,6 +14,10 @@ install: setup.py
 	python setup.py clean --all && \
 	pip install -e .
 
+document:
+	@echo "********* CREATE (OVERWRITE) QMD FILES ************"
+	python make_docs/main.py
+
 develop: setup.py
 	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
 	python setup.py clean --all && \
