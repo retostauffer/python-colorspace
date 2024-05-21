@@ -18,6 +18,10 @@ document:
 	@echo "********* CREATE (OVERWRITE) QMD FILES ************"
 	python make_docs/main.py
 
+render:
+	@echo "********* RENDERING QUARTO WEBSITE ****************"
+	(cd _quarto && quarto render)
+
 develop: setup.py
 	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
 	python setup.py clean --all && \

@@ -39,10 +39,10 @@ def main():
               "Changelog": "changelog.qmd"}
     for k,f in qfiles.items():
         src = join(qdir, f)
-        docconv.navbar_add_page(src, basename(src), k)
+        docconv.add_navbar_page(src, basename(src), k)
 
     # Adding a menu 'articles'
-    docconv.navbar_add_menu("Articles")
+    docconv.add_navbar_menu("Articles")
 
     # Adding articles to Articles menu
     qfiles = {"Color spaces": "color_spaces.qmd",
@@ -57,7 +57,7 @@ def main():
 
     for k,f in qfiles.items():
         src = join(qdir, f)
-        docconv.navbar_add_page(src, join("articles", basename(src)), k, menu = "Articles")
+        docconv.add_navbar_page(src, join("articles", basename(src)), k, menu = "Articles")
 
     shutil.copy(join(qdir, "references.bib"), "_quarto/references.bib")
 

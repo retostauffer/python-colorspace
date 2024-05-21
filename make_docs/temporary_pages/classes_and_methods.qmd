@@ -6,7 +6,7 @@ bibliography: ../references.bib
 ## Overview
 
 At the core of the *colorspace* package are various utilities for computing with
-color spaces [@Wikipedia 2020d], as the name conveys. Thus, the package helps to
+color spaces [@color:Wiki+Colorspace], as the name conveys. Thus, the package helps to
 map various three-dimensional representations of color to each other (Ihaka
 2003). A particularly important mapping is the one from the perceptually-based
 and device-independent color model HCL (Hue-Chroma-Luminance) to standard
