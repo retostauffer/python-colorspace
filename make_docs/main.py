@@ -46,14 +46,14 @@ def main():
 
     # Adding articles to Articles menu
     qfiles = {"Color spaces": "color_spaces.qmd",
-              "HCL palettes": "hcl_palettes.qmd",
-              "Vis&Assessment": "palette_visualization.qmd",
-              "App": "choose_palette.qmd",
-              "CVD": "cvd.qmd",
-              "Manipulation": "manipulation_utilities.qmd",
-              "Approx": "approximations.qmd",
-              "Classes": "classes_and_methods.qmd",
-              "Rainbow": "endrainbow.qmd"}
+              "HCL-Based Color Palettes": "hcl_palettes.qmd",
+              "Palette Visualization and Assessment": "palette_visualization.qmd",
+              "App for Choosing Palettes Interactively": "choose_palette.qmd",
+              "Color Vision Deficiency Emulation": "cvd.qmd",
+              "Color Manipulation and Utilities": "manipulation_utilities.qmd",
+              "Approximate Colors from Other Packages": "approximations.qmd",
+              "Classes and Methods": "classes_and_methods.qmd",
+              "Somewhere over the Rainbow": "endrainbow.qmd"}
 
     for k,f in qfiles.items():
         src = join(qdir, f)

@@ -192,7 +192,7 @@ palette, see "Grays" and "Light Grays" below.
 
 from colorspace import hcl_palettes
 hcl_palettes(7, "Sequential (single-hue)", plot = True,
-             ncol = 1, figsize = (6, 7.5))
+             ncol = 1, figsize = (8, 5))
 ```
 
 All except the last are inspired by the [ColorBrewer.org](http://ColorBrewer.org)
@@ -295,7 +295,7 @@ TODO: I do not have the same order as I do not mix basic and advanced.
 #| layout-ncol: 1
 
 hcl_palettes(7, "Diverging", plot = True,
-             ncol = 1, figsize = (6, 10))
+             ncol = 1, figsize = (8, 10))
 ```
 
 When choosing a particular palette for a display similar considerations apply
@@ -487,10 +487,8 @@ in *colorspace*:
 #| warning: true
 
 from colorspace import divergingx_palettes
-divergingx_palettes(ncol = 1, plot = True, figsize = (5, 8))
+divergingx_palettes(ncol = 1, plot = True, figsize = (8, 10))
 ```
-
-TODO: Division by zero.
 
 Typically, the more restricted
 [`diverging_hcl`](../man/colorspace.palettes.diverging_hcl) palettes should be

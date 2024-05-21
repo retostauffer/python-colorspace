@@ -6,9 +6,16 @@ bibliography: ../references.bib
 
 ## Overview
 
-* swatchplot
-* specplot
-* demoplot
+The _colorspace_ package provides several visualization functions for depicting
+one or more color palettes and their underlying properties. Color palettes can
+be visualized by:
+
+* [swatchplot](../man/colorspace.swatchplot.swatchplot.qmd):
+    Color swatches.
+* [specplot](../man/colorspace.specplot.specplot.qmd):
+    Spectrum of HCL and/or RGB trajectories.
+* [demoplot](../man/colorspace.demos.demoplot.qmd):
+    Illustrations of typical (and simplified) statistical graphics.
 
 
 ## Color swatches
@@ -29,14 +36,17 @@ multiple palettes at once.
 
 from colorspace import swatchplot, sequential_hcl, palette
 
+# Creating three palettes varying in only one dimension each
 hue       = sequential_hcl(h = [0, 360], c = 60, l = 65)
-chroma    = sequential_hcl(h = 0, c = [100, 0], l = 65, rev = True, power = 1)
-luminance = sequential_hcl(h = 260, c = 25, l = [25, 90], rev = True, power = 1)
+chroma    = sequential_hcl(h = 0, c = [100, 0], l = 65,
+                           rev = True, power = 1)
+luminance = sequential_hcl(h = 260, c = 25, l = [25, 90],
+                           rev = True, power = 1)
 
 swatchplot([palette(hue(5), "Hue"),
             palette(chroma(5), "Chroma"),
             palette(luminance(5), "Luminance")],
-            figsize = (5, 1.5))
+            figsize = (5, 1.5));
 ```
 
 This shows the following:
@@ -84,7 +94,7 @@ from colorspace import swatchplot, sequential_hcl
 swatchplot({"Single-hue":           [sequential_hcl(x) for x in ["Blues 2", "Purples 2", "Reds 2", "Greens 2"]],
            "Single-hue (advanced)": [sequential_hcl(x) for x in ["Blues 3", "Purples 3", "Reds 3", "Greens 3"]],
            "Multi-hue (advanced)":  [sequential_hcl(x) for x in ["Blues", "Purples", "Reds", "Greens"]]},
-           n = 7, show_names = False, nrow = 5, figsize = (12, 3))
+           n = 7, show_names = False, nrow = 5, figsize = (10, 2.5));
 ```
 
 
@@ -105,7 +115,7 @@ pal1 = sequential_hcl("YlGnBu")(7)
 pal2 = sequential_hcl("Viridis")(7)
 
 swatchplot([palette(pal1, "YlGnBu"), palette(pal2, "Viridis")],
-            cvd = ["protan", "desaturate"], nrow = 4, figsize = (8, 2.5))
+            cvd = ["protan", "desaturate"], nrow = 4, figsize = (10, 2.5));
 ```
 
 
@@ -157,8 +167,8 @@ constant (`C = 60` and `L = 70`).
 #| layout-ncol: 1
 
 from colorspace import specplot, qualitative_hcl
-@savefig palette_visualization_specplot_set2.png width=70% align=center
-specplot(qualitative_hcl("Set 2").colors(100))
+
+specplot(qualitative_hcl("Set 2").colors(100));
 ```
 
 Note that due to the restrictions of the HCL color space, some of the
@@ -177,8 +187,8 @@ simply decreases monotonically along with increasing luminance.
 #| layout-ncol: 1
 
 from colorspace import specplot, sequential_hcl
-@savefig palette_visualization_specplot_blues2.png width=70% align=center
-specplot(sequential_hcl("Blues 2").colors(100))
+
+specplot(sequential_hcl("Blues 2").colors(100));
 ```
 
 Finally, the diverging "Blue-Red" palette is depicted below. It simply combines
@@ -194,7 +204,8 @@ palette passes through a light gray (with zero chroma) as the neutral value.
 #| layout-ncol: 1
 
 from colorspace import specplot, diverging_hcl
-specplot(diverging_hcl("Blue-Red").colors(100))
+
+specplot(diverging_hcl("Blue-Red").colors(100));
 ```
 
 To contrast these well-balanced HCL-based palettes with a poorly-balanced
@@ -208,13 +219,9 @@ RGB and HCL space.
 #| layout-ncol: 1
 
 from colorspace import specplot, rainbow
-specplot(rainbow().colors(100))
+
+specplot(rainbow().colors(100));
 ```
-
-
-## Trajectories in HCL space
-
-TODO: Section must be written.
 
 
 ## Demonstration of statistical graphics
@@ -324,7 +331,7 @@ ax1 = demoplot(diverging_hcl("Tropic", power = 2.5), type_ = "Map",    n = 99, a
 ax2 = demoplot(diverging_hcl("Green-Orange"),        type_ = "Matrix", n =  5, ax = ax2)
 ax3 = demoplot(diverging_hcl("Blue-Red 2"),          type_ = "Bar",    n =  5, ax = ax3)
 
-fig.show()
+plt.show()
 ```
 
 All displays above focus on palettes designed for light/white backgrounds.
