@@ -286,7 +286,7 @@ The plot below shows all such diverging palettes that have been named in *colors
   for a white/light background and the other three for a black/dark background.
 
 TODO: I do not have the same order as I do not mix basic and advanced.
-    Thus, this list above is invalid for the python package. Fix this.
+    Thus, this list above is invalid for the Python package. Fix this.
 
 ```{python}
 #| echo: true

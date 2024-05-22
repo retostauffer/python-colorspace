@@ -50,7 +50,7 @@ pal = palette(["#c3c3c3", "#DD0000"], "Demo")
 
 
 `defaultpalette` not intended to be used by the user.
-Reads the config files (shipped with the python package) and returns all available
+Reads the config files (shipped with the Python package) and returns all available
 default palettes. Called by [`hclpalettes`](../man/colorspace.palettes.hclpalettes.qmd).
 
 [`hclpalettes`](../man/colorspace.palettes.hclpalettes.qmd) serves as the super

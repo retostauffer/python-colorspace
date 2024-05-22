@@ -3,7 +3,7 @@ title: Package Installation
 ---
 
 At the moment the package is available via
-<https://github.com/retostauffer/python-colorspace>.
+[GitHub](https://github.com/retostauffer/python-colorspace).
 A few requirements are needed to be able to use the package and all its features.
 
 * Python `3.10+`
@@ -11,7 +11,7 @@ A few requirements are needed to be able to use the package and all its features
 * [`matplotlib`](https://pypi.org/project/matplotlib/>)
 * [`imageio`](https://pypi.org/project/imageio/>) (optional).
 
-A release of the *colorspace* package on [PyPI](https://pypi.org) is planned
+A release of the _colorspace_ package on [PyPI](https://pypi.org) is planned
 in the near future. Please use the
 [git issues](https://github.com/retostauffer/python-colorspace/issues>)
 to report bugs and issues as well as feature requests. There is no
@@ -46,7 +46,7 @@ installed.
 
 To set up a virtual environments the git repository must be cloned first;
 afterwards you should be able to set up the virtual environment
-and install the *colorspace* package.
+and install the _colorspace_ package.
 
 ```
 git clone https://github.com/retostauffer/python-colorspace.git
@@ -56,7 +56,7 @@ make install
 ```
 
 This will set up a virtual environment and also install the required
-python packages before installing the latest version of the *colorspace*
+Python packages before installing the latest version of the _colorspace_
 package from the repository.
 
 

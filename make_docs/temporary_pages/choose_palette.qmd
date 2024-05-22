@@ -4,7 +4,7 @@ bibliography: ../references.bib
 ---
 
 To facilitate exploring the package and employing it when working with colors,
-a Tcl/Tk based is provided within the package using pythons
+a Tcl/Tk based is provided within the package using Pythons
 [`tkinter`](https://docs.python.org/3/library/tkinter.html) interface.
 
 ```{python}
@@ -27,9 +27,9 @@ via <https://hclwizard.org>.
 2. [Deficiency Emulator](http://hclwizard.org:3000/cvdemulator)
 3. [Color Picker](http://hclwizard.org:3000/hclcolorpicker)
 
-The latter two do not exist as GUIs in the python implementation, however, the
+The latter two do not exist as GUIs in the Python implementation, however, the
 function [`cvd_emulator`](../man/colorspace.cvd_emulator.cvd_emulator.qmd)
-allows to emulate color vision deficiencies from within the python package. For
+allows to emulate color vision deficiencies from within the Python package. For
 more information please have a look at the article
 [Color Vision Deficiency Emulation](cvd.qmd).
 

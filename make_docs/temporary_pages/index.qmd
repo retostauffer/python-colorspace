@@ -23,12 +23,12 @@ is also available on [GitHub Pages](https://retostauffer.github.io/python-colors
 
 * [Color spaces](articles/color_spaces.qmd)
 * [HCL-Based Color Palettes](articles/hcl_palettes.qmd)
+* [Classes and Methods](articles/classes_and_methods.qmd)
 * [Palette Visualization and Assessment](articles/palette_visualization.qmd)
 * [App for Choosing Palettes Interactively](articles/choose_palette.qmd)
 * [Color Vision Deficiency Emulation](articles/cvd.qmd)
 * [Color Manipulation and Utilities](articles/manipulation_utilities.qmd)
 * [Approximate Colors from Other Packages](articles/approximations.qmd)
-* [Classes and Methods](articles/classes_and_methods.qmd)
 * [Somewhere over the Rainbow](articles/endrainbow.qmd)
 
 
