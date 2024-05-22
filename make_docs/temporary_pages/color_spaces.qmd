@@ -16,7 +16,16 @@ but also in Python. For completeness further standard color models are included 
 well in the package. Their connections are illustrated in the following graph:
 
 
-![Color spaces and their connection.](images/colorspaces.png)
+```{mermaid}
+flowchart LR
+  X[CIEXYZ]
+  PLUV((polarLUV<br/>HCL)) --- LUV[CIELUV] --- X
+  PLAB((polarLAB)) --- LAB[CIELAB] --- X
+  X ---|white point<br>= D65| RGB[RGB] ---|gamma<br>=2.4| sRGB[sRGB]
+  sRGB --- HSV((HSV))
+  sRGB --- hex{HEX}
+  sRGB --- HLS((HLS))
+```
 
 Color models that are (or try to be) perceptually-based are displayed with
 circles and models that are not are displayed with rectangles. The
