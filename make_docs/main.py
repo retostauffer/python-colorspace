@@ -41,6 +41,7 @@ def main():
         src = join(qdir, f)
         docconv.add_navbar_page(src, basename(src), k)
 
+
     # Adding a menu 'articles'
     docconv.add_navbar_menu("Articles")
 
@@ -58,6 +59,10 @@ def main():
     for k,f in qfiles.items():
         src = join(qdir, f)
         docconv.add_navbar_page(src, join("articles", basename(src)), k, menu = "Articles")
+
+    # Adding logo
+    shutil.copy(join(qdir, "logo-wide.png"), "_quarto/logo-wide.png")
+    docconv.add_logo("logo-wide.png", title = None)
 
     # Copy some static files around
     shutil.copy(join(qdir, "references.bib"), "_quarto/references.bib")
