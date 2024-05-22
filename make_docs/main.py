@@ -59,55 +59,21 @@ def main():
         src = join(qdir, f)
         docconv.add_navbar_page(src, join("articles", basename(src)), k, menu = "Articles")
 
+    # Copy some static files around
     shutil.copy(join(qdir, "references.bib"), "_quarto/references.bib")
+    shutil.copy(join(qdir, "python-logo.svg"), "_quarto/python-logo.svg")
 
+    # Adding repo and issue URL + github icon
+    repo_url    = "https://github.com/retostauffer/python-colorspace"
+    repo_branch = "main"
+    docconv.add_repo_url(repo_url, repo_branch)
+    docconv.add_issue_url("https://github.com/retostauffer/python-colorspace/issues")
 
+    docconv.add_navbar_right({"icon": "github", "href": f"{repo_url}/tree/{repo_branch}"})
+
+    docconv.add_navbar_right({"text": "![](python-logo.svg)",
+                              "href": "https://pypi.org"})
 
 
 if __name__ == "__main__":
     main()
-
-#    if not os.path.isdir("_quarto"):
-#        action = "init"
-#    else:
-#        action = "document"
-#    sub.call(["python", "makedocs.py", action, "-p", "colorspace"])
-#
-#    print("\n\n")
-#            
-#    # Checking for temporary_quarto_pages
-#    def get_pages(dir = "temporary_quarto_pages"):
-#        assert os.path.isdir(dir)
-#        from glob import glob
-#        tmp = glob(f"{dir}/*", recursive = True)
-#        qmdfiles = []
-#        for f in tmp:
-#            if not re.match(".*\.qmd$", f): continue
-#            qmdfiles.append(f)
-#        return qmdfiles
-#
-#    # copy qmd files over to the new folder
-#    qmdfiles   = get_pages()
-#    naventries = [{"text": "Home", "file": "index.qmd"}]
-#    if not os.path.isdir("_quarto/articles"):
-#        os.mkdir("_quarto/articles")
-#    for f in qmdfiles:
-#        print(f"Copy template to: _quarto/{os.path.basename(f)}")
-#        shutil.copy(f, f"_quarto/articles/{os.path.basename(f)}")
-#        naventries.append({"text": re.sub("\.qmd$", "", os.path.basename(f)),
-#                           "file": os.path.join("articles", os.path.basename(f))})
-#
-#    # Copy image folder
-#    shutil.copytree("temporary_quarto_pages/images", "_quarto/articles/images",
-#                     dirs_exist_ok = True)
-#    shutil.copy("temporary_quarto_pages/references.bib", "_quarto/references.bib")
-#
-#    # Adding to _quarto.yml
-#    print("Updating _quarto/_quarto.yml")
-#    with open("_quarto/_quarto.yml", "r") as fid:
-#        yml = yaml.safe_load(fid)
-#
-#    yml['website']['navbar']['left'] = naventries
-#    with open("_quarto/_quarto.yml", "w") as fid:
-#        yaml.dump(yml, fid)
-#
