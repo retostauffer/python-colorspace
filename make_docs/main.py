@@ -60,6 +60,13 @@ def main():
         src = join(qdir, f)
         docconv.add_navbar_page(src, join("articles", basename(src)), k, menu = "Articles")
 
+    # Moving some images
+    imgdir = join(docconv.config_get("quarto_dir"), "images")
+    if not os.path.isdir(imgdir): os.makedirs(imgdir)
+
+    for img in ["human-axes.svg", "hcl-projections-1.png"]:
+        shutil.copy(join(qdir, "images", img), join(imgdir, img))
+
     # Adding logo
     shutil.copy(join(qdir, "logo-wide.png"), "_quarto/logo-wide.png")
     docconv.add_logo("logo-wide.png", title = None)

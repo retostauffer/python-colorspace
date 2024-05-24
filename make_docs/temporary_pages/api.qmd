@@ -58,7 +58,7 @@ title: "API Reference"
 |---|---|
 | [`desaturate`](man/colorspace.CVD.desaturate.qmd) | Desaturate Colors by Chroma Removal in HCL Space |
 | [`deutan`](man/colorspace.CVD.deutan.qmd), [`protan`](man/colorspace.CVD.protan.qmd), [`tritan`](man/colorspace.CVD.tritan.qmd) | Simulate Color Vision Deficiency |
-| [`cvd_emulator`](man/colorspace.CVD.cvd_emulator.qmd) | Check Images for Color Constraints |
+| [`cvd_emulator`](man/colorspace.cvd_emulator.cvd_emulator.qmd) | Check Images for Color Constraints |
 
 : {tbl-colwidths="[30,70]"}
 :::
@@ -72,7 +72,7 @@ title: "API Reference"
 |---|---|
 | [`max_chroma`](man/colorspace.utils.max_chroma.qmd) | Compute Maximum Chroma for Given Hue and Luminance in HCL |
 | [`contrast_ratio`](man/colorspace.utils.contrast_ratio.qmd) | W3C Contrast Ratio |
-| [`compare_colors`](man/colorspace.utils.compare_colors.qmd) | Compare colors/check for equality |
+| [`compare_colors`](man/colorspace.colorlib.compare_colors.qmd) | Compare colors/check for equality |
 | [`check_hex_colors`](man/colorspace.utils.check_hex_colors) | Checking HEX Color Validity |
 | [`lighten`](man/colorspace.utils.lighten.qmd), [`darken`](man/colorspace.utils.darken.qmd) | Algorithmically Lighten or Darken Colors |
 | [`mixcolor`](man/colorspace.utils.mixcolor.qmd) | Compute the Convex Combination of Two Colors |

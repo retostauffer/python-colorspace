@@ -32,7 +32,7 @@ circles and models that are not are displayed with rectangles. The
 corresponding classes in *colorspace* are:
 
 
-* [`RGB`](../man/colorspace.colorlib.RGB.qmd)
+* [`RGB`](/man/colorspace.colorlib.RGB.qmd)
   for the classic Red-Green-Blue color model, which mixes three primary
   colors with different intensities to obtain a spectrum of colors. The
   advantage of this color model is (or was) that it corresponded to how
@@ -44,7 +44,7 @@ corresponding classes in *colorspace* are:
   produce a constant perceptual change in color), and it is unintuitive for
   humans to specify colors (say brown or pink) in this space.
   @color:Wiki+Colorspace
-* [`sRGB`](../man/colorspace.colorlib.sRGB.qmd)
+* [`sRGB`](/man/colorspace.colorlib.sRGB.qmd)
   addresses the issue of device dependency by adopting a so-called
   gamma correction. Therefore, the gamma-corrected standard RGB (sRGB), as
   opposed to the linearized RGB above, is a good model for specifying colors in
@@ -52,26 +52,26 @@ corresponding classes in *colorspace* are:
   directly with this color space. Therefore, sRGB is a good place to end up in
   a color space manipulation but it is not a good place to start.
   @color:Wiki+sRGB
-* [`HSV`](../man/colorspace.colorlib.HSV.qmd)
+* [`HSV`](/man/colorspace.colorlib.HSV.qmd)
   is a simple transformation of the (s)RGB space that tries to capture
   the perceptual axes: hue (dominant wavelength, the type of color), saturation
   (colorfulness), and value (brightness, i.e., light vs. dark). Unfortunately,
   the three axes in the HSV model are confounded so that, e.g., brightness
   changes dramatically with hue. @color:Wiki+Webcolors
-* [`HSL`](../man/colorspace.colorlib.HLS.qmd)
+* [`HSL`](/man/colorspace.colorlib.HLS.qmd)
   (Hue-Lightness-Saturation) is another transformation of (s)RGB that
   tries to capture the perceptual axes. It does a somewhat better job but the
   dimensions are still strongly confounded.
   @color:Wiki+HSV
-* [`CIEXYZ`](../man/colorspace.colorlib.CIEXYZ.qmd)
+* [`CIEXYZ`](/man/colorspace.colorlib.CIEXYZ.qmd)
   was established by the CIE (Commission Internationale de l’Eclairage)
   based on experiments with human subjects. It provides a unique triplet of XYZ
   values, coding the standard observer’s perception of the color. It is
   device-independent but it is not perceptually uniform and the XYZ coordinates
   have no intuitive meaning.
   @color:Wiki+CIEXYZ
-* [`CIELUV`](../man/colorspace.colorlib.CIELUV.qmd) and
-  [`CIELAB`](../man/colorspace.colorlib.CIELAB.qmd)
+* [`CIELUV`](/man/colorspace.colorlib.CIELUV.qmd) and
+  [`CIELAB`](/man/colorspace.colorlib.CIELAB.qmd)
   were therefore proposed by the CIE as perceptually
   uniform color spaces where the former is typically preferred for emissive
   technologies (such as screens and monitors) whereas the latter is usually
@@ -83,8 +83,8 @@ corresponding classes in *colorspace* are:
   evolved (see the next section), these two color models still not correspond
   to perceptual axes that humans use to describe colors.
   @color:Wiki+HSV,@color:Wiki+CIELAB
-* [`polarLUV`](../man/colorspace.colorlib.polarLUV.qmd) (=HCL) and
-  [`polarLAB`](../man/colorspace.colorlib.polarLAB.qmd) 
+* [`polarLUV`](/man/colorspace.colorlib.polarLUV.qmd) (=HCL) and
+  [`polarLAB`](/man/colorspace.colorlib.polarLAB.qmd) 
   therefore take polar coordinates in the UV plane
   and AB plane, respectively. Specifically, the polar coordinates of the LUV
   model are known as the HCL (Hue-Chroma-Luminance) model (see @color:Wiki+HCL,
@@ -106,7 +106,7 @@ See @color:Kaiser+Boynton:1996, @color:Knoblauch:2002, @color:Ihaka:2003, @color
 and/or @color:Zeileis+Hornik+Murrell:2007 for more details and references.
 Thus, colors can be described using a 3-dimensional space:
 
-![Representation of the three axis of human color vision.](images/human-axes.svg)
+![Representation of the three axis of human color vision.](../images/human-axes.svg)
 
 However, for describing colors in such a space, it is more natural for humans
 to employ polar coordinates in the color plane (yellow/blue vs. green/red,
@@ -135,7 +135,7 @@ for moderately light colors (luminance = 70). At that luminance, green and
 orange can become much more colorful compared to blue or red.
 
 
-![](images/hcl-projections-1.png)
+![](/images/hcl-projections-1.png)
 
 
 ## Illustration of basic *colorspace* functionality
@@ -171,8 +171,8 @@ print(x)
 The displayed coordinates can also be extracted as numeric matrices by
 the calling the `.get()` method on a `colorobject`.
 As an example we convert the three colors to the
-[`HSV`](../man/colorspace.colorlib.HSV.qmd) color space
-and extract the saturation coordinate only by calling [`x.get("S")`](../man/colorspace.colorlib.HSV.get.qmd).
+[`HSV`](/man/colorspace.colorlib.HSV.qmd) color space
+and extract the saturation coordinate only by calling [`x.get("S")`](/man/colorspace.colorlib.HSV.get.qmd).
 
 
 ```{python}
@@ -202,29 +202,29 @@ print(x.colors())     # Automatically converts to hex
 ## Color library
 
 The workhorse of these transformations is the
-[`colorlib`](../man/colorspace.colorlib.colorlib.qmd) class which allows to transform
+[`colorlib`](/man/colorspace.colorlib.colorlib.qmd) class which allows to transform
 `colorobject` objects into each other.
 
 * colorlib
 * colorobject
 
 The following classes (all inheriting from `colorobject`) are
-available to create colors in different color spaces. Colors can be transformed
-from and to (mostly all) color spaces using the
-`.to(\<name of color space\>)` method
-(see e.g., [`hexcols.to`](../man/colorspace.colorlib.hexcols.to.qmd).
+available to create colors in different color spaces:
+[`polarLUV`](/man/colorspace.colorlib.polarLUV.qmd) (HCL),
+[`CIELUV`](/man/colorspace.colorlib.CIELUV.qmd),
+[`polarLAB`](/man/colorspace.colorlib.polarLAB.qmd),
+[`CIELAB`](/man/colorspace.colorlib.CIELAB.qmd),
+[`CIEXYZ`](/man/colorspace.colorlib.CIEXYZ.qmd),
+[`RGB`](/man/colorspace.colorlib.RGB.qmd),
+[`sRGB`](/man/colorspace.colorlib.sRGB.qmd),
+[`HSV`](/man/colorspace.colorlib.HSV.qmd),
+[`HLS`](/man/colorspace.colorlib.HLS.qmd),
+[`hexcols`](/man/colorspace.colorlib.hexcols.qmd),
+[`colorlib`](/man/colorspace.colorlib.colorlib.qmd).
 
-* CIELAB
-* CIELUV
-* CIEXYZ
-* HLS
-* HSV
-* RGB
-* hexcols
-* polarLAB
-* HCL
-* polarLUV
-* sRGB
+Colors can be transformed from and to (mostly all) color spaces using the
+`.to(<name of color space>)` method (see e.g.,
+[`hexcols.to`](/man/colorspace.colorlib.hexcols.to.qmd)).
 
 
 ## Matplotlib color maps
@@ -241,9 +241,11 @@ series of colors (color palette) into a
 #| layout-ncol: 1
 
 from colorspace import palette
-cmap = palette(x, "custom palette").cmap()
+cmap = palette(x, "custom cmap palette").cmap()
 print(cmap.N)
+cmap
 ```
+
 
 
 Please note that matplotlib performs linear interpolation in the sRGB color
@@ -251,10 +253,10 @@ space between the colors specified. This allows us to draw more than 3 colors
 from the color map above. However, this may result in skewed color gradients!
 
 The better way to go is to define/design your custom palette in the
-HCL color space using [`qualitative_hcl`](../man/colorspace.palettes.qualitative_hcl.qmd),
-[`diverging_hcl`](../man/colorspace.palettes.diverging_hcl.qmd),
-[`divergingx_hcl`](../man/colorspace.palettes.divergingx_hcl.qmd), and
-[`sequential_hcl`](../man/colorspace.palettes.sequential_hcl.qmd)
+HCL color space using [`qualitative_hcl`](/man/colorspace.palettes.qualitative_hcl.qmd),
+[`diverging_hcl`](/man/colorspace.palettes.diverging_hcl.qmd),
+[`divergingx_hcl`](/man/colorspace.palettes.divergingx_hcl.qmd), and
+[`sequential_hcl`](/man/colorspace.palettes.sequential_hcl.qmd)
 among others (see :ref:`HCL-Based Color Palettes <article-hcl_palettes>` for details).
 
 These classes define color palettes via functions in the HCL color space
@@ -274,6 +276,7 @@ from colorspace import diverging_hcl
 pal  = diverging_hcl("Green-Orange")
 cmap = pal.cmap()
 print(cmap.N)
+cmap
 ```
 
 A simple example using `matplotlib.pyplot.contourf`
