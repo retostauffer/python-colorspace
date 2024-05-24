@@ -64,6 +64,10 @@ def main():
     shutil.copy(join(qdir, "logo-wide.png"), "_quarto/logo-wide.png")
     docconv.add_logo("logo-wide.png", title = None)
 
+    # Adding additional scss file for styling
+    shutil.copy(join(qdir, "colorspace.scss"), "_quarto/colorspace.scss")
+    docconv.add_scss("colorspace.scss")
+
     # Copy some static files around
     shutil.copy(join(qdir, "references.bib"), "_quarto/references.bib")
     shutil.copy(join(qdir, "python-logo.svg"), "_quarto/python-logo.svg")

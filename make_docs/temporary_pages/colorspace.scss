@@ -1,0 +1,17 @@
+
+/*-- scss:defaults --*/
+// @see: https://quarto.org/docs/output-formats/html-themes.html
+$navbar-bg: #e7e7e7;
+$navbar-hl: #da57a7;
+
+$primary: #3f7cad;
+$link-color: #3f7cad;
+$link-color-hover: #da57a7;
+
+/*-- scss:custom --*/
+a {
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
