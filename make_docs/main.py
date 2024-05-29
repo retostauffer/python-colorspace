@@ -64,7 +64,7 @@ def main():
     imgdir = join(docconv.config_get("quarto_dir"), "images")
     if not os.path.isdir(imgdir): os.makedirs(imgdir)
 
-    for img in ["human-axes.svg", "hcl-projections-1.png"]:
+    for img in ["human-axes.svg", "hcl-projections-1.png", "img_gui.jpeg"]:
         shutil.copy(join(qdir, "images", img), join(imgdir, img))
 
     # Adding logo
@@ -87,7 +87,7 @@ def main():
 
     docconv.add_navbar_right({"icon": "github", "href": f"{repo_url}/tree/{repo_branch}"})
 
-    docconv.add_navbar_right({"text": "![](python-logo.svg)",
+    docconv.add_navbar_right({"text": "![](/python-logo.svg)",
                               "href": "https://pypi.org"})
 
 

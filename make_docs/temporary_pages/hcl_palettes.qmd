@@ -162,7 +162,7 @@ luminance (`70`) but the hue is restricted to different intervals.
 #| layout-ncol: 1
 
 from colorspace import hcl_palettes
-hcl_palettes(5, "Qualitative", plot = True, ncol = 1)
+hcl_palettes(5, "Qualitative", plot = True, ncol = 1, figsize = (8, 4))
 ```
 
 When palettes are employed for shading areas in statistical displays (e.g., in
@@ -274,19 +274,19 @@ consequently more parameters) see the
 [`divergingx_hcl`](../man/colorspace.palettes.divergingx_hcl.qmd)
 palettes introduced below.
 
-The plot below shows all such diverging palettes that have been named in *colorspace*:
+The plot below shows all such diverging palettes that have been named in
+*colorspace* available via the
+[`diverging_hcl`](/man/colorspace.palettes.diverging_hcl.qmd) class.
 
-* "Blue-Red" to "Cyan-Magenta" have been developed for **colorspace** starting from
-  @color:Zeileis+Hornik+Murrell:2009, taking inspiration from various other
-  palettes, including more balanced and simplified versions of several
-  ColorBrewer.org palettes [@color:Harrower+Brewer:2003]
-* "Tropic" closely matches the palette of the same name from CARTO [@color:CARTO].
-* "Broc" to "Vik" and "Berlin" to "Tofino" closely match the scientific color
-  maps of the same name by @color:Crameri:2018, where the first three are intended
-  for a white/light background and the other three for a black/dark background.
 
-TODO: I do not have the same order as I do not mix basic and advanced.
-    Thus, this list above is invalid for the Python package. Fix this.
+A series of these palettes have been developed for the [_R_ colorspace](https://colorspace.r-forge.r-project.org/)  starting from @color:Zeileis+Hornik+Murrell:2009, taking inspiration from various other
+palettes, including more balanced and simplified versions of several
+ColorBrewer.org palettes [@color:Harrower+Brewer:2003]
+"Tropic" closely matches the palette of the same name from CARTO [@color:CARTO],
+"Broc" to "Vik" and "Berlin" to "Tofino" closely match the scientific color
+maps of the same name by @color:Crameri:2018, where the first three are intended
+for a white/light background and the other three for a black/dark background.
+
 
 ```{python}
 #| echo: true
@@ -448,9 +448,11 @@ assessed for a given color palette is provided in the article
 
 
 
+<!--
 ## Registering your own palettes
 
 TODO: Registering new palettes not yet implemented.
+-->
 
 
 ## Flexible diverging palettes
@@ -487,7 +489,7 @@ in *colorspace*:
 #| warning: true
 
 from colorspace import divergingx_palettes
-divergingx_palettes(ncol = 1, plot = True, figsize = (8, 10))
+divergingx_palettes(n = 11, ncol = 1, plot = True, figsize = (8, 8))
 ```
 
 Typically, the more restricted

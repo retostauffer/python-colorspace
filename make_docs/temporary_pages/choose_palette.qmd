@@ -13,7 +13,7 @@ from colorspace import choose_palette
 choose_palette()
 ```
 
-![](images/img_gui.jpeg)
+![](/images/img_gui.jpeg){fig-align="center" .img-padding-tb}
 
 
 Web App

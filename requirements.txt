@@ -11,4 +11,5 @@ statsmodels
 Pillow
 jupyter
 jupyter-cache
+colormaps
 pyp2qmd @ git+https://github.com/retostauffer/pyp2qmd@main

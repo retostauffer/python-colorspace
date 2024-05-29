@@ -15,3 +15,15 @@ a {
     }
 }
 
+// Custom img-padding-tb class to add
+// padding top and bottom to give it a bit more room.
+.quarto-figure {
+    figure {
+        img {
+            &.img-padding-tb {
+                padding: 2em 0;
+            }
+        }
+    }
+}
+

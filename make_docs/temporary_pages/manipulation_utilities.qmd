@@ -18,6 +18,8 @@ useful for creating, assessing, or transforming color palettes, namely:
   and visualize W3C contrast ratios of colors.
 * [`max_chroma`](../man/colorspace.utils.max_chroma.qmd) to calculate maximum chroma
   for given hue and luminance in HCL space.
+* [`compare_colors`](/man/colorspace.colorlib.compare_colors.qmd) to compare if
+    two sets of colors are (nearly) equal.
 
 
 ## Desaturation in HCL space
@@ -121,9 +123,9 @@ but to take the chroma coordinate corresponding to the HLS transformation.
 
 We have found that typically the HCL-based transformation performs best for
 lightening colors and this is hence the default in
-[`lighten()`](../man/colorspace.utils.lighten.qmd). For darkening colors, the
+[`lighten`](../man/colorspace.utils.lighten.qmd). For darkening colors, the
 combined strategy often works best and is hence the default in
-[`darken()`](../man/colorspace.utils.darken.qmd). In either case it is
+[`darken`](../man/colorspace.utils.darken.qmd). In either case it is
 recommended to try the other available strategies in case the default yields
 unexpected results.
 
@@ -195,9 +197,27 @@ from colorspace import adjust_transparency
 
 cols = hexcols(["black", "#000000", "0"])
 print(cols)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
 print(cols.colors())
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
 cols = adjust_transparency(cols, [0.0, 0.5, 1.0])
 print(cols)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
 print(cols.colors())
 ```
 
@@ -215,6 +235,12 @@ from colorspace import extract_transparency
 
 cols = adjust_transparency(cols, 0.8)   # Set to constant
 print(cols)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
 cols = adjust_transparency(cols, None)  # Remove transparency
 print(cols)
 ```
@@ -223,8 +249,8 @@ print(cols)
 The [`extract_transparency`](../man/colorspace.utils.extract_transparency.qmd)
 function can be used to extract the alpha transparency from a set of colors. It
 allows to define the mode of the return value. This can either be
-`float` ($\in [0., 1.]$), `int` ($`0, 1, ..., 255`$),
-or `str` (`"00"`, `"01"`, ..., `"FF"`).
+float ($\in [0., 1.]$), int (${0, 1, ..., 255}$),
+or str (`"00"`, `"01"`, ..., `"FF"`).
 In case no transparency is defined at all, `None` will be returned.
 
 For illustration we extract the transparency from the gray colors in `x` in
@@ -234,14 +260,25 @@ different formats.
 #| echo: true
 #| error: true
 #| warning: true
-#| layout-ncol: 1
 
 from colorspace.colorlib import hexcols
 # Some colors with transparency 80%, 40%, 80%
 x = hexcols(['#023FA5CC', '#E2E2E266', '#8E063BCC'])
 
 extract_transparency(x, mode = "float")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
 extract_transparency(x, mode = "int")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
 extract_transparency(x, mode = "str")
 ```
 
@@ -264,14 +301,26 @@ palette in R compared to a white background.
 #| echo: true
 #| error: true
 #| warning: true
-#| layout-ncol: 1
 
 from colorspace import rainbow, contrast_ratio
 cols = rainbow().colors(7)
 contrast_ratio(cols, "#FFFFFF") # Against white
-contrast_ratio(cols, "#000000") # Against black
+```
 
-contrast_ratio(cols, plot = True)
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+contrast_ratio(cols, "#000000") # Against black
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+#| layout-ncol: 1
+#| fig-align: center
+res = contrast_ratio(cols, plot = True, figsize = (3, 3))
 ```
 
 
@@ -293,7 +342,6 @@ chroma varies substantially with hue:
 #| echo: true
 #| error: true
 #| warning: true
-#| layout-ncol: 1
 
 from colorspace import max_chroma
 from numpy import linspace
@@ -308,7 +356,6 @@ a given hue (here: `H = 120`, green):
 #| echo: true
 #| error: true
 #| warning: true
-#| layout-ncol: 1
 
 from colorspace import max_chroma
 from numpy import linspace
@@ -375,7 +422,7 @@ for i in range(len(H)):
     ax2.plot(C[i], L, color = "0.5", zorder = 1)
     ax2.scatter(C[i], L, c = colors, zorder = 2)
     # Setting label
-    idx = int(np.where(C[i] == max(C[i]))[0])
+    idx = int(np.where(C[i] == max(C[i]))[0][0])
     ax2.text(C[i][idx] + Cmax / 15, L[idx], "H = {:d}".format(H[i]),
              color = colors[idx], va = "center")
 
@@ -386,7 +433,7 @@ ax2.set_ylabel("Luminance (L)")
 
 # Display result
 fig.tight_layout()
-fig.show()
+plt.show()
 ```
 
 

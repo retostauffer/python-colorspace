@@ -70,16 +70,16 @@ and emulation of color vision deficiencies).
 
 More detailed overviews and examples are provided in the articles:
 
-* [Installation](articles/installation.qmd)
-* [Color spaces](articles/color_spaces.qmd)
-* [HCL-Based Color Palettes](articles/hcl_palettes.qmd)
-* [Classes and Methods](articles/classes_and_methods.qmd)
-* [Palette Visualization and Assessment](articles/palette_visualization.qmd)
-* [App for Choosing Palettes Interactively](articles/choose_palette.qmd)
-* [Color Vision Deficiency Emulation](articles/cvd.qmd)
-* [Color Manipulation and Utilities](articles/manipulation_utilities.qmd)
-* [Approximate Colors from Other Packages](articles/approximations.qmd)
-* [Somewhere over the Rainbow](articles/endrainbow.qmd)
+* [Installation](/installation.qmd)
+* [Color spaces](/articles/color_spaces.qmd)
+* [HCL-Based Color Palettes](/articles/hcl_palettes.qmd)
+* [Classes and Methods](/articles/classes_and_methods.qmd)
+* [Palette Visualization and Assessment](/articles/palette_visualization.qmd)
+* [App for Choosing Palettes Interactively](/articles/choose_palette.qmd)
+* [Color Vision Deficiency Emulation](/articles/cvd.qmd)
+* [Color Manipulation and Utilities](/articles/manipulation_utilities.qmd)
+* [Approximate Colors from Other Packages](/articles/approximations.qmd)
+* [Somewhere over the Rainbow](/articles/endrainbow.qmd)
 
 ## Installation
 
