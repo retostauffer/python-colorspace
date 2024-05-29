@@ -1,17 +1,17 @@
 
 
-include colorspace/palconfig/advanced_diverging.conf
-include colorspace/palconfig/advanced_divergingx.conf
-include colorspace/palconfig/advanced_sequential_multihue.conf
-include colorspace/palconfig/advanced_sequential_singlehue.conf
-include colorspace/palconfig/basic_diverging.conf
-include colorspace/palconfig/basic_qualitative.conf
-include colorspace/palconfig/basic_sequential_multihue.conf
-include colorspace/palconfig/basic_sequential_singlehue.conf
+include src/colorspace/palconfig/advanced_diverging.conf
+include src/colorspace/palconfig/advanced_divergingx.conf
+include src/colorspace/palconfig/advanced_sequential_multihue.conf
+include src/colorspace/palconfig/advanced_sequential_singlehue.conf
+include src/colorspace/palconfig/basic_diverging.conf
+include src/colorspace/palconfig/basic_qualitative.conf
+include src/colorspace/palconfig/basic_sequential_multihue.conf
+include src/colorspace/palconfig/basic_sequential_singlehue.conf
 
-include colorspace/data/colorful.jpeg
-include colorspace/data/colorful.png
-include colorspace/data/map.json
-include colorspace/data/max_chroma_table.json
-include colorspace/data/volcano.dat
+include src/colorspace/data/colorful.jpeg
+include src/colorspace/data/colorful.png
+include src/colorspace/data/map.json
+include src/colorspace/data/max_chroma_table.json
+include src/colorspace/data/volcano.dat
 
