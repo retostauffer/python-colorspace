@@ -1,0 +1,16 @@
+---
+title: "Get Palette Types"
+---
+
+### Description
+
+Get all palette types.
+
+### Usage
+
+<pre><code class='language-python'>hclpalettes.get_palette_types()</code></pre>
+
+### Return
+
+Returns a `list` of str with the names of all palette types
+or groups.

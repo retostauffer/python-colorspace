@@ -1,0 +1,104 @@
+---
+title: "API Reference"
+---
+
+
+## Color palettes
+
+::: {.tbl-borderless}
+
+|   |   |
+|---|---|
+| [`hcl_palettes`](man/colorspace.hcl_palettes.hcl_palettes.qmd) | Pre-Defined HCL Palettes |
+| [`qualitative_hcl`](man/colorspace.palettes.qualitative_hcl.qmd) | Qualitative HCL Color Palettes |
+| [`sequential_hcl`](man/colorspace.palettes.sequential_hcl.qmd) | Sequential HCL Color Palettes |
+| [`diverging_hcl`](man/colorspace.palettes.diverging_hcl.qmd) | Diverging HCL Color Palettes |
+| [`rainbow_hcl`](man/colorspace.palettes.rainbow_hcl.qmd) | HCL Based Rainbow Palette |
+| [`heat_hcl`](man/colorspace.palettes.heat_hcl.qmd) | HCL Based Heat Color Palette |
+| [`terrain_hcl`](man/colorspace.palettes.terrain_hcl.qmd) | HCL Based Terrain Color Palette |
+| [`diverging_hsv`](man/colorspace.palettes.diverging_hcl.qmd) | Diverging HCL Color Palettes |
+| [`rainbow`](man/colorspace.palettes.rainbow.qmd) | Infamous sRGB Rainbow Color Palette |
+| [`palette`](man/colorspace.palettes.palette.qmd) | Custom Color Palette |
+
+: {tbl-colwidths="[30,70]"}
+:::
+
+
+## GUI for choosing color palettes
+
+::: {.tbl-borderless}
+
+|   |   |
+|---|---|
+| [`choose_palette`](man/colorspace.choose_palette.choose_palette.qmd) | Graphical User Interface for Choosing HCL Color Palettes |
+
+: {tbl-colwidths="[30,70]"}
+:::
+
+
+## Assessing colors and palettes
+
+::: {.tbl-borderless}
+
+|   |   |
+|---|---|
+| [`specplot`](man/colorspace.specplot.specplot.qmd) | Color Spectrum Plot |
+| [`swatchplot`](man/colorspace.swatchplot.swatchplot.qmd) | Palette Swatch Plot |
+| [`demoplot`](man/colorspace.demos.demoplot.qmd) | Create Demo Plots |
+
+: {tbl-colwidths="[30,70]"}
+:::
+
+
+## Color vision defficiency
+
+::: {.tbl-borderless}
+
+|   |   |
+|---|---|
+| [`desaturate`](man/colorspace.CVD.desaturate.qmd) | Desaturate Colors by Chroma Removal in HCL Space |
+| [`deutan`](man/colorspace.CVD.deutan.qmd), [`protan`](man/colorspace.CVD.protan.qmd), [`tritan`](man/colorspace.CVD.tritan.qmd) | Simulate Color Vision Deficiency |
+| [`cvd_emulator`](man/colorspace.cvd_emulator.cvd_emulator.qmd) | Check Images for Color Constraints |
+
+: {tbl-colwidths="[30,70]"}
+:::
+
+
+## Color manipulation
+
+::: {.tbl-borderless}
+
+|   |   |
+|---|---|
+| [`max_chroma`](man/colorspace.utils.max_chroma.qmd) | Compute Maximum Chroma for Given Hue and Luminance in HCL |
+| [`contrast_ratio`](man/colorspace.utils.contrast_ratio.qmd) | W3C Contrast Ratio |
+| [`compare_colors`](man/colorspace.colorlib.compare_colors.qmd) | Compare colors/check for equality |
+| [`check_hex_colors`](man/colorspace.utils.check_hex_colors) | Checking HEX Color Validity |
+| [`lighten`](man/colorspace.utils.lighten.qmd), [`darken`](man/colorspace.utils.darken.qmd) | Algorithmically Lighten or Darken Colors |
+| [`mixcolor`](man/colorspace.utils.mixcolor.qmd) | Compute the Convex Combination of Two Colors |
+| [`extract_transparency`](man/colorspace.utils.extract_transparency.qmd), [`adjust_transparency`](man/colorspace.utils.adjust_transparency.qmd) | Adjust or Extract Transparency of Colors |
+
+: {tbl-colwidths="[30,70]"}
+:::
+
+
+## Color library/color transformations
+
+::: {.tbl-borderless}
+
+|   |   |
+|---|---|
+| [`polarLUV`](man/colorspace.colorlib.polarLUV.qmd) | Create polarLUV (HCL) Colors |
+| [`CIELUV`](man/colorspace.colorlib.CIELUV.qmd) | Create CIELUV Colors |
+| [`polarLAB`](man/colorspace.colorlib.polarLAB.qmd) | Create polarLAB Colors |
+| [`CIELAB`](man/colorspace.colorlib.CIELAB.qmd) | Create CIELAB Colors |
+| [`CIEXYZ`](man/colorspace.colorlib.CIEXYZ.qmd) | Create CIEXYZ Colors |
+| [`RGB`](man/colorspace.colorlib.RGB.qmd) | Create RGB Colors |
+| [`sRGB`](man/colorspace.colorlib.sRGB.qmd) | Create sRGB (standard RGB) Colors |
+| [`HSV`](man/colorspace.colorlib.HSV.qmd) | Create Hue-Saturation-Value (HSV) Colors |
+| [`HLS`](man/colorspace.colorlib.HLS.qmd) | Create Hue-Lightness-Saturation (HLS) Colors |
+| [`hexcols`](man/colorspace.colorlib.hexcols.qmd) | Create HEX Colors |
+| [`colorlib`](man/colorspace.colorlib.colorlib.qmd) | Color Handling Superclass |
+
+: {tbl-colwidths="[30,70]"}
+:::

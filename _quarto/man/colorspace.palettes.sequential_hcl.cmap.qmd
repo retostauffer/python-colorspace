@@ -1,0 +1,42 @@
+---
+title: "Get matplotlib Compatible Color Map"
+---
+
+### Description
+
+Allows to retrieve a matplotlib LinearSegmentedColormap color map.
+Clasically LinearSegmentedColormaps allow to retrieve a set of `N`
+colors from a set of `n` colors where `N >> n`. The matplotlib
+simply linearely interpolates between all `n` colors to extend
+the number of colors to `N`.
+
+In case of `hclpalette` objects this is not necessary as
+`hclpalette` objects allow to retrieve `N` colors directly
+along well-specified Hue-Chroma-Luminance paths. Thus, this method
+returns a matplotlib color map with `n = N` colors. The linear 
+interpolation between the colors (as typically done by
+LinearSegmentedColormap) is not necessary. However, for convenience
+cmaps have been implemented such that you can easily use hcl based
+palettes in your existing workflow.
+
+### Usage
+
+<pre><code class='language-python'>sequential_hcl.cmap(n=101,<br/>                    name=&#x27;custom_hcl_cmap&#x27;)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.sequential_hcl.cmap:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Number of colors the cmap should be based on; default is `n = 101`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.sequential_hcl.cmap:name">name</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(Name of the custom color map. Default is `custom_hcl_cmap`)</dd>
+</dl>
+
+### Return
+
+Returns a `LinearSegmentedColormap` (cmap) to be used
+with the matplotlib library.

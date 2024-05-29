@@ -1,0 +1,38 @@
+---
+title: "Palette Swatch Plot"
+---
+
+### Description
+
+Interfacing the main [swatchplot](colorspace.swatchplot.swatchplot.qmd)
+function. Plotting the spectrum of the current color palette.
+
+### Usage
+
+<pre><code class='language-python'>palette.swatchplot(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette.swatchplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(forwarded to [swatchplot](colorspace.swatchplot.swatchplot.qmd).
+Note that `show_names` will always be set to `False`.)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import palette
+pal = palette(["#FCFFC9", "#E8C167", "#D67500", "#913640", "#1D0B14"],
+              name = "Custom Palette")
+pal.swatchplot()
+pal.swatchplot(figsize = (5, 1))
+```
+
+
+

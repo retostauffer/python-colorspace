@@ -1,0 +1,50 @@
+---
+title: "Convert CIELAB to CIEXYZ"
+---
+
+### Description
+
+`L`, `A`, and `B` specify the values in the three coordinates of the
+CIELAB color space,
+`XN`, `YN`, and `ZN` allow to specify additional CIE chromaticities to
+specify a specific white point.
+
+### Usage
+
+<pre><code class='language-python'>colorlib.LAB_to_XYZ(L, A, B, XN=None, YN=None,<br/>                    ZN=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LAB_to_XYZ:L">L</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the `L` dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LAB_to_XYZ:A">A</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the `A` dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LAB_to_XYZ:B">B</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the `B` dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LAB_to_XYZ:XN">XN</code><code class="argument-class">None, numpy.ndarray</code>
+  </dt>
+ <dd>escape(Chromaticity of the white point. If of
+length `1`, the white point specification will be recycled if needed.
+When not specified (all `None`) a default white point is used.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LAB_to_XYZ:YN">YN</code>
+  </dt>
+ <dd>escape(See `XN`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LAB_to_XYZ:ZN">ZN</code>
+  </dt>
+ <dd>escape(See `XN`.)</dd>
+</dl>
+
+### Return
+
+Returns corresponding coordinates of CIE chromaticities as a
+list of `numpy.ndarray`s of the same length as the inputs (`[X, Y, Z]`).

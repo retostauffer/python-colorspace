@@ -1,0 +1,26 @@
+---
+title: "Get Palette Colors"
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>palette.colors(*args, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette.colors:*args">*args</code>
+  </dt>
+ <dd>escape(Ignored.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette.colors:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Ignored.)</dd>
+</dl>
+
+### Return
+
+List of all colors of the palette.

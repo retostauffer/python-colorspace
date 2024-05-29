@@ -37,11 +37,15 @@ sdist:
 wheel:
 	python setup.py bdist_wheel --universal
 
+
+# Makes use of the token/config stored in $HOME/.pypirc
 testpypi:
 	make sdist
-	$(eval VERSION = $(shell cat colorspace/version.py | egrep "^version" | egrep -oE "[0-9\.]+"))
-	@echo "********** Uploading dist/colorspace-$(VERSION).tar.gz **********"
-	#twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/colorspace-$(VERSION).tar.gz
+	twine upload --verbose --repository testpypi dist/*
+
+pypirelease:
+	make sdist
+	twine upload --verbose --repository pypi dist/*
 
 
 # Creates baseimages

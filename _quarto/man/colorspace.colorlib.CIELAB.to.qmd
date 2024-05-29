@@ -1,0 +1,33 @@
+---
+title: "Transform Color Space"
+---
+
+### Description
+
+Allows to transform the current object into a different color space,
+if possible.
+
+### Usage
+
+<pre><code class='language-python'>CIELAB.to(to, fixup=True)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELAB.to:to">to</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(Name of the color space into which the colors should be
+converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...))</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELAB.to:fixup">fixup</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(Whether or not colors outside the defined rgb color space
+should be corrected if necessary, defaults to True.)</dd>
+</dl>
+
+### Return
+
+No return, converts the object into a new color space and modifies
+the underlying object. After calling this method the object will
+be of a different class.

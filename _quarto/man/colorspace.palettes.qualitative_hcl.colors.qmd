@@ -1,0 +1,32 @@
+---
+title: "Get Colors"
+---
+
+### Description
+
+Returns the colors of the current color palette.
+
+### Usage
+
+<pre><code class='language-python'>qualitative_hcl.colors(n=11, fixup=None, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.qualitative_hcl.colors:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Number of colors which should be returned, defaults to 11.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.qualitative_hcl.colors:fixup">fixup</code><code class="argument-class">None, bool</code>
+  </dt>
+ <dd>escape(should sRGB colors be corrected if they lie outside
+the defined color space?  If `None` the `fixup` parameter from the
+object will be used. Can be set to `True` or `False` to explicitly
+control the fixup here.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.qualitative_hcl.colors:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(If any `colorobject =` argument is specified, HCL colors
+will be returned.)</dd>
+</dl>

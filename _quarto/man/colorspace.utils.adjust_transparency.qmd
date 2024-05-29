@@ -1,0 +1,125 @@
+---
+title: "Adjust Alpha Channel"
+---
+
+### Description
+
+Allows to set, adjust, or remove transparency (alpha channel).
+In case `alpha` is a single float, a constant
+transparency will be added to all colors. If `alpha` is a list or `numpy.ndarray`
+it must be the same length as the number of colors in the object `x` and all
+values must be convertable to float/int in the range of `[0., 1.]`. Allows to
+add individual transparency for each color in `x`.
+
+### Usage
+
+<pre><code class='language-python'>adjust_transparency(x, alpha)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.adjust_transparency:x">x</code>
+  </dt>
+ <dd>escape(sequence of colors; an object which inherits from colorsspace.colorlib.colorobject.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.adjust_transparency:alpha">alpha</code><code class="argument-class">None, float, int, list, numpy.ndarray</code>
+  </dt>
+ <dd>escape(``None`` will remove existing
+transparency (if existing). If `float`, `list`, or numpy.ndarray` 
+trnasparency will be added. See function description for more details.)</dd>
+</dl>
+
+### Return
+
+numpy.ndarray or None: None if the colorobject has no defined transparency,
+else a numpy.ndarray is returned.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import *
+from colorspace.colorlib import hexcols
+import numpy as np
+# Three colors without transparency
+cols1 = ['#023FA5',   '#E2E2E2',   '#8E063B']
+# Same colors as in `cols1` with transparency of 80%, 40%, 80%
+cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
+
+# Converting list of hex colors `cols1` into `hexcolor` objects
+x1 = hexcols(cols1)
+x1
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Extract transparency
+extract_transparency(x1) # Returns 'None' (no transparency)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# `x1`: Setting constant transparency of 0.5 for all colors
+adjust_transparency(x1, 0.5)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Setting custom transparency (adjusting; overwrite existing 0.5)
+adjust_transparency(x1, [0.7, 0.3, 0.7]) # Add transparency
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Converting list of hex colors `cols2` into `hexcolor` objects
+# and extract transparency defined via 8 digit hex color str
+x2 = hexcols(cols2)
+extract_transparency(x2)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Removing transparency, extracting new values (None)
+x2 = adjust_transparency(x2, None)
+extract_transparency(x2) # Returns 'None' (no transparency)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Adding transparency again
+x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8]))
+x2
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+extract_transparency(x2)
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If input object does not inherit from `colorspace.colorlib.colorobject`.
+<li><code class="text-warning">TypeError</code>: If `alpha` is not one of the expected types.
+</ul>
+

@@ -1,0 +1,48 @@
+---
+title: "Get matplotlib Compatible Color Map"
+---
+
+### Description
+
+Converts the current palette into a `matplotlib.colors.LinearSegmentedColormap` color map.
+If input argument `n = None` the color map will provide the same number
+of colors as defined for this palette. Can also be set higher to
+allow matplotlib to interpolate between the colors.
+
+### Usage
+
+<pre><code class='language-python'>palette.cmap(n=None, rev=False)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette.cmap:n">n</code><code class="argument-class">None or int</code>
+  </dt>
+ <dd>escape(`None` or a positive int which is greater or equal
+to the number of colors of the palette (check `len()` of the object).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette.cmap:rev">rev</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(If set to `True` the color map will be reversed,
+defaults to False.)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import diverging_hcl, palette
+pal = diverging_hcl()
+pal = palette(pal(5), name = "Diverging Palette with 5 Colors")
+cmap = pal.cmap()
+print(type(cmap))
+print(cmap.N)
+cmap2 = pal.cmap(n = 256)
+print(cmap2.N)
+```
+
+
+

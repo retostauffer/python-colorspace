@@ -1,0 +1,26 @@
+---
+title: "Show Palette Settings"
+---
+
+### Description
+
+Shows the current settings (table like print to stdout). Should more be
+seen as a development method than a very useful thing.
+
+### Usage
+
+<pre><code class='language-python'>heat_hcl.show_settings()</code></pre>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.palettes import rainbow_hcl
+a = rainbow_hcl(10)
+a.show_settings()
+```
+
+
+

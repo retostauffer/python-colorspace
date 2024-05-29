@@ -1,0 +1,119 @@
+---
+title: "Create CIEXYZ Color Object"
+---
+
+### Description
+
+Creates a color object in the CIEXYZ color space.
+Can be converted to: [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd),
+[CIELAB](colorspace.colorlib.CIELAB.qmd), [RGB](colorspace.colorlib.RGB.qmd), [sRGB](colorspace.colorlib.sRGB.qmd),
+[polarLAB](colorspace.colorlib.polarLAB.qmd), and [hexcols](colorspace.colorlib.hexcols.qmd).
+Not allowed (ambiguous) are transformations to [HSV](colorspace.colorlib.HSV.qmd) and [HLS](colorspace.colorlib.HLS.qmd).
+
+### Usage
+
+<pre><code class='language-python'>CIEXYZ(X, Y, Z, alpha=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIEXYZ:X">X</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for X dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIEXYZ:Y">Y</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for Y dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIEXYZ:Z">Z</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for Z dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIEXYZ:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.colors(fixup=True, rev=False)](colorspace.colorlib.CIEXYZ.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.dropalpha()](colorspace.colorlib.CIEXYZ.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.get(dimname=None)](colorspace.colorlib.CIEXYZ.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.get_whitepoint()](colorspace.colorlib.CIEXYZ.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.hasalpha()](colorspace.colorlib.CIEXYZ.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.length()](colorspace.colorlib.CIEXYZ.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.set(**kwargs)](colorspace.colorlib.CIEXYZ.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.set_whitepoint(**kwargs)](colorspace.colorlib.CIEXYZ.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.specplot(**kwargs)](colorspace.colorlib.CIEXYZ.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.swatchplot(**kwargs)](colorspace.colorlib.CIEXYZ.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIEXYZ.to(to, fixup=True)](colorspace.colorlib.CIEXYZ.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import CIEXYZ
+# Constructing color object with one single color via float
+CIEXYZ(80, 30, 10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via lists
+CIEXYZ([10, 0], [20, 80], [40, 40])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via numpy arrays
+from numpy import asarray
+CIEXYZ(asarray([10, 0]), asarray([20, 80]), asarray([40, 40]))
+```
+
+
+

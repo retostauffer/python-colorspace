@@ -1,0 +1,32 @@
+---
+title: "Convert HSV to Standard RGB (sRGB)"
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>colorlib.HSV_to_sRGB(h, s, v)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.HSV_to_sRGB:h">h</code><code class="argument-class">nympy.ndarray</code>
+  </dt>
+ <dd>escape(Hue values.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.HSV_to_sRGB:s">s</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Saturation.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.HSV_to_sRGB:v">v</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Value (the value-dimension of HSV).)</dd>
+</dl>
+
+### Return
+
+Returns a list of `numpy.ndarray`s with the corresponding
+coordinates in the sRGB color space (`[r, g, b]`). Same length as
+the inputs.

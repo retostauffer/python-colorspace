@@ -1,0 +1,71 @@
+---
+title: "Algorithmically Darken Colors"
+---
+
+### Description
+
+Takes one or multiple colors and adjust them sucht hat they apper
+darkened. See also: [lighten](colorspace.utils.lighten.qmd).
+
+### Usage
+
+<pre><code class='language-python'>darken(col, amount=0.1, method=&#x27;relative&#x27;,<br/>       space=&#x27;HCL&#x27;, fixup=True)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.darken:col">col</code>
+  </dt>
+ <dd>escape(color (or colors) to be manipulated. Can be a
+color object,
+a [palette](colorspace.palettes.palette.qmd) object, or a
+str/list of str with valid hex colors.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.darken:amount">amount</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(value between `[0., 1.]` with the amount the colors
+should be lightened. Defaults to `0.1`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.darken:method">method</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(either `"relative"` (default) or `"absolute"`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.darken:space">space</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(one of `"HCL"` or `"HSV"`. Defaults to `"HCL"`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.darken:fixup">fixup</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(should colors which fall outside the defined RGB space
+be fixed (corrected)? Defaults to `True`.)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import darken, lighten, swatchplot
+original = "#ff3322"
+lighter  = lighten(original, amount = 0.3, method = "relative", space = "HCL")
+darker   = darken(original,  amount = 0.3, method = "relative", space = "HCL")
+swatchplot([lighter, original, darker],
+           show_names = False, figsize = (6, 1));
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If `method` is not str.
+<li><code class="text-warning">ValueError</code>: If `method` is not one of `&quot;absolute&quot;` or `&quot;relative&quot;`.
+<li><code class="text-warning">TypeError</code>: If `space` is not str.
+<li><code class="text-warning">ValueError</code>: If `space` is not one of `&quot;HCL&quot;` or `&quot;HSV&quot;`.
+<li><code class="text-warning">TypeError</code>: If &#x27;col&#x27; is not among the one of the recognized objects.
+<li><code class="text-warning">TypeError</code>: If `fixup` is not bool.
+</ul>
+

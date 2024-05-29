@@ -1,0 +1,39 @@
+---
+title: "Color Spectrum Plot"
+---
+
+### Description
+
+Visualization of the spectrum of this color object.
+Internally calls [specplot](colorspace.specplot.specplot.qmd),
+additional arguments to this main function can be forwarded via the
+`**kwargs` argument.
+
+### Usage
+
+<pre><code class='language-python'>CIELUV.specplot(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELUV.specplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Additional named arguments forwarded to
+[specplot](colorspace.specplot.specplot.qmd).)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import HCL
+cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
+cols.specplot();
+cols.specplot(rgb = False, figsize = (6, 0.5));
+```
+
+
+

@@ -1,0 +1,34 @@
+---
+title: "Convert RGB to Standard RGB"
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>colorlib.RGB_to_sRGB(R, G, B, gamma=2.4)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.RGB_to_sRGB:R">R</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Intensities for red (`[0., 1.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.RGB_to_sRGB:G">G</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Intensities for green (`[0., 1.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.RGB_to_sRGB:B">B</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Intensities for blue  (`[0., 1.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.RGB_to_sRGB:gamma">gamma</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(gamma adjustment, defaults to `2.4`.)</dd>
+</dl>
+
+### Return
+
+Returns a list of `numpy.ndarray`s with `R`, `G`, and `B` values.

@@ -1,0 +1,149 @@
+---
+title: "Palette Swatch Plot"
+---
+
+### Description
+
+Visualization of color palettes in columns of color swatches.
+The first argument `pals` is very flexible and can be:
+
+* List of hex colors,
+* a single object which inherits from `colorspace.palettes.palette`,
+    `colorspace.palettes.hclpalette`,
+    `colorspace.colorlib.colorobject`,
+* a list of objects listed above (all of the same type or mixed),
+* a dictionary with lists of objects as above. If a dictionary is used
+    the keys of the dictionary are used as 'subtitles' to group sets
+    of palettes,
+* an object of class `colorspace.palettes.hclpalettes`,
+* or an object of class `matplotlib.colors.LinearSegmentedColormap`.
+
+Requires the `matplotlib` to be installed.
+
+### Usage
+
+<pre><code class='language-python'>swatchplot(pals, show_names=True, nrow=20, n=5,<br/>           cvd=None, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.swatchplot.swatchplot:pals">pals</code>
+  </dt>
+ <dd>escape(The color palettes or color objects to be visualized.
+See description for details and examples to demonstrate different
+usages.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.swatchplot.swatchplot:show_names">show_names</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(Should palette names be shown (if available), defaults to True.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.swatchplot.swatchplot:nrow">nrow</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Maximum number of rows of swatches, defaults to `20`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.swatchplot.swatchplot:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Number of colors to be drawn from palette objects, defaults to `5`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.swatchplot.swatchplot:cvd">cvd</code><code class="argument-class">None or list</code>
+  </dt>
+ <dd>escape(Allows to display one or multiple palettes and how they look
+with emulated color vision deficiencies. If `None`, this is not applied.
+Can be set to a list of characters. Allowed:
+`"protan"`, `"tritan"`, `"deutan"`, `"desaturate"` corresponding to the functions
+[protan](colorspace.CVD.protan.qmd),
+[tritan](colorspace.CVD.tritan.qmd),
+[deutan](colorspace.CVD.deutan.qmd),
+[desaturate](colorspace.CVD.desaturate.qmd).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.swatchplot.swatchplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(forwarded to `matplotlib.pyplot.subplot`, can be used to control e.g.,
+`figsize`.)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import swatchplot, palette
+from colorspace import sequential_hcl, diverging_hcl, heat_hcl
+# List of hex colors
+swatchplot(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
+           figsize = (7, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Create a custom 'palette' (named):
+pal = palette(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
+              "Custom Named Palette")
+swatchplot(pal, figsize = (7, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# A HCL palette. 'n' defines the number of colors.
+swatchplot(sequential_hcl("PuBu"), n = 10,
+           figsize = (7, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Combine all three
+swatchplot([['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
+            pal, sequential_hcl("PuBu")], n = 7,
+            figsize = (7, 1.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# A color object (e.g., RGB, HCL, CIELUV, ...)
+from colorspace.colorlib import hexcols
+cobject  = hexcols(heat_hcl()(5))
+cobject.to("HCL")
+print(cobject)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+swatchplot(cobject, figsize = (7, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Using dictionaries to add subtitles
+# to 'group' different palettes.
+swatchplot({"Diverging": [diverging_hcl(), diverging_hcl("Red-Green")],
+            "Sequential": [sequential_hcl("ag_Sunset"), sequential_hcl("OrRd")],
+            "Others": [['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
+                       pal, sequential_hcl("PuBu")]}, n = 15);
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If `nrow` or `n` no int.
+<li><code class="text-warning">TypeError</code>: If `show_names` not bool.
+<li><code class="text-warning">ValueError</code>: If `nrow` or `n` are not positive.
+<li><code class="text-warning">ImportError</code>: If `matplotlib.pyplot` cannot be imported, maybe `matplotlib` not installed?
+</ul>
+

@@ -5,6 +5,7 @@ docutils
 ipython
 imageio
 matplotlib
+matplotlib-inline
 numpy
 pandas
 statsmodels

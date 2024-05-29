@@ -1,0 +1,122 @@
+---
+title: "Create Standard RGB (sRGB) Color Object"
+---
+
+### Description
+
+Allows conversions to: [CIELAB](colorspace.colorlib.CIELAB.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd),
+[CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [HLS](colorspace.colorlib.HLS.qmd), [HSV](colorspace.colorlib.HSV.qmd), [RGB](colorspace.colorlib.RGB.qmd),
+[hexcols](colorspace.colorlib.hexcols.qmd). [polarLAB](colorspace.colorlib.polarLAB.qmd) and [polarLUV](colorspace.colorlib.polarLUV.qmd).
+
+### Usage
+
+<pre><code class='language-python'>sRGB(R, G, B, alpha=None, gamma=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.sRGB:R">R</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for red intensity (`[0., 1.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.sRGB:G">G</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for green intensity (`[0., 1.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.sRGB:B">B</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for blue intensity (`[0., 1.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.sRGB:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.sRGB:gamma">gamma</code><code class="argument-class">None, float</code>
+  </dt>
+ <dd>escape(If `None` (default) the default gamma value is used.
+Can be specified to overwrite the default.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.colors(fixup=True, rev=False)](colorspace.colorlib.sRGB.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.dropalpha()](colorspace.colorlib.sRGB.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.get(dimname=None)](colorspace.colorlib.sRGB.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.get_whitepoint()](colorspace.colorlib.sRGB.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.hasalpha()](colorspace.colorlib.sRGB.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.length()](colorspace.colorlib.sRGB.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.set(**kwargs)](colorspace.colorlib.sRGB.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.set_whitepoint(**kwargs)](colorspace.colorlib.sRGB.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.specplot(**kwargs)](colorspace.colorlib.sRGB.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.swatchplot(**kwargs)](colorspace.colorlib.sRGB.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.to(to, fixup=True)](colorspace.colorlib.sRGB.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import sRGB
+# Constructing color object with one single color via float
+sRGB(1., 0.3, 0.5)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via lists
+sRGB([1., 0.8], [0.5, 0.5], [0.0, 0.2])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via numpy arrays
+from numpy import asarray
+sRGB(asarray([1., 0.8]), asarray([0.5, 0.5]), asarray([0.0, 0.2]))
+```
+
+
+

@@ -1,0 +1,13 @@
+---
+title: "Get Palette Name"
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>palette.name()</code></pre>
+
+### Return
+
+None, str: Name of the palette (if set).

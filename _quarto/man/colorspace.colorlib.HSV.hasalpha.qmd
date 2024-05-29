@@ -1,0 +1,16 @@
+---
+title: "Check for Alpha Channel"
+---
+
+### Description
+
+Small helper function to check whether the current color object
+has alpha channel or not.
+
+### Usage
+
+<pre><code class='language-python'>HSV.hasalpha()</code></pre>
+
+### Return
+
+`True` if alpha values are present, `False` if not.

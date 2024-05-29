@@ -1,0 +1,118 @@
+---
+title: "Create Hex Color Object"
+---
+
+### Description
+
+Creates a color object using hex colors (str).
+Can be converted to all other color spaces: [CIELAB](colorspace.colorlib.CIELAB.qmd),
+[CIELUV](colorspace.colorlib.CIELUV.qmd), [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [HLS](colorspace.colorlib.HLS.qmd), [HSV](colorspace.colorlib.HSV.qmd),
+[RGB](colorspace.colorlib.RGB.qmd), [polarLAB](colorspace.colorlib.polarLAB.qmd), [polarLUV](colorspace.colorlib.polarLUV.qmd), and
+[sRGB](colorspace.colorlib.sRGB.qmd).
+
+### Usage
+
+<pre><code class='language-python'>hexcols(hex_)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.hexcols:hex_">hex_</code><code class="argument-class">str, list of str, numpy.ndarray of type str</code>
+  </dt>
+ <dd>escape(Hex colors. Only six and eight digit hex colors are allowed (e.g.,
+`#000000` or `#00000050` if with alpha channel). If invalid hex
+colors are provided the object will raise an exception. Invalid hex
+colors will be handled as `numpy.nan`.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.colors(fixup=True, rev=False)](colorspace.colorlib.hexcols.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.dropalpha()](colorspace.colorlib.hexcols.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.get(dimname=None)](colorspace.colorlib.hexcols.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.get_whitepoint()](colorspace.colorlib.hexcols.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.hasalpha()](colorspace.colorlib.hexcols.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.length()](colorspace.colorlib.hexcols.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.set(**kwargs)](colorspace.colorlib.hexcols.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.set_whitepoint(**kwargs)](colorspace.colorlib.hexcols.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.specplot(**kwargs)](colorspace.colorlib.hexcols.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.swatchplot(**kwargs)](colorspace.colorlib.hexcols.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.to(to, fixup=True)](colorspace.colorlib.hexcols.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import hexcols
+# Creating hex color object from string
+hexcols("#cecece")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Creating hex color object from list of strings
+hexcols(["#ff0000", "#00ff00"])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Creating hex colors via numpy array
+from numpy import asarray
+cols = hexcols(asarray(["#ff000030", "#00ff0030"]))
+cols
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Convert hex colors to another color space (CIEXYZ)
+cols.to("CIEXYZ")
+cols
+```
+
+
+

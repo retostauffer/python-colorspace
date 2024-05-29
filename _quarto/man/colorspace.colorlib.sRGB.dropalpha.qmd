@@ -1,0 +1,12 @@
+---
+title: "Remove Alpha Channel"
+---
+
+### Description
+
+Remove alpha channel from the color object, if defined
+(see [hasalpha](colorspace.colorlib.sRGB.hasalpha.qmd)).
+
+### Usage
+
+<pre><code class='language-python'>sRGB.dropalpha()</code></pre>

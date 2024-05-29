@@ -1,0 +1,132 @@
+---
+title: "Create HLS Color Object"
+---
+
+### Description
+
+Creates a color object in the Hue-Lightness-Saturation (HLS) color space.
+Can be converted to: [RGB](colorspace.colorlib.RGB.qmd), [sRGB](colorspace.colorlib.sRGB.qmd), [HSV](colorspace.colorlib.HSV.qmd),
+and [hexcols](colorspace.colorlib.hexcols.qmd).
+Not allowed (ambiguous) are transformations to [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd),
+[CIELUV](colorspace.colorlib.CIELUV.qmd), [CIELAB](colorspace.colorlib.CIELAB.qmd), [polarLUV](colorspace.colorlib.polarLUV.qmd), and
+[polarLAB](colorspace.colorlib.polarLAB.qmd).
+
+### Usage
+
+<pre><code class='language-python'>HLS(H, L, S, alpha=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HLS:H">H</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for Hue dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HLS:L">L</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for Lightness dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HLS:S">S</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for Saturation dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HLS:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.colors(fixup=True, rev=False)](colorspace.colorlib.HLS.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.dropalpha()](colorspace.colorlib.HLS.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.get(dimname=None)](colorspace.colorlib.HLS.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.get_whitepoint()](colorspace.colorlib.HLS.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.hasalpha()](colorspace.colorlib.HLS.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.length()](colorspace.colorlib.HLS.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.set(**kwargs)](colorspace.colorlib.HLS.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.set_whitepoint(**kwargs)](colorspace.colorlib.HLS.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.specplot(**kwargs)](colorspace.colorlib.HLS.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.swatchplot(**kwargs)](colorspace.colorlib.HLS.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.to(to, fixup=True)](colorspace.colorlib.HLS.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import HLS
+# Constructing color object with one single color via float
+HLS(150, 0.1, 3)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via lists
+HLS([150, 0, 10], [0.1, 0.7, 0.1], [3, 0, 3])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via numpy arrays
+from numpy import asarray
+cols = HLS(asarray([150, 0, 10]),
+           asarray([0.1, 0.7, 0.1]),
+           asarray([3, 0, 3]))
+cols
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Converting to RGB
+cols.to("RGB")
+cols
+```
+
+
+

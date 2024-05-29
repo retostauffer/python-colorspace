@@ -1,0 +1,87 @@
+---
+title: "Prepare Predefined HCL Palettes"
+---
+
+### Description
+
+Prepares the pre-specified hclpalettes.  Reads the config files and creates
+a set of `defaultpalette` objects.
+
+See also: [divergingx_palettes](colorspace.hcl_palettes.divergingx_palettes.qmd).
+
+### Usage
+
+<pre><code class='language-python'>hclpalettes(files=None, files_regex=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.hclpalettes:files">files</code><code class="argument-class">None, str list</code>
+  </dt>
+ <dd>escape(If `None` (default) the default color palette
+configuration from within the package will be loaded. A path to a custom
+config file (str) or a list of paths can be provided to read custom
+palettes.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.hclpalettes:files_regex">files_regex</code><code class="argument-class">None, str</code>
+  </dt>
+ <dd>escape(Additional regular expression to filter files.
+Only used if `files = None`.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hclpalettes.get_palette(name)](colorspace.palettes.hclpalettes.get_palette.qmd)</code>
+    </dt>
+    <dd>Get Palette by Name</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hclpalettes.get_palette_types()](colorspace.palettes.hclpalettes.get_palette_types.qmd)</code>
+    </dt>
+    <dd>Get Palette Types</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hclpalettes.get_palettes(type_=None)](colorspace.palettes.hclpalettes.get_palettes.qmd)</code>
+    </dt>
+    <dd>Get Type-Specific Palettes</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hclpalettes.length()](colorspace.palettes.hclpalettes.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Palettes</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hclpalettes.plot(n=5)](colorspace.palettes.hclpalettes.plot.qmd)</code>
+    </dt>
+    <dd>Create swatchplot.</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import hclpalettes
+hclpals = hclpalettes()
+hclpals
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Palette swatch plots with 5 colors each
+hclpals.plot(n = 5);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Palette swatch plots with 11 colors each
+hclpals.plot(n = 11);
+```
+
+
+

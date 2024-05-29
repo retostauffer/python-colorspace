@@ -1,0 +1,154 @@
+---
+title: "Create Demo Plots"
+---
+
+### Description
+
+This function is intended to be used by the GUI
+([choose_palette](colorspace.choose_palette.choose_palette.qmd))
+to visualize the color palette selected for a series of different
+types of plots. It can, however, also be used directly if needed.
+
+### Usage
+
+<pre><code class='language-python'>demoplot(colors, type_, n=7, ax=None, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.demos.demoplot:colors">colors</code>
+  </dt>
+ <dd>escape(The colors, any type which can be handled by 
+[palette](colorspace.palettes.palette.qmd).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.demos.demoplot:type_">type_</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(Name of the demo function to be called.
+Not case sensitive.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.demos.demoplot:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Number of colors for the plot. Only used if argument `colors`
+is a palette where a dedicated number of colors must be drawn first.
+Defaults to 7.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.demos.demoplot:title">title</code><code class="argument-class">None, str</code>
+  </dt>
+ <dd>escape(used to draw the figure title, if specified (str).
+Forwarded to different plot types.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.demos.demoplot:ax">ax</code><code class="argument-class">None, matplotlib.axes.Axes</code>
+  </dt>
+ <dd>escape(If `None` a new matplotlib figure will
+be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+will be used to create the demoplot. Handy to create multiple subplots.
+Forwarded to different plot types.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.demos.demoplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Forwarded to the corresponding demo plot functions.)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Importing modules
+from colorspace import *
+from colorspace.colorlib import *
+# Custom list of hex colors (n = 5)
+hexlist    = ["#BCBE57", "#DEDFC0", "#F1F1F1", "#F7D3E7", "#FB99D7"]
+hexlist
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# A (HCL based) colorobject with (n = 3)
+colorobj = HCL([0, 90, 180], [60, 60, 60], [60, 60, 60])
+colorobj
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Default diverging HCL palette
+hclpalette = diverging_hcl()
+hclpalette
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Default color palette shipped with the package
+berlin = hcl_palettes(name = "Berlin").get_palettes()[0]
+berlin
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Demoplots
+demoplot(hexlist, "Bar");
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+demoplot(colorobj, "Lines");
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+demoplot(hclpalette, "Pie", n = 4);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+demoplot(berlin.colors(), "Matrix", n = 11);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Using custom subplots and plot titles
+from matplotlib import pyplot as plt
+from colorspace import protan, deutan, desaturate
+fig, axes = plt.subplots(2, 2)
+colors = diverging_hcl("Green-Orange").colors(7)
+demoplot(colors, "Bar",
+         title = "Original", ax = axes[0, 0]);
+demoplot(protan(colors), "Bar",
+         title = "Protanope vision", ax = axes[0, 1]);
+demoplot(deutan(colors), "Bar",
+         title = "Deuteranope vision", ax = axes[1, 0]);
+demoplot(desaturate(colors), "Bar",
+         title = "Desaturated", ax = axes[1, 1]);
+plt.show()
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If `type_` is not a str.
+<li><code class="text-warning">ValueError</code>: If `type_` is not an available demo plot type.
+<li><code class="text-warning">TypeError</code>: If `n` is not int.
+<li><code class="text-warning">ValueError</code>: `n` must be a positive int.
+</ul>
+

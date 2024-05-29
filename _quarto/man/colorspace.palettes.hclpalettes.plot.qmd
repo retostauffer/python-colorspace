@@ -1,0 +1,26 @@
+---
+title: "Create swatchplot."
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>hclpalettes.plot(n=5)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.hclpalettes.plot:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Positive int, number of colors.)</dd>
+</dl>
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If &#x27;n&#x27; is not an int.
+<li><code class="text-warning">ValueError</code>: If &#x27;n&#x27; is not positive.
+</ul>
+

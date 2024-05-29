@@ -1,0 +1,35 @@
+---
+title: "Convert Standard RGB (sRGB) to HLS"
+---
+
+### Description
+
+All r/g/b values in `[0., 1.]`, h in `[0., 360.]`, l and s in `[0., 1.]`.
+From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
+
+### Usage
+
+<pre><code class='language-python'>colorlib.sRGB_to_HLS(r, g, b)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.sRGB_to_HLS:r">r</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Intensities for red (`[0., 1.]`))</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.sRGB_to_HLS:g">g</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Intensities for green (`[0., 1.]`))</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.sRGB_to_HLS:b">b</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Intensities for blue (`[0., 1.]`))</dd>
+</dl>
+
+### Return
+
+Returns a list of `numpy.ndarray`s with the corresponding
+coordinates in the HLS color space (`[h, l, s]`). Same length as
+the inputs.

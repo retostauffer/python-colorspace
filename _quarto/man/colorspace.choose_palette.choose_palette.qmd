@@ -1,0 +1,34 @@
+---
+title: "Graphical user interface to choose HCL based color palettes"
+---
+
+### Description
+
+Opens a tcltk based graphical user interface (GUI) which allows
+to tweak existing Hue-Chroma-Luminance (HCL) based color palettes
+and define custom palettes.
+
+### Usage
+
+<pre><code class='language-python'>choose_palette(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.choose_palette.choose_palette:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Optional, can be used to change the defaults when starting the
+GUI. Currently a parameter called `palette` is allowed to
+specify the initial color palette. If not set, `palette="Blue-Red"`
+is used.)</dd>
+</dl>
+
+### Return
+
+An HCL palette object which allows to extract the colors in
+different ways. The default is to retrieve hex colors.
+More details on:
+[diverging_hcl](colorspace.palettes.diverging_hcl.qmd),
+[qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), or
+[sequential_hcl](colorspace.palettes.sequential_hcl.qmd).

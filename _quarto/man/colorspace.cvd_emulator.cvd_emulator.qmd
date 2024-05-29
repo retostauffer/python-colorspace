@@ -1,0 +1,99 @@
+---
+title: "Check Images for Color Constraints"
+---
+
+### Description
+
+Simulate color deficiencies on png, jpg, and jpeg files. Takes an existing
+pixel image and simulates different color vision deficiencies.
+
+The function displays a matplotlib figure if `output = None`.
+If `output` is set, a new figure will be stored with simulated colors.
+If only one color vision deficiency is defined (e.g., `cvd = "desaturate"`)
+a figure of the same type and size as the input figure is created.
+When multiple `cvd`'s are specified, a multi-panel plot will be created.
+
+Requires the python modules `matplotlib` and `imageio` to be installed.
+
+### Usage
+
+<pre><code class='language-python'>cvd_emulator(image=&#x27;DEMO&#x27;,<br/>             cvd=&#x27;desaturate&#x27;,<br/>             severity=1.0, output=None,<br/>             dropalpha=False)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.cvd_emulator.cvd_emulator:image">image</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(Name of the figure which should be converted
+(png/jpg/jpeg). If `image = "DEMO"` the package demo figure is used.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.cvd_emulator.cvd_emulator:cvd">cvd</code><code class="argument-class">str, list</code>
+  </dt>
+ <dd>escape(Color vision deficiency or deficiencies. Allowed types are
+`"deutanope"`, `"protanope"`, `"tritanope"`, `"desaturated"`,
+and `"original"` (unmodified).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.cvd_emulator.cvd_emulator:severity">severity</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(How severe the color vision deficiency is
+(`[0.,1.]`).  Also used as the amount of desaturation if `cvd`
+includes `"desaturate"`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.cvd_emulator.cvd_emulator:output">output</code><code class="argument-class">None, str</code>
+  </dt>
+ <dd>escape(If `None` an interactive plotting window will
+be opened. A str (file name/path) can be given to write the result
+to disc.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.cvd_emulator.cvd_emulator:dropalpha">dropalpha</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(Drop alpha channel, defaults to `False`.  Only
+useful for png figures having an alpha channel.)</dd>
+</dl>
+
+### Return
+
+matplotlib.figure.Figure, str: If `output = None` the figure
+handler is returned, else the return of the function is identical
+to `output`; the figure which has just been created.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import cvd_emulator
+cvd_emulator("DEMO", "deutan", 0.5);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+cvd_emulator("DEMO", "desaturate", 1.0, "output.png");
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+cvd_emulator("DEMO", ["original", "deutan", "protan"],
+             0.5, dropalpha = True);
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">ValueError</code>: If `cvd` is empty.
+<li><code class="text-warning">ValueError</code>: If no valid `cvd` method is provided.
+<li><code class="text-warning">FileNotFounderror</code>: If the file specified on `image` does not exist.
+<li><code class="text-warning">ImportError</code>: When python module &#x27;imageio&#x27; cannot be imported (not installed).
+<li><code class="text-warning">IOError</code>: If file `image` cannot be read using `imageio.imread`.
+<li><code class="text-warning">ImportError</code>: If `matplotlib.pyplot` cannot be imported (`matplotlib` not installed?).
+</ul>
+

@@ -1,0 +1,129 @@
+---
+title: "Create polarLUV (HCL) Color Object"
+---
+
+### Description
+
+Creates a color object in the polar representation of the [CIELUV](colorspace.colorlib.CIELUV.qmd)
+color space, also known as the Hue-Chroma-Luminance (HCL) color space.
+Can be converted to: [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd),
+[CIELAB](colorspace.colorlib.CIELAB.qmd), [RGB](colorspace.colorlib.RGB.qmd), [sRGB](colorspace.colorlib.sRGB.qmd),
+[polarLAB](colorspace.colorlib.polarLAB.qmd), and [hexcols](colorspace.colorlib.hexcols.qmd).
+Not allowed (ambiguous) are transformations to [HSV](colorspace.colorlib.HSV.qmd) and [HLS](colorspace.colorlib.HLS.qmd).
+
+### Usage
+
+<pre><code class='language-python'>polarLUV(H, C, L, alpha=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLUV:H">H</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for hue dimension (`[-360., 360.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLUV:C">C</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for chroma dimension (`[0., 100.+]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLUV:L">L</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for luminance dimension (`[0., 100.]`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLUV:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.colors(fixup=True, rev=False)](colorspace.colorlib.polarLUV.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.dropalpha()](colorspace.colorlib.polarLUV.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.get(dimname=None)](colorspace.colorlib.polarLUV.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.get_whitepoint()](colorspace.colorlib.polarLUV.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.hasalpha()](colorspace.colorlib.polarLUV.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.length()](colorspace.colorlib.polarLUV.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.set(**kwargs)](colorspace.colorlib.polarLUV.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.set_whitepoint(**kwargs)](colorspace.colorlib.polarLUV.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.specplot(**kwargs)](colorspace.colorlib.polarLUV.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.swatchplot(**kwargs)](colorspace.colorlib.polarLUV.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.to(to, fixup=True)](colorspace.colorlib.polarLUV.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import polarLUV, HCL
+# Constructing color object with one single color via float
+polarLUV(100., 30, 50.)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# polarLUV is the HCL color space, this
+#  is equivalent to the command above.
+HCL(100., 30, 50.)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via lists
+HCL([100, 80], [30, 50], [30, 80])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via numpy arrays
+from numpy import asarray
+HCL(asarray([100, 80]), asarray([30, 50]), asarray([30, 80]))
+```
+
+
+

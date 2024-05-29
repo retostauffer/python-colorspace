@@ -11,9 +11,7 @@ __pycache__
 /venv
 
 # pyp2qmd testing
-/makedocs.py
 /make_doc_test.py
-/_quarto
 
 # Testing
 .coverage

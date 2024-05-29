@@ -1,0 +1,38 @@
+---
+title: "Convert CIELUV to the polar representation (polarLUV; HCL)"
+---
+
+### Description
+
+Converts colors from the CIELUV color space into its polar
+representation (`polarLUV`). The `polarLUV` color space
+is also known as the HCL (Hue-Chroma-Luminance) color space
+which this package uses frequently, e.g., when creating
+efficient color maps. Inverse function of :py:meth:`polarLUV_to_LUV`.
+
+### Usage
+
+<pre><code class='language-python'>colorlib.LUV_to_polarLUV(L, U, V)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LUV_to_polarLUV:L">L</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the `L` dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LUV_to_polarLUV:U">U</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the `U` dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.LUV_to_polarLUV:V">V</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the `V` dimension.)</dd>
+</dl>
+
+### Return
+
+Returns corresponding polar LUV chromaticities as a list of
+`numpy.ndarray`s of the same length as the inputs (`[L, A, B]`),
+also known as `[H, C, L]` coordinates.

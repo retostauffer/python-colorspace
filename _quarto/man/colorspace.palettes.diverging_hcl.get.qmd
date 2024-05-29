@@ -1,0 +1,44 @@
+---
+title: "Get Specific Palette Setting"
+---
+
+### Description
+
+Returns one specific item of the palette settings,
+e.g., the current value for `h1` or `l2`.
+If not existing a `None` will be returned.
+
+### Usage
+
+<pre><code class='language-python'>diverging_hcl.get(key)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.diverging_hcl.get:key">key</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(Name of the setting to be returned.)</dd>
+</dl>
+
+### Return
+
+None if `key` does ont exist, else the current value will be
+returned.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.palettes import rainbow_hcl
+a = rainbow_hcl()
+a.get("h1")
+a.get("c1")
+a.get("l1")
+a.get("not_defined")
+```
+
+
+

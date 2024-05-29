@@ -1,0 +1,35 @@
+---
+title: "Gamma Correction"
+---
+
+### Description
+
+Function `gtrans` and `ftrans` provide gamma correction which
+can be used to switch between sRGB and linearised sRGB (RGB).
+
+The standard value of gamma for sRGB displays is approximately `2.2`,
+but more accurately is a combination of a linear transform and
+a power transform with exponent `2.4`.
+`gtrans` maps linearised sRGB to sRGB, `ftrans` provides the inverse mapping.
+
+### Usage
+
+<pre><code class='language-python'>colorlib.ftrans(u, gamma)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.ftrans:u">u</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Float array of length `N`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.ftrans:gamma">gamma</code><code class="argument-class">float, numpy.ndarray</code>
+  </dt>
+ <dd>escape(gamma value; if float or
+`numpy.ndarray` of length one, `gamma` will be recycled if needed.)</dd>
+</dl>
+
+### Return
+
+Gamma corrected values, same length as input `u`.

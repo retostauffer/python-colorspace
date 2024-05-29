@@ -1,0 +1,55 @@
+---
+title: "Extracting Color Coordinates"
+---
+
+### Description
+
+Extracts and returns the current values of a all or one specific coordinate
+for all colors of this color object.
+
+### Usage
+
+<pre><code class='language-python'>hexcols.get(dimname=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.hexcols.get:dimname">dimname</code><code class="argument-class">None, str</code>
+  </dt>
+ <dd>escape(If `None` (default) values of all coordinates
+of the current color object are returned. A specific coordinate
+can be specified if needed.)</dd>
+</dl>
+
+### Return
+
+dict, numpy.ndarray: If argument `dimname = None` a dictionary is returned
+containing the values of all colors for all coordinates of the current
+color space, each entry of the dictionary is a `numpy.ndarray`.
+When a specific dimension is requested, a single `numpy.ndarray` is
+returned.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import HCL
+cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
+cols.get()
+cols.get("H")
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If `dimname` is neither `None` or str.
+<li><code class="text-warning">ValueError</code>: If the dimension specified on `dimnames` does not
+exist.
+</ul>
+

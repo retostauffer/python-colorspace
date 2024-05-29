@@ -1,0 +1,119 @@
+---
+title: "Create CIELAB Color Object"
+---
+
+### Description
+
+Creates a color object in the CIELAB color space.
+Can be converted to: [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd),
+[CIELAB](colorspace.colorlib.CIELAB.qmd), [RGB](colorspace.colorlib.RGB.qmd), [sRGB](colorspace.colorlib.sRGB.qmd),
+[polarLAB](colorspace.colorlib.polarLAB.qmd), and [hexcols](colorspace.colorlib.hexcols.qmd).
+Not allowed (ambiguous) are transformations to [HSV](colorspace.colorlib.HSV.qmd) and [HLS](colorspace.colorlib.HLS.qmd).
+
+### Usage
+
+<pre><code class='language-python'>CIELAB(L, A, B, alpha=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELAB:L">L</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for L dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELAB:A">A</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for A dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELAB:B">B</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for B dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELAB:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.colors(fixup=True, rev=False)](colorspace.colorlib.CIELAB.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.dropalpha()](colorspace.colorlib.CIELAB.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.get(dimname=None)](colorspace.colorlib.CIELAB.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.get_whitepoint()](colorspace.colorlib.CIELAB.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.hasalpha()](colorspace.colorlib.CIELAB.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.length()](colorspace.colorlib.CIELAB.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.set(**kwargs)](colorspace.colorlib.CIELAB.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.set_whitepoint(**kwargs)](colorspace.colorlib.CIELAB.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.specplot(**kwargs)](colorspace.colorlib.CIELAB.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.swatchplot(**kwargs)](colorspace.colorlib.CIELAB.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.to(to, fixup=True)](colorspace.colorlib.CIELAB.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import CIELAB
+# Constructing color object with one single color via float
+CIELAB(-30, 10, 10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via lists
+CIELAB([-30, 30], [20, 80], [40, 40])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via numpy arrays
+from numpy import asarray
+CIELAB(asarray([-30, 30]), asarray([20, 80]), asarray([40, 40]))
+```
+
+
+

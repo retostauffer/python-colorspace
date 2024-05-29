@@ -1,0 +1,132 @@
+---
+title: "W3C Contrast Ratio"
+---
+
+### Description
+
+Compute (and visualize) the contrast ratio of pairs of colors, as defined
+by the World Wide Web Consortium (W3C). Requires `matplotlib` to be installed.
+
+The W3C Content Accessibility Guidelines (WCAG) recommend a contrast ratio
+of at least 4.5 for the color of regular text on the background color, and
+a ratio of at least 3 for large text. See
+<https://www.w3.org/TR/WCAG21/#contrast-minimum>.
+
+The contrast ratio is defined in <https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio>
+as `(L1 + 0.05) / (L2 + 0.05)` where `L1` and `L2` are the relative luminances
+(see <https://www.w3.org/TR/WCAG21/#dfn-relative-luminance>) of the lighter and darker
+colors, respectively. The relative luminances are weighted sums of scaled sRGB coordinates:
+`0.2126 * R + 0.7152 * G + 0.0722 * B` where each of `R`, `G`, and `B`
+is defined as `RGB / 12.92 if RGB <= 0.03928 else (RGB + 0.055)/1.055)^2.4` based on
+the `RGB` coordinates between 0 and 1.
+
+### Usage
+
+<pre><code class='language-python'>contrast_ratio(colors, bg=&#x27;#FFFFFF&#x27;,<br/>               plot=False, ax=None,<br/>               fontsize=&#x27;xx-large&#x27;,<br/>               fontweight=&#x27;heavy&#x27;,<br/>               ha=&#x27;center&#x27;,<br/>               va=&#x27;center&#x27;, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:colors">colors</code><code class="argument-class">str, list, colorobject, palette</code>
+  </dt>
+ <dd>escape(Single hex color (str), a list of hex colors (list),
+a color object ,
+or [palette](colorspace.palettes.palette.qmd).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:bg">bg</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(background color against which the contrast will be calculated.
+Defaults to white (`"#FFFFFF"`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:plot">plot</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(logical indicating whether the contrast ratios should also be
+visualized by simple color swatches.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:ax">ax</code><code class="argument-class">None or matplotlib.axes.Axes</code>
+  </dt>
+ <dd>escape(If None, a new matplotlib figure will
+be created. If `ax` inherits from `matplotlib.axes.Axes` this object
+will be used to create the demoplot. Handy to create multiple subplots.
+Forwarded to different plot types.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:fontsize">fontsize</code><code class="argument-class">float, str</code>
+  </dt>
+ <dd>escape(size of text, forwarded to `matplotlib.pyplot.text`.
+Defaults to `"xx-large"`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:fontweight">fontweight</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(weight of text, forwarded to `matplotlib.pyplot.text`.
+Defaults to `"heavy"`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:ha">ha</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(horizontal alignment, forwarded to `matplotlib.pyplot.text`.
+Defaults to `"center"`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:va">va</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(vertical alignment, forwarded to `matplotlib.pyplot.text`.
+Defaults to `"center"`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.contrast_ratio:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Allows to specify `figsize` forwarded to `maptlotlib.pyplot.figure`,
+only used if `ax` is None.)</dd>
+</dl>
+
+### Return
+
+A numeric vector with the contrast ratios is returned (invisibly, if `plot` is `True`).
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# check contrast ratio of default palette on white background
+from colorspace import rainbow, contrast_ratio
+colors = rainbow().colors(7)
+contrast_ratio(colors, "#FFFFFF") # Against white
+contrast_ratio(colors, "#000000") # Against black
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Visualize contrast ratio against white
+contrast_ratio(colors, "#FFFFFF", plot = True);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Visualize contrast ratio against black
+contrast_ratio(colors, "#000000", plot = True);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Changing figure size
+contrast_ratio(colors, "#000000", plot = True, figsize = (4, 3));
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If cols or bg is not one of the recognized types.
+<li><code class="text-warning">TypeError</code>: If argument plot is not bool.
+<li><code class="text-warning">TypeError</code>: If `ax` is not `None` or a `matplotlib.axes.Axes` object. Only
+checked if `plot = True`.
+</ul>
+

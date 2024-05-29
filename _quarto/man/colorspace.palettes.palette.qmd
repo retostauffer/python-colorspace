@@ -1,0 +1,126 @@
+---
+title: "Custom Color Palette"
+---
+
+### Description
+
+Allows for the construction of custom (named) color palettes with a fixed
+set of colors based on hex color inputs.
+
+### Usage
+
+<pre><code class='language-python'>palette(colors, name=None, n=7)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette:colors">colors</code><code class="argument-class">str, list, colorspace.colorlib.colorobject</code>
+  </dt>
+ <dd>escape(One or multiple
+colors which will make up the custom palette.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette:name">name</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(Name of this custom palette. Defaults to `"user_palette"`.
+Used for object representation/visualization.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(positive int, number of colors drawn from an `hclpalette` object.
+Only taken into account if the object provided on `colors` inherits
+from `colorspace.palettes.hclpalette`.)</dd>
+</dl>
+
+### Return
+
+An object of class [colorspace.palettes.palette](colorspace.palettes.palette.qmd).
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[palette.cmap(n=None, rev=False)](colorspace.palettes.palette.cmap.qmd)</code>
+    </dt>
+    <dd>Get matplotlib Compatible Color Map</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[palette.colors(*args, **kwargs)](colorspace.palettes.palette.colors.qmd)</code>
+    </dt>
+    <dd>Get Palette Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[palette.name()](colorspace.palettes.palette.name.qmd)</code>
+    </dt>
+    <dd>Get Palette Name</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[palette.rename(name)](colorspace.palettes.palette.rename.qmd)</code>
+    </dt>
+    <dd>Rename Custom Palette</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[palette.swatchplot(**kwargs)](colorspace.palettes.palette.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.palettes import palette
+colors = ["#070707", "#690056", "#C30E62", "#ED8353", "#FDF5EB"]
+custom_pal = palette(colors, "test palette")
+custom_pal
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Creating custom palettes based on different input
+# types (str, list, colorobject)
+from colorspace.colorlib import hexcols
+from colorspace import palette
+hexcols = hexcols(colors)
+
+# Creating a series of custom palette objects
+pal1 = palette("#ff0033") # unnamed
+pal2 = palette("#ff0033", name = "Custom Palette")
+pal3 = palette(colors,  name = "Custom Palette #3")
+pal4 = palette(hexcols, name = "Custom Palette #4")
+print(pal1)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+print(pal2)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+print(pal3)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+print(pal4)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Palette Swatch Plot
+from colorspace import swatchplot
+swatchplot([pal3, pal4], figsize = (5.5, 2.0));
+```
+
+
+

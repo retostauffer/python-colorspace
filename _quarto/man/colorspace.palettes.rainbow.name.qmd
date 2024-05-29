@@ -1,0 +1,15 @@
+---
+title: "Get Palette Name"
+---
+
+### Description
+
+Get name of color palette.
+
+### Usage
+
+<pre><code class='language-python'>rainbow.name()</code></pre>
+
+### Return
+
+Returns the name of the palette, str.

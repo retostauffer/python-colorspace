@@ -1,0 +1,11 @@
+
+
+# Ignore (recursively)
+.jupyter_cache
+
+# Quarto folders
+/.quarto/
+/_freeze/
+/_site/
+
+

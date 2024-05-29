@@ -1,0 +1,44 @@
+---
+title: "Color Spectrum Plot"
+---
+
+### Description
+
+Interfacing the [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd) function.
+Plotting the spectrum of the current color palette.
+
+### Usage
+
+<pre><code class='language-python'>heat_hcl.specplot(n=180, *args, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.heat_hcl.specplot:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Number of colors, defaults to 180.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.heat_hcl.specplot:*args">*args</code>
+  </dt>
+ <dd>escape(Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.heat_hcl.specplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import diverging_hcl
+pal = diverging_hcl()
+pal.specplot()
+pal.specplot(rgb = False)
+```
+
+
+

@@ -1,0 +1,44 @@
+---
+title: "Set White Point"
+---
+
+### Description
+
+A white point definition is used to adjust the colors.
+This method allows to set custom values. If not explicitly
+set a default specification is used. The [get_whitepoint](colorspace.colorlib.CIELAB.get_whitepoint.qmd)
+method can be used to extract the currently used definition.
+
+### Usage
+
+<pre><code class='language-python'>CIELAB.set_whitepoint(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELAB.set_whitepoint:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Named arguments. Allowed are `X`, `Y`, and `Z`,
+each of which must be float: White specification for
+dimension `X`/`Y`/`Z`.)</dd>
+</dl>
+
+### Return
+
+No return, stores the new definition on the object.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import hexcols
+c = hexcols("#ff0000")
+c.set_whitepoint(X = 100., Y = 100., Z = 101.)
+c.get_whitepoint()
+```
+
+
+

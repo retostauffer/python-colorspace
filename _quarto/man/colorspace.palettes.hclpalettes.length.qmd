@@ -1,0 +1,15 @@
+---
+title: "Get Number of Palettes"
+---
+
+### Description
+
+Get length of palette.
+
+### Usage
+
+<pre><code class='language-python'>hclpalettes.length()</code></pre>
+
+### Return
+
+Integer, number of palettes in the object.

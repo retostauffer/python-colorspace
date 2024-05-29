@@ -1,0 +1,119 @@
+---
+title: "Create CIELUV Color Object"
+---
+
+### Description
+
+Creates a color object in the CIELUV color space.
+Can be converted to: [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd),
+[CIELAB](colorspace.colorlib.CIELAB.qmd), [RGB](colorspace.colorlib.RGB.qmd), [sRGB](colorspace.colorlib.sRGB.qmd),
+[polarLAB](colorspace.colorlib.polarLAB.qmd), and [hexcols](colorspace.colorlib.hexcols.qmd).
+Not allowed (ambiguous) are transformations to [HSV](colorspace.colorlib.HSV.qmd) and [HLS](colorspace.colorlib.HLS.qmd).
+
+### Usage
+
+<pre><code class='language-python'>CIELUV(L, U, V, alpha=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELUV:L">L</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for L dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELUV:U">U</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for U dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELUV:V">V</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for L dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIELUV:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.colors(fixup=True, rev=False)](colorspace.colorlib.CIELUV.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.dropalpha()](colorspace.colorlib.CIELUV.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.get(dimname=None)](colorspace.colorlib.CIELUV.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.get_whitepoint()](colorspace.colorlib.CIELUV.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.hasalpha()](colorspace.colorlib.CIELUV.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.length()](colorspace.colorlib.CIELUV.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.set(**kwargs)](colorspace.colorlib.CIELUV.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.set_whitepoint(**kwargs)](colorspace.colorlib.CIELUV.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.specplot(**kwargs)](colorspace.colorlib.CIELUV.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.swatchplot(**kwargs)](colorspace.colorlib.CIELUV.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELUV.to(to, fixup=True)](colorspace.colorlib.CIELUV.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import CIELUV
+# Constructing color object with one single color via float
+CIELUV(0, 10, 10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via lists
+CIELUV([10, 30], [20, 80], [100, 40])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Constructing object via numpy arrays
+from numpy import asarray
+CIELUV(asarray([10, 30]), asarray([20, 80]), asarray([100, 40]))
+```
+
+
+

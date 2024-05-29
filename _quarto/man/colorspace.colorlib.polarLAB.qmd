@@ -1,0 +1,112 @@
+---
+title: "Create Polar LAB Color Object"
+---
+
+### Description
+
+Creates a color object in the polar representation of the
+[CIELAB](colorspace.colorlib.CIELAB.qmd) color space.
+Can be converted to: [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd),
+[CIELAB](colorspace.colorlib.CIELAB.qmd), [RGB](colorspace.colorlib.RGB.qmd), [sRGB](colorspace.colorlib.sRGB.qmd),
+[polarLAB](colorspace.colorlib.polarLAB.qmd), and [hexcols](colorspace.colorlib.hexcols.qmd).
+Not allowed (ambiguous) are transformations to [HSV](colorspace.colorlib.HSV.qmd) and [HLS](colorspace.colorlib.HLS.qmd).
+
+### Usage
+
+<pre><code class='language-python'>polarLAB(L, A, B, alpha=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLAB:L">L</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for L dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLAB:A">A</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for A dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLAB:B">B</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for B dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.polarLAB:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>escape(Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.)</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.colors(fixup=True, rev=False)](colorspace.colorlib.polarLAB.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.dropalpha()](colorspace.colorlib.polarLAB.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.get(dimname=None)](colorspace.colorlib.polarLAB.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.get_whitepoint()](colorspace.colorlib.polarLAB.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.hasalpha()](colorspace.colorlib.polarLAB.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.length()](colorspace.colorlib.polarLAB.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.set(**kwargs)](colorspace.colorlib.polarLAB.set.qmd)</code>
+    </dt>
+    <dd>Set/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.set_whitepoint(**kwargs)](colorspace.colorlib.polarLAB.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.specplot(**kwargs)](colorspace.colorlib.polarLAB.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.swatchplot(**kwargs)](colorspace.colorlib.polarLAB.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLAB.to(to, fixup=True)](colorspace.colorlib.polarLAB.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import polarLAB
+cols = polarLAB([50, 80, 30], [100, 120, 140], [40, 130, 300])
+cols
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Convert to hex colors
+cols.to("hex")
+cols
+```
+
+
+

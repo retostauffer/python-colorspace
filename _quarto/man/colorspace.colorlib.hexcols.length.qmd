@@ -1,0 +1,14 @@
+---
+title: "Get Number of Colors"
+---
+
+### Description
+
+Returns the number of colors defined in this color object.
+
+Return:
+    int: Number of colors defined.
+
+### Usage
+
+<pre><code class='language-python'>hexcols.length()</code></pre>

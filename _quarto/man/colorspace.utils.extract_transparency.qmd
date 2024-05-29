@@ -1,0 +1,120 @@
+---
+title: "Extract Alpha Channel"
+---
+
+### Description
+
+Currently only for colorobjects. This function interfaces the
+``.get()`` method of the object.
+
+### Usage
+
+<pre><code class='language-python'>extract_transparency(x, mode=&#x27;float&#x27;)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.extract_transparency:x">x</code>
+  </dt>
+ <dd>escape(an object which inherits from `colorsspace.colorlib.colorobject` or
+an object of class `colorspace.palettes.palette`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.extract_transparency:mode">mode</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(mode of the return. One of `"float"`, `"int"`, or `"str"`.)</dd>
+</dl>
+
+### Return
+
+None, numpy.ndarray: `None` if the colorobject has no alpha channel,
+else a numpy.ndarray. The `dtype` of the array depends
+on the `mode` specified.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import *
+from colorspace.colorlib import hexcols
+
+# Three colors without alpha
+cols1 = ['#023FA5',   '#E2E2E2',   '#8E063B']
+# Same colors with transparency 80%, 40%, 80%
+cols2 = ['#023FA5CC', '#E2E2E266', '#8E063BCC']
+
+# Convert hex color lists to colorobjects
+x1 = hexcols(cols1)
+x2 = hexcols(cols2)
+# Extract transparency
+extract_transparency(x1)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+extract_transparency(x2)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Return mode
+extract_transparency(x2, mode = "float")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+extract_transparency(x2, mode = "int")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+extract_transparency(x2, mode = "str")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Extracting transparency from palette objects
+from colorspace import palette
+p1 = palette(cols1, name = "custom palette 1")
+p2 = palette(cols2, name = "custom palette 2")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# No return as colors in palette `p1` have no transparency
+extract_transparency(p1, mode = "str")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Extracting transparency from colors in palette `p2`
+extract_transparency(p2, mode = "str")
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If input object does not inherit from `colorobject`.
+<li><code class="text-warning">TypeError</code>: If &#x27;mode&#x27; is not str.
+<li><code class="text-warning">ValueError</code>: If &#x27;mode&#x27; is not one of the allowed types shown in the arguments description.
+</ul>
+

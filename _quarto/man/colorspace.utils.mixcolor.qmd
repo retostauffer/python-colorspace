@@ -1,0 +1,135 @@
+---
+title: "Compute the Convex Combination of Two Colors"
+---
+
+### Description
+
+This function can be used to compute the result of color mixing, assuming
+additive mixing (e.g., as appropriate for RGB and XYZ).
+
+### Usage
+
+<pre><code class='language-python'>mixcolor(alpha, color1, color2, where=1)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.mixcolor:alpha">alpha</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(The mixed color is obtained by combining an amount
+`1 - alpha` of `color1` with an amount `alpha` of `color2`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.mixcolor:color1">color1</code>
+  </dt>
+ <dd>escape(an object that can be converted into a
+[palette](colorspace.palettes.palette.qmd).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.mixcolor:color2">color2</code>
+  </dt>
+ <dd>escape(a second object that can be converted into a
+[palette](colorspace.palettes.palette.qmd). Must have the same number
+of colors as the argument on `color1`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.mixcolor:where">where</code><code class="argument-class">str</code>
+  </dt>
+ <dd>escape(The color space where the mixing is to take place, either `"RGB"` or `"CIEXYZ"`.)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import RGB
+from colorspace.colorlib import hexcols
+from colorspace import *
+# Mixing two colors defined in the RGB space
+# via colorspace.colorlib.RGB. Mixing half-half
+# in the RGB color space (M1) and in the HCL space (M2).
+RGB_1  = RGB(R = 1, G = 0, B = 0)
+RGB_2  = RGB(R = 0, G = 1, B = 0)
+RGB_M1 = mixcolor(0.5, RGB_1, RGB_2, "RGB")
+RGB_M1
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Mixing via XYZ color space
+RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "CIEXYZ")
+RGB_M2
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Mixing two lists of hex-colors of length 5.
+#  Mixing takes place once in the RGB color space (M1)
+#  and once in the HCL color space (M2)
+HEX_1  = diverging_hcl()(5)
+HEX_2  = diverging_hcl(rev = True)(5)
+HEX_M1 = mixcolor(0.2, HEX_1, HEX_2, "sRGB")
+HEX_M1
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Mixing via XYZ color space
+HEX_M2 = mixcolor(0.8, HEX_1, HEX_2, "CIEXYZ")
+HEX_M2
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2],
+           show_names = False, figsize = (5.5, 1));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Mixing objects of different length and type
+#  Coordinates of the shorter object (RGB_1) will be recycled
+#  to the same number of colors as in the longer object (HEX_2)
+RES_1 = mixcolor(0.2, RGB_1, HEX_2, "sRGB")
+RES_1.colors()
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+RES_2 = mixcolor(0.8, RGB_1, HEX_2, "sRGB")
+RES_2.colors()
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+swatchplot([RGB_1, RES_2, HEX_2, RES_1, RES_2],
+           show_names = False, figsize = (5.5, 2));
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: In case `alpha` is not float or `int`.
+<li><code class="text-warning">ValueError</code>: If `alpha` is not larger than `0.0` and smaller than `1.0`.
+<li><code class="text-warning">TypeError</code>: If `where` is not a str.
+<li><code class="text-warning">ValueError</code>: If `where` is not among the allowed color spaces used for adaptive mixing.
+<li><code class="text-warning">Exception</code>: If `color1` or `color2` cannot be converted into a palette object.
+</ul>
+

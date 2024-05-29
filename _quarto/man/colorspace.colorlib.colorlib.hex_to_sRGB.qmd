@@ -1,0 +1,27 @@
+---
+title: "Convert Hex Colors to Standard RGB (sRGB)"
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>colorlib.hex_to_sRGB(hex_, gamma=2.4)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.hex_to_sRGB:hex_">hex_</code><code class="argument-class">str, list of str</code>
+  </dt>
+ <dd>escape(hex color str or list of str.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.hex_to_sRGB:gamma">gamma</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(Gamma correction factor, defaults to `2.4`.)</dd>
+</dl>
+
+### Return
+
+Returns a list of `numpy.ndarray`s with the corresponding
+red, green, and blue intensities (`[r, g, b]`), all in `[0., 1.]`.

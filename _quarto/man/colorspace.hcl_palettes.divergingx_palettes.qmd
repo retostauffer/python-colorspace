@@ -1,0 +1,48 @@
+---
+title: "Diverging X HCL Palettes"
+---
+
+### Description
+
+Returns pre-defined 'diverging xtra' color palettes based on the HCL
+(Hue-Chroma-Luminance) color model.
+
+### Usage
+
+<pre><code class='language-python'>divergingx_palettes(n=5, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hcl_palettes.divergingx_palettes:n">n</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(number of colors used when plotting, defaults to `5`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hcl_palettes.divergingx_palettes:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(forwarded to [hcl_palettes](colorspace.hcl_palettes.hcl_palettes.qmd). For a list and description
+of available arguments see the description of [hcl_palettes](colorspace.hcl_palettes.hcl_palettes.qmd).)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import divergingx_palettes
+# Get palettes
+divergingx_palettes()
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Visualize palettes
+divergingx_palettes(n = 15, ncol = 2, plot = True, figsize = (7, 5));
+```
+
+
+

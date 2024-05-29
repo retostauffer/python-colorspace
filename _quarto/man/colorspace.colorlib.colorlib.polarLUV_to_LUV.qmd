@@ -1,0 +1,31 @@
+---
+title: "Convert Polar CIELUV (HCL) to CIELUV"
+---
+
+### Description
+
+Convert colors from the polar representation of the CIELUV color space,
+also known as HCL (Hue-Chroma-Luminance) color space, into CIELAB
+coordinates.
+Inverse function of :py:meth:`LUV_to_polarLUV`.
+
+### Usage
+
+<pre><code class='language-python'>colorlib.polarLUV_to_LUV(L, C, H)</code></pre>
+
+### Arguments
+
+<ul><li>WARNING(missing argument definition "C" in docstring)</li><li>WARNING(missing argument definition "H" in docstring)</li></ul><dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:L">L</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the polar `L` dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:U">U</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the polar `U` dimension.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:V">V</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>escape(Values for the polar `V` dimension.)</dd>
+</dl>

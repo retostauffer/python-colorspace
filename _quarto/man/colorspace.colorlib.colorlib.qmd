@@ -1,0 +1,117 @@
+---
+title: "Color Handling Superclass"
+---
+
+### Description
+
+The `colorlib` class provides a series of methods methods
+which allow to convert colors between different color spaces
+and is not intended to be used by end-users (not exported).
+
+Users should use the dedicated classes for the available color spaces which
+all extend this class. These are
+[CIELAB](colorspace.colorlib.CIELAB.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd), [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd),
+[HLS](colorspace.colorlib.HLS.qmd), [HSV](colorspace.colorlib.HSV.qmd), [RGB](colorspace.colorlib.RGB.qmd), [hexcols](colorspace.colorlib.hexcols.qmd),
+[polarLAB](colorspace.colorlib.polarLAB.qmd), [polarLUV](colorspace.colorlib.polarLUV.qmd), and [sRGB](colorspace.colorlib.sRGB.qmd).
+
+### Usage
+
+<pre><code class='language-python'>colorlib()</code></pre>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.DEG2RAD(x)](colorspace.colorlib.colorlib.DEG2RAD.qmd)</code>
+    </dt>
+    <dd>Convert degrees into radiant</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.HLS_to_sRGB(h, l, s)](colorspace.colorlib.colorlib.HLS_to_sRGB.qmd)</code>
+    </dt>
+    <dd>Convert HLC to Standard RGB (sRGB)</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.HSV_to_sRGB(h, s, v)](colorspace.colorlib.colorlib.HSV_to_sRGB.qmd)</code>
+    </dt>
+    <dd>Convert HSV to Standard RGB (sRGB)</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.LAB_to_XYZ(L, A, B, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.LAB_to_XYZ.qmd)</code>
+    </dt>
+    <dd>Convert CIELAB to CIEXYZ</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.LAB_to_polarLAB(L, A, B)](colorspace.colorlib.colorlib.LAB_to_polarLAB.qmd)</code>
+    </dt>
+    <dd>Convert CIELAB to the polar representation (polarLAB)</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.LUV_to_XYZ(L, U, V, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.LUV_to_XYZ.qmd)</code>
+    </dt>
+    <dd>Convert CIELUV to CIELAB.</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.LUV_to_polarLUV(L, U, V)](colorspace.colorlib.colorlib.LUV_to_polarLUV.qmd)</code>
+    </dt>
+    <dd>Convert CIELUV to the polar representation (polarLUV; HCL)</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.RAD2DEG(x)](colorspace.colorlib.colorlib.RAD2DEG.qmd)</code>
+    </dt>
+    <dd>Convert radiant to degrees</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.RGB_to_XYZ(R, G, B, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.RGB_to_XYZ.qmd)</code>
+    </dt>
+    <dd>Convert RGB to CIEXYZ</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.RGB_to_sRGB(R, G, B, gamma=2.4)](colorspace.colorlib.colorlib.RGB_to_sRGB.qmd)</code>
+    </dt>
+    <dd>Convert RGB to Standard RGB</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.XYZ_to_LAB(X, Y, Z, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.XYZ_to_LAB.qmd)</code>
+    </dt>
+    <dd>Convert CIEXYZ to CIELAB</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.XYZ_to_LUV(X, Y, Z, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.XYZ_to_LUV.qmd)</code>
+    </dt>
+    <dd>Convert CIEXYZ to CIELUV.</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.XYZ_to_RGB(X, Y, Z, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.XYZ_to_RGB.qmd)</code>
+    </dt>
+    <dd>Convert CIEXYZ to RGB</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.XYZ_to_uv(X, Y, Z)](colorspace.colorlib.colorlib.XYZ_to_uv.qmd)</code>
+    </dt>
+    <dd>Convert CIEXYZ to u and v</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.ftrans(u, gamma)](colorspace.colorlib.colorlib.ftrans.qmd)</code>
+    </dt>
+    <dd>Gamma Correction</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.gtrans(u, gamma)](colorspace.colorlib.colorlib.gtrans.qmd)</code>
+    </dt>
+    <dd>Gamma Correction</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.hex_to_sRGB(hex_, gamma=2.4)](colorspace.colorlib.colorlib.hex_to_sRGB.qmd)</code>
+    </dt>
+    <dd>Convert Hex Colors to Standard RGB (sRGB)</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.polarLAB_to_LAB(L, C, H)](colorspace.colorlib.colorlib.polarLAB_to_LAB.qmd)</code>
+    </dt>
+    <dd>Convert polarLAB to CIELAB</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.polarLUV_to_LUV(L, C, H)](colorspace.colorlib.colorlib.polarLUV_to_LUV.qmd)</code>
+    </dt>
+    <dd>Convert Polar CIELUV (HCL) to CIELUV</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.sRGB_to_HLS(r, g, b)](colorspace.colorlib.colorlib.sRGB_to_HLS.qmd)</code>
+    </dt>
+    <dd>Convert Standard RGB (sRGB) to HLS</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.sRGB_to_HSV(r, g, b)](colorspace.colorlib.colorlib.sRGB_to_HSV.qmd)</code>
+    </dt>
+    <dd>Convert RGB to HSV</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.sRGB_to_RGB(R, G, B, gamma=2.4)](colorspace.colorlib.colorlib.sRGB_to_RGB.qmd)</code>
+    </dt>
+    <dd>Convert Standard RGB to RGB</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.sRGB_to_hex(r, g, b, fixup=True)](colorspace.colorlib.colorlib.sRGB_to_hex.qmd)</code>
+    </dt>
+    <dd>Convert Standard RGB (sRGB) to Hex Colors</dd>
+</dl>
+

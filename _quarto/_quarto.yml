@@ -1,0 +1,148 @@
+execute:
+  cache: true
+  freeze: auto
+format:
+  html:
+    theme:
+    - quarto
+    - colorspace.scss
+    - pyp.scss
+    toc: true
+project:
+  output-dir: _site
+  title: pyp2qmd
+  type: website
+website:
+  issue-url: https://github.com/retostauffer/python-colorspace/issues
+  navbar:
+    left:
+    - file: index.qmd
+      text: Home
+    - file: installation.qmd
+      text: Installation
+    - file: getstarted.qmd
+      text: Get started
+    - file: api.qmd
+      text: API
+    - file: changelog.qmd
+      text: Changelog
+    - menu:
+      - file: articles/color_spaces.qmd
+        text: Color spaces
+      - file: articles/hcl_palettes.qmd
+        text: HCL-Based Color Palettes
+      - file: articles/palette_visualization.qmd
+        text: Palette Visualization and Assessment
+      - file: articles/choose_palette.qmd
+        text: App for Choosing Palettes Interactively
+      - file: articles/cvd.qmd
+        text: Color Vision Deficiency Emulation
+      - file: articles/manipulation_utilities.qmd
+        text: Color Manipulation and Utilities
+      - file: articles/approximations.qmd
+        text: Approximate Colors from Other Packages
+      - file: articles/classes_and_methods.qmd
+        text: Classes and Methods
+      - file: articles/endrainbow.qmd
+        text: Somewhere over the Rainbow
+      text: Articles
+    logo: logo-wide.png
+    right:
+    - href: https://github.com/retostauffer/python-colorspace/tree/main
+      icon: github
+    - href: https://pypi.org
+      text: '![](/python-logo.svg)'
+    title: false
+  repo-branch: main
+  repo-url: https://github.com/retostauffer/python-colorspace
+  sidebar:
+    collapse-level: 1
+    contents:
+    - contents:
+      - file: man/colorspace.utils.adjust_transparency.qmd
+        text: adjust_transparency
+      - file: man/colorspace.utils.check_hex_colors.qmd
+        text: check_hex_colors
+      - file: man/colorspace.choose_palette.choose_palette.qmd
+        text: choose_palette
+      - file: man/colorspace.colorlib.compare_colors.qmd
+        text: compare_colors
+      - file: man/colorspace.utils.contrast_ratio.qmd
+        text: contrast_ratio
+      - file: man/colorspace.cvd_emulator.cvd_emulator.qmd
+        text: cvd_emulator
+      - file: man/colorspace.utils.darken.qmd
+        text: darken
+      - file: man/colorspace.demos.demoplot.qmd
+        text: demoplot
+      - file: man/colorspace.CVD.desaturate.qmd
+        text: desaturate
+      - file: man/colorspace.CVD.deutan.qmd
+        text: deutan
+      - file: man/colorspace.hcl_palettes.divergingx_palettes.qmd
+        text: divergingx_palettes
+      - file: man/colorspace.utils.extract_transparency.qmd
+        text: extract_transparency
+      - file: man/colorspace.hcl_palettes.hcl_palettes.qmd
+        text: hcl_palettes
+      - file: man/colorspace.utils.lighten.qmd
+        text: lighten
+      - file: man/colorspace.utils.max_chroma.qmd
+        text: max_chroma
+      - file: man/colorspace.utils.mixcolor.qmd
+        text: mixcolor
+      - file: man/colorspace.CVD.protan.qmd
+        text: protan
+      - file: man/colorspace.specplot.specplot.qmd
+        text: specplot
+      - file: man/colorspace.swatchplot.swatchplot.qmd
+        text: swatchplot
+      - file: man/colorspace.CVD.tritan.qmd
+        text: tritan
+      section: Function references
+    - contents:
+      - file: man/colorspace.colorlib.CIELAB.qmd
+        text: CIELAB
+      - file: man/colorspace.colorlib.CIELUV.qmd
+        text: CIELUV
+      - file: man/colorspace.colorlib.CIEXYZ.qmd
+        text: CIEXYZ
+      - file: man/colorspace.colorlib.HLS.qmd
+        text: HLS
+      - file: man/colorspace.colorlib.HSV.qmd
+        text: HSV
+      - file: man/colorspace.colorlib.RGB.qmd
+        text: RGB
+      - file: man/colorspace.colorlib.colorlib.qmd
+        text: colorlib
+      - file: man/colorspace.palettes.diverging_hcl.qmd
+        text: diverging_hcl
+      - file: man/colorspace.palettes.diverging_hsv.qmd
+        text: diverging_hsv
+      - file: man/colorspace.palettes.divergingx_hcl.qmd
+        text: divergingx_hcl
+      - file: man/colorspace.palettes.hclpalettes.qmd
+        text: hclpalettes
+      - file: man/colorspace.palettes.heat_hcl.qmd
+        text: heat_hcl
+      - file: man/colorspace.colorlib.hexcols.qmd
+        text: hexcols
+      - file: man/colorspace.palettes.palette.qmd
+        text: palette
+      - file: man/colorspace.colorlib.polarLAB.qmd
+        text: polarLAB
+      - file: man/colorspace.colorlib.polarLUV.qmd
+        text: polarLUV
+      - file: man/colorspace.palettes.qualitative_hcl.qmd
+        text: qualitative_hcl
+      - file: man/colorspace.palettes.rainbow.qmd
+        text: rainbow
+      - file: man/colorspace.palettes.rainbow_hcl.qmd
+        text: rainbow_hcl
+      - file: man/colorspace.colorlib.sRGB.qmd
+        text: sRGB
+      - file: man/colorspace.palettes.sequential_hcl.qmd
+        text: sequential_hcl
+      - file: man/colorspace.palettes.terrain_hcl.qmd
+        text: terrain_hcl
+      section: Class references

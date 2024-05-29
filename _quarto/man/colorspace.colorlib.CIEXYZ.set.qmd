@@ -1,0 +1,64 @@
+---
+title: "Set/Manipulate Colors"
+---
+
+### Description
+
+Allows to manipulate the current colors. The named input arguments
+have to fulfil a specific set or requirements. If not, the function
+raises exceptions. The requirements:
+
+* Dimension has to exist
+* New data/values must be of same length and type as the existing ones
+
+### Usage
+
+<pre><code class='language-python'>CIEXYZ.set(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.CIEXYZ.set:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Named arguments. The key is the name of the dimension to
+be changed, the value an object which fulfills the requirements
+(see description of this method))</dd>
+</dl>
+
+### Return
+
+No return, modifies the current color object.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import HCL
+cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
+print(cols)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+cols.set(H = [150, 150, 30])
+print(cols)
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">ValueError</code>: If the dimension does not exist.
+<li><code class="text-warning">ValueError</code>: If the new data can&#x27;t be converted into
+`numpy.array` (is done automatically if needed).
+<li><code class="text-warning">ValueError</code>: If new data has wrong length (does not match the
+number of colors/length of current values).
+</ul>
+

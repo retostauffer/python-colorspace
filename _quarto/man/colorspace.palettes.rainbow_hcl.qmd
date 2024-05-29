@@ -1,0 +1,152 @@
+---
+title: "HCL Based Rainbow Palette"
+---
+
+### Description
+
+HCL rainbow, a qualitative cyclic rainbow color palette with uniform
+luminance and chroma.
+
+See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
+[diverging_hcl](colorspace.palettes.diverging_hcl.qmd), [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd),
+[heat_hcl](colorspace.palettes.heat_hcl.qmd), [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), [diverging_hsv](colorspace.palettes.diverging_hsv.qmd),
+and [rainbow](colorspace.palettes.rainbow.qmd).
+
+### Usage
+
+<pre><code class='language-python'>rainbow_hcl(c=50, l=70, start=0,<br/>            end=&lt;function rainbow_hcl.&lt;lambda&gt; at 0x71307a389620&gt;,<br/>            gamma=None, fixup=True, rev=False,<br/>            *args, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:c">c</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Chroma (colorfullness) of the color map `[0-100+]`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:l">l</code><code class="argument-class">int</code>
+  </dt>
+ <dd>escape(Luminance (lightness) of the color map `[0-100]`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:start">start</code><code class="argument-class">int, lambda</code>
+  </dt>
+ <dd>escape(Hue at which the rainbow should start or lambda function
+with one argument. Defaults to 0.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:end">end</code><code class="argument-class">int, lambda</code>
+  </dt>
+ <dd>escape(Hue (int) at which the rainbow should end or lambda function
+with one argument. By default a lambda function evaluated when
+drawing colors (`360 * (n - 1) / n`).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:gamma">gamma</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(Gamma value used for transfiromation from/to sRGB.
+@TODO implemented? Check!)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:fixup">fixup</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(Only used when converting the HCL colors to hex.  Should
+RGB values outside the defined RGB color space be corrected?)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:rev">rev</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(Should the color map be reversed? Default `False`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:*args">*args</code>
+  </dt>
+ <dd>escape(Currently unused.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow_hcl:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Processed internally; can be used to overwrite `h1`,
+`h2`, `c1`, `l1`, `l2` and `p1`.)</dd>
+</dl>
+
+### Return
+
+Initialize new object, no return. Raises a set of errors if the parameters
+are misspecified. Note that the object is callable, the default object call
+can be used to return hex colors (identical to the `.colors()` method),
+see examples.
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow_hcl.cmap(n=101, name=&#x27;custom_hcl_cmap&#x27;)](colorspace.palettes.rainbow_hcl.cmap.qmd)</code>
+    </dt>
+    <dd>Get matplotlib Compatible Color Map</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow_hcl.colors(n=11, fixup=None, **kwargs)](colorspace.palettes.rainbow_hcl.colors.qmd)</code>
+    </dt>
+    <dd>Get Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow_hcl.get(key)](colorspace.palettes.rainbow_hcl.get.qmd)</code>
+    </dt>
+    <dd>Get Specific Palette Setting</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow_hcl.name()](colorspace.palettes.rainbow_hcl.name.qmd)</code>
+    </dt>
+    <dd>Get Palette Name</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow_hcl.show_settings()](colorspace.palettes.rainbow_hcl.show_settings.qmd)</code>
+    </dt>
+    <dd>Show Palette Settings</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow_hcl.specplot(n=180, *args, **kwargs)](colorspace.palettes.rainbow_hcl.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow_hcl.swatchplot(n=7, **kwargs)](colorspace.palettes.rainbow_hcl.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import rainbow_hcl
+pal = rainbow_hcl()
+pal.colors(10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# The standard call of the object also returns hex colors. Thus,
+# you can make your code slimmer by calling
+rainbow_hcl()(10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Testing lambda function for both, start and end
+pal = rainbow_hcl(start = lambda n: (n - 1) / n,
+                  end = lambda n: 360 - (n - 1) / n)
+pal(5)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+pal(11)
+```
+
+
+

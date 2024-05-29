@@ -1,0 +1,107 @@
+---
+title: "Simulate Color Vision Deficiency"
+---
+
+### Description
+
+Transformation of R colors by simulating color vision deficiencies, based
+on a CVD transform matrix. This function is an interface to the CVD object
+and returns simulated colors for tritanope vision.
+
+See also [deutan](colorspace.CVD.deutan.qmd), [protan](colorspace.CVD.protan.qmd), [desaturate](colorspace.CVD.desaturate.qmd), and
+[cvd_emulator](colorspace.cvd_emulator.cvd_emulator.qmd).
+
+### Usage
+
+<pre><code class='language-python'>tritan(cols, severity=1.0, linear=True)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.CVD.tritan:cols">cols</code><code class="argument-class">list, colorobject, matplotlib.colors.LinearSegmentedColormap</code>
+  </dt>
+ <dd>escape(Single hex color, list of hex colors (str), a matoplotlib cmap, or
+a color color object (such as RGB, hexcols, CIELUV).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.CVD.tritan:severity">severity</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(Severity in `[0., 1.]`. Zero means no deficiency,
+one maximum deficiency, defaults to `1.`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.CVD.tritan:linear">linear</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(Should the color vision deficiency transformation be applied to the
+linearised RGB coordinates (default)? If `False`, the transformation is applied to the
+gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary materials).)</dd>
+</dl>
+
+### Return
+
+Returns an object of the same type as the input object `cols` with
+modified colors as people with tritanomaly see these colors (simulated).
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import rainbow_hcl, tritan, palette
+from colorspace import specplot, swatchplot
+# Drawing 100 colors along the HCL rainbow color palette
+cols = rainbow_hcl()(100)
+specplot(cols);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+specplot(tritan(cols));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+specplot(tritan(cols, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# List of (hex) colors
+cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
+tritan(cols);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Visualize original and simulated color swatches
+swatchplot([cols, tritan(cols)],
+           show_names = False, figsize = (5, 1.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# From palette object
+pal = palette(cols, name = "custom palette")
+tritan(pal)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# From cmap (returns cmap)
+tritan(pal.cmap())
+```
+
+
+

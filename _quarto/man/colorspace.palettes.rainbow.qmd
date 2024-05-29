@@ -1,0 +1,131 @@
+---
+title: "Infamous sRGB Rainbow Color Palette"
+---
+
+### Description
+
+See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
+[diverging_hcl](colorspace.palettes.diverging_hcl.qmd), [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd),
+[rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd), [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), and
+[diverging_hsv](colorspace.palettes.diverging_hsv.qmd).
+
+### Usage
+
+<pre><code class='language-python'>rainbow(s=1, v=1, start=0,<br/>        end=&lt;function rainbow.&lt;lambda&gt; at 0x71307a389ee0&gt;,<br/>        rev=False, *args, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow:s">s</code><code class="argument-class">float, int</code>
+  </dt>
+ <dd>escape(saturation value, a value in `[0., 1.]`. Defaults to `1.0`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow:v">v</code><code class="argument-class">float, int</code>
+  </dt>
+ <dd>escape(value, a value in `[0., 1.]`. Defaults to `1.0`.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow:start">start</code><code class="argument-class">float, int, function</code>
+  </dt>
+ <dd>escape(the (corrected) hue in `[0., 1.]` at which
+the rainbow begins. Defaults to `0.`. Can be a function with one input
+`n` (number of colors). If outside `[0., 1.]` it will be wrapped.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow:end">end</code><code class="argument-class">float, int, function</code>
+  </dt>
+ <dd>escape(the (corrected) hue in `[0., 1.]` at which
+the rainbow ends. Defaults to `0.`. Can be a function with one input
+`n` (number of colors). If outside `[0., 1.]` it will be wrapped.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow:rev">rev</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>escape(Should the color map be reversed.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow:*args">*args</code>
+  </dt>
+ <dd>escape(Unused.)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.rainbow:**kwargs">**kwargs</code>
+  </dt>
+ <dd>escape(Unused.)</dd>
+</dl>
+
+### Return
+
+Initialize new object, no return. Raises a set of errors if the parameters
+are misspecified. Note that the object is callable, the default object call
+can be used to return hex colors (identical to the `.colors()` method),
+see examples.
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow.cmap(n=101, name=&#x27;custom_hcl_cmap&#x27;)](colorspace.palettes.rainbow.cmap.qmd)</code>
+    </dt>
+    <dd>Get matplotlib Compatible Color Map</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow.colors(n=11, alpha=None, **kwargs)](colorspace.palettes.rainbow.colors.qmd)</code>
+    </dt>
+    <dd>Get Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow.get(key)](colorspace.palettes.rainbow.get.qmd)</code>
+    </dt>
+    <dd>Get Specific Palette Setting</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow.name()](colorspace.palettes.rainbow.name.qmd)</code>
+    </dt>
+    <dd>Get Palette Name</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow.show_settings()](colorspace.palettes.rainbow.show_settings.qmd)</code>
+    </dt>
+    <dd>Show Palette Settings</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow.specplot(n=180, *args, **kwargs)](colorspace.palettes.rainbow.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[rainbow.swatchplot(n=7, **kwargs)](colorspace.palettes.rainbow.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import rainbow
+pal = rainbow()
+pal.colors(10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# The standard call of the object also returns hex colors
+rainbow()(10)
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">ValueError</code>: If `s` or `v` are not single floating point values (or int)
+in the range of `[0., 1.]`.
+<li><code class="text-warning">ValueError</code>: If `start` and `end` are not float/int in `[0., 1.]` or functions.
+<li><code class="text-warning">ValueError</code>: If `rev` is not bool.
+</ul>
+

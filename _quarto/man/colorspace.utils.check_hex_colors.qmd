@@ -1,0 +1,91 @@
+---
+title: "Checking Hex Color Validity"
+---
+
+### Description
+
+Valid hex colors are three digit hex colors (e.g., `#F00`), six digit
+hex colors (e.g., `#FF00FF`), or six digit colors with additional transparency
+(eight digit representation). If the inputs do not match one of these hex
+representations `matplotlib.color.to_hex` will be called. This allows
+to also convert standard colors such as `"0"`, `"black"`, or `"magenta"` into
+their corresponding hex representation.
+
+### Usage
+
+<pre><code class='language-python'>check_hex_colors(colors)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.utils.check_hex_colors:colors">colors</code><code class="argument-class">str, list, numpy.ndarray</code>
+  </dt>
+ <dd>escape(str or list of str with colors.
+See function description for details. In case it is a
+`numpy.ndarray` it will be flattened to 1-dimensional if needed.)</dd>
+</dl>
+
+### Return
+
+Returns a list (length 1 or more) in case all values provided
+are valid hex colors. Three digit colors will be expanded to
+six digit colors. Else the function will raise a ValueError.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import check_hex_colors
+check_hex_colors("#ff003311")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+check_hex_colors("#ff0033")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+check_hex_colors("#f03")
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+check_hex_colors(["#FFF", "0", "black", "blue", "magenta"])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from numpy import asarray
+check_hex_colors(asarray(["#f0f", "#00F", "#00FFFF", "#ff003311"]))
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">ValueError</code>: In case `colors` is a list but does not only contain strnigs.
+<li><code class="text-warning">TypeError</code>: If `colors` is neither str or list of str.
+<li><code class="text-warning">ValueError</code>: If at least one of the colors is an invalid hex color.
+</ul>
+

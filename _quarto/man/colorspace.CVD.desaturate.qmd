@@ -1,0 +1,96 @@
+---
+title: "Desaturate Colors by Chroma Removal in HCL Space"
+---
+
+### Description
+
+Transform a vector of given colors to the corresponding colors
+with chroma reduced (by a tunable amount) in HCL space.
+
+The color object (`col`) is transformed to the HCL color
+space where the chroma is reduced, before converted back to the original
+color space.
+
+See also: [deutan](colorspace.CVD.deutan.qmd), [protan](colorspace.CVD.protan.qmd), [tritan](colorspace.CVD.tritan.qmd),
+[desaturate](colorspace.CVD.desaturate.qmd), and [cvd_emulator](colorspace.cvd_emulator.cvd_emulator.qmd).
+
+### Usage
+
+<pre><code class='language-python'>desaturate(cols, amount=1.0)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.CVD.desaturate:cols">cols</code><code class="argument-class">str, list, matplotlib.colors.LinearSegmentedColormap, colorobject</code>
+  </dt>
+ <dd>escape(Single hex color, list of hex colors (str), a matoplotlib cmap, or
+a color color object (such as RGB, hexcols, CIELUV).)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.CVD.desaturate:amount">amount</code><code class="argument-class">float</code>
+  </dt>
+ <dd>escape(A value in `[0.,1.]` defining the degree of desaturation.
+`amount = 1.` removes all color, `amount = 0.` none, defaults to `1.`.)</dd>
+</dl>
+
+### Return
+
+Returns a list of modified hex colors.
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace import palette, diverging_hcl, desaturate
+from colorspace import specplot, swatchplot
+from colorspace.colorlib import hexcols
+cols = hexcols(diverging_hcl()(10))
+specplot(desaturate(cols));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+specplot(desaturate(cols, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Take a list of colors which can be interpreted/translated to hex
+# colors and desaturate them via the HCL color space
+cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
+desaturate(cols)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+swatchplot([cols, desaturate(cols)],
+           show_names = False, figsize = (5, 1.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Desaturate palette object (same colors as above)
+pal = palette(cols, name = "custom palette")
+desaturate(pal)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Desaturate a matplotlib cmap object
+desaturate(pal.cmap())
+```
+
+
+
