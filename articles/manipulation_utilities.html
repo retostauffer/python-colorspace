@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>pyp2qmd – Color Manipulation and Utilities</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../logo-wide.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../installation.html"> 
+<span class="menu-text">Installation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../getstarted.html"> 
+<span class="menu-text">Get started</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../api.html"> 
+<span class="menu-text">API</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../changelog.html"> 
+<span class="menu-text">Changelog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Articles</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-articles">    
+        <li>
+    <a class="dropdown-item" href="../articles/color_spaces.html">
+ <span class="dropdown-text">Color spaces</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/hcl_palettes.html">
+ <span class="dropdown-text">HCL-Based Color Palettes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/palette_visualization.html">
+ <span class="dropdown-text">Palette Visualization and Assessment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/choose_palette.html">
+ <span class="dropdown-text">App for Choosing Palettes Interactively</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/cvd.html">
+ <span class="dropdown-text">Color Vision Deficiency Emulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/manipulation_utilities.html">
+ <span class="dropdown-text">Color Manipulation and Utilities</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/approximations.html">
+ <span class="dropdown-text">Approximate Colors from Other Packages</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/classes_and_methods.html">
+ <span class="dropdown-text">Classes and Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/endrainbow.html">
+ <span class="dropdown-text">Somewhere over the Rainbow</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/retostauffer/python-colorspace/tree/main"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://pypi.org"> 
+<span class="menu-text"><img src="../python-logo.svg" class="img-fluid"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Color Manipulation and Utilities</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Function references</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.adjust_transparency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">adjust_transparency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.check_hex_colors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_hex_colors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.choose_palette.choose_palette.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">choose_palette</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.compare_colors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compare_colors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.contrast_ratio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">contrast_ratio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.cvd_emulator.cvd_emulator.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cvd_emulator</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.darken.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">darken</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.demos.demoplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">demoplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.CVD.desaturate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">desaturate</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.CVD.deutan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">deutan</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hcl_palettes.divergingx_palettes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">divergingx_palettes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.extract_transparency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">extract_transparency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hcl_palettes.hcl_palettes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hcl_palettes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.lighten.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">lighten</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.max_chroma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">max_chroma</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.utils.mixcolor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mixcolor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.CVD.protan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">protan</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.specplot.specplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">specplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.swatchplot.swatchplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">swatchplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.CVD.tritan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">tritan</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Class references</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.CIELAB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CIELAB</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.CIELUV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CIELUV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.CIEXYZ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CIEXYZ</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HLS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HSV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HSV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.RGB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RGB</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.colorlib.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">colorlib</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.diverging_hcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">diverging_hcl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.diverging_hsv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">diverging_hsv</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.divergingx_hcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">divergingx_hcl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.hclpalettes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclpalettes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.heat_hcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">heat_hcl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.hexcols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hexcols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.palette.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">palette</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.polarLAB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">polarLAB</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.polarLUV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">polarLUV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.qualitative_hcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">qualitative_hcl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.rainbow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">rainbow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.rainbow_hcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">rainbow_hcl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.sRGB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">sRGB</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.sequential_hcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">sequential_hcl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.palettes.terrain_hcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">terrain_hcl</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#desaturation-in-hcl-space" id="toc-desaturation-in-hcl-space" class="nav-link" data-scroll-target="#desaturation-in-hcl-space">Desaturation in HCL space</a></li>
+  <li><a href="#lighten-and-darken-colors" id="toc-lighten-and-darken-colors" class="nav-link" data-scroll-target="#lighten-and-darken-colors">Lighten and darken colors</a></li>
+  <li><a href="#adjust-or-extract-the-transparency-of-colors" id="toc-adjust-or-extract-the-transparency-of-colors" class="nav-link" data-scroll-target="#adjust-or-extract-the-transparency-of-colors">Adjust or extract the transparency of colors</a></li>
+  <li><a href="#compute-and-visualize-w3c-contrast-ratios" id="toc-compute-and-visualize-w3c-contrast-ratios" class="nav-link" data-scroll-target="#compute-and-visualize-w3c-contrast-ratios">Compute and visualize W3C contrast ratios</a></li>
+  <li><a href="#maximum-chroma-for-given-hue-and-luminance" id="toc-maximum-chroma-for-given-hue-and-luminance" class="nav-link" data-scroll-target="#maximum-chroma-for-given-hue-and-luminance">Maximum chroma for given hue and luminance</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Color Manipulation and Utilities</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The colorspace package provides several color manipulation utilities that are useful for creating, assessing, or transforming color palettes, namely:</p>
+<ul>
+<li><a href="../man/colorspace.CVD.desaturate.html"><code>desaturate</code></a>: Desaturate colors by chroma removal in HCL space.</li>
+<li><a href="../man/colorspace.utils.lighten.html"><code>lighten</code></a> and <a href="../man/colorspace.utils.darken.html"><code>darken</code></a>: Algorithmically lighten or darken colors in HCL and/or HLS space.</li>
+<li><a href="../man/colorspace.utils.adjust_transparency.html"><code>adjust_transparency</code></a> and <a href="../man/colorspace.utils.extract_transparency.html"><code>extract_transparency</code></a> to remove, adjust, and extract the transparency.</li>
+<li><a href="../man/colorspace.utils.contrast_ratio.html"><code>contrast_ratio</code></a> to compute and visualize W3C contrast ratios of colors.</li>
+<li><a href="../man/colorspace.utils.max_chroma.html"><code>max_chroma</code></a> to calculate maximum chroma for given hue and luminance in HCL space.</li>
+<li><a href="../man/colorspace.colorlib.compare_colors.html"><code>compare_colors</code></a> to compare if two sets of colors are (nearly) equal.</li>
+</ul>
+</section>
+<section id="desaturation-in-hcl-space" class="level2">
+<h2 class="anchored" data-anchor-id="desaturation-in-hcl-space">Desaturation in HCL space</h2>
+<p>Desaturation should map a given color to the gray with the same “brightness”. In principle, any perceptually-based color model (HCL, HLS, HSV, …) could be employed for this but HCL works particularly well because its coordinates capture the perceptual properties better than most other color models.</p>
+<p>The <a href="../man/colorspace.CVD.desaturate.html"><code>desaturate</code></a> function converts any given hex color code to the corresponding HCL coordinates and sets the chroma to zero. Thus, only the luminance matters which captures the “brightness” mentioned above. Finally, the resulting HCL coordinates are transformed back to hex color codes.</p>
+<p>For illustration, a few simple examples are presented below. More examples in the context of palettes for statistical graphics are discussed along with the color vision deficiency article.</p>
+<div id="1a7c301a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, desaturate, swatchplot, palette</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw 5 colros from the infamous RGB rainbow</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>col_rainbow <span class="op">=</span> rainbow()(<span class="dv">5</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>col_rainbow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>['#FF0000', '#CCFF00', '#00FF66', '#0066FF', '#CC00FF']</code></pre>
+</div>
+</div>
+<div id="f26da247" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desaturate the colors</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>col_desat   <span class="op">=</span> desaturate(col_rainbow)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>col_desat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>['#7F7F7F', '#EDEDED', '#DDDDDD', '#727272', '#7C7C7C']</code></pre>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the two color palettes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>swatchplot([palette(col_rainbow, name <span class="op">=</span> <span class="st">"original"</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            palette(col_desat,   name <span class="op">=</span> <span class="st">"desaturated"</span>)],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="fl">1.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="064399e2" class="cell quarto-layout-panel" data-execution_count="3" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="manipulation_utilities_files/figure-html/cell-4-output-1.png" width="787" height="163"></p>
+</div>
+</div>
+</div>
+<p>Even this simple example suffices to show that the three RGB rainbow colors have very different grayscale levels. This deficiency is even clearer when using a full color wheel (of colors with hues in <code>[0, 360]</code> degrees). While the RGB <a href="../man/colorspace.palettes.rainbow.html"><code>rainbow</code></a> is very unbalanced the HCL <a href="../man/colorspace.palettes.rainbow_hcl.html"><code>rainbow_hcl</code></a> (or also <a href="../man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a>) is (by design) balanced with respect to luminance.</p>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, rainbow_hcl, desaturate</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> repeat</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wheel(ax, col): ax.pie(repeat(<span class="dv">1</span>, <span class="bu">len</span>(col)), colors <span class="op">=</span> col, labels <span class="op">=</span> <span class="bu">range</span>(<span class="bu">len</span>(col)))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>col     <span class="op">=</span> rainbow()(<span class="dv">8</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>col_hcl <span class="op">=</span> rainbow_hcl()(<span class="dv">8</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>wheel(axes[<span class="dv">0</span>, <span class="dv">0</span>], col)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>wheel(axes[<span class="dv">0</span>, <span class="dv">1</span>], desaturate(col))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>wheel(axes[<span class="dv">1</span>, <span class="dv">0</span>], col_hcl)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>wheel(axes[<span class="dv">1</span>, <span class="dv">1</span>], desaturate(col_hcl))</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5883670e" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="manipulation_utilities_files/figure-html/cell-5-output-1.png" width="758" height="758"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="lighten-and-darken-colors" class="level2">
+<h2 class="anchored" data-anchor-id="lighten-and-darken-colors">Lighten and darken colors</h2>
+<p>In principle, a similar approach for lightening and darkening colors can be employed as for desaturation above. The colors can simply be transformed to HCL space and then the luminance can either be decreased (turning the color darker) or increased (turning it lighter) while preserving the hue and chroma coordinates.</p>
+<p>This strategy typically works well for lightening colors, although in some situations the result can be rather colorful. Conversely, when darkening rather light colors with little chroma, this can result in rather gray colors.</p>
+<p>In these situations, an alternative might be to apply the analogous strategy in HLS space which is frequently used in HTML style sheets. However, this strategy may also yield colors that are either too gray or too colorful. A compromise that sometimes works well is to adjust the luminance coordinate in HCL space but to take the chroma coordinate corresponding to the HLS transformation.</p>
+<p>We have found that typically the HCL-based transformation performs best for lightening colors and this is hence the default in <a href="../man/colorspace.utils.lighten.html"><code>lighten</code></a>. For darkening colors, the combined strategy often works best and is hence the default in <a href="../man/colorspace.utils.darken.html"><code>darken</code></a>. In either case it is recommended to try the other available strategies in case the default yields unexpected results.</p>
+<p>Regardless of the chosen color space, the adjustment of the L component can occur by two methods, relative (the default) and absolute. For example <code>L - 100 * amount</code> is used for absolute darkening, or <code>L * (1 - amount)</code> for relative darkening. See <a href="../man/colorspace.utils.lighten.html"><code>lighten</code></a> and <a href="../man/colorspace.utils.darken.html"><code>darken</code></a> for more details.</p>
+<p>For illustration a qualitative palette (Okabe-Ito) is transformed by two levels of both lightening and darkening, respectively.</p>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette, swatchplot, lighten, darken</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>oi <span class="op">=</span> [<span class="st">"#61A9D9"</span>, <span class="st">"#ADD668"</span>, <span class="st">"#E6D152"</span>, <span class="st">"#CE6BAF"</span>, <span class="st">"#797CBA"</span>]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>swatchplot([palette(lighten(oi, <span class="fl">0.4</span>), <span class="st">"-40%"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            palette(lighten(oi, <span class="fl">0.2</span>), <span class="st">"-20%"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            palette(oi, <span class="st">"0%"</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            palette(darken(oi, <span class="fl">0.2</span>), <span class="st">"+20%"</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            palette(darken(oi, <span class="fl">0.4</span>), <span class="st">"+40%"</span>)],</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d0ade89a" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[5], line 4</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> palette, swatchplot, lighten, darken
+<span class="ansi-green-fg ansi-bold">      2</span> oi <span style="color:rgb(98,98,98)">=</span> [<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">#61A9D9</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">#ADD668</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">#E6D152</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">#CE6BAF</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">#797CBA</span><span style="color:rgb(175,0,0)">"</span>]
+<span class="ansi-green-fg">----&gt; 4</span> swatchplot([palette(<span class="ansi-yellow-bg">lighten</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">oi</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0.4</span><span class="ansi-yellow-bg">)</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">-40</span><span style="color:rgb(175,0,0)">%</span><span style="color:rgb(175,0,0)">"</span>),
+<span class="ansi-green-fg ansi-bold">      5</span>             palette(lighten(oi, <span style="color:rgb(98,98,98)">0.2</span>), <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">-20</span><span style="color:rgb(175,0,0)">%</span><span style="color:rgb(175,0,0)">"</span>),
+<span class="ansi-green-fg ansi-bold">      6</span>             palette(oi, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">0</span><span style="color:rgb(175,0,0)">%</span><span style="color:rgb(175,0,0)">"</span>),
+<span class="ansi-green-fg ansi-bold">      7</span>             palette(darken(oi, <span style="color:rgb(98,98,98)">0.2</span>), <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">+20</span><span style="color:rgb(175,0,0)">%</span><span style="color:rgb(175,0,0)">"</span>),
+<span class="ansi-green-fg ansi-bold">      8</span>             palette(darken(oi, <span style="color:rgb(98,98,98)">0.4</span>), <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">+40</span><span style="color:rgb(175,0,0)">%</span><span style="color:rgb(175,0,0)">"</span>)],
+<span class="ansi-green-fg ansi-bold">      9</span>             figsize <span style="color:rgb(98,98,98)">=</span> (<span style="color:rgb(98,98,98)">5.5</span>, <span style="color:rgb(98,98,98)">3</span>));
+
+File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:880</span>, in <span class="ansi-cyan-fg">lighten</span><span class="ansi-blue-fg">(col, amount, method, space, fixup)</span>
+<span class="ansi-green-fg ansi-bold">    878</span> <span style="font-style:italic;color:rgb(95,135,135)"># Lighten colors depending on the users choice 'space'</span>
+<span class="ansi-green-fg ansi-bold">    879</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> space <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">HCL</span><span style="color:rgb(175,0,0)">"</span>:
+<span class="ansi-green-fg">--&gt; 880</span>     tmp <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">_lighten_in_HCL</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">x</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">colors</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">amount</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    881</span> <span style="font-weight:bold;color:rgb(0,135,0)">elif</span> space <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">HLS</span><span style="color:rgb(175,0,0)">"</span>:
+<span class="ansi-green-fg ansi-bold">    882</span>     tmp <span style="color:rgb(98,98,98)">=</span> _lighten_in_HLS(x<span style="color:rgb(98,98,98)">.</span>colors(), amount, method)
+
+File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:857</span>, in <span class="ansi-cyan-fg">lighten.&lt;locals&gt;._lighten_in_HCL</span><span class="ansi-blue-fg">(colors, amount, method)</span>
+<span class="ansi-green-fg ansi-bold">    855</span>     tmp<span style="color:rgb(98,98,98)">.</span>set(L <span style="color:rgb(98,98,98)">=</span> tmp<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">L</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">+</span> amount <span style="color:rgb(98,98,98)">*</span> <span style="color:rgb(98,98,98)">100.</span>)
+<span class="ansi-green-fg ansi-bold">    856</span> tmp<span style="color:rgb(98,98,98)">.</span>set(L <span style="color:rgb(98,98,98)">=</span> fmin(<span style="color:rgb(98,98,98)">100</span>, fmax(<span style="color:rgb(98,98,98)">0</span>, tmp<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">L</span><span style="color:rgb(175,0,0)">"</span>)))) <span style="font-style:italic;color:rgb(95,135,135)"># Fix bounds again</span>
+<span class="ansi-green-fg">--&gt; 857</span> tmp<span style="color:rgb(98,98,98)">.</span>set(C <span style="color:rgb(98,98,98)">=</span> fmin(<span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">tmp</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">H</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">tmp</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">L</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">floor</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">)</span>, \
+<span class="ansi-green-fg ansi-bold">    858</span>                  fmax(<span style="color:rgb(98,98,98)">0</span>, tmp<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">C</span><span style="color:rgb(175,0,0)">"</span>))))
+<span class="ansi-green-fg ansi-bold">    860</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> tmp
+
+File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
+<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
+<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
+<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
+<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
+
+<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="adjust-or-extract-the-transparency-of-colors" class="level2">
+<h2 class="anchored" data-anchor-id="adjust-or-extract-the-transparency-of-colors">Adjust or extract the transparency of colors</h2>
+<p>Alpha transparency is useful for making colors semi-transparent, e.g., for overlaying different elements in graphics. An alpha value (or alpha channel) of <code>0</code> (or <code>00</code> in hex strings) corresponds to fully transparent and an alpha value of <code>1</code> (or <code>FF</code> in hex strings) corresponds to fully opaque. If a color hex string does not provide an explicit alpha transparency, the color is assumed to be fully opaque.</p>
+<p>Currently the package only allows to manipulate the transparency of objects inheriting from <code>colorlib.colorobject</code> (see <a href="color_spaces.html">Color Spaces</a>).</p>
+<p>The <a href="../man/colorspace.utils.adjust_transparency.html"><code>adjust_transparency</code></a> function can be used to adjust the alpha transparency of a set of colors. It always returns a hex color specification. This hex color can have the alpha transparency added/removed/modified depending on the specification of the argument <code>alpha</code>. The function returns an object of the same class as provided on <code>x</code> with (possibly) adjusted transparency.</p>
+<ul>
+<li>None: If <code>alpha = None</code> existing transparency will be removed (if any exists).</li>
+<li>Constant: In case a single float or integer (<span class="math inline">\(\in [0., 1.]\)</span>) is provided constant transparency will be added to all colors on <code>x</code>.</li>
+<li>List or numpy ndarray: If a list or <code>numpy.ndarray</code> is provided the length of the object must match the number of colors of the object provided on <code>x</code>. All elements of the list/array must be convertable to float and must be in <span class="math inline">\(\in [0., 1.]\)</span>.</li>
+</ul>
+<p>For illustration, the transparency of a single black color is modified to three alpha levels: fully transparent, semi-transparent, and fully opaque, respectively. Black can be equivalently specified by name (<code>"black"</code>), hex string (<code>"#000000"</code>), or integer position in the standard palette (<code>"0"</code>).</p>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> adjust_transparency</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> hexcols([<span class="st">"black"</span>, <span class="st">"#000000"</span>, <span class="st">"0"</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f14d0fec" class="cell quarto-layout-panel" data-execution_count="6" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<pre><code>hexcols color object (3 colors)
+        hex_
+  1:b'#000000'
+    b'#000000'
+    b'#000000'</code></pre>
+</div>
+</div>
+</div>
+<div id="f11d1166" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols.colors())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['#000000', '#000000', '#000000']</code></pre>
+</div>
+</div>
+<div id="fd8bdc74" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> adjust_transparency(cols, [<span class="fl">0.0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>])</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hexcols color object (3 colors)
+        hex_   alpha
+  1:b'#000000'    00
+    b'#000000'    7F
+    b'#000000'    FF</code></pre>
+</div>
+</div>
+<div id="e1d96afc" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols.colors())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['#00000000', '#00000050', '#000000']</code></pre>
+</div>
+</div>
+<p>Subsequently we can set a constant transparency for all colors by providing one single value, or remove transparency information by setting <code>alpha = None</code>. Given the same object as above:</p>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> extract_transparency</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> adjust_transparency(cols, <span class="fl">0.8</span>)   <span class="co"># Set to constant</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6ab612c4" class="cell quarto-layout-panel" data-execution_count="10" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<pre><code>hexcols color object (3 colors)
+        hex_   alpha
+  1:b'#000000'    CC
+    b'#000000'    CC
+    b'#000000'    CC</code></pre>
+</div>
+</div>
+</div>
+<div id="7f38e700" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> adjust_transparency(cols, <span class="va">None</span>)  <span class="co"># Remove transparency</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hexcols color object (3 colors)
+        hex_
+  1:b'#000000'
+    b'#000000'
+    b'#000000'</code></pre>
+</div>
+</div>
+<p>The <a href="../man/colorspace.utils.extract_transparency.html"><code>extract_transparency</code></a> function can be used to extract the alpha transparency from a set of colors. It allows to define the mode of the return value. This can either be float (<span class="math inline">\(\in [0., 1.]\)</span>), int (<span class="math inline">\({0, 1, ..., 255}\)</span>), or str (<code>"00"</code>, <code>"01"</code>, …, <code>"FF"</code>). In case no transparency is defined at all, <code>None</code> will be returned.</p>
+<p>For illustration we extract the transparency from the gray colors in <code>x</code> in different formats.</p>
+<div id="07a86e98" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Some colors with transparency 80%, 40%, 80%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> hexcols([<span class="st">'#023FA5CC'</span>, <span class="st">'#E2E2E266'</span>, <span class="st">'#8E063BCC'</span>])</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>extract_transparency(x, mode <span class="op">=</span> <span class="st">"float"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>array([0.8, 0.4, 0.8])</code></pre>
+</div>
+</div>
+<div id="a4e42487" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>extract_transparency(x, mode <span class="op">=</span> <span class="st">"int"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>array([204, 102, 204], dtype=int16)</code></pre>
+</div>
+</div>
+<div id="71132a10" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>extract_transparency(x, mode <span class="op">=</span> <span class="st">"str"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>array(['CC', '66', 'CC'], dtype='&lt;U2')</code></pre>
+</div>
+</div>
+</section>
+<section id="compute-and-visualize-w3c-contrast-ratios" class="level2">
+<h2 class="anchored" data-anchor-id="compute-and-visualize-w3c-contrast-ratios">Compute and visualize W3C contrast ratios</h2>
+<p>The Web Content Accessibility Guidelines (WCAG) by the World Wide Web Consortium (W3C) recommend a contrast ratio of at least 4.5 for the color of regular text on the background color, and a ratio of at least 3 for large text. See . This relies on a specific definition of relative luminances (essentially based on power-transformed sRGB coordinates) that is different from the perceptual luminance as defined, for example, in the HCL color model. Note also that the WCAG pertain to text and background color and not to colors used in data visualization.</p>
+<p>For illustration we compute and visualize the contrast ratios of the default palette in R compared to a white background.</p>
+<div id="c80df3b4" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, contrast_ratio</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> rainbow().colors(<span class="dv">7</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>contrast_ratio(cols, <span class="st">"#FFFFFF"</span>) <span class="co"># Against white</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>array([3.99847677, 1.36500073, 1.34725121, 1.33595736, 3.20339072,
+       7.69994138, 3.34666975])</code></pre>
+</div>
+</div>
+<div id="dd80e071" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>contrast_ratio(cols, <span class="st">"#000000"</span>) <span class="co"># Against black</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>array([ 5.252     , 15.38460716, 15.58729349, 15.71906457,  6.55555374,
+        2.72729349,  6.27489463])</code></pre>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> contrast_ratio(cols, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3d34623c" class="cell quarto-layout-panel" data-execution_count="17" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="manipulation_utilities_files/figure-html/cell-18-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="278" height="278"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="maximum-chroma-for-given-hue-and-luminance" class="level2">
+<h2 class="anchored" data-anchor-id="maximum-chroma-for-given-hue-and-luminance">Maximum chroma for given hue and luminance</h2>
+<p>As the possible combinations of chroma and luminance in HCL space depend on hue, it is not obvious which trajectories through HCL space are possible prior to trying a specific HCL coordinate by calling <a href="../man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a>. To avoid having to fix up the color upon conversion to RGB hex color codes, the <a href="../man/colorspace.utils.max_chroma.html"><code>max_chroma</code></a> function computes (approximately) the maximum chroma possible.</p>
+<p>For illustration we show that for given luminance (here: <code>L = 50</code>) the maximum chroma varies substantially with hue:</p>
+<div id="9b66b549" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> max_chroma</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linspace</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>max_chroma(linspace(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">7</span>), L <span class="op">=</span> <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[18], line 4</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> max_chroma
+<span class="ansi-green-fg ansi-bold">      2</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> linspace
+<span class="ansi-green-fg">----&gt; 4</span> <span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">linspace</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">360</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">7</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">L</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">50</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
+<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
+<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
+<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
+<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
+
+<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
+</div>
+</div>
+</div>
+<p>Similarly, maximum chroma also varies substantially across luminance values for a given hue (here: <code>H = 120</code>, green):</p>
+<div id="e5757e30" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> max_chroma</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linspace</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>max_chroma(H <span class="op">=</span> <span class="dv">120</span>, L <span class="op">=</span> linspace(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[19], line 4</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> max_chroma
+<span class="ansi-green-fg ansi-bold">      2</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> linspace
+<span class="ansi-green-fg">----&gt; 4</span> <span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">H</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">120</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">L</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">linspace</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">100</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">6</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
+<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
+<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
+<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
+<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
+
+<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
+</div>
+</div>
+</div>
+<p>In the plots below more combinations are visualized: In the left panel for maximum chroma across hues given luminance and in the right panel with increasing luminance given hue.</p>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> max_chroma</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting up the plot</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>fig, [ax1, ax2] <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize <span class="op">=</span> (<span class="dv">9</span>, <span class="dv">4</span>))</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># C vs. H plot</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">37</span>, endpoint <span class="op">=</span> <span class="va">True</span>, dtype <span class="op">=</span> <span class="st">"int"</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> np.linspace(<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">4</span>, endpoint <span class="op">=</span> <span class="va">True</span>, dtype <span class="op">=</span> <span class="st">"int"</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> []<span class="op">;</span> Cmax <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(L)):</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    C.append(max_chroma(H, <span class="bu">float</span>(L[i])))</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>    Cmax <span class="op">=</span> <span class="bu">max</span>(Cmax, <span class="bu">max</span>(C[i]))</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(L)):</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> HCL(H, C[i], np.repeat(L[i], <span class="bu">len</span>(H))).colors()</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>    ax1.plot(H, C[i], color <span class="op">=</span> <span class="st">"0.5"</span>, zorder <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    ax1.scatter(H, C[i], c <span class="op">=</span> colors, zorder <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>ax1.set_xlim(<span class="dv">0</span>, <span class="dv">360</span>)</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>ax1.set_ylim(<span class="dv">0</span>, Cmax <span class="op">*</span> <span class="fl">1.05</span>)</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>yr <span class="op">=</span> ax1.secondary_yaxis(<span class="st">"right"</span>)</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>yr.set_ticks([x[<span class="bu">len</span>(x) <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> x <span class="kw">in</span> C])</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>yr.set_yticklabels([<span class="st">"L = </span><span class="sc">{:d}</span><span class="st">"</span>.<span class="bu">format</span>(x) <span class="cf">for</span> x <span class="kw">in</span> L])</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">"Hue (H)"</span>)</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"Maximum chroma (C)"</span>)</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a><span class="co"># L vs. C plot</span></span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">21</span>, endpoint <span class="op">=</span> <span class="va">True</span>, dtype <span class="op">=</span> <span class="st">"int"</span>)</span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> np.asarray([<span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">120</span>, <span class="dv">250</span>, <span class="dv">330</span>], dtype <span class="op">=</span> <span class="st">"int"</span>)</span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> []<span class="op">;</span> Cmax <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(H)):</span>
+<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a>    C.append(max_chroma(<span class="bu">float</span>(H[i]), L))</span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a>    Cmax <span class="op">=</span> <span class="bu">max</span>(Cmax, <span class="bu">max</span>(C[i]))</span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(H)):</span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> HCL(np.repeat(H[i], <span class="bu">len</span>(L)), C[i], L).colors()</span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a>    ax2.plot(C[i], L, color <span class="op">=</span> <span class="st">"0.5"</span>, zorder <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>    ax2.scatter(C[i], L, c <span class="op">=</span> colors, zorder <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setting label</span></span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> <span class="bu">int</span>(np.where(C[i] <span class="op">==</span> <span class="bu">max</span>(C[i]))[<span class="dv">0</span>][<span class="dv">0</span>])</span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a>    ax2.text(C[i][idx] <span class="op">+</span> Cmax <span class="op">/</span> <span class="dv">15</span>, L[idx], <span class="st">"H = </span><span class="sc">{:d}</span><span class="st">"</span>.<span class="bu">format</span>(H[i]),</span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a>             color <span class="op">=</span> colors[idx], va <span class="op">=</span> <span class="st">"center"</span>)</span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a>ax2.set_xlim(<span class="dv">0</span>, Cmax <span class="op">*</span> <span class="fl">1.20</span>)</span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>ax2.set_ylim(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">"Maximum chroma (C)"</span>)</span>
+<span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"Luminance (L)"</span>)</span>
+<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Display result</span></span>
+<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7353687c" class="cell quarto-layout-panel" data-execution_count="20" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[20], line 17</span>
+<span class="ansi-green-fg ansi-bold">     15</span> C <span style="color:rgb(98,98,98)">=</span> []; Cmax <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">0</span>
+<span class="ansi-green-fg ansi-bold">     16</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> i <span style="font-weight:bold;color:rgb(175,0,255)">in</span> <span style="color:rgb(0,135,0)">range</span>(<span style="color:rgb(0,135,0)">len</span>(L)):
+<span class="ansi-green-fg">---&gt; 17</span>     C<span style="color:rgb(98,98,98)">.</span>append(<span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">H</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">float</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">L</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">i</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>)
+<span class="ansi-green-fg ansi-bold">     18</span>     Cmax <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">max</span>(Cmax, <span style="color:rgb(0,135,0)">max</span>(C[i]))
+<span class="ansi-green-fg ansi-bold">     20</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> i <span style="font-weight:bold;color:rgb(175,0,255)">in</span> <span style="color:rgb(0,135,0)">range</span>(<span style="color:rgb(0,135,0)">len</span>(L)):
+
+File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
+<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
+<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
+<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
+<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
+
+<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="manipulation_utilities_files/figure-html/cell-21-output-2.png" width="730" height="342"></p>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
