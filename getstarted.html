@@ -73,6 +73,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -536,7 +539,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The colorspace package provides a broad toolbox for selecting individual colors or color palettes, manipulating colors, and employing them in various kinds of visualizations.</p>
 <p>At the core of the package is a class which allows to draw and transform colors in different color spaces (as the package name conveys). Thus, the package helps to map various three-dimensional representations of color to each other. A particularly important mapping is the one from the perceptually-based and device-independent color model HCL (Hue-Chroma-Luminance) to standard Red-Green-Blue (sRGB) which is the basis for color specifications in many systems based on the corresponding hex codes (e.g., in HTML but also in R). For completeness further standard color models are included as well in the package: <a href="./man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a> (=HCL), <a href="./man/colorspace.colorlib.CIELUV.html"><code>CIELUV</code></a>, <a href="./man/colorspace.colorlib.polarLAB.html"><code>polarLAB</code></a>, <a href="./man/colorspace.colorlib.CIELAB.html"><code>CIELAB</code></a>, <a href="./man/colorspace.colorlib.CIEXYZ.html"><code>CIEXYZ</code></a>, <a href="./man/colorspace.colorlib.RGB.html"><code>RGB</code></a>, <a href="./man/colorspace.colorlib.sRGB.html"><code>sRGB</code></a>, <a href="./man/colorspace.colorlib.HLS.html"><code>HLS</code></a>, <a href="./man/colorspace.colorlib.HSV.html"><code>HSV</code></a>.</p>
 <p>The HCL space (= polar coordinates in <a href="./man/colorspace.colorlib.CIELUV.html"><code>CIELUV</code></a>) is particularly useful for specifying individual colors and color palettes as its three axes match those of the human visual system very well: Hue (= type of color, dominant wavelength), chroma (= colorfulness), luminance (= brightness).</p>
-<div id="8bdc70f8" class="cell" data-execution_count="1">
+<div id="c96321e0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette, sequential_hcl, swatchplot</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> palette(sequential_hcl(h <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">300</span>], c <span class="op">=</span> <span class="dv">60</span>, l <span class="op">=</span> <span class="dv">65</span>).colors(<span class="dv">5</span>), <span class="st">"Hue"</span>)</span>
@@ -590,66 +593,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="choosing-hcl-based-color-palettes" class="level2">
 <h2 class="anchored" data-anchor-id="choosing-hcl-based-color-palettes">Choosing HCL-based color palettes</h2>
 <p>The colorspace package ships with a wide range of predefined color palettes, specified through suitable trajectories in the HCL (Hue-Chroma-Luminance) color space. A quick overview can be gained easily with the <a href="./man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes</code></a> function:</p>
-<div id="37c75d0e" class="cell" data-execution_count="2">
+<div id="93cbfe24" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">15</span>, <span class="dv">10</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[2], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> hcl_palettes
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">plot</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">figsize</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">15</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">10</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>;
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="getstarted_files/figure-html/cell-3-output-1.png" class="lightbox" data-gallery="hcl_palettes"><img src="getstarted_files/figure-html/cell-3-output-1.png" width="1459" height="979" class="figure-img"></a></p>
+</figure>
 </div>
 </div>
 </div>
 <p>A suitable palette object can be easily computed by specifying the desired palette name (see the plot above), e.g.,</p>
-<div id="12aac7ff" class="cell" data-execution_count="3">
+<div id="ec7247bc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> qualitative_hcl(<span class="st">"Dark 3"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pal(<span class="dv">4</span>)  <span class="co"># Draw list of 4 colors across the palette</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[3], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> qualitative_hcl
-<span class="ansi-green-fg">----&gt; 2</span> pal <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">qualitative_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Dark 3</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      3</span> pal(<span style="color:rgb(98,98,98)">4</span>)  <span style="font-style:italic;color:rgb(95,135,135)"># Draw list of 4 colors across the palette</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1200</span>, in <span class="ansi-cyan-fg">qualitative_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, fixup, palette, rev, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1198</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1199</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1200</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Qualitative</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1201</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1202</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['#E16A86', '#50A315', '#009ADE', '#E16A86']</code></pre>
 </div>
 </div>
 <p>The functions <a href="./man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a>and <a href="./man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a> work analogously. Additionally, their hue/chroma/luminance parameters can be modified, thus allowing for easy customization of each palette. Moreover, <a href="./man/colorspace.choose_palette.choose_palette.html"><code>choose_palette</code></a> provides a convenient user interfaces to perform palette customization interactively. Finally, even more flexible diverging HCL palettes are provided by <a href="./man/colorspace.palettes.divergingx_hcl.html"><code>divergingx_hcl</code></a>.</p>
@@ -657,162 +618,82 @@ File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/pyth
 <section id="use-with-matplotlib-graphics" class="level1">
 <h1>Use with matplotlib graphics</h1>
 <p>All color palettes come with a <code>cmap()</code> method to generate objects of class <code>LinearSegmentedColormap</code> as used by <code>matplotlib</code> and can thus usually be passed directly to most matplotlib plotting functions, typically trough the <code>cmap</code> argument. Here, a <code>pcolormesh()</code> example is shown using the diverging HCL color palette “<em>Blue-Red 3</em>”.</p>
-<div id="3d8d1556" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Blue-Red 3"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">19680801</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> np.random.rand(<span class="dv">6</span>, <span class="dv">10</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">10</span>, <span class="dv">1</span>)  <span class="co"># len = 11</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.arange(<span class="fl">4.5</span>, <span class="dv">11</span>, <span class="dv">1</span>)  <span class="co"># len = 7</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.pcolormesh(x, y, Z, cmap <span class="op">=</span> pal.cmap())</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[4], line 5</span>
-<span class="ansi-green-fg ansi-bold">      2</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> <span style="font-weight:bold;color:rgb(0,0,255)">np</span>
-<span class="ansi-green-fg ansi-bold">      4</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> diverging_hcl
-<span class="ansi-green-fg">----&gt; 5</span> pal <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">diverging_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Blue-Red 3</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      7</span> np<span style="color:rgb(98,98,98)">.</span>random<span style="color:rgb(98,98,98)">.</span>seed(<span style="color:rgb(98,98,98)">19680801</span>)
-<span class="ansi-green-fg ansi-bold">      8</span> Z <span style="color:rgb(98,98,98)">=</span> np<span style="color:rgb(98,98,98)">.</span>random<span style="color:rgb(98,98,98)">.</span>rand(<span style="color:rgb(98,98,98)">6</span>, <span style="color:rgb(98,98,98)">10</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1490</span>, in <span class="ansi-cyan-fg">diverging_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, power, fixup, palette, rev, *args, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1488</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1489</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1490</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Diverging</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1491</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1492</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<div id="0ae71fb6" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Blue-Red 3"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">19680801</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> np.random.rand(<span class="dv">6</span>, <span class="dv">10</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">10</span>, <span class="dv">1</span>)  <span class="co"># len = 11</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.arange(<span class="fl">4.5</span>, <span class="dv">11</span>, <span class="dv">1</span>)  <span class="co"># len = 7</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.pcolormesh(x, y, Z, cmap <span class="op">=</span> pal.cmap())</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="getstarted_files/figure-html/cell-5-output-1.png" width="566" height="411" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
 <p>As another example for a sequential palette, we demonstrate how to create a line plot using <code>rainbowplot()</code> provided by the <code>statsmodels</code> package. The “<em>Purples 3</em>” palette is used which is similar to the <a href="https://colorbrewer2.org/">ColorBrewer2.org</a> palette ‘Purples’.</p>
-<div id="4b1361ba" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> sm.datasets.elnino.load()</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> sequential_hcl(<span class="st">"Purples 3"</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> sm.graphics.rainbowplot(data.raw_data.iloc[:, <span class="dv">1</span>:], ax <span class="op">=</span> ax, cmap <span class="op">=</span> pal.cmap())</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xlabel(<span class="st">"month of the year"</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_ylabel(<span class="st">"sea surface temperature (C)"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xticks(np.arange(<span class="dv">13</span>, step<span class="op">=</span><span class="dv">3</span>) <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xticklabels([<span class="st">""</span>, <span class="st">"Mar"</span>, <span class="st">"Jun"</span>, <span class="st">"Sep"</span>, <span class="st">"Dec"</span>])</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xlim([<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">11.2</span>])</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[5], line 7</span>
-<span class="ansi-green-fg ansi-bold">      4</span> data <span style="color:rgb(98,98,98)">=</span> sm<span style="color:rgb(98,98,98)">.</span>datasets<span style="color:rgb(98,98,98)">.</span>elnino<span style="color:rgb(98,98,98)">.</span>load()
-<span class="ansi-green-fg ansi-bold">      6</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> sequential_hcl
-<span class="ansi-green-fg">----&gt; 7</span> pal <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">sequential_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Purples 3</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      9</span> fig <span style="color:rgb(98,98,98)">=</span> plt<span style="color:rgb(98,98,98)">.</span>figure()
-<span class="ansi-green-fg ansi-bold">     10</span> ax <span style="color:rgb(98,98,98)">=</span> fig<span style="color:rgb(98,98,98)">.</span>add_subplot(<span style="color:rgb(98,98,98)">111</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1979</span>, in <span class="ansi-cyan-fg">sequential_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, power, fixup, palette, rev, *args, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1977</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1978</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1979</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Sequential</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1980</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1981</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<div id="b6fa78cd" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> sm.datasets.elnino.load()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> sequential_hcl(<span class="st">"Purples 3"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> sm.graphics.rainbowplot(data.raw_data.iloc[:, <span class="dv">1</span>:], ax <span class="op">=</span> ax, cmap <span class="op">=</span> pal.cmap())</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xlabel(<span class="st">"month of the year"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_ylabel(<span class="st">"sea surface temperature (C)"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xticks(np.arange(<span class="dv">13</span>, step<span class="op">=</span><span class="dv">3</span>) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xticklabels([<span class="st">""</span>, <span class="st">"Mar"</span>, <span class="st">"Jun"</span>, <span class="st">"Sep"</span>, <span class="st">"Dec"</span>])</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>dead_end <span class="op">=</span> ax.set_xlim([<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">11.2</span>])</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="getstarted_files/figure-html/cell-6-output-1.png" width="588" height="429" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
 <section id="palette-visualization-and-assessment" class="level2">
 <h2 class="anchored" data-anchor-id="palette-visualization-and-assessment">Palette visualization and assessment</h2>
 <p>The <em>colorspace</em> package also provides a number of functions that aid visualization and assessment of its palettes. The <a href="./man/colorspace.demos.demoplot.html"><code>demoplot</code></a> function provides a series of generic/basic plot types as used by the interactive interface (<a href="./man/colorspace.choose_palette.choose_palette.html"><code>choose_palette</code></a> which can also be used in-line to test color palettes. In addition, <a href="./man/colorspace.specplot.specplot.html"><code>specplot</code></a> allows to visualize and graphically assess the spectrum of a series of colors in the RGB and HCL spectrum.</p>
-<div id="7b730432" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, demoplot</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Purple-Green"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>demoplot(pal(<span class="dv">11</span>), <span class="st">"Bar"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[6], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> diverging_hcl, demoplot
-<span class="ansi-green-fg">----&gt; 2</span> pal <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">diverging_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Purple-Green</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      3</span> demoplot(pal(<span style="color:rgb(98,98,98)">11</span>), <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Bar</span><span style="color:rgb(175,0,0)">"</span>);
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1490</span>, in <span class="ansi-cyan-fg">diverging_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, power, fixup, palette, rev, *args, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1488</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1489</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1490</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Diverging</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1491</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1492</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
-</div>
-</div>
-<div id="dd33275d" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, specplot</span>
+<div id="e5c74760" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, demoplot</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Purple-Green"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">100</span>), hcl <span class="op">=</span> <span class="va">True</span>, palette <span class="op">=</span> <span class="va">True</span>, rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[7], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> diverging_hcl, specplot
-<span class="ansi-green-fg">----&gt; 2</span> pal <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">diverging_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Purple-Green</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      3</span> specplot(pal(<span style="color:rgb(98,98,98)">100</span>), hcl <span style="color:rgb(98,98,98)">=</span> <span style="font-weight:bold;color:rgb(0,135,0)">True</span>, palette <span style="color:rgb(98,98,98)">=</span> <span style="font-weight:bold;color:rgb(0,135,0)">True</span>, rgb <span style="color:rgb(98,98,98)">=</span> <span style="font-weight:bold;color:rgb(0,135,0)">True</span>);
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1490</span>, in <span class="ansi-cyan-fg">diverging_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, power, fixup, palette, rev, *args, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1488</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1489</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1490</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Diverging</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1491</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1492</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>demoplot(pal(<span class="dv">11</span>), <span class="st">"Bar"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="getstarted_files/figure-html/cell-7-output-1.png" width="540" height="389" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="25ced3cf" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, specplot</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Purple-Green"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">100</span>), hcl <span class="op">=</span> <span class="va">True</span>, palette <span class="op">=</span> <span class="va">True</span>, rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="getstarted_files/figure-html/cell-8-output-1.png" width="642" height="438" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
@@ -1243,8 +1124,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","descPosition":"bottom","openEffect":"zoom","selector":".lightbox"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -621,7 +621,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">120</span>, <span class="dv">240</span>], C <span class="op">=</span> [<span class="fl">50.</span>] <span class="op">*</span> <span class="dv">3</span>, L <span class="op">=</span> [<span class="fl">70.</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="a9037bed" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
+<div id="163db97e" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>polarLUV color object (3 colors)
@@ -635,7 +635,7 @@ div.csl-indent {
 <p>The resulting three colors are pastel red (hue = 0), green (hue = 120), and blue (hue = 240) with moderate chroma and luminance. For display in other systems an sRGB representation might be needed:</p>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)    <span class="co"># Convert to sRGB coordinates</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="de93b5d4" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
+<div id="03ea375c" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>sRGB color object (3 colors)
@@ -650,7 +650,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HSV"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.get(<span class="st">"S"</span>))     <span class="co"># Saturation dimension only</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="02cfcfae" class="cell quarto-layout-panel" data-execution_count="3" data-layout-ncol="1">
+<div id="b3eccd5c" class="cell quarto-layout-panel" data-execution_count="3" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>HSV color object (3 colors)
@@ -664,7 +664,7 @@ div.csl-indent {
 </div>
 <p>For display in many systems hex color codes based on the sRGB coordinates can be created:</p>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.colors())     <span class="co"># Automatically converts to hex</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="afb92b81" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<div id="136d528f" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>['#E495A5', '#86B875', '#7DB0DD']</code></pre>
@@ -689,7 +689,7 @@ div.csl-indent {
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> palette(x, <span class="st">"custom cmap palette"</span>).cmap()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="57ed3d9e" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
+<div id="a6f07d87" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>3</code></pre>
@@ -709,109 +709,65 @@ div.csl-indent {
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> pal.cmap()</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="ffc1f334" class="cell quarto-layout-panel" data-execution_count="6" data-layout-ncol="1">
+<div id="26b22d42" class="cell quarto-layout-panel" data-execution_count="6" data-layout-ncol="1">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[6], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> diverging_hcl
-<span class="ansi-green-fg">----&gt; 2</span> pal  <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">diverging_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Green-Orange</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      3</span> cmap <span style="color:rgb(98,98,98)">=</span> pal<span style="color:rgb(98,98,98)">.</span>cmap()
-<span class="ansi-green-fg ansi-bold">      4</span> <span style="color:rgb(0,135,0)">print</span>(cmap<span style="color:rgb(98,98,98)">.</span>N)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1490</span>, in <span class="ansi-cyan-fg">diverging_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, power, fixup, palette, rev, *args, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1488</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1489</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1490</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Diverging</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1491</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1492</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<pre><code>101</code></pre>
 </div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div style="vertical-align: middle;"><strong>custom_hcl_cmap</strong> </div><div class="cmap"><img alt="custom_hcl_cmap colormap" title="custom_hcl_cmap" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAHnRFWHRUaXRsZQBjdXN0b21faGNsX2NtYXAgY29sb3JtYXCpyZflAAAAJHRFWHREZXNjcmlwdGlvbgBjdXN0b21faGNsX2NtYXAgY29sb3JtYXBjdX6KAAAAMHRFWHRBdXRob3IATWF0cGxvdGxpYiB2My45LjAsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmfx/+MOAAAAMnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHYzLjkuMCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ99ZfCkAAAHnSURBVHic7dZNSgNBEIbhHicRwYXexvsvvI1Lwf+MB6gKdEwQ8XueZVHdk5lFeJf7x4dtNO6W6zK7bWY3Y19nS51dt7NdnY062zdn983Z/VjLbNfu1Vm3t1ua+9qzde/YfJ08v2veZZ38jWv7HS67t3Z70+/x82cc2z3rd5+1d/W3n3vCd10OX3W21dmY3Dvrvgv/lt/Z+6x7Z9452u/aPGf6vnq2+9bd3ux983tz79G+70l3fkzu1dl2aM5297XP6Pbem71mtr01e691bXtp9p6b+57qbIxR/0UAgH9PAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIG+ARu3aQym9asOAAAAAElFTkSuQmCC"></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#11c638ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #11c638ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#ef9708ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #ef9708ff;"></div></div>
 </div>
 </div>
 </div>
 <p>A simple example using <code>matplotlib.pyplot.contourf</code> with a custom HCL based color palette (<code>sequential_hcl("Rocket").cmap()</code>):</p>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> ma</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> ticker, cm</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom color map</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> sequential_hcl(<span class="st">"Rocket"</span>).cmap()</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">3.0</span>, N)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.0</span>, <span class="fl">2.0</span>, N)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># A low hump with a spike coming out.</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Needs to have z/colour axis on a log scale so we see both hump and spike.</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># linear scale only shows the spike.</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>Z1 <span class="op">=</span> np.exp(<span class="op">-</span>X<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> Y<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>Z2 <span class="op">=</span> np.exp(<span class="op">-</span>(X <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> (Y <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> Z1 <span class="op">+</span> <span class="dv">50</span> <span class="op">*</span> Z2</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Put in some negative values (lower left corner) to cause trouble with logs:</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>z[:<span class="dv">5</span>, :<span class="dv">5</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co"># The following is not strictly essential, but it will eliminate</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># a warning.  Comment it out to see the warning.</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> ma.masked_where(z <span class="op">&lt;=</span> <span class="dv">0</span>, z)</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatic selection of levels works; setting the</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co"># log locator tells contourf to use a log scale:</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Matlplotlib.contourf decides to draw 9 levels</span></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> ax.contourf(X, Y, z, locator<span class="op">=</span>ticker.LogLocator(), cmap<span class="op">=</span>cmap)</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="984b2b94" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> ma</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> ticker, cm</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom color map</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> sequential_hcl(<span class="st">"Rocket"</span>).cmap()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">3.0</span>, N)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.0</span>, <span class="fl">2.0</span>, N)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># A low hump with a spike coming out.</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Needs to have z/colour axis on a log scale so we see both hump and spike.</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># linear scale only shows the spike.</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>Z1 <span class="op">=</span> np.exp(<span class="op">-</span>X<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> Y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>Z2 <span class="op">=</span> np.exp(<span class="op">-</span>(X <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> (Y <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> Z1 <span class="op">+</span> <span class="dv">50</span> <span class="op">*</span> Z2</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Put in some negative values (lower left corner) to cause trouble with logs:</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>z[:<span class="dv">5</span>, :<span class="dv">5</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co"># The following is not strictly essential, but it will eliminate</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co"># a warning.  Comment it out to see the warning.</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> ma.masked_where(z <span class="op">&lt;=</span> <span class="dv">0</span>, z)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatic selection of levels works; setting the</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co"># log locator tells contourf to use a log scale:</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Matlplotlib.contourf decides to draw 9 levels</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> ax.contourf(X, Y, z, locator<span class="op">=</span>ticker.LogLocator(), cmap<span class="op">=</span>cmap)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0070d4fc" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[7], line 8</span>
-<span class="ansi-green-fg ansi-bold">      6</span> <span style="font-style:italic;color:rgb(95,135,135)"># Custom color map</span>
-<span class="ansi-green-fg ansi-bold">      7</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> sequential_hcl
-<span class="ansi-green-fg">----&gt; 8</span> cmap <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">sequential_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Rocket</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>cmap()
-<span class="ansi-green-fg ansi-bold">     10</span> N <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">100</span>
-<span class="ansi-green-fg ansi-bold">     11</span> x <span style="color:rgb(98,98,98)">=</span> np<span style="color:rgb(98,98,98)">.</span>linspace(<span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">3.0</span>, <span style="color:rgb(98,98,98)">3.0</span>, N)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1979</span>, in <span class="ansi-cyan-fg">sequential_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, power, fixup, palette, rev, *args, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1977</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1978</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1979</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Sequential</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1980</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1981</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="color_spaces_files/figure-html/cell-8-output-1.png" width="586" height="416"></p>
 </div>
 </div>
 </div>
 
 
 
-</div></section>
+</div></div></section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-color:Horvath+Lipka:2016" class="csl-entry" role="listitem">

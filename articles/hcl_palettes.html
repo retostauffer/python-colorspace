@@ -592,139 +592,109 @@ window.Quarto = {
 <div>
 
 </div>
-<div id="d4aa68ea" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="1">
+<div id="f350f4d5" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[1], line 3</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="color:rgb(98,98,98)">*</span>
-<span class="ansi-green-fg">----&gt; 3</span> qual_pal <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">qualitative_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Set 2</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      4</span> qual1 <span style="color:rgb(98,98,98)">=</span> palette(qual_pal(<span style="color:rgb(98,98,98)">5</span>), <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Color</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">      5</span> qual2 <span style="color:rgb(98,98,98)">=</span> palette(desaturate(qual_pal(<span style="color:rgb(98,98,98)">5</span>)), <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Desaturated</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1200</span>, in <span class="ansi-cyan-fg">qualitative_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, fixup, palette, rev, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1198</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1199</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1200</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Qualitative</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1201</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1202</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="hcl_palettes_files/figure-html/cell-2-output-1.png" width="1171" height="163"></p>
 </div>
 </div>
 </div>
 <p>More details about the construction of such palettes is provided in the following while the article on <a href="palette_visualization.html">Palette Visualization and Assessment</a> introduces further tools to better understand the properties of color palettes.</p>
 <p>To facilitate obtaining good sets of colors, HCL parameter combinations that yield useful palettes are accessible by name. These can be listed using the function <a href="../man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes</code></a>.</p>
-<div id="d7c7749e" class="cell" data-execution_count="2">
+<div id="8488dd57" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[2], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> hcl_palettes
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>HCL palettes
 
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
+Type:  Basic: Sequential (single-hue)
+Names: Grays, Light Grays, Blues 2, Purples 2, Reds 2
+       Greens 2
 
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
+Type:  Basic: Sequential (multi-hue)
+Names: Purple-Blue, Red-Purple, Red-Blue, Purple-Orange
+       Blue-Yellow, Green-Yellow, Red-Yellow, Heat, Heat 2
+       Terrain, Terrain 2, Viridis, Plasma, Dark Mint, Mint
+       Emrld, BluYl, ag_GrnYl, Peach, PinkYl
 
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+Type:  Basic: Qualitative
+Names: Pastel 1, Dark 2, Dark 3, Set 2, Set 3, Warm, Cold
+       Harmonic, Dynamic
+
+Type:  Basic: Diverging
+Names: Blue-Red, Blue-Red 2, Blue-Yellow 2, Blue-Yellow 3
+       Green-Orange, Cyan-Magenta, Tropic
+
+Type:  Advanced: Sequential (single-hue)
+Names: Blues 3, Purples 3, Reds 3, Greens 3, Oslo
+
+Type:  Advanced: Sequential (multi-hue)
+Names: Purple-Yellow, Inferno, Rocket, Mako, BluGrn, Teal
+       TealGrn, Burg, BurgYl, RedOr, OrYel, Purp, PurpOr
+       Sunset, Magenta, SunsetDark, ag_Sunset, BrwnYl, YlOrRd
+       YlOrBr, OrRd, Oranges, YlGn, YlGnBu, Reds, RdPu, PuRd
+       Purples, PuBuGn, PuBu, Greens, BuGn, GnBu, BuPu, Blues
+       Lajolla, Turku, Hawaii, Batlow
+
+Type:  Advanced: Diverging
+Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
+       Green-Brown, Blue-Yellow 2, Blue-Yellow 3, Broc, Cork
+       Vik, Berlin, Lisbon, Tofino</code></pre>
 </div>
 </div>
 <p>To inspect the HCL parameter combinations for a specific palette simply include the palette name where upper- vs.&nbsp;lower-case, spaces, etc. are ignored for matching the label, e.g., <code>"set2"</code> matches <code>"Set 2"</code> as well as <code>"SET2"</code> will.</p>
-<div id="b090c538" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> hcl_palettes().get_palette(name <span class="op">=</span> <span class="st">"SET2"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pal</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[3], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> hcl_palettes
-<span class="ansi-green-fg">----&gt; 2</span> pal <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palette(name <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">SET2</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">      3</span> pal
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<div id="d6b88c2b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> hcl_palettes().get_palette(name <span class="op">=</span> <span class="st">"SET2"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pal</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>Palette Name: Set 2
+        Type: Basic: Qualitative
+        Inspired by: ...
+         c1            60
+         fixup       True
+         gui            1
+         h1             0
+         h2           360
+         l1            70</code></pre>
 </div>
 </div>
-</div>
-<div id="1ecff1b1" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.get_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[4], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">pal</span><span style="color:rgb(98,98,98)">.</span>get_settings()
-
-<span class="ansi-red-fg">NameError</span>: name 'pal' is not defined</pre>
-</div>
+<div id="cbfdb413" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pal.get_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>{'desc': '...',
+ 'h1': 0,
+ 'h2': 360,
+ 'c1': 60,
+ 'l1': 70,
+ 'fixup': True,
+ 'gui': 1}</code></pre>
 </div>
 </div>
 <p>Calling <a href="../man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a>, <a href="../man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a>, and <a href="../man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a> respectively, will initialize an object of class <a href="../man/colorspace.palettes.hclpalettes.html"><code>hclpalette</code></a> defined by a series of parameters which specify the color palette. All parameters can either be specified “by hand” through the HCL parameters, an entire palette can be specified “by name”, or the name-based specification can be modified by a few HCL parameters. In case of the HCL parameters, either a vector-based specification such as <code>h = [0, 270]</code> or individual parameters <code>h1 = 0</code> and <code>h2 = 270</code> can be used.</p>
 <p>To compute the actual color hex codes (representing sRGB coordinates), the method <code>.colors()</code> is used to return a list of <code>n</code> colors along the coordinates defined by parameters specified when constructing the object.</p>
 <p>The first three of the following commands lead to equivalent output. The fourth command yields a modified set of colors (lighter due to a luminance of <code>80</code> instead of <code>70</code>).</p>
-<div id="e53673d5" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl()(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e0d34543" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl()(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['#E16A86', '#909800', '#00AD9A', '#9183E6']</code></pre>
 </div>
 </div>
-<div id="30159a17" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(h <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">270</span>])(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="43360a6f" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(h <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">270</span>])(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>['#E16A86', '#909800', '#00AD9A', '#9183E6']</code></pre>
 </div>
 </div>
-<div id="5f6e0dfb" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(h1 <span class="op">=</span> <span class="dv">0</span>, h2 <span class="op">=</span> <span class="dv">270</span>, c1 <span class="op">=</span> <span class="dv">80</span>, l1 <span class="op">=</span> <span class="dv">60</span>)(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6c8566c3" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(h1 <span class="op">=</span> <span class="dv">0</span>, h2 <span class="op">=</span> <span class="dv">270</span>, c1 <span class="op">=</span> <span class="dv">80</span>, l1 <span class="op">=</span> <span class="dv">60</span>)(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>['#E16A86', '#909800', '#00AD9A', '#9183E6']</code></pre>
 </div>
 </div>
-<div id="ded7250b" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(l <span class="op">=</span> <span class="dv">80</span>).colors(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="437ddf26" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(l <span class="op">=</span> <span class="dv">80</span>).colors(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>['#FFA2BC', '#C6CE3E', '#00E4D0', '#C7BAFF']</code></pre>
 </div>
@@ -733,35 +703,12 @@ Cell <span class="ansi-green-fg">In[4], line 1</span>
 <h2 class="anchored" data-anchor-id="qualitative-palettes">Qualitative palettes</h2>
 <p><a href="../man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a> distinguishes the underlying categories by a sequence of hues while keeping both chroma and luminance constant, to give each color in the resulting palette the same perceptual weight. Thus, <code>h</code> should be a pair of hues (or equivalently <code>h1</code> and <code>h2</code> can be used) with the starting and ending hue of the palette. Then, an equidistant sequence between these hues is employed, by default spanning the full color wheel (i.e., the full <code>360</code> degrees). Chroma <code>c</code> (or equivalently <code>c1</code>) and luminance <code>l</code> (or equivalently <code>l1</code>) are constants. Finally, fixup indicates whether colors with out-of-range coordinates should be corrected.</p>
 <p>In the following graphic the available named palettes are shown. The first five palettes are close to the <a href="https://ColorBrewer.org">ColorBrewer.org</a> palettes of the same name <span class="citation" data-cites="color:Harrower+Brewer:2003">(<a href="#ref-color:Harrower+Brewer:2003" role="doc-biblioref">Harrower and Brewer 2003</a>)</span>. They employ different levels of chroma and luminance and, by default, span the full hue range. The remaining four palettes are taken from <span class="citation" data-cites="color:Ihaka:2003">Ihaka (<a href="#ref-color:Ihaka:2003" role="doc-biblioref">2003</a>)</span>. They are based on the same chroma (<code>50</code>) and luminance (<code>70</code>) but the hue is restricted to different intervals.</p>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">5</span>, <span class="st">"Qualitative"</span>, plot <span class="op">=</span> <span class="va">True</span>, ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="604b0166" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">5</span>, <span class="st">"Qualitative"</span>, plot <span class="op">=</span> <span class="va">True</span>, ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3e7b68c6" class="cell quarto-layout-panel" data-execution_count="9" data-layout-ncol="1">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[9], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> hcl_palettes
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">5</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Qualitative</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">plot</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">ncol</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">figsize</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">8</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">4</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="hcl_palettes_files/figure-html/cell-10-output-1.png" width="787" height="403"></p>
 </div>
 </div>
 </div>
@@ -770,37 +717,13 @@ File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/pyth
 <section id="sequential-palettes-single-hue" class="level2">
 <h2 class="anchored" data-anchor-id="sequential-palettes-single-hue">Sequential palettes (single-hue)</h2>
 <p><a href="../man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a> codes the underlying numeric values by a monotonic sequence of increasing (or decreasing) luminance. Thus, the function’s <code>l</code> argument should provide a vector of length <span class="math inline">\(2\)</span> with starting and ending luminance (equivalently, <code>l1</code> and <code>l2</code> can be used). Without chroma (i.e., <code>c = 0</code>), this simply corresponds to a gray-scale palette, see “Grays” and “Light Grays” below.</p>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Sequential (single-hue)"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="21fbf2c3" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Sequential (single-hue)"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3d0901e7" class="cell quarto-layout-panel" data-execution_count="10" data-layout-ncol="1">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[10], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> hcl_palettes
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">7</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Sequential (single-hue)</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">plot</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">             </span><span class="ansi-yellow-bg">ncol</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">figsize</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">8</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">5</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="hcl_palettes_files/figure-html/cell-11-output-1.png" width="787" height="499"></p>
 </div>
 </div>
 </div>
@@ -812,35 +735,12 @@ File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/pyth
 <p>To not only bring out extreme colors in a sequential palette but also better distinguish middle colors it is a common strategy to employ a sequence of hues. Thus, the basis of such a palette is still a monotonic luminance sequence as above (combined with a monotonic or triangular chroma sequence). But rather than using a single hue, an interval of hues in <code>h</code> (or beginning hue <code>h1</code> and ending hue <code>h2</code>) can be specified.</p>
 <p><a href="../man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a> allows combined variations in hue (<code>h</code> and <code>h1</code>/<code>h2</code>, respectively), chroma (<code>c</code> and <code>c1</code>/<code>c2</code>/<code>cmax</code>, respectively), luminance (<code>l</code> and <code>l1</code>/<code>l2</code>, respectively), and power transformations for the chroma and luminance trajectories (power and <code>p1</code>/<code>p2</code>, respectively). This yields a broad variety of sequential palettes, including many that closely match other well-known color palettes. The plot below shows all the named multi-hue sequential palettes in <strong>colorspace</strong> which consist of various palettes created during the development of <strong>colorspace</strong>, e.g., by <span class="citation" data-cites="color:Zeileis+Hornik+Murrell:2009">Zeileis, Hornik, and Murrell (<a href="#ref-color:Zeileis+Hornik+Murrell:2009" role="doc-biblioref">2009</a>)</span> or <span class="citation" data-cites="color:Stauffer+Mayr+Dabernig:2015">Stauffer et al. (<a href="#ref-color:Stauffer+Mayr+Dabernig:2015" role="doc-biblioref">2015</a>)</span> among others.</p>
 <p>In addition palettes are provided which closely match the palettes developed by <span class="citation" data-cites="color:Smith+VanDerWalt:2015">Smith and Van der Walt (<a href="#ref-color:Smith+VanDerWalt:2015" role="doc-biblioref">2015</a>)</span> for matplotlib, matching CARTO palettes <span class="citation" data-cites="color:CARTO">(<a href="#ref-color:CARTO" role="doc-biblioref">CARTO 2019</a>)</span>, <a href="https://ColorBrewer.org">ColorBrewer.org</a> palettes <span class="citation" data-cites="color:Harrower+Brewer:2003">(<a href="#ref-color:Harrower+Brewer:2003" role="doc-biblioref">Harrower and Brewer 2003</a>)</span>, and palettes closely matching the scientific palettes by <span class="citation" data-cites="color:Crameri:2018">Crameri (<a href="#ref-color:Crameri:2018" role="doc-biblioref">2018</a>)</span>.</p>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Sequential (multi-hue)"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">3</span>, figsize <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="0172d583" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Sequential (multi-hue)"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">3</span>, figsize <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="133c00b4" class="cell quarto-layout-panel" data-execution_count="11" data-layout-ncol="1">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[11], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">7</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Sequential (multi-hue)</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">plot</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">             </span><span class="ansi-yellow-bg">ncol</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">3</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">figsize</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">10</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">8</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="hcl_palettes_files/figure-html/cell-12-output-1.png" width="979" height="787"></p>
 </div>
 </div>
 </div>
@@ -851,35 +751,12 @@ File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/pyth
 <p><a href="../man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a> codes the underlying numeric values by a triangular luminance sequence with different hues in the left and in the right “arms” of the palette. Thus, it can be seen as a combination of two sequential palettes with some restrictions: (a) a single hue is used for each arm of the palette, (b) chroma and luminance trajectory are balanced between the two arms, (c) the neutral central value has zero chroma. To specify such a palette a vector of two hues h (or equivalently <code>h1</code> and <code>h2</code>), either a single chroma value <code>c</code> (or <code>c1</code>) or a vector of two chroma values <code>c</code> (or <code>c1</code> and <code>cmax</code>), a vector of two luminances <code>l</code> (or <code>l1</code> and <code>l2</code>), and power parameter(s) power (or <code>p1</code> and <code>p2</code>) are used. For more flexible diverging palettes without the restrictions above (and consequently more parameters) see the <a href="../man/colorspace.palettes.divergingx_hcl.html"><code>divergingx_hcl</code></a> palettes introduced below.</p>
 <p>The plot below shows all such diverging palettes that have been named in <em>colorspace</em> available via the <a href="../man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a> class.</p>
 <p>A series of these palettes have been developed for the <a href="https://colorspace.r-forge.r-project.org/"><em>R</em> colorspace</a> starting from <span class="citation" data-cites="color:Zeileis+Hornik+Murrell:2009">Zeileis, Hornik, and Murrell (<a href="#ref-color:Zeileis+Hornik+Murrell:2009" role="doc-biblioref">2009</a>)</span>, taking inspiration from various other palettes, including more balanced and simplified versions of several ColorBrewer.org palettes <span class="citation" data-cites="color:Harrower+Brewer:2003">(<a href="#ref-color:Harrower+Brewer:2003" role="doc-biblioref">Harrower and Brewer 2003</a>)</span> “Tropic” closely matches the palette of the same name from CARTO <span class="citation" data-cites="color:CARTO">(<a href="#ref-color:CARTO" role="doc-biblioref">CARTO 2019</a>)</span>, “Broc” to “Vik” and “Berlin” to “Tofino” closely match the scientific color maps of the same name by <span class="citation" data-cites="color:Crameri:2018">Crameri (<a href="#ref-color:Crameri:2018" role="doc-biblioref">2018</a>)</span>, where the first three are intended for a white/light background and the other three for a black/dark background.</p>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Diverging"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="a667f4ee" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Diverging"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a6a46776" class="cell quarto-layout-panel" data-execution_count="12" data-layout-ncol="1">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[12], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">7</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Diverging</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">plot</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">             </span><span class="ansi-yellow-bg">ncol</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">figsize</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">8</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">10</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="hcl_palettes_files/figure-html/cell-13-output-1.png" width="787" height="979"></p>
 </div>
 </div>
 </div>
@@ -952,7 +829,7 @@ j = \Big(1 + \frac{|c_{max} - c_1|}{|c_{max} - c_2|}\Big)^{-1}
 <div>
 
 </div>
-<div id="7c12bddd" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="13">
+<div id="17bbb655" class="cell quarto-layout-panel" data-execution_count="13" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="hcl_palettes_files/figure-html/cell-14-output-1.png" width="950" height="326"></p>
@@ -983,43 +860,22 @@ TODO: Registering new palettes not yet implemented.
 <li>“Cividis” closely matches the palette of the same name from the viridis family <span class="citation" data-cites="color:viridis">(<a href="#ref-color:viridis" role="doc-biblioref">Garnier 2024</a>)</span>. Note that despite having two “arms” with blue vs. yellow colors and a low-chroma center color, this is probably better classified as a sequential palette due to the monotonic chroma going from dark to light. (See <a href="../articles/approximations.html">Approximating Palettes from Other Packages</a> for more details.)</li>
 <li>“Roma” closely matches the palette of the same name by <span class="citation" data-cites="color:Crameri:2018">Crameri (<a href="#ref-color:Crameri:2018" role="doc-biblioref">2018</a>)</span>.</li>
 </ul>
-<div id="b8a73018" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> divergingx_palettes</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>divergingx_palettes(n <span class="op">=</span> <span class="dv">11</span>, ncol <span class="op">=</span> <span class="dv">1</span>, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[14], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> divergingx_palettes
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">divergingx_palettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">n</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">11</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">ncol</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">plot</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">figsize</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">8</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">8</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:28</span>, in <span class="ansi-cyan-fg">divergingx_palettes</span><span class="ansi-blue-fg">(n, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">      4</span> <span style="font-style:italic;color:rgb(175,0,0)">"""Diverging X HCL Palettes</span>
-<span class="ansi-green-fg ansi-bold">      5</span> 
-<span class="ansi-green-fg ansi-bold">      6</span> <span style="font-style:italic;color:rgb(175,0,0)">Returns pre-defined 'diverging xtra' color palettes based on the HCL</span>
-<span class="ansi-green-fg">   (...)</span>
-<span class="ansi-green-fg ansi-bold">     24</span> <span style="font-style:italic;color:rgb(175,0,0)">    &gt;&gt;&gt; divergingx_palettes(n = 15, ncol = 2, plot = True, figsize = (7, 5));</span>
-<span class="ansi-green-fg ansi-bold">     25</span> <span style="font-style:italic;color:rgb(175,0,0)">"""</span>
-<span class="ansi-green-fg ansi-bold">     27</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">hcl_palettes</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> hcl_palettes
-<span class="ansi-green-fg">---&gt; 28</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">hcl_palettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">n</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">n</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">.*divergingx.*</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/hcl_palettes.py:134</span>, in <span class="ansi-cyan-fg">hcl_palettes</span><span class="ansi-blue-fg">(n, type_, name, plot, custom, ncol, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    131</span> <span style="font-style:italic;color:rgb(95,135,135)"># Loading palettes. Ignore all files labeled 'divergingx' in some way as long</span>
-<span class="ansi-green-fg ansi-bold">    132</span> <span style="font-style:italic;color:rgb(95,135,135)"># as no files_regex is provided on **kwargs</span>
-<span class="ansi-green-fg ansi-bold">    133</span> files_regex <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">(?!.*divergingx.*)</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> kwargs<span style="color:rgb(98,98,98)">.</span>keys() <span style="font-weight:bold;color:rgb(0,135,0)">else</span> kwargs[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">files_regex</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg">--&gt; 134</span> pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files_regex</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    136</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sanity type checks</span>
-<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(n, <span style="color:rgb(0,135,0)">int</span>):     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">TypeError</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">argument `n` must be int</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<div id="30e4eb59" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> divergingx_palettes</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>divergingx_palettes(n <span class="op">=</span> <span class="dv">11</span>, ncol <span class="op">=</span> <span class="dv">1</span>, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.3-py3.11.egg/colorspace/palettes.py:1083: RuntimeWarning: divide by zero encountered in divide
+  cmax - (cmax - c1) * abs((i - j) / (1 - j)))
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.3-py3.11.egg/colorspace/palettes.py:1083: RuntimeWarning: invalid value encountered in divide
+  cmax - (cmax - c1) * abs((i - j) / (1 - j)))
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.3-py3.11.egg/colorspace/palettes.py:1083: RuntimeWarning: invalid value encountered in multiply
+  cmax - (cmax - c1) * abs((i - j) / (1 - j)))</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hcl_palettes_files/figure-html/cell-15-output-2.png" width="787" height="787" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>

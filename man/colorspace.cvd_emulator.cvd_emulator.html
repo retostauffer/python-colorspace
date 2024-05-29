@@ -584,67 +584,35 @@ escape(Drop alpha channel, defaults to <code>False</code>. Only useful for png f
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="b57549d5" class="cell" data-execution_count="1">
+<div id="d71b0b9b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> cvd_emulator</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"deutan"</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[1], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> cvd_emulator
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">cvd_emulator</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">DEMO</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">deutan</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0.5</span><span class="ansi-yellow-bg">)</span>;
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/cvd_emulator.py:81</span>, in <span class="ansi-cyan-fg">cvd_emulator</span><span class="ansi-blue-fg">(image, cvd, severity, output, dropalpha)</span>
-<span class="ansi-green-fg ansi-bold">     79</span> <span style="font-style:italic;color:rgb(95,135,135)"># Check if file exists</span>
-<span class="ansi-green-fg ansi-bold">     80</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(image):
-<span class="ansi-green-fg">---&gt; 81</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">FileNotFoundError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">file </span><span style="font-weight:bold;color:rgb(175,95,0)">\"</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>image<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="font-weight:bold;color:rgb(175,95,0)">\"</span><span style="color:rgb(175,0,0)"> not found</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">     83</span> <span style="font-style:italic;color:rgb(95,135,135)"># Wrong input for output</span>
-<span class="ansi-green-fg ansi-bold">     84</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> output <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span> <span style="font-weight:bold;color:rgb(175,0,255)">and</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(output, <span style="color:rgb(0,135,0)">str</span>):
-
-<span class="ansi-red-fg">FileNotFoundError</span>: file "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/colorful.png" not found</pre>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.cvd_emulator.cvd_emulator_files/figure-html/cell-2-output-1.png" width="662" height="284" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
-<div id="39df7ce1" class="cell" data-execution_count="2">
+<div id="3e953ea3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"desaturate"</span>, <span class="fl">1.0</span>, <span class="st">"output.png"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[2], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">cvd_emulator</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">DEMO</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">desaturate</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1.0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">output.png</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>;
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/cvd_emulator.py:81</span>, in <span class="ansi-cyan-fg">cvd_emulator</span><span class="ansi-blue-fg">(image, cvd, severity, output, dropalpha)</span>
-<span class="ansi-green-fg ansi-bold">     79</span> <span style="font-style:italic;color:rgb(95,135,135)"># Check if file exists</span>
-<span class="ansi-green-fg ansi-bold">     80</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(image):
-<span class="ansi-green-fg">---&gt; 81</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">FileNotFoundError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">file </span><span style="font-weight:bold;color:rgb(175,95,0)">\"</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>image<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="font-weight:bold;color:rgb(175,95,0)">\"</span><span style="color:rgb(175,0,0)"> not found</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">     83</span> <span style="font-style:italic;color:rgb(95,135,135)"># Wrong input for output</span>
-<span class="ansi-green-fg ansi-bold">     84</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> output <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span> <span style="font-weight:bold;color:rgb(175,0,255)">and</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(output, <span style="color:rgb(0,135,0)">str</span>):
-
-<span class="ansi-red-fg">FileNotFoundError</span>: file "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/colorful.png" not found</pre>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.cvd_emulator.cvd_emulator_files/figure-html/cell-3-output-1.png" width="662" height="284" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
-<div id="fdd30eab" class="cell" data-execution_count="3">
+<div id="324bb292" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, [<span class="st">"original"</span>, <span class="st">"deutan"</span>, <span class="st">"protan"</span>],</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.5</span>, dropalpha <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[3], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">cvd_emulator</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">DEMO</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">[</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">original</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">deutan</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">protan</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">             </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0.5</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">dropalpha</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">)</span>;
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/cvd_emulator.py:81</span>, in <span class="ansi-cyan-fg">cvd_emulator</span><span class="ansi-blue-fg">(image, cvd, severity, output, dropalpha)</span>
-<span class="ansi-green-fg ansi-bold">     79</span> <span style="font-style:italic;color:rgb(95,135,135)"># Check if file exists</span>
-<span class="ansi-green-fg ansi-bold">     80</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(image):
-<span class="ansi-green-fg">---&gt; 81</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">FileNotFoundError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">file </span><span style="font-weight:bold;color:rgb(175,95,0)">\"</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>image<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="font-weight:bold;color:rgb(175,95,0)">\"</span><span style="color:rgb(175,0,0)"> not found</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">     83</span> <span style="font-style:italic;color:rgb(95,135,135)"># Wrong input for output</span>
-<span class="ansi-green-fg ansi-bold">     84</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> output <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span> <span style="font-weight:bold;color:rgb(175,0,255)">and</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(output, <span style="color:rgb(0,135,0)">str</span>):
-
-<span class="ansi-red-fg">FileNotFoundError</span>: file "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/colorful.png" not found</pre>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.cvd_emulator.cvd_emulator_files/figure-html/cell-4-output-1.png" width="662" height="103" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>

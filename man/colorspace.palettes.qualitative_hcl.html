@@ -643,7 +643,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="cca9bd11" class="cell" data-execution_count="1">
+<div id="9a61cecb" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> qualitative_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -660,75 +660,46 @@ Palette Swatch Plot
  '#DD64BE']</code></pre>
 </div>
 </div>
-<div id="7ec1ca15" class="cell" data-execution_count="2">
+<div id="e744f0d1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> qualitative_hcl(<span class="st">"Warm"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[2], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> b <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">qualitative_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Warm</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      2</span> b<span style="color:rgb(98,98,98)">.</span>colors(<span style="color:rgb(98,98,98)">10</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1200</span>, in <span class="ansi-cyan-fg">qualitative_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, fixup, palette, rev, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1198</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1199</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1200</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Qualitative</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1201</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1202</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>['#ABB065',
+ '#B8AC65',
+ '#C4A86A',
+ '#CFA373',
+ '#D79F7F',
+ '#DE9B8C',
+ '#E2979A',
+ '#E495A8',
+ '#E393B6',
+ '#E093C3']</code></pre>
+</div>
+</div>
+<div id="637cd033" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.qualitative_hcl_files/figure-html/cell-4-output-1.png" width="547" height="67" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
-<div id="206677b5" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[3], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">b</span><span style="color:rgb(98,98,98)">.</span>swatchplot(show_names <span style="color:rgb(98,98,98)">=</span> <span style="font-weight:bold;color:rgb(0,135,0)">False</span>, figsize <span style="color:rgb(98,98,98)">=</span> (<span style="color:rgb(98,98,98)">5.5</span>, <span style="color:rgb(98,98,98)">0.5</span>));
-
-<span class="ansi-red-fg">NameError</span>: name 'b' is not defined</pre>
-</div>
-</div>
-</div>
-<div id="60aecc37" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(<span class="st">"Warm"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[4], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># The standard call of the object also returns hex colors</span>
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">qualitative_hcl</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">Warm</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>(<span style="color:rgb(98,98,98)">10</span>)
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:1200</span>, in <span class="ansi-cyan-fg">qualitative_hcl.__init__</span><span class="ansi-blue-fg">(self, h, c, l, fixup, palette, rev, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">   1198</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(palette, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg ansi-bold">   1199</span>     <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> where
-<span class="ansi-green-fg">-&gt; 1200</span>     pals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)">.</span>get_palettes(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Qualitative</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">   1201</span>     idx  <span style="color:rgb(98,98,98)">=</span> where([x<span style="color:rgb(98,98,98)">.</span>name()<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="color:rgb(98,98,98)">==</span> palette<span style="color:rgb(98,98,98)">.</span>upper()<span style="color:rgb(98,98,98)">.</span>replace(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> </span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">"</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> pals])[<span style="color:rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg ansi-bold">   1202</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">len</span>(idx) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">0</span>:
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
-
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
+<div id="7265fa1c" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(<span class="st">"Warm"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>['#ABB065',
+ '#B8AC65',
+ '#C4A86A',
+ '#CFA373',
+ '#D79F7F',
+ '#DE9B8C',
+ '#E2979A',
+ '#E495A8',
+ '#E393B6',
+ '#E093C3']</code></pre>
 </div>
 </div>
 </section>

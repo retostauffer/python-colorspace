@@ -595,57 +595,82 @@ Create swatchplot.
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="e13890c4" class="cell" data-execution_count="1">
+<div id="e0c08d93" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hclpalettes</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>hclpals <span class="op">=</span> hclpalettes()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hclpals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[1], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> hclpalettes
-<span class="ansi-green-fg">----&gt; 2</span> hclpals <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">hclpalettes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      3</span> hclpals
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>HCL palettes
 
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/palettes.py:478</span>, in <span class="ansi-cyan-fg">hclpalettes.__init__</span><span class="ansi-blue-fg">(self, files, files_regex)</span>
-<span class="ansi-green-fg ansi-bold">    476</span> <span style="font-style:italic;color:rgb(95,135,135)"># Input 'files' specified:</span>
-<span class="ansi-green-fg ansi-bold">    477</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">len</span>(files) <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">0</span>:
-<span class="ansi-green-fg">--&gt; 478</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">no palette config files provided (</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__class__</span><span style="color:rgb(98,98,98)">.</span><span style="color:rgb(0,0,135)">__name__</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">)</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    479</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> file <span style="font-weight:bold;color:rgb(175,0,255)">in</span> files:
-<span class="ansi-green-fg ansi-bold">    480</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>isfile(file):
+Type:  Basic: Sequential (single-hue)
+Names: Grays, Light Grays, Blues 2, Purples 2, Reds 2
+       Greens 2
 
-<span class="ansi-red-fg">ValueError</span>: no palette config files provided (hclpalettes)</pre>
-</div>
-</div>
-</div>
-<div id="1266aca0" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette swatch plots with 5 colors each</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>hclpals.plot(n <span class="op">=</span> <span class="dv">5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[2], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Palette swatch plots with 5 colors each</span>
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">hclpals</span><span style="color:rgb(98,98,98)">.</span>plot(n <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">5</span>);
+Type:  Basic: Sequential (multi-hue)
+Names: Purple-Blue, Red-Purple, Red-Blue, Purple-Orange
+       Blue-Yellow, Green-Yellow, Red-Yellow, Heat, Heat 2
+       Terrain, Terrain 2, Viridis, Plasma, Dark Mint, Mint
+       Emrld, BluYl, ag_GrnYl, Peach, PinkYl
 
-<span class="ansi-red-fg">NameError</span>: name 'hclpals' is not defined</pre>
-</div>
-</div>
-</div>
-<div id="42055948" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette swatch plots with 11 colors each</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hclpals.plot(n <span class="op">=</span> <span class="dv">11</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[3], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Palette swatch plots with 11 colors each</span>
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">hclpals</span><span style="color:rgb(98,98,98)">.</span>plot(n <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">11</span>);
+Type:  Basic: Qualitative
+Names: Pastel 1, Dark 2, Dark 3, Set 2, Set 3, Warm, Cold
+       Harmonic, Dynamic
 
-<span class="ansi-red-fg">NameError</span>: name 'hclpals' is not defined</pre>
+Type:  Basic: Diverging
+Names: Blue-Red, Blue-Red 2, Blue-Yellow 2, Blue-Yellow 3
+       Green-Orange, Cyan-Magenta, Tropic
+
+Type:  Advanced: Sequential (single-hue)
+Names: Blues 3, Purples 3, Reds 3, Greens 3, Oslo
+
+Type:  Advanced: Sequential (multi-hue)
+Names: Purple-Yellow, Inferno, Rocket, Mako, BluGrn, Teal
+       TealGrn, Burg, BurgYl, RedOr, OrYel, Purp, PurpOr
+       Sunset, Magenta, SunsetDark, ag_Sunset, BrwnYl, YlOrRd
+       YlOrBr, OrRd, Oranges, YlGn, YlGnBu, Reds, RdPu, PuRd
+       Purples, PuBuGn, PuBu, Greens, BuGn, GnBu, BuPu, Blues
+       Lajolla, Turku, Hawaii, Batlow
+
+Type:  Advanced: DivergingX
+Names: ArmyRose, Earth, Fall, Geyser, TealRose, Temps, PuOr
+       RdBu, RdGy, PiYG, PRGn, BrBG, RdYlBu, RdYlGn, Spectral
+       Zissou 1, Cividis, Roma
+
+Type:  Advanced: Diverging
+Names: ArmyRose, Earth, Fall, Geyser, TealRose, Temps, PuOr
+       RdBu, RdGy, PiYG, PRGn, BrBG, RdYlBu, RdYlGn, Spectral
+       Zissou 1, Cividis, Roma, Blue-Red 3, Red-Green
+       Purple-Green, Purple-Brown, Green-Brown, Blue-Yellow 2
+       Blue-Yellow 3, Broc, Cork, Vik, Berlin, Lisbon, Tofino</code></pre>
+</div>
+</div>
+<div id="22f570af" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette swatch plots with 5 colors each</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hclpals.plot(n <span class="op">=</span> <span class="dv">5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.3-py3.11.egg/colorspace/palettes.py:1083: RuntimeWarning: divide by zero encountered in divide
+  cmax - (cmax - c1) * abs((i - j) / (1 - j)))
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.3-py3.11.egg/colorspace/palettes.py:1083: RuntimeWarning: invalid value encountered in divide
+  cmax - (cmax - c1) * abs((i - j) / (1 - j)))
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.3-py3.11.egg/colorspace/palettes.py:1083: RuntimeWarning: invalid value encountered in multiply
+  cmax - (cmax - c1) * abs((i - j) / (1 - j)))</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.hclpalettes_files/figure-html/cell-3-output-2.png" width="691" height="499" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="6e2d918f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette swatch plots with 11 colors each</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hclpals.plot(n <span class="op">=</span> <span class="dv">11</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.hclpalettes_files/figure-html/cell-4-output-1.png" width="691" height="499" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>

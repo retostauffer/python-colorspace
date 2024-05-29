@@ -571,96 +571,34 @@ escape(should return be rounded? Defaults to <code>False</code>.)
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="fa7c9ebf" class="cell" data-execution_count="1">
+<div id="a750e4f1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> max_chroma</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue = 0 (red) with Luminance = 50</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>max_chroma(<span class="dv">0</span>, <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[1], line 3</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">colorspace</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> max_chroma
-<span class="ansi-green-fg ansi-bold">      2</span> <span style="font-style:italic;color:rgb(95,135,135)"># Max Chroma for Hue = 0 (red) with Luminance = 50</span>
-<span class="ansi-green-fg">----&gt; 3</span> <span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">50</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
-<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
-<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
-<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
-<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
-
-<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>array([137.96])</code></pre>
 </div>
 </div>
-</div>
-<div id="805eced8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue = 0 (red) for different Luminance levels</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>max_chroma(<span class="dv">0</span>, [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[2], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Max Chroma for Hue = 0 (red) for different Luminance levels</span>
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">[</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">25</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">50</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">75</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
-<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
-<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
-<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
-<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
-
-<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
+<div id="d240bd9f" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue = 0 (red) for different Luminance levels</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>max_chroma(<span class="dv">0</span>, [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>array([ 69.51, 137.96,  64.37])</code></pre>
 </div>
 </div>
-</div>
-<div id="9cf46600" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue in sequence [0, 360] by 60, Luminace = 50</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>max_chroma(np.arange(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">60</span>), <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[3], line 3</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Max Chroma for Hue in sequence [0, 360] by 60, Luminace = 50</span>
-<span class="ansi-green-fg ansi-bold">      2</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">numpy</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> <span style="font-weight:bold;color:rgb(0,0,255)">np</span>
-<span class="ansi-green-fg">----&gt; 3</span> <span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">np</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">arange</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">360</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">60</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">50</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
-<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
-<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
-<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
-<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
-
-<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
+<div id="08ead67b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue in sequence [0, 360] by 60, Luminace = 50</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>max_chroma(np.arange(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">60</span>), <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>array([137.96,  59.99,  69.06,  39.81,  65.45, 119.54])</code></pre>
 </div>
 </div>
-</div>
-<div id="cea6434d" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as above but floored</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>max_chroma(np.arange(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">60</span>), <span class="dv">50</span>, floor <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[4], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Same as above but floored</span>
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">max_chroma</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">np</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">arange</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">360</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">60</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">50</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">floor</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/utils.py:709</span>, in <span class="ansi-cyan-fg">max_chroma</span><span class="ansi-blue-fg">(H, L, floor)</span>
-<span class="ansi-green-fg ansi-bold">    707</span> resource_package <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>dirname(<span style="color:rgb(0,0,135)">__file__</span>)
-<span class="ansi-green-fg ansi-bold">    708</span> filename <span style="color:rgb(98,98,98)">=</span> os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(resource_package, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">data</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">max_chroma_table.json</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">--&gt; 709</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">r</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> fid:
-<span class="ansi-green-fg ansi-bold">    710</span>     mctab <span style="color:rgb(98,98,98)">=</span> json<span style="color:rgb(98,98,98)">.</span>loads(fid<span style="color:rgb(98,98,98)">.</span>readline())
-<span class="ansi-green-fg ansi-bold">    712</span> <span style="font-style:italic;color:rgb(95,135,135)"># Minimum/maximum hue and luminance</span>
-
-<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/colorspace-0.4.2-py3.11.egg/colorspace/data/max_chroma_table.json'</pre>
-</div>
+<div id="d2130eeb" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as above but floored</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>max_chroma(np.arange(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">60</span>), <span class="dv">50</span>, floor <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>array([137.,  59.,  69.,  39.,  65., 119.])</code></pre>
 </div>
 </div>
 </section>
