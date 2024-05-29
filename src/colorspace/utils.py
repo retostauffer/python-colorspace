@@ -613,7 +613,7 @@ def contrast_ratio(colors, bg = "#FFFFFF", plot = False, ax = None, \
             return ax
         else:
             fig.tight_layout()
-            fig.show()
+            plt.show()
 
     return ratio
 
