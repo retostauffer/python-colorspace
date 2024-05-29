@@ -64,7 +64,13 @@ def main():
     imgdir = join(docconv.config_get("quarto_dir"), "images")
     if not os.path.isdir(imgdir): os.makedirs(imgdir)
 
-    for img in ["human-axes.svg", "hcl-projections-1.png", "img_gui.jpeg"]:
+    for img in ["bobross.jpg", "bkde-rainbow.png", "bkde-heat.png",
+            "bkde-rainbow-deutan.png", "bkde-heat-deutan.png",
+            "nigeria-purplegreen.png", "nigeria-rainbow.png",
+            "nigeria-purplegreen-protan.png", "nigeria-rainbow-protan.png",
+            "fv3gfs-rainbow-deutan.png", "fv3gfs-rainbow-gray.png", "fv3gfs-rainbow.png", "fv3gfs-sunset-deutan.png", "fv3gfs-sunset-gray.png", "fv3gfs-sunset.png",
+            "influenza-purpleyellow-deutan.png", "influenza-purpleyellow-gray.png", "influenza-purpleyellow.png", "influenza-rainbow-deutan.png", "influenza-rainbow-gray.png", "influenza-rainbow.png",
+            "human-axes.svg", "hcl-projections-1.png", "img_gui.jpeg"]:
         shutil.copy(join(qdir, "images", img), join(imgdir, img))
 
     # Adding logo

@@ -26,7 +26,7 @@ by @color:Stauffer+Mayr+Dabernig:2015 as well as the
 [`#endrainbow`](https://twitter.com/hashtag/endrainbow) hashtag on X (twitter).
 
 In a nutshell, the (in-)famous RGB rainbow palette is virtually always a poor choice and properly balanced qualitative, sequential, or diverging palettes - such as the
-:ref:`article-hcl_palettes` provided here - are
+[HCL-Based Color Palettes](/articles/hcl_palettes.qmd) provided here - are
 preferable. Despite such alternatives becoming more and more widely available
 the rainbow palette is unfortunately still widely used. Below we illustrate
 some wild-caught examples, highlight their problems (e.g., by desaturation to
@@ -39,7 +39,7 @@ alternatives.
 When you see a (scientific) data visualization with a rainbow, ask yourself:
 Would [Bob Ross](https://www.bobross.com/) approve of this?
 
-![](images/bobross.jpg)
+![](/images/bobross.jpg)
 
 Most likely not. In contrast, choosing a HCL-based palette instead will yield
 less flashy colors that change smoothly ... very much in the spirit of
@@ -58,9 +58,9 @@ sequential heat color palette on the right
 
 
 ::: {layout-ncol=2}
-![](images/bkde-rainbow.png)
+![](/images/bkde-rainbow.png)
 
-![](images/bkde-heat.png)
+![](/images/bkde-heat.png)
 :::
 
 The original palette changes back and forth between dark and light colors and
@@ -69,9 +69,9 @@ when desaturated to grayscale. In contrast, the heat colors go from light to
 dark and still work very well in grayscale.
 
 ::: {layout-ncol=2}
-[](images/bkde-rainbow-gray.png)
+[](/images/bkde-rainbow-gray.png)
 
-[](images/bkde-heat-gray.png)
+[](/images/bkde-heat-gray.png)
 :::
 
 Similarly, high- and low-density regions are much harder to distinguish for
@@ -79,9 +79,9 @@ colorblind viewers in the original rainbow palette compared to the heat colors.
 Below deuteranope vision is emulated.
 
 ::: {layout-ncol=2}
-![](images/bkde-rainbow-deutan.png)
+![](/images/bkde-rainbow-deutan.png)
 
-![](images/bkde-heat-deutan.png)
+![](/images/bkde-heat-deutan.png)
 :::
 
 
@@ -94,17 +94,17 @@ slopes, etc. A typical example is shown below, taken from Figure 5 of
 @color:Kneib:2006, where deviations from a childhood moratlity model
 (without spatial effect) for Nigeria are depicted.
 
-The original palette is ``rainbow(start = 0, end = 1/3, rev = True)(99)`` (left)
-and as a better alternative ``diverging_hcl("Purple-Green", rev = True)(99)`` is used. This
+The original palette is `rainbow(start = 0, end = 1/3, rev = True)(99)` (left)
+and as a better alternative `diverging_hcl("Purple-Green", rev = True)(99)` is used. This
 avoids the flashy colors and uses light gray as the neutral value, making it
 easier to look at the display for a longer time. Instead of diverging to
 red/green the palette diverges to purple/green as this works better for
 colorblind viewers (see below).
 
 ::: {layout-ncol=2}
-![](images/nigeria-rainbow.png)
+![](/images/nigeria-rainbow.png)
 
-![](images/nigeria-purplegreen.png)
+![](/images/nigeria-purplegreen.png)
 :::
 
 Emulating protanope vision most of the green-yellow contrasts in the RGB
@@ -112,9 +112,9 @@ rainbow are collpased, making the plot very misleading while the HCL-based
 purple/green palette still works very well for colorblind viewers.
 
 ::: {layout-ncol=2}
-![](images/nigeria-rainbow-protan.png)
+![](/images/nigeria-rainbow-protan.png)
 
-![](images/nigeria-purplegreen-protan.png)
+![](/images/nigeria-purplegreen-protan.png)
 :::
 
 Another important difference between the two palettes is that the HCL-based
@@ -127,20 +127,22 @@ colors).
 #| echo: true
 #| error: true
 #| warning: true
+#| fig-align: center
 
 from colorspace import rainbow, specplot
 pal = rainbow(start = 0, end = 1/3, rev = True)
-specplot(pal(99))
+specplot(pal(99));
 ```
 
 ```{python}
 #| echo: true
 #| error: true
 #| warning: true
+#| fig-align: center
 
 from colorspace import diverging_hcl, specplot
 pal = diverging_hcl("Purple-Green", rev = True)
-specplot(pal(99))
+specplot(pal(99));
 ```
 
 
@@ -155,14 +157,14 @@ similarly highly-saturated colors from a wide range of hues (left panel).
 As in the previous section, the palette is very discontinuous and breaks the
 values down into separate "classes" or "bands". For experienced users this may
 help locating bands with very specific numeric values but leads to an uneven
-overall picture. In contrast, the ``sequential_hcl("ag_Sunset").colors(23)`` palette
+overall picture. In contrast, the `sequential_hcl("ag_Sunset").colors(23)` palette
 (right panel) shows a smooth gradient, giving somewhat more emphasis to the
 darker low-temperature regions.
 
 ::: {layout-ncol=2}
-![](images/fv3gfs-rainbow.png)
+![](/images/fv3gfs-rainbow.png)
 
-![](images/fv3gfs-sunset.png)
+![](/images/fv3gfs-sunset.png)
 :::
 
 Depicting the hue/chroma/luminance trajectories of both palettes also shows the
@@ -174,23 +176,25 @@ wide range of hues but changes hue, chroma, and luminance smoothly.
 #| echo: true
 #| error: true
 #| warning: true
+#| fig-align: center
 
 from colorspace import specplot
 original = ["#F6C77B", "#A8373A", "#009BFF", "#D35252", "#0DD189", "#E3AF36",
             "#9CE743", "#EE8130", "#FE9E23", "#E4E4E4", "#ACFBA4", "#4EF159",
             "#1BA120", "#00DE28", "#92CDF8", "#3D8FF0", "#205FCD", "#0EC6C6",
             "#BCAEFD", "#4D33C4", "#9B00C4", "#2829FB", "#F83940"]
-specplot(original)
+specplot(original);
 ```
 
 ```{python}
 #| echo: true
 #| error: true
 #| warning: true
+#| fig-align: center
 
 from colorspace import sequential_hcl, specplot
 pal = sequential_hcl("ag_Sunset").colors(23)
-specplot(pal)
+specplot(pal);
 ```
 
 Consequently, the figure with the sunset palette also works reasonably well in
@@ -198,22 +202,22 @@ grayscale or for colorblind viewers while the original palette is rather
 problematic.
 
 ::: {layout-ncol=2}
-![](images/fv3gfs-rainbow-gray.png)
+![](/images/fv3gfs-rainbow-gray.png)
 
-![](images/fv3gfs-sunset-gray.png)
+![](/images/fv3gfs-sunset-gray.png)
 :::
 
 ::: {layout-ncol=2}
-![](images/fv3gfs-rainbow-deutan.png)
+![](/images/fv3gfs-rainbow-deutan.png)
 
-![](images/fv3gfs-sunset-deutan.png)
+![](/images/fv3gfs-sunset-deutan.png)
 :::
 
 Risk map: Influenza
 -------------------
 
 The shaded map below was taken from the web site of the
-`Robert Koch-Institut <https://influenza.rki.de/>`_ (Arbeitsgemeinschaft Influenza)
+[Robert Koch-Institut](https://influenza.rki.de/) (Arbeitsgemeinschaft Influenza)
 and it shows the severity of influenza in Germany in week 8, 2019. The original
 color palette (left) is the classic rainbow ranging from “normal” (blue) to
 “strongly increased” (red). As all colors in the palette are very flashy and
@@ -221,7 +225,7 @@ highly-saturated it is hard to grasp intuitively which areas are most affected
 by influenza. Also, the least interesting “normal” areas stand out as blue is
 the darkest color in the palette.
 
-As an alternative, a proper multi-hue ``sequential_hcl("Purple-Yellow")(99)``
+As an alternative, a proper multi-hue `sequential_hcl("Purple-Yellow")(99)`
 palette is used on the right. This has smooth gradients and the overall message
 can be grasped quickly, giving focus to the high-risk regions depicted with
 dark/colorful colors. However, the extremely sharp transitions between “normal”
@@ -229,9 +233,9 @@ and “strongly increased” areas (e.g., in the North and the East) might indic
 some overfitting in the underlying smoothing for the map.
 
 ::: {layout-ncol=2}
-![](images/influenza-rainbow.png)
+![](/images/influenza-rainbow.png)
 
-![](images/influenza-purpleyellow.png)
+![](/images/influenza-purpleyellow.png)
 :::
 
 Converting all colors to grayscale brings out even more clearly why the overall
@@ -241,18 +245,18 @@ to identify the high-risk regions while this is more natural and
 straightforward with the HCL-based sequential palette.
 
 ::: {layout-ncol=2}
-![](images/influenza-rainbow-gray.png)
+![](/images/influenza-rainbow-gray.png)
 
-![](images/influenza-purpleyellow-gray.png)
+![](/images/influenza-purpleyellow-gray.png)
 :::
 
 Emulating deuteranope vision emphasizes the same problems as the desaturated
 version above but shows even more problems with the original palette.
 
 ::: {layout-ncol=2}
-![](images/influenza-rainbow-deutan.png)
+![](/images/influenza-rainbow-deutan.png)
 
-![](images/influenza-purpleyellow-deutan.png)
+![](/images/influenza-purpleyellow-deutan.png)
 :::
 
 Showing changes in hue/chroma/luminance across the two palettes also highlights
@@ -262,6 +266,7 @@ the discontinuity vs. smoothness of the two palettes.
 #| echo: true
 #| error: true
 #| warning: true
+#| fig-align: center
 
 from colorspace import rainbow, specplot
 pal = rainbow(end = 2/3, rev = True)
@@ -272,6 +277,7 @@ specplot(pal(99));
 #| echo: true
 #| error: true
 #| warning: true
+#| fig-align: center
 
 from colorspace import sequential_hcl, specplot
 pal = sequential_hcl("Purple-Yellow", rev = True)
