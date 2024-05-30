@@ -83,29 +83,26 @@ More detailed overviews and examples are provided in the articles:
 
 ## Installation
 
-At the moment the package is available via
+The latest release candidate of this package is
+available via the Python Package Index (PyPI) (see
+<https://pypi.org/project/colorspace/>) as well as on
 [GitHub](https://https://github.com/retostauffer/python-colorspace>).
-Note that [`numpy`](https://pypi.org/project/numpy/) needs to be installed to be able to
-use the package. A [PyPI](https://pypi.org) release is planned in the future.
-
-**Requirements**
-
-* Python `3.10+`
-* [`numpy`](https://pypi.org/project/numpy/>)
-* [`matplotlib`](https://pypi.org/project/matplotlib/>)
-* [`imageio`](https://pypi.org/project/imageio/>) (optional).
 
 **Install via pip**
 
-The package can be installed via [`pip`](https://pypi.org/project/pip/) using
-the following command:
+The installation of the latest release can be done using pip. Will automatically
+install the necessary requirement (`numpy`). To use the full functionality of the
+package, `matplotlib` and `imageio` will be needed to be installed, tough not
+only required for [visualization](/articles/palette_visualization.qmd)
+and [CVD emulation](/articles/cvd.qmd).
+Check out the [Installation](/installation.qmd) page for more details.
+
 
 ```
-pip install git+https://github.com/retostauffer/python-colorspace
+pip install colorspace
+# pip install matplotlib
+# pip install imageio
 ```
-
-
-TODO: Update once released on PyPI.
 
 
 ## Choosing HCL-based color palettes

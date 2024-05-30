@@ -13,11 +13,17 @@ Please also feel free to help improving the software (via pull
 requests, or simply get in touch with me, helping hands would
 be very welcome)!
 
-## Version 0.4 (Early 2024)
+
+## Version 0.4 (Spring 2024)
 
 * Once more revamped documentation
 * Fixed a series of smaller bugs
 * Adjusted pytest to current version
+* First PyPI release on https://pypi.org/project/colorspace/
+* Revamped the entire documentation, now Quarto based and still
+    available via https://retostauffer.github.io/python-colorspace/.
+    Creaded with help of the https://retostauffer.github.io/pyp2qmd package.
+
 
 ## Version 0.3.0 (January 2022)
 

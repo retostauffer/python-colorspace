@@ -2,7 +2,8 @@
 title: Package Installation
 ---
 
-At the moment the package is available via
+This package is available via the
+[Python Package index (PyPI)](https://pypi.org/project/colorspace/) or via 
 [GitHub](https://github.com/retostauffer/python-colorspace).
 A few requirements are needed to be able to use the package and all its features.
 
@@ -11,27 +12,27 @@ A few requirements are needed to be able to use the package and all its features
 * [`matplotlib`](https://pypi.org/project/matplotlib/>)
 * [`imageio`](https://pypi.org/project/imageio/>) (optional).
 
-A release of the _colorspace_ package on [PyPI](https://pypi.org) is planned
-in the near future. Please use the
-[git issues](https://github.com/retostauffer/python-colorspace/issues>)
+Please use the the [GitHub issues](https://github.com/retostauffer/python-colorspace/issues>)
 to report bugs and issues as well as feature requests. There is no
 guarantee that feature requests can be accommodated, especially as we try to
 keep both, the R and Python version of the package, around the same level.
 
+**Installing**
 
-**Installing via pip**
+The latest release can be directly installed from [PyPI](https://pypi.org/project/colorspace/)
+using:
 
-The package can be installed via [`pip`](https://pypi.org/project/pip/) using
-the following command:
+```
+pip install colorspace
+```
+
+... or installing the last version (GitHub head branch) using:
 
 ```
 pip install git+https://github.com/retostauffer/python-colorspace
 ```
 
-
-**Cloning the git repository**
-
-Alternatively, clone the git repository and install the package:
+Alternatively, clone the git repository and install the package from there:
 
 ```
 git clone https://github.com/retostauffer/python-colorspace.git

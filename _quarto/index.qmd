@@ -40,12 +40,12 @@ More information and further reading:
 
 * [HCLwizard.org](http://hclwizard.org): More information about the HCL color
   space, introduction to the *colorspace* packages (available for
-  [_R_(https://cran.r-project.org/package=colorspace>) and
-  [Python](https://github.com/retostauffer/python-colorspace), and some
+  [_R_](https://cran.r-project.org/package=colorspace) and
+  [Python](https://pypi.org/project/colorspace/)), and some
   interactive tools to define effective HCL-based color palettes, pick colors,
   and check existing plots and figures for possible problems in terms of color
   vision deficiencies.
-* [A list of scientific articles](http://www.hclwizard.org/references/>)
+* [A list of scientific articles](http://www.hclwizard.org/references/)
   which provide more detailed insights, e.g.,
 * [The end of the rainbow](http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/):
   An open letter to the climate science community by 
