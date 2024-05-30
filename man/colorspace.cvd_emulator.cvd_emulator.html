@@ -550,19 +550,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="colorspace.cvd_emulator.cvd_emulator:image">image</code><code class="argument-class">str</code>
 </dt>
 <dd>
-Name of the figure which should be converted (png/jpg/jpeg). If <code>image = &amp;quot;DEMO&amp;quot;</code> the package demo figure is used.
+Name of the figure which should be converted (png/jpg/jpeg). If <code>image = "DEMO"</code> the package demo figure is used.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.cvd_emulator.cvd_emulator:cvd">cvd</code><code class="argument-class">str, list</code>
 </dt>
 <dd>
-Color vision deficiency or deficiencies. Allowed types are <code>&amp;quot;deutanope&amp;quot;</code>, <code>&amp;quot;protanope&amp;quot;</code>, <code>&amp;quot;tritanope&amp;quot;</code>, <code>&amp;quot;desaturated&amp;quot;</code>, and <code>&amp;quot;original&amp;quot;</code> (unmodified).
+Color vision deficiency or deficiencies. Allowed types are <code>"deutanope"</code>, <code>"protanope"</code>, <code>"tritanope"</code>, <code>"desaturated"</code>, and <code>"original"</code> (unmodified).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.cvd_emulator.cvd_emulator:severity">severity</code><code class="argument-class">float</code>
 </dt>
 <dd>
-How severe the color vision deficiency is (<code>[0.,1.]</code>). Also used as the amount of desaturation if <code>cvd</code> includes <code>&amp;quot;desaturate&amp;quot;</code>.
+How severe the color vision deficiency is (<code>[0.,1.]</code>). Also used as the amount of desaturation if <code>cvd</code> includes <code>"desaturate"</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.cvd_emulator.cvd_emulator:output">output</code><code class="argument-class">None, str</code>
@@ -584,7 +584,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="6157eeb2" class="cell" data-execution_count="1">
+<div id="38924a0c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> cvd_emulator</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"deutan"</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -595,7 +595,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </div>
 </div>
 </div>
-<div id="254a8ada" class="cell" data-execution_count="2">
+<div id="0ba0d003" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"desaturate"</span>, <span class="fl">1.0</span>, <span class="st">"output.png"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -605,7 +605,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </div>
 </div>
 </div>
-<div id="36c0f00f" class="cell" data-execution_count="3">
+<div id="c952d5c9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, [<span class="st">"original"</span>, <span class="st">"deutan"</span>, <span class="st">"protan"</span>],</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.5</span>, dropalpha <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">

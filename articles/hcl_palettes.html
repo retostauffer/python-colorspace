@@ -592,7 +592,7 @@ window.Quarto = {
 <div>
 
 </div>
-<div id="85e16252" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="1">
+<div id="bf15f177" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="hcl_palettes_files/figure-html/cell-2-output-1.png" width="1171" height="163"></p>
@@ -601,7 +601,7 @@ window.Quarto = {
 </div>
 <p>More details about the construction of such palettes is provided in the following while the article on <a href="palette_visualization.html">Palette Visualization and Assessment</a> introduces further tools to better understand the properties of color palettes.</p>
 <p>To facilitate obtaining good sets of colors, HCL parameter combinations that yield useful palettes are accessible by name. These can be listed using the function <a href="../man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes</code></a>.</p>
-<div id="17273686" class="cell" data-execution_count="2">
+<div id="cf4cf2c4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -643,7 +643,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
 </div>
 </div>
 <p>To inspect the HCL parameter combinations for a specific palette simply include the palette name where upper- vs.&nbsp;lower-case, spaces, etc. are ignored for matching the label, e.g., <code>"set2"</code> matches <code>"Set 2"</code> as well as <code>"SET2"</code> will.</p>
-<div id="749bec78" class="cell" data-execution_count="3">
+<div id="90186344" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> hcl_palettes().get_palette(name <span class="op">=</span> <span class="st">"SET2"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pal</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -659,7 +659,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
          l1            70</code></pre>
 </div>
 </div>
-<div id="e275a4d4" class="cell" data-execution_count="4">
+<div id="36b5479a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pal.get_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>{'desc': '...',
@@ -674,26 +674,26 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
 <p>Calling <a href="../man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a>, <a href="../man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a>, and <a href="../man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a> respectively, will initialize an object of class <a href="../man/colorspace.palettes.hclpalettes.html"><code>hclpalette</code></a> defined by a series of parameters which specify the color palette. All parameters can either be specified “by hand” through the HCL parameters, an entire palette can be specified “by name”, or the name-based specification can be modified by a few HCL parameters. In case of the HCL parameters, either a vector-based specification such as <code>h = [0, 270]</code> or individual parameters <code>h1 = 0</code> and <code>h2 = 270</code> can be used.</p>
 <p>To compute the actual color hex codes (representing sRGB coordinates), the method <code>.colors()</code> is used to return a list of <code>n</code> colors along the coordinates defined by parameters specified when constructing the object.</p>
 <p>The first three of the following commands lead to equivalent output. The fourth command yields a modified set of colors (lighter due to a luminance of <code>80</code> instead of <code>70</code>).</p>
-<div id="79b47321" class="cell" data-execution_count="5">
+<div id="8ef32606" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl()(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['#E16A86', '#909800', '#00AD9A', '#9183E6']</code></pre>
 </div>
 </div>
-<div id="9a394e83" class="cell" data-execution_count="6">
+<div id="60f98e7d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(h <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">270</span>])(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>['#E16A86', '#909800', '#00AD9A', '#9183E6']</code></pre>
 </div>
 </div>
-<div id="c1872da4" class="cell" data-execution_count="7">
+<div id="59b2e3cb" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(h1 <span class="op">=</span> <span class="dv">0</span>, h2 <span class="op">=</span> <span class="dv">270</span>, c1 <span class="op">=</span> <span class="dv">80</span>, l1 <span class="op">=</span> <span class="dv">60</span>)(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>['#E16A86', '#909800', '#00AD9A', '#9183E6']</code></pre>
 </div>
 </div>
-<div id="ca0a97a6" class="cell" data-execution_count="8">
+<div id="4840a765" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(l <span class="op">=</span> <span class="dv">80</span>).colors(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>['#FFA2BC', '#C6CE3E', '#00E4D0', '#C7BAFF']</code></pre>
@@ -705,7 +705,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
 <p>In the following graphic the available named palettes are shown. The first five palettes are close to the <a href="https://ColorBrewer.org">ColorBrewer.org</a> palettes of the same name <span class="citation" data-cites="color:Harrower+Brewer:2003">(<a href="#ref-color:Harrower+Brewer:2003" role="doc-biblioref">Harrower and Brewer 2003</a>)</span>. They employ different levels of chroma and luminance and, by default, span the full hue range. The remaining four palettes are taken from <span class="citation" data-cites="color:Ihaka:2003">Ihaka (<a href="#ref-color:Ihaka:2003" role="doc-biblioref">2003</a>)</span>. They are based on the same chroma (<code>50</code>) and luminance (<code>70</code>) but the hue is restricted to different intervals.</p>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">5</span>, <span class="st">"Qualitative"</span>, plot <span class="op">=</span> <span class="va">True</span>, ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="94cfcd61" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="9">
+<div id="54391fae" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="9">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="hcl_palettes_files/figure-html/cell-10-output-1.png" width="787" height="403"></p>
@@ -720,7 +720,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Sequential (single-hue)"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="b2f48abd" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
+<div id="bd529021" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="hcl_palettes_files/figure-html/cell-11-output-1.png" width="787" height="499"></p>
@@ -737,7 +737,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
 <p>In addition palettes are provided which closely match the palettes developed by <span class="citation" data-cites="color:Smith+VanDerWalt:2015">Smith and Van der Walt (<a href="#ref-color:Smith+VanDerWalt:2015" role="doc-biblioref">2015</a>)</span> for matplotlib, matching CARTO palettes <span class="citation" data-cites="color:CARTO">(<a href="#ref-color:CARTO" role="doc-biblioref">CARTO 2019</a>)</span>, <a href="https://ColorBrewer.org">ColorBrewer.org</a> palettes <span class="citation" data-cites="color:Harrower+Brewer:2003">(<a href="#ref-color:Harrower+Brewer:2003" role="doc-biblioref">Harrower and Brewer 2003</a>)</span>, and palettes closely matching the scientific palettes by <span class="citation" data-cites="color:Crameri:2018">Crameri (<a href="#ref-color:Crameri:2018" role="doc-biblioref">2018</a>)</span>.</p>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Sequential (multi-hue)"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">3</span>, figsize <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="6fb83899" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="11">
+<div id="4c008164" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="11">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="hcl_palettes_files/figure-html/cell-12-output-1.png" width="979" height="787"></p>
@@ -753,7 +753,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
 <p>A series of these palettes have been developed for the <a href="https://colorspace.r-forge.r-project.org/"><em>R</em> colorspace</a> starting from <span class="citation" data-cites="color:Zeileis+Hornik+Murrell:2009">Zeileis, Hornik, and Murrell (<a href="#ref-color:Zeileis+Hornik+Murrell:2009" role="doc-biblioref">2009</a>)</span>, taking inspiration from various other palettes, including more balanced and simplified versions of several ColorBrewer.org palettes <span class="citation" data-cites="color:Harrower+Brewer:2003">(<a href="#ref-color:Harrower+Brewer:2003" role="doc-biblioref">Harrower and Brewer 2003</a>)</span> “Tropic” closely matches the palette of the same name from CARTO <span class="citation" data-cites="color:CARTO">(<a href="#ref-color:CARTO" role="doc-biblioref">CARTO 2019</a>)</span>, “Broc” to “Vik” and “Berlin” to “Tofino” closely match the scientific color maps of the same name by <span class="citation" data-cites="color:Crameri:2018">Crameri (<a href="#ref-color:Crameri:2018" role="doc-biblioref">2018</a>)</span>, where the first three are intended for a white/light background and the other three for a black/dark background.</p>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hcl_palettes(<span class="dv">7</span>, <span class="st">"Diverging"</span>, plot <span class="op">=</span> <span class="va">True</span>,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>             ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fb235393" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="12">
+<div id="9c611d54" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="12">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="hcl_palettes_files/figure-html/cell-13-output-1.png" width="787" height="979"></p>
@@ -829,7 +829,7 @@ j = \Big(1 + \frac{|c_{max} - c_1|}{|c_{max} - c_2|}\Big)^{-1}
 <div>
 
 </div>
-<div id="31529deb" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="13">
+<div id="d2860044" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="13">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="hcl_palettes_files/figure-html/cell-14-output-1.png" width="950" height="326"></p>
@@ -860,7 +860,7 @@ TODO: Registering new palettes not yet implemented.
 <li>“Cividis” closely matches the palette of the same name from the viridis family <span class="citation" data-cites="color:viridis">(<a href="#ref-color:viridis" role="doc-biblioref">Garnier 2024</a>)</span>. Note that despite having two “arms” with blue vs. yellow colors and a low-chroma center color, this is probably better classified as a sequential palette due to the monotonic chroma going from dark to light. (See <a href="../articles/approximations.html">Approximating Palettes from Other Packages</a> for more details.)</li>
 <li>“Roma” closely matches the palette of the same name by <span class="citation" data-cites="color:Crameri:2018">Crameri (<a href="#ref-color:Crameri:2018" role="doc-biblioref">2018</a>)</span>.</li>
 </ul>
-<div id="9708d118" class="cell" data-execution_count="14">
+<div id="03eda175" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> divergingx_palettes</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>divergingx_palettes(n <span class="op">=</span> <span class="dv">11</span>, ncol <span class="op">=</span> <span class="dv">1</span>, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
