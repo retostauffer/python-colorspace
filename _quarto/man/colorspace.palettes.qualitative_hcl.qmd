@@ -15,7 +15,7 @@ circle (`[0., 360.]`).
 
 ### Usage
 
-<pre><code class='language-python'>qualitative_hcl(h=[0, &lt;function qualitative_hcl.&lt;lambda&gt; at 0x71ba34a837e0&gt;],<br/>                c=80, l=60, fixup=True,<br/>                palette=None, rev=False, **kwargs)</code></pre>
+<pre><code class='language-python'>qualitative_hcl(h=[0, &lt;function qualitative_hcl.&lt;lambda&gt; at 0x7a9133087ba0&gt;],<br/>                c=80, l=60, fixup=True,<br/>                palette=None, rev=False, **kwargs)</code></pre>
 
 ### Arguments
 
@@ -23,42 +23,42 @@ circle (`[0., 360.]`).
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:h">h</code><code class="argument-class">int, float, list</code>
   </dt>
- <dd>escape(Hue values defining the 'color'. Qualitative color
+ <dd>Hue values defining the &#x27;color&#x27;. Qualitative color
 palettes require two hues. If more than two values are provided the first
 two will be used while the rest is ignored.  If input `h` is a str this
 argument acts like the `palette` argument (see `palette` input parameter).
 Can also be lambda functions or a list of lambda functions which take up
-one single argument `n` (number of colors; see default value).)</dd>
+one single argument `n` (number of colors; see default value).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:c">c</code><code class="argument-class">int, float</code>
   </dt>
- <dd>escape(Chroma value (colorfullness), a single numeric value. If
-multiple values are provided only the first one will be used.)</dd>
+ <dd>Chroma value (colorfullness), a single numeric value. If
+multiple values are provided only the first one will be used.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:l">l</code><code class="argument-class">int, float</code>
   </dt>
- <dd>escape(luminance value (lightness), a single numeric value. If
-multiple values are provided only the first one will be used.)</dd>
+ <dd>luminance value (lightness), a single numeric value. If
+multiple values are provided only the first one will be used.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:fixup">fixup</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Only used when converting the HCL colors to hex.  Should RGB
-values outside the defined RGB color space be corrected?)</dd>
+ <dd>Only used when converting the HCL colors to hex.  Should RGB
+values outside the defined RGB color space be corrected?</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:palette">palette</code><code class="argument-class">None, str</code>
   </dt>
- <dd>escape(Can be used to load a default diverging color
+ <dd>Can be used to load a default diverging color
 qpalette specification. If the palette does not exist an exception will be
 qraised.  Else the settings of the palette as defined will be used to create
-qthe color palette.)</dd>
+qthe color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:rev">rev</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Should the color map be reversed? Default `False`.)</dd>
+ <dd>Should the color map be reversed? Default `False`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Additional arguments to overwrite the h/c/l settings. TODO: has to be documented.)</dd>
+ <dd>Additional arguments to overwrite the h/c/l settings. TODO: has to be documented.</dd>
 </dl>
 
 ### Return

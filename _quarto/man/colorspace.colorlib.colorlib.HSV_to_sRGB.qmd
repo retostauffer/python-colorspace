@@ -14,15 +14,15 @@ WARNING(long_description missing)
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.HSV_to_sRGB:h">h</code><code class="argument-class">nympy.ndarray</code>
   </dt>
- <dd>escape(Hue values.)</dd>
+ <dd>Hue values.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.HSV_to_sRGB:s">s</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>escape(Saturation.)</dd>
+ <dd>Saturation.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.HSV_to_sRGB:v">v</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>escape(Value (the value-dimension of HSV).)</dd>
+ <dd>Value (the value-dimension of HSV).</dd>
 </dl>
 
 ### Return

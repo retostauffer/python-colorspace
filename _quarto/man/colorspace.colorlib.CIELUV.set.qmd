@@ -21,9 +21,9 @@ raises exceptions. The requirements:
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.CIELUV.set:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Named arguments. The key is the name of the dimension to
+ <dd>Named arguments. The key is the name of the dimension to
 be changed, the value an object which fulfills the requirements
-(see description of this method))</dd>
+(see description of this method)</dd>
 </dl>
 
 ### Return

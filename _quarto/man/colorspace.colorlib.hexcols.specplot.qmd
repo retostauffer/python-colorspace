@@ -19,8 +19,8 @@ additional arguments to this main function can be forwarded via the
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.hexcols.specplot:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Additional named arguments forwarded to
-[specplot](colorspace.specplot.specplot.qmd).)</dd>
+ <dd>Additional named arguments forwarded to
+[specplot](colorspace.specplot.specplot.qmd).</dd>
 </dl>
 
 ### Examples

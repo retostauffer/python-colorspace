@@ -20,12 +20,12 @@ hex string if and only if alpha is not equal to `1.0`.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB.colors:fixup">fixup</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Whether or not to correct rgb values outside the
-defined range of `[0., 1.]`, defaults to `True`.)</dd>
+ <dd>Whether or not to correct rgb values outside the
+defined range of `[0., 1.]`, defaults to `True`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB.colors:rev">rev</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Should the color palette be reversed? Defaults to `False`.)</dd>
+ <dd>Should the color palette be reversed? Defaults to `False`.</dd>
 </dl>
 
 ### Return

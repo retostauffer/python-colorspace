@@ -17,9 +17,9 @@ for all colors of this color object.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.hexcols.get:dimname">dimname</code><code class="argument-class">None, str</code>
   </dt>
- <dd>escape(If `None` (default) values of all coordinates
+ <dd>If `None` (default) values of all coordinates
 of the current color object are returned. A specific coordinate
-can be specified if needed.)</dd>
+can be specified if needed.</dd>
 </dl>
 
 ### Return

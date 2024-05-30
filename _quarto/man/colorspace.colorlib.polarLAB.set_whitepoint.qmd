@@ -19,9 +19,9 @@ method can be used to extract the currently used definition.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.polarLAB.set_whitepoint:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Named arguments. Allowed are `X`, `Y`, and `Z`,
+ <dd>Named arguments. Allowed are `X`, `Y`, and `Z`,
 each of which must be float: White specification for
-dimension `X`/`Y`/`Z`.)</dd>
+dimension `X`/`Y`/`Z`.</dd>
 </dl>
 
 ### Return

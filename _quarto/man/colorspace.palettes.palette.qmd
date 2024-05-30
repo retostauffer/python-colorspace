@@ -17,19 +17,19 @@ set of colors based on hex color inputs.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette:colors">colors</code><code class="argument-class">str, list, colorspace.colorlib.colorobject</code>
   </dt>
- <dd>escape(One or multiple
-colors which will make up the custom palette.)</dd>
+ <dd>One or multiple
+colors which will make up the custom palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette:name">name</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(Name of this custom palette. Defaults to `"user_palette"`.
-Used for object representation/visualization.)</dd>
+ <dd>Name of this custom palette. Defaults to `&quot;user_palette&quot;`.
+Used for object representation/visualization.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(positive int, number of colors drawn from an `hclpalette` object.
+ <dd>positive int, number of colors drawn from an `hclpalette` object.
 Only taken into account if the object provided on `colors` inherits
-from `colorspace.palettes.hclpalette`.)</dd>
+from `colorspace.palettes.hclpalette`.</dd>
 </dl>
 
 ### Return

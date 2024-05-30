@@ -19,35 +19,35 @@ types of plots. It can, however, also be used directly if needed.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.demos.demoplot:colors">colors</code>
   </dt>
- <dd>escape(The colors, any type which can be handled by 
-[palette](colorspace.palettes.palette.qmd).)</dd>
+ <dd>The colors, any type which can be handled by 
+[palette](colorspace.palettes.palette.qmd).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.demos.demoplot:type_">type_</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(Name of the demo function to be called.
-Not case sensitive.)</dd>
+ <dd>Name of the demo function to be called.
+Not case sensitive.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.demos.demoplot:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Number of colors for the plot. Only used if argument `colors`
+ <dd>Number of colors for the plot. Only used if argument `colors`
 is a palette where a dedicated number of colors must be drawn first.
-Defaults to 7.)</dd>
+Defaults to 7.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.demos.demoplot:title">title</code><code class="argument-class">None, str</code>
   </dt>
- <dd>escape(used to draw the figure title, if specified (str).
-Forwarded to different plot types.)</dd>
+ <dd>used to draw the figure title, if specified (str).
+Forwarded to different plot types.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.demos.demoplot:ax">ax</code><code class="argument-class">None, matplotlib.axes.Axes</code>
   </dt>
- <dd>escape(If `None` a new matplotlib figure will
+ <dd>If `None` a new matplotlib figure will
 be created. If `ax` inherits from `matplotlib.axes.Axes` this object
 will be used to create the demoplot. Handy to create multiple subplots.
-Forwarded to different plot types.)</dd>
+Forwarded to different plot types.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.demos.demoplot:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Forwarded to the corresponding demo plot functions.)</dd>
+ <dd>Forwarded to the corresponding demo plot functions.</dd>
 </dl>
 
 ### Examples

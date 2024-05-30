@@ -17,23 +17,23 @@ additive mixing (e.g., as appropriate for RGB and XYZ).
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.mixcolor:alpha">alpha</code><code class="argument-class">float</code>
   </dt>
- <dd>escape(The mixed color is obtained by combining an amount
-`1 - alpha` of `color1` with an amount `alpha` of `color2`.)</dd>
+ <dd>The mixed color is obtained by combining an amount
+`1 - alpha` of `color1` with an amount `alpha` of `color2`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.mixcolor:color1">color1</code>
   </dt>
- <dd>escape(an object that can be converted into a
-[palette](colorspace.palettes.palette.qmd).)</dd>
+ <dd>an object that can be converted into a
+[palette](colorspace.palettes.palette.qmd).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.mixcolor:color2">color2</code>
   </dt>
- <dd>escape(a second object that can be converted into a
+ <dd>a second object that can be converted into a
 [palette](colorspace.palettes.palette.qmd). Must have the same number
-of colors as the argument on `color1`.)</dd>
+of colors as the argument on `color1`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.mixcolor:where">where</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(The color space where the mixing is to take place, either `"RGB"` or `"CIEXYZ"`.)</dd>
+ <dd>The color space where the mixing is to take place, either `&quot;RGB&quot;` or `&quot;CIEXYZ&quot;`.</dd>
 </dl>
 
 ### Examples

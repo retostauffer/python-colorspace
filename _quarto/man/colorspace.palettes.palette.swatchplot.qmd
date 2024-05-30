@@ -17,8 +17,8 @@ function. Plotting the spectrum of the current color palette.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette.swatchplot:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(forwarded to [swatchplot](colorspace.swatchplot.swatchplot.qmd).
-Note that `show_names` will always be set to `False`.)</dd>
+ <dd>forwarded to [swatchplot](colorspace.swatchplot.swatchplot.qmd).
+Note that `show_names` will always be set to `False`.</dd>
 </dl>
 
 ### Examples

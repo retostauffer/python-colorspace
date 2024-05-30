@@ -14,7 +14,7 @@ WARNING(long_description missing)
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.hclpalettes.plot:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Positive int, number of colors.)</dd>
+ <dd>Positive int, number of colors.</dd>
 </dl>
 
 ### Raises

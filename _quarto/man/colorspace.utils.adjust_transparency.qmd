@@ -21,13 +21,13 @@ add individual transparency for each color in `x`.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.adjust_transparency:x">x</code>
   </dt>
- <dd>escape(sequence of colors; an object which inherits from colorsspace.colorlib.colorobject.)</dd>
+ <dd>sequence of colors; an object which inherits from colorsspace.colorlib.colorobject.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.adjust_transparency:alpha">alpha</code><code class="argument-class">None, float, int, list, numpy.ndarray</code>
   </dt>
- <dd>escape(``None`` will remove existing
+ <dd>``None`` will remove existing
 transparency (if existing). If `float`, `list`, or numpy.ndarray` 
-trnasparency will be added. See function description for more details.)</dd>
+trnasparency will be added. See function description for more details.</dd>
 </dl>
 
 ### Return

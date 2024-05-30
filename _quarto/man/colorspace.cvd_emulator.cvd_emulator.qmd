@@ -25,31 +25,31 @@ Requires the python modules `matplotlib` and `imageio` to be installed.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:image">image</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(Name of the figure which should be converted
-(png/jpg/jpeg). If `image = "DEMO"` the package demo figure is used.)</dd>
+ <dd>Name of the figure which should be converted
+(png/jpg/jpeg). If `image = &quot;DEMO&quot;` the package demo figure is used.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:cvd">cvd</code><code class="argument-class">str, list</code>
   </dt>
- <dd>escape(Color vision deficiency or deficiencies. Allowed types are
-`"deutanope"`, `"protanope"`, `"tritanope"`, `"desaturated"`,
-and `"original"` (unmodified).)</dd>
+ <dd>Color vision deficiency or deficiencies. Allowed types are
+`&quot;deutanope&quot;`, `&quot;protanope&quot;`, `&quot;tritanope&quot;`, `&quot;desaturated&quot;`,
+and `&quot;original&quot;` (unmodified).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:severity">severity</code><code class="argument-class">float</code>
   </dt>
- <dd>escape(How severe the color vision deficiency is
+ <dd>How severe the color vision deficiency is
 (`[0.,1.]`).  Also used as the amount of desaturation if `cvd`
-includes `"desaturate"`.)</dd>
+includes `&quot;desaturate&quot;`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:output">output</code><code class="argument-class">None, str</code>
   </dt>
- <dd>escape(If `None` an interactive plotting window will
+ <dd>If `None` an interactive plotting window will
 be opened. A str (file name/path) can be given to write the result
-to disc.)</dd>
+to disc.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:dropalpha">dropalpha</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Drop alpha channel, defaults to `False`.  Only
-useful for png figures having an alpha channel.)</dd>
+ <dd>Drop alpha channel, defaults to `False`.  Only
+useful for png figures having an alpha channel.</dd>
 </dl>
 
 ### Return

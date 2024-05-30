@@ -11,7 +11,7 @@ See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequentia
 
 ### Usage
 
-<pre><code class='language-python'>rainbow(s=1, v=1, start=0,<br/>        end=&lt;function rainbow.&lt;lambda&gt; at 0x71ba34a9c360&gt;,<br/>        rev=False, *args, **kwargs)</code></pre>
+<pre><code class='language-python'>rainbow(s=1, v=1, start=0,<br/>        end=&lt;function rainbow.&lt;lambda&gt; at 0x7a91330a0720&gt;,<br/>        rev=False, *args, **kwargs)</code></pre>
 
 ### Arguments
 
@@ -19,35 +19,35 @@ See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequentia
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow:s">s</code><code class="argument-class">float, int</code>
   </dt>
- <dd>escape(saturation value, a value in `[0., 1.]`. Defaults to `1.0`.)</dd>
+ <dd>saturation value, a value in `[0., 1.]`. Defaults to `1.0`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow:v">v</code><code class="argument-class">float, int</code>
   </dt>
- <dd>escape(value, a value in `[0., 1.]`. Defaults to `1.0`.)</dd>
+ <dd>value, a value in `[0., 1.]`. Defaults to `1.0`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow:start">start</code><code class="argument-class">float, int, function</code>
   </dt>
- <dd>escape(the (corrected) hue in `[0., 1.]` at which
+ <dd>the (corrected) hue in `[0., 1.]` at which
 the rainbow begins. Defaults to `0.`. Can be a function with one input
-`n` (number of colors). If outside `[0., 1.]` it will be wrapped.)</dd>
+`n` (number of colors). If outside `[0., 1.]` it will be wrapped.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow:end">end</code><code class="argument-class">float, int, function</code>
   </dt>
- <dd>escape(the (corrected) hue in `[0., 1.]` at which
+ <dd>the (corrected) hue in `[0., 1.]` at which
 the rainbow ends. Defaults to `0.`. Can be a function with one input
-`n` (number of colors). If outside `[0., 1.]` it will be wrapped.)</dd>
+`n` (number of colors). If outside `[0., 1.]` it will be wrapped.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow:rev">rev</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Should the color map be reversed.)</dd>
+ <dd>Should the color map be reversed.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow:*args">*args</code>
   </dt>
- <dd>escape(Unused.)</dd>
+ <dd>Unused.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Unused.)</dd>
+ <dd>Unused.</dd>
 </dl>
 
 ### Return

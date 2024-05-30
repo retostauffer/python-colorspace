@@ -14,11 +14,11 @@ WARNING(long_description missing)
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette.colors:*args">*args</code>
   </dt>
- <dd>escape(Ignored.)</dd>
+ <dd>Ignored.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette.colors:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Ignored.)</dd>
+ <dd>Ignored.</dd>
 </dl>
 
 ### Return

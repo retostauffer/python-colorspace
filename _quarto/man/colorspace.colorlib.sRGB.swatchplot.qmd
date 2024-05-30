@@ -19,8 +19,8 @@ additional arguments to this main function can be forwarded via the
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB.swatchplot:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Additional named arguments forwarded to
-[swatchplot](colorspace.swatchplot.swatchplot.qmd).)</dd>
+ <dd>Additional named arguments forwarded to
+[swatchplot](colorspace.swatchplot.swatchplot.qmd).</dd>
 </dl>
 
 ### Examples

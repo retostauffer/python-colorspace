@@ -19,15 +19,15 @@ See also: [divergingx_palettes](colorspace.hcl_palettes.divergingx_palettes.qmd)
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.hclpalettes:files">files</code><code class="argument-class">None, str list</code>
   </dt>
- <dd>escape(If `None` (default) the default color palette
+ <dd>If `None` (default) the default color palette
 configuration from within the package will be loaded. A path to a custom
 config file (str) or a list of paths can be provided to read custom
-palettes.)</dd>
+palettes.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.hclpalettes:files_regex">files_regex</code><code class="argument-class">None, str</code>
   </dt>
- <dd>escape(Additional regular expression to filter files.
-Only used if `files = None`.)</dd>
+ <dd>Additional regular expression to filter files.
+Only used if `files = None`.</dd>
 </dl>
 
 ### Methods

@@ -21,33 +21,33 @@ This can be any of the following classes: [CIELAB](colorspace.colorlib.CIELAB.qm
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.compare_colors:a">a</code><code class="argument-class">colorobject</code>
   </dt>
- <dd>escape(Object which inherits from `colorobject`.)</dd>
+ <dd>Object which inherits from `colorobject`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.compare_colors:b">b</code><code class="argument-class">colorobject</code>
   </dt>
- <dd>escape(Object which inherits from `colorobject`.)</dd>
+ <dd>Object which inherits from `colorobject`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.compare_colors:exact">exact</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Default `False`, check for colors being nearly equal
+ <dd>Default `False`, check for colors being nearly equal
 (see `atol`). If set to `True` the coordinates must be identical.
 Note: in case `a` and `b` are hex colors
-(colorspace.colorlib.hexcols) strings will always be matched exactly.)</dd>
+(colorspace.colorlib.hexcols) strings will always be matched exactly.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.compare_colors:_all">_all</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Default `True`; the function will return `True` if
+ <dd>Default `True`; the function will return `True` if
 all colors are identical/nearly equal. If set to `False` the return
 will be a list of bool containing `True` and `False` for each
-pair of colors.)</dd>
+pair of colors.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.compare_colors:atol">atol</code><code class="argument-class">None or float</code>
   </dt>
- <dd>escape(Absolute tolerance for the distance measure
+ <dd>Absolute tolerance for the distance measure
 between two colors to be considered as nearly equal. Only used if
 `exact = False`, else `atol = 1e-6` is used.  If set to `None`
 the tolerance will automatically be set depending on the type of the
-objects. Defaults to None.)</dd>
+objects. Defaults to None.</dd>
 </dl>
 
 ### Return

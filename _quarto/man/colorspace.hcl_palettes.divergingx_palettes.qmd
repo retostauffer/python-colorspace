@@ -17,12 +17,12 @@ Returns pre-defined 'diverging xtra' color palettes based on the HCL
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.divergingx_palettes:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(number of colors used when plotting, defaults to `5`.)</dd>
+ <dd>number of colors used when plotting, defaults to `5`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.divergingx_palettes:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(forwarded to [hcl_palettes](colorspace.hcl_palettes.hcl_palettes.qmd). For a list and description
-of available arguments see the description of [hcl_palettes](colorspace.hcl_palettes.hcl_palettes.qmd).)</dd>
+ <dd>forwarded to [hcl_palettes](colorspace.hcl_palettes.hcl_palettes.qmd). For a list and description
+of available arguments see the description of [hcl_palettes](colorspace.hcl_palettes.hcl_palettes.qmd).</dd>
 </dl>
 
 ### Examples

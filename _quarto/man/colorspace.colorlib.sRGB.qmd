@@ -18,26 +18,26 @@ Allows conversions to: [CIELAB](colorspace.colorlib.CIELAB.qmd), [CIELUV](colors
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB:R">R</code><code class="argument-class">int, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for red intensity (`[0., 1.]`).)</dd>
+ <dd>Numeric value(s) for red intensity (`[0., 1.]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB:G">G</code><code class="argument-class">int, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for green intensity (`[0., 1.]`).)</dd>
+ <dd>Numeric value(s) for green intensity (`[0., 1.]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB:B">B</code><code class="argument-class">int, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for blue intensity (`[0., 1.]`).)</dd>
+ <dd>Numeric value(s) for blue intensity (`[0., 1.]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for the alpha
+ <dd>Numeric value(s) for the alpha
 channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
-opacity. If `None` (default) no transparency is added.)</dd>
+opacity. If `None` (default) no transparency is added.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.sRGB:gamma">gamma</code><code class="argument-class">None, float</code>
   </dt>
- <dd>escape(If `None` (default) the default gamma value is used.
-Can be specified to overwrite the default.)</dd>
+ <dd>If `None` (default) the default gamma value is used.
+Can be specified to overwrite the default.</dd>
 </dl>
 
 ### Methods

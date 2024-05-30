@@ -18,7 +18,7 @@ If not existing a `None` will be returned.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl.get:key">key</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(Name of the setting to be returned.)</dd>
+ <dd>Name of the setting to be returned.</dd>
 </dl>
 
 ### Return

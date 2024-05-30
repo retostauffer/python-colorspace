@@ -19,54 +19,54 @@ See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequentia
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:h">h</code><code class="argument-class">list of numerics</code>
   </dt>
- <dd>escape(Hue values (color), diverging color palettes should
+ <dd>Hue values (color), diverging color palettes should
 have different hues for both ends of the palette. If only one value is
 present it will be recycled ending up in a diverging color palette with the
 same colors on both ends.  If more than two values are provided the first
 two will be used while the rest is ignored.  If input `h` is a str
 this argument acts like the `palette` argument (see `palette` input
-parameter).)</dd>
+parameter).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:c">c</code><code class="argument-class">numeric</code>
   </dt>
- <dd>escape(Chroma value (colorfullness), a single numeric value. If two
-values are provided the first will be taken as `c1`, the second as `cmax`.)</dd>
+ <dd>Chroma value (colorfullness), a single numeric value. If two
+values are provided the first will be taken as `c1`, the second as `cmax`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:l">l</code><code class="argument-class">list of numerics</code>
   </dt>
- <dd>escape(luminance values (lightness). The first value is for
+ <dd>luminance values (lightness). The first value is for
 the two ends of the color palette, the second one for the neutral center
-point. If only one value is given this value will be recycled.)</dd>
+point. If only one value is given this value will be recycled.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:power">power</code><code class="argument-class">float</code>
   </dt>
- <dd>escape(Power parameter for non-linear behaviour of the color
-palette.)</dd>
+ <dd>Power parameter for non-linear behaviour of the color
+palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:fixup">fixup</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Only used when converting the HCL colors to hex.  Should RGB
-values outside the defined RGB color space be corrected?)</dd>
+ <dd>Only used when converting the HCL colors to hex.  Should RGB
+values outside the defined RGB color space be corrected?</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:palette">palette</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(Can be used to load a default diverging color palette
+ <dd>Can be used to load a default diverging color palette
 specification. If the palette does not exist an exception will be raised.
 Else the settings of the palette as defined will be used to create the
-color palette.)</dd>
+color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:rev">rev</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Should the color map be reversed.)</dd>
+ <dd>Should the color map be reversed.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:*args">*args</code>
   </dt>
- <dd>escape(Currently unused.)</dd>
+ <dd>Currently unused.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Additional arguments to overwrite the h/c/l settings.  @TODO has
-to be documented.)</dd>
+ <dd>Additional arguments to overwrite the h/c/l settings.  @TODO has
+to be documented.</dd>
 </dl>
 
 ### Return

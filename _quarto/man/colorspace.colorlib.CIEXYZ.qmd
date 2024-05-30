@@ -20,21 +20,21 @@ Not allowed (ambiguous) are transformations to [HSV](colorspace.colorlib.HSV.qmd
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.CIEXYZ:X">X</code><code class="argument-class">int, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for X dimension.)</dd>
+ <dd>Numeric value(s) for X dimension.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.CIEXYZ:Y">Y</code><code class="argument-class">int, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for Y dimension.)</dd>
+ <dd>Numeric value(s) for Y dimension.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.CIEXYZ:Z">Z</code><code class="argument-class">int, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for Z dimension.)</dd>
+ <dd>Numeric value(s) for Z dimension.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.CIEXYZ:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
   </dt>
- <dd>escape(Numeric value(s) for the alpha
+ <dd>Numeric value(s) for the alpha
 channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
-opacity. If `None` (default) no transparency is added.)</dd>
+opacity. If `None` (default) no transparency is added.</dd>
 </dl>
 
 ### Methods

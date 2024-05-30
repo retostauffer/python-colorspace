@@ -17,15 +17,15 @@ Plotting the spectrum of the current color palette.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.divergingx_hcl.specplot:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Number of colors, defaults to 180.)</dd>
+ <dd>Number of colors, defaults to 180.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.divergingx_hcl.specplot:*args">*args</code>
   </dt>
- <dd>escape(Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).)</dd>
+ <dd>Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.divergingx_hcl.specplot:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).)</dd>
+ <dd>Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).</dd>
 </dl>
 
 ### Examples

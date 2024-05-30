@@ -26,43 +26,43 @@ Note that `matplotlib` must be installed when `plot = True`.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.hcl_palettes:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(The number of colors to be plotted, defaults to `7`.
-Only used if `plot = True`.)</dd>
+ <dd>The number of colors to be plotted, defaults to `7`.
+Only used if `plot = True`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.hcl_palettes:type_">type_</code><code class="argument-class">None, str, list</code>
   </dt>
- <dd>escape(Given a str or a list of str,
+ <dd>Given a str or a list of str,
 only a subset of all available default color maps will
 returned/displayed. Can be used in combination with input argument
-`name`. Uses partial matching, not case sensitive.)</dd>
+`name`. Uses partial matching, not case sensitive.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.hcl_palettes:name">name</code><code class="argument-class">None, str, list</code>
   </dt>
- <dd>escape(Similar to `type_`. If not specified
+ <dd>Similar to `type_`. If not specified
 all palettes will be returned. Can be set to a str or a list of
 str containing the names of the palettes which should be
-returned/plotted.)</dd>
+returned/plotted.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.hcl_palettes:plot">plot</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(If `False` (default) an object of type
+ <dd>If `False` (default) an object of type
 [hclpalettes](colorspace.palettes.hclpalettes.qmd) is returned, containing the
-(subset) of pre-defined HCL color palettes.)</dd>
+(subset) of pre-defined HCL color palettes.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.hcl_palettes:custom">custom</code><code class="argument-class">defaultpalette</code>
   </dt>
- <dd>escape(One or multiple
-defaultpalettes can be provided in addition.)</dd>
+ <dd>One or multiple
+defaultpalettes can be provided in addition.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.hcl_palettes:ncol">ncol</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Positive int, number of columns, defaults to `4`.)</dd>
+ <dd>Positive int, number of columns, defaults to `4`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hcl_palettes.hcl_palettes:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Forwarded to the main
+ <dd>Forwarded to the main
 [swatchplot](colorspace.swatchplot.swatchplot.qmd) 
-function if `plot = True`.)</dd>
+function if `plot = True`.</dd>
 </dl>
 
 ### Return

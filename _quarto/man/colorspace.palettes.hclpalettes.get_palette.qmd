@@ -16,8 +16,8 @@ Get a palette with a specific name.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.hclpalettes.get_palette:name">name</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(Name of the color palette which should be returned. Not
-case sensitive; blanks are ignored (removed).)</dd>
+ <dd>Name of the color palette which should be returned. Not
+case sensitive; blanks are ignored (removed).</dd>
 </dl>
 
 ### Return

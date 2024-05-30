@@ -18,10 +18,10 @@ and define custom palettes.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.choose_palette.choose_palette:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Optional, can be used to change the defaults when starting the
+ <dd>Optional, can be used to change the defaults when starting the
 GUI. Currently a parameter called `palette` is allowed to
-specify the initial color palette. If not set, `palette="Blue-Red"`
-is used.)</dd>
+specify the initial color palette. If not set, `palette=&quot;Blue-Red&quot;`
+is used.</dd>
 </dl>
 
 ### Return

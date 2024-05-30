@@ -21,9 +21,9 @@ their corresponding hex representation.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.check_hex_colors:colors">colors</code><code class="argument-class">str, list, numpy.ndarray</code>
   </dt>
- <dd>escape(str or list of str with colors.
+ <dd>str or list of str with colors.
 See function description for details. In case it is a
-`numpy.ndarray` it will be flattened to 1-dimensional if needed.)</dd>
+`numpy.ndarray` it will be flattened to 1-dimensional if needed.</dd>
 </dl>
 
 ### Return

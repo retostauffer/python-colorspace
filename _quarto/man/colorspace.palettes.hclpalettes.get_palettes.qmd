@@ -16,10 +16,10 @@ Get all palettes of a specific type.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.hclpalettes.get_palettes:type_">type_</code><code class="argument-class">None, str</code>
   </dt>
- <dd>escape((Partial) Name of the palettes which should be returned.
+ <dd>(Partial) Name of the palettes which should be returned.
 String matching is used; partial matches are allowed.
 If set to `None` (default) all palettes will be returned. Names
-have to match but are not case sensitive, defaults to None.)</dd>
+have to match but are not case sensitive, defaults to None.</dd>
 </dl>
 
 ### Return

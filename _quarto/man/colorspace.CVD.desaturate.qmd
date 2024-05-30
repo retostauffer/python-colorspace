@@ -24,13 +24,13 @@ See also: [deutan](colorspace.CVD.deutan.qmd), [protan](colorspace.CVD.protan.qm
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.CVD.desaturate:cols">cols</code><code class="argument-class">str, list, matplotlib.colors.LinearSegmentedColormap, colorobject</code>
   </dt>
- <dd>escape(Single hex color, list of hex colors (str), a matoplotlib cmap, or
-a color color object (such as RGB, hexcols, CIELUV).)</dd>
+ <dd>Single hex color, list of hex colors (str), a matoplotlib cmap, or
+a color color object (such as RGB, hexcols, CIELUV).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.CVD.desaturate:amount">amount</code><code class="argument-class">float</code>
   </dt>
- <dd>escape(A value in `[0.,1.]` defining the degree of desaturation.
-`amount = 1.` removes all color, `amount = 0.` none, defaults to `1.`.)</dd>
+ <dd>A value in `[0.,1.]` defining the degree of desaturation.
+`amount = 1.` removes all color, `amount = 0.` none, defaults to `1.`.</dd>
 </dl>
 
 ### Return

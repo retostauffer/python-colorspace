@@ -14,19 +14,19 @@ WARNING(long_description missing)
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.sRGB_to_RGB:R">R</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>escape(Intensities for red (`[0., 1.]`).)</dd>
+ <dd>Intensities for red (`[0., 1.]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.sRGB_to_RGB:G">G</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>escape(Intensities for green (`[0., 1.]`).)</dd>
+ <dd>Intensities for green (`[0., 1.]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.sRGB_to_RGB:B">B</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>escape(Intensities for blue  (`[0., 1.]`).)</dd>
+ <dd>Intensities for blue  (`[0., 1.]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.sRGB_to_RGB:gamma">gamma</code><code class="argument-class">float</code>
   </dt>
- <dd>escape(gamma adjustment, defaults to `2.4`.)</dd>
+ <dd>gamma adjustment, defaults to `2.4`.</dd>
 </dl>
 
 ### Return

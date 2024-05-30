@@ -16,19 +16,19 @@ Returns the colors of the current color palette.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow.colors:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Number of colors which should be returned. Defaults to `11`.)</dd>
+ <dd>Number of colors which should be returned. Defaults to `11`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow.colors:alpha">alpha</code><code class="argument-class">None, float</code>
   </dt>
- <dd>escape(Float (single value) or vector of floats in the
+ <dd>Float (single value) or vector of floats in the
 range of `[0.,1.]` for alpha transparency channel (`0.` means full
 transparency, `1.` opaque).  If a single value is provided it will be
-applied to all colors, if a vector is given the length has to be `n`.)</dd>
+applied to all colors, if a vector is given the length has to be `n`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow.colors:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(Currently allows for `rev = True` to reverse the colors and
-`colorobject = 'anything'` to get HCL colors as return.)</dd>
+ <dd>Currently allows for `rev = True` to reverse the colors and
+`colorobject = &#x27;anything&#x27;` to get HCL colors as return.</dd>
 </dl>
 
 ### Raises

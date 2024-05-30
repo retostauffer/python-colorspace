@@ -30,37 +30,37 @@ Requires the `matplotlib` to be installed.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.swatchplot.swatchplot:pals">pals</code>
   </dt>
- <dd>escape(The color palettes or color objects to be visualized.
+ <dd>The color palettes or color objects to be visualized.
 See description for details and examples to demonstrate different
-usages.)</dd>
+usages.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.swatchplot.swatchplot:show_names">show_names</code><code class="argument-class">bool</code>
   </dt>
- <dd>escape(Should palette names be shown (if available), defaults to True.)</dd>
+ <dd>Should palette names be shown (if available), defaults to True.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.swatchplot.swatchplot:nrow">nrow</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Maximum number of rows of swatches, defaults to `20`.)</dd>
+ <dd>Maximum number of rows of swatches, defaults to `20`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.swatchplot.swatchplot:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Number of colors to be drawn from palette objects, defaults to `5`.)</dd>
+ <dd>Number of colors to be drawn from palette objects, defaults to `5`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.swatchplot.swatchplot:cvd">cvd</code><code class="argument-class">None or list</code>
   </dt>
- <dd>escape(Allows to display one or multiple palettes and how they look
+ <dd>Allows to display one or multiple palettes and how they look
 with emulated color vision deficiencies. If `None`, this is not applied.
 Can be set to a list of characters. Allowed:
-`"protan"`, `"tritan"`, `"deutan"`, `"desaturate"` corresponding to the functions
+`&quot;protan&quot;`, `&quot;tritan&quot;`, `&quot;deutan&quot;`, `&quot;desaturate&quot;` corresponding to the functions
 [protan](colorspace.CVD.protan.qmd),
 [tritan](colorspace.CVD.tritan.qmd),
 [deutan](colorspace.CVD.deutan.qmd),
-[desaturate](colorspace.CVD.desaturate.qmd).)</dd>
+[desaturate](colorspace.CVD.desaturate.qmd).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.swatchplot.swatchplot:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(forwarded to `matplotlib.pyplot.subplot`, can be used to control e.g.,
-`figsize`.)</dd>
+ <dd>forwarded to `matplotlib.pyplot.subplot`, can be used to control e.g.,
+`figsize`.</dd>
 </dl>
 
 ### Examples

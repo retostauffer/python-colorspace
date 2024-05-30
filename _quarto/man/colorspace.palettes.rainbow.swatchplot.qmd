@@ -17,11 +17,11 @@ function. Plotting the spectrum of the current color palette.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow.swatchplot:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Number of colors, defaults to 7.)</dd>
+ <dd>Number of colors, defaults to 7.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow.swatchplot:**kwargs">**kwargs</code>
   </dt>
- <dd>escape(forwarded to [swatchplot](colorspace.swatchplot.swatchplot.qmd).)</dd>
+ <dd>forwarded to [swatchplot](colorspace.swatchplot.swatchplot.qmd).</dd>
 </dl>
 
 ### Examples

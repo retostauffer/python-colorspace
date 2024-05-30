@@ -29,11 +29,11 @@ palettes in your existing workflow.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl.cmap:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>escape(Number of colors the cmap should be based on; default is `n = 101`.)</dd>
+ <dd>Number of colors the cmap should be based on; default is `n = 101`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl.cmap:name">name</code><code class="argument-class">str</code>
   </dt>
- <dd>escape(Name of the custom color map. Default is `custom_hcl_cmap`)</dd>
+ <dd>Name of the custom color map. Default is `custom_hcl_cmap`</dd>
 </dl>
 
 ### Return
