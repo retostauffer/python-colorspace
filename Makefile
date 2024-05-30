@@ -16,7 +16,7 @@ install: setup.py
 
 document:
 	@echo "********* CREATE (OVERWRITE) QMD FILES ************"
-	python make_docs/main.py
+	pyp2qmd document --package colorspace
 
 render:
 	@echo "********* RENDERING QUARTO WEBSITE ****************"

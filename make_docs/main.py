@@ -7,9 +7,10 @@ import shutil
 import yaml
 import re
 
-
 def main():
 
+    import sys
+    sys.exit("Depricated! No longer used, initially auto-generated the documentation")
     from os.path import join, basename
     from pyp2qmd import Config, DocConverter
 
