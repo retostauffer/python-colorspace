@@ -28,5 +28,5 @@ parameter from the object will be used. Can be set to `True` or
    <code id="colorspace.palettes.sequential_hcl.colors:**kwargs">**kwargs</code>
   </dt>
  <dd>Currently allows for `rev = True` to reverse the colors and
-`colorobject = &#x27;anything&#x27;` to get HCL colors as return.</dd>
+`colorobject = 'anything'` to get HCL colors as return.</dd>
 </dl>

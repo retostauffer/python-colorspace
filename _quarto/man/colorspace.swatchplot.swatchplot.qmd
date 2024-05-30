@@ -51,7 +51,7 @@ usages.</dd>
  <dd>Allows to display one or multiple palettes and how they look
 with emulated color vision deficiencies. If `None`, this is not applied.
 Can be set to a list of characters. Allowed:
-`&quot;protan&quot;`, `&quot;tritan&quot;`, `&quot;deutan&quot;`, `&quot;desaturate&quot;` corresponding to the functions
+`"protan"`, `"tritan"`, `"deutan"`, `"desaturate"` corresponding to the functions
 [protan](colorspace.CVD.protan.qmd),
 [tritan](colorspace.CVD.tritan.qmd),
 [deutan](colorspace.CVD.deutan.qmd),

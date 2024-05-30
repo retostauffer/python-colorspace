@@ -11,7 +11,7 @@ See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequentia
 
 ### Usage
 
-<pre><code class='language-python'>rainbow(s=1, v=1, start=0,<br/>        end=&lt;function rainbow.&lt;lambda&gt; at 0x7a91330a0720&gt;,<br/>        rev=False, *args, **kwargs)</code></pre>
+<pre><code class='language-python'>rainbow(s=1, v=1, start=0,<br/>        end=&lt;function rainbow.&lt;lambda&gt; at 0x7b1b25c98720&gt;,<br/>        rev=False, *args, **kwargs)</code></pre>
 
 ### Arguments
 

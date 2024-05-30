@@ -26,19 +26,19 @@ Requires the python modules `matplotlib` and `imageio` to be installed.
    <code id="colorspace.cvd_emulator.cvd_emulator:image">image</code><code class="argument-class">str</code>
   </dt>
  <dd>Name of the figure which should be converted
-(png/jpg/jpeg). If `image = &quot;DEMO&quot;` the package demo figure is used.</dd>
+(png/jpg/jpeg). If `image = "DEMO"` the package demo figure is used.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:cvd">cvd</code><code class="argument-class">str, list</code>
   </dt>
  <dd>Color vision deficiency or deficiencies. Allowed types are
-`&quot;deutanope&quot;`, `&quot;protanope&quot;`, `&quot;tritanope&quot;`, `&quot;desaturated&quot;`,
-and `&quot;original&quot;` (unmodified).</dd>
+`"deutanope"`, `"protanope"`, `"tritanope"`, `"desaturated"`,
+and `"original"` (unmodified).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:severity">severity</code><code class="argument-class">float</code>
   </dt>
  <dd>How severe the color vision deficiency is
 (`[0.,1.]`).  Also used as the amount of desaturation if `cvd`
-includes `&quot;desaturate&quot;`.</dd>
+includes `"desaturate"`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_emulator.cvd_emulator:output">output</code><code class="argument-class">None, str</code>
   </dt>

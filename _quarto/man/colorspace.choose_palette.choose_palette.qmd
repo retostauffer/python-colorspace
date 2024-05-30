@@ -20,7 +20,7 @@ and define custom palettes.
   </dt>
  <dd>Optional, can be used to change the defaults when starting the
 GUI. Currently a parameter called `palette` is allowed to
-specify the initial color palette. If not set, `palette=&quot;Blue-Red&quot;`
+specify the initial color palette. If not set, `palette="Blue-Red"`
 is used.</dd>
 </dl>
 

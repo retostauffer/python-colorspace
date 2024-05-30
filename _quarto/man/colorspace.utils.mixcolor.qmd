@@ -33,7 +33,7 @@ of colors as the argument on `color1`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.mixcolor:where">where</code><code class="argument-class">str</code>
   </dt>
- <dd>The color space where the mixing is to take place, either `&quot;RGB&quot;` or `&quot;CIEXYZ&quot;`.</dd>
+ <dd>The color space where the mixing is to take place, either `"RGB"` or `"CIEXYZ"`.</dd>
 </dl>
 
 ### Examples

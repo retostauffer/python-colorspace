@@ -15,7 +15,7 @@ circle (`[0., 360.]`).
 
 ### Usage
 
-<pre><code class='language-python'>qualitative_hcl(h=[0, &lt;function qualitative_hcl.&lt;lambda&gt; at 0x7a9133087ba0&gt;],<br/>                c=80, l=60, fixup=True,<br/>                palette=None, rev=False, **kwargs)</code></pre>
+<pre><code class='language-python'>qualitative_hcl(h=[0, &lt;function qualitative_hcl.&lt;lambda&gt; at 0x7b1b25c7fba0&gt;],<br/>                c=80, l=60, fixup=True,<br/>                palette=None, rev=False, **kwargs)</code></pre>
 
 ### Arguments
 
@@ -23,7 +23,7 @@ circle (`[0., 360.]`).
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:h">h</code><code class="argument-class">int, float, list</code>
   </dt>
- <dd>Hue values defining the &#x27;color&#x27;. Qualitative color
+ <dd>Hue values defining the 'color'. Qualitative color
 palettes require two hues. If more than two values are provided the first
 two will be used while the rest is ignored.  If input `h` is a str this
 argument acts like the `palette` argument (see `palette` input parameter).

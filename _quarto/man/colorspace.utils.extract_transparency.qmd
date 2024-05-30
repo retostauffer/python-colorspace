@@ -22,7 +22,7 @@ an object of class `colorspace.palettes.palette`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.utils.extract_transparency:mode">mode</code><code class="argument-class">str</code>
   </dt>
- <dd>mode of the return. One of `&quot;float&quot;`, `&quot;int&quot;`, or `&quot;str&quot;`.</dd>
+ <dd>mode of the return. One of `"float"`, `"int"`, or `"str"`.</dd>
 </dl>
 
 ### Return
