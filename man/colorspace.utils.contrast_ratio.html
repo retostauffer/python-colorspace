@@ -550,55 +550,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="colorspace.utils.contrast_ratio:colors">colors</code><code class="argument-class">str, list, colorobject, palette</code>
 </dt>
 <dd>
-escape(Single hex color (str), a list of hex colors (list), a color object , or <a href="../man/colorspace.palettes.palette.html">palette</a>.)
+Single hex color (str), a list of hex colors (list), a color object , or <a href="../man/colorspace.palettes.palette.html">palette</a>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:bg">bg</code><code class="argument-class">str</code>
 </dt>
 <dd>
-escape(background color against which the contrast will be calculated. Defaults to white (<code>"#FFFFFF"</code>).)
+background color against which the contrast will be calculated. Defaults to white (<code>&amp;quot;#FFFFFF&amp;quot;</code>).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:plot">plot</code><code class="argument-class">bool</code>
 </dt>
 <dd>
-escape(logical indicating whether the contrast ratios should also be visualized by simple color swatches.)
+logical indicating whether the contrast ratios should also be visualized by simple color swatches.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:ax">ax</code><code class="argument-class">None or matplotlib.axes.Axes</code>
 </dt>
 <dd>
-escape(If None, a new matplotlib figure will be created. If <code>ax</code> inherits from <code>matplotlib.axes.Axes</code> this object will be used to create the demoplot. Handy to create multiple subplots. Forwarded to different plot types.)
+If None, a new matplotlib figure will be created. If <code>ax</code> inherits from <code>matplotlib.axes.Axes</code> this object will be used to create the demoplot. Handy to create multiple subplots. Forwarded to different plot types.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:fontsize">fontsize</code><code class="argument-class">float, str</code>
 </dt>
 <dd>
-escape(size of text, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>"xx-large"</code>.)
+size of text, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>&amp;quot;xx-large&amp;quot;</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:fontweight">fontweight</code><code class="argument-class">str</code>
 </dt>
 <dd>
-escape(weight of text, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>"heavy"</code>.)
+weight of text, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>&amp;quot;heavy&amp;quot;</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:ha">ha</code><code class="argument-class">str</code>
 </dt>
 <dd>
-escape(horizontal alignment, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>"center"</code>.)
+horizontal alignment, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>&amp;quot;center&amp;quot;</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:va">va</code><code class="argument-class">str</code>
 </dt>
 <dd>
-escape(vertical alignment, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>"center"</code>.)
+vertical alignment, forwarded to <code>matplotlib.pyplot.text</code>. Defaults to <code>&amp;quot;center&amp;quot;</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.contrast_ratio:**kwargs">**kwargs</code>
 </dt>
 <dd>
-escape(Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figure</code>, only used if <code>ax</code> is None.)
+Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figure</code>, only used if <code>ax</code> is None.
 </dd>
 </dl>
 </section>
@@ -608,7 +608,7 @@ escape(Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pypl
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="91e1172f" class="cell" data-execution_count="1">
+<div id="fa741e9b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check contrast ratio of default palette on white background</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, contrast_ratio</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> rainbow().colors(<span class="dv">7</span>)</span>
@@ -619,7 +619,7 @@ escape(Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pypl
         2.72729349,  6.27489463])</code></pre>
 </div>
 </div>
-<div id="ed339a8f" class="cell" data-execution_count="2">
+<div id="e612e99f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize contrast ratio against white</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#FFFFFF"</span>, plot <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -630,7 +630,7 @@ escape(Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pypl
 </div>
 </div>
 </div>
-<div id="7205d1c9" class="cell" data-execution_count="3">
+<div id="d01ead9d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize contrast ratio against black</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#000000"</span>, plot <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -641,7 +641,7 @@ escape(Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pypl
 </div>
 </div>
 </div>
-<div id="b0237b38" class="cell" data-execution_count="4">
+<div id="98d663c9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing figure size</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#000000"</span>, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">

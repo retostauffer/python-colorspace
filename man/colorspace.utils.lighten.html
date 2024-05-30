@@ -547,37 +547,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="colorspace.utils.lighten:col">col</code>
 </dt>
 <dd>
-escape(color (or colors) to be manipulated. Can be a color object a <a href="../man/colorspace.palettes.palette.html">palette</a> object, or a str/list of str with valid hex colors.)
+color (or colors) to be manipulated. Can be a color object a <a href="../man/colorspace.palettes.palette.html">palette</a> object, or a str/list of str with valid hex colors.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.lighten:amount">amount</code><code class="argument-class">float</code>
 </dt>
 <dd>
-escape(value between <code>[0., 1.]</code> with the amount the colors should be lightened. Defaults to <code>0.1</code>.)
+value between <code>[0., 1.]</code> with the amount the colors should be lightened. Defaults to <code>0.1</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.lighten:method">method</code><code class="argument-class">str</code>
 </dt>
 <dd>
-escape(either <code>"relative"</code> (default) or <code>"absolute"</code>.)
+either <code>&amp;quot;relative&amp;quot;</code> (default) or <code>&amp;quot;absolute&amp;quot;</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.lighten:space">space</code><code class="argument-class">str</code>
 </dt>
 <dd>
-escape(one of <code>"HCL"</code> or <code>"HLS"</code>. Defaults to <code>"HCL"</code>.)
+one of <code>&amp;quot;HCL&amp;quot;</code> or <code>&amp;quot;HLS&amp;quot;</code>. Defaults to <code>&amp;quot;HCL&amp;quot;</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.utils.lighten:fixup">fixup</code><code class="argument-class">bool</code>
 </dt>
 <dd>
-escape(should colors which fall outside the defined RGB space be fixed (corrected)? Defaults to <code>True</code>.)
+should colors which fall outside the defined RGB space be fixed (corrected)? Defaults to <code>True</code>.
 </dd>
 </dl>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="b54a1a3a" class="cell" data-execution_count="2">
+<div id="a429bf03" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> darken, lighten, swatchplot</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> <span class="st">"#ff3322"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>lighter  <span class="op">=</span> lighten(original, amount <span class="op">=</span> <span class="fl">0.3</span>, method <span class="op">=</span> <span class="st">"relative"</span>, space <span class="op">=</span> <span class="st">"HCL"</span>)</span>

@@ -548,55 +548,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="colorspace.palettes.sequential_hcl:h">h</code><code class="argument-class">numeric</code>
 </dt>
 <dd>
-escape(Hue values (color). If only one value is given the value is recycled which yields a single-hue sequential color palette. If input <code>h</code> is a str this argument acts like the <code>palette</code> argument (see <code>palette</code> input parameter).)
+Hue values (color). If only one value is given the value is recycled which yields a single-hue sequential color palette. If input <code>h</code> is a str this argument acts like the <code>palette</code> argument (see <code>palette</code> input parameter).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:c">c</code><code class="argument-class">numeric list</code>
 </dt>
 <dd>
-escape(Chroma values (colorfullness), numeric of length one (constant chroma), two (linear), or three (advanced; [c1, c2, cmax]).)
+Chroma values (colorfullness), numeric of length one (constant chroma), two (linear), or three (advanced; [c1, c2, cmax]).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:l">l</code><code class="argument-class">numeric list</code>
 </dt>
 <dd>
-escape(Luminance values (luminance), numeric of length two. If multiple values are provided only the first one will be used.)
+Luminance values (luminance), numeric of length two. If multiple values are provided only the first one will be used.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:power">power</code><code class="argument-class">numeric, numeric list</code>
 </dt>
 <dd>
-escape(Power parameter for non-linear behaviour of the color palette. One or two values can be provided.)
+Power parameter for non-linear behaviour of the color palette. One or two values can be provided.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:fixup">fixup</code><code class="argument-class">bool</code>
 </dt>
 <dd>
-escape(Only used when converting the HCL colors to hex. Should RGB values outside the defined RGB color space be corrected?)
+Only used when converting the HCL colors to hex. Should RGB values outside the defined RGB color space be corrected?
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:palette">palette</code><code class="argument-class">str</code>
 </dt>
 <dd>
-escape(Can be used to load a default diverging color palette specification. If the palette does not exist an exception will be raised. Else the settings of the palette as defined will be used to create the color palette.)
+Can be used to load a default diverging color palette specification. If the palette does not exist an exception will be raised. Else the settings of the palette as defined will be used to create the color palette.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:rev">rev</code><code class="argument-class">bool</code>
 </dt>
 <dd>
-escape(Should the color map be reversed.)
+Should the color map be reversed.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:*args">*args</code>
 </dt>
 <dd>
-escape(Currently unused.)
+Currently unused.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.sequential_hcl:**kwargs">**kwargs</code>
 </dt>
 <dd>
-escape(Additional arguments to overwrite the h/c/l settings.)
+Additional arguments to overwrite the h/c/l settings.
 </dd>
 </dl>
 </section>
@@ -653,7 +653,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="a68515b3" class="cell" data-execution_count="1">
+<div id="13a217e8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> sequential_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -670,7 +670,7 @@ Palette Swatch Plot
  '#E2E2E2']</code></pre>
 </div>
 </div>
-<div id="ab224300" class="cell" data-execution_count="2">
+<div id="9a4d5521" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different color palette by name</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> sequential_hcl(<span class="st">"Peach"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -687,7 +687,7 @@ Palette Swatch Plot
  '#FADDC3']</code></pre>
 </div>
 </div>
-<div id="717fc14a" class="cell" data-execution_count="3">
+<div id="207338e2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -697,7 +697,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="cb825eb3" class="cell" data-execution_count="4">
+<div id="6a6ccae2" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sequential_hcl(<span class="st">"Peach"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
