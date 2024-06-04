@@ -564,7 +564,7 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="c4949ab3" class="cell" data-execution_count="1">
+<div id="890aa4de" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -584,11 +584,11 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
     b'#8E063B'</code></pre>
 </div>
 </div>
-<div id="eb189eee" class="cell" data-execution_count="2">
+<div id="99b28169" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract transparency</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>extract_transparency(x1) <span class="co"># Returns 'None' (no transparency)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a07a2107" class="cell" data-execution_count="3">
+<div id="e3b23ea5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># `x1`: Setting constant transparency of 0.5 for all colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>adjust_transparency(x1, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -599,7 +599,7 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
     b'#8E063B'    7F</code></pre>
 </div>
 </div>
-<div id="b5f2820c" class="cell" data-execution_count="4">
+<div id="dd507d51" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting custom transparency (adjusting; overwrite existing 0.5)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>adjust_transparency(x1, [<span class="fl">0.7</span>, <span class="fl">0.3</span>, <span class="fl">0.7</span>]) <span class="co"># Add transparency</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -610,7 +610,7 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
     b'#8E063B'    B2</code></pre>
 </div>
 </div>
-<div id="3d9e8910" class="cell" data-execution_count="5">
+<div id="96763444" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting list of hex colors `cols2` into `hexcolor` objects</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and extract transparency defined via 8 digit hex color str</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> hexcols(cols2)</span>
@@ -619,12 +619,12 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
 <pre><code>array([0.8, 0.4, 0.8])</code></pre>
 </div>
 </div>
-<div id="5fecb896" class="cell" data-execution_count="6">
+<div id="9492dca0" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Removing transparency, extracting new values (None)</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> adjust_transparency(x2, <span class="va">None</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>extract_transparency(x2) <span class="co"># Returns 'None' (no transparency)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f9e3add8" class="cell" data-execution_count="7">
+<div id="3d8a143c" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding transparency again</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> adjust_transparency(x2, np.asarray([<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>]))</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -636,7 +636,7 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
     b'#8E063B'    CC</code></pre>
 </div>
 </div>
-<div id="11527b4a" class="cell" data-execution_count="8">
+<div id="93a436c3" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>extract_transparency(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>array([0.8, 0.4, 0.8])</code></pre>
