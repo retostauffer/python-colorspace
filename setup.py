@@ -54,11 +54,12 @@ setup(name="colorspace",     # This is the package name
       author_email         = "Reto.Stauffer@uibk.ac.at",
       maintainer           = "Reto Stauffer",
       maintainer_email     = "reto.stauffer@uibk.ac.at",
-      license              = "GPL-2",
+      license              = "GPL-2 | GPL-3",
       keywords             = "colors, color palettes, color spaces, manipulate colors, HCL, HCL colors, color vision deficiencies",
       classifiers = [
           "Development Status :: 3 - Alpha",
           "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+          "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
           "Programming Language :: Python :: 3.11"
       ],
       install_requires     = ["numpy"],

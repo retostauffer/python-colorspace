@@ -4,6 +4,7 @@
 def hclplot(x, _type = None):
 
     from .colorlib import hexcols
+    from .spline import natural_cubic_spline
     import numpy as np
 
     # Sanity checks
@@ -100,7 +101,16 @@ def hclplot(x, _type = None):
                 seql = np.asarray([x in idxs[0] for x in seq])
                 io = split(seq, seql)
 
-                if len(io) == 2 and np.sum(cols.get("H")[seq[seql == False]]) > 0:
+                if len(io) == 2 and np.sum(seql) > 0:
+                    tmpH = cols.get("H")
+                    res = natural_cubic_spline(seq[seql == False], tmpH[seql == False],
+                                               seq[seql == True])
+                    print(res)
+                    print(" --- ")
+                    print(seq[seql == False])
+                    print(tmpH[seql == False])
+                    print(seql)
+                    print(tmp[seql == True])
                     print("RETO HERE")
                     print("woo")
                 else:
