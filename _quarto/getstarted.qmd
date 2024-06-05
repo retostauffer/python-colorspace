@@ -151,9 +151,7 @@ Finally, even more flexible diverging HCL palettes are provided by
 [`divergingx_hcl`](/man/colorspace.palettes.divergingx_hcl.qmd).
 
 
-
-Use with matplotlib graphics
-============================
+## Use with matplotlib graphics
 
 All color palettes come with a `cmap()` method to generate objects
 of class `LinearSegmentedColormap` as used by `matplotlib` and can
