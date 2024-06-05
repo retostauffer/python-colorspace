@@ -567,7 +567,7 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="6650eb7a" class="cell" data-execution_count="1">
+<div id="d0e5511b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -580,40 +580,40 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> hexcols(cols1)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>x1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #023FA5">#023FA5</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #E2E2E2">#E2E2E2</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #8E063B">#8E063B</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#023FA5">#023FA5</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E2E2E2">#E2E2E2</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#8E063B">#8E063B</li>
 </ul>
 </div>
 </div>
-<div id="8de55e19" class="cell" data-execution_count="2">
+<div id="7f6407bf" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract transparency</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>extract_transparency(x1) <span class="co"># Returns 'None' (no transparency)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d549cf3a" class="cell" data-execution_count="3">
+<div id="a6e68553" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># `x1`: Setting constant transparency of 0.5 for all colors</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>adjust_transparency(x1, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #023FA550">#023FA550</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #E2E2E250">#E2E2E250</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #8E063B50">#8E063B50</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#023FA550">#023FA550</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E2E2E250">#E2E2E250</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#8E063B50">#8E063B50</li>
 </ul>
 </div>
 </div>
-<div id="85bcd5d1" class="cell" data-execution_count="4">
+<div id="e913f118" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting custom transparency (adjusting; overwrite existing 0.5)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>adjust_transparency(x1, [<span class="fl">0.7</span>, <span class="fl">0.3</span>, <span class="fl">0.7</span>]) <span class="co"># Add transparency</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #023FA570">#023FA570</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #E2E2E230">#E2E2E230</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #8E063B70">#8E063B70</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#023FA570">#023FA570</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E2E2E230">#E2E2E230</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#8E063B70">#8E063B70</li>
 </ul>
 </div>
 </div>
-<div id="e346999c" class="cell" data-execution_count="5">
+<div id="ae9109cf" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting list of hex colors `cols2` into `hexcolor` objects</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and extract transparency defined via 8 digit hex color str</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> hexcols(cols2)</span>
@@ -622,24 +622,24 @@ sequence of colors; an object which inherits from colorsspace.colorlib.colorobje
 <pre><code>array([0.8, 0.4, 0.8])</code></pre>
 </div>
 </div>
-<div id="dcee1c4d" class="cell" data-execution_count="6">
+<div id="df3cea9a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Removing transparency, extracting new values (None)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> adjust_transparency(x2, <span class="va">None</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>extract_transparency(x2) <span class="co"># Returns 'None' (no transparency)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="45741a10" class="cell" data-execution_count="7">
+<div id="1de68e9f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding transparency again</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> adjust_transparency(x2, np.asarray([<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>]))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #023FA5CC">#023FA5CC</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #E2E2E266">#E2E2E266</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #8E063BCC">#8E063BCC</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#023FA5CC">#023FA5CC</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E2E2E266">#E2E2E266</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#8E063BCC">#8E063BCC</li>
 </ul>
 </div>
 </div>
-<div id="8a60a70f" class="cell" data-execution_count="8">
+<div id="a9d2fc36" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>extract_transparency(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>array([0.8, 0.4, 0.8])</code></pre>

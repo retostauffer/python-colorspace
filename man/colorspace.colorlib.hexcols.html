@@ -627,42 +627,42 @@ Transform Color Space
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="a8849925" class="cell" data-execution_count="1">
+<div id="c27fee1c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating hex color object from string</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hexcols(<span class="st">"#cecece"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #cecece">#cecece</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#cecece">#cecece</li>
 </ul>
 </div>
 </div>
-<div id="20dc07d7" class="cell" data-execution_count="2">
+<div id="00ba155c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating hex color object from list of strings</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>hexcols([<span class="st">"#ff0000"</span>, <span class="st">"#00ff00"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #ff0000">#ff0000</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #00ff00">#00ff00</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#ff0000">#ff0000</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#00ff00">#00ff00</li>
 </ul>
 </div>
 </div>
-<div id="f29ef314" class="cell" data-execution_count="3">
+<div id="0e00a2cb" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating hex colors via numpy array</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> asarray</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> hexcols(asarray([<span class="st">"#ff000030"</span>, <span class="st">"#00ff0030"</span>, </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"#FFFFFF"</span>, <span class="st">"#000"</span>]))</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #ff000030">#ff000030</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #00ff0030">#00ff0030</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #FFFFFF">#FFFFFF</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #000000">#000000</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#ff000030">#ff000030</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#00ff0030">#00ff0030</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#FFFFFF">#FFFFFF</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#000000">#000000</li>
 </ul>
 </div>
 </div>
-<div id="6d43e9f8" class="cell" data-execution_count="4">
+<div id="ac47470d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert hex colors to another color space (CIEXYZ)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"CIEXYZ"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -675,7 +675,7 @@ Transform Color Space
         0.00    0.00    0.00  ---</code></pre>
 </div>
 </div>
-<div id="3e714084" class="cell" data-execution_count="5">
+<div id="f3830da4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Picking 7 hex colors from the Green-Orange</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># diverging palette for demonstrating standard representation</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># in jupyter engine and standard print.</span></span>
@@ -683,18 +683,18 @@ Transform Color Space
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>cols2 <span class="op">=</span> hexcols(diverging_hcl(<span class="st">"Green-Orange"</span>)(<span class="dv">7</span>))</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>cols2 <span class="co"># jupyter HTML representation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #11C638">#11C638</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #77D17F">#77D17F</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #B0DAB3">#B0DAB3</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #E2E2E2">#E2E2E2</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #EDC9B0">#EDC9B0</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #F1B077">#F1B077</li>
-<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #EF9708">#EF9708</li>
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#11C638">#11C638</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#77D17F">#77D17F</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#B0DAB3">#B0DAB3</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E2E2E2">#E2E2E2</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#EDC9B0">#EDC9B0</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#F1B077">#F1B077</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#EF9708">#EF9708</li>
 </ul>
 </div>
 </div>
-<div id="3a3f1372" class="cell" data-execution_count="6">
+<div id="76b8d38e" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols2) <span class="co"># default representation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>hexcols color object (7 colors)
