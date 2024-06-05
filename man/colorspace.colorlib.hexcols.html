@@ -624,7 +624,7 @@ Transform Color Space
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="2db43958" class="cell" data-execution_count="1">
+<div id="3c1f174c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating hex color object from string</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hexcols(<span class="st">"#cecece"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -634,7 +634,7 @@ Transform Color Space
   1:b'#cecece'</code></pre>
 </div>
 </div>
-<div id="92d34214" class="cell" data-execution_count="2">
+<div id="d3d7e832" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating hex color object from list of strings</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hexcols([<span class="st">"#ff0000"</span>, <span class="st">"#00ff00"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -644,7 +644,7 @@ Transform Color Space
     b'#00ff00'</code></pre>
 </div>
 </div>
-<div id="d9319d6f" class="cell" data-execution_count="3">
+<div id="e413e3b5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating hex colors via numpy array</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> asarray</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> hexcols(asarray([<span class="st">"#ff000030"</span>, <span class="st">"#00ff0030"</span>]))</span>
@@ -656,7 +656,7 @@ Transform Color Space
     b'#00ff00'    30</code></pre>
 </div>
 </div>
-<div id="e298bc1f" class="cell" data-execution_count="4">
+<div id="3fc01358" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert hex colors to another color space (CIEXYZ)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"CIEXYZ"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
