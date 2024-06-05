@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
 
+import sys
+sys.exit("Depricated! Was used to create the initial documentation automatically. " + \
+        "No longer in use but kept here as an example on how to useq pyp2qmd, " + \
+        "will move that over to pyp2qmd at some point.")
+
 import os
 import subprocess as sub
 import shutil
