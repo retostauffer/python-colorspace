@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,6 +100,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -642,7 +645,7 @@ Transform Color Space
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="bc7e1f53" class="cell" data-execution_count="1">
+<div id="eeb0bcb6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> polarLAB</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> polarLAB([<span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">100</span>, <span class="dv">120</span>, <span class="dv">140</span>], [<span class="dv">40</span>, <span class="dv">130</span>, <span class="dv">300</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -654,16 +657,16 @@ Transform Color Space
        30.00  140.00  300.00</code></pre>
 </div>
 </div>
-<div id="ffd38c49" class="cell" data-execution_count="2">
+<div id="afc9029b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to hex colors</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"hex"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>hexcols color object (3 colors)
-        hex_
-  1:b'#F00000'
-    b'#3AE500'
-    b'#0027FF'</code></pre>
+<ul class="colorspace-hexcols" style="font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;">
+<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #F00000">#F00000</li>
+<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: black; background-color: #3AE500">#3AE500</li>
+<li style="width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray; color: white; background-color: #0027FF">#0027FF</li>
+</ul>
 </div>
 </div>
 
