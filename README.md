@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png){width="350" alt="python-colorspace"}
+<img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png" width="350" alt="python-colorspace"/>
 
 ## A toolbox for manipulating and assessing colors and palettes in Python
 
