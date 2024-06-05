@@ -1,6 +1,6 @@
-## python-colorspace <img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png" align="right" alt="" width="300" />
+<img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png" align="right" alt="python-colorspace" width="350" />
 
-### A toolbox for manipulating and assessing colors and palettes in Python
+## A toolbox for manipulating and assessing colors and palettes in Python
 
 The package provides a Python 3 version of the
 [R colorspace](http://colorspace.R-Forge.R-project.org/) package comprising:
@@ -19,7 +19,7 @@ The package provides a Python 3 version of the
 - **Utilities:** Various color manipulations including tools to desaturate, lighten, darken,
   adjust the transparency, or compute the contrast ratio.
 
-### Links
+## Links
 
 - **PyPI:** <https://pypi.org/project/colorspace/>
 - **GitHub:** <https://github.com/retostauffer/python-colorspace/>
@@ -28,7 +28,7 @@ The package provides a Python 3 version of the
   Currently, the package is in advanced beta status. Bug reports and suggestions
   are welcome and very much appreciated!
 
-### Contributors
+## Contributors
 
 - [Reto Stauffer](https://retostauffer.org/) (_principal author & maintainer_), Universität Innsbruck, Austria
 - [Achim Zeileis](https://www.zeileis.org/), Universität Innsbruck, Austria
