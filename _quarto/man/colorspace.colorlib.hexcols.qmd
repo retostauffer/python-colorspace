@@ -101,7 +101,8 @@ hexcols(["#ff0000", "#00ff00"])
 #| warning: true
 # Creating hex colors via numpy array
 from numpy import asarray
-cols = hexcols(asarray(["#ff000030", "#00ff0030"]))
+cols = hexcols(asarray(["#ff000030", "#00ff0030", 
+                        "#FFFFFF", "#000"]))
 cols
 ```
 
@@ -112,6 +113,25 @@ cols
 # Convert hex colors to another color space (CIEXYZ)
 cols.to("CIEXYZ")
 cols
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Picking 7 hex colors from the Green-Orange
+# diverging palette for demonstrating standard representation
+# in jupyter engine and standard print.
+from colorspace import diverging_hcl
+cols2 = hexcols(diverging_hcl("Green-Orange")(7))
+cols2 # jupyter HTML representation
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+print(cols2) # default representation
 ```
 
 

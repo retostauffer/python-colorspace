@@ -2964,11 +2964,20 @@ class hexcols(colorobject):
         >>> hexcols(["#ff0000", "#00ff00"])
         >>> #: Creating hex colors via numpy array
         >>> from numpy import asarray
-        >>> cols = hexcols(asarray(["#ff000030", "#00ff0030"]))
+        >>> cols = hexcols(asarray(["#ff000030", "#00ff0030", 
+        >>>                         "#FFFFFF", "#000"]))
         >>> cols
         >>> #: Convert hex colors to another color space (CIEXYZ)
         >>> cols.to("CIEXYZ")
         >>> cols
+        >>> #: Picking 7 hex colors from the Green-Orange
+        >>> # diverging palette for demonstrating standard representation
+        >>> # in jupyter engine and standard print.
+        >>> from colorspace import diverging_hcl
+        >>> cols2 = hexcols(diverging_hcl("Green-Orange")(7))
+        >>> cols2 # jupyter HTML representation
+        >>> #:
+        >>> print(cols2) # default representation
     """
 
     def __init__(self, hex_):
@@ -3054,22 +3063,35 @@ class hexcols(colorobject):
         else: self._cannot(self.__class__.__name__, to)
 
     def _repr_html_(self):
-        # ul style
-        su = "font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;"
-        # li style
-        sl = "width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray;"
+        """_repr_html_()
 
-        # Calculating luminance
-        from copy import deepcopy
-        tmp = deepcopy(self)
-        tmp.to("HCL")
+        Standard HTML representation of the object when using
+        the jupyter engine. Will display the colors as html list,
+        thanks to @matteoferla (github) for the idea and contribution.
+        """
+        from colorspace import contrast_ratio
+
+        # ul style
+        su = {"font-size": "0.5em", "list-style": "none", "display": "flex",
+              "padding": "0 0 0.5em 0", "text-align": "center"}
+        # li style
+        sl = {"width": "5.75em", "height": "5.75em", "padding": "0.25em",
+              "display": "inline-block", "margin": "0 0.25em 0 0",
+              "border": "0.5px solid gray"}
+
         # Getting list of hex colors
         cols = self.colors()
 
-        res  = f"<ul class=\"colorspace-hexcols\" style=\"{su}\">\n"
+        dict2style = lambda d: ';'.join(map(':'.join, d.items()))
+
+        res  = f"<ul class=\"colorspace-hexcols\" style=\"{dict2style(su)}\">\n"
         for i in range(len(self)):
-            txtcol = "white" if tmp.get("L")[i] < 60 else "black"
-            res += f"<li style=\"{sl} color: {txtcol}; background-color: {cols[i]}\">{cols[i]}</li>\n"
+            # Calculating contrast ratio to decide text color
+            cw = contrast_ratio("#FFF", bg = cols[i])[0]
+            cb = contrast_ratio("#000", bg = cols[i])[0]
+            sl["color"] = "white" if cw > cb else "black"
+            sl["background-color"] = cols[i]
+            res += f"<li style=\"{dict2style(sl)}\">{cols[i]}</li>\n"
 
         res += "</ul>\n"
         return res
