@@ -13,8 +13,11 @@ Please also feel free to help improving the software (via pull
 requests, or simply get in touch with me, helping hands would
 be very welcome)!
 
+## Version 0.4.4
 
-## Version 0.4 (Spring 2024)
+* Several smaller touch-ups in documentation.
+
+## Version 0.4.3 (Mai 2024)
 
 * Once more revamped documentation
 * Fixed a series of smaller bugs
