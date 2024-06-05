@@ -53,6 +53,7 @@ from .hcl_palettes import hcl_palettes
 from .hcl_palettes import divergingx_palettes
 from .swatchplot import swatchplot
 from .specplot import specplot
+from .hclplot import hclplot
 from .choose_palette import choose_palette
 from .cvd_emulator import cvd_emulator
 from .demos import demoplot
