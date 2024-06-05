@@ -3063,23 +3063,35 @@ class hexcols(colorobject):
         else: self._cannot(self.__class__.__name__, to)
 
     def _repr_html_(self):
+        """_repr_html_()
+
+        Standard HTML representation of the object when using
+        the jupyter engine. Will display the colors as html list,
+        thanks to @matteoferla (github) for the idea and contribution.
+        """
         from colorspace import contrast_ratio
 
         # ul style
-        su = "font-size: 0.5em; list-style: none; display: flex; padding: 0 0 0.5em 0; text-align: center;"
+        su = {"font-size": "0.5em", "list-style": "none", "display": "flex",
+              "padding": "0 0 0.5em 0", "text-align": "center"}
         # li style
-        sl = "width: 5.75em; height: 5.75em; padding: 0.25em; display: inline-block; margin: 0 0.25em 0 0; border: 0.5px solid gray;"
+        sl = {"width": "5.75em", "height": "5.75em", "padding": "0.25em",
+              "display": "inline-block", "margin": "0 0.25em 0 0",
+              "border": "0.5px solid gray"}
 
         # Getting list of hex colors
         cols = self.colors()
 
-        res  = f"<ul class=\"colorspace-hexcols\" style=\"{su}\">\n"
+        dict2style = lambda d: ';'.join(map(':'.join, d.items()))
+
+        res  = f"<ul class=\"colorspace-hexcols\" style=\"{dict2style(su)}\">\n"
         for i in range(len(self)):
             # Calculating contrast ratio to decide text color
             cw = contrast_ratio("#FFF", bg = cols[i])[0]
             cb = contrast_ratio("#000", bg = cols[i])[0]
-            txtcol = "white" if cw > cb else "black"
-            res += f"<li style=\"{sl} color: {txtcol}; background-color: {cols[i]}\">{cols[i]}</li>\n"
+            sl["color"] = "white" if cw > cb else "black"
+            sl["background-color"] = cols[i]
+            res += f"<li style=\"{dict2style(sl)}\">{cols[i]}</li>\n"
 
         res += "</ul>\n"
         return res
