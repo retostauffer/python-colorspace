@@ -2,8 +2,8 @@
 
 
 import sys
-sys.exit("Depricated! Was used to create the initial documentation automatically. " + \
-        "No longer in use but kept here as an example on how to useq pyp2qmd, " + \
+sys.exit("Deprecated! Was used to create the initial documentation automatically. " + \
+        "No longer in use but kept here as an example on how to use pyp2qmd, " + \
         "will move that over to pyp2qmd at some point.")
 
 import os
@@ -15,7 +15,7 @@ import re
 def main():
 
     import sys
-    sys.exit("Depricated! No longer used, initially auto-generated the documentation")
+    sys.exit("Deprecated! No longer used, initially auto-generated the documentation")
     from os.path import join, basename
     from pyp2qmd import Config, DocConverter
 

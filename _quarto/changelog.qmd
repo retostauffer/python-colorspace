@@ -4,58 +4,55 @@ title: Release Notes
 
 ## Availability
 
-The software is published under the Gnu Public License
-on [GitHub](https://github.com/retostauffer/python-colorspace)
-Please feel free to use, share, improve, and redistribute the
-software as long as the attribution is given correctly.
+The software is developed under the GNU Public License (GPL-2 or GPL-3)
+on GitHub at <https://github.com/retostauffer/python-colorspace>
+and published on PyPI at <https://pypi.org/project/colorspace/>.
 
-Please also feel free to help improving the software (via pull
-requests, or simply get in touch with me, helping hands would
-be very welcome)!
+Please feel free to use, share, improve, and redistribute the
+software under the terms of the GPL. Moreover, bug reports and
+suggestions for improvement are very welcome via the GitHub issues.
+
 
 ## Version 0.4.4
 
-* Several smaller touch-ups in documentation.
-* HTML representation of `hexcols` objects when rendered via jupyter (thx @matteoferla).
+* Improvements and streamlining in documentation.
+* HTML representation of `hexcols` objects when rendered via jupyter
+  (reported by @matteoferla in <https://github.com/retostauffer/python-colorspace/issues/7>).
 
-## Version 0.4.3 (Mai 2024)
+## Version 0.4.3 (May 2024)
 
-* Once more revamped documentation
-* Fixed a series of smaller bugs
-* Adjusted pytest to current version
-* First PyPI release on https://pypi.org/project/colorspace/
-* Revamped the entire documentation, now Quarto based and still
-    available via https://retostauffer.github.io/python-colorspace/.
-    Creaded with help of the https://retostauffer.github.io/pyp2qmd package.
+* First PyPI release on <https://pypi.org/project/colorspace/>.
+* Revamped the entire documentation, now using [Quarto](https://quarto.org)
+  and still available at <https://retostauffer.github.io/python-colorspace/>.
+  Created with help of the new [pyp2qmd](https://retostauffer.github.io/pyp2qmd) package.
+* Fixed a series of smaller bugs.
+* Adjusted `pytest` to current version.
 
 
 ## Version 0.3.0 (January 2022)
 
-* Removed support for Python 2
-* Adding functionality for swatchplots for `LinearSegmentedColormap` (single object)
-* Fixed GUI `choose_palette()`
-* Added `mixcolor()` for additive color mixing (RGB, CIEXYZ)
+* Removed support for Python 2.
+* Adding functionality for swatchplots for `LinearSegmentedColormap` (single object).
+* Fixed interactive `choose_palette()` app.
+* Added `mixcolor()` for additive color mixing (RGB, CIEXYZ).
+
 
 ## Version 0.1.0 (September 17, 2018)
 
-**Early beta release**.
-
-A wide range of methods are already implemented and roughly
-tested. I've decided to launch it as an early beta release
-to get some feedback from those who use Python more frequently
-than I do! Feel free to report bugs, ideas, or even contribute.
-
-I'll try to update update the documentation as soon as possible
-and to improve the package itself, if I can find a free time slot.
-
-## Version 0.0.1 (beginning of September 2018)
-
-Development version.
-
-First implementation of the ``colorspace`` package in Python.
-This is still an early alpha version, I am currently working
-on better documentation, testing, and getting the necessary
-classes and objects into the package to provide a useful
-toolbox for Python enthusiasts.
+* Early beta release.
+* A wide range of methods are already implemented and roughly
+  tested. I've decided to launch it as an early beta release
+  to get some feedback from those who use Python more frequently
+  than I do! Feel free to report bugs, ideas, or even contribute.
+* I'll try to update update the documentation as soon as possible
+  and to improve the package itself, if I can find a free time slot.
 
 
+## Version 0.0.1 (September 1, 2018)
+
+* Development version.
+* First implementation of the `colorspace` package in Python.
+  This is still an early alpha version, I am currently working
+  on better documentation, testing, and getting the necessary
+  classes and objects into the package to provide a useful
+  toolbox for Python enthusiasts.

@@ -1,41 +1,43 @@
-python-colorspace
-=================
+<img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png" width="350" alt="python-colorspace"/>
 
-A Python 3 package mimicking the
-[R colorspace](https://cran.r-project.org/package=colorspace) package.
+## A Python toolbox for manipulating and assessing colors and palettes
 
-The current package state can be seen as an advanced **beta** version. Feel free to
-test and report errors and malfunctions. The package has been ported/written
-within just two weeks, please do not expect that every last detail is working
-like a charm! If something goes wrong feel free to **contribute** and/or to
-**report** the problems (please provide some system information if possible).
+The package provides a Python 3 version of the
+[R colorspace](http://colorspace.R-Forge.R-project.org/) package comprising:
 
-The Documentation
------------------
+- **Color spaces:** Conversions and manipulations of RGB, HSV, CIEXYZ, CIELAB, CIELUV, HCL etc.
+- **HCL-based palettes:** Qualitative, sequential, and diverging color maps constructed
+  using the HCL (hue-chroma-luminance) color model. These can closely approximate palettes
+  from ColorBrewer.org, CARTO, viridis, or Crameri's scientific color maps.
+- **matplotlib color maps:** Integration with [matplotlib](https://matplotlib.org/) for
+  use in standard plotting functions.
+- **Palette visualization:** Plotting palettes in color swatches, spectrums of HCL and/or
+  RGB trajectories, and illustrations of typical data visualizations.
+- **Interactive palette chooser:** App for exploring, modifying, and picking color
+  palettes interactively.
+- **Color vision deficiency:** Emulation of different kinds of color blindness.
+- **Utilities:** Various color manipulations including tools to desaturate, lighten, darken,
+  adjust the transparency, or compute the contrast ratio.
 
-The documentation is the one which might need most attention from my side.
-I have kept the documentation up-to-date as good as possible while developing
-the code. Nevertheless, some pages (e.g., usage examples) are still empty and
-I'll try to write them as soon as I can find some time.
+## Links
 
-The latest documentation is available here:
+- **PyPI:** <https://pypi.org/project/colorspace/>
+- **GitHub:** <https://github.com/retostauffer/python-colorspace/>
+- **Documentation:** <https://retostauffer.github.io/python-colorspace/>
+- **Bug reports:** https://github.com/retostauffer/python-colorspace/issues  
+  Currently, the package is in advanced beta status. Bug reports and suggestions
+  are welcome and very much appreciated!
 
-* [python-colorspace: on Github Pages](https://retostauffer.github.io/python-colorspace/)
+## Contributors
 
-Feel free to contact me via e-mail (Reto.Stauffer _at_ uibk.ac.at).
+- [Reto Stauffer](https://retostauffer.org/) (_principal author & maintainer_), Universität Innsbruck, Austria
+- [Achim Zeileis](https://www.zeileis.org/), Universität Innsbruck, Austria
 
-Contributor List
-----------------
-
-* [Reto Stauffer](https://retostauffer.org) (_author, maintainer_), Universität Innsbruck, AT
-* [Achim Zeileis](https://eeecon.uibk.ac.at:~/zeileis) (_contributor_), Universität Innsbruck, AT
-* [Ross Ihaka](https://www.stat.auckland.ac.nz/~ihaka/) (_contributor_), University of Auckland, NZ
-* [Paul Murrell](https://www.stat.auckland.ac.nz/~paul/) (_contributor_), University of Auckland, NZ
-* [Kurt Hornik](http://statmath.wu.ac.at/~hornik/) (_contributor_), WU Wirtschaftsuniversität Wien, AT
-* [Jason C. Fisher](https://www.usgs.gov/staff-profiles/jason-c-fisher) (_contributor_), Idaho Water Science Center (USGS), USA
-* [Claus O. Wilke](http://wilkelab.org/) (_contributor_), University of Texas at Austin, USA
-* [Claire D. McWhite](http://clairemcwhite.github.io/) (_contributor_), University of Texas at Austin, USA
-
-
-
-
+Furthermore, the Python package implements the functionality from the R package
+that is co-written with
+[Ross Ihaka](https://www.stat.auckland.ac.nz/~ihaka/),
+[Paul Murrell](https://www.stat.auckland.ac.nz/~paul/),
+[Kurt Hornik](https://statmath.wu.ac.at/~hornik/),
+[Jason C. Fisher](https://www.usgs.gov/staff-profiles/jason-c-fisher),
+[Claus O. Wilke](https://clauswilke.com/),
+[Claire D. McWhite](https://clairemcwhite.github.io/).

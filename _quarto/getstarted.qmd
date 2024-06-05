@@ -1,5 +1,5 @@
 ---
-title: "colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes"
+title: "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes"
 bibliography: references.bib
 ---
 
@@ -92,8 +92,8 @@ available via the Python Package Index (PyPI) (see
 
 The installation of the latest release can be done using pip. Will automatically
 install the necessary requirement (`numpy`). To use the full functionality of the
-package, `matplotlib` and `imageio` will be needed to be installed, tough not
-only required for [visualization](/articles/palette_visualization.qmd)
+package, `matplotlib` and `imageio` will be needed to be installed, though not
+required for [visualization](/articles/palette_visualization.qmd)
 and [CVD emulation](/articles/cvd.qmd).
 Check out the [Installation](/installation.qmd) page for more details.
 
@@ -151,14 +151,12 @@ Finally, even more flexible diverging HCL palettes are provided by
 [`divergingx_hcl`](/man/colorspace.palettes.divergingx_hcl.qmd).
 
 
-
-Use with matplotlib graphics
-============================
+## Use with matplotlib graphics
 
 All color palettes come with a `cmap()` method to generate objects
 of class `LinearSegmentedColormap` as used by `matplotlib` and can
 thus usually be passed directly to most matplotlib plotting functions, typically
-trough the `cmap` argument. Here, a `pcolormesh()` example is shown using
+through the `cmap` argument. Here, a `pcolormesh()` example is shown using
 the diverging HCL color palette "*Blue-Red 3*".
 
 ```{python}

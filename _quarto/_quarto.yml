@@ -10,7 +10,7 @@ format:
     toc: true
 project:
   output-dir: _site
-  title: pyp2qmd
+  title: "colorspace"
   type: website
 website:
   issue-url: https://github.com/retostauffer/python-colorspace/issues
