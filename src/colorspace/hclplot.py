@@ -1,7 +1,7 @@
 
 
 
-def hclplot(x, _type = None):
+def hclplot(x, _type = None, c = None):
 
     from .colorlib import hexcols
     from .spline import natural_cubic_spline
@@ -10,6 +10,10 @@ def hclplot(x, _type = None):
     # Sanity checks
     if not isinstance(_type, (type(None), str)):
         raise TypeError("argument `_type` must be None or str")
+    if not isinstance(c, (int, float, type(None))):
+        raise TypeError("argument `c` must be None, int, or float")
+    elif c is not None and c <= 0:
+        raise ValueError("argument `c` must be positive if set")
 
     allowed_types = ["diverging", "sequential", "qualitative"]
     if isinstance(_type, str):
@@ -68,6 +72,18 @@ def hclplot(x, _type = None):
         elif llin > 0.75 and lran > 10:  _type = "sequential"
         else:                            _type = "qualitative"
 
+    if len(cols) > 1:
+        # Correcting negative Hues if we have a jump
+        tmpH = cols.get("H")
+        for i in range(1, len(cols)):
+            d = tmpH[i] - tmpH[i - 1]
+            if np.abs(d) > 320.:
+                tmpH[i] = tmpH[i] - np.sign(d) * 360
+            if tmpH[i] > 360:
+                tmpH[list(range(i + 1))] = tmpH[list(range(i + 1))] - np.sign(tmpH[i])
+        cols.set(H = tmpH)
+        del tmpH
+
         # Smoothing the values in batches where chroma is very low
         idx = np.where(cols.get("C") < 8.)[0]
         # If all Chroma values are very low (<8); replace hue with mean hue
@@ -81,14 +97,13 @@ def hclplot(x, _type = None):
                 tmp = cols.get("H")[np.concatenate(([1, 1], np.arange(1, len(cols) - 1)))] + \
                       cols.get("H")[np.concatenate(([1],    np.arange(1, len(cols))))]     + \
                       cols.get("H")
-                cols.set(H = 1./3. * tmp)
+                cols.set(H = 1./3. * tmp) # Calculate weighted mean, write back
+                del tmp
 
             # Split index into 'continuous segments'.
-            print(f"{idx=}")
             idxs = split(idx, np.cumsum(np.concatenate(([1], np.diff(idx))) > 1))
 
             s = 0
-            print(idxs)
             while len(idxs) > 0:
                 if s in idxs[0]:
                     e = len(cols) - 1 if len(idxs) == 1 else idxs[1] - 1
@@ -103,27 +118,35 @@ def hclplot(x, _type = None):
 
                 if len(io) == 2 and np.sum(seql) > 0:
                     tmpH = cols.get("H")
-                    res = natural_cubic_spline(seq[seql == False], tmpH[seql == False],
-                                               seq[seql == True])
-                    print(res)
-                    print(" --- ")
-                    print(seq[seql == False])
-                    print(tmpH[seql == False])
-                    print(seql)
-                    print(tmp[seql == True])
-                    print("RETO HERE")
-                    print("woo")
-                else:
-                    print("RETO THERE")
-                    print('baa')
+                    # Experimental
+                    res = natural_cubic_spline(x    = seq[seql == False],
+                                               y    = tmpH[seql == False],
+                                               xout = seq[seql == True])
+                    tmpH[seql == True] = res["y"]
+                    cols.set(H = tmpH)
+                    del tmpH, res
 
                 # Remove first entry from list idxs
                 del idxs[0]
-                s += 1
+                s = e + 1 # Next segment start
+
+    # Getting maximum chroma
+    if c is not None:
+        maxchroma = np.ceil(c)
+    else:
+        maxchroma = np.maximum(100., np.minimum(180, np.ceil(np.max(cols.get("H")) / 20) * 20))
+
+    # Depending on _type:
+    if _type == "sequential":
+        print(f"RETO: HERE plotting for {_type}")
+
+    elif _type == "diverging":
+        print(f"RETO: HERE plotting for {_type}")
+
+    elif _type == "qualitative":
+        print(f"RETO: HERE plotting for {_type}")
 
 
-
-    print(f"llin {llin}, ltri {ltri}")
     print(cols)
 
 
