@@ -16,6 +16,7 @@ be very welcome)!
 ## Version 0.4.4
 
 * Several smaller touch-ups in documentation.
+* HTML representation of `hexcols` objects when rendered via jupyter (thx @matteoferla).
 
 ## Version 0.4.3 (Mai 2024)
 
