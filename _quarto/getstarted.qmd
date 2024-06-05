@@ -1,5 +1,5 @@
 ---
-title: "colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes"
+title: "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes"
 bibliography: references.bib
 ---
 
