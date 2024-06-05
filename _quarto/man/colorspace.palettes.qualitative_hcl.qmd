@@ -15,7 +15,7 @@ circle (`[0., 360.]`).
 
 ### Usage
 
-<pre><code class='language-python'>qualitative_hcl(h=[0, &lt;function qualitative_hcl.&lt;lambda&gt; at 0x7b1b25c7fba0&gt;],<br/>                c=80, l=60, fixup=True,<br/>                palette=None, rev=False, **kwargs)</code></pre>
+<pre><code class='language-python'>qualitative_hcl(h=[0, &lt;function qualitative_hcl.&lt;lambda&gt; at 0x7a9ae297c900&gt;],<br/>                c=80, l=60, fixup=True,<br/>                palette=None, rev=False, **kwargs)</code></pre>
 
 ### Arguments
 
