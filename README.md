@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png" width="350" alt="python-colorspace"/>
 
-## A toolbox for manipulating and assessing colors and palettes in Python
+## A Python toolbox for manipulating and assessing colors and palettes
 
 The package provides a Python 3 version of the
 [R colorspace](http://colorspace.R-Forge.R-project.org/) package comprising:
