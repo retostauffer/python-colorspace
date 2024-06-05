@@ -675,7 +675,7 @@
     "href": "man/colorspace.demos.demoplot.html",
     "title": "Create Demo Plots",
     "section": "",
-    "text": "Description\nThis function is intended to be used by the GUI (choose_palette) to visualize the color palette selected for a series of different types of plots. It can, however, also be used directly if needed.\n\n\nUsage\ndemoplot(colors, type_, n=7, ax=None, **kwargs)\n\n\nArguments\n\n\ncolors\n\n\nThe colors, any type which can be handled by palette.\n\n\ntype_str\n\n\nName of the demo function to be called. Not case sensitive.\n\n\nnint\n\n\nNumber of colors for the plot. Only used if argument colors is a palette where a dedicated number of colors must be drawn first. Defaults to 7.\n\n\ntitleNone, str\n\n\nused to draw the figure title, if specified (str). Forwarded to different plot types.\n\n\naxNone, matplotlib.axes.Axes\n\n\nIf None a new matplotlib figure will be created. If ax inherits from matplotlib.axes.Axes this object will be used to create the demoplot. Handy to create multiple subplots. Forwarded to different plot types.\n\n\n**kwargs\n\n\nForwarded to the corresponding demo plot functions.\n\n\n\n\nExamples\n\n# Importing modules\nfrom colorspace import *\nfrom colorspace.colorlib import *\n# Custom list of hex colors (n = 5)\nhexlist    = [\"#BCBE57\", \"#DEDFC0\", \"#F1F1F1\", \"#F7D3E7\", \"#FB99D7\"]\nhexlist\n\n['#BCBE57', '#DEDFC0', '#F1F1F1', '#F7D3E7', '#FB99D7']\n\n\n\n# A (HCL based) colorobject with (n = 3)\ncolorobj = HCL([0, 90, 180], [60, 60, 60], [60, 60, 60])\ncolorobj\n\npolarLUV color object (3 colors)\n           H       C       L\n  1:    0.00   60.00   60.00\n       90.00   60.00   60.00\n      180.00   60.00   60.00\n\n\n\n# Default diverging HCL palette\nhclpalette = diverging_hcl()\nhclpalette\n\n&lt;colorspace.palettes.diverging_hcl at 0x7f4318acda10&gt;\n\n\n\n# Default color palette shipped with the package\nberlin = hcl_palettes(name = \"Berlin\").get_palettes()[0]\nberlin\n\nPalette Name: Berlin\n        Type: Advanced: Diverging\n        Inspired by: Crameri's sico palettes\n         c1            60\n         cmax          80\n         fixup       True\n         gui            1\n         h1           240\n         h2            15\n         l1            75\n         l2             5\n         p1           1.2\n         p2           1.5\n\n\n\n# Demoplots\ndemoplot(hexlist, \"Bar\");\n\n\n\n\n\n\n\n\n\ndemoplot(colorobj, \"Lines\");\n\n\n\n\n\n\n\n\n\ndemoplot(hclpalette, \"Pie\", n = 4);\n\n\n\n\n\n\n\n\n\ndemoplot(berlin.colors(), \"Matrix\", n = 11);\n\n\n\n\n\n\n\n\n\n# Using custom subplots and plot titles\nfrom matplotlib import pyplot as plt\nfrom colorspace import protan, deutan, desaturate\nfig, axes = plt.subplots(2, 2)\ncolors = diverging_hcl(\"Green-Orange\").colors(7)\ndemoplot(colors, \"Bar\",\n         title = \"Original\", ax = axes[0, 0]);\ndemoplot(protan(colors), \"Bar\",\n         title = \"Protanope vision\", ax = axes[0, 1]);\ndemoplot(deutan(colors), \"Bar\",\n         title = \"Deuteranope vision\", ax = axes[1, 0]);\ndemoplot(desaturate(colors), \"Bar\",\n         title = \"Desaturated\", ax = axes[1, 1]);\nplt.show()\n\n\n\n\n\n\n\n\n\n\nRaises\n\n\nTypeError: If type_ is not a str.\n\nValueError: If type_ is not an available demo plot type.\n\nTypeError: If n is not int.\n\nValueError: n must be a positive int.",
+    "text": "Description\nThis function is intended to be used by the GUI (choose_palette) to visualize the color palette selected for a series of different types of plots. It can, however, also be used directly if needed.\n\n\nUsage\ndemoplot(colors, type_, n=7, ax=None, **kwargs)\n\n\nArguments\n\n\ncolors\n\n\nThe colors, any type which can be handled by palette.\n\n\ntype_str\n\n\nName of the demo function to be called. Not case sensitive.\n\n\nnint\n\n\nNumber of colors for the plot. Only used if argument colors is a palette where a dedicated number of colors must be drawn first. Defaults to 7.\n\n\ntitleNone, str\n\n\nused to draw the figure title, if specified (str). Forwarded to different plot types.\n\n\naxNone, matplotlib.axes.Axes\n\n\nIf None a new matplotlib figure will be created. If ax inherits from matplotlib.axes.Axes this object will be used to create the demoplot. Handy to create multiple subplots. Forwarded to different plot types.\n\n\n**kwargs\n\n\nForwarded to the corresponding demo plot functions.\n\n\n\n\nExamples\n\n# Importing modules\nfrom colorspace import *\nfrom colorspace.colorlib import *\n# Custom list of hex colors (n = 5)\nhexlist    = [\"#BCBE57\", \"#DEDFC0\", \"#F1F1F1\", \"#F7D3E7\", \"#FB99D7\"]\nhexlist\n\n['#BCBE57', '#DEDFC0', '#F1F1F1', '#F7D3E7', '#FB99D7']\n\n\n\n# A (HCL based) colorobject with (n = 3)\ncolorobj = HCL([0, 90, 180], [60, 60, 60], [60, 60, 60])\ncolorobj\n\npolarLUV color object (3 colors)\n           H       C       L\n  1:    0.00   60.00   60.00\n       90.00   60.00   60.00\n      180.00   60.00   60.00\n\n\n\n# Default diverging HCL palette\nhclpalette = diverging_hcl()\nhclpalette\n\n&lt;colorspace.palettes.diverging_hcl at 0x7f0a10a5af90&gt;\n\n\n\n# Default color palette shipped with the package\nberlin = hcl_palettes(name = \"Berlin\").get_palettes()[0]\nberlin\n\nPalette Name: Berlin\n        Type: Advanced: Diverging\n        Inspired by: Crameri's sico palettes\n         c1            60\n         cmax          80\n         fixup       True\n         gui            1\n         h1           240\n         h2            15\n         l1            75\n         l2             5\n         p1           1.2\n         p2           1.5\n\n\n\n# Demoplots\ndemoplot(hexlist, \"Bar\");\n\n\n\n\n\n\n\n\n\ndemoplot(colorobj, \"Lines\");\n\n\n\n\n\n\n\n\n\ndemoplot(hclpalette, \"Pie\", n = 4);\n\n\n\n\n\n\n\n\n\ndemoplot(berlin.colors(), \"Matrix\", n = 11);\n\n\n\n\n\n\n\n\n\n# Using custom subplots and plot titles\nfrom matplotlib import pyplot as plt\nfrom colorspace import protan, deutan, desaturate\nfig, axes = plt.subplots(2, 2)\ncolors = diverging_hcl(\"Green-Orange\").colors(7)\ndemoplot(colors, \"Bar\",\n         title = \"Original\", ax = axes[0, 0]);\ndemoplot(protan(colors), \"Bar\",\n         title = \"Protanope vision\", ax = axes[0, 1]);\ndemoplot(deutan(colors), \"Bar\",\n         title = \"Deuteranope vision\", ax = axes[1, 0]);\ndemoplot(desaturate(colors), \"Bar\",\n         title = \"Desaturated\", ax = axes[1, 1]);\nplt.show()\n\n\n\n\n\n\n\n\n\n\nRaises\n\n\nTypeError: If type_ is not a str.\n\nValueError: If type_ is not an available demo plot type.\n\nTypeError: If n is not int.\n\nValueError: n must be a positive int.",
     "crumbs": [
       "Home",
       "Function references",
@@ -1143,49 +1143,49 @@
     "href": "changelog.html",
     "title": "Release Notes",
     "section": "",
-    "text": "The software is published under the Gnu Public License on GitHub Please feel free to use, share, improve, and redistribute the software as long as the attribution is given correctly.\nPlease also feel free to help improving the software (via pull requests, or simply get in touch with me, helping hands would be very welcome)!"
+    "text": "The software is developed under the GNU Public License (GPL-2 or GPL-3) on GitHub at https://github.com/retostauffer/python-colorspace and published on PyPI at https://pypi.org/project/colorspace/.\nPlease feel free to use, share, improve, and redistribute the software under the terms of the GPL. Moreover, bug reports and suggestions for improvement are very welcome via the GitHub issues."
   },
   {
     "objectID": "changelog.html#availability",
     "href": "changelog.html#availability",
     "title": "Release Notes",
     "section": "",
-    "text": "The software is published under the Gnu Public License on GitHub Please feel free to use, share, improve, and redistribute the software as long as the attribution is given correctly.\nPlease also feel free to help improving the software (via pull requests, or simply get in touch with me, helping hands would be very welcome)!"
+    "text": "The software is developed under the GNU Public License (GPL-2 or GPL-3) on GitHub at https://github.com/retostauffer/python-colorspace and published on PyPI at https://pypi.org/project/colorspace/.\nPlease feel free to use, share, improve, and redistribute the software under the terms of the GPL. Moreover, bug reports and suggestions for improvement are very welcome via the GitHub issues."
   },
   {
     "objectID": "changelog.html#version-0.4.4",
     "href": "changelog.html#version-0.4.4",
     "title": "Release Notes",
     "section": "Version 0.4.4",
-    "text": "Version 0.4.4\n\nSeveral smaller touch-ups in documentation.\nHTML representation of hexcols objects when rendered via jupyter (thx @matteoferla)."
+    "text": "Version 0.4.4\n\nImprovements and streamlining in documentation.\nHTML representation of hexcols objects when rendered via jupyter (reported by @matteoferla in https://github.com/retostauffer/python-colorspace/issues/7)."
   },
   {
-    "objectID": "changelog.html#version-0.4.3-mai-2024",
-    "href": "changelog.html#version-0.4.3-mai-2024",
+    "objectID": "changelog.html#version-0.4.3-may-2024",
+    "href": "changelog.html#version-0.4.3-may-2024",
     "title": "Release Notes",
-    "section": "Version 0.4.3 (Mai 2024)",
-    "text": "Version 0.4.3 (Mai 2024)\n\nOnce more revamped documentation\nFixed a series of smaller bugs\nAdjusted pytest to current version\nFirst PyPI release on https://pypi.org/project/colorspace/\nRevamped the entire documentation, now Quarto based and still available via https://retostauffer.github.io/python-colorspace/. Creaded with help of the https://retostauffer.github.io/pyp2qmd package."
+    "section": "Version 0.4.3 (May 2024)",
+    "text": "Version 0.4.3 (May 2024)\n\nFirst PyPI release on https://pypi.org/project/colorspace/.\nRevamped the entire documentation, now using Quarto and still available at https://retostauffer.github.io/python-colorspace/. Created with help of the new pyp2qmd package.\nFixed a series of smaller bugs.\nAdjusted pytest to current version."
   },
   {
     "objectID": "changelog.html#version-0.3.0-january-2022",
     "href": "changelog.html#version-0.3.0-january-2022",
     "title": "Release Notes",
     "section": "Version 0.3.0 (January 2022)",
-    "text": "Version 0.3.0 (January 2022)\n\nRemoved support for Python 2\nAdding functionality for swatchplots for LinearSegmentedColormap (single object)\nFixed GUI choose_palette()\nAdded mixcolor() for additive color mixing (RGB, CIEXYZ)"
+    "text": "Version 0.3.0 (January 2022)\n\nRemoved support for Python 2.\nAdding functionality for swatchplots for LinearSegmentedColormap (single object).\nFixed interactive choose_palette() app.\nAdded mixcolor() for additive color mixing (RGB, CIEXYZ)."
   },
   {
     "objectID": "changelog.html#version-0.1.0-september-17-2018",
     "href": "changelog.html#version-0.1.0-september-17-2018",
     "title": "Release Notes",
     "section": "Version 0.1.0 (September 17, 2018)",
-    "text": "Version 0.1.0 (September 17, 2018)\nEarly beta release.\nA wide range of methods are already implemented and roughly tested. I’ve decided to launch it as an early beta release to get some feedback from those who use Python more frequently than I do! Feel free to report bugs, ideas, or even contribute.\nI’ll try to update update the documentation as soon as possible and to improve the package itself, if I can find a free time slot."
+    "text": "Version 0.1.0 (September 17, 2018)\n\nEarly beta release.\nA wide range of methods are already implemented and roughly tested. I’ve decided to launch it as an early beta release to get some feedback from those who use Python more frequently than I do! Feel free to report bugs, ideas, or even contribute.\nI’ll try to update update the documentation as soon as possible and to improve the package itself, if I can find a free time slot."
   },
   {
-    "objectID": "changelog.html#version-0.0.1-beginning-of-september-2018",
-    "href": "changelog.html#version-0.0.1-beginning-of-september-2018",
+    "objectID": "changelog.html#version-0.0.1-september-1-2018",
+    "href": "changelog.html#version-0.0.1-september-1-2018",
     "title": "Release Notes",
-    "section": "Version 0.0.1 (beginning of September 2018)",
-    "text": "Version 0.0.1 (beginning of September 2018)\nDevelopment version.\nFirst implementation of the colorspace package in Python. This is still an early alpha version, I am currently working on better documentation, testing, and getting the necessary classes and objects into the package to provide a useful toolbox for Python enthusiasts."
+    "section": "Version 0.0.1 (September 1, 2018)",
+    "text": "Version 0.0.1 (September 1, 2018)\n\nDevelopment version.\nFirst implementation of the colorspace package in Python. This is still an early alpha version, I am currently working on better documentation, testing, and getting the necessary classes and objects into the package to provide a useful toolbox for Python enthusiasts."
   },
   {
     "objectID": "installation.html",
@@ -2368,28 +2368,35 @@
   {
     "objectID": "getstarted.html",
     "href": "getstarted.html",
-    "title": "colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes",
+    "title": "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes",
     "section": "",
     "text": "The colorspace package provides a broad toolbox for selecting individual colors or color palettes, manipulating colors, and employing them in various kinds of visualizations.\nAt the core of the package is a class which allows to draw and transform colors in different color spaces (as the package name conveys). Thus, the package helps to map various three-dimensional representations of color to each other. A particularly important mapping is the one from the perceptually-based and device-independent color model HCL (Hue-Chroma-Luminance) to standard Red-Green-Blue (sRGB) which is the basis for color specifications in many systems based on the corresponding hex codes (e.g., in HTML but also in R). For completeness further standard color models are included as well in the package: polarLUV (=HCL), CIELUV, polarLAB, CIELAB, CIEXYZ, RGB, sRGB, HLS, HSV.\nThe HCL space (= polar coordinates in CIELUV) is particularly useful for specifying individual colors and color palettes as its three axes match those of the human visual system very well: Hue (= type of color, dominant wavelength), chroma (= colorfulness), luminance (= brightness).\nfrom colorspace import palette, sequential_hcl, swatchplot\n\nH = palette(sequential_hcl(h = [0, 300], c = [60, 60], l = 65).colors(5), \"Hue\")\nC = palette(sequential_hcl(h = 0, c = [0, 100], l = 65).colors(5), \"Chroma\")\nL = palette(sequential_hcl(h = 0, c = 0, l = [90, 25]).colors(5), \"Luminance\")\n\nswatchplot([H, C, L], figsize = (5, 1.5));\nThe colorspace package provides three types of palettes based on the HCL model:\nTo aid choice and application of these palettes there are: scales for use with matplotlib and an app for interactive exploration; visualizations of palette properties; accompanying manipulation utilities (like desaturation, lighten/darken, and emulation of color vision deficiencies).\nMore detailed overviews and examples are provided in the articles:"
   },
   {
     "objectID": "getstarted.html#installation",
     "href": "getstarted.html#installation",
-    "title": "colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes",
+    "title": "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes",
     "section": "Installation",
-    "text": "Installation\nThe latest release candidate of this package is available via the Python Package Index (PyPI) (see https://pypi.org/project/colorspace/) as well as on GitHub.\nInstall via pip\nThe installation of the latest release can be done using pip. Will automatically install the necessary requirement (numpy). To use the full functionality of the package, matplotlib and imageio will be needed to be installed, tough not only required for visualization and CVD emulation. Check out the Installation page for more details.\npip install colorspace\n# pip install matplotlib\n# pip install imageio"
+    "text": "Installation\nThe latest release candidate of this package is available via the Python Package Index (PyPI) (see https://pypi.org/project/colorspace/) as well as on GitHub.\nInstall via pip\nThe installation of the latest release can be done using pip. Will automatically install the necessary requirement (numpy). To use the full functionality of the package, matplotlib and imageio will be needed to be installed, though not required for visualization and CVD emulation. Check out the Installation page for more details.\npip install colorspace\n# pip install matplotlib\n# pip install imageio"
   },
   {
     "objectID": "getstarted.html#choosing-hcl-based-color-palettes",
     "href": "getstarted.html#choosing-hcl-based-color-palettes",
-    "title": "colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes",
+    "title": "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes",
     "section": "Choosing HCL-based color palettes",
     "text": "Choosing HCL-based color palettes\nThe colorspace package ships with a wide range of predefined color palettes, specified through suitable trajectories in the HCL (Hue-Chroma-Luminance) color space. A quick overview can be gained easily with the hcl_palettes function:\n\nfrom colorspace import hcl_palettes\nhcl_palettes(plot = True, figsize = (15, 10));\n\n\n\n\n\n\n\n\nA suitable palette object can be easily computed by specifying the desired palette name (see the plot above), e.g.,\n\nfrom colorspace import qualitative_hcl\npal = qualitative_hcl(\"Dark 3\")\npal(4)  # Draw list of 4 colors across the palette\n\n['#E16A86', '#50A315', '#009ADE', '#E16A86']\n\n\nThe functions sequential_hcland diverging_hcl work analogously. Additionally, their hue/chroma/luminance parameters can be modified, thus allowing for easy customization of each palette. Moreover, choose_palette provides a convenient user interfaces to perform palette customization interactively. Finally, even more flexible diverging HCL palettes are provided by divergingx_hcl."
   },
   {
+    "objectID": "getstarted.html#use-with-matplotlib-graphics",
+    "href": "getstarted.html#use-with-matplotlib-graphics",
+    "title": "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes",
+    "section": "Use with matplotlib graphics",
+    "text": "Use with matplotlib graphics\nAll color palettes come with a cmap() method to generate objects of class LinearSegmentedColormap as used by matplotlib and can thus usually be passed directly to most matplotlib plotting functions, typically through the cmap argument. Here, a pcolormesh() example is shown using the diverging HCL color palette “Blue-Red 3”.\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nfrom colorspace import diverging_hcl\npal = diverging_hcl(\"Blue-Red 3\")\n\nnp.random.seed(19680801)\nZ = np.random.rand(6, 10)\nx = np.arange(-0.5, 10, 1)  # len = 11\ny = np.arange(4.5, 11, 1)  # len = 7\n\nfig, ax = plt.subplots()\ndead_end = ax.pcolormesh(x, y, Z, cmap = pal.cmap())\n\nplt.show()\n\n\n\n\n\n\n\n\nAs another example for a sequential palette, we demonstrate how to create a line plot using rainbowplot() provided by the statsmodels package. The “Purples 3” palette is used which is similar to the ColorBrewer2.org palette ‘Purples’.\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport statsmodels.api as sm\ndata = sm.datasets.elnino.load()\n\nfrom colorspace import sequential_hcl\npal = sequential_hcl(\"Purples 3\")\n\nfig = plt.figure()\nax = fig.add_subplot(111)\nres = sm.graphics.rainbowplot(data.raw_data.iloc[:, 1:], ax = ax, cmap = pal.cmap())\ndead_end = ax.set_xlabel(\"month of the year\")\ndead_end = ax.set_ylabel(\"sea surface temperature (C)\")\ndead_end = ax.set_xticks(np.arange(13, step=3) - 1)\ndead_end = ax.set_xticklabels([\"\", \"Mar\", \"Jun\", \"Sep\", \"Dec\"])\ndead_end = ax.set_xlim([-0.2, 11.2])\n\nplt.show()"
+  },
+  {
     "objectID": "getstarted.html#palette-visualization-and-assessment",
     "href": "getstarted.html#palette-visualization-and-assessment",
-    "title": "colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes",
+    "title": "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes",
     "section": "Palette visualization and assessment",
     "text": "Palette visualization and assessment\nThe colorspace package also provides a number of functions that aid visualization and assessment of its palettes. The demoplot function provides a series of generic/basic plot types as used by the interactive interface (choose_palette which can also be used in-line to test color palettes. In addition, specplot allows to visualize and graphically assess the spectrum of a series of colors in the RGB and HCL spectrum.\n\nfrom colorspace import diverging_hcl, demoplot\npal = diverging_hcl(\"Purple-Green\")\ndemoplot(pal(11), \"Bar\");\n\n\n\n\n\n\n\n\n\nfrom colorspace import diverging_hcl, specplot\npal = diverging_hcl(\"Purple-Green\")\nspecplot(pal(100), hcl = True, palette = True, rgb = True);"
   }
