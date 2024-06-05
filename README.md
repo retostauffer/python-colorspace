@@ -1,4 +1,4 @@
-## python-colorspace <img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png" align="right" alt="" width="675" />
+## python-colorspace <img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-wide.png" align="right" alt="" width="300" />
 
 ### A toolbox for manipulating and assessing colors and palettes in Python
 
