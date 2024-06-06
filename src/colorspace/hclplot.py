@@ -2,7 +2,7 @@
 
 
 
-def hclplot(x, _type = None, h = None, c = None):
+def hclplot(x, _type = None, h = None, c = None, **kwargs):
     """
     Requires `matplotlib` to be installed.
 
@@ -159,7 +159,7 @@ def hclplot(x, _type = None, h = None, c = None):
     if c is not None:
         maxchroma = np.ceil(c)
     else:
-        maxchroma = np.maximum(100., np.minimum(180, np.ceil(np.max(cols.get("H")) / 20) * 20))
+        maxchroma = np.maximum(100., np.minimum(180, np.ceil(np.max(cols.get("C")) / 20) * 20))
 
     # Depending on _type:
     if _type == "sequential":
@@ -189,30 +189,50 @@ def hclplot(x, _type = None, h = None, c = None):
             # Nevermind, store fitted H values
             nd[0] = mod["Yout"]
 
-        # Start preparing plot
+        # Conver to polarLUV -> hexcols without fixup
         from .colorlib import polarLUV
-
-        # Delete colors where C > 0 and L < 1
-        kill = np.where(np.logical_and(nd[1] >= 0, nd[2] < 1))[0]
-
         hexcols = polarLUV(H = nd[0], C = nd[1], L = nd[2])
         hexcols.to("hex", fixup = False)
-        # Find 'nan' colors (due to fixup)
-        kill = np.where([x == 'nan' for x in hexcols.colors()])
-        nd = np.delete(nd, kill, axis = 1)
-        print("replace [L < 1 and C > 0] values with np.nan?")
-        print("HERE PLOT NOW")
 
-        cols = hexcols.colors()
-        cols = np.delete(cols, kill)
+        # Find colors where C > 0 and L < 1
+        kill_lum = np.where(np.logical_and(nd[1] >= 0, nd[2] < 1))[0]
+
+        # Find 'nan' colors (due to fixup)
+        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
+        kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
+        del kill_nan, kill_lum # No longer needed
+
+        # Deleting coordinates and colors we do not need
+        nd   = np.delete(nd, kill, axis = 1)
+        nd_cols = hexcols.colors()
+        nd_cols = np.delete(nd_cols, kill)
 
         from matplotlib import pyplot as plt
-        print(nd.shape)
-        print(len(hexcols.colors()))
-        plt.scatter(nd[1], nd[2], color = cols)
+
+        # Plotting HCL space
+        plt.scatter(nd[1], nd[2], color = nd_cols)
+        plt.xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
+        plt.ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
+
+        # Adding actual palette
+        plt.plot(cols.get("C"), cols.get("L"), "-", color = "black", linewidth = 1,
+                zorder = 2)
+        plt.scatter(cols.get("C"), cols.get("L"), edgecolor = "white", s = 120,
+                linewidth = 2, color = cols.colors(), zorder = 3)
+
+        # Plot labels
+        if "title" in kwargs.keys():
+            title = kwargs["title"]
+        elif len(np.unique(np.round(nd[0]))) == 1:
+            title = f"Hue = {np.round(nd[0][0])}"
+        else:
+            title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
+        plt.title(title)
+        plt.xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
+        plt.ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
+
+        # Show figure
         plt.show()
-
-
 
     elif _type == "diverging":
         print(f"RETO: HERE plotting for {_type}")
