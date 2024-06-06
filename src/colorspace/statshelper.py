@@ -167,6 +167,47 @@ def lm(y, X, Xout):
 
 
 
+def split(x, y):
+    """Divide into Groups and Reassemble
+
+    Helper function mimiking Rs split() function.
+    Takes two numpy arrays (x, y) of same length.
+    Splits x in segments according to the values of y (whenever
+    the value in y changes). E.g.,
+
+    Args:
+        x (numpy.ndarray): Array containing the data to be divided into groups.
+        y (numpy.ndarray): Array of the same length as `x` containing the
+            grouping information. The original array `x` will be cut at each
+            element in `y` where the value changes.
+
+    Return:
+        list of lists: Returns a list of lists, where each element in the
+        object corresponds to one group, containing the original but now divided
+        elements from `x`.
+
+    Examples:
+    >>> tmp = np.asarray([1, 2, 3, 4, 5])
+    >>> split(tmp, tmp == 3)
+    >>> [[1, 2], [3], [4, 5]]
+    
+    >>> tmp = np.asarray([1, 2, 3, 4, 5])
+    >>> split(tmp, np.asarray([1, 1, 2, 2, 1]))
+    >>> [[1, 2], [3, 4], [5]]
+    """
+    assert isinstance(x, np.ndarray), TypeError("argument `x` must be numpy array")
+    assert isinstance(y, np.ndarray), TypeError("argument `y` must be numpy array")
+    assert len(x) > 0, ValueError("array x must be length >= 1")
+    assert len(x) == len(y), ValueError("arrays x/y must be of same length")
+    if len(x) == 1: return [x]
+    # Start with list-of-lists containing first element
+    res = [[x[0]]]
+    for i in range(1, len(x)):
+        if y[i] == y[i - 1]:  res[len(res) - 1].append(x[i]) # Append
+        else:                 res.append([x[i]]) # Add new list
+    return res
+
+
 
 
 

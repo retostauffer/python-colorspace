@@ -2,30 +2,62 @@
 
 
 
-def hclplot(x, _type = None, h = None, c = None, **kwargs):
+def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     """
     Requires `matplotlib` to be installed.
 
     Args:
-        _type (None, str):
-        h (None, int, float): if int, float: Must be within `[-360, 360]`
-        c (None, int, float): must be positive
+        x (str, list, colorobject): An object which can be converted into
+            a :py:class:`hexcols <colorspace.colorlib.hexcols>` object.
+        _type (None, str): Specifying which type of palette should be
+            visualized (`"qualitative"`, `"sequential"`, or `"diverging"`). For
+            qualitative palettes a hue-chroma plane is used, otherwise a
+            chroma-luminance plane. By default (`_type = None`) the type is
+            inferred from the luminance trajectory corresponding to `x`.
+        h (None, int, float): if int or float, it must be within `[-360, 360]`
+        c (None, int, float): if int or float, it must be positive
+        l (None, int, float): if int or float, it must be positive
+        **kwargs: Allowed to overwrite some default settings such as
+            `title` (str), `xlabel` (str), `ylabel` (str), `figsize`
+            (forwarded to `pyplot.figure`), `s` (int, float) to change
+            marker size, defaults to `150`.
+
+    Examples:
+    >>> # Sequential HCL palette, hclplot with all available options
+    >>> x = sequential_hcl("Red-Blue")(10)
+    >>> hclplot(x, xlabel = "foo", ylabel = "bar",
+    >>>         title = "Test", figsize = (2, 2), s = 500)
+
+    Raises:
+        TypeError: If argument `_type` is not None or str.
+        TypeError: If argument `_type` is str but not one of the allowed types.
+        TypeError: If argument `c`, `h`, and/or `l` are not None, str, or int.
+        ValueError: If `c`,`l` is not None and smaller or equal to `0` (must be positive).
+        ValueError: If `h` is not None and not within the range `[-360, 360]`.
     """
 
     from .colorlib import hexcols
+    from .statshelper import split
     import numpy as np
 
     # Sanity checks
     if not isinstance(_type, (type(None), str)):
         raise TypeError("argument `_type` must be None or str")
-    if not isinstance(c, (int, float, type(None))):
-        raise TypeError("argument `c` must be None, int, or float")
-    elif c is not None and c <= 0:
-        raise ValueError("argument `c` must be positive if set")
+
     if not isinstance(h, (int, float, type(None))):
         raise TypeError("argument `h` must be None, int, or float")
     elif h is not None and (h < -360. or h > 360):
         raise ValueError("argument `h` must be in range [-360, 360]")
+
+    if not isinstance(c, (int, float, type(None))):
+        raise TypeError("argument `c` must be None, int, or float")
+    elif c is not None and c <= 0:
+        raise ValueError("argument `c` must be positive if set")
+
+    if not isinstance(l, (int, float, type(None))):
+        raise TypeError("argument `l` must be None, int, or float")
+    elif h is not None and l <= 0:
+        raise ValueError("argument `l` must be positive if set")
 
     allowed_types = ["diverging", "sequential", "qualitative"]
     if isinstance(_type, str):
@@ -48,32 +80,6 @@ def hclplot(x, _type = None, h = None, c = None, **kwargs):
         cols = hexcols(x.colors())
     cols.to("HCL")
 
-
-    # Helper function mimiking Rs split() function.
-    # Takes two numpy arrays (x, y) of same length.
-    # Splits x in segments according to the values of y (whenever
-    # the value in y changes). E.g.,
-    #
-    # >>> tmp = np.asarray([1, 2, 3, 4, 5])
-    # >>> split(tmp, tmp == 3)
-    # >>> [[1, 2], [3], [4, 5]]
-    #
-    # >>> tmp = np.asarray([1, 2, 3, 4, 5])
-    # >>> split(tmp, np.asarray([1, 1, 2, 2, 1]))
-    # >>> [[1, 2], [3, 4], [5]]
-    def split(x, y):
-        #print(f"{x=} ({len(x)}) {y=} ({len(y)})")
-        assert isinstance(x, np.ndarray), TypeError("argument `x` must be numpy array")
-        assert isinstance(y, np.ndarray), TypeError("argument `y` must be numpy array")
-        assert len(x) > 0, ValueError("array x must be length >= 1")
-        assert len(x) == len(y), ValueError("arrays x/y must be of same length")
-        if len(x) == 1: return [x]
-        # Start with list-of-lists containing first element
-        res = [[x[0]]]
-        for i in range(1, len(x)):
-            if y[i] == y[i - 1]:  res[len(res) - 1].append(x[i]) # Append
-            else:                 res.append([x[i]]) # Add new list
-        return res
 
     # Determine type of palette based on luminance trajectory
     if _type is None:
@@ -189,13 +195,14 @@ def hclplot(x, _type = None, h = None, c = None, **kwargs):
             # Nevermind, store fitted H values
             nd[0] = mod["Yout"]
 
+
         # Conver to polarLUV -> hexcols without fixup
         from .colorlib import polarLUV
         hexcols = polarLUV(H = nd[0], C = nd[1], L = nd[2])
         hexcols.to("hex", fixup = False)
 
         # Find colors where C > 0 and L < 1
-        kill_lum = np.where(np.logical_and(nd[1] >= 0, nd[2] < 1))[0]
+        kill_lum = np.where(np.logical_and(nd[1] > 0, nd[2] < 1))[0]
 
         # Find 'nan' colors (due to fixup)
         kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
@@ -210,24 +217,32 @@ def hclplot(x, _type = None, h = None, c = None, **kwargs):
         from matplotlib import pyplot as plt
 
         # Plotting HCL space
-        plt.scatter(nd[1], nd[2], color = nd_cols)
+        figsize = None if not "figsize" in kwargs.keys() else kwargs["figsize"]
+        fig = plt.figure(figsize = figsize)
+        plt.scatter(nd[1], nd[2], color = nd_cols, s = 150)
         plt.xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
         plt.ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
 
         # Adding actual palette
         plt.plot(cols.get("C"), cols.get("L"), "-", color = "black", linewidth = 1,
-                zorder = 2)
-        plt.scatter(cols.get("C"), cols.get("L"), edgecolor = "white", s = 120,
+                zorder = 3)
+
+        s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
+        plt.scatter(cols.get("C"), cols.get("L"), edgecolor = "white", s = s,
                 linewidth = 2, color = cols.colors(), zorder = 3)
 
         # Plot labels
+        # TODO(R): In R, the colors where C > 0 and L < 1 is TRUE are set to NA,
+        #          but not the `nd` object. Thus, the title contains the Hue range
+        #          from all the colors including those which got killed by fixup = TRUE.
+        #          Bug or feature?
         if "title" in kwargs.keys():
             title = kwargs["title"]
         elif len(np.unique(np.round(nd[0]))) == 1:
             title = f"Hue = {np.round(nd[0][0])}"
         else:
             title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
-        plt.title(title)
+        plt.title(title, fontsize = 10, fontweight = "bold")
         plt.xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
         plt.ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
 
