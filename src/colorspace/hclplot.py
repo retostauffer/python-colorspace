@@ -4,6 +4,7 @@
 
 def hclplot(x, _type = None, h = None, c = None):
     """
+    Requires `matplotlib` to be installed.
 
     Args:
         _type (None, str):
@@ -31,7 +32,13 @@ def hclplot(x, _type = None, h = None, c = None):
         if not _type.lower() in allowed_types:
             raise ValueError("argument `_type` invalid. Must be None or any of: {', '.join(allowed_types)}")
         _type = _type.lower()
-
+    
+    # Requires matpotlib, a suggested package. If not avialable
+    # raise an import error.
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError as e:
+        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
 
     # Convert input to hexcols object; then convert to HCL
     # to extract the coordinates of the palette.
@@ -40,6 +47,7 @@ def hclplot(x, _type = None, h = None, c = None):
     else:
         cols = hexcols(x.colors())
     cols.to("HCL")
+
 
     # Helper function mimiking Rs split() function.
     # Takes two numpy arrays (x, y) of same length.
@@ -78,7 +86,6 @@ def hclplot(x, _type = None, h = None, c = None):
         from .statshelper import cor
         llin = cor(cols.get("L"), seqn)**2
         ltri = cor(cols.get("L"), np.abs(seqn - (len(cols) + 1) / 2))**2
-        print(f"{llin=}")
 
         # Guess (inferr) which type of palette we have at hand
         if ltri > 0.75 and lran > 10:    _type = "diverging"
@@ -108,7 +115,7 @@ def hclplot(x, _type = None, h = None, c = None):
             from .statshelper import natural_cubic_spline
 
             # Pre-smoothing hue
-            if True or len(cols) >= 49:
+            if len(cols) >= 49:
                 # Weighted rolling mean
                 tmp = cols.get("H")[np.concatenate(([1, 1], np.arange(1, len(cols) - 1)))] + \
                       cols.get("H")[np.concatenate(([1],    np.arange(1, len(cols))))]     + \
@@ -137,7 +144,6 @@ def hclplot(x, _type = None, h = None, c = None):
 
                 if len(io) == 2 and np.sum(seql) > 0:
                     tmpH = cols.get("H")
-                    # Experimental
                     res = natural_cubic_spline(x    = seq[seql == False],
                                                y    = tmpH[seql == False],
                                                xout = seq[seql == True])
@@ -169,7 +175,6 @@ def hclplot(x, _type = None, h = None, c = None):
         elif len(cols) < 3 or (np.max(cols.get("H")) - np.min(cols.get("H"))) < 12:
             nd[0] = np.repeat(np.median(cols.get("H")), len(nd[0]))
         else:
-            print("Linear regression here")
             # Model matrix for estimation and prediction
             X    = np.transpose(np.asarray([np.repeat(1., len(cols)),
                                            cols.get("C"), cols.get("L")]))
@@ -186,12 +191,27 @@ def hclplot(x, _type = None, h = None, c = None):
 
         # Start preparing plot
         from .colorlib import polarLUV
-        HCL = polarLUV(H = nd[0], C = nd[1], L = nd[2])
-        print(HCL)
-        HCL.to("hex")
-        print(HCL)
+
+        # Delete colors where C > 0 and L < 1
+        kill = np.where(np.logical_and(nd[1] >= 0, nd[2] < 1))[0]
+
+        hexcols = polarLUV(H = nd[0], C = nd[1], L = nd[2])
+        hexcols.to("hex", fixup = False)
+        # Find 'nan' colors (due to fixup)
+        kill = np.where([x == 'nan' for x in hexcols.colors()])
+        nd = np.delete(nd, kill, axis = 1)
         print("replace [L < 1 and C > 0] values with np.nan?")
         print("HERE PLOT NOW")
+
+        cols = hexcols.colors()
+        cols = np.delete(cols, kill)
+
+        from matplotlib import pyplot as plt
+        print(nd.shape)
+        print(len(hexcols.colors()))
+        plt.scatter(nd[1], nd[2], color = cols)
+        plt.show()
+
 
 
     elif _type == "diverging":

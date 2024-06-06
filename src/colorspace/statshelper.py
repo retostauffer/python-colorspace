@@ -17,9 +17,11 @@
 #       and `y` with the interpolated values evaluated at `x` (`xout`).
 #
 #   Examples:
+#   >>> from colorspace.statshelper import natural_cubic_spline
+#   >>> import numpy as np
 #   >>> x = np.arange(10, 20.1, 0.5)
 #   >>> y = np.sin((x - 3) / 2)
-#   >>> xout = np.arange(10, 20, 0.01)
+#   >>> xout = np.arange(0, 40, 0.2)
 #   >>> 
 #   >>> res = natural_cubic_spline(x, y, xout)
 #   >>>
@@ -53,6 +55,11 @@ def natural_cubic_spline(x, y, xout):
         raise TxoutpeError("argument `xout` must be np.float or np.integer")
     if len(xout) == 0:
         raise ValueError("array on `xout` must be of length > 0")
+    
+    # Enforce float
+    y    = y.astype(np.float32)
+    x    = x.astype(np.float32)
+    xout = xout.astype(np.float32)
 
     # Index length
     n = len(x) - 1
@@ -98,12 +105,21 @@ def natural_cubic_spline(x, y, xout):
     yout = np.zeros_like(xout)
 
     for j in range(len(xout)):
-        for i in range(n):
-            if x[i] <= xout[j] <= x[i + 1]:
-                dx = xout[j] - x[i]
-                yout[j] = coef[i, 0] + coef[i, 1] * dx + coef[i, 2] * dx**2 + coef[i, 3] * dx**3
+        # Extrapolation left hand side (linear)
+        if xout[j] < np.min(x):
+            yout[j] = y[0] - coef[0, 1] * (np.min(x) - xout[j])
+        # Extrapolation right hand side (linear)
+        elif xout[j] > np.max(x):
+            k = coef.shape[0] - 1
+            yout[j] = y[-1] + coef[k, 1] * (xout[j] - np.max(x))
+        # Else interpolate btw. two neighboring points
+        else:
+            for i in range(n):
+                if x[i] <= xout[j] <= x[i + 1]:
+                    dx = xout[j] - x[i]
+                    yout[j] = coef[i, 0] + coef[i, 1] * dx + coef[i, 2] * dx**2 + coef[i, 3] * dx**3
 
-    return {"x": xout, "y": yout}
+    return {"x": xout, "y": yout, "x": xout}
 
 
 # Standard deviation with N - 1
