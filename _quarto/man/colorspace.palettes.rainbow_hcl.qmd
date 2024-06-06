@@ -14,7 +14,7 @@ and [rainbow](colorspace.palettes.rainbow.qmd).
 
 ### Usage
 
-<pre><code class='language-python'>rainbow_hcl(c=50, l=70, start=0,<br/>            end=&lt;function rainbow_hcl.&lt;lambda&gt; at 0x76d07b573d80&gt;,<br/>            gamma=None, fixup=True, rev=False,<br/>            *args, **kwargs)</code></pre>
+<pre><code class='language-python'>rainbow_hcl(c=50, l=70, start=0,<br/>            end=&lt;function rainbow_hcl.&lt;lambda&gt; at 0x752c6ca8bce0&gt;,<br/>            gamma=None, fixup=True, rev=False,<br/>            *args, **kwargs)</code></pre>
 
 ### Arguments
 

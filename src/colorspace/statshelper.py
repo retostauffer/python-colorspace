@@ -1,37 +1,63 @@
 
-#   Natural Cubic Spline Interpolation
-#
-#   Natural cubic spline interpolation. Takes two arrays `x` and `y`
-#   trough which a spline is fitted and evaluated at `xout`.
-#
-#   Args:
-#       x (numpy.ndarray): original x data points. Must be float or int
-#           and length > 0.
-#       y (numpy.ndarray): original y data points, same requirements
-#           as `x`. Must also be of the same length as `y`.
-#       xout (numpy.ndarray): numeric vectotr (float or int; length > 0)
-#           at which the spline should be evaluated.
-#
-#   Returns:
-#       dict: Dictionary with two elements, `x` (same as input `xout`)
-#       and `y` with the interpolated values evaluated at `x` (`xout`).
-#
-#   Examples:
-#   >>> from colorspace.statshelper import natural_cubic_spline
-#   >>> import numpy as np
-#   >>> x = np.arange(10, 20.1, 0.5)
-#   >>> y = np.sin((x - 3) / 2)
-#   >>> xout = np.arange(0, 40, 0.2)
-#   >>> 
-#   >>> res = natural_cubic_spline(x, y, xout)
-#   >>>
-#   >>> from matplotlib import pyplot as plt
-#   >>> plt.figure()
-#   >>> plt.plot(x, y, "o", label = "data points")
-#   >>> plt.plot(res["x"], res["y"], label = "cubic spline", color = "orange")
-#   >>> plt.legend()
-#   >>> plt.show()
+
+def nprange(x):
+    """Range of Values
+
+    Mimiking R's `range()` function, takes a numeric numpy array
+    and returns an array of length `2` with the minimum and maximum.
+
+    Args:
+        x (numpy.ndarray): Numpy array, must be numeric.
+
+    Returns:
+        numpy.array: Retuns a numpy array with two elements
+        containing the minimum of `x` and the maximum of `x`.
+    """
+    print(type(x))
+    print(x.dtype)
+    import numpy as np
+    if not isinstance(x, np.ndarray):
+        raise TypeError("argument `x` must be a numpy.array")
+    elif not np.issubdtype(x.dtype, np.float64) and np.issubdtype(x.dtype, np.int64):
+        raise TypeError("argument `x` must be float or int")
+
+    return np.asarray([np.min(x), np.max(x)])
+
+
 def natural_cubic_spline(x, y, xout):
+    """Natural Cubic Spline Interpolation
+ 
+    Natural cubic spline interpolation. Takes two arrays `x` and `y`
+    trough which a spline is fitted and evaluated at `xout`.
+ 
+    Args:
+        x (numpy.ndarray): original x data points. Must be float or int
+            and length > 0.
+        y (numpy.ndarray): original y data points, same requirements
+            as `x`. Must also be of the same length as `y`.
+        xout (numpy.ndarray): numeric vectotr (float or int; length > 0)
+            at which the spline should be evaluated.
+ 
+    Returns:
+        dict: Dictionary with two elements, `x` (same as input `xout`)
+        and `y` with the interpolated values evaluated at `x` (`xout`).
+ 
+    Examples:
+    >>> from colorspace.statshelper import natural_cubic_spline
+    >>> import numpy as np
+    >>> x = np.arange(10, 20.1, 0.5)
+    >>> y = np.sin((x - 3) / 2)
+    >>> xout = np.arange(0, 40, 0.2)
+    >>> 
+    >>> res = natural_cubic_spline(x, y, xout)
+    >>>
+    >>> from matplotlib import pyplot as plt
+    >>> plt.figure()
+    >>> plt.plot(x, y, "o", label = "data points")
+    >>> plt.plot(res["x"], res["y"], label = "cubic spline", color = "orange")
+    >>> plt.legend()
+    >>> plt.show()
+    """
     import numpy as np
 
     if not isinstance(x, np.ndarray):

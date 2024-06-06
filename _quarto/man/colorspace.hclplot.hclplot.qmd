@@ -1,0 +1,72 @@
+---
+title: "Requires `matplotlib` to be installed."
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>hclplot(x, _type=None, h=None, c=None, l=None,<br/>        **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:x">x</code><code class="argument-class">str, list, colorobject</code>
+  </dt>
+ <dd>An object which can be converted into
+a [hexcols](colorspace.colorlib.hexcols.qmd) object.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:_type">_type</code><code class="argument-class">None, str</code>
+  </dt>
+ <dd>Specifying which type of palette should be
+visualized (`"qualitative"`, `"sequential"`, or `"diverging"`). For
+qualitative palettes a hue-chroma plane is used, otherwise a
+chroma-luminance plane. By default (`_type = None`) the type is
+inferred from the luminance trajectory corresponding to `x`.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:h">h</code><code class="argument-class">None, int, float</code>
+  </dt>
+ <dd>if int or float, it must be within `[-360, 360]`</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:c">c</code><code class="argument-class">None, int, float</code>
+  </dt>
+ <dd>if int or float, it must be positive</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:l">l</code><code class="argument-class">None, int, float</code>
+  </dt>
+ <dd>if int or float, it must be positive</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>Allowed to overwrite some default settings such as
+`title` (str), `xlabel` (str), `ylabel` (str), `figsize`
+(forwarded to `pyplot.figure`), `s` (int, float) to change
+marker size, defaults to `150`.</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If argument `_type` is not None or str.
+<li><code class="text-warning">TypeError</code>: If argument `_type` is str but not one of the allowed types.
+<li><code class="text-warning">TypeError</code>: If argument `c`, and/or `l` are not None, str, or int.
+<li><code class="text-warning">TypeError</code>: If argument `h` is neither None, int, float, or tuple, or tuple
+not containing int/float.
+<li><code class="text-warning">ValueError</code>: If `c`,`l` is not None and smaller or equal to `0` (must be positive).
+<li><code class="text-warning">ValueError</code>: If `h` is tuple length `0` or `&gt;2` (must be one or two).
+<li><code class="text-warning">ValueError</code>: If `h` is not None and not within the range `[-360, 360]`.
+</ul>
+

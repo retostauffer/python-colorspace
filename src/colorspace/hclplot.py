@@ -31,23 +31,21 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     Raises:
         TypeError: If argument `_type` is not None or str.
         TypeError: If argument `_type` is str but not one of the allowed types.
-        TypeError: If argument `c`, `h`, and/or `l` are not None, str, or int.
+        TypeError: If argument `c`, and/or `l` are not None, str, or int.
+        TypeError: If argument `h` is neither None, int, float, or tuple, or tuple
+            not containing int/float.
         ValueError: If `c`,`l` is not None and smaller or equal to `0` (must be positive).
+        ValueError: If `h` is tuple length `0` or `>2` (must be one or two).
         ValueError: If `h` is not None and not within the range `[-360, 360]`.
     """
 
     from .colorlib import hexcols
-    from .statshelper import split
+    from .statshelper import split, nprange
     import numpy as np
 
     # Sanity checks
     if not isinstance(_type, (type(None), str)):
         raise TypeError("argument `_type` must be None or str")
-
-    if not isinstance(h, (int, float, type(None))):
-        raise TypeError("argument `h` must be None, int, or float")
-    elif h is not None and (h < -360. or h > 360):
-        raise ValueError("argument `h` must be in range [-360, 360]")
 
     if not isinstance(c, (int, float, type(None))):
         raise TypeError("argument `c` must be None, int, or float")
@@ -56,7 +54,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
 
     if not isinstance(l, (int, float, type(None))):
         raise TypeError("argument `l` must be None, int, or float")
-    elif h is not None and l <= 0:
+    elif l is not None and l <= 0:
         raise ValueError("argument `l` must be positive if set")
 
     allowed_types = ["diverging", "sequential", "qualitative"]
@@ -64,7 +62,25 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         if not _type.lower() in allowed_types:
             raise ValueError("argument `_type` invalid. Must be None or any of: {', '.join(allowed_types)}")
         _type = _type.lower()
-    
+
+    # Testin 'h' which is a bit more complex
+    if not isinstance(h, (int, float, type(None), tuple)):
+        raise TypeError("argument `h` must be None, int, or float, or tuple")
+    # If int/float: Convert to tuple for easier handling later on.
+    elif isinstance(h, (int, float)):
+        h = (h, )
+    # In case h is not None it is now a tuple. Check that length is 1 or 2,
+    # and that all elements are int/float and withing range. Else raise
+    # TypeError or ValueError.
+    if isinstance(h, tuple):
+        if len(h) < 1 or len(h) > 2:
+            raise ValueError(f"h (if set) must be of length 1 or two, got {len(h)}")
+        for tmp in h:
+            if not isinstance(tmp, (int, float)):
+                raise TypeError("elements in `h` (tuple) must be int or float")
+            elif tmp < -360. or tmp > 360:
+                raise ValueError("argument(s) in `h` must be in range [-360, 360]")
+
     # Requires matpotlib, a suggested package. If not avialable
     # raise an import error.
     try:
@@ -167,9 +183,11 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     else:
         maxchroma = np.maximum(100., np.minimum(180, np.ceil(np.max(cols.get("C")) / 20) * 20))
 
-    # Depending on _type:
+    # ---------------------------------------------------------------
+    # Sequential plot
+    # ---------------------------------------------------------------
     if _type == "sequential":
-        print(f"RETO: HERE plotting for {_type}")
+
         # Spanning grid, creates N x 3 array with H (np.nan), C, L values
         C  = np.linspace(0., maxchroma, int(maxchroma + 1))
         L  = np.linspace(0., 100., 101)
@@ -242,19 +260,82 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
             title = f"Hue = {np.round(nd[0][0])}"
         else:
             title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
-        plt.title(title, fontsize = 10, fontweight = "bold")
-        plt.xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
-        plt.ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
 
-        # Show figure
-        plt.show()
-
+    # ---------------------------------------------------------------
+    # Diverging plot
+    # ---------------------------------------------------------------
     elif _type == "diverging":
-        print(f"RETO: HERE plotting for {_type}")
 
+        # Spanning grid, creates N x 3 array with H (np.nan), C, L values
+        C  = np.linspace(0., maxchroma, int(maxchroma + 1))
+        L  = np.linspace(0., 100., 101)
+        nd = np.asarray([(np.nan, a, b) for a in C for b in L])
+        nd = np.transpose(nd) # Transpose to [[H], [C], [L]]
+
+        # Left and right hand side of the diverging palette
+        left  = np.arange(0, np.floor(len(cols) / 2)).astype(np.int8)
+        left  = left[np.where(cols.get("H")[left] > 10.)[0]]
+        right = np.arange(np.floor(len(cols) / 2), len(cols)).astype(np.int8)
+        right = right[np.where(cols.get("H")[right] > 10.)[0]]
+
+        # If the user has set h's (after snity checks we know it is 
+        # now a tuple of one or two numerics)
+        if h is not None:
+            if len(h) == 2:
+                nd[0, left]  = float(h[0])
+                nd[0, right] = float(h[1])
+            else:
+                nd[0]        = float(h[0])
+        # Else we will infer it from the data (cols)
+        elif len(col) < 6 \
+            or np.diff(nprange(cols.get("H")[left])  - np.min(cols.get("H")[left]))  < 12 \
+            or np.diff(nprange(cols.get("H")[right]) - np.min(cols.get("H")[right])) < 12:
+
+            # UpdateH
+            nd[0, left]  = np.median(cols.get("H")[left]  - np.min(cols.get("H")[left]))  + np.min(cols.get("H")[left])
+            nd[0, right] = np.median(cols.get("H")[right] - np.min(cols.get("H")[right])) + np.min(cols.get("H")[right])
+        # Else
+        else:
+            sys.exit('Not yet coded')
+                            
+
+        print(left)
+        print(right)
+
+        return "foo"
+         
+
+
+        #if "title" in kwargs.keys():
+        #    title = kwargs["title"]
+        #elif len(np.unique(np.round(nd[0]))) == 1:
+        #    title = f"Hue = {np.round(nd[0][0])}"
+        #else:
+        #    title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
+        title = "Define title in diverging plot"
+
+
+    # ---------------------------------------------------------------
+    # Qualitative plot
+    # ---------------------------------------------------------------
     elif _type == "qualitative":
         print(f"RETO: HERE plotting for {_type}")
 
+        #if "title" in kwargs.keys():
+        #    title = kwargs["title"]
+        #elif len(np.unique(np.round(nd[0]))) == 1:
+        #    title = f"Hue = {np.round(nd[0][0])}"
+        #else:
+        #    title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
+        title = "Define title in qualitative plot"
+
+    # Plot annotations, done
+    plt.title(title, fontsize = 10, fontweight = "bold")
+    plt.xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
+    plt.ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
+
+    # Show figure
+    plt.show()
 
     print(cols)
 
