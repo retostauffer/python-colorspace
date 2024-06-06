@@ -1,10 +1,17 @@
 
 
 
-def hclplot(x, _type = None, c = None):
+
+def hclplot(x, _type = None, h = None, c = None):
+    """
+
+    Args:
+        _type (None, str):
+        h (None, int, float): if int, float: Must be within `[-360, 360]`
+        c (None, int, float): must be positive
+    """
 
     from .colorlib import hexcols
-    from .spline import natural_cubic_spline
     import numpy as np
 
     # Sanity checks
@@ -14,6 +21,10 @@ def hclplot(x, _type = None, c = None):
         raise TypeError("argument `c` must be None, int, or float")
     elif c is not None and c <= 0:
         raise ValueError("argument `c` must be positive if set")
+    if not isinstance(h, (int, float, type(None))):
+        raise TypeError("argument `h` must be None, int, or float")
+    elif h is not None and (h < -360. or h > 360):
+        raise ValueError("argument `h` must be in range [-360, 360]")
 
     allowed_types = ["diverging", "sequential", "qualitative"]
     if isinstance(_type, str):
@@ -64,13 +75,16 @@ def hclplot(x, _type = None, c = None):
         lran = np.max(cols.get("L")) - np.min(cols.get("L"))
 
         # Calculate linear and triangular correlation
-        llin = np.corrcoef(cols.get("L"), seqn)[0][1]
-        ltri = np.corrcoef(cols.get("L"), np.abs(seqn + (len(cols) + 1) / 2))[0][1]
+        from .statshelper import cor
+        llin = cor(cols.get("L"), seqn)**2
+        ltri = cor(cols.get("L"), np.abs(seqn - (len(cols) + 1) / 2))**2
+        print(f"{llin=}")
 
         # Guess (inferr) which type of palette we have at hand
         if ltri > 0.75 and lran > 10:    _type = "diverging"
         elif llin > 0.75 and lran > 10:  _type = "sequential"
         else:                            _type = "qualitative"
+
 
     if len(cols) > 1:
         # Correcting negative Hues if we have a jump
@@ -91,6 +105,8 @@ def hclplot(x, _type = None, c = None):
             cols.set(H = np.repeat(np.mean(cols.get("H")), len(cols)))
         # If not all but at least some colors have very low chroma
         elif len(idx) > 0:
+            from .statshelper import natural_cubic_spline
+
             # Pre-smoothing hue
             if True or len(cols) >= 49:
                 # Weighted rolling mean
@@ -106,15 +122,18 @@ def hclplot(x, _type = None, c = None):
             s = 0
             while len(idxs) > 0:
                 if s in idxs[0]:
-                    e = len(cols) - 1 if len(idxs) == 1 else idxs[1] - 1
+                    if len(idxs) > 1:
+                        e = idxs[1][0] - 1
+                    else:
+                        e = len(cols) - 1
                 else:
-                    if len(cols) in idxs[0]:
+                    if (len(cols) - 1) in idxs[0]:
                         e = len(cols) - 1
                     else:
                         e = np.round(np.mean([np.max(idxs[0]), np.min(idxs[0])]))
                 seq  = np.arange(s, e + 1)
                 seql = np.asarray([x in idxs[0] for x in seq])
-                io = split(seq, seql)
+                io   = split(seq, seql)
 
                 if len(io) == 2 and np.sum(seql) > 0:
                     tmpH = cols.get("H")
@@ -139,6 +158,41 @@ def hclplot(x, _type = None, c = None):
     # Depending on _type:
     if _type == "sequential":
         print(f"RETO: HERE plotting for {_type}")
+        # Spanning grid, creates N x 3 array with H (np.nan), C, L values
+        C  = np.linspace(0., maxchroma, int(maxchroma + 1))
+        L  = np.linspace(0., 100., 101)
+        nd = np.asarray([(np.nan, a, b) for a in C for b in L])
+        nd = np.transpose(nd) # Transpose to [[H], [C], [L]]
+
+        if h is not None:
+            nd[0] = np.repeat(h, len(nd[0]))
+        elif len(cols) < 3 or (np.max(cols.get("H")) - np.min(cols.get("H"))) < 12:
+            nd[0] = np.repeat(np.median(cols.get("H")), len(nd[0]))
+        else:
+            print("Linear regression here")
+            # Model matrix for estimation and prediction
+            X    = np.transpose(np.asarray([np.repeat(1., len(cols)),
+                                           cols.get("C"), cols.get("L")]))
+            Xout = np.transpose(np.asarray([np.repeat(1., nd.shape[1]),
+                                            nd[1], nd[2]]))
+            from .statshelper import lm
+            mod = lm(y = cols.get("H"), X = X, Xout = Xout)
+
+            if mod["sigma"] > 7.5:
+                import warnings
+                warnings.warn("cannot approximate H well as a linear function of C and L")
+            # Nevermind, store fitted H values
+            nd[0] = mod["Yout"]
+
+        # Start preparing plot
+        from .colorlib import polarLUV
+        HCL = polarLUV(H = nd[0], C = nd[1], L = nd[2])
+        print(HCL)
+        HCL.to("hex")
+        print(HCL)
+        print("replace [L < 1 and C > 0] values with np.nan?")
+        print("HERE PLOT NOW")
+
 
     elif _type == "diverging":
         print(f"RETO: HERE plotting for {_type}")

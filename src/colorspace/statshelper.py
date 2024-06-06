@@ -105,3 +105,65 @@ def natural_cubic_spline(x, y, xout):
 
     return {"x": xout, "y": yout}
 
+
+# Standard deviation with N - 1
+def sd(a):
+    from numpy import sqrt, sum, mean
+    return sqrt(sum((a - mean(a))**2) / (len(a) - 1))
+
+# Custom fn for estimator of pearson correlation with N - 1
+def cor(x, y):
+    from numpy import sum, mean
+    from .statshelper import sd
+    return sum((x - mean(x)) * (y - mean(y))) / (len(x) - 1) / (sd(x) * sd(y))
+
+
+# import numpy as np
+# from colorspace.statshelper import lm
+# X = np.transpose(np.asarray([np.repeat(1, 5), [1, 2, 3, 4, 5]]))
+# y = np.asarray([10.27, 19.48 , 28.86, 39.84, 50.54])
+# print(X)
+# res = lm(y = y, X = X, Xout = X)
+# print(res)
+def lm(y, X, Xout):
+    import numpy as np
+    assert isinstance(y, np.ndarray)
+    assert isinstance(X, np.ndarray)
+    assert len(X.shape) == 2 and len(Xout.shape) == 2
+    assert isinstance(Xout, np.ndarray)
+    assert len(y) == X.shape[0]
+    assert X.shape[1] == Xout.shape[1]
+
+    # Solving
+    coef = np.linalg.lstsq(X, y, rcond=None)[0]
+
+    # Fitted values
+    yfit = np.dot(X, coef)
+
+    # Residual standard error
+    from .statshelper import sd
+    sigma = sd(y - yfit)
+
+    # Prediction on Xout
+    Yout = np.dot(Xout, coef)
+
+    return({"coef": coef, "sigma": sigma, "Yout": Yout})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
