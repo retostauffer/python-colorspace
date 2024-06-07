@@ -105,6 +105,7 @@ figure or on an existing axis (if `ax` is provided, see `**kwargs`).
 #| error: true
 #| warning: true
 # Sequential HCL palette, hclplot with all available options
+from colorspace import sequential_hcl, hclplot
 x = sequential_hcl("Red-Blue")(10)
 hclplot(x,
         xlabel  = "Chroma dimension",
