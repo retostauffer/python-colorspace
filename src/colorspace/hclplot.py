@@ -99,6 +99,18 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     >>> hclplot(pal2(7), ax = ax2) 
     >>> hclplot(pal3(7), ax = ax3) 
     >>> plt.show();
+    >>>
+    >>> #: Another example with two sequential and one
+    >>> # diverging palettes with custom settings
+    >>> pal1 = sequential_hcl(h = [260, 220], c = [50, 0, 75], l = [30, 95], power = 1)       
+    >>> pal2 = sequential_hcl(h = [260, 60],  c = 60,          l = [40, 95], power = 1)  
+    >>> pal3 = diverging_hcl( h = [260, 0],   c = 80,          l = [35, 95], power = 1)  
+    >>> 
+    >>> fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+    >>> hclplot(pal1(7), ax = ax1)
+    >>> hclplot(pal2(7), ax = ax2)
+    >>> hclplot(pal3(7), ax = ax3)
+    >>> plt.show();
 
     Raises:
         TypeError: If argument `_type` is not None or str.
@@ -344,9 +356,9 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         if "title" in kwargs.keys():
             title = kwargs["title"]
         elif len(np.unique(np.round(nd[0]))) == 1:
-            title = f"Hue = {np.round(nd[0][0])}"
+            title = f"Hue = {nd[0][0]:.0f}"
         else:
-            title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
+            title = f"Hue = [{np.min(nd[0]):.0f}, {np.max(nd[0]):.0f}]"
 
     # ---------------------------------------------------------------
     # Diverging plot
@@ -485,13 +497,13 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         elif len(np.unique(np.round(nd[0]))) <= 2:
             hl    = nd[0, nd[3] == 1][0] # Picking left ...
             hr    = nd[0, nd[4] == 1][0] # ... and right hue.
-            title = f"Hue = {np.round(hl)}/{np.round(hr)}"
+            title = f"Hue = {hl:.0f}/{hr:.0f}"
         else:
             from .statshelper import nprange
             hl    = nprange(nd[0, nd[3] == 1]) # Range of Hue 'left'
             hr    = nprange(nd[0, nd[4] == 1]) # Range of Hue 'right'
-            title  = f"Hue = [{np.round(np.min(hl[0]))}, {np.round(np.max(hl[1]))}]"
-            title += f"/[{np.round(np.min(hr[0]))}, {np.round(np.max(hr[1]))}]"
+            title  = f"Hue = [{np.min(hl[0]):.0f}, {np.max(hl[1]):.0f}]"
+            title += f"/[{np.min(hr[0]):.0f}, {np.max(hr[1]):.0f}]"
 
 
     # ---------------------------------------------------------------
