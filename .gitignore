@@ -5,6 +5,9 @@ __pycache__
 /dist
 /coverage
 
+# Test files and folders
+/test*
+
 # Some development folders
 /htmlcov
 /build
