@@ -46,7 +46,7 @@ def README():
 # Setup
 setup(name="colorspace",     # This is the package name
       version = VERSION,     # Current package version, what else
-      description = "Color space package for python",
+      description = "A Python toolbox for manipulating and assessing colors and palettes",
       long_description = README(),
       long_description_content_type = "text/markdown",
       url = "https://github.com/retostauffer/python-colorspace",
