@@ -18,7 +18,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
             same length as the object provided on argument `x`. Allows to draw
             two sets of colors for comparison, defaults to `None`.
         hcl (bool): Whether or not to plot the HCL color spectrum.
-        palette (bool): Whether or not to plot the colors as a color map.
+        palette (bool): Whether or not to plot the colors as a color map (color swatch).
         fix (bool): Should the hues be fixed to be on a smooth(er) curve?
             Details in the functions description.
         rgb (bool): Whether or not to plot the RGB color spectrum, defaults to `False`.
@@ -32,10 +32,15 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
        >>> from colorspace import rainbow_hcl
        >>> from colorspace import specplot
-       >>> pal = rainbow_hcl(100)
-       >>> specplot(pal.colors());
-       >>> #:
-       >>> specplot(pal.colors(), rgb = False, hcl = True, palette = False);
+       >>> pal = rainbow_hcl()
+       >>> specplot(pal.colors(21));
+       >>> #: Show spectrum in standard RGB space
+       >>> specplot(pal.colors(21), rgb = True);
+       >>> #: Reduced number of colors.
+       >>> # Show sRGB spectrum, hide HCL spectrum
+       >>> # and color palette swatch.
+       >>> specplot(pal.colors(), rgb = True, hcl = False,
+       >>> palette = False, figsize = (8, 3));
 
     Raises:
         TypeError: If `x` is not a list.
@@ -101,8 +106,6 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
     # Import hexcolors: convert colors to hexcolors for the plot if needed.
     from .colorlib import hexcols
-    from .palettes import palette
-
 
     # If input parameter "fix = True": fixing
     # the hue coordinates to avoid jumping which
@@ -169,27 +172,34 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
     # Open new figure.
     if not fig:
-        hfig = plt.figure()
+        hfig = plt.figure(**figargs)
     else:
         hfig = fig
 
+    # All three
     if rgb and hcl and palette:
         ax1 = plt.subplot2grid((7, 1), (0, 0), rowspan = 3)
         ax2 = plt.subplot2grid((7, 1), (3, 0))
         ax3 = plt.subplot2grid((7, 1), (4, 0), rowspan = 3)
+    # Only rgb and hcl spectra
     elif rgb and hcl:
         ax1 = plt.subplot2grid((2, 1), (0, 0))
         ax3 = plt.subplot2grid((2, 1), (1, 0))
+    # Only rgb and palette
     elif rgb and palette:
         ax1 = plt.subplot2grid((4, 1), (0, 0), rowspan = 3)
         ax2 = plt.subplot2grid((4, 1), (3, 0))
+    # Only hcl and palette
     elif hcl and palette:
         ax2 = plt.subplot2grid((4, 1), (0, 0))
         ax3 = plt.subplot2grid((4, 1), (1, 0), rowspan = 3)
+    # Only rgb spectrum
     elif rgb:
         ax1 = plt.subplot2grid((1, 1), (0, 0))
+    # Only hcl spectrum
     elif hcl:
         ax3 = plt.subplot2grid((1, 1), (0, 0))
+    # Only palette
     elif palette:
         # Adjusting outer margins
         ax2 = plt.subplot2grid((1, 1), (0, 0))
