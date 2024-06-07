@@ -608,32 +608,24 @@ Allowed to overwrite some default settings such as <code>title</code> (str), <co
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="c8b36cf7" class="cell" data-execution_count="1">
+<div id="584fcba3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sequential HCL palette, hclplot with all available options</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sequential_hcl(<span class="st">"Red-Blue"</span>)(<span class="dv">10</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hclplot(x,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        xlabel  <span class="op">=</span> <span class="st">"Chroma dimension"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        ylabel  <span class="op">=</span> <span class="st">"Luminance dimension"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        title   <span class="op">=</span> <span class="st">"hclplot Example (Sequential)"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        figsize <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">2</span>), s <span class="op">=</span> <span class="dv">500</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[1], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Sequential HCL palette, hclplot with all available options</span>
-<span class="ansi-green-fg">----&gt; 2</span> x <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">sequential_hcl</span>(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Red-Blue</span><span style="color:rgb(175,0,0)">"</span>)(<span style="color:rgb(98,98,98)">10</span>)
-<span class="ansi-green-fg ansi-bold">      3</span> hclplot(x,
-<span class="ansi-green-fg ansi-bold">      4</span>         xlabel  <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Chroma dimension</span><span style="color:rgb(175,0,0)">"</span>,
-<span class="ansi-green-fg ansi-bold">      5</span>         ylabel  <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Luminance dimension</span><span style="color:rgb(175,0,0)">"</span>,
-<span class="ansi-green-fg ansi-bold">      6</span>         title   <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">hclplot Example (Sequential)</span><span style="color:rgb(175,0,0)">"</span>,
-<span class="ansi-green-fg ansi-bold">      7</span>         figsize <span style="color:rgb(98,98,98)">=</span> (<span style="color:rgb(98,98,98)">2</span>, <span style="color:rgb(98,98,98)">2</span>), s <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">500</span>);
-
-<span class="ansi-red-fg">NameError</span>: name 'sequential_hcl' is not defined</pre>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, hclplot</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sequential_hcl(<span class="st">"Red-Blue"</span>)(<span class="dv">10</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>hclplot(x,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        xlabel  <span class="op">=</span> <span class="st">"Chroma dimension"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        ylabel  <span class="op">=</span> <span class="st">"Luminance dimension"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        title   <span class="op">=</span> <span class="st">"hclplot Example (Sequential)"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        figsize <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">2</span>), s <span class="op">=</span> <span class="dv">500</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.hclplot.hclplot_files/figure-html/cell-2-output-1.png" width="247" height="226" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
-<div id="2f8dac24" class="cell" data-execution_count="2">
+<div id="95367848" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple subplots</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, hclplot</span>
@@ -643,7 +635,7 @@ Cell <span class="ansi-green-fg">In[1], line 2</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>pal2 <span class="op">=</span> sequential_hcl(h <span class="op">=</span> <span class="dv">245</span>, c <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">0</span>, <span class="dv">75</span>], l <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">95</span>], power <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>pal3 <span class="op">=</span> sequential_hcl(h <span class="op">=</span> <span class="dv">245</span>, c <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">0</span>, <span class="dv">75</span>], l <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">95</span>], power <span class="op">=</span> [<span class="fl">0.8</span>, <span class="fl">1.4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d64bb9e6" class="cell" data-execution_count="3">
+<div id="6fec510c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal1.show_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class:  sequential_hcl
@@ -659,7 +651,7 @@ p2           1.0
 fixup       True</code></pre>
 </div>
 </div>
-<div id="5f440b5e" class="cell" data-execution_count="4">
+<div id="87428de8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pal2.show_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class:  sequential_hcl
@@ -675,7 +667,7 @@ p2           1.0
 fixup       True</code></pre>
 </div>
 </div>
-<div id="f2960cd9" class="cell" data-execution_count="5">
+<div id="83f84f59" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pal3.show_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class:  sequential_hcl
@@ -691,7 +683,7 @@ p2           1.4
 fixup       True</code></pre>
 </div>
 </div>
-<div id="83624b82" class="cell" data-execution_count="6">
+<div id="644e9011" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2, ax3) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize <span class="op">=</span> (<span class="dv">12</span>, <span class="dv">4</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hclplot(pal1(<span class="dv">7</span>), ax <span class="op">=</span> ax1)            </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>hclplot(pal2(<span class="dv">7</span>), ax <span class="op">=</span> ax2) </span>
@@ -705,7 +697,7 @@ fixup       True</code></pre>
 </div>
 </div>
 </div>
-<div id="e4da2d59" class="cell" data-execution_count="7">
+<div id="8dc30253" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Another example with two sequential and one</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># diverging palettes with custom settings</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl, hclplot</span>
@@ -727,7 +719,7 @@ fixup       True</code></pre>
 </div>
 </div>
 </div>
-<div id="b8e79838" class="cell" data-execution_count="8">
+<div id="4cf0315a" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Another example with two sequential and one</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># diverging palettes with custom settings</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl, qualitative_hcl, hclplot</span>
