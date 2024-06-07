@@ -343,6 +343,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.CVD.tritan.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">tritan</span></a>
   </div>
@@ -566,7 +572,7 @@ Whether or not to plot the HCL color spectrum.
 <code id="colorspace.specplot.specplot:palette">palette</code><code class="argument-class">bool</code>
 </dt>
 <dd>
-Whether or not to plot the colors as a color map.
+Whether or not to plot the colors as a color map (color swatch).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.specplot.specplot:fix">fix</code><code class="argument-class">bool</code>
@@ -602,25 +608,40 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="f5066458" class="cell" data-execution_count="1">
+<div id="99ccc4ff" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl(<span class="dv">100</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors(<span class="dv">21</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="colorspace.specplot.specplot_files/figure-html/cell-2-output-1.png" width="651" height="428" class="figure-img"></p>
+<p><img src="colorspace.specplot.specplot_files/figure-html/cell-2-output-1.png" width="642" height="439" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="3d435792" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors(), rgb <span class="op">=</span> <span class="va">False</span>, hcl <span class="op">=</span> <span class="va">True</span>, palette <span class="op">=</span> <span class="va">False</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="63da6ffe" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show spectrum in standard RGB space</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors(<span class="dv">21</span>), rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="colorspace.specplot.specplot_files/figure-html/cell-3-output-1.png" width="651" height="428" class="figure-img"></p>
+<p><img src="colorspace.specplot.specplot_files/figure-html/cell-3-output-1.png" width="647" height="443" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="f409c7a5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduced number of colors.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Show sRGB spectrum, hide HCL spectrum</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and color palette swatch.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors(), rgb <span class="op">=</span> <span class="va">True</span>, hcl <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.specplot.specplot_files/figure-html/cell-4-output-1.png" width="663" height="273" class="figure-img"></p>
 </figure>
 </div>
 </div>
