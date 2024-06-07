@@ -1,7 +1,7 @@
 # -------------------------------------------------------------------
 # - NAME:        setup.py
 # - AUTHOR:      Reto Stauffer
-# - LICENSE:     GPL-2, Reto Stauffer, copyright 2022
+# - LICENSE:     GPL-2 | GPL-3, Reto Stauffer, copyright 2022-2024
 # -------------------------------------------------------------------
 # - DESCRIPTION: The python-colorpsace package.
 # -------------------------------------------------------------------
