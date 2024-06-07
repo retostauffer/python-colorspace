@@ -32,6 +32,7 @@ check:
 	python setup.py check
 
 sdist:
+	-rm -rf dist
 	python setup.py sdist
 
 wheel:
