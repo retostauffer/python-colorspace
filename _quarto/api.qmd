@@ -45,6 +45,7 @@ title: "API Reference"
 | [`specplot`](man/colorspace.specplot.specplot.qmd) | Color Spectrum Plot |
 | [`swatchplot`](man/colorspace.swatchplot.swatchplot.qmd) | Palette Swatch Plot |
 | [`demoplot`](man/colorspace.demos.demoplot.qmd) | Create Demo Plots |
+| [`hclplot`](man/colorspace.hclplot.hclplot.qmd) | Palette Plot in HCL Space |
 
 : {tbl-colwidths="[30,70]"}
 :::

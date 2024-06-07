@@ -224,6 +224,113 @@ specplot(rainbow().colors(100));
 ```
 
 
+## Trajectories in HCL space
+
+While the [`specplot`](/man/colorspace.specplot.specplot.qmd) function above
+works well for bringing out the HCL coordinates associated with a given
+palette, it does not show how the palette fits into the HCL space. For example,
+it is not so clear whether high chroma values are close to the maximum possible
+for a given hue. Thus, it cannot be easily judged how the parameters of the
+hue, chroma, and luminance trajectories can be modified to obtain another
+palette.
+
+Therefore, the [`hclplot`](/man/colorspace.hclplot.hclplot.qmd) is another
+visualization of the HCL coordinates associated with a palette. It does so by
+collapsing over one of the coordinates (either the hue H or the luminance L)
+and displaying a heatmap of colors combining the remaining two dimensions. The
+coordinates for the given color palette are highlighted to bring out its
+trajectory. In case the hue is really fixed (as in single-hue sequential
+palettes) or the luminance is really fixed (as in the qualitative palettes),
+collapsing is straightforward. However, when the coordinate that is collapsed
+over is not actually constant in the palette, a simple bivariate linear model
+is used to capture how the collapsed coordinate varies along with the two
+displayed coordinates.
+
+The function [`hclplot`](/man/colorspace.hclplot.hclplot.qmd) has been designed
+to work well with the hcl_palettes() in this package. While it is possible to
+apply it to other color palettes as well, the results might look weird or
+confusing if these palettes are constructed very differently (e.g., like the
+highly saturated palettes). To infer the default type of projection,
+[`hclplot`](/man/colorspace.hclplot.hclplot.qmd) assesses the luminance
+trajectory and sets the default correspondingly:
+
+* `_type = "qualitative"` if luminance is approximately constant.
+* `_type = "sequential"` if luminance is monotonic.
+* `_type = "diverging"` if luminance is diverging with two monotonic "arms" in
+  the trajectory.
+
+Thus, for qualitative palettes - where luminance and chroma are fixed - the
+varying hue is displayed in a projection onto the hue-chroma plane at a given
+fixed luminance:
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+#| fig-align: center
+hclplot(qualitative_hcl("Dynamic"));
+```
+
+The display below compares three single-hue sequential palettes (similar to
+"Blues 2" and "Blues 3") by projection to the luminance-chroma plane for the
+given fixed hue. In the left panel the hue 260 is used with a simple linear
+chroma trajectory. The other two panels employ a triangular chroma trajectory
+for hue 245, either with a piecewise-linear (center) or power-transformed
+(right) trajectory.
+
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+#| layout-ncol: 1
+
+from matplotlib import pyplot as plt
+from colorspace import sequential_hcl, hclplot
+
+fig, ax = plt.subplots(1, 3, figsize = (10, 3.5))
+hclplot(sequential_hcl(h = 260, c = 80, l = [35, 95], power = 1), ax = ax[0])
+hclplot(sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = 1), ax = ax[1])
+hclplot(sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = [0.8, 1.4]), ax = ax[2])
+plt.show()
+```
+
+Note that for H = 260 it is possible to go to dark colors (=low luminance)
+with high chroma while this is not possible to the same extent for H = 245.
+Hence, chroma has to be decreased when proceeding to the dark low-luminance
+colors.
+
+Finally, the display below compares two multi-hue sequential palettes along
+with a diverging palette.
+
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+#| layout-ncol: 1
+
+from matplotlib import pyplot as plt
+from colorspace import sequential_hcl, diverging_hcl, hclplot
+
+fig, ax = plt.subplots(1, 3, figsize = (10, 3.5))
+hclplot(sequential_hcl(h = [260, 220], c = [50, 0, 75], l = [30, 95], power = 1), ax = ax[0])
+hclplot(sequential_hcl(h = [260,  60], c = 60, l = [40, 95], power = 1), ax = ax[1])
+hclplot(diverging_hcl( h = [260,   0], c = 80, l = [35, 95], power = 1), ax = ax[2])
+plt.show()
+```
+
+The multi-hue palette on the left employs a small hue range, resulting in a
+palette of "blues" just with slightly more distinction of the middle colors in
+the palette. In contrast, the multi-hue "blue-yellow" palette in the center
+panel uses a large hue range, resulting in more color contrasts throughout the
+palette. Finally, the balanced diverging palette in the right panel is
+constructed from two simple single-hue sequential palettes (for hues 260/blue
+and 0/red) that are completely balanced between the two "arms" of the palette.
+
+
+
+
 ## Demonstration of statistical graphics
 
 To demonstrate how different kinds of color palettes work in different kinds of

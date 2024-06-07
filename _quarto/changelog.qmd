@@ -18,6 +18,8 @@ suggestions for improvement are very welcome via the GitHub issues.
 * Improvements and streamlining in documentation.
 * HTML representation of `hexcols` objects when rendered via jupyter
   (reported by @matteoferla in <https://github.com/retostauffer/python-colorspace/issues/7>).
+* Fixed a bug in `specplot`, adjusted docstring.
+* Added [`hclplot`](/man/colorspace.hclplot.hclplot.qmd).
 
 ## Version 0.4.3 (May 2024)
 

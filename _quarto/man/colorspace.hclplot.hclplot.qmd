@@ -1,0 +1,212 @@
+---
+title: "Palette Plot in HCL Space"
+---
+
+### Description
+
+The function `hclplot` is an auxiliary function for illustrating
+the trajectories of color palettes in two-dimensional HCL space
+projections. It collapses over one of the three coordinates
+(either the hue H or the luminance L) and displays a heatmap of
+colors combining the remaining two dimensions. The coordinates for
+the given color palette are highlighted to bring out its
+trajectory.
+
+The function `hclplot` has been designed to work well with the
+[hcl_palettes](colorspace.hcl_palettes.hcl_palettes.qmd)
+in this package. While it is possible to apply it
+to other color palettes as well, the results might look weird or
+confusing if these palettes are constructed very differently.
+
+More specifically, the following palettes can be visualized well:
+
+* Qualitative with (approximately) constant luminance. In this
+  case, `hclplot` shows a hue-chroma plane (in polar
+  coordinates), keeping luminance at a fixed level (by default
+  displayed in the main title of the plot). If the luminance
+  is, in fact, not approximately constant, the luminance varies
+  along with hue and chroma, using a simple linear function
+  (fitted by least squares). `hclplot` shows a
+  chroma-luminance plane, keeping hue at a fixed level (by
+  default displayed in the main title of the plot). If the hue
+  is, in fact, not approximately constant, the hue varies along
+  with chroma and luminance, using a simple linear function
+  (fitted by least squares.
+
+* Diverging with two (approximately) constant hues: This case
+  is visualized with two back-to-back sequential displays.
+
+To infer the type of display to use, by default, the following
+heuristic is used: If luminance is not approximately constant
+(`range > 10`) and follows rougly a triangular pattern, a diverging
+display is used. If luminance is not constant and follows roughly
+a linear pattern, a sequential display is used. Otherwise a
+qualitative display is used.
+
+Note: Requires `matplotlib` to be installed.
+
+### Usage
+
+<pre><code class='language-python'>hclplot(x, _type=None, h=None, c=None, l=None,<br/>        axes=True, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:x">x</code><code class="argument-class">str, list, colorobject</code>
+  </dt>
+ <dd>An object which can be converted into
+a [hexcols](colorspace.colorlib.hexcols.qmd) object.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:_type">_type</code><code class="argument-class">None, str</code>
+  </dt>
+ <dd>Specifying which type of palette should be
+visualized (`"qualitative"`, `"sequential"`, or `"diverging"`). For
+qualitative palettes a hue-chroma plane is used, otherwise a
+chroma-luminance plane. By default (`_type = None`) the type is
+inferred from the luminance trajectory corresponding to `x`.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:h">h</code><code class="argument-class">None, int, float</code>
+  </dt>
+ <dd>if int or float, it must be within `[-360, 360]`</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:c">c</code><code class="argument-class">None, int, float</code>
+  </dt>
+ <dd>if int or float, it must be positive</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:l">l</code><code class="argument-class">None, int, float</code>
+  </dt>
+ <dd>if int or float, it must be positive</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:axes">axes</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>Wheter or not axes should be drawn, defaults to `True`.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>Allowed to overwrite some default settings such as
+`title` (str), `xlabel` (str), `ylabel` (str), `figsize`
+(forwarded to `pyplot.figure`), `s` (int, float) to change
+marker size, defaults to `150`. `xlabel`/`ylabel` only for
+qualitative and diverging plots. A matplotlib axis can be provided
+via `ax` (object of type `matplotlib.axes._axes.Axes`) which allows
+to draw multiple HCL spaces on one figure.</dd>
+</dl>
+
+### Return
+
+No return, visualizes the palette and HCL space either on a new
+figure or on an existing axis (if `ax` is provided, see `**kwargs`).
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Sequential HCL palette, hclplot with all available options
+x = sequential_hcl("Red-Blue")(10)
+hclplot(x,
+        xlabel  = "Chroma dimension",
+        ylabel  = "Luminance dimension",
+        title   = "hclplot Example (Sequential)",
+        figsize = (2, 2), s = 500);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Multiple subplots
+import matplotlib.pyplot as plt 
+from colorspace import sequential_hcl, hclplot
+
+# Three different palettes  
+pal1 = sequential_hcl(h = 260, c = 80,          l = [35, 95], power = 1)
+pal2 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = 1)
+pal3 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = [0.8, 1.4])
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+pal1.show_settings()
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+pal2.show_settings()
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+pal3.show_settings()
+
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+hclplot(pal1(7), ax = ax1)            
+hclplot(pal2(7), ax = ax2) 
+hclplot(pal3(7), ax = ax3) 
+plt.show();
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Another example with two sequential and one
+# diverging palettes with custom settings
+from colorspace import sequential_hcl, diverging_hcl, hclplot
+import matplotlib.pyplot as plt
+pal1 = sequential_hcl(h = [260, 220], c = [50, 0, 75], l = [30, 95], power = 1)       
+pal2 = sequential_hcl(h = [260, 60],  c = 60,          l = [40, 95], power = 1)  
+pal3 = diverging_hcl( h = [260, 0],   c = 80,          l = [35, 95], power = 1)  
+
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+hclplot(pal1(7), ax = ax1)
+hclplot(pal2(7), ax = ax2)
+hclplot(pal3(7), ax = ax3)
+plt.show();
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Another example with two sequential and one
+# diverging palettes with custom settings
+from colorspace import sequential_hcl, diverging_hcl, qualitative_hcl, hclplot
+import matplotlib.pyplot as plt
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+hclplot(sequential_hcl()(7), ax = ax1)
+hclplot(diverging_hcl()(7), ax = ax2)
+hclplot(qualitative_hcl()(7), ax = ax3)
+plt.show();
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If argument `_type` is not None or str.
+<li><code class="text-warning">TypeError</code>: If argument `_type` is str but not one of the allowed types.
+<li><code class="text-warning">TypeError</code>: If argument `c`, and/or `l` are not None, str, or int.
+<li><code class="text-warning">TypeError</code>: If argument `h` is neither None, int, float, or tuple, or tuple
+not containing int/float.
+<li><code class="text-warning">ValueError</code>: If `c`,`l` is not None and smaller or equal to `0` (must be positive).
+<li><code class="text-warning">ValueError</code>: If `h` is tuple length `0` or `&gt;2` (must be one or two).
+<li><code class="text-warning">ValueError</code>: If `h` is not None and not within the range `[-360, 360]`.
+</ul>
+
