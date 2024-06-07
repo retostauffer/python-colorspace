@@ -146,7 +146,10 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
                 del tmp
 
             # Split index into 'continuous segments'.
-            idxs = split(idx, np.cumsum(np.concatenate(([1], np.diff(idx))) > 1))
+            if len(idx) == 1:
+                idxs = [idx]
+            else:
+                idxs = split(idx, np.cumsum(np.concatenate(([1], np.diff(idx))) > 1))
 
             s = 0
             while len(idxs) > 0:
@@ -166,12 +169,14 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
 
                 if len(io) == 2 and np.sum(seql) > 0:
                     tmpH = cols.get("H")
-                    res = natural_cubic_spline(x    = seq[seql == False],
-                                               y    = tmpH[seql == False],
-                                               xout = seq[seql == True])
-                    tmpH[seql == True] = res["y"]
+                    iii  = np.asarray(seq[seql == False], dtype = np.int16) # int
+                    res  = natural_cubic_spline(x    = seq[seql == False],
+                                                y    = tmpH[iii],
+                                                xout = seq[seql == True])
+                    jjj  = np.asarray(seq[seql == True], dtype = np.int16) # int
+                    tmpH[jjj] = res["y"]
                     cols.set(H = tmpH)
-                    del tmpH, res
+                    del tmpH, res, iii, jjj
 
                 # Remove first entry from list idxs
                 del idxs[0]
@@ -214,7 +219,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
             nd[0] = mod["Yout"]
 
 
-        # Conver to polarLUV -> hexcols without fixup
+        # Convert to polarLUV -> hexcols without fixup
         from .colorlib import polarLUV
         hexcols = polarLUV(H = nd[0], C = nd[1], L = nd[2])
         hexcols.to("hex", fixup = False)
@@ -266,13 +271,27 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     # ---------------------------------------------------------------
     elif _type == "diverging":
 
-        # Spanning grid, creates N x 3 array with H (np.nan), C, L values
-        C  = np.linspace(0., maxchroma, int(maxchroma + 1))
-        L  = np.linspace(0., 100., 101)
-        nd = np.asarray([(np.nan, a, b) for a in C for b in L])
-        nd = np.transpose(nd) # Transpose to [[H], [C], [L]]
 
-        # Left and right hand side of the diverging palette
+        # TODO(R): When using the following sequence of colors in R
+        # x <- c('#11C638', '#60CD6B', '#CCFF00', '#B0DAB3', '#D2E0D3',
+        #        '#E7DAD2', '#EDC9B0', '#CCFF00', '#F1A860', '#EF9708')
+        # ... and plot it ...
+        # hclplot(x, "diverging")
+        # ... is that actually correct?
+
+        # Spanning grid, creates N x 3 array with H (np.nan), C, L values
+        C  = np.linspace(-maxchroma, +maxchroma, int(1 + 2 * maxchroma))
+        L  = np.linspace(0., 100., 101)
+        nd = np.asarray([(np.nan, a, b, a < 0, a >= 0) for a in C for b in L])
+
+        #                0    1    2      3       4
+        # Transpose to [[H], [C], [L], [left], [right]]
+        # If C <  0:  left = 0, right = 1
+        # IF C >= 0:  left = 1, right = 0
+        # ... dummy coding used later for linear regression.
+        nd = np.transpose(nd)
+
+        # Left and right hand side of the diverging palette; original colors
         left  = np.arange(0, np.floor(len(cols) / 2)).astype(np.int8)
         left  = left[np.where(cols.get("H")[left] > 10.)[0]]
         right = np.arange(np.floor(len(cols) / 2), len(cols)).astype(np.int8)
@@ -282,37 +301,118 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         # now a tuple of one or two numerics)
         if h is not None:
             if len(h) == 2:
-                nd[0, left]  = float(h[0])
-                nd[0, right] = float(h[1])
+                nd[0, np.which(nd[3] == 1)] = float(h[0]) # left
+                nd[0, np.which(nd[4] == 1)] = float(h[1]) # right
             else:
                 nd[0]        = float(h[0])
+
         # Else we will infer it from the data (cols)
-        elif len(col) < 6 \
-            or np.diff(nprange(cols.get("H")[left])  - np.min(cols.get("H")[left]))  < 12 \
-            or np.diff(nprange(cols.get("H")[right]) - np.min(cols.get("H")[right])) < 12:
+        elif len(cols) < 6 \
+            or np.diff(nprange(cols.get("H")[left])  - np.min(cols.get("H")[left]))[0]  < 12 \
+            or np.diff(nprange(cols.get("H")[right]) - np.min(cols.get("H")[right]))[0] < 12:
 
             # UpdateH
-            nd[0, left]  = np.median(cols.get("H")[left]  - np.min(cols.get("H")[left]))  + np.min(cols.get("H")[left])
-            nd[0, right] = np.median(cols.get("H")[right] - np.min(cols.get("H")[right])) + np.min(cols.get("H")[right])
+            nd[0, np.where(nd[3] == 1)] = np.median(cols.get("H")[left] - \
+                                          np.min(cols.get("H")[left])) + \
+                                          np.min(cols.get("H")[left])
+            nd[0, np.where(nd[4] == 1)] = np.median(cols.get("H")[right] -\
+                                          np.min(cols.get("H")[right])) + \
+                                          np.min(cols.get("H")[right])
+
         # Else
         else:
-            sys.exit('Not yet coded')
-                            
+            # Adding 'left' to nd dimension 0 as 4th element
+            tmp = np.concatenate((np.repeat(True, len(left)), np.repeat(False, len(right))))
 
-        print(left)
-        print(right)
+            # Setting up y (response) and X (model matrix) for linear model
+            is_left  = np.asarray([x in left  for x in np.arange(len(cols))], dtype = np.int16)
+            is_right = np.asarray([x in right for x in np.arange(len(cols))], dtype = np.int16)
 
-        return "foo"
-         
+            y = cols.get("H")
+            X = np.transpose([np.repeat(1, len(y)),      # Intercept
+                              is_left,                   # Dummy 'left'
+                              cols.get("C"),             # Chroma
+                              cols.get("L"),             # Luminance
+                              cols.get("C") * is_left,   # + one-way interactions
+                              cols.get("L") * is_left])
+
+            # left/right must have C > 10 (this is done before
+            # this if-elif-else condition), here we are checking for colors
+            # which are neither left nor right. If found, remove from y and X
+            # before modeling.
+            kill = np.where(is_right + is_left == 0)[0]
+            y    = np.delete(y, kill)
+            X    = np.delete(X, kill, axis = 0)
+
+            # Create xout based on nd
+            Xout = np.transpose([np.repeat(1, nd.shape[1]), # Intercept
+                                 nd[3],                     # Dummy 'left'
+                                 np.abs(nd[1]),             # Chroma
+                                 nd[2],                     # Luminance
+                                 np.abs(nd[1]) * nd[3],     # + one-way interactions
+                                 nd[2] * nd[3]])
+
+            # Estimate model
+            from .statshelper import lm
+            m = lm(y = y, X = X, Xout = Xout)
+
+            if m["sigma"] > 7.5:
+                import warnings
+                warnings.warn("cannot approximate H well as a linear function of C and L")
+
+            # Write prediction for H
+            nd[0] = m["Yout"]
 
 
-        #if "title" in kwargs.keys():
-        #    title = kwargs["title"]
-        #elif len(np.unique(np.round(nd[0]))) == 1:
-        #    title = f"Hue = {np.round(nd[0][0])}"
-        #else:
-        #    title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
-        title = "Define title in diverging plot"
+        # Convert to polarLUV -> hexcols without fixup
+        from .colorlib import polarLUV
+        hexcols = polarLUV(H = nd[0], C = np.abs(nd[1]), L = nd[2])
+        hexcols.to("hex", fixup = False)
+
+        # Find colors where |C| > 0 and L < 1
+        kill_lum = np.where(np.logical_and(np.abs(nd[1]) > 0, nd[2] < 1))[0]
+
+        # Find 'nan' colors (due to fixup)
+        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
+        kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
+        del kill_nan, kill_lum # No longer needed
+
+        # Deleting coordinates and colors we do not need
+        nd   = np.delete(nd, kill, axis = 1)
+        nd_cols = hexcols.colors()
+        nd_cols = np.delete(nd_cols, kill)
+
+        from matplotlib import pyplot as plt
+
+        # Plotting HCL space
+        figsize = None if not "figsize" in kwargs.keys() else kwargs["figsize"]
+        fig = plt.figure(figsize = figsize)
+        plt.scatter(nd[1], nd[2], color = nd_cols, s = 150)
+        plt.xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
+        plt.ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
+
+        # Adding actual palette
+        C = cols.get("C")
+        C[left] = -1 * C[left] 
+        plt.plot(C, cols.get("L"), "-", color = "black", linewidth = 1, zorder = 3)
+
+        s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
+        plt.scatter(C, cols.get("L"), edgecolor = "white", s = s,
+                linewidth = 2, color = cols.colors(), zorder = 3)
+
+        # Specifying title
+        if "title" in kwargs.keys():
+            title = kwargs["title"]
+        elif len(np.unique(np.round(nd[0]))) <= 2:
+            hl    = nd[0, nd[3] == 1][0] # Picking left ...
+            hr    = nd[0, nd[4] == 1][0] # ... and right hue.
+            title = f"Hue = {np.round(hl)}/{np.round(hr)}"
+        else:
+            from .statshelper import nprange
+            hl    = nprange(nd[0, nd[3] == 1]) # Range of Hue 'left'
+            hr    = nprange(nd[0, nd[4] == 1]) # Range of Hue 'right'
+            title  = f"Hue = [{np.round(np.min(hl[0]))}, {np.round(np.max(hl[1]))}]"
+            title += f"/[{np.round(np.min(hr[0]))}, {np.round(np.max(hr[1]))}]"
 
 
     # ---------------------------------------------------------------
@@ -337,7 +437,6 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     # Show figure
     plt.show()
 
-    print(cols)
 
 
 

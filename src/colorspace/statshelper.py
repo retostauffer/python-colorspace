@@ -13,8 +13,6 @@ def nprange(x):
         numpy.array: Retuns a numpy array with two elements
         containing the minimum of `x` and the maximum of `x`.
     """
-    print(type(x))
-    print(x.dtype)
     import numpy as np
     if not isinstance(x, np.ndarray):
         raise TypeError("argument `x` must be a numpy.array")
@@ -221,6 +219,7 @@ def split(x, y):
     >>> split(tmp, np.asarray([1, 1, 2, 2, 1]))
     >>> [[1, 2], [3, 4], [5]]
     """
+    import numpy as np
     assert isinstance(x, np.ndarray), TypeError("argument `x` must be numpy array")
     assert isinstance(y, np.ndarray), TypeError("argument `y` must be numpy array")
     assert len(x) > 0, ValueError("array x must be length >= 1")
