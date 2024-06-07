@@ -73,6 +73,8 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
     Examples:
 
         >>> # Sequential HCL palette, hclplot with all available options
+        >>> from colorspace import sequential_hcl, hclplot
+        >>>
         >>> x = sequential_hcl("Red-Blue")(10)
         >>> hclplot(x,
         >>>         xlabel  = "Chroma dimension",
