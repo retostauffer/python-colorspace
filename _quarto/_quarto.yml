@@ -97,6 +97,8 @@ website:
         text: specplot
       - file: man/colorspace.swatchplot.swatchplot.qmd
         text: swatchplot
+      - file: man/colorspace.hclplot.hclplot.qmd
+        text: hclplot
       - file: man/colorspace.CVD.tritan.qmd
         text: tritan
       section: Function references

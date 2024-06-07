@@ -135,7 +135,20 @@ for moderately light colors (luminance = 70). At that luminance, green and
 orange can become much more colorful compared to blue or red.
 
 
-![](/images/hcl-projections-1.png)
+```{python}
+#| echo: false
+#| error: true
+#| warning: true
+#| layout-ncol: 1
+
+from colorspace import sequential_hcl, qualitative_hcl, hclplot
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
+hclplot(sequential_hcl(h = 255), h = 255, ax = ax1)
+hclplot(qualitative_hcl(l = 75), l = 75,  ax = ax2)
+plt.show()
+```
 
 
 ## Illustration of basic *colorspace* functionality
@@ -154,8 +167,8 @@ x = HCL(H = [0, 120, 240], C = [50.] * 3, L = [70.] * 3)
 print(x)
 ```
 
-The resulting three colors are pastel red (hue = 0), green (hue = 120), and
-blue (hue = 240) with moderate chroma and luminance. For display in other
+The resulting three colors are pastel red (Hue = 0), green (Hue = 120), and
+blue (Hue = 240) with moderate chroma and luminance. For display in other
 systems an sRGB representation might be needed:
 
 ```{python}

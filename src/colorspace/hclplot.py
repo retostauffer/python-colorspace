@@ -2,7 +2,7 @@
 
 
 
-def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
+def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs):
     """Palette Plot in HCL Space
 
     The function `hclplot` is an auxiliary function for illustrating
@@ -57,10 +57,12 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         h (None, int, float): if int or float, it must be within `[-360, 360]`
         c (None, int, float): if int or float, it must be positive
         l (None, int, float): if int or float, it must be positive
+        axes (bool): Wheter or not axes should be drawn, defaults to `True`.
         **kwargs: Allowed to overwrite some default settings such as
             `title` (str), `xlabel` (str), `ylabel` (str), `figsize`
             (forwarded to `pyplot.figure`), `s` (int, float) to change
-            marker size, defaults to `150`. A matplotlib axis can be provided
+            marker size, defaults to `150`. `xlabel`/`ylabel` only for
+            qualitative and diverging plots. A matplotlib axis can be provided
             via `ax` (object of type `matplotlib.axes._axes.Axes`) which allows
             to draw multiple HCL spaces on one figure.
 
@@ -69,48 +71,61 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         figure or on an existing axis (if `ax` is provided, see `**kwargs`).
 
     Examples:
-    >>> # Sequential HCL palette, hclplot with all available options
-    >>> x = sequential_hcl("Red-Blue")(10)
-    >>> hclplot(x,
-    >>>         xlabel  = "Chroma dimension",
-    >>>         ylabel  = "Luminance dimension",
-    >>>         title   = "hclplot Example (Sequential)",
-    >>>         figsize = (2, 2), s = 500);
-    >>> #: Multiple subplots
-    >>> import matplotlib.pyplot as plt 
-    >>> from colorspace import sequential_hcl, hclplot
-    >>> 
-    >>> # Three different palettes  
-    >>> # TODO(R): argument c is [c1, c2, cmax] different to what R uses, tough
-    >>> #          the order in the description is `c1`/`c2`/`cmax` (single args)?
-    >>> pal1 = sequential_hcl(h = 260, c = 80,          l = [35, 95], power = 1)
-    >>> pal2 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = 1)
-    >>> pal3 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = [0.8, 1.4])
-    >>> #:
-    >>> pal1.show_settings()
-    >>> #:
-    >>> pal2.show_settings()
-    >>> #:
-    >>> pal3.show_settings()
-    >>> 
-    >>> #:
-    >>> fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
-    >>> hclplot(pal1(7), ax = ax1)            
-    >>> hclplot(pal2(7), ax = ax2) 
-    >>> hclplot(pal3(7), ax = ax3) 
-    >>> plt.show();
-    >>>
-    >>> #: Another example with two sequential and one
-    >>> # diverging palettes with custom settings
-    >>> pal1 = sequential_hcl(h = [260, 220], c = [50, 0, 75], l = [30, 95], power = 1)       
-    >>> pal2 = sequential_hcl(h = [260, 60],  c = 60,          l = [40, 95], power = 1)  
-    >>> pal3 = diverging_hcl( h = [260, 0],   c = 80,          l = [35, 95], power = 1)  
-    >>> 
-    >>> fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
-    >>> hclplot(pal1(7), ax = ax1)
-    >>> hclplot(pal2(7), ax = ax2)
-    >>> hclplot(pal3(7), ax = ax3)
-    >>> plt.show();
+
+        >>> # Sequential HCL palette, hclplot with all available options
+        >>> x = sequential_hcl("Red-Blue")(10)
+        >>> hclplot(x,
+        >>>         xlabel  = "Chroma dimension",
+        >>>         ylabel  = "Luminance dimension",
+        >>>         title   = "hclplot Example (Sequential)",
+        >>>         figsize = (2, 2), s = 500);
+        >>> #: Multiple subplots
+        >>> import matplotlib.pyplot as plt 
+        >>> from colorspace import sequential_hcl, hclplot
+        >>> 
+        >>> # Three different palettes  
+        >>> pal1 = sequential_hcl(h = 260, c = 80,          l = [35, 95], power = 1)
+        >>> pal2 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = 1)
+        >>> pal3 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = [0.8, 1.4])
+        >>> #:
+        >>> pal1.show_settings()
+        >>> #:
+        >>> pal2.show_settings()
+        >>> #:
+        >>> pal3.show_settings()
+        >>> 
+        >>> #:
+        >>> fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+        >>> hclplot(pal1(7), ax = ax1)            
+        >>> hclplot(pal2(7), ax = ax2) 
+        >>> hclplot(pal3(7), ax = ax3) 
+        >>> plt.show();
+        >>>
+        >>> #: Another example with two sequential and one
+        >>> # diverging palettes with custom settings
+        >>> from colorspace import sequential_hcl, diverging_hcl, hclplot
+        >>> import matplotlib.pyplot as plt
+        >>>
+        >>> pal1 = sequential_hcl(h = [260, 220], c = [50, 0, 75], l = [30, 95], power = 1)       
+        >>> pal2 = sequential_hcl(h = [260, 60],  c = 60,          l = [40, 95], power = 1)  
+        >>> pal3 = diverging_hcl( h = [260, 0],   c = 80,          l = [35, 95], power = 1)  
+        >>> 
+        >>> fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+        >>> hclplot(pal1(7), ax = ax1)
+        >>> hclplot(pal2(7), ax = ax2)
+        >>> hclplot(pal3(7), ax = ax3)
+        >>> plt.show();
+        >>>
+        >>> #: Another example with two sequential and one
+        >>> # diverging palettes with custom settings
+        >>> from colorspace import sequential_hcl, diverging_hcl, qualitative_hcl, hclplot
+        >>> import matplotlib.pyplot as plt
+        >>>
+        >>> fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+        >>> hclplot(sequential_hcl()(7), ax = ax1)
+        >>> hclplot(diverging_hcl()(7), ax = ax2)
+        >>> hclplot(qualitative_hcl()(7), ax = ax3)
+        >>> plt.show();
 
     Raises:
         TypeError: If argument `_type` is not None or str.
@@ -124,8 +139,9 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     """
 
     from .colorlib import hexcols
-    from .statshelper import split, nprange
+    from .statshelper import split, nprange, lm
     import numpy as np
+    import warnings
 
     # Sanity checks
     if not isinstance(_type, (type(None), str)):
@@ -164,6 +180,9 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
                 raise TypeError("elements in `h` (tuple) must be int or float")
             elif tmp < -360. or tmp > 360:
                 raise ValueError("argument(s) in `h` must be in range [-360, 360]")
+
+    if not isinstance(axes, bool):
+        TypeError("argument `axes` must be bool (True or False)")
 
     # Convert input to hexcols object; then convert to HCL
     # to extract the coordinates of the palette.
@@ -295,7 +314,10 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         C  = np.linspace(0., maxchroma, int(maxchroma + 1))
         L  = np.linspace(0., 100., 101)
         nd = np.asarray([(np.nan, a, b) for a in C for b in L])
-        nd = np.transpose(nd) # Transpose to [[H], [C], [L]]
+
+        #                0    1    2
+        # Transpose to [[H], [C], [L]
+        nd = np.transpose(nd)
 
         if h is not None:
             nd[0] = np.repeat(h, len(nd[0]))
@@ -307,13 +329,11 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
                                            cols.get("C"), cols.get("L")]))
             Xout = np.transpose(np.asarray([np.repeat(1., nd.shape[1]),
                                             nd[1], nd[2]]))
-            from .statshelper import lm
             mod = lm(y = cols.get("H"), X = X, Xout = Xout)
-
             if mod["sigma"] > 7.5:
-                import warnings
                 warnings.warn("cannot approximate H well as a linear function of C and L")
-            # Nevermind, store fitted H values
+
+            # Write prediction for H
             nd[0] = mod["Yout"]
 
 
@@ -365,15 +385,15 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     # ---------------------------------------------------------------
     elif _type == "diverging":
 
-
         # TODO(R): When using the following sequence of colors in R
         # x <- c('#11C638', '#60CD6B', '#CCFF00', '#B0DAB3', '#D2E0D3',
         #        '#E7DAD2', '#EDC9B0', '#CCFF00', '#F1A860', '#EF9708')
         # ... and plot it ...
         # hclplot(x, "diverging")
-        # ... is that actually correct?
+        # ... is that actually correct? To me, the Python version looks more reasonable.
 
-        # Spanning grid, creates N x 3 array with H (np.nan), C, L values
+        # Spanning grid, creates N x 5 array with H (np.nan), C, L, as well
+        # as left (binary) and right (binary) based on C (negative C = left, else right)
         C  = np.linspace(-maxchroma, +maxchroma, int(1 + 2 * maxchroma))
         L  = np.linspace(0., 100., 101)
         nd = np.asarray([(np.nan, a, b, a < 0, a >= 0) for a in C for b in L])
@@ -391,7 +411,10 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         right = np.arange(np.floor(len(cols) / 2) - 1, len(cols)).astype(np.int8)
         right = right[np.where(cols.get("C")[right] > 10.)[0]]
 
-        # If the user has set h's (after snity checks we know it is 
+        # TODO(R): In _R_ 'right' is not correct I think. Includes the
+        #          last color from 'left' if n is an even number.
+
+        # If the user has set h's (after sanity checks we know it is 
         # now a tuple of one or two numerics)
         if h is not None:
             if len(h) == 2:
@@ -447,11 +470,8 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
                                  nd[2] * nd[3]])
 
             # Estimate model
-            from .statshelper import lm
             m = lm(y = y, X = X, Xout = Xout)
-
             if m["sigma"] > 7.5:
-                import warnings
                 warnings.warn("cannot approximate H well as a linear function of C and L")
 
             # Write prediction for H
@@ -472,7 +492,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         del kill_nan, kill_lum # No longer needed
 
         # Deleting coordinates and colors we do not need
-        nd   = np.delete(nd, kill, axis = 1)
+        nd      = np.delete(nd, kill, axis = 1)
         nd_cols = hexcols.colors()
         nd_cols = np.delete(nd_cols, kill)
 
@@ -497,7 +517,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         elif len(np.unique(np.round(nd[0]))) <= 2:
             hl    = nd[0, nd[3] == 1][0] # Picking left ...
             hr    = nd[0, nd[4] == 1][0] # ... and right hue.
-            title = f"Hue = {hl:.0f}/{hr:.0f}"
+            title = f"Hue = {hl:.0f} | {hr:.0f}"
         else:
             from .statshelper import nprange
             hl    = nprange(nd[0, nd[3] == 1]) # Range of Hue 'left'
@@ -510,20 +530,121 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
     # Qualitative plot
     # ---------------------------------------------------------------
     elif _type == "qualitative":
-        print(f"RETO: HERE plotting for {_type}")
 
-        #if "title" in kwargs.keys():
-        #    title = kwargs["title"]
-        #elif len(np.unique(np.round(nd[0]))) == 1:
-        #    title = f"Hue = {np.round(nd[0][0])}"
-        #else:
-        #    title = f"Hue = [{np.round(np.min(nd[0]))}, {np.round(np.max(nd[0]))}]"
-        title = "Define title in qualitative plot"
+        # Spanning grid, creates N x 3 array with H, C, and L (np.nan)
+        H  = np.linspace(0, 360, 180, endpoint = False) # 0-360 w/ interval width = 2
+        C  = np.linspace(0, maxchroma, int(maxchroma + 1))
+        nd = np.asarray([(a, b, np.nan) for a in H for b in C])
+
+        #                0    1    2
+        # Transpose to [[H], [C], [L]]
+        # ... dummy coding used later for linear regression.
+        nd = np.transpose(nd)
+
+        # If the user has specified l: Use this value.
+        if l is not None:
+            nd[2] = np.repeat(float(l), nd.shape[1])
+        elif len(cols) < 3 or np.diff(nprange(cols.get("L"))) < 10.:
+            # Model matrix for estimation and prediction
+            X    = np.transpose(np.asarray([np.repeat(1., len(cols)),
+                                            cols.get("C"), cols.get("H")]))
+            Xout = np.transpose(np.asarray([np.repeat(1., nd.shape[1]),
+                                            nd[1], nd[0]]))
+            mod = lm(y = cols.get("L"), X = X, Xout = Xout)
+            if mod["sigma"] > 7.5:
+                warnings.warn("cannot approximate L well as a linear function of C and H")
+
+            # Write prediction for L [0., 100.]
+            nd[2] = np.minimum(100., np.maximum(0., mod["Yout"]))
+
+        # Convert to polarLUV -> hexcols without fixup
+        from .colorlib import polarLUV
+        hexcols = polarLUV(H = nd[0], C = np.abs(nd[1]), L = nd[2])
+        hexcols.to("hex", fixup = False)
+
+        # Find colors where C > 0 and L < 1
+        kill_lum = np.where(np.logical_and(nd[1] > 0, nd[2] < 1))[0]
+
+        # Find 'nan' colors (due to fixup)
+        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
+        kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
+        del kill_nan, kill_lum # No longer needed
+
+        # Deleting coordinates and colors we do not need
+        nd      = np.delete(nd, kill, axis = 1)
+        nd_cols = hexcols.colors()
+        nd_cols = np.delete(nd_cols, kill)
+
+        def HC_to_xy(H, C):
+            assert isinstance(H, np.ndarray)
+            assert isinstance(C, np.ndarray)
+            if len(H.shape) > 0:
+                assert len(H) == len(C)
+            return [np.cos(H * np.pi / 180.) * C, # x
+                    np.sin(H * np.pi / 180.) * C] # y
+
+        nd_x, nd_y = HC_to_xy(nd[0], nd[1])
+
+        # Plotting HCL space
+        ax.scatter(nd_x, nd_y, color = nd_cols, s = 150)
+        ax.set_xlim(-maxchroma * 1.1, +maxchroma * 1.1)
+        ax.set_ylim(-maxchroma * 1.1, +maxchroma * 1.1)
+        ax.set_aspect("equal")
+
+        # Adding actual palette
+        cols_x, cols_y = HC_to_xy(cols.get("H"), cols.get("C"))
+        ax.plot(cols_x, cols_y, "-", color = "black", linewidth = 1, zorder = 3)
+
+        s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
+        ax.scatter(cols_x, cols_y, edgecolor = "white", s = s,
+                linewidth = 2, color = cols.colors(), zorder = 3)
+
+        # Adding outer circle
+        cx, cy = HC_to_xy(np.linspace(0, 360, 361), np.repeat(maxchroma, 361))
+        ax.plot(cx, cy, zorder = 1, color = "black", linewidth = 0.5)
+
+        # Adding axes if requested
+        if axes:
+            tx, ty = HC_to_xy(np.asarray(0), np.asarray(maxchroma + 20))
+            ax.text(tx, ty, "Hue", horizontalalignment = "left", verticalalignment = "center")
+            for hue in np.linspace(0, 360, 6, endpoint = False):
+                tx, ty = HC_to_xy(np.asarray(hue), np.asarray(maxchroma + 10))
+                ax.text(tx, ty, f"{hue:.0f}" if hue > 0 else "0\n360",
+                        horizontalalignment = "center", verticalalignment = "center")
+                lx, ly = HC_to_xy(np.repeat(hue, 2), np.asarray([0, 4]) + maxchroma)
+                ax.plot(lx, ly, color = "black", linewidth = 0.5)
+            del cx, cy, tx, ty, lx, ly
+
+            # Radial 'axis'
+            ax.plot(np.asarray([0, maxchroma]), np.repeat(0, 2),
+                    color = "black", linewidth = 0.5)
+            tmp = np.arange(0, maxchroma, 50 if maxchroma > 150 else 25)
+            ax.text(np.mean(tmp), -17, "Chroma",
+                    horizontalalignment = "center", verticalalignment = "top")
+            for t in tmp:
+                ax.text(t, -7.5, f"{t:.0f}",
+                        horizontalalignment = "center", verticalalignment = "top")
+                ax.plot(np.repeat(t, 2), np.asarray([0., -5.]),
+                        color = "black", linewidth = 0.5)
+            del tmp
+        
+
+        # Specifying title
+        if "title" in kwargs.keys():
+            title = kwargs["title"]
+        elif len(np.unique(np.round(nd[2]))) <= 1:
+            title = f"Luminance = {nd[2][0]:.0f}"
+        else:
+            title = f"Luminance = [{np.min(nd[2]):.0f}, {np.max(nd[2]):.0f}]"
+
 
     # Plot annotations, done
     ax.set_title(title, fontsize = 10, fontweight = "bold")
-    ax.set_xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
-    ax.set_ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
+    if _type == "qualitative" or not axes:
+        ax.set_axis_off()
+    else:
+        ax.set_xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
+        ax.set_ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
 
     # If the user did not provide an axis, we started
     # a new figure and can now display it.

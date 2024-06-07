@@ -36,7 +36,7 @@ two sets of colors for comparison, defaults to `None`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.specplot.specplot:palette">palette</code><code class="argument-class">bool</code>
   </dt>
- <dd>Whether or not to plot the colors as a color map.</dd>
+ <dd>Whether or not to plot the colors as a color map (color swatch).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.specplot.specplot:fix">fix</code><code class="argument-class">bool</code>
   </dt>
@@ -70,15 +70,27 @@ if `fig = None`.</dd>
 #| warning: true
 from colorspace import rainbow_hcl
 from colorspace import specplot
-pal = rainbow_hcl(100)
-specplot(pal.colors());
+pal = rainbow_hcl()
+specplot(pal.colors(21));
 ```
 
 ```{python}
 #| echo: true
 #| error: true
 #| warning: true
-specplot(pal.colors(), rgb = False, hcl = True, palette = False);
+# Show spectrum in standard RGB space
+specplot(pal.colors(21), rgb = True);
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Reduced number of colors.
+# Show sRGB spectrum, hide HCL spectrum
+# and color palette swatch.
+specplot(pal.colors(), rgb = True, hcl = False,
+palette = False, figsize = (8, 3));
 ```
 
 

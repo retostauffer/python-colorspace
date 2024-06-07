@@ -272,12 +272,12 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         ax1.set_ylabel("Red/Green/Blue")
         ax1.xaxis.set_label_position("top")
         ax1.text(0.5, 1.05, "RGB Spectrum", horizontalalignment = "center",
-                 verticalalignment = "bottom")
+                 verticalalignment = "bottom", fontsize = 10, fontweight = "bold")
     if hcl:
         ax3.set_ylabel("Chroma/Luminance")
         ax33.set_ylabel("Hue")
         ax3.text(0.5,  -10, "HCL Spectrum", horizontalalignment = "center",
-                 verticalalignment = "top")
+                 verticalalignment = "top", fontsize = 10, fontweight = "bold")
 
     if isinstance(title, str):
         plt.gcf().get_axes()[0].set_title(title, va = "top",

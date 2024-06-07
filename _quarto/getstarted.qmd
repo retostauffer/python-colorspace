@@ -152,8 +152,7 @@ Finally, even more flexible diverging HCL palettes are provided by
 
 
 
-Use with matplotlib graphics
-============================
+## Use with matplotlib graphics
 
 All color palettes come with a `cmap()` method to generate objects
 of class `LinearSegmentedColormap` as used by `matplotlib` and can
@@ -224,8 +223,14 @@ visualization and assessment of its palettes. The
 provides a series of generic/basic plot types as used by the
 interactive interface ([`choose_palette`](/man/colorspace.choose_palette.choose_palette.qmd)
 which can also be used in-line to test color palettes.
+
 In addition, [`specplot`](/man/colorspace.specplot.specplot.qmd) allows to visualize and
-graphically assess the spectrum of a series of colors in the RGB and HCL spectrum.
+graphically assess the spectrum of a series of colors in the RGB and HCL spectrum,
+whilst [`hclplot`](/man/colorspace.hclplot.hclplot.qmd) converts the colors of
+a palette to the corresponding hue/chroma/luminance coordinates and displays
+them in HCL space with one dimension collapsed. The collapsed dimension is the
+luminance for qualitative palettes and the hue for sequential/diverging
+palettes.
 
 
 
@@ -235,8 +240,14 @@ graphically assess the spectrum of a series of colors in the RGB and HCL spectru
 #| warning: true
 
 from colorspace import diverging_hcl, demoplot
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (10, 3.5))
 pal = diverging_hcl("Purple-Green")
-demoplot(pal(11), "Bar");
+demoplot(pal, "Map",    ax = ax1)
+demoplot(pal, "Bar",    ax = ax2)
+demoplot(pal, "Matrix", ax = ax3)
+plt.show()
 ```
 
 ```{python}
@@ -249,6 +260,20 @@ pal = diverging_hcl("Purple-Green")
 specplot(pal(100), hcl = True, palette = True, rgb = True);
 ```
 
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+
+from colorspace import sequential_hcl, diverging_hcl, qualitative_hcl, hclplot
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (10, 3.5))
+hclplot(sequential_hcl()(7),  ax = ax1)
+hclplot(diverging_hcl()(7),   ax = ax2)
+hclplot(qualitative_hcl()(7), ax = ax3)
+plt.show()
+```
 
 
 
