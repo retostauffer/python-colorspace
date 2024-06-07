@@ -1,7 +1,7 @@
 # -------------------------------------------------------------------
 # - NAME:        setup.py
 # - AUTHOR:      Reto Stauffer
-# - LICENSE:     GPL-2, Reto Stauffer, copyright 2022
+# - LICENSE:     GPL-2 | GPL-3, Reto Stauffer, copyright 2022-2024
 # -------------------------------------------------------------------
 # - DESCRIPTION: The python-colorpsace package.
 # -------------------------------------------------------------------
@@ -46,18 +46,19 @@ def README():
 # Setup
 setup(name="colorspace",     # This is the package name
       version = VERSION,     # Current package version, what else
-      description = "Color space package for python",
+      description = "A Python toolbox for manipulating and assessing colors and palettes",
       long_description = README(),
       long_description_content_type = "text/markdown",
       url = "https://github.com/retostauffer/python-colorspace",
-      author = "Reto Stauffer [aut,cre], Ross Ihaka [ctb], Paul Murrell [ctb], Kurt Hornik [ctb], Jason C. Fisher [ctb], Claus O. Wilke [ctb], Claire D. Mc White [ctb], Achim Zeileis [ctb]",
+      author = "Reto Stauffer, Achim Zeileis",
       author_email         = "Reto.Stauffer@uibk.ac.at",
       maintainer           = "Reto Stauffer",
       maintainer_email     = "reto.stauffer@uibk.ac.at",
       license              = "GPL-2 | GPL-3",
       keywords             = "colors, color palettes, color spaces, manipulate colors, HCL, HCL colors, color vision deficiencies",
       classifiers = [
-          "Development Status :: 3 - Alpha",
+          "Topic :: Scientific/Engineering :: Visualization",
+          "Development Status :: 4 - Beta",
           "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
           "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
           "Programming Language :: Python :: 3.11"
