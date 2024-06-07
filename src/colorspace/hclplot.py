@@ -3,8 +3,48 @@
 
 
 def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
-    """
-    Requires `matplotlib` to be installed.
+    """Palette Plot in HCL Space
+
+    The function `hclplot` is an auxiliary function for illustrating
+    the trajectories of color palettes in two-dimensional HCL space
+    projections. It collapses over one of the three coordinates
+    (either the hue H or the luminance L) and displays a heatmap of
+    colors combining the remaining two dimensions. The coordinates for
+    the given color palette are highlighted to bring out its
+    trajectory.
+
+    The function `hclplot` has been designed to work well with the
+    :py:func:`hcl_palettes <colorspace.hcl_palettes.hcl_palettes>`
+    in this package. While it is possible to apply it
+    to other color palettes as well, the results might look weird or
+    confusing if these palettes are constructed very differently.
+
+    More specifically, the following palettes can be visualized well:
+
+    * Qualitative with (approximately) constant luminance. In this
+      case, `hclplot` shows a hue-chroma plane (in polar
+      coordinates), keeping luminance at a fixed level (by default
+      displayed in the main title of the plot). If the luminance
+      is, in fact, not approximately constant, the luminance varies
+      along with hue and chroma, using a simple linear function
+      (fitted by least squares). `hclplot` shows a
+      chroma-luminance plane, keeping hue at a fixed level (by
+      default displayed in the main title of the plot). If the hue
+      is, in fact, not approximately constant, the hue varies along
+      with chroma and luminance, using a simple linear function
+      (fitted by least squares.
+
+    * Diverging with two (approximately) constant hues: This case
+      is visualized with two back-to-back sequential displays.
+
+    To infer the type of display to use, by default, the following
+    heuristic is used: If luminance is not approximately constant
+    (`range > 10`) and follows rougly a triangular pattern, a diverging
+    display is used. If luminance is not constant and follows roughly
+    a linear pattern, a sequential display is used. Otherwise a
+    qualitative display is used.
+
+    Note: Requires `matplotlib` to be installed.
 
     Args:
         x (str, list, colorobject): An object which can be converted into
@@ -20,13 +60,45 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         **kwargs: Allowed to overwrite some default settings such as
             `title` (str), `xlabel` (str), `ylabel` (str), `figsize`
             (forwarded to `pyplot.figure`), `s` (int, float) to change
-            marker size, defaults to `150`.
+            marker size, defaults to `150`. A matplotlib axis can be provided
+            via `ax` (object of type `matplotlib.axes._axes.Axes`) which allows
+            to draw multiple HCL spaces on one figure.
+
+    Returns:
+        No return, visualizes the palette and HCL space either on a new
+        figure or on an existing axis (if `ax` is provided, see `**kwargs`).
 
     Examples:
     >>> # Sequential HCL palette, hclplot with all available options
     >>> x = sequential_hcl("Red-Blue")(10)
-    >>> hclplot(x, xlabel = "foo", ylabel = "bar",
-    >>>         title = "Test", figsize = (2, 2), s = 500)
+    >>> hclplot(x,
+    >>>         xlabel  = "Chroma dimension",
+    >>>         ylabel  = "Luminance dimension",
+    >>>         title   = "hclplot Example (Sequential)",
+    >>>         figsize = (2, 2), s = 500);
+    >>> #: Multiple subplots
+    >>> import matplotlib.pyplot as plt 
+    >>> from colorspace import sequential_hcl, hclplot
+    >>> 
+    >>> # Three different palettes  
+    >>> # TODO(R): argument c is [c1, c2, cmax] different to what R uses, tough
+    >>> #          the order in the description is `c1`/`c2`/`cmax` (single args)?
+    >>> pal1 = sequential_hcl(h = 260, c = 80,          l = [35, 95], power = 1)
+    >>> pal2 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = 1)
+    >>> pal3 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = [0.8, 1.4])
+    >>> #:
+    >>> pal1.show_settings()
+    >>> #:
+    >>> pal2.show_settings()
+    >>> #:
+    >>> pal3.show_settings()
+    >>> 
+    >>> #:
+    >>> fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
+    >>> hclplot(pal1(7), ax = ax1)            
+    >>> hclplot(pal2(7), ax = ax2) 
+    >>> hclplot(pal3(7), ax = ax3) 
+    >>> plt.show();
 
     Raises:
         TypeError: If argument `_type` is not None or str.
@@ -80,13 +152,6 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
                 raise TypeError("elements in `h` (tuple) must be int or float")
             elif tmp < -360. or tmp > 360:
                 raise ValueError("argument(s) in `h` must be in range [-360, 360]")
-
-    # Requires matpotlib, a suggested package. If not avialable
-    # raise an import error.
-    try:
-        import matplotlib.pyplot as plt
-    except ImportError as e:
-        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
 
     # Convert input to hexcols object; then convert to HCL
     # to extract the coordinates of the palette.
@@ -189,6 +254,27 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         maxchroma = np.maximum(100., np.minimum(180, np.ceil(np.max(cols.get("C")) / 20) * 20))
 
     # ---------------------------------------------------------------
+    # Preparing plot/axes
+    # ---------------------------------------------------------------
+    # Requires matpotlib, a suggested package. If not avialable
+    # raise an import error.
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError as e:
+        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
+
+    # If `ax` is specified, must be matplotlib.axes._axes.Axes
+    if "ax" in kwargs.keys():
+        from matplotlib import axes
+        ax = kwargs["ax"] # Keep this for plotting
+        if not isinstance(ax, axes._axes.Axes):
+            raise TypeError("argument `ax` (if set) must be a matplotlib.axes._axes.Axes")
+    else:
+        figsize = None if not "figsize" in kwargs.keys() else kwargs["figsize"]
+        fig,ax = plt.subplots(1, 1, figsize = figsize)
+
+
+    # ---------------------------------------------------------------
     # Sequential plot
     # ---------------------------------------------------------------
     if _type == "sequential":
@@ -237,21 +323,17 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         nd_cols = hexcols.colors()
         nd_cols = np.delete(nd_cols, kill)
 
-        from matplotlib import pyplot as plt
-
         # Plotting HCL space
-        figsize = None if not "figsize" in kwargs.keys() else kwargs["figsize"]
-        fig = plt.figure(figsize = figsize)
-        plt.scatter(nd[1], nd[2], color = nd_cols, s = 150)
-        plt.xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
-        plt.ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
+        ax.scatter(nd[1], nd[2], color = nd_cols, s = 150)
+        ax.set_xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
+        ax.set_ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
 
         # Adding actual palette
-        plt.plot(cols.get("C"), cols.get("L"), "-", color = "black", linewidth = 1,
+        ax.plot(cols.get("C"), cols.get("L"), "-", color = "black", linewidth = 1,
                 zorder = 3)
 
         s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
-        plt.scatter(cols.get("C"), cols.get("L"), edgecolor = "white", s = s,
+        ax.scatter(cols.get("C"), cols.get("L"), edgecolor = "white", s = s,
                 linewidth = 2, color = cols.colors(), zorder = 3)
 
         # Plot labels
@@ -292,10 +374,10 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         nd = np.transpose(nd)
 
         # Left and right hand side of the diverging palette; original colors
-        left  = np.arange(0, np.floor(len(cols) / 2)).astype(np.int8)
-        left  = left[np.where(cols.get("H")[left] > 10.)[0]]
-        right = np.arange(np.floor(len(cols) / 2), len(cols)).astype(np.int8)
-        right = right[np.where(cols.get("H")[right] > 10.)[0]]
+        left  = np.arange(0, np.floor(len(cols) / 2) + 1).astype(np.int8)
+        left  = left[np.where(cols.get("C")[left] > 10.)[0]]
+        right = np.arange(np.floor(len(cols) / 2) - 1, len(cols)).astype(np.int8)
+        right = right[np.where(cols.get("C")[right] > 10.)[0]]
 
         # If the user has set h's (after snity checks we know it is 
         # now a tuple of one or two numerics)
@@ -315,7 +397,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
             nd[0, np.where(nd[3] == 1)] = np.median(cols.get("H")[left] - \
                                           np.min(cols.get("H")[left])) + \
                                           np.min(cols.get("H")[left])
-            nd[0, np.where(nd[4] == 1)] = np.median(cols.get("H")[right] -\
+            nd[0, np.where(nd[3] == 0)] = np.median(cols.get("H")[right] -\
                                           np.min(cols.get("H")[right])) + \
                                           np.min(cols.get("H")[right])
 
@@ -382,22 +464,19 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         nd_cols = hexcols.colors()
         nd_cols = np.delete(nd_cols, kill)
 
-        from matplotlib import pyplot as plt
-
         # Plotting HCL space
-        figsize = None if not "figsize" in kwargs.keys() else kwargs["figsize"]
-        fig = plt.figure(figsize = figsize)
-        plt.scatter(nd[1], nd[2], color = nd_cols, s = 150)
-        plt.xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
-        plt.ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
+        ax.scatter(nd[1], nd[2], color = nd_cols, s = 150)
+        ax.set_xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
+        ax.set_ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
 
         # Adding actual palette
-        C = cols.get("C")
-        C[left] = -1 * C[left] 
-        plt.plot(C, cols.get("L"), "-", color = "black", linewidth = 1, zorder = 3)
+        C  = cols.get("C")
+        il = np.arange(len(cols) / 2, dtype = np.int16)
+        C[il] = -1 * C[il]
+        ax.plot(C, cols.get("L"), "-", color = "black", linewidth = 1, zorder = 3)
 
         s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
-        plt.scatter(C, cols.get("L"), edgecolor = "white", s = s,
+        ax.scatter(C, cols.get("L"), edgecolor = "white", s = s,
                 linewidth = 2, color = cols.colors(), zorder = 3)
 
         # Specifying title
@@ -430,12 +509,13 @@ def hclplot(x, _type = None, h = None, c = None, l = None, **kwargs):
         title = "Define title in qualitative plot"
 
     # Plot annotations, done
-    plt.title(title, fontsize = 10, fontweight = "bold")
-    plt.xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
-    plt.ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
+    ax.set_title(title, fontsize = 10, fontweight = "bold")
+    ax.set_xlabel("Chroma" if not "xlabel" in kwargs.keys() else kwargs["xlabel"])
+    ax.set_ylabel("Luminance" if not "ylabel" in kwargs.keys() else kwargs["ylabel"])
 
-    # Show figure
-    plt.show()
+    # If the user did not provide an axis, we started
+    # a new figure and can now display it.
+    if not "ax" in kwargs.keys(): plt.show()
 
 
 
