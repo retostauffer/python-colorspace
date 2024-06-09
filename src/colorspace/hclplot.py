@@ -307,6 +307,30 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
 
 
     # ---------------------------------------------------------------
+    # Helper functon to convert coordinates to hex colors and remove
+    # unwanted colors (those where the hex color is 'nan' due to 'fixup = False'
+    # and low-luminance colors with chroma > 1.
+    # ---------------------------------------------------------------
+    def conv_colors(nd):
+        from .colorlib import polarLUV
+        hexcols = polarLUV(H = nd[0], C = np.abs(nd[1]), L = nd[2])
+        hexcols.to("hex", fixup = False)
+
+        # Find colors where |C| > 0 and L < 1
+        kill_lum = np.where(np.logical_and(np.abs(nd[1]) > 0, nd[2] < 1))[0]
+
+        # Find 'nan' colors (due to fixup)
+        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
+        kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
+
+        # Deleting coordinates and colors we do not need
+        nd      = np.delete(nd, kill, axis = 1)
+        nd_cols = hexcols.colors()
+        nd_cols = np.delete(nd_cols, kill)
+
+        return nd, nd_cols
+
+    # ---------------------------------------------------------------
     # Sequential plot
     # ---------------------------------------------------------------
     if _type == "sequential":
@@ -339,22 +363,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
 
 
         # Convert to polarLUV -> hexcols without fixup
-        from .colorlib import polarLUV
-        hexcols = polarLUV(H = nd[0], C = nd[1], L = nd[2])
-        hexcols.to("hex", fixup = False)
-
-        # Find colors where C > 0 and L < 1
-        kill_lum = np.where(np.logical_and(nd[1] > 0, nd[2] < 1))[0]
-
-        # Find 'nan' colors (due to fixup)
-        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
-        kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
-        del kill_nan, kill_lum # No longer needed
-
-        # Deleting coordinates and colors we do not need
-        nd   = np.delete(nd, kill, axis = 1)
-        nd_cols = hexcols.colors()
-        nd_cols = np.delete(nd_cols, kill)
+        nd, nd_cols = conv_colors(nd)
 
         # Plotting HCL space
         ax.scatter(nd[1], nd[2], color = nd_cols, s = 150)
@@ -382,6 +391,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
             title = f"Hue = {nd[0][0]:.0f}"
         else:
             title = f"Hue = [{np.min(nd[0]):.0f}, {np.max(nd[0]):.0f}]"
+
 
     # ---------------------------------------------------------------
     # Diverging plot
@@ -479,22 +489,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
 
 
         # Convert to polarLUV -> hexcols without fixup
-        from .colorlib import polarLUV
-        hexcols = polarLUV(H = nd[0], C = np.abs(nd[1]), L = nd[2])
-        hexcols.to("hex", fixup = False)
-
-        # Find colors where |C| > 0 and L < 1
-        kill_lum = np.where(np.logical_and(np.abs(nd[1]) > 0, nd[2] < 1))[0]
-
-        # Find 'nan' colors (due to fixup)
-        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
-        kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
-        del kill_nan, kill_lum # No longer needed
-
-        # Deleting coordinates and colors we do not need
-        nd      = np.delete(nd, kill, axis = 1)
-        nd_cols = hexcols.colors()
-        nd_cols = np.delete(nd_cols, kill)
+        nd, nd_cols = conv_colors(nd)
 
         # Plotting HCL space
         ax.scatter(nd[1], nd[2], color = nd_cols, s = 150)
@@ -565,22 +560,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
             nd[2] = np.minimum(100., np.maximum(0., mod["Yout"]))
 
         # Convert to polarLUV -> hexcols without fixup
-        from .colorlib import polarLUV
-        hexcols = polarLUV(H = nd[0], C = np.abs(nd[1]), L = nd[2])
-        hexcols.to("hex", fixup = False)
-
-        # Find colors where C > 0 and L < 1
-        kill_lum = np.where(np.logical_and(nd[1] > 0, nd[2] < 1))[0]
-
-        # Find 'nan' colors (due to fixup)
-        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
-        kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
-        del kill_nan, kill_lum # No longer needed
-
-        # Deleting coordinates and colors we do not need
-        nd      = np.delete(nd, kill, axis = 1)
-        nd_cols = hexcols.colors()
-        nd_cols = np.delete(nd_cols, kill)
+        nd, nd_cols = conv_colors(nd)
 
         def HC_to_xy(H, C):
             assert isinstance(H, np.ndarray)
