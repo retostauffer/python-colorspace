@@ -1101,17 +1101,36 @@ class hclpalette:
 class qualitative_hcl(hclpalette):
     """Qualitative HCL Color Palettes
 
+    **Default use:** By default, `qualitative_hcl` returns an object
+    of class `hclpalette` which allows to draw a number of colors (`n`) uniformly
+    distributed around the circle (`[0, 360 * (n - 1) / n]`) controlled via the
+    `h` (Hue) argument. As the number of colors is not yet defined, the upper hue
+    limit (`h[1]`, `h2`) is defined via lambda function.
+
+    **Pre-defined palettes:** If `h` is str it will overwrite the `palette`
+    argument. In this case, pre-specified palette settings will be loaded but are
+    allowed to be overwritten by the user.
+
+    **Overwriting palette settings:** At any time the user can overwrite any of
+    the settings. For qualitative palettes this is:
+
+    * `h`: List of length 2 containing int or float. Defines lower/upper
+        hue value. Both elements can be lambda functions, the first one
+        with one input argument (`n`), the second with either one argument (`n`)
+        or two arguments (`n`, `h1`).
+    * `c`: Chroma (single value), can be overwritten using.
+    * `**kwargs`**: Allow to overwrite individual settings.
+        `h1` overwrites `h[0]`, `h2` overwrites `h[1]`, `c1` overwrites `c`,
+        `l1` overwrites `l`.
+
     See also: :py:class:`sequential_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
     :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
     :py:class:`rainbow`.
 
-    Argument `h` uses a list with `[0, lambda x: 360. * (n - 1.) / n]` by default
-    such that the colors drawn from the palet are uniformly distributed around the
-    circle (`[0., 360.]`).
-
     Args:
-        h (int, float, list): Hue values defining the 'color'. Qualitative color
+        h (list, str): Hue values defining the 'color' or name of pre-defined
+            palette (`str`). Qualitative color
             palettes require two hues. If more than two values are provided the first
             two will be used while the rest is ignored.  If input `h` is a str this
             argument acts like the `palette` argument (see `palette` input parameter).
@@ -1125,10 +1144,10 @@ class qualitative_hcl(hclpalette):
             values outside the defined RGB color space be corrected?
         palette (None, str): Can be used to load a default diverging color
             qpalette specification. If the palette does not exist an exception will be
-            qraised.  Else the settings of the palette as defined will be used to create
+            raised.  Else the settings of the palette as defined will be used to create
             qthe color palette.
         rev (bool): Should the color map be reversed? Default `False`.
-        **kwargs: Additional arguments to overwrite the h/c/l settings. TODO: has to be documented.
+        **kwargs: See docstring 'Overwriting palette settings'.
 
     Returns:
         qualitative_hcl: Initialize new object. Raises exceptions if the parameters are
@@ -1148,16 +1167,25 @@ class qualitative_hcl(hclpalette):
         >>> b.swatchplot(show_names = False, figsize = (5.5, 0.5));
         >>> #: The standard call of the object also returns hex colors
         >>> qualitative_hcl("Warm")(10)
-
-
-    TODO: Currently the config files for the pre-defined palettes do not allow for lambda functions.
-    TODO: Write some tests for lambda functions on h; document properly.
+        >>>
+        >>> #: Example where `h` is a list of two lambda functions
+        >>> from colorspace import hexcols
+        >>> pal = qualitative_hcl([lambda n: 100. * (n - 1) / n,  
+        >>>                       lambda n, h1: 300. * (n - 1) / n + h1], c = 30)
+        >>> cols = hexcols(pal.colors(5))
+        >>> cols
+        >>> #:
+        >>> cols.to("HCL")
+        >>> cols
 
 
     Raises:
-        TypeError: If `h` is not a single int or float, or a list (see next).
-        TypeError: If `h` is a list but not all elements are of type int, float, or 
-            callable (lambda functions).
+        TypeError: If `h` is neither str nor list of length 2.
+        TypeError: If `h` is list of length 2, the elements must be int, float, or
+            lambda functions.
+        ValueError: If `c` and/or `l` contain unexpected values.
+        ValueError: If `h` is str or `palette` is set, but a pre-defined palette
+            with this name does not exist.
     """
 
     _name = "Qualitative"
@@ -1172,17 +1200,16 @@ class qualitative_hcl(hclpalette):
         if isinstance(h, str):
             palette = h
             h       = [0, lambda n: 360. * (n - 1.) / n]
-
-        # Custom check for 'h' as we also allow for lambda functions
-        if not isinstance(h, (list, float, int)) and not callable(h):
-            raise TypeError("unexpected type on argument `h`")
+        # Else it must be list of length 2
+        elif not isinstance(h, list) or not len(h) == 2:
+            raise TypeError("argument `h` must be str or list of length 2")
+        # Check list elements for allowed types
         else:
-            if not isinstance(h, list): h = [h]
             for rec in h:
                 if   callable(rec):                 pass
                 elif isinstance(rec, (float, int)): pass
                 else:
-                    raise TypeError("unexpected type on argument `h`")
+                    raise TypeError("unexpected type in list on argument `h`")
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1192,7 +1219,6 @@ class qualitative_hcl(hclpalette):
             l     = self._checkinput_(int,   1, False, False, l = l)
         except Exception as e:
             raise ValueError(str(e))
-
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
@@ -1222,8 +1248,8 @@ class qualitative_hcl(hclpalette):
             settings = {}
             settings["h1"]    = h[0]
             settings["h2"]    = h[1]
-            settings["c1"]    = c
-            settings["l1"]    = l
+            settings["c1"]    = c[0] # qualitative palette, constant
+            settings["l1"]    = l[0] # qualitative palette, constant
             settings["fixup"] = fixup
             settings["rev"]   = rev
 
@@ -1272,7 +1298,8 @@ class qualitative_hcl(hclpalette):
         if callable(self.get("h2")):
             fn = self.get("h2")
             # Distinguish between lambda functions with one argument (n) or two (n + h1)
-            h2 = fn(n) if fn.__code__.co_argcount == 1 else fn(n, self.get("h1"))
+            h1 = self.get("h1")(n) if callable(self.get("h1")) else self.get("h1")
+            h2 = fn(n) if fn.__code__.co_argcount == 1 else fn(n, h1)
         else:
             h2 = self.get("h2")
 
@@ -1902,13 +1929,35 @@ class divergingx_hcl(hclpalette):
 class sequential_hcl(hclpalette):
     """Sequential HCL Color Palettes
 
+    **Default use:** By default, `sequential_hcl` returns an object
+    of class `hclpalette` with a sequential palette consisting of blue
+    colors (`h = 260`) linearely decreasing in chroma (`c = [80, 0]`)
+    and increasing in luminance (`l = [30, 90]`).
+
+    **Pre-defined palettes:** If `h` is str it will overwrite the `palette`
+    argument. In this case, pre-specified palette settings will be loaded but are
+    allowed to be overwritten by the user.
+
+    **Overwriting palette settings:** The function allows for a high degree of
+    flexibility. At any time the user can overwrite any of the settings. For
+    qualitative palettes this is:
+
+    * `h`: List of length 2 containing int or float. Defines lower/upper
+        hue value. Both elements can be lambda functions, the first one
+        with one input argument (`n`), the second with either one argument (`n`)
+        or two arguments (`n`, `h1`).
+    * `c`: Chroma (single value), can be overwritten using.
+    * `**kwargs`: Allow to overwrite individual settings.
+        Allowed are `h1`, `h2` (overwrites `h`), `c1`/`c2`/`cmax` (overwrites `c`),
+        `l1`/`l2` (overwrites `l`), `p1`/`p2` (overwrites `p`).
+
     See also: :py:class:`qualitative_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
     :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
     :py:class:`rainbow`.
 
     Args:
-        h (numeric): Hue values (color). If only one value is given the value
+        h (float, int, list, str): Hue values (color). If only one value is given the value
             is recycled which yields a single-hue sequential color palette.  If
             input `h` is a str this argument acts like the `palette` argument
             (see `palette` input parameter).
@@ -1926,7 +1975,7 @@ class sequential_hcl(hclpalette):
             create the color palette.
         rev (bool): Should the color map be reversed.
         *args: Currently unused.
-        **kwargs: Additional arguments to overwrite the h/c/l settings.
+        **kwargs: See docstring 'Overwriting palette settings'.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
