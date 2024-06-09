@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,6 +100,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -542,8 +545,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
+<p><strong>Default use:</strong> By default, <code>qualitative_hcl</code> returns an object of class <code>hclpalette</code> which allows to draw a number of colors (<code>n</code>) uniformly distributed around the circle (<code>[0, 360 * (n - 1) / n]</code>) controlled via the <code>h</code> (Hue) argument. As the number of colors is not yet defined, the upper hue limit (<code>h[1]</code>, <code>h2</code>) is defined via lambda function.</p>
+<p><strong>Pre-defined palettes:</strong> If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user.</p>
+<p><strong>Overwriting palette settings:</strong> At any time the user can overwrite any of the settings. For qualitative palettes this is:</p>
+<ul>
+<li><code>h</code>: List of length 2 containing int or float. Defines lower/upper hue value. Both elements can be lambda functions, the first one with one input argument (<code>n</code>), the second with either one argument (<code>n</code>) or two arguments (<code>n</code>, <code>h1</code>).</li>
+<li><code>c</code>: Chroma (single value), can be overwritten using.</li>
+<li><code>**kwargs</code>**: Allow to overwrite individual settings. <code>h1</code> overwrites <code>h[0]</code>, <code>h2</code> overwrites <code>h[1]</code>, <code>c1</code> overwrites <code>c</code>, <code>l1</code> overwrites <code>l</code>.</li>
+</ul>
 <p>See also: <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>, <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.divergingx_hcl.html">divergingx_hcl</a>, <a href="../man/colorspace.palettes.rainbow_hcl.html">rainbow_hcl</a>, <a href="../man/colorspace.palettes.heat_hcl.html">heat_hcl</a>, <a href="../man/colorspace.palettes.terrain_hcl.html">terrain_hcl</a>, <a href="../man/colorspace.palettes.diverging_hsv.html">diverging_hsv</a>, and <a href="../man/colorspace.palettes.rainbow.html">rainbow</a>.</p>
-<p>Argument <code>h</code> uses a list with <code>[0, lambda x: 360. * (n - 1.) / n]</code> by default such that the colors drawn from the palet are uniformly distributed around the circle (<code>[0., 360.]</code>).</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -553,10 +563,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
 <dl class="pyp-list param-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.qualitative_hcl:h">h</code><code class="argument-class">int, float, list</code>
+<code id="colorspace.palettes.qualitative_hcl:h">h</code><code class="argument-class">list, str</code>
 </dt>
 <dd>
-Hue values defining the ‘color’. Qualitative color palettes require two hues. If more than two values are provided the first two will be used while the rest is ignored. If input <code>h</code> is a str this argument acts like the <code>palette</code> argument (see <code>palette</code> input parameter). Can also be lambda functions or a list of lambda functions which take up one single argument <code>n</code> (number of colors; see default value).
+Hue values defining the ‘color’ or name of pre-defined palette (<code>str</code>). Qualitative color palettes require two hues. If more than two values are provided the first two will be used while the rest is ignored. If input <code>h</code> is a str this argument acts like the <code>palette</code> argument (see <code>palette</code> input parameter). Can also be lambda functions or a list of lambda functions which take up one single argument <code>n</code> (number of colors; see default value).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.qualitative_hcl:c">c</code><code class="argument-class">int, float</code>
@@ -580,7 +590,7 @@ Only used when converting the HCL colors to hex. Should RGB values outside the d
 <code id="colorspace.palettes.qualitative_hcl:palette">palette</code><code class="argument-class">None, str</code>
 </dt>
 <dd>
-Can be used to load a default diverging color qpalette specification. If the palette does not exist an exception will be qraised. Else the settings of the palette as defined will be used to create qthe color palette.
+Can be used to load a default diverging color qpalette specification. If the palette does not exist an exception will be raised. Else the settings of the palette as defined will be used to create qthe color palette.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.qualitative_hcl:rev">rev</code><code class="argument-class">bool</code>
@@ -592,7 +602,7 @@ Should the color map be reversed? Default <code>False</code>.
 <code id="colorspace.palettes.qualitative_hcl:**kwargs">**kwargs</code>
 </dt>
 <dd>
-Additional arguments to overwrite the h/c/l settings. TODO: has to be documented.
+See docstring ‘Overwriting palette settings’.
 </dd>
 </dl>
 </section>
@@ -649,7 +659,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="137f975e" class="cell" data-execution_count="1">
+<div id="1fc742f5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> qualitative_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -666,7 +676,7 @@ Palette Swatch Plot
  '#DD64BE']</code></pre>
 </div>
 </div>
-<div id="5ab599de" class="cell" data-execution_count="2">
+<div id="616f19b7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> qualitative_hcl(<span class="st">"Warm"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -682,7 +692,7 @@ Palette Swatch Plot
  '#E093C3']</code></pre>
 </div>
 </div>
-<div id="8ac2cb19" class="cell" data-execution_count="3">
+<div id="a779bae4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -692,7 +702,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="648aa667" class="cell" data-execution_count="4">
+<div id="4d266238" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(<span class="st">"Warm"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -708,14 +718,48 @@ Palette Swatch Plot
  '#E093C3']</code></pre>
 </div>
 </div>
+<div id="7241b283" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example where `h` is a list of two lambda functions</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hexcols</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> qualitative_hcl([<span class="kw">lambda</span> n: <span class="fl">100.</span> <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n,  </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                      <span class="kw">lambda</span> n, h1: <span class="fl">300.</span> <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n <span class="op">+</span> h1], c <span class="op">=</span> <span class="dv">30</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> hexcols(pal.colors(<span class="dv">5</span>))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#979269">#979269</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#6D9B7C">#6D9B7C</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#5D9A9F">#5D9A9F</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#898FB2">#898FB2</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#AE84A4">#AE84A4</li>
+</ul>
+</div>
+</div>
+<div id="908fd95d" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"HCL"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>polarLUV color object (5 colors)
+           H       C       L
+  1:   79.95   30.27   60.03
+      139.94   29.80   60.02
+      199.99   29.96   59.83
+      260.21   29.94   60.05
+      319.54   29.66   60.05</code></pre>
+</div>
+</div>
 </section>
 <section id="raises" class="level3">
 <h3 class="anchored" data-anchor-id="raises">Raises</h3>
 <ul class="python-raises">
 <li>
-<code class="text-warning">TypeError</code>: If <code>h</code> is not a single int or float, or a list (see next).
+<code class="text-warning">TypeError</code>: If <code>h</code> is neither str nor list of length 2.
 </li><li>
-<code class="text-warning">TypeError</code>: If <code>h</code> is a list but not all elements are of type int, float, or callable (lambda functions).
+<code class="text-warning">TypeError</code>: If <code>h</code> is list of length 2, the elements must be int, float, or lambda functions.
+</li><li>
+<code class="text-warning">ValueError</code>: If <code>c</code> and/or <code>l</code> contain unexpected values.
+</li><li>
+<code class="text-warning">ValueError</code>: If <code>h</code> is str or <code>palette</code> is set, but a pre-defined palette with this name does not exist.
 </li></ul>
 
 

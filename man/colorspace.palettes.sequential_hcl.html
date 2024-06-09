@@ -541,6 +541,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
+<p><strong>Default use:</strong> By default, <code>sequential_hcl</code> returns an object of class <code>hclpalette</code> with a sequential palette consisting of blue colors (<code>h = 260</code>) linearely decreasing in chroma (<code>c = [80, 0]</code>) and increasing in luminance (<code>l = [30, 90]</code>).</p>
+<p><strong>Pre-defined palettes:</strong> If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user.</p>
+<p><strong>Overwriting palette settings:</strong> The function allows for a high degree of flexibility. At any time the user can overwrite any of the settings. For qualitative palettes this is:</p>
+<ul>
+<li><code>h</code>: List of length 2 containing int or float. Defines lower/upper hue value. Both elements can be lambda functions, the first one with one input argument (<code>n</code>), the second with either one argument (<code>n</code>) or two arguments (<code>n</code>, <code>h1</code>).</li>
+<li><code>c</code>: Chroma (single value), can be overwritten using.</li>
+<li><code>**kwargs</code>: Allow to overwrite individual settings. Allowed are <code>h1</code>, <code>h2</code> (overwrites <code>h</code>), <code>c1</code>/<code>c2</code>/<code>cmax</code> (overwrites <code>c</code>), <code>l1</code>/<code>l2</code> (overwrites <code>l</code>), <code>p1</code>/<code>p2</code> (overwrites <code>p</code>).</li>
+</ul>
 <p>See also: <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a>, <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.divergingx_hcl.html">divergingx_hcl</a>, <a href="../man/colorspace.palettes.rainbow_hcl.html">rainbow_hcl</a>, <a href="../man/colorspace.palettes.heat_hcl.html">heat_hcl</a>, <a href="../man/colorspace.palettes.terrain_hcl.html">terrain_hcl</a>, <a href="../man/colorspace.palettes.diverging_hsv.html">diverging_hsv</a>, and <a href="../man/colorspace.palettes.rainbow.html">rainbow</a>.</p>
 </section>
 <section id="usage" class="level3">
@@ -551,7 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
 <dl class="pyp-list param-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.sequential_hcl:h">h</code><code class="argument-class">numeric</code>
+<code id="colorspace.palettes.sequential_hcl:h">h</code><code class="argument-class">float, int, list, str</code>
 </dt>
 <dd>
 Hue values (color). If only one value is given the value is recycled which yields a single-hue sequential color palette. If input <code>h</code> is a str this argument acts like the <code>palette</code> argument (see <code>palette</code> input parameter).
@@ -602,7 +610,7 @@ Currently unused.
 <code id="colorspace.palettes.sequential_hcl:**kwargs">**kwargs</code>
 </dt>
 <dd>
-Additional arguments to overwrite the h/c/l settings.
+See docstring ‘Overwriting palette settings’.
 </dd>
 </dl>
 </section>
@@ -659,7 +667,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="0076cca8" class="cell" data-execution_count="1">
+<div id="61a06b7d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> sequential_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -676,7 +684,7 @@ Palette Swatch Plot
  '#E2E2E2']</code></pre>
 </div>
 </div>
-<div id="e5602f4f" class="cell" data-execution_count="2">
+<div id="38e2d9bd" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different color palette by name</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> sequential_hcl(<span class="st">"Peach"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -693,7 +701,7 @@ Palette Swatch Plot
  '#FADDC3']</code></pre>
 </div>
 </div>
-<div id="5c3dc1cb" class="cell" data-execution_count="3">
+<div id="1199f7de" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -703,7 +711,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="b480c0c5" class="cell" data-execution_count="4">
+<div id="55231347" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sequential_hcl(<span class="st">"Peach"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
