@@ -4,14 +4,32 @@ title: "Qualitative HCL Color Palettes"
 
 ### Description
 
+**Default use:** By default, `qualitative_hcl` returns an object
+of class `hclpalette` which allows to draw a number of colors (`n`) uniformly
+distributed around the circle (`[0, 360 * (n - 1) / n]`) controlled via the
+`h` (Hue) argument. As the number of colors is not yet defined, the upper hue
+limit (`h[1]`, `h2`) is defined via lambda function.
+
+**Pre-defined palettes:** If `h` is str it will overwrite the `palette`
+argument. In this case, pre-specified palette settings will be loaded but are
+allowed to be overwritten by the user.
+
+**Overwriting palette settings:** At any time the user can overwrite any of
+the settings. For qualitative palettes this is:
+
+* `h`: List of length 2 containing int or float. Defines lower/upper
+    hue value. Both elements can be lambda functions, the first one
+    with one input argument (`n`), the second with either one argument (`n`)
+    or two arguments (`n`, `h1`).
+* `c`: Chroma (single value), can be overwritten using.
+* `**kwargs`**: Allow to overwrite individual settings.
+    `h1` overwrites `h[0]`, `h2` overwrites `h[1]`, `c1` overwrites `c`,
+    `l1` overwrites `l`.
+
 See also: [sequential_hcl](colorspace.palettes.sequential_hcl.qmd), [diverging_hcl](colorspace.palettes.diverging_hcl.qmd),
 [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),
 [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), [diverging_hsv](colorspace.palettes.diverging_hsv.qmd), and
 [rainbow](colorspace.palettes.rainbow.qmd).
-
-Argument `h` uses a list with `[0, lambda x: 360. * (n - 1.) / n]` by default
-such that the colors drawn from the palet are uniformly distributed around the
-circle (`[0., 360.]`).
 
 ### Usage
 
@@ -21,9 +39,10 @@ circle (`[0., 360.]`).
 
 <dl class="pyp-list param-list">
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.qualitative_hcl:h">h</code><code class="argument-class">int, float, list</code>
+   <code id="colorspace.palettes.qualitative_hcl:h">h</code><code class="argument-class">list, str</code>
   </dt>
- <dd>Hue values defining the 'color'. Qualitative color
+ <dd>Hue values defining the 'color' or name of pre-defined
+palette (`str`). Qualitative color
 palettes require two hues. If more than two values are provided the first
 two will be used while the rest is ignored.  If input `h` is a str this
 argument acts like the `palette` argument (see `palette` input parameter).
@@ -49,7 +68,7 @@ values outside the defined RGB color space be corrected?</dd>
   </dt>
  <dd>Can be used to load a default diverging color
 qpalette specification. If the palette does not exist an exception will be
-qraised.  Else the settings of the palette as defined will be used to create
+raised.  Else the settings of the palette as defined will be used to create
 qthe color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:rev">rev</code><code class="argument-class">bool</code>
@@ -58,7 +77,7 @@ qthe color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>Additional arguments to overwrite the h/c/l settings. TODO: has to be documented.</dd>
+ <dd>See docstring 'Overwriting palette settings'.</dd>
 </dl>
 
 ### Return
@@ -136,14 +155,37 @@ b.swatchplot(show_names = False, figsize = (5.5, 0.5));
 qualitative_hcl("Warm")(10)
 ```
 
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Example where `h` is a list of two lambda functions
+from colorspace import hexcols
+pal = qualitative_hcl([lambda n: 100. * (n - 1) / n,  
+                      lambda n, h1: 300. * (n - 1) / n + h1], c = 30)
+cols = hexcols(pal.colors(5))
+cols
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+cols.to("HCL")
+cols
+```
+
 
 
 
 ### Raises
 
 <ul class="python-raises">
-<li><code class="text-warning">TypeError</code>: If `h` is not a single int or float, or a list (see next).
-<li><code class="text-warning">TypeError</code>: If `h` is a list but not all elements are of type int, float, or 
-callable (lambda functions).
+<li><code class="text-warning">TypeError</code>: If `h` is neither str nor list of length 2.
+<li><code class="text-warning">TypeError</code>: If `h` is list of length 2, the elements must be int, float, or
+lambda functions.
+<li><code class="text-warning">ValueError</code>: If `c` and/or `l` contain unexpected values.
+<li><code class="text-warning">ValueError</code>: If `h` is str or `palette` is set, but a pre-defined palette
+with this name does not exist.
 </ul>
 

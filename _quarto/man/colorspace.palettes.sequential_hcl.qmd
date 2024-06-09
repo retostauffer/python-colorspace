@@ -4,6 +4,28 @@ title: "Sequential HCL Color Palettes"
 
 ### Description
 
+**Default use:** By default, `sequential_hcl` returns an object
+of class `hclpalette` with a sequential palette consisting of blue
+colors (`h = 260`) linearely decreasing in chroma (`c = [80, 0]`)
+and increasing in luminance (`l = [30, 90]`).
+
+**Pre-defined palettes:** If `h` is str it will overwrite the `palette`
+argument. In this case, pre-specified palette settings will be loaded but are
+allowed to be overwritten by the user.
+
+**Overwriting palette settings:** The function allows for a high degree of
+flexibility. At any time the user can overwrite any of the settings. For
+qualitative palettes this is:
+
+* `h`: List of length 2 containing int or float. Defines lower/upper
+    hue value. Both elements can be lambda functions, the first one
+    with one input argument (`n`), the second with either one argument (`n`)
+    or two arguments (`n`, `h1`).
+* `c`: Chroma (single value), can be overwritten using.
+* `**kwargs`: Allow to overwrite individual settings.
+    Allowed are `h1`, `h2` (overwrites `h`), `c1`/`c2`/`cmax` (overwrites `c`),
+    `l1`/`l2` (overwrites `l`), `p1`/`p2` (overwrites `p`).
+
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [diverging_hcl](colorspace.palettes.diverging_hcl.qmd),
 [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),
 [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), [diverging_hsv](colorspace.palettes.diverging_hsv.qmd), and
@@ -17,7 +39,7 @@ See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [diverging
 
 <dl class="pyp-list param-list">
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.sequential_hcl:h">h</code><code class="argument-class">numeric</code>
+   <code id="colorspace.palettes.sequential_hcl:h">h</code><code class="argument-class">float, int, list, str</code>
   </dt>
  <dd>Hue values (color). If only one value is given the value
 is recycled which yields a single-hue sequential color palette.  If
@@ -61,7 +83,7 @@ create the color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.sequential_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>Additional arguments to overwrite the h/c/l settings.</dd>
+ <dd>See docstring 'Overwriting palette settings'.</dd>
 </dl>
 
 ### Return
