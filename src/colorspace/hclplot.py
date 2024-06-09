@@ -203,9 +203,8 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         lran = np.max(cols.get("L")) - np.min(cols.get("L"))
 
         # Calculate linear and triangular correlation
-        from .statshelper import cor
-        llin = cor(cols.get("L"), seqn)**2
-        ltri = cor(cols.get("L"), np.abs(seqn - (len(cols) + 1) / 2))**2
+        llin = (np.corrcoef(cols.get("L"), seqn)[0][1])**2
+        ltri = (np.corrcoef(cols.get("L"), np.abs(seqn - (len(cols) + 1) / 2))[0][1])**2
 
         # Guess (inferr) which type of palette we have at hand
         if ltri > 0.75 and lran > 10:    _type = "diverging"

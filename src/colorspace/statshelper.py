@@ -16,8 +16,10 @@ def nprange(x):
     import numpy as np
     if not isinstance(x, np.ndarray):
         raise TypeError("argument `x` must be a numpy.array")
-    elif not np.issubdtype(x.dtype, np.float64) and np.issubdtype(x.dtype, np.int64):
+    elif not np.issubdtype(x.dtype, np.float64) and not np.issubdtype(x.dtype, np.int64):
         raise TypeError("argument `x` must be float or int")
+    elif not len(x) > 0 or len(x.shape) != 1:
+        raise ValueError("argument `x` must be of length > 0 and 1D")
 
     return np.asarray([np.min(x), np.max(x)])
 
@@ -26,7 +28,9 @@ def natural_cubic_spline(x, y, xout):
     """Natural Cubic Spline Interpolation
  
     Natural cubic spline interpolation. Takes two arrays `x` and `y`
-    trough which a spline is fitted and evaluated at `xout`.
+    trough which a spline is fitted and evaluated at `xout`. Performs
+    second-order (linear) extrapolation for values in `xout` outside
+    of `x`.
  
     Args:
         x (numpy.ndarray): original x data points. Must be float or int
@@ -146,26 +150,24 @@ def natural_cubic_spline(x, y, xout):
     return {"x": xout, "y": yout, "x": xout}
 
 
-# Standard deviation with N - 1
-def sd(a):
-    from numpy import sqrt, sum, mean
-    return sqrt(sum((a - mean(a))**2) / (len(a) - 1))
-
-# Custom fn for estimator of pearson correlation with N - 1
-def cor(x, y):
-    from numpy import sum, mean
-    from .statshelper import sd
-    return sum((x - mean(x)) * (y - mean(y))) / (len(x) - 1) / (sd(x) * sd(y))
-
-
-# import numpy as np
-# from colorspace.statshelper import lm
-# X = np.transpose(np.asarray([np.repeat(1, 5), [1, 2, 3, 4, 5]]))
-# y = np.asarray([10.27, 19.48 , 28.86, 39.84, 50.54])
-# print(X)
-# res = lm(y = y, X = X, Xout = X)
-# print(res)
+# Simple linear regression solver (OLS solver)
 def lm(y, X, Xout):
+    """Linear Regression
+
+    OLS solver for (simple) linear regression models.
+
+    Args:
+        y (np.ndarray): response, one-dimensional array (float).
+        X (np.ndarray): model matrix, two dimensional with observations in
+            rows (number of rows equal to length of y; float).
+        Xout (np.ndarray): Same format as `X`, the model matrix for which
+            the predictions will be calculated and returned.
+
+    Returns:
+        list: Returns a list containing the estimated regression coefficients
+        (`coef`), the standard error of the residuals (`sigma`), and the
+        predictions for `Xout` (on `Yout`; 1-d).
+    """
     import numpy as np
     assert isinstance(y, np.ndarray)
     assert isinstance(X, np.ndarray)
@@ -181,8 +183,7 @@ def lm(y, X, Xout):
     yfit = np.dot(X, coef)
 
     # Residual standard error
-    from .statshelper import sd
-    sigma = sd(y - yfit)
+    sigma = np.std(y - yfit, ddof = 1)
 
     # Prediction on Xout
     Yout = np.dot(Xout, coef)
@@ -231,21 +232,6 @@ def split(x, y):
         if y[i] == y[i - 1]:  res[len(res) - 1].append(x[i]) # Append
         else:                 res.append([x[i]]) # Add new list
     return res
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

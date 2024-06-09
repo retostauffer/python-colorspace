@@ -31,8 +31,6 @@ def test_against_R():
         n   = arg["n"]
         del arg["n"] # Not an argument for the python function itself
         # Create colors
-        ####print(" ---- ", rec["fun"])
-        ####print(arg)
         sol = fun(**arg)(n)
 
         #print("R:       "), print(rec["colors"])
