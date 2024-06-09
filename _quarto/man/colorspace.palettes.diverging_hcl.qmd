@@ -4,6 +4,14 @@ title: "Diverging HCL Color Palettes"
 
 ### Description
 
+By default, `diverging_hcl` returns an object of class `hclpalette`
+identical to the pre-defined `"Blue-Red"` palette.
+
+If `h` is str it will overwrite the `palette` argument. In this case,
+pre-specified palette settings will be loaded but are allowed to be
+overwritten by the user. At any time the user can overwrite any of
+the settings.
+
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
 [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),
 [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), [diverging_hsv](colorspace.palettes.diverging_hsv.qmd), and
@@ -65,8 +73,8 @@ color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>Additional arguments to overwrite the h/c/l settings.  @TODO has
-to be documented.</dd>
+ <dd>Additional named arguments to overwrite the palette settings.
+Allowed: `h1`, `h2`, `c1`, `l1`, `l2`, `p1`.</dd>
 </dl>
 
 ### Return

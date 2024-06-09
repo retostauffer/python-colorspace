@@ -59,8 +59,8 @@ RGB values outside the defined RGB color space be corrected?</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>Processed internally; can be used to overwrite `h1`,
-`h2`, `c1`, `l1`, `l2` and `p1`.</dd>
+ <dd>Additional named arguments to overwrite the palette settings.
+Allowed: `h1`, `h2`, `c1`, `l1`, `l2`, `p1`.</dd>
 </dl>
 
 ### Return

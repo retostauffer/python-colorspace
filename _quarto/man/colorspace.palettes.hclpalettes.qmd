@@ -1,5 +1,5 @@
 ---
-title: "Prepare Predefined HCL Palettes"
+title: "Prepare Pre-defined HCL Palettes"
 ---
 
 ### Description

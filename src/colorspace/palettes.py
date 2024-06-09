@@ -221,9 +221,10 @@ class palette:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class defaultpalette:
-    """Default color palette object. This object is not intended to be used by the
-    user itself but is used to store the pre-defined color palettes contained
-    in the package.
+    """Pre-defined HCL Color Palettes
+
+    Object for handling the pre-defined HCL-based color palettes, not intended
+    to be used by the users.
 
     Args:
         type (str): Type of palette.
@@ -423,7 +424,7 @@ class defaultpalette:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalettes:
-    """Prepare Predefined HCL Palettes
+    """Prepare Pre-defined HCL Palettes
 
     Prepares the pre-specified hclpalettes.  Reads the config files and creates
     a set of `defaultpalette` objects.
@@ -1101,27 +1102,16 @@ class hclpalette:
 class qualitative_hcl(hclpalette):
     """Qualitative HCL Color Palettes
 
-    **Default use:** By default, `qualitative_hcl` returns an object
-    of class `hclpalette` which allows to draw a number of colors (`n`) uniformly
-    distributed around the circle (`[0, 360 * (n - 1) / n]`) controlled via the
-    `h` (Hue) argument. As the number of colors is not yet defined, the upper hue
-    limit (`h[1]`, `h2`) is defined via lambda function.
+    By default, `qualitative_hcl` returns an object of class `hclpalette` which
+    allows to draw a number of colors (`n`) uniformly distributed around the
+    circle (`[0, 360 * (n - 1) / n]`) controlled via the `h` (Hue) argument. As
+    the number of colors is not yet defined, the upper hue limit (`h[1]`, `h2`)
+    is defined via lambda function.
 
-    **Pre-defined palettes:** If `h` is str it will overwrite the `palette`
-    argument. In this case, pre-specified palette settings will be loaded but are
-    allowed to be overwritten by the user.
-
-    **Overwriting palette settings:** At any time the user can overwrite any of
-    the settings. For qualitative palettes this is:
-
-    * `h`: List of length 2 containing int or float. Defines lower/upper
-        hue value. Both elements can be lambda functions, the first one
-        with one input argument (`n`), the second with either one argument (`n`)
-        or two arguments (`n`, `h1`).
-    * `c`: Chroma (single value), can be overwritten using.
-    * `**kwargs`**: Allow to overwrite individual settings.
-        `h1` overwrites `h[0]`, `h2` overwrites `h[1]`, `c1` overwrites `c`,
-        `l1` overwrites `l`.
+    If `h` is str it will overwrite the `palette` argument. In this case,
+    pre-specified palette settings will be loaded but are allowed to be
+    overwritten by the user. At any time the user can overwrite any of
+    the settings.
 
     See also: :py:class:`sequential_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -1147,7 +1137,8 @@ class qualitative_hcl(hclpalette):
             raised.  Else the settings of the palette as defined will be used to create
             qthe color palette.
         rev (bool): Should the color map be reversed? Default `False`.
-        **kwargs: See docstring 'Overwriting palette settings'.
+        **kwargs: Additional named arguments to overwrite the palette settings.
+            Allowed: `h1`, `h2`, `c1`, `l1`.
 
     Returns:
         qualitative_hcl: Initialize new object. Raises exceptions if the parameters are
@@ -1188,6 +1179,7 @@ class qualitative_hcl(hclpalette):
             with this name does not exist.
     """
 
+    _allowed_parameters = ["h1", "h2", "c1", "l1"]
     _name = "Qualitative"
 
     def __init__(self, h = [0, lambda n: 360. * (n - 1.) / n], c = 80, l = 60,
@@ -1214,9 +1206,8 @@ class qualitative_hcl(hclpalette):
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            #h     = self._checkinput_(int,   2, False, False, h = h)
-            c     = self._checkinput_(int,   1, False, False, c = c)
-            l     = self._checkinput_(int,   1, False, False, l = l)
+            c = self._checkinput_(int,   1, False, False, c = c)
+            l = self._checkinput_(int,   1, False, False, l = l)
         except Exception as e:
             raise ValueError(str(e))
 
@@ -1232,7 +1223,7 @@ class qualitative_hcl(hclpalette):
 
             # Allow to overrule few things
             for key,value in kwargs.items():
-                if key in ["h1", "c1", "l1"]: pal.set({key: value})
+                if key in _allowed_parameters: pal.set({key: value})
 
             # Extending h2 if h1 = h2 (h2 None)
             if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
@@ -1352,8 +1343,8 @@ class rainbow_hcl(qualitative_hcl):
             RGB values outside the defined RGB color space be corrected?
         rev (bool): Should the color map be reversed? Default `False`.
         *args: Currently unused.
-        **kwargs: Processed internally; can be used to overwrite `h1`,
-            `h2`, `c1`, `l1`, `l2` and `p1`.
+        **kwargs: Additional named arguments to overwrite the palette settings.
+            Allowed: `h1`, `h2`, `c1`, `l1`, `l2`, `p1`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -1440,6 +1431,14 @@ class rainbow_hcl(qualitative_hcl):
 class diverging_hcl(hclpalette):
     """Diverging HCL Color Palettes
 
+    By default, `diverging_hcl` returns an object of class `hclpalette`
+    identical to the pre-defined `"Blue-Red"` palette.
+
+    If `h` is str it will overwrite the `palette` argument. In this case,
+    pre-specified palette settings will be loaded but are allowed to be
+    overwritten by the user. At any time the user can overwrite any of
+    the settings.
+
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
     :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
@@ -1468,8 +1467,8 @@ class diverging_hcl(hclpalette):
             color palette.
         rev (bool): Should the color map be reversed.
         *args: Currently unused.
-        **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
-            to be documented.
+        **kwargs: Additional named arguments to overwrite the palette settings.
+            Allowed: `h1`, `h2`, `c1`, `l1`, `l2`, `p1`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -1667,6 +1666,14 @@ class diverging_hcl(hclpalette):
 class divergingx_hcl(hclpalette):
     """Diverging X HCL Color Palettes
 
+    More flexible version of the `diverging_hcl` class. A diverging X
+    palette basically consists of two multi-hue sequential palettes.
+
+    If `h` is str it will overwrite the `palette` argument. In this case,
+    pre-specified palette settings will be loaded but are allowed to be
+    overwritten by the user. At any time the user can overwrite any of
+    the settings.
+
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
     :py:class:`terrain_hcl`, :py:class:`diverging_hsv`, and
@@ -1703,8 +1710,9 @@ class divergingx_hcl(hclpalette):
             color palette.
         rev (bool): Should the color map be reversed.
         *args: Currently unused.
-        **kwargs: Additional arguments to overwrite the h/c/l settings.  @TODO has
-            to be documented.
+        **kwargs: Additional named arguments to overwrite the palette settings.
+            Allowed: `h1`, `h2`, `h3`, `c1`, `c2`, `c3`, `l1`, `l2`, `l3`,
+            `p1`, `p2`, `p3`, `p4`, `cmax1`, `cmax2`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -1929,27 +1937,13 @@ class divergingx_hcl(hclpalette):
 class sequential_hcl(hclpalette):
     """Sequential HCL Color Palettes
 
-    **Default use:** By default, `sequential_hcl` returns an object
-    of class `hclpalette` with a sequential palette consisting of blue
-    colors (`h = 260`) linearely decreasing in chroma (`c = [80, 0]`)
-    and increasing in luminance (`l = [30, 90]`).
+    By default, `sequential_hcl` returns an object of class `hclpalette`
+    identical to the pre-defined `"Blues 2"` palette.
 
-    **Pre-defined palettes:** If `h` is str it will overwrite the `palette`
-    argument. In this case, pre-specified palette settings will be loaded but are
-    allowed to be overwritten by the user.
-
-    **Overwriting palette settings:** The function allows for a high degree of
-    flexibility. At any time the user can overwrite any of the settings. For
-    qualitative palettes this is:
-
-    * `h`: List of length 2 containing int or float. Defines lower/upper
-        hue value. Both elements can be lambda functions, the first one
-        with one input argument (`n`), the second with either one argument (`n`)
-        or two arguments (`n`, `h1`).
-    * `c`: Chroma (single value), can be overwritten using.
-    * `**kwargs`: Allow to overwrite individual settings.
-        Allowed are `h1`, `h2` (overwrites `h`), `c1`/`c2`/`cmax` (overwrites `c`),
-        `l1`/`l2` (overwrites `l`), `p1`/`p2` (overwrites `p`).
+    If `h` is str it will overwrite the `palette` argument. In this case,
+    pre-specified palette settings will be loaded but are allowed to be
+    overwritten by the user. At any time the user can overwrite any of
+    the settings.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -1975,7 +1969,8 @@ class sequential_hcl(hclpalette):
             create the color palette.
         rev (bool): Should the color map be reversed.
         *args: Currently unused.
-        **kwargs: See docstring 'Overwriting palette settings'.
+        **kwargs: Additional named arguments to overwrite the palette settings.
+            Allowed: `h1`, `h2`, `c1`, `c2`, `cmax`, `l1`, `l2`, `p1`, `p2`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -2001,7 +1996,7 @@ class sequential_hcl(hclpalette):
     _allowed_parameters = ["h1", "h2", "c1", "c2", "cmax", "l1", "l2", "p1", "p2"]
     _name = "Sequential HCL"
 
-    def __init__(self, h = 260, c = [80, 0], l = [30, 90],
+    def __init__(self, h = 260, c = 80, l = [30, 90],
         power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
@@ -2052,7 +2047,6 @@ class sequential_hcl(hclpalette):
             settings = {}
             settings["h1"]        = h[0]
             settings["h2"]        = None if len(h) == 1 else h[1]
-            #settings["h2"]        = h[0] if len(h) == 1 else h[1]
             if len(c) == 3:
                 settings["c1"]    = c[0]
                 settings["c2"]    = c[1]
@@ -2168,6 +2162,7 @@ class heat_hcl(sequential_hcl):
         rev (bool): Should the color map be reversed.
         *args: Currently unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
+            Allowed: `h1`, `h2`, `c1`, `c2`, `l1`, `l2`, `p1`, `p2`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -2252,6 +2247,7 @@ class terrain_hcl(sequential_hcl):
         rev (bool): Should the color map be reversed.
         *args: unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
+            Allowed: `h1`, `h2`, `c1`, `c2`, `l1`, `l2`, `p1`, `p2`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -2334,6 +2330,7 @@ class diverging_hsv(hclpalette):
         rev (bool): Should the color map be reversed.
         *args: Unused.
         **kwargs: Additional arguments to overwrite the h/c/l settings.
+            Allowed: `h1`, `h2`, `s`, `v`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters

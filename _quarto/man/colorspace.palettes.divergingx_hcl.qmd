@@ -4,6 +4,14 @@ title: "Diverging X HCL Color Palettes"
 
 ### Description
 
+More flexible version of the `diverging_hcl` class. A diverging X
+palette basically consists of two multi-hue sequential palettes.
+
+If `h` is str it will overwrite the `palette` argument. In this case,
+pre-specified palette settings will be loaded but are allowed to be
+overwritten by the user. At any time the user can overwrite any of
+the settings.
+
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
 [diverging_hcl](colorspace.palettes.diverging_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),
 [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), [diverging_hsv](colorspace.palettes.diverging_hsv.qmd), and
@@ -76,8 +84,9 @@ color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.divergingx_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>Additional arguments to overwrite the h/c/l settings.  @TODO has
-to be documented.</dd>
+ <dd>Additional named arguments to overwrite the palette settings.
+Allowed: `h1`, `h2`, `h3`, `c1`, `c2`, `c3`, `l1`, `l2`, `l3`,
+`p1`, `p2`, `p3`, `p4`, `cmax1`, `cmax2`.</dd>
 </dl>
 
 ### Return

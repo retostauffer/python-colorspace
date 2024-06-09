@@ -4,27 +4,16 @@ title: "Qualitative HCL Color Palettes"
 
 ### Description
 
-**Default use:** By default, `qualitative_hcl` returns an object
-of class `hclpalette` which allows to draw a number of colors (`n`) uniformly
-distributed around the circle (`[0, 360 * (n - 1) / n]`) controlled via the
-`h` (Hue) argument. As the number of colors is not yet defined, the upper hue
-limit (`h[1]`, `h2`) is defined via lambda function.
+By default, `qualitative_hcl` returns an object of class `hclpalette` which
+allows to draw a number of colors (`n`) uniformly distributed around the
+circle (`[0, 360 * (n - 1) / n]`) controlled via the `h` (Hue) argument. As
+the number of colors is not yet defined, the upper hue limit (`h[1]`, `h2`)
+is defined via lambda function.
 
-**Pre-defined palettes:** If `h` is str it will overwrite the `palette`
-argument. In this case, pre-specified palette settings will be loaded but are
-allowed to be overwritten by the user.
-
-**Overwriting palette settings:** At any time the user can overwrite any of
-the settings. For qualitative palettes this is:
-
-* `h`: List of length 2 containing int or float. Defines lower/upper
-    hue value. Both elements can be lambda functions, the first one
-    with one input argument (`n`), the second with either one argument (`n`)
-    or two arguments (`n`, `h1`).
-* `c`: Chroma (single value), can be overwritten using.
-* `**kwargs`**: Allow to overwrite individual settings.
-    `h1` overwrites `h[0]`, `h2` overwrites `h[1]`, `c1` overwrites `c`,
-    `l1` overwrites `l`.
+If `h` is str it will overwrite the `palette` argument. In this case,
+pre-specified palette settings will be loaded but are allowed to be
+overwritten by the user. At any time the user can overwrite any of
+the settings.
 
 See also: [sequential_hcl](colorspace.palettes.sequential_hcl.qmd), [diverging_hcl](colorspace.palettes.diverging_hcl.qmd),
 [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),
@@ -77,7 +66,8 @@ qthe color palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl:**kwargs">**kwargs</code>
   </dt>
- <dd>See docstring 'Overwriting palette settings'.</dd>
+ <dd>Additional named arguments to overwrite the palette settings.
+Allowed: `h1`, `h2`, `c1`, `l1`.</dd>
 </dl>
 
 ### Return

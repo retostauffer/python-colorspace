@@ -55,7 +55,8 @@ RGB values outside the defined RGB color space be corrected?</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hsv:**kwargs">**kwargs</code>
   </dt>
- <dd>Additional arguments to overwrite the h/c/l settings.</dd>
+ <dd>Additional arguments to overwrite the h/c/l settings.
+Allowed: `h1`, `h2`, `s`, `v`.</dd>
 </dl>
 
 ### Return
