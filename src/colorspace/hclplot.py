@@ -359,8 +359,10 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
 
         # Plotting HCL space
         ax.scatter(nd[1], nd[2], color = nd_cols, s = 150)
-        ax.set_xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
-        ax.set_ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
+        ax.set_xlim(np.floor(np.min(nd[1]) / 2.5) * 2.5,
+                    np.ceil(np.max(nd[1]) / 2.5) * 2.5) # Chroma
+        ax.set_ylim(np.floor(np.min(nd[2]) / 2.5) * 2.5,
+                    np.ceil(np.max(nd[2]) / 2.5) * 2.5) # Luminance
 
         # Adding actual palette
         ax.plot(cols.get("C"), cols.get("L"), "-", color = "black", linewidth = 1,
@@ -412,9 +414,6 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         left  = left[np.where(cols.get("C")[left] > 10.)[0]]
         right = np.arange(np.floor(len(cols) / 2) - 1, len(cols)).astype(np.int8)
         right = right[np.where(cols.get("C")[right] > 10.)[0]]
-
-        # TODO(R): In _R_ 'right' is not correct I think. Includes the
-        #          last color from 'left' if n is an even number.
 
         # If the user has set h's (after sanity checks we know it is 
         # now a tuple of one or two numerics)
@@ -500,8 +499,15 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
 
         # Plotting HCL space
         ax.scatter(nd[1], nd[2], color = nd_cols, s = 150)
-        ax.set_xlim(np.min(nd[1]), np.max(nd[1])) # Chroma
-        ax.set_ylim(np.min(nd[2]), np.max(nd[2])) # Luminance
+        ax.set_xlim(np.floor(np.min(nd[1]) / 2.5) * 2.5,
+                    np.ceil(np.max(nd[1]) / 2.5) * 2.5) # Chroma
+        ax.set_ylim(np.floor(np.min(nd[2]) / 2.5) * 2.5,
+                    np.ceil(np.max(nd[2]) / 2.5) * 2.5) # Luminance
+
+        # Modify tick-labels on x-axis to always show positive value
+        xtick = ax.get_xticks()
+        ax.set_xticks(xtick)
+        ax.set_xticklabels([int(t) for t in np.abs(xtick)])
 
         # Adding actual palette
         C  = cols.get("C")
