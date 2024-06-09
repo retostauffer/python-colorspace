@@ -1269,7 +1269,12 @@ class qualitative_hcl(hclpalette):
 
         # If either h1 or h2 is a lambda function: evaluate now.
         h1 = self.get("h1")(n) if callable(self.get("h1")) else self.get("h1")
-        h2 = self.get("h2")(n) if callable(self.get("h2")) else self.get("h2")
+        if callable(self.get("h2")):
+            fn = self.get("h2")
+            # Distinguish between lambda functions with one argument (n) or two (n + h1)
+            h2 = fn(n) if fn.__code__.co_argcount == 1 else fn(n, self.get("h1"))
+        else:
+            h2 = self.get("h2")
 
         # Calculate the coordinates for our HCL color(s)
         L = repeat(self.get("l1"), n)
