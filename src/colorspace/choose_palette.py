@@ -237,6 +237,8 @@ class Slider(object):
                 fg = self.DISABLED,
                 bg = self.BGDISABLED)
         self._is_active = False
+        self._Entry.delete(0, END)
+        self._Entry.insert(0, 0)
 
     def enable(self):
         """Enable Slider
@@ -263,7 +265,6 @@ class Slider(object):
             bool: Returns `True` if the :py:class:`Slider` is active
             and `False` otherwise.
         """
-        ##return not self._Scale.config()["state"][4] == "disabled"
         return self._is_active
 
 
@@ -577,7 +578,12 @@ class gui(Tk):
         Args:
             type_ (str): The default selected palette type on GUI initialization.
         """
-        opts = self.palettes().get_palette_types()
+
+        # Removing DivergingX class of HCL palettes; not included in choose_palette
+        from re import match
+        opts = []
+        for o in self.palettes().get_palette_types():
+            if not match(r".*DivergingX", o): opts.append(o)
 
         paltypevar = StringVar(self)
         paltypevar.set(type_) # default value
@@ -602,7 +608,7 @@ class gui(Tk):
         self._palframe = self._add_palframe(args[0])
 
         # Take first palette
-        p = self.palettes().get_palettes(args[0])[0]
+        p = self.palettes().get_palettes(args[0], exact = True)[0]
 
         # Enable/disable/set sliders
         settings = p.get_settings()
@@ -784,35 +790,13 @@ class gui(Tk):
         This frame is used to take up the default palettes.
         """
 
-        ##scroll dev### if hasattr(self, "_palframe"):
-        ##scroll dev###     if not self._palframe is None: self._palframe.destroy()
-
-        ##scroll dev### frame = Frame(self)
-        ##scroll dev### frame.place(x = 10, y = 80)
-
-        ##scroll dev### # Loading palettes of currently selected palette type
-        ##scroll dev### from numpy import min
-        ##scroll dev### pals = self.palettes().get_palettes(type_) ###self.dd_type.get())
-        ##scroll dev### for child in frame.winfo_children(): child.destroy()
-
-        ##scroll dev### canvas = Canvas(frame, bg = "#ffffff",
-        ##scroll dev###               scrollregion = (0,0,2000,0),
-        ##scroll dev###               height = self.FRAMEHEIGHT, width = self.FRAMEWIDTH)
-
-        ##scroll dev### scroll = Scrollbar(frame, orient = HORIZONTAL)
-        ##scroll dev### scroll.pack(side = BOTTOM,fill = X)
-        ##scroll dev### scroll.config(command = canvas.xview)
-
-        ##scroll dev### canvas.config(xscrollcommand = scroll.set)
-        ##scroll dev### canvas.pack(fill = BOTH, expand = True)
-
         frame = Frame(self, bg = "#ffffff",
                       height = self.FRAMEHEIGHT, width = self.FRAMEWIDTH)
         frame.place(x = 10, y = 80)
 
         # Loading palettes of currently selected palette type
         from numpy import min, sum
-        pals = self.palettes().get_palettes(type_) ###self.dd_type.get())
+        pals = self.palettes().get_palettes(type_, exact = True)
         for child in frame.winfo_children(): child.destroy()
 
         # Number of palettes to be drawn (where gui = 1 in palette config)
@@ -866,31 +850,56 @@ class gui(Tk):
 
         # Manipulate params
         from re import match
-        for dim in ["h", "c", "l","p"]:
-            dim1 = "{:s}1".format(dim)
-            dim2 = "{:s}2".format(dim)
-            dim3 = "{:s}max".format(dim)
-            dim = "power" if dim == "p" else dim
-            # Boolean vector
-            check = [dim1 in params.keys(), dim2 in params.keys(), dim3 in params.keys()]
-            if check[0] and check[1] and check[2]:
-                params[dim] = [params[dim1], params[dim2], params[dim3]]
-                del params[dim1]; del params[dim2]; del params[dim3]
-            elif check[0] and check[2]:
+        for dim in ["h", "c", "l", "p"]:
+
+            # Generate "h1", "h2", "hmax" (if dim = h)
+            # to check if these are available parameters.
+            dim1 = f"{dim}1"
+            dim2 = f"{dim}2"
+            dim3 = f"{dim}max"
+            dim  = "power" if dim == "p" else dim
+
+            # Small helper function to check if e.g., "c1", "c2", "cmax"
+            # are parameters in the params dict. Scopes 'dim' (loop variable)
+            # and 'params' (the parameters for this palette).
+            def phas(x):
+                return f"{dim}{str(x)}" in params.keys()
+
+            # Similar to the 'phas' method but will return the 
+            # actual value. Will throw an error if it does not exist (that means
+            # you have not properly checked if has(x)!
+            def pget(x):
+                x = f"{dim}{str(x)}"
+                assert x in params.keys(), Exception(f"get(\"{str(x)}\"): None or not existing")
+                return params[x]
+
+            # Similar to the two functions above.
+            # Will delete an element from 'params', again scoping.
+            def pdel(x):
+                del params[f"{dim}{str(x)}"]
+
+            # All three available? That must be c1, c2, cmax.
+            # Get it in the order [c1, cmax, c2] as the hcl palette function requires it.
+            if phas(1) and phas(2) and phas("max"):
+                params[dim] = [pget(x) for x in ["1", "max", "2"]]
+            # If has 1 and 2: [c1, c2]
+            elif phas(1) and phas("max"):
                 # Diverging chemes: only [c1, cmax] allowed, for
-                # others [c1, c2, cmax] (sequential)
+                # others [c1, cmax] (sequential)
                 if match(".*[Dd]iverging.*", self._Dropdown.get()) and dim == "c":
-                    params[dim] = [params[dim1], params[dim3]]
+                    params[dim] = [pget(x) for x in ["1", "max"]]
                 else:
-                    params[dim] = [params[dim1], params[dim1], params[dim3]]
-                del params[dim1]; del params[dim3]
-            elif check[0] and check[1]:
-                params[dim] = [params[dim1], params[dim2]]
-                del params[dim1]
-                del params[dim2]
-            elif check[0]:
-                params[dim] = params[dim1]
-                del params[dim1]
+                    params[dim] = [pget(1), 0., pget("max")]
+            # If has 1 and 2: [c1, c2]
+            elif phas(1) and phas(2):
+                params[dim] = [pget(x) for x in ["1", "2"]]
+            # If has 1: [c1]
+            elif phas(1):
+                params[dim] = pget(1)
+
+            # Remove the individual parameters from 'params'
+            for x in ["1", "2", "max"]:
+                if phas(x): pdel(x)
 
         for elem in self.sliders():
             if elem.name() == "n":
@@ -907,7 +916,7 @@ class gui(Tk):
         # Craw colors from current color map
         from . import palettes
         type_    = self._Dropdown.get()
-        colorfun = self.palettes().get_palettes(type_)[0].method()
+        colorfun = self.palettes().get_palettes(type_, exact = True)[0].method()
         fun      = getattr(palettes, colorfun)
 
         # Return colors
@@ -938,7 +947,7 @@ class gui(Tk):
             :py:class:`palettes.sequential_hcl`.
         """
         type_    = self._Dropdown.get()
-        colorfun = self.palettes().get_palettes(type_)[0].method()
+        colorfun = self.palettes().get_palettes(type_, exact = True)[0].method()
         return colorfun
 
 

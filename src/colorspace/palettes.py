@@ -338,6 +338,7 @@ class defaultpalette:
             Returns `None` if the parameter `what` cannot be found,
             else the value of the parameter `what` is returned.
         """
+        print(self._settings_)
         if what in self._settings_.keys():
             return self._settings_[what]
         else:
@@ -537,7 +538,7 @@ class hclpalettes:
 
         return list(self._palettes_.keys())
 
-    def get_palettes(self, type_ = None):
+    def get_palettes(self, type_ = None, exact = False):
         """Get Type-Specific Palettes
 
         Get all palettes of a specific type.
@@ -547,29 +548,45 @@ class hclpalettes:
                 String matching is used; partial matches are allowed.
                 If set to `None` (default) all palettes will be returned. Names
                 have to match but are not case sensitive, defaults to None.
+            exact (bool): If `False` (default) partial matching is used. If `True`,
+                `type_` must be an exact match (case sensitive).
 
         Returns:
             Returns a `list` containing `defaultpalette` objects objects.
-        """
-        if not isinstance(type_, str) and not type_ is None:
-            raise ValueError(f"argument `type_` to {self.__class__.__name__} has to be None or str")
 
+        Raises:
+            TypeError: If `type_` is not str or None.
+            TypeError: If `exact` is not bool.
+            ValueError: If no matching palette is found.
+        """
+        if not isinstance(type_, (str, type(None))):
+            raise TypeError("argument `type_` must be str or None")
+        if not isinstance(exact, bool):
+            raise TypeError("argument `exact` must be bool.")
+
+        # Return all available palettes
         if not type_:
             res = []
             for key,pals in self._palettes_.items(): res += pals
 
-        # Else return palette if available
+        # Else find matching palettes (given type_). Either exact matches or
+        # partial matches depending on `exact`.
         else:
-            found = None
+            from re import compile, IGNORECASE
+            if not exact:
+                pattern = compile(f".*?{type_}.*?", IGNORECASE)
+            else:
+                pattern = compile(f"^{type_}$")
+
+            # Searching trough available palettes
             res = []
             for t in self._palettes_.keys():
-                if type_.upper() in t.upper():
-                    found = t
+                if pattern.match(t):
                     res += self._palettes_[t]
-            if not found:
-                raise ValueError(f"no palettes for type \"{type}\"")
-            else:
-                type_ = found
+
+            # No palettes found? Raise ValueError
+            if len(res) == 0:
+                raise ValueError(f"no palettes for type \"{type_}\" ({'exact ' if exact else ''}match)")
 
         # Else return list with palettes
         return res
@@ -1079,16 +1096,20 @@ class hclpalette:
 
         def _triangle_trajectory(i, j, c1, c2, cmax):
             from numpy import where, abs, linspace
-            return where(i <= j,
-                         c2 - (c2 - cmax) * i / j,
-                         cmax - (cmax - c1) * abs((i - j) / (1 - j)))
+            print(" ---------- reto reto reto ------------ ")
+            print({"c1": c1, "c2": c2, "cmax": cmax, "j": j})
+            res = where(i <= j,
+                        c2 - (c2 - cmax) * i / j,
+                        cmax - (cmax - c1) * abs((i - j) / (1 - j)))
+            #print(res)
+            return res
 
         if cmax is None:
             C = _linear_trajectory(i**p1, c1, c2)
         else:
             # Calculate the position of the triangle point
             j = 1. / (1. + abs(cmax - c1) / abs(cmax - c2))
-            if not j is None and (j < 0 or j > 1): j = None
+            if not j is None and (j <= 0. or j >= 1.): j = None
 
             if j is None:  C = _linear_trajectory(i**p1, c1, c2)
             else:          C = _triangle_trajectory(i**p1, j, c1, c2, cmax)
@@ -2049,8 +2070,8 @@ class sequential_hcl(hclpalette):
             settings["h2"]        = None if len(h) == 1 else h[1]
             if len(c) == 3:
                 settings["c1"]    = c[0]
-                settings["c2"]    = c[1]
-                settings["cmax"]  = c[2]
+                settings["cmax"]  = c[1]
+                settings["c2"]    = c[2]
             elif len(c) == 2:
                 settings["c1"]    = c[0]
                 settings["c2"]    = c[1]
@@ -2120,6 +2141,7 @@ class sequential_hcl(hclpalette):
 
         # Calculate the trajectory for the chroma dimension
         i = linspace(1., 0., n)
+        print(f" [.colors()] >> {c1=} {c2=} {cmax=}")
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
 
         # Create new HCL color object
