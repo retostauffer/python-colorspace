@@ -207,17 +207,20 @@ def test_convert_hex_to_polarLUV_to_hex():
     x = deepcopy(colors_to_test); x.to("polarLUV"); x.to("hex")
     # Compare resulting hex colors
     assert compare_colors(colors_to_test, x)
+
 def test_convert_hex_to_polarLAB_to_hex():
     # Make a copy; convert hex -> polarLAB -> hex
     x = deepcopy(colors_to_test); x.to("polarLAB"); x.to("hex")
     # Compare resulting hex colors
     assert compare_colors(colors_to_test, x)
+
 def test_convert_hex_to_HSV_to_hex():
     # Make a copy; convert hex -> HSV -> hex
     x = deepcopy(colors_to_test); x.to("HSV"); x.to("hex")
     # Compare resulting hex colors
     assert compare_colors(colors_to_test, x)
-def test_convert_hex_to_HSV_to_hex():
+
+def test_convert_hex_to_HLS_to_hex():
     # Make a copy; convert hex -> HLS -> hex
     x = deepcopy(colors_to_test); x.to("HLS"); x.to("hex")
     # Compare resulting hex colors

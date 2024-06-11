@@ -88,6 +88,14 @@ def test_spline_return():
     er = [8.586280, 7.543140, 6.500000, 5.500000,
           5.000000, 5.979726, 7.720427, 9.065282, 9.912957]
     assert all(np.abs(res["y"] - er) < 1e-5)
+    del res
+
+    # If x/y are of length one, the estimate for yout should always
+    # be equal to y for each element of xout.
+    xout = np.arange(-1, 5)
+    res = ncs(x = np.ones(1), y = np.asarray([5.5]), xout = xout)
+    assert np.array_equal(res["x"], xout)
+    assert np.array_equal(res["y"], np.repeat(5.5, len(xout)))
 
 
 
