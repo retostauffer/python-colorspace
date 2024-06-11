@@ -3,7 +3,7 @@
 colorspace.egg-info
 __pycache__
 /dist
-/coverage
+/htmlcov
 
 # Test files and folders
 /test*

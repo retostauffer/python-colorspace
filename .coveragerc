@@ -1,3 +1,12 @@
 [run]
-
 source = "colorspace"
+
+omit =
+    # Exclude choose_palette from coverage
+    src/colorspace/choose_palette.py
+    # Excluding cvd_emulator (image manipulator)
+    src/colorspace/cvd_emulator.py
+
+[report]
+exclude_also =
+    def _repr_html_
