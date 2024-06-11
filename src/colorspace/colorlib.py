@@ -1395,7 +1395,7 @@ class colorobject:
 
         # Sorting the dimensions
         from re import match
-        if   match("^(hex\_|alpha){1,2}$",  "".join(dims)): dims = ["hex_"]
+        if   match("^(hex_|alpha){1,2}$",  "".join(dims)): dims = ["hex_"]
         elif match("^(R|G|B|alpha){3,4}$", "".join(dims)): dims = ["R", "G", "B"]
         elif match("^(L|A|B|alpha){3,4}$", "".join(dims)): dims = ["L", "A", "B"]
         elif match("^(L|U|V|alpha){3,4}$", "".join(dims)): dims = ["L", "U", "V"]
@@ -3143,10 +3143,10 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
             will be a list of bool containing `True` and `False` for each
             pair of colors.
         atol (None or float): Absolute tolerance for the distance measure
-            between two colors to be considered as nearly equal. Only used if
-            `exact = False`, else `atol = 1e-6` is used.  If set to `None`
-            the tolerance will automatically be set depending on the type of the
-            objects. Defaults to None.
+            between two colors to be considered as nearly equal (must be > 0 if set).
+            Only used if `exact = False`, else `atol = 1e-6` is used.  If set
+            to `None` the tolerance will automatically be set depending on the
+            type of the objects. Defaults to None.
 
 
     Returns:
@@ -3197,8 +3197,9 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
         TypeError: If `a` and `b` are not of the same class.
         ValueError: If `a` and `b` are not of the same length, i.e., do not contain
             the same number of colors.
-        ValueError: If `exact` or `_all` are not bool.
-        ValueError: If `atol` is neither `None` nor float.
+        TypeError: If `exact` or `_all` are not bool.
+        TypeError: If `atol` is neither `None` nor float.
+        ValueError: If `atol` is not larger than 0.
     """
 
     from numpy import sqrt, isclose
@@ -3217,6 +3218,8 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
         raise TypeError("argument `_all` must be bool")
     if not isinstance(atol, float) and not isinstance(atol, type(None)):
         raise TypeError("argument `atol` must be float or None")
+    if atol is not None and atol <= 0:
+        raise ValueError("argument `atol` must be > 0.")
 
     if exact: atol = 1e-6
 

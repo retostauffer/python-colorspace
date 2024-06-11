@@ -793,6 +793,29 @@ class hclpalette:
         swatchplot(self.colors(n), **kwargs)
 
 
+    def hclplot(self, n = 7, **kwargs):
+        """Palette Plot in HCL Space
+
+        Internally calls :py:func:`hclplot <colorspace.hclplot.hclplot>`,
+        additional arguments to this main function can be forwarded via the
+        `**kwargs` argument.
+
+        Args:
+            n (int): Number of colors, defaults to 7.
+            **kwargs: Additional named arguments forwarded to
+                :py:func:`hclplot <colorspace.hclplot.hclplot>`.
+
+        Example:
+
+            >>> from colorspace import diverging_hcl
+            >>> pal = diverging_hcl()
+            >>> pal.hclplot()
+            >>> pal.hclplot(n = 11)
+        """
+
+        from .hclplot import hclplot
+        hclplot(x = self.colors(n), **kwargs)
+
     def name(self):
         """Get Palette Name
 

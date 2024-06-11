@@ -4,6 +4,7 @@ import pytest
 import colorspace
 import matplotlib
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 
@@ -129,20 +130,37 @@ def test_hclpalettes_get_palette():
     pal      = pals.get_palette(pal_name)
     assert isinstance(pal, colorspace.palettes.defaultpalette)
     assert isinstance(pal.name(), str)
+
 def test_hclpalettes_get_palette_invalid_name():
     pals  = colorspace.palettes.hclpalettes()
     with pytest.raises(ValueError):
         pals.get_palette("this_is_a_test_foo_bar")
 
+# --------------------------------------------
+# Plotting ..
+# --------------------------------------------
+# Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.mpl_image_compare
+def test_colorlib_specplot_method():
+    cols = colorspace.diverging_hcl()
+    cols.specplot()
+    plt.close()
+    cols.specplot(n = 15)
+    plt.close()
 
+@pytest.mark.mpl_image_compare
+def test_colorlib_swatchplot_method():
+    cols = colorspace.diverging_hcl()
+    cols.swatchplot()
+    plt.close()
+    cols.swatchplot(n = 15)
+    plt.close()
 
+@pytest.mark.mpl_image_compare
+def test_colorlib_hclplot_method():
+    cols = colorspace.diverging_hcl()
+    cols.hclplot()
+    plt.close()
+    cols.hclplot(n = 15)
+    plt.close()
 
-
-
-
-
-
-
-# ------------------------------------------
-# ------------------------------------------
-# types = ["diverging", "sequential", "qualitative", "heat", "rainbow", "terrain"]

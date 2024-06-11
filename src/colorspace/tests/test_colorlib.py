@@ -53,6 +53,26 @@ def test_hexcols_repr_alpha():
 
 # Compare hexcols objects
 def test_compare_colors_hex():
+
+    a = hexcols("#ff0000")
+    b = hexcols("#FF0000")
+    c = hexcols("#FF0000")
+    c.to("HCL")
+    d = hexcols(["#FF0000", "red"])
+
+    # a, b no color objects
+    raises(TypeError, compare_colors, a = "#00ff00", b = b)
+    raises(TypeError, compare_colors, a = a, b = "#ff00ff")
+    raises(TypeError, compare_colors, a = a, b = c) # types differ
+    raises(ValueError, compare_colors, a = a, b = d) # length differ
+
+    # Additional args
+    raises(TypeError, compare_colors, a = a, b = b, exact = 1) # exact wrong type
+    raises(TypeError, compare_colors, a = a, b = b, _all = 1) # _all wrong type
+    raises(TypeError, compare_colors, a = a, b = b, atol = "foo") # atol wrong type
+    raises(ValueError, compare_colors, a = a, b = b, atol = 0.) # Must be > 0
+
+
     assert compare_colors(hexcols("#ff0000"), hexcols("#FF0000"))
     assert compare_colors(colors_to_test,     colors_to_test)
 
