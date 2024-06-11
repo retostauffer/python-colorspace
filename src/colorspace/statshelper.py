@@ -45,20 +45,32 @@ def natural_cubic_spline(x, y, xout):
         and `y` with the interpolated values evaluated at `x` (`xout`).
  
     Examples:
-    >>> from colorspace.statshelper import natural_cubic_spline
-    >>> import numpy as np
-    >>> x = np.arange(10, 20.1, 0.5)
-    >>> y = np.sin((x - 3) / 2)
-    >>> xout = np.arange(0, 40, 0.2)
-    >>> 
-    >>> res = natural_cubic_spline(x, y, xout)
-    >>>
-    >>> from matplotlib import pyplot as plt
-    >>> plt.figure()
-    >>> plt.plot(x, y, "o", label = "data points")
-    >>> plt.plot(res["x"], res["y"], label = "cubic spline", color = "orange")
-    >>> plt.legend()
-    >>> plt.show()
+        >>> from colorspace.statshelper import natural_cubic_spline
+        >>> import numpy as np
+        >>> x = np.arange(10, 20.1, 0.5)
+        >>> y = np.sin((x - 3) / 2)
+        >>> xout = np.arange(0, 40, 0.2)
+        >>> 
+        >>> res = natural_cubic_spline(x, y, xout)
+        >>>
+        >>> from matplotlib import pyplot as plt
+        >>> plt.figure()
+        >>> plt.plot(x, y, "o", label = "data points")
+        >>> plt.plot(res["x"], res["y"], label = "cubic spline", color = "orange")
+        >>> plt.legend()
+        >>> plt.show()
+        >>>
+        >>> #: Example used for tests
+        >>> x = np.asarray([1, 2, 3, 5.5, 6.5])
+        >>> y = np.asarray([6.5, 5.5, 5., 8.5, 9.5])
+        >>> xout = np.arange(-3, 9, 0.01)
+        >>> 
+        >>> from colorspace.statshelper import natural_cubic_spline as ncs
+        >>> res = ncs(x = x, y = y, xout = xout)
+        >>> f = plt.figure()
+        >>> plt.plot(res["x"], res["y"])
+        >>> plt.show()
+
     """
     import numpy as np
 
@@ -80,7 +92,7 @@ def natural_cubic_spline(x, y, xout):
     if not check(y):
         raise TypeError("argument `y` must be np.float or np.integer")
     if not check(xout):
-        raise TxoutpeError("argument `xout` must be np.float or np.integer")
+        raise TypeError("argument `xout` must be np.float or np.integer")
     if len(xout) == 0:
         raise ValueError("array on `xout` must be of length > 0")
     
@@ -110,24 +122,16 @@ def natural_cubic_spline(x, y, xout):
         A[i, i - 1] = h[i-1]
         A[i, i]     = 2 * (h[i - 1] + h[i])
         A[i, i + 1] = h[i]
-        b[i]        = 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i-1]) / h[i-1])
+        b[i]        = 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1])
 
     c = np.linalg.solve(A, b)
 
     # Step 4: Calculate b and d
-    b = np.zeros(n)
-    d = np.zeros(n)
-    for i in range(n):
-        b[i] = (y[i + 1] - y[i]) / h[i] - h[i] * (c[i + 1] + 2 * c[i]) / 3
-        d[i] = (c[i + 1] - c[i]) / (3 * h[i])
+    b = (y[1:] - y[:-1]) / h - h * (2 * c[:-1] + c[1:]) / 3
+    d = (c[1:] - c[:-1]) / (3 * h)
 
     # Organize coefficients
-    coef = np.zeros((n, 4))
-    for i in range(n):
-        coef[i, 0] = a[i]
-        coef[i, 1] = b[i]
-        coef[i, 2] = c[i]
-        coef[i, 3] = d[i]
+    coef = np.transpose([a, b, c[:-1], d])
 
     # Prediction/evaluation
     yout = np.zeros_like(xout)
@@ -135,11 +139,14 @@ def natural_cubic_spline(x, y, xout):
     for j in range(len(xout)):
         # Extrapolation left hand side (linear)
         if xout[j] < np.min(x):
-            yout[j] = y[0] - coef[0, 1] * (np.min(x) - xout[j])
+            dx = np.min(x) - xout[j]
+            yout[j] = y[0] - coef[0, 1] * dx - coef[0, 2] * dx
         # Extrapolation right hand side (linear)
         elif xout[j] > np.max(x):
+            # Coef should be 0.8259146
             k = coef.shape[0] - 1
-            yout[j] = y[-1] + coef[k, 1] * (xout[j] - np.max(x))
+            dx = xout[j] - np.max(x)
+            yout[j] = y[-1] + coef[k, 1] * dx + coef[k, 2] * dx
         # Else interpolate btw. two neighboring points
         else:
             for i in range(n):
@@ -167,14 +174,49 @@ def lm(y, X, Xout):
         list: Returns a list containing the estimated regression coefficients
         (`coef`), the standard error of the residuals (`sigma`), and the
         predictions for `Xout` (on `Yout`; 1-d).
+
+    Example:
+        >>> # Example from Rs stats::lm man page + additional linear effect.
+        >>> # Annette Dobson (1990) "An Introduction to Generalized Linear Models". 
+        >>> # Page 9: Plant Weight Data. 
+        >>> weight = np.asarray([4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14,
+        >>>                      4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69])
+        >>> 
+        >>> # Dummy variable for 'Treatment group' 
+        >>> trt = np.repeat([0., 1.], 10)
+        >>> 
+        >>> # Alternating +/-0.1 'noise'
+        >>> rand = np.repeat(-0.1, 20)
+        >>> rand[::2] = +0.1
+        >>> rand   = weight / 2 + rand
+        >>> 
+        >>> # Create model matrix
+        >>> from colorspace.statshelper import lm
+        >>> X = np.transpose([np.repeat(1., 20), rand, trt])        
+        >>> mod = lm(y = weight, X = X, Xout = X)
+        >>> print(mod)
+
+    Raises:
+        TypeError: If `y`, `X`, `Xout` are not numpy.ndarrays.
+        ValueError: If `X` or `Xout` are not two-dimensional.
+        ValueError: If length `y` does not match first dimension of `X`.
+        ValueError: If second dimension of `X` and `Xout` mismatch.
     """
     import numpy as np
-    assert isinstance(y, np.ndarray)
-    assert isinstance(X, np.ndarray)
-    assert len(X.shape) == 2 and len(Xout.shape) == 2
-    assert isinstance(Xout, np.ndarray)
-    assert len(y) == X.shape[0]
-    assert X.shape[1] == Xout.shape[1]
+    if not isinstance(y, np.ndarray):
+        raise TypeError("argument `y` must be numpy.ndarray")
+    if not isinstance(X, np.ndarray):
+        raise TypeError("argument `X` must be numpy.ndarray")
+    if not isinstance(Xout, np.ndarray):
+        raise TypeError("argument `Xout` must be numpy.ndarray")
+
+    # Shape
+    if not len(X.shape) == 2 or not len(Xout.shape) == 2:
+        raise ValueError("both `X` and `Xout` must be two-dimensional")
+    if not len(y) == X.shape[0]:
+        raise ValueError("length of `y` does not match first dimension of `X`")
+    if not X.shape[1] == Xout.shape[1]:
+        raise ValueError("second dimension of `X` and `Xout` do not match")
 
     # Solving
     coef = np.linalg.lstsq(X, y, rcond=None)[0]
@@ -183,7 +225,7 @@ def lm(y, X, Xout):
     yfit = np.dot(X, coef)
 
     # Residual standard error
-    sigma = np.std(y - yfit, ddof = 1)
+    sigma = np.std(y - yfit, ddof = len(coef))
 
     # Prediction on Xout
     Yout = np.dot(Xout, coef)
