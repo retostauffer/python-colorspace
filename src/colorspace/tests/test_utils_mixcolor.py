@@ -20,6 +20,23 @@ def test_mixcolor_wrong_usage():
     # where not among the allowed types
     raises(ValueError, mixcolor, alpha = 0.5, color1 = c1, color2 = c2, where = "foo")
 
+    # object 'color1' cannot be converted to a hexcolor object.
+    # Using the 'min' function for this test.
+    raises(Exception, mixcolor, alpha = 0.5, color1 = min, color2 = c2,  where = "sRGB")
+    raises(Exception, mixcolor, alpha = 0.5, color1 = c1,  color2 = min, where = "sRGB")
+
+
+# Recycling shorter object (color1)
+def test_mixcolor_recycling_color1():
+    res = mixcolor(0.5, ["#FF00FF", "#FF0000"], "#00FF00", "sRGB")
+    assert isinstance(res, sRGB)
+    assert len(res) == 2
+
+# Recycling shorter object (color2)
+def test_mixcolor_recycling_color2():
+    res = mixcolor(0.5, "#FF00FF", ["#FF0000", "#00FF00"], "sRGB")
+    assert isinstance(res, sRGB)
+    assert len(res) == 2
 
 # Via sRGB, mimiking R's example
 def test_mixcolor_sRGB_in_sRGB():

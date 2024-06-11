@@ -1,5 +1,5 @@
 
-from colorspace import check_hex_colors
+from colorspace import check_hex_colors, hexcols
 import numpy as np
 
 from pytest import raises
@@ -33,6 +33,8 @@ def test_wrong_usage():
     # Should raise a ValueError
     raises(ValueError, check_hex_colors, "#F0F33")
 
+    # Invalid hex col
+    raises(ValueError, check_hex_colors, ["red", "#00ff00", "foo"])
 
 def test_return_value():
 
@@ -61,6 +63,12 @@ def test_return_value():
     assert len(x4) == len(x5) == 4
     assert np.all([len(x) == 7 for x in x4])
     assert np.all([len(x) == 7 for x in x5])
+
+    # Using colorobject as input
+    res = check_hex_colors(hexcols(["red", "blue"]))
+    assert isinstance(res, list)
+    assert len(res) == 2
+    assert res[0] == "#FF0000" and res[1] == "#0000FF"
 
 
 def test_matplotlib_to_hex():
