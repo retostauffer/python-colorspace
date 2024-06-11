@@ -99,7 +99,7 @@ def test_hclpalettes_get_palettes_invalid_type_name():
         colorspace.palettes.hclpalettes().get_palettes("foo")
 
 def test_hclpalettes_get_palettes_invalid_type_type():
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         colorspace.palettes.hclpalettes().get_palettes(123)
 
 def test_hclpalettes_get_palettes_type_none():

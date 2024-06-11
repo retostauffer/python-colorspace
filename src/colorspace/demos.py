@@ -110,7 +110,10 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
 
     # Calling the required plotting function
     fun = getattr(demos, fun)
-    return fun(colors, ax = ax, **kwargs)
+    if ax is None:
+        return fun(colors, **kwargs)
+    else:
+        return fun(colors, ax = ax, **kwargs)
 
 
 def _demoplot_set_labels(ax, **kwargs):

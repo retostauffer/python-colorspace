@@ -58,10 +58,8 @@ test:
 	pytest -s
 
 cov:
-	(cd colorspace && \
-		coverage run --source colorspace -m pytest && \
-		coverage html --directory=../coverage)
-		##chromium-browser htmlcov/index.html)
+	(pytest --cov=src/colorspace --cov-report html && \
+		firefox htmlcov/index.html)
 
 .PHONY: clean
 clean:

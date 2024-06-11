@@ -572,11 +572,11 @@ class hclpalettes:
         # Else find matching palettes (given type_). Either exact matches or
         # partial matches depending on `exact`.
         else:
-            from re import compile, IGNORECASE
+            from re import compile, IGNORECASE, escape
             if not exact:
-                pattern = compile(f".*?{type_}.*?", IGNORECASE)
+                pattern = compile(f".*?{escape(type_)}.*?", IGNORECASE)
             else:
-                pattern = compile(f"^{type_}$")
+                pattern = compile(f"^{escape(type_)}$")
 
             # Searching trough available palettes
             res = []
@@ -586,7 +586,7 @@ class hclpalettes:
 
             # No palettes found? Raise ValueError
             if len(res) == 0:
-                raise ValueError(f"no palettes for type \"{type_}\" ({'exact ' if exact else ''}match)")
+                raise ValueError(f"no palettes for type \"{type_}\" ({'exact' if exact else 'partial'} match)")
 
         # Else return list with palettes
         return res

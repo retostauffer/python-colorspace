@@ -1,5 +1,6 @@
 pytest
 pytest-mpl
+pytest-cov
 coverage
 docutils
 ipython
