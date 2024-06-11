@@ -338,7 +338,6 @@ class defaultpalette:
             Returns `None` if the parameter `what` cannot be found,
             else the value of the parameter `what` is returned.
         """
-        print(self._settings_)
         if what in self._settings_.keys():
             return self._settings_[what]
         else:
@@ -1096,8 +1095,6 @@ class hclpalette:
 
         def _triangle_trajectory(i, j, c1, c2, cmax):
             from numpy import where, abs, linspace
-            print(" ---------- reto reto reto ------------ ")
-            print({"c1": c1, "c2": c2, "cmax": cmax, "j": j})
             res = where(i <= j,
                         c2 - (c2 - cmax) * i / j,
                         cmax - (cmax - c1) * abs((i - j) / (1 - j)))
@@ -2072,9 +2069,12 @@ class sequential_hcl(hclpalette):
                 settings["c1"]    = c[0]
                 settings["cmax"]  = c[1]
                 settings["c2"]    = c[2]
-            elif len(c) == 2:
+            elif len(c) == 2 and settings["h2"] is not None:
                 settings["c1"]    = c[0]
                 settings["c2"]    = c[1]
+            elif len(c) == 2:
+                settings["c1"]    = c[0]
+                settings["cmax"]  = c[1]
             else:
                 settings["c1"]    = c[0]
                 settings["c2"]    = 0
@@ -2141,7 +2141,6 @@ class sequential_hcl(hclpalette):
 
         # Calculate the trajectory for the chroma dimension
         i = linspace(1., 0., n)
-        print(f" [.colors()] >> {c1=} {c2=} {cmax=}")
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
 
         # Create new HCL color object

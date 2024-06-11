@@ -323,6 +323,17 @@ class defaultpalettecanvas(object):
 
         # Loading settings of the current palette
         settings = pal.get_settings()
+
+        # For some palettes, elements can be lambda functions (mainly h1, h2).
+        # Run over all settings and execute the function. For that, we need n
+        for k,v in settings.items():
+            if callable(v):
+                if v.__code__.co_argcount == 1:
+                    settings[k] = v(7)
+                else:
+                    settings[k] = v(7, settings["h1"])
+
+        # Setting sliders
         for elem in sliders:
             # Setting value, enables the slider
             if elem.name() == "n":
@@ -612,6 +623,23 @@ class gui(Tk):
 
         # Enable/disable/set sliders
         settings = p.get_settings()
+        
+        n = 7
+        for elem in self.sliders():
+            if elem.name() == "n":
+                n = elem.get()
+                break
+
+        # For some palettes, elements can be lambda functions (mainly h1, h2).
+        # Run over all settings and execute the function.
+        for k,v in settings.items():
+            if callable(v):
+                if v.__code__.co_argcount == 1:
+                    settings[k] = v(n)
+                else:
+                    settings[k] = v(n, settings["h1"])
+
+        # Setting up slider
         for elem in self.sliders():
             # Setting value, enables slider
             if elem.name() == "n":
@@ -889,7 +917,7 @@ class gui(Tk):
                 if match(".*[Dd]iverging.*", self._Dropdown.get()) and dim == "c":
                     params[dim] = [pget(x) for x in ["1", "max"]]
                 else:
-                    params[dim] = [pget(1), 0., pget("max")]
+                    params[dim] = [pget(1), pget("max")]
             # If has 1 and 2: [c1, c2]
             elif phas(1) and phas(2):
                 params[dim] = [pget(x) for x in ["1", "2"]]

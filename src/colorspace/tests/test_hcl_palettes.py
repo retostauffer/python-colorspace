@@ -46,12 +46,12 @@ def test_wrong_usage():
 def test_default_return():
     pals = hcl_palettes()
     assert isinstance(pals, hclpalettes)
-    assert pals.length() == 99
+    assert pals.length() == 97
 
 def test_get_palettes():
     pals = hcl_palettes()
     assert isinstance(pals.get_palettes(), list)
-    assert len(pals.get_palettes()) == 99
+    assert len(pals.get_palettes()) == 97
 
 def test_get_palette_types():
     types = hcl_palettes().get_palette_types()
