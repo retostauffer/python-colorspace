@@ -149,12 +149,12 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
     if not isinstance(_type, (type(None), str)):
         raise TypeError("argument `_type` must be None or str")
 
-    if not isinstance(c, (int, float, type(None))):
+    if not isinstance(c, (int, float, type(None))) or isinstance(c, bool):
         raise TypeError("argument `c` must be None, int, or float")
     elif c is not None and c <= 0:
         raise ValueError("argument `c` must be positive if set")
 
-    if not isinstance(l, (int, float, type(None))):
+    if not isinstance(l, (int, float, type(None))) or isinstance(l, bool):
         raise TypeError("argument `l` must be None, int, or float")
     elif l is not None and l <= 0:
         raise ValueError("argument `l` must be positive if set")
@@ -166,7 +166,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         _type = _type.lower()
 
     # Testin 'h' which is a bit more complex
-    if not isinstance(h, (int, float, type(None), tuple)):
+    if not isinstance(h, (int, float, type(None), tuple)) or isinstance(h, bool):
         raise TypeError("argument `h` must be None, int, or float, or tuple")
     # If int/float: Convert to tuple for easier handling later on.
     elif isinstance(h, (int, float)):
@@ -178,13 +178,13 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         if len(h) < 1 or len(h) > 2:
             raise ValueError(f"h (if set) must be of length 1 or two, got {len(h)}")
         for tmp in h:
-            if not isinstance(tmp, (int, float)):
+            if not isinstance(tmp, (int, float)) or isinstance(tmp, bool):
                 raise TypeError("elements in `h` (tuple) must be int or float")
             elif tmp < -360. or tmp > 360:
                 raise ValueError("argument(s) in `h` must be in range [-360, 360]")
 
     if not isinstance(axes, bool):
-        TypeError("argument `axes` must be bool (True or False)")
+        raise TypeError("argument `axes` must be bool (True or False)")
 
     # Convert input to hexcols object; then convert to HCL
     # to extract the coordinates of the palette.
@@ -243,10 +243,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
                 del tmp
 
             # Split index into 'continuous segments'.
-            if len(idx) == 1:
-                idxs = [idx]
-            else:
-                idxs = split(idx, np.cumsum(np.concatenate(([1], np.diff(idx))) > 1))
+            idxs = split(idx, np.cumsum(np.concatenate(([1], np.diff(idx))) > 1))
 
             s = 0
             while len(idxs) > 0:
@@ -421,15 +418,15 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         # Left and right hand side of the diverging palette; original colors
         left  = np.arange(0, np.floor(len(cols) / 2) + 1).astype(np.int8)
         left  = left[np.where(cols.get("C")[left] > 10.)[0]]
-        right = np.arange(np.floor(len(cols) / 2) - 1, len(cols)).astype(np.int8)
+        right = np.arange(np.ceil(len(cols) / 2), len(cols)).astype(np.int8)
         right = right[np.where(cols.get("C")[right] > 10.)[0]]
 
         # If the user has set h's (after sanity checks we know it is 
         # now a tuple of one or two numerics)
         if h is not None:
             if len(h) == 2:
-                nd[0, np.which(nd[3] == 1)] = float(h[0]) # left
-                nd[0, np.which(nd[4] == 1)] = float(h[1]) # right
+                nd[0, np.where(nd[3] == 1)] = float(h[0]) # left
+                nd[0, np.where(nd[4] == 1)] = float(h[1]) # right
             else:
                 nd[0]        = float(h[0])
 
@@ -438,7 +435,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
             or np.diff(nprange(cols.get("H")[left])  - np.min(cols.get("H")[left]))[0]  < 12 \
             or np.diff(nprange(cols.get("H")[right]) - np.min(cols.get("H")[right]))[0] < 12:
 
-            # UpdateH
+            # Update H
             nd[0, np.where(nd[3] == 1)] = np.median(cols.get("H")[left] - \
                                           np.min(cols.get("H")[left])) + \
                                           np.min(cols.get("H")[left])
@@ -635,7 +632,11 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
 
     # If the user did not provide an axis, we started
     # a new figure and can now display it.
-    if not "ax" in kwargs.keys(): plt.show()
+    if not "ax" in kwargs.keys():
+        plt.show()
+        return fig
+    else:
+        return ax
 
 
 

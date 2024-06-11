@@ -158,22 +158,71 @@ def test_lm_return():
     assert all(mod["Yout"] - np.asarray(pr) < 1e-6)
 
     
+def test_split_wrong_usage():
+    from colorspace.statshelper import split
+    import numpy as np
 
-if __name__ == "__main__":
-    # nprange
-    test_nprange_wrong_usage()
-    test_nprange_wrong_ndarray()
-    test_nprange_return()
+    # Both inputs must be numpy.ndarrays
+    raises(TypeError, split, x = 1, y = np.ones(3))
+    raises(TypeError, split, x = np.ones(3), y = 1)
 
-    # natural cubic spline
-    test_spline_wrong_usage()
-    test_spline_return()
+    # If x is of length 0 (must be at least 1) or if lengths differ
+    raises(ValueError, split, x = np.asarray([]), y = np.ones(3))
+    raises(ValueError, split, x = np.ones(5), y = np.ones(4))
 
-    # linear regression
-    test_lm_wrong_usage()
-    test_lm_return()
+def test_split_return():
+    from colorspace.statshelper import split
+    import numpy as np
+
+    # If 'x' is of length 1 a list [x] is returned
+    x = np.asarray([3])
+    y = np.asarray([True])
+    res = split(x, y)
+    assert isinstance(res, list)
+    assert len(res) == 1
+    assert np.array_equal(res[0], x)
+    del res, x, y
+
+    # x is [1, 2, 3, 4], y [True, True, False, False], so the
+    # return should be [[1, 2], [3, 4]]
+    x = np.arange(1, 5, 1, dtype = np.int16)
+    y = np.repeat([True, False], 2)
+    # Named and unnamed arguments to test order
+    res1 = split(x, y)
+    res2 = split(x = x, y = y)
+    assert isinstance(res1, list)
+    assert len(res1) == 2
+    assert np.array_equal(res1[0], np.arange(1, 3, 1, dtype = np.int16))
+    assert np.array_equal(res1[1], np.arange(3, 5, 1, dtype = np.int16))
+    del res1, res2, x, y
+
+    # x is ['A','B','C','D'] which we also use as y, so the value changes
+    # every time and it should be split up into [['A'], ['B'], ['C'], ['D']]
+    x = np.asarray(["A", "B", "C", "D"])
+    res = split(x, x)
+    assert isinstance(res, list)
+    assert len(res) == 4
+    for i in range(4):
+        assert x[i] == res[i][0]
 
 
+##if __name__ == "__main__":
+##    # nprange
+##    test_nprange_wrong_usage()
+##    test_nprange_wrong_ndarray()
+##    test_nprange_return()
+##
+##    # natural cubic spline
+##    test_spline_wrong_usage()
+##    test_spline_return()
+##
+##    # linear regression
+##    test_lm_wrong_usage()
+##    test_lm_return()
+##
+##    # split
+##    test_split_wrong_usage()
+##    test_split_return()
 
 
 

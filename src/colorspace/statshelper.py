@@ -101,6 +101,11 @@ def natural_cubic_spline(x, y, xout):
     x    = x.astype(np.float32)
     xout = xout.astype(np.float32)
 
+    # If length of y is only 1 we can't fit a spline and the
+    # return is simply a constant y[0] for each xout.
+    if len(x) == 1:
+        return {"x": xout, "y": np.repeat(y[0], len(xout))}
+
     # Index length
     n = len(x) - 1
 
@@ -154,7 +159,7 @@ def natural_cubic_spline(x, y, xout):
                     dx = xout[j] - x[i]
                     yout[j] = coef[i, 0] + coef[i, 1] * dx + coef[i, 2] * dx**2 + coef[i, 3] * dx**3
 
-    return {"x": xout, "y": yout, "x": xout}
+    return {"x": xout, "y": yout}
 
 
 # Simple linear regression solver (OLS solver)
@@ -263,16 +268,25 @@ def split(x, y):
     >>> [[1, 2], [3, 4], [5]]
     """
     import numpy as np
-    assert isinstance(x, np.ndarray), TypeError("argument `x` must be numpy array")
-    assert isinstance(y, np.ndarray), TypeError("argument `y` must be numpy array")
-    assert len(x) > 0, ValueError("array x must be length >= 1")
-    assert len(x) == len(y), ValueError("arrays x/y must be of same length")
-    if len(x) == 1: return [x]
+    if not isinstance(x, np.ndarray):
+        raise TypeError("argument `x` must be numpy array")
+    if not isinstance(y, np.ndarray):
+        raise TypeError("argument `y` must be numpy array")
+    if not len(x) > 0:
+        raise ValueError("array x must be length >= 1")
+    if not len(x) == len(y):
+        raise ValueError("arrays x/y must be of same length")
+
+    # If length of x is one: Return as is
+    if len(x) == 1:
+        return [x]
+
     # Start with list-of-lists containing first element
     res = [[x[0]]]
     for i in range(1, len(x)):
         if y[i] == y[i - 1]:  res[len(res) - 1].append(x[i]) # Append
         else:                 res.append([x[i]]) # Add new list
+
     return res
 
 

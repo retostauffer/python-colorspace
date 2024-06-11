@@ -1,5 +1,5 @@
 
-def mixcolor(alpha, color1, color2, where = 1):
+def mixcolor(alpha, color1, color2, where):
     """Compute the Convex Combination of Two Colors
 
     This function can be used to compute the result of color mixing, assuming
@@ -16,8 +16,8 @@ def mixcolor(alpha, color1, color2, where = 1):
         where (str): The color space where the mixing is to take place, either `"RGB"` or `"CIEXYZ"`.
 
     Return:
-        colorspace.colorlib.*: Returns an object of the same class as either `color1`
-        (if `where = 1`) or `color2` (if `where = 2`). Call `.swatchplot()` to check the
+        colorspace.colorlib.*: Returns an object of the same class as either
+        `color1` with the new mixed color(s). Call `.swatchplot()` to check the
         result or `.colors()` to get a list of mixed hex colors.
 
     Examples:

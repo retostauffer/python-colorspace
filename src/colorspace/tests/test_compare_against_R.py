@@ -25,7 +25,7 @@ def test_against_R():
             continue
 
         # Print for debugging shown when running pytest -s
-        print(f"[compare against R]: {rec['id']}"),
+        ##print(f"[compare against R]: {rec['id']}"),
         fun = eval(rec["fun"])
         arg = rec["args"]
         n   = arg["n"]
@@ -40,5 +40,5 @@ def test_against_R():
         assert len(rec["colors"]) == len(sol)
         assert all([rec["colors"][i].upper() == sol[i].upper() for i in range(len(sol))])
 
-if __name__ == "__main__":
-    test_against_R()
+##if __name__ == "__main__":
+##    test_against_R()
