@@ -1,8 +1,12 @@
 
 
 import pytest
+from pytest import raises
 from colorspace.colorlib import *
 from copy import deepcopy
+
+import matplotlib.pyplot as plt
+from colorspace import hexcols, polarLUV, diverging_hcl
 
 all_models = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "CIELAB", "CIELUV", "RGB", \
               "sRGB", "polarLAB", "hex", "HLS", "HSV"]
@@ -23,6 +27,29 @@ def test_HCL_to_RGB_black():
 # --------------------------------------------
 # Testing the 'compare colors' function
 # --------------------------------------------
+
+def test_hexcols_repr_alpha():
+    from re import match, DOTALL
+    # No alpha, there should be no 'alpha' in output
+    x = repr(hexcols(["#ff0033", "#00ff00"]))
+    assert isinstance(x, str)
+    assert match(".*alpha.*", x, DOTALL) is None
+    del x
+
+    # With one alpha, we should find 'alpha' and '---' for the
+    # second color which has no alpha.
+    x = repr(hexcols(["#ff003310", "#00ff00"]))
+    assert isinstance(x, str)
+    assert match(".*alpha.*", x, DOTALL) is not None
+    assert match(".*---.*", x, DOTALL) is not None
+    del x
+
+    # Two colors with alpha, so no more ---
+    x = repr(hexcols(["#ff003310", "#00ff00CE"]))
+    assert isinstance(x, str)
+    assert match(".*alpha.*", x, DOTALL) is not None
+    assert match(".*---.*", x, DOTALL) is None
+    del x
 
 # Compare hexcols objects
 def test_compare_colors_hex():
@@ -299,6 +326,11 @@ def test_get_colors():
     assert all([isinstance(col, str) for col in x.colors()])
     assert x.length() == len(x.colors())
 
+    # .colors is the same as the __call__ method
+    assert isinstance(x(), list)
+    assert all([isinstance(col, str) for col in x()])
+    assert x.length() == len(x())
+
     # Convert to HCL and get colors (-> hex list)
     x.to("HCL")
     assert isinstance(x, polarLUV)
@@ -343,5 +375,93 @@ def test_get_and_set_method():
     assert x.get("B")[0] == 0.2
     assert x.get("alpha")[0] == 0.2
 
+def test_get_coords():
+    cols = hexcols(["#00ff0010", "#ff0033"])
+
+    # Testing the get method
+    res = cols.get()
+    assert isinstance(res, dict)
+    assert "hex_" in res.keys() and "alpha" in res.keys()
+
+    # Get specific coordinate
+    res = cols.get("hex_")
+    assert isinstance(res, np.ndarray)
+    assert len(res) == 2
+
+    raises(TypeError, cols.get, 1) # not string
+    raises(ValueError, cols.get, "foo") # invalid dimension
+
+def test_set_coords():
+    cols = hexcols(["#00ff0010", "#ff0033"])
+
+    raises(ValueError, cols.set, A = np.ones(2)) # A invalid dimension
+    raises(ValueError, cols.set, hex_ = np.ones(3)) # Wrong length
+
+    x = np.asarray(["#0000ff", "#CECECE"])
+    cols.set(hex_ = x)
+    assert np.array_equal(x, cols.get("hex_"))
+
+    
+
+def test_getset_whitepoint():
+    # Get default whitepoint
+    res = hexcols(["red", "blue"]).get_whitepoint()
+
+    assert isinstance(res, dict)
+    assert len(res) == 3
+    assert all([x in res.keys() for x in ["X", "Y", "Z"]])
+    for k,v in res.items():
+        assert isinstance(v, float)
+    assert res["X"] == 95.047
+    assert res["Y"] == 100.0
+    assert res["Z"] == 108.883
+    del res
+
+    # We can overwrite them (dummy variables)
+    cols = hexcols(["red", "blue"])
+    cols.set_whitepoint(X = 10., Y = 20., Z = 30.)
+    res = cols.get_whitepoint()
+
+    assert isinstance(res, dict)
+    assert len(res) == 3
+    assert all([x in res.keys() for x in ["X", "Y", "Z"]])
+    for k,v in res.items():
+        assert isinstance(v, float)
+    assert res["X"] == 10.
+    assert res["Y"] == 20.
+    assert res["Z"] == 30.
+    del res
+
+    # Exception if we hand over anythihng not X, Z, Y to
+    # the set_whitepoint method.
+    raises(ValueError, cols.set_whitepoint, A = 3.)
+    raises(ValueError, cols.set_whitepoint, X = "foo") # cannot conver to float
+    raises(ValueError, cols.set_whitepoint, Y = "foo") # cannot conver to float
+    raises(ValueError, cols.set_whitepoint, Z = "foo") # cannot conver to float
+
+# --------------------------------------------
+# Plotting ..
+# --------------------------------------------
+# Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.mpl_image_compare
+def test_colorlib_specplot_method():
+    # Create 'colorlib' based object
+    cols = hexcols(diverging_hcl()(5))
+    cols.specplot()
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_colorlib_swatchplot_method():
+    # Create 'colorlib' based object
+    cols = hexcols(diverging_hcl()(5))
+    cols.swatchplot()
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_colorlib_hclplot_method():
+    # Create 'colorlib' based object
+    cols = hexcols(diverging_hcl()(5))
+    cols.hclplot()
+    plt.close() # Closing figure instance
 
 

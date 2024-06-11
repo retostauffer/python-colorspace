@@ -1561,7 +1561,7 @@ class colorobject:
             elif key == "Y":  self.WHITEY = float(arg)
             elif key == "Z":  self.WHITEZ = float(arg)
             else: 
-                raise ValueError(f"error in {self.__class__name__}.set_whitepoint: " + \
+                raise ValueError(f"error in .set_whitepoint: " + \
                                   "argument \"{key}\" not recognized.")
 
 
@@ -1761,6 +1761,31 @@ class colorobject:
         if "show_names" in kwargs.keys():
             del kwargs["show_names"]
         swatchplot(pals = self.colors(), show_names = False, **kwargs)
+
+
+    def hclplot(self, **kwargs):
+        """Palette Plot in HCL Space
+
+        Internally calls :py:func:`hclplot <colorspace.hclplot.hclplot>`,
+        additional arguments to this main function can be forwarded via the
+        `**kwargs` argument.
+
+        Args:
+            **kwargs: Additional named arguments forwarded to
+                :py:func:`hclplot <colorspace.hclplot.hclplot>`.
+
+        Example:
+
+            >>> from colorspace.colorlib import HCL
+            >>> cols = HCL(H = [160, 210, 260, 310, 360],
+            >>>            C = [ 70,  40,  10,  40,  70],
+            >>>            L = [ 50,  70,  90,  70,  50])
+            >>> cols.hclplot();
+            >>> cols.hclplot(figsize = (6, 0.5));
+        """
+
+        from .hclplot import hclplot
+        hclplot(x = self.colors(), **kwargs)
 
     def colors(self, fixup = True, rev = False):
         """Extract Hex Colors

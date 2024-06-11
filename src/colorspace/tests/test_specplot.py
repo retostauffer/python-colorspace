@@ -56,3 +56,5 @@ def test_specplot_adjust_hueaxis():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+
+

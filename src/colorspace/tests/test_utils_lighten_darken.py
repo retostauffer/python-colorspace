@@ -66,6 +66,22 @@ def test_darken_relative_HLS(col = "#BB7784"):
         assert x1 == sol
         assert x1 == x2
 
+# ------------------------------------------
+# Combined lightening/darkening.
+# TODO: Differs from R (see function source code)
+def test_lighten_combined(col = "#BB7784"):
+    x = lighten(col = col, amount = 0.5, method = "relative", space = "combined")
+    assert isinstance(x, str) and len(x) == 7
+    x = lighten(col = col, amount = 0.5, method = "absolute", space = "combined")
+    assert isinstance(x, str) and len(x) == 7
+
+def test_darken_combined(col = "#BB7784"):
+    x = darken(col = col, amount = 0.5, method = "relative", space = "combined")
+    assert isinstance(x, str) and len(x) == 7
+    x = darken(col = col, amount = 0.5, method = "absolute", space = "combined")
+    assert isinstance(x, str) and len(x) == 7
+
+
 
 # ------------------------------------------
 # Testing returns
