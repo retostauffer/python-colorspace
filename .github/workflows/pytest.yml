@@ -35,16 +35,26 @@ jobs:
       - name: Coverage
         run: |
           python setup.py install
-          pytest --cov=src/colorspace
           pytest --cov=src/colorspace --cov-report xml
 
-      - name: Coverage Summary Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
+      - name: Generate coverage badge
+        id: generate-badge
+        uses: cicirello/jacoco-badge-generator@v1
         with:
-          filename: coverage.xml
-          badge: true
-          format: "markdown"
-          output: "both"
+          input: coverage.xml
+          output: coverage-badge.svg
+
+      - name: Upload coverage badge
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-badge
+          path: coverage-badge.svg
+
+      - name: Commit coverage badge
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update coverage badge"
+          file_pattern: coverage-badge.svg
 
       - name: Add Cov PR Comment
         uses: marocchino/sticky-pull-request-comment@v2.2.0
