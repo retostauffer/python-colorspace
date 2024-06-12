@@ -55,6 +55,9 @@ jobs:
         with:
           commit_message: "Update coverage badge"
           file_pattern: coverage-badge.svg
+          branch: main
+          commit_user_name: github-actions
+          commit_user_email: github-actions@github.com
 
       - name: Add Cov PR Comment
         uses: marocchino/sticky-pull-request-comment@v2.9.0
