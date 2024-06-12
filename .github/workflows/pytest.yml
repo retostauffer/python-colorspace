@@ -39,7 +39,7 @@ jobs:
 
       - name: Generate coverage badge
         id: generate-badge
-        uses: cicirello/jacoco-badge-generator@v1
+        uses: cicirello/jacoco-badge-generator@v2.11.0
         with:
           input: coverage.xml
           output: coverage-badge.svg
@@ -51,13 +51,13 @@ jobs:
           path: coverage-badge.svg
 
       - name: Commit coverage badge
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update coverage badge"
           file_pattern: coverage-badge.svg
 
       - name: Add Cov PR Comment
-        uses: marocchino/sticky-pull-request-comment@v2.2.0
+        uses: marocchino/sticky-pull-request-comment@v2.9.0
         if: github.event_name == 'pull_request'
         with:
             recreate: true
