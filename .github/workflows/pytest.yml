@@ -30,10 +30,12 @@ jobs:
           pip install pytest-cov
           pip install matplotlib
           pip install numpy
+          # Install colorspace
           python setup.py install
 
       - name: Coverage
         run: |
+          python setup.py install
           pytest --cov=src/colorspace
           pytest --cov=src/colorspace --cov-report xml
           #pytest --cov=src/colorspace --cov-report xml:coverage.xml --cov-report html:htmlcov/
