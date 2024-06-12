@@ -35,7 +35,6 @@ jobs:
       - name: Test with pytest
         run: |
           pytest --cov=src/colorspace --cov-report xml:coverage.xml --cov-report html:htmlcov/
-          #pytest --cov=src/colorspace/tests --cov-report xml:coverage.xml --cov-report html:htmlcov/
         continue-on-error: true
 
       - name: Upload coverage report

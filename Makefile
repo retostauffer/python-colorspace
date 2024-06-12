@@ -55,11 +55,12 @@ baseline:
 	pytest --mpl-generate-path=baseline
 
 test:
+	make install
 	pytest -s
 
 cov:
-	(pytest --cov=src/colorspace --cov-report html && \
-		firefox htmlcov/index.html)
+	make install
+	(pytest --cov=src/colorspace --cov-report html)
 
 .PHONY: clean
 clean:
