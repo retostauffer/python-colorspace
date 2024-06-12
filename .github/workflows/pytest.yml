@@ -25,11 +25,12 @@ jobs:
       - name: Coverage
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
-          pip install pytest-mpl
-          pip install pytest-cov
-          pip install matplotlib
-          pip install numpy
+          #pip install pytest
+          #pip install pytest-mpl
+          #pip install pytest-cov
+          #pip install matplotlib
+          #pip install numpy
+          pip install -r requirements.txt
           # Install colorspace
           python setup.py install
 
