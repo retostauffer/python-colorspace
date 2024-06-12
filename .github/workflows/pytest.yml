@@ -34,6 +34,7 @@ jobs:
 
       - name: Coverage
         run: |
+          pytest --cov=src/colorspace
           pytest --cov=src/colorspace --cov-report xml
           #pytest --cov=src/colorspace --cov-report xml:coverage.xml --cov-report html:htmlcov/
       - name: Coverage Summary Report
