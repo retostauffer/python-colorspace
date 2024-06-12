@@ -563,7 +563,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            palette(chroma(<span class="dv">5</span>), <span class="st">"Chroma"</span>),</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            palette(luminance(<span class="dv">5</span>), <span class="st">"Luminance"</span>)],</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            figsize <span class="op">=</span> (<span class="dv">5</span>, <span class="fl">1.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="62965833" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="1">
+<div id="73ec7060" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-2-output-1.png" width="499" height="163"></p>
@@ -589,7 +589,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Single-hue (advanced)"</span>: [sequential_hcl(x) <span class="cf">for</span> x <span class="kw">in</span> [<span class="st">"Blues 3"</span>, <span class="st">"Purples 3"</span>, <span class="st">"Reds 3"</span>, <span class="st">"Greens 3"</span>]],</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Multi-hue (advanced)"</span>:  [sequential_hcl(x) <span class="cf">for</span> x <span class="kw">in</span> [<span class="st">"Blues"</span>, <span class="st">"Purples"</span>, <span class="st">"Reds"</span>, <span class="st">"Greens"</span>]]},</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>           n <span class="op">=</span> <span class="dv">7</span>, show_names <span class="op">=</span> <span class="va">False</span>, nrow <span class="op">=</span> <span class="dv">5</span>, figsize <span class="op">=</span> (<span class="dv">10</span>, <span class="fl">2.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="1772570e" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="2">
+<div id="b5ef9c3f" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-3-output-1.png" width="979" height="259"></p>
@@ -603,7 +603,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>swatchplot([palette(pal1, <span class="st">"YlGnBu"</span>), palette(pal2, <span class="st">"Viridis"</span>)],</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            cvd <span class="op">=</span> [<span class="st">"protan"</span>, <span class="st">"desaturate"</span>], nrow <span class="op">=</span> <span class="dv">4</span>, figsize <span class="op">=</span> (<span class="dv">10</span>, <span class="fl">2.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="067af1a9" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="3">
+<div id="706a9ad9" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-4-output-1.png" width="979" height="259"></p>
@@ -626,7 +626,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, qualitative_hcl</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>specplot(qualitative_hcl(<span class="st">"Set 2"</span>).colors(<span class="dv">100</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="36f0a8e5" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="4">
+<div id="7976b10b" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="4">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-5-output-1.png" width="638" height="439"></p>
@@ -638,7 +638,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, sequential_hcl</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>specplot(sequential_hcl(<span class="st">"Blues 2"</span>).colors(<span class="dv">100</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="365a7c95" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="5">
+<div id="d4200639" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="5">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-6-output-1.png" width="638" height="431"></p>
@@ -649,7 +649,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, diverging_hcl</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>specplot(diverging_hcl(<span class="st">"Blue-Red"</span>).colors(<span class="dv">100</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="86b544d7" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="6">
+<div id="dd885071" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="6">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-7-output-1.png" width="642" height="431"></p>
@@ -660,7 +660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, rainbow</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>specplot(rainbow().colors(<span class="dv">100</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="3ddd8c8e" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="7">
+<div id="38b158ca" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="7">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-8-output-1.png" width="651" height="416"></p>
@@ -679,7 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>_type = "diverging"</code> if luminance is diverging with two monotonic “arms” in the trajectory.</li>
 </ul>
 <p>Thus, for qualitative palettes - where luminance and chroma are fixed - the varying hue is displayed in a projection onto the hue-chroma plane at a given fixed luminance:</p>
-<div id="d640dd08" class="cell" data-execution_count="8">
+<div id="7563a5e1" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl, hclplot</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>hclplot(qualitative_hcl(<span class="st">"Dynamic"</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -700,7 +700,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>hclplot(sequential_hcl(h <span class="op">=</span> <span class="dv">245</span>, c <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">0</span>, <span class="dv">75</span>], l <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">95</span>], power <span class="op">=</span> <span class="dv">1</span>), ax <span class="op">=</span> ax[<span class="dv">1</span>])</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>hclplot(sequential_hcl(h <span class="op">=</span> <span class="dv">245</span>, c <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">0</span>, <span class="dv">75</span>], l <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">95</span>], power <span class="op">=</span> [<span class="fl">0.8</span>, <span class="fl">1.4</span>]), ax <span class="op">=</span> ax[<span class="dv">2</span>])</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="600a23dc" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="9">
+<div id="d1d9290f" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="9">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-10-output-1.png" width="829" height="337"></p>
@@ -717,7 +717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>hclplot(sequential_hcl(h <span class="op">=</span> [<span class="dv">260</span>,  <span class="dv">60</span>], c <span class="op">=</span> <span class="dv">60</span>, l <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">95</span>], power <span class="op">=</span> <span class="dv">1</span>), ax <span class="op">=</span> ax[<span class="dv">1</span>])</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>hclplot(diverging_hcl( h <span class="op">=</span> [<span class="dv">260</span>,   <span class="dv">0</span>], c <span class="op">=</span> <span class="dv">80</span>, l <span class="op">=</span> [<span class="dv">35</span>, <span class="dv">95</span>], power <span class="op">=</span> <span class="dv">1</span>), ax <span class="op">=</span> ax[<span class="dv">2</span>])</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="51a39779" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
+<div id="a4bb1a9d" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-11-output-1.png" width="829" height="337"></p>
@@ -743,7 +743,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        demoplot(colors, type_ <span class="op">=</span> demo_types[i], title <span class="op">=</span> demo_types[i], ax <span class="op">=</span> axes.flatten()[i])</span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fa1627b2" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="11">
+<div id="5f78a9ea" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="11">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-12-output-1.png" width="763" height="483"></p>
@@ -767,7 +767,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> demoplot(qualitative_hcl(<span class="st">"Dark 3"</span>),   type_ <span class="op">=</span> <span class="st">"Lines"</span>, n <span class="op">=</span> <span class="dv">4</span>, ax <span class="op">=</span> ax2)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="546f321b" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="12">
+<div id="0982434d" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="12">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-13-output-1.png" width="503" height="241"></p>
@@ -784,7 +784,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> demoplot(sequential_hcl(<span class="st">"Viridis"</span>),                 type_ <span class="op">=</span> <span class="st">"Spine"</span>,   n <span class="op">=</span>  <span class="dv">4</span>, ax <span class="op">=</span> ax2)</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="4f7e5fa4" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="13">
+<div id="be54b339" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="13">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-14-output-1.png" width="503" height="241"></p>
@@ -802,7 +802,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> demoplot(diverging_hcl(<span class="st">"Blue-Red 2"</span>),          type_ <span class="op">=</span> <span class="st">"Bar"</span>,    n <span class="op">=</span>  <span class="dv">5</span>, ax <span class="op">=</span> ax3)</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="445ceced" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="14">
+<div id="46d9332e" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="14">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-15-output-1.png" width="763" height="241"></p>
@@ -828,7 +828,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>mpl.rcParams.update(mpl.rcParamsDefault)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="875fbf2a" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="15">
+<div id="c4615794" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="15">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="palette_visualization_files/figure-html/cell-16-output-1.png" width="763" height="463"></p>
