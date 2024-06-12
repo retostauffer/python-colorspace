@@ -44,7 +44,11 @@ jobs:
           name: coverage-report
           path: coverage.xml
 
-
+      - name: Get Cover 
+        uses: orgoro/coverage@v3.1
+        with:
+            coverageFile: coverage.xml
+            token: ${{ secrets.GITHUB_TOKEN }}
 
 
 
