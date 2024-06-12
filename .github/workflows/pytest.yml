@@ -1,4 +1,4 @@
-name: Python Colorspace Testing
+name: pytest-coverage
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
           pytest -s src/colorspace/tests --junitxml=test-results.xml --cov=com --cov-report=term-missing:skip-covered --cov-report=html | tee pytest.xml
 
       - name: Pytest coverage
-        uses: retostauffer/python-colorspace@main
+        uses: retostauffer/pytest-coverage@main
         with:
           pytest-coverage-path: ./pytest-coverage.txt
           junitxml-path: ./pytest.xml
