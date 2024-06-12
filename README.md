@@ -2,8 +2,9 @@
 
 ## A Python toolbox for manipulating and assessing colors and palettes
 
-[![Generate Documentation](https://github.com/retostauffer/python-colorspace/actions/workflows/quartodoc.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/quartodoc.yml)
-[![Python Colorspace Testing](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml)
+[![Documentation](https://github.com/retostauffer/python-colorspace/actions/workflows/quartodoc.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/quartodoc.yml)
+[![Testing](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml)
+[![Coverage](https://github.com/retostauffer/python-colorspace/actions/workflows/coverage.yml/badge.svg?branch=devel)](https://github.com/retostauffer/python-colorspace/actions/workflows/coverage.yml)
 ![](coverage.svg)
 
 The package provides a Python 3 version of the
