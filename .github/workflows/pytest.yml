@@ -31,7 +31,7 @@ jobs:
           pip install coverage
           pip install matplotlib
           pip install numpy
-          python setup.py install
+          pip install -e .
       - name: Coverage
         run: |
           python setup.py install
