@@ -34,9 +34,9 @@ jobs:
 
       - name: Test with pytest
         run: |
-          pytest --cov=src/colorspace/tests --cov-report=xml --cov-report=html
+          pytest --cov=src/colorspace --cov-report xml:coverage.xml --cov-report html:htmlcov/
+          #pytest --cov=src/colorspace/tests --cov-report xml:coverage.xml --cov-report html:htmlcov/
         continue-on-error: true
-          #pytest -s src/colorspace/tests --junitxml=test-results.xml --cov=com --cov-report=term-missing:skip-covered --cov-report=html | tee pytest.xml
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2

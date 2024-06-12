@@ -10,6 +10,7 @@ __pycache__
 
 # Some development folders
 /htmlcov
+/coverage.xml
 /build
 /venv
 
