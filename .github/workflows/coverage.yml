@@ -1,4 +1,4 @@
-name: Python Colorspace Coverage
+name: Coverage
 
 on:
   push:

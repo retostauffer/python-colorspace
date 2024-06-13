@@ -1,4 +1,4 @@
-name: Python Colorspace Testing
+name: Testing
 
 on:
   push:
