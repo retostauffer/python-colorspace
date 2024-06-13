@@ -478,6 +478,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
+  <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -509,7 +510,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-python">hclpalettes.get_palettes(type_=None)</code></pre>
+<pre><code class="language-python">hclpalettes.get_palettes(type_=None, exact=False)</code></pre>
 </section>
 <section id="arguments" class="level3">
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
@@ -520,11 +521,28 @@ ul.task-list li input[type="checkbox"] {
 <dd>
 (Partial) Name of the palettes which should be returned. String matching is used; partial matches are allowed. If set to <code>None</code> (default) all palettes will be returned. Names have to match but are not case sensitive, defaults to None.
 </dd>
+<dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="colorspace.palettes.hclpalettes.get_palettes:exact">exact</code><code class="argument-class">bool</code>
+</dt>
+<dd>
+If <code>False</code> (default) partial matching is used. If <code>True</code>, <code>type_</code> must be an exact match (case sensitive).
+</dd>
 </dl>
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
 <p>Returns a <code>list</code> containing <code>defaultpalette</code> objects objects.</p>
+</section>
+<section id="raises" class="level3">
+<h3 class="anchored" data-anchor-id="raises">Raises</h3>
+<ul class="python-raises">
+<li>
+<code class="text-warning">TypeError</code>: If <code>type_</code> is not str or None.
+</li><li>
+<code class="text-warning">TypeError</code>: If <code>exact</code> is not bool.
+</li><li>
+<code class="text-warning">ValueError</code>: If no matching palette is found.
+</li></ul>
 
 
 </section>
