@@ -4,16 +4,39 @@ title: "Qualitative HCL Color Palettes"
 
 ### Description
 
+The HCL (hue-chroma-luminance) color model is a perceptual color model
+obtained by using polar coordinates in CIELUV space
+(i.e., [polarLUV](colorspace.colorlib.polarLUV.qmd)),
+where steps of equal size correspond to approximately equal perceptual
+changes in color. By taking polar coordinates the resulting three
+dimensions capture the three perceptual axes very well: hue is the type of
+color, chroma the colorfulness compared to the corresponding gray, and
+luminance the brightness. This makes it relatively easy to create balanced
+palettes through trajectories in this HCL space. In contrast, in the more
+commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation
+of ‘RGB’), the three axes are confounded so that luminance changes along
+with the hue leading to very unbalanced palettes.
+
+`qualitative_hcl` distinguishes the underlying categories by a
+sequence of hues while keeping both chroma and luminance constant to give
+each color in the resulting palette the same perceptual weight. Thus, `h`
+should be a pair of hues (or equivalently `h1` and `h2` can be used) with
+the starting and ending hue of the palette. Then, an equidistant sequence
+between these hues is employed, by default spanning the full color wheel
+(i.e, the full 360 degrees). Chroma `c` (or equivalently `c1`) and
+luminance `l` (or equivalently `l1`) are constants. If `h` is str it will
+overwrite the `palette` argument. In this case, pre-specified palette
+settings will be loaded but are allowed to be overwritten by the user. At
+any time the user can overwrite any of the settings. If `h` is str it will
+overwrite the `palette` argument. In this case, pre-specified palette
+settings will be loaded but are allowed to be overwritten by the user. At
+any time the user can overwrite any of the settings.
+
 By default, `qualitative_hcl` returns an object of class `hclpalette` which
 allows to draw a number of colors (`n`) uniformly distributed around the
 circle (`[0, 360 * (n - 1) / n]`) controlled via the `h` (Hue) argument. As
 the number of colors is not yet defined, the upper hue limit (`h[1]`, `h2`)
 is defined via lambda function.
-
-If `h` is str it will overwrite the `palette` argument. In this case,
-pre-specified palette settings will be loaded but are allowed to be
-overwritten by the user. At any time the user can overwrite any of
-the settings.
 
 See also: [sequential_hcl](colorspace.palettes.sequential_hcl.qmd), [diverging_hcl](colorspace.palettes.diverging_hcl.qmd),
 [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),

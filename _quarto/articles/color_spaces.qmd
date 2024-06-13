@@ -137,8 +137,6 @@ orange can become much more colorful compared to blue or red.
 
 ```{python}
 #| echo: false
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import sequential_hcl, qualitative_hcl, hclplot
@@ -158,8 +156,6 @@ model:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace.colorlib import HCL
@@ -173,8 +169,6 @@ systems an sRGB representation might be needed:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 x.to("sRGB")    # Convert to sRGB coordinates
@@ -190,8 +184,6 @@ and extract the saturation coordinate only by calling [`x.get("S")`](/man/colors
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 x.to("HSV")
@@ -204,8 +196,6 @@ sRGB coordinates can be created:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 print(x.colors())     # Automatically converts to hex
@@ -249,8 +239,6 @@ series of colors (color palette) into a
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import palette
@@ -281,8 +269,6 @@ less linear interpolation.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import diverging_hcl
@@ -298,8 +284,6 @@ with a custom HCL based color palette
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 import matplotlib.pyplot as plt

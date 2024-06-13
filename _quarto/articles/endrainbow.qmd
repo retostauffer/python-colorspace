@@ -125,8 +125,6 @@ colors).
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| fig-align: center
 
 from colorspace import rainbow, specplot
@@ -136,8 +134,6 @@ specplot(pal(99));
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| fig-align: center
 
 from colorspace import diverging_hcl, specplot
@@ -174,8 +170,6 @@ wide range of hues but changes hue, chroma, and luminance smoothly.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| fig-align: center
 
 from colorspace import specplot
@@ -188,8 +182,6 @@ specplot(original);
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| fig-align: center
 
 from colorspace import sequential_hcl, specplot
@@ -264,8 +256,6 @@ the discontinuity vs. smoothness of the two palettes.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| fig-align: center
 
 from colorspace import rainbow, specplot
@@ -275,8 +265,6 @@ specplot(pal(99));
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| fig-align: center
 
 from colorspace import sequential_hcl, specplot

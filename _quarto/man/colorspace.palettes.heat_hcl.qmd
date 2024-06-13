@@ -4,7 +4,8 @@ title: "HCL Based Heat Color Palette"
 
 ### Description
 
-Heat hcl, a sequential HCL color palette.
+`heat_hcl` is an implementation of the base _R_ 'heat.colors' palette but
+constructed in HCL space based on a call to [sequential_hcl](colorspace.palettes.sequential_hcl.qmd). 
 
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
 [diverging_hcl](colorspace.palettes.diverging_hcl.qmd), [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd),

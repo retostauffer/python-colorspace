@@ -45,8 +45,6 @@ are due to fixing HCL coordinates at the boundaries of admissible RGB colors.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, sequential_hcl
@@ -71,8 +69,6 @@ specplot(colormaps_ylgnbu,
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, sequential_hcl
@@ -93,8 +89,6 @@ specplot(mpl_viridis,
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, sequential_hcl
@@ -123,8 +117,6 @@ TODO(Reto): colormaps.sunset != ag_Sunset but lighter.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, sequential_hcl

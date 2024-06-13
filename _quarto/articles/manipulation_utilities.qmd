@@ -41,8 +41,6 @@ color vision deficiency article.
 
 
 ```{python}
-#| error: true
-#| warning: true
 
 from colorspace import rainbow, desaturate, swatchplot, palette
 
@@ -52,16 +50,12 @@ col_rainbow
 ```
 
 ```{python}
-#| error: true
-#| warning: true
 # Desaturate the colors
 col_desat   = desaturate(col_rainbow)
 col_desat
 ```
 
 ```{python}
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 # Compare the two color palettes
 swatchplot([palette(col_rainbow, name = "original"),
@@ -79,8 +73,6 @@ is (by design) balanced with respect to luminance.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -141,8 +133,6 @@ of both lightening and darkening, respectively.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import palette, swatchplot, lighten, darken
@@ -188,8 +178,6 @@ respectively. Black can be equivalently specified by name (`"black"`), hex strin
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace.colorlib import hexcols
@@ -201,23 +189,17 @@ print(cols)
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 print(cols.colors())
 ```
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 cols = adjust_transparency(cols, [0.0, 0.5, 1.0])
 print(cols)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 print(cols.colors())
 ```
 
@@ -227,8 +209,6 @@ Given the same object as above:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import extract_transparency
@@ -239,8 +219,6 @@ print(cols)
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 cols = adjust_transparency(cols, None)  # Remove transparency
 print(cols)
 ```
@@ -258,8 +236,6 @@ different formats.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace.colorlib import hexcols
 # Some colors with transparency 80%, 40%, 80%
@@ -270,15 +246,11 @@ extract_transparency(x, mode = "float")
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 extract_transparency(x, mode = "int")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 extract_transparency(x, mode = "str")
 ```
 
@@ -299,8 +271,6 @@ palette in R compared to a white background.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import rainbow, contrast_ratio
 cols = rainbow().colors(7)
@@ -309,15 +279,11 @@ contrast_ratio(cols, "#FFFFFF") # Against white
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 contrast_ratio(cols, "#000000") # Against black
 ```
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 #| fig-align: center
 res = contrast_ratio(cols, plot = True, figsize = (3, 3))
@@ -340,8 +306,6 @@ chroma varies substantially with hue:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import max_chroma
 from numpy import linspace
@@ -354,8 +318,6 @@ a given hue (here: `H = 120`, green):
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import max_chroma
 from numpy import linspace
@@ -369,8 +331,6 @@ increasing luminance given hue.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace.colorlib import HCL

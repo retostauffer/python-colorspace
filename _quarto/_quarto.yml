@@ -85,6 +85,8 @@ website:
         text: extract_transparency
       - file: man/colorspace.hcl_palettes.hcl_palettes.qmd
         text: hcl_palettes
+      - file: man/colorspace.hclplot.hclplot.qmd
+        text: hclplot
       - file: man/colorspace.utils.lighten.qmd
         text: lighten
       - file: man/colorspace.utils.max_chroma.qmd
@@ -97,8 +99,6 @@ website:
         text: specplot
       - file: man/colorspace.swatchplot.swatchplot.qmd
         text: swatchplot
-      - file: man/colorspace.hclplot.hclplot.qmd
-        text: hclplot
       - file: man/colorspace.CVD.tritan.qmd
         text: tritan
       section: Function references

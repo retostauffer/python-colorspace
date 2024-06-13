@@ -20,8 +20,6 @@ idea of the Python _colorspace_ package, also used for JOSS submission.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import palette
 pal = palette(["#c3c3c3", "#DD0000"], "Demo")

@@ -4,13 +4,40 @@ title: "Diverging HCL Color Palettes"
 
 ### Description
 
-By default, `diverging_hcl` returns an object of class `hclpalette`
-identical to the pre-defined `"Blue-Red"` palette.
+The HCL (hue-chroma-luminance) color model is a perceptual color model
+obtained by using polar coordinates in CIELUV space
+(i.e., [polarLUV](colorspace.colorlib.polarLUV.qmd)),
+where steps of equal size correspond to approximately equal perceptual
+changes in color. By taking polar coordinates the resulting three
+dimensions capture the three perceptual axes very well: hue is the type of
+color, chroma the colorfulness compared to the corresponding gray, and
+luminance the brightness. This makes it relatively easy to create balanced
+palettes through trajectories in this HCL space. In contrast, in the more
+commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation
+of ‘RGB’), the three axes are confounded so that luminance changes along
+with the hue leading to very unbalanced palettes.
+
+`diverging_hcl` codes the underlying numeric values by a
+triangular luminance sequence with different hues in the left and
+in the right arm of the palette. Thus, it can be seen as a
+combination of two sequential palettes with some restrictions: (a)
+a single hue is used for each arm of the palette, (b) chroma and
+luminance trajectory are balanced between the two arms, (c) the
+neutral central value has zero chroma. To specify such a palette a
+vector of two hues `h` (or equivalently `h1` and `h2`), either a
+single chroma value `c` (or `c1`) or a vector of two chroma values
+`c` (or `c1` and `cmax`), a vector of two luminances `l` (or `l1`
+and `l2`), and power parameter(s) `power` (or `p1` and `p2`) are
+used. For more flexible diverging palettes without the
+restrictrictions above (and consequently more parameters)
+`divergingx_hcl` is available. For backward compatibility,
+`diverge_hcl` is a copy of `diverging_hcl`.
 
 If `h` is str it will overwrite the `palette` argument. In this case,
 pre-specified palette settings will be loaded but are allowed to be
-overwritten by the user. At any time the user can overwrite any of
-the settings.
+overwritten by the user. At any time the user can overwrite any of the
+settings. By default, `diverging_hcl` returns an object of class
+`hclpalette` identical to the pre-defined `"Blue-Red"` palette.
 
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
 [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),

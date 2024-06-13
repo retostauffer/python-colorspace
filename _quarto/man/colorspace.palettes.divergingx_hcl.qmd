@@ -7,6 +7,28 @@ title: "Diverging X HCL Color Palettes"
 More flexible version of the `diverging_hcl` class. A diverging X
 palette basically consists of two multi-hue sequential palettes.
 
+The `divergingx_hcl` function simply calls [sequential_hcl](colorspace.palettes.sequential_hcl.qmd) twice
+with a prespecified set of hue, chroma, and luminance parameters. This is
+similar to [diverging_hcl](colorspace.palettes.diverging_hcl.qmd) but allows for more flexibility:
+[diverging_hcl](colorspace.palettes.diverging_hcl.qmd) employs two _single-hue_ sequential palettes,
+always uses zero chroma for the neutral/central color, and restricts the
+chroma/luminance path to be the same in both "arms" of the palette. In
+contrast, `divergingx_hcl` relaxes this to two full _multi-hue_ palettes
+that can thus go through a non-gray neutral color (typically light yellow).
+Consequently, the chroma/luminance paths can be rather unbalanced between
+the two arms.
+
+With this additional flexibility various diverging palettes
+suggested by <https://ColorBrewer2.org/> and CARTO
+(<https://carto.com/carto-colors/>), can be emulated along with
+the Zissou 1 palette from 'wesanderson', Cividis from 'viridis',
+and Roma from 'scico'.
+
+* Available CARTO palettes: ArmyRose, Earth, Fall, Geyser, TealRose,
+  Temps, and Tropic (available in [diverging_hcl](colorspace.palettes.diverging_hcl.qmd)).
+* Available ColorBrewer.org palettes: PuOr, RdBu, RdGy, PiYG, PRGn,
+  BrBG, RdYlBu, RdYlGn, Spectral.
+
 If `h` is str it will overwrite the `palette` argument. In this case,
 pre-specified palette settings will be loaded but are allowed to be
 overwritten by the user. At any time the user can overwrite any of
@@ -140,9 +162,16 @@ see examples.
 #| echo: true
 #| error: true
 #| warning: true
-from colorspace import diverging_hcl
-a = diverging_hcl()
-a.colors(10)
+from colorspace import divergingx_hcl
+pal1 = divergingx_hcl()
+pal1.colors(5)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+pal1.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
@@ -150,15 +179,15 @@ a.colors(10)
 #| error: true
 #| warning: true
 # Different color palette by name
-b = diverging_hcl("Blue-Yellow 3")
-b.colors(10)
+pal2 = divergingx_hcl("ArmyRose")
+pal2.colors(7)
 ```
 
 ```{python}
 #| echo: true
 #| error: true
 #| warning: true
-b.swatchplot(show_names = False, figsize = (5.5, 0.5));
+pal2.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
@@ -166,7 +195,61 @@ b.swatchplot(show_names = False, figsize = (5.5, 0.5));
 #| error: true
 #| warning: true
 # The standard call of the object also returns hex colors
-diverging_hcl("Temps")(10)
+divergingx_hcl("Fall")(3)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Manual palette with user settings. The following diverginx
+# palette goes from h = 180 (left) to h = 100 (center) and h = 20 (right).
+# Croma is c = 30 (left), c = 5 (center), and c = 30 (right).
+# In addition, both 'arms' have a maximum chroma of cmax = 70
+# in the center of each of the two arms.
+pal3 = divergingx_hcl(h = [180, 100, 20], 
+                      c = [30, 5, 30],
+                      cmax = [70, 70]) 
+pal3.specplot();
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Drawing 5 colors from the custom palette.
+pal3(3)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Available default palettes (divergingx_hcl palettes)
+from colorspace import divergingx_hcl, swatchplot, palette
+carto  = ["ArmyRose", "Earth", "Fall",
+          "Geyser", "TealRose", "Temps"]                 
+brewer = ["PuOr", "RdBu", "RdGy", "PiYG", "PRGn",
+          "BrBG", "RdYlBu", "RdYlGn", "Spectral"]
+others = ["Zissou 1", "Cividis", "Roma"]
+# Create named palettes for swatchplot
+col_carto  = [palette(divergingx_hcl(x)(11), name = x) for x in carto]
+col_brewer = [palette(divergingx_hcl(x)(11), name = x) for x in carto]
+col_others = [palette(divergingx_hcl(x)(11), name = x) for x in others]
+# Visualize available divergingx palettes
+swatchplot({"Carto":  col_carto,
+            "Brewer": col_brewer,
+            "Others": col_others},
+           figsize = (5.5, 6));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Checking settings of a specific palette
+pal4 = divergingx_hcl("PRGn")
+pal4.show_settings()
 ```
 
 

@@ -4,6 +4,20 @@ title: "Infamous sRGB Rainbow Color Palette"
 
 ### Description
 
+Implements the (in-)famous rainbow (or jet) color palette that was used
+very frequently in many software packages but has been widely criticized
+for its many perceptual problems. It is specified by a `start` and `end`
+hue $\in [0.-1.]$ with `red = 0`, `yellow = 1/6`, `green = 2/6`, `cyan =
+3/6`, blue = `4/6`, and `magenta = 5/6`. However, these are very flashy and
+unbalanced with respect to both chroma and luminance which can lead to
+various optical illusions. Also, the hues that are equispaced in RGB space
+tend to cluster at the red, green, and blue primaries. Therefore, it is
+recommended to use a suitable palette from `hcl.colors` instead of
+`rainbow`.
+
+`start` and/or `end` both allow for lambda functions with one single
+argument `n` (number of colors), see examples.
+
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
 [diverging_hcl](colorspace.palettes.diverging_hcl.qmd), [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd),
 [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd), [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), and
@@ -119,6 +133,22 @@ pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
 #| warning: true
 # The standard call of the object also returns hex colors
 rainbow()(10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Using lambda functions for start/end
+p = rainbow(start = lambda n: 1 / n, end = lambda n: 1 - 1 / n)
+p.swatchplot(n = 5, show_names = False, figsize = (5.5, 0.5));
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+p.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5));
 ```
 
 

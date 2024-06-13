@@ -4,13 +4,42 @@ title: "Sequential HCL Color Palettes"
 
 ### Description
 
+The HCL (hue-chroma-luminance) color model is a perceptual color model
+obtained by using polar coordinates in CIELUV space
+(i.e., [polarLUV](colorspace.colorlib.polarLUV.qmd)),
+where steps of equal size correspond to approximately equal perceptual
+changes in color. By taking polar coordinates the resulting three
+dimensions capture the three perceptual axes very well: hue is the type of
+color, chroma the colorfulness compared to the corresponding gray, and
+luminance the brightness. This makes it relatively easy to create balanced
+palettes through trajectories in this HCL space. In contrast, in the more
+commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation
+of ‘RGB’), the three axes are confounded so that luminance changes along
+with the hue leading to very unbalanced palettes.
+
+`qualitative_hcl` distinguishes the underlying categories by a sequence of
+hues while keeping both chroma and luminance constant to give each color in
+the resulting palette the same perceptual weight. Thus, `h` should be a
+pair of hues (or equivalently `h1` and `h2` can be used) with the starting
+and ending hue of the palette. Then, an equidistant sequence between these
+hues is employed, by default spanning the full color wheel (i.e, the full
+360 degrees). Chroma `c` (or equivalently `c1`) and luminance `l` (or
+equivalently `l1`) are constants. If `h` is str it will overwrite the
+`palette` argument. In this case, pre-specified palette settings will be
+loaded but are allowed to be overwritten by the user. At any time the user
+can overwrite any of the settings.
+
 By default, `sequential_hcl` returns an object of class `hclpalette`
 identical to the pre-defined `"Blues 2"` palette.
 
-If `h` is str it will overwrite the `palette` argument. In this case,
-pre-specified palette settings will be loaded but are allowed to be
-overwritten by the user. At any time the user can overwrite any of
-the settings.
+`h1` and `h2` both allow for lambda functions to create uniformly distributed
+hues around the (full) circle (360 degrees).
+
+* `h1`: can be a lambda function with one single argument `n` (number of colors).
+* `h2`: can be a lambda function with one or two arguments. If only one, `n`
+    (number of colors) will be handed over when evaluated. If two, the first
+    one is expected to be `n` (number of colors), as second argument the
+    value `h1` will be used.
 
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [diverging_hcl](colorspace.palettes.diverging_hcl.qmd),
 [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd), [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd),

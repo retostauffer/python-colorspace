@@ -34,8 +34,6 @@ wavelength), chroma (= colorfulness), luminance (= brightness).
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import palette, sequential_hcl, swatchplot
 
@@ -116,8 +114,6 @@ space. A quick overview can be gained easily with the
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| lightbox:
 #|    group: hcl_palettes
 
@@ -131,8 +127,6 @@ palette name (see the plot above), e.g.,
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import qualitative_hcl
 pal = qualitative_hcl("Dark 3")
@@ -161,8 +155,6 @@ the diverging HCL color palette "*Blue-Red 3*".
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -190,8 +182,6 @@ The "*Purples 3*" palette is used which is similar to the
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -235,8 +225,6 @@ palettes.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import diverging_hcl, demoplot
 import matplotlib.pyplot as plt
@@ -251,8 +239,6 @@ plt.show()
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import diverging_hcl, specplot
 pal = diverging_hcl("Purple-Green")
@@ -261,8 +247,6 @@ specplot(pal(100), hcl = True, palette = True, rgb = True);
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import sequential_hcl, diverging_hcl, qualitative_hcl, hclplot
 import matplotlib.pyplot as plt

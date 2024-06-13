@@ -106,12 +106,12 @@ figure or on an existing axis (if `ax` is provided, see `**kwargs`).
 #| warning: true
 # Sequential HCL palette, hclplot with all available options
 from colorspace import sequential_hcl, hclplot
-x = sequential_hcl("Red-Blue")(5)
+x = sequential_hcl("PurpOr")(5)
 hclplot(x,
         xlabel  = "Chroma dimension",
         ylabel  = "Luminance dimension",
         title   = "hclplot Example (Sequential)",
-        figsize = (2, 2), s = 500);
+        figsize = (5, 5), s = 250);
 ```
 
 ```{python}

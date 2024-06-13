@@ -4,6 +4,11 @@ title: "Diverging HSV Color Palettes"
 
 ### Description
 
+`diverging_hsv` provides an HSV-based version of [diverging_hcl](colorspace.palettes.diverging_hcl.qmd).
+Its purpose is mainly didactic to show that HSV-based diverging palettes
+are less appealing, more difficult to read and more flashy than HCL-based
+diverging palettes.
+
 See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequential_hcl](colorspace.palettes.sequential_hcl.qmd),
 [diverging_hcl](colorspace.palettes.diverging_hcl.qmd), [divergingx_hcl](colorspace.palettes.divergingx_hcl.qmd),
 [rainbow_hcl](colorspace.palettes.rainbow_hcl.qmd), [heat_hcl](colorspace.palettes.heat_hcl.qmd), [terrain_hcl](colorspace.palettes.terrain_hcl.qmd), and
@@ -33,7 +38,7 @@ parameter).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hsv:v">v</code><code class="argument-class">float</code>
   </dt>
- <dd>Value (the HSV value) of the two ends of the palette.</dd>
+ <dd>Value (the HSV value) of the colors.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hsv:power">power</code><code class="argument-class">numeric</code>
   </dt>
@@ -128,6 +133,33 @@ pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
 #| warning: true
 # The standard call of the object also returns hex colors
 diverging_hsv()(10)
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Manually modified palette from 'cyan' to 'orange'
+diverging_hsv(h = [180, 30]).swatchplot(
+              n = 7, show_names = False, figsize = (5.5, 0.5))
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Additionally, lower saturation on the two ends
+diverging_hsv(h = [180, 30], s = 0.4).swatchplot(
+              n = 7, show_names = False, figsize = (5.5, 0.5))
+```
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+# Lowering the value
+diverging_hsv(h = [180, 30], s = 0.4, v = 0.75).swatchplot(
+              n = 7, show_names = False, figsize = (5.5, 0.5))
 ```
 
 

@@ -55,8 +55,12 @@ baseline:
 	pytest --mpl-generate-path=baseline
 
 test:
-	make install
+	pip install -e .
 	pytest -s
+
+doctest:
+	pip install -e .
+	pytest src/colorspace --doctest-modules
 
 cov:
 	(pytest --cov=src/colorspace --cov-report html)

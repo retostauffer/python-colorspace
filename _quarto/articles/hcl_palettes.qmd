@@ -29,8 +29,6 @@ at the same luminance.
 
 ```{python}
 #| echo: false
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import *
@@ -65,8 +63,6 @@ function [`hcl_palettes`](/man/colorspace.hcl_palettes.hcl_palettes.qmd).
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import hcl_palettes
 hcl_palettes()
@@ -78,8 +74,6 @@ matching the label, e.g., `"set2"` matches `"Set 2"` as well as `"SET2"` will.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import hcl_palettes
 pal = hcl_palettes().get_palette(name = "SET2")
@@ -88,8 +82,6 @@ pal
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 pal.get_settings()
 ```
 
@@ -115,8 +107,6 @@ instead of `70`).
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import qualitative_hcl
 qualitative_hcl()(4)
@@ -157,8 +147,6 @@ luminance (`70`) but the hue is restricted to different intervals.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import hcl_palettes
@@ -186,8 +174,6 @@ palette, see "Grays" and "Light Grays" below.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import hcl_palettes
@@ -238,8 +224,6 @@ palettes closely matching the scientific palettes by @color:Crameri:2018.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 hcl_palettes(7, "Sequential (multi-hue)", plot = True,
@@ -290,8 +274,6 @@ for a white/light background and the other three for a black/dark background.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 hcl_palettes(7, "Diverging", plot = True,
@@ -375,8 +357,6 @@ the right of each panel.
 
 ```{python}
 #| echo: false
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -485,8 +465,6 @@ in *colorspace*:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 
 from colorspace import divergingx_palettes
 divergingx_palettes(n = 11, ncol = 1, plot = True, figsize = (8, 8))

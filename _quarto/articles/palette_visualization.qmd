@@ -30,8 +30,6 @@ multiple palettes at once.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import swatchplot, sequential_hcl, palette
@@ -85,8 +83,6 @@ to emphasize different parts of the palette.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import swatchplot, sequential_hcl
@@ -106,8 +102,6 @@ compare the Viridis and YlGnBu palettes under deuteranopia and desaturation.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import sequential_hcl, palette, swatchplot
@@ -162,8 +156,6 @@ constant (`C = 60` and `L = 70`).
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, qualitative_hcl
@@ -182,8 +174,6 @@ simply decreases monotonically along with increasing luminance.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, sequential_hcl
@@ -199,8 +189,6 @@ palette passes through a light gray (with zero chroma) as the neutral value.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, diverging_hcl
@@ -214,8 +202,6 @@ RGB and HCL space.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from colorspace import specplot, rainbow
@@ -265,8 +251,6 @@ fixed luminance:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| fig-align: center
 
 from colorspace import qualitative_hcl, hclplot
@@ -284,8 +268,6 @@ for hue 245, either with a piecewise-linear (center) or power-transformed
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -309,8 +291,6 @@ with a diverging palette.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -344,8 +324,6 @@ built-in demos are displayed with the same sequential heat colors palette:
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -382,8 +360,6 @@ for lines (right).
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -404,8 +380,6 @@ sequential palettes like the viridis palette can be useful.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -428,8 +402,6 @@ desired. This is exemplified by a mosaic (center) and bar plot (right).
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
 #| layout-ncol: 1
 
 from matplotlib import pyplot as plt
@@ -450,9 +422,6 @@ dark/black backgrounds.
 
 ```{python}
 #| echo: true
-#| error: true
-#| warning: true
-#| layout-ncol: 1
 
 from matplotlib import pyplot as plt
 from colorspace import demoplot, sequential_hcl, qualitative_hcl, diverging_hcl

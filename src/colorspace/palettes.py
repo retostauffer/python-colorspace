@@ -884,7 +884,7 @@ class hclpalette:
         if not isinstance(self, divergingx_hcl):
             keys = ["h1", "h2", "c1", "cmax", "c2", "l1", "l2", "p1", "p2", "fixup"]
         else:
-            keys = ["h1", "h1", "h2", "h3", "c1", "cmax1", "c2", "cmax2", "c3",
+            keys = ["h1", "h2", "h3", "c1", "cmax1", "c2", "cmax2", "c3",
                     "l1", "l2", "l3", "p1", "p2", "p3", "p4", "fixup"]
 
         print(f"Class:  {self.__class__.__name__}")
@@ -1143,16 +1143,39 @@ class hclpalette:
 class qualitative_hcl(hclpalette):
     """Qualitative HCL Color Palettes
 
+    The HCL (hue-chroma-luminance) color model is a perceptual color model
+    obtained by using polar coordinates in CIELUV space
+    (i.e., :py:class:`polarLUV <colorspace.colorlib.polarLUV>`),
+    where steps of equal size correspond to approximately equal perceptual
+    changes in color. By taking polar coordinates the resulting three
+    dimensions capture the three perceptual axes very well: hue is the type of
+    color, chroma the colorfulness compared to the corresponding gray, and
+    luminance the brightness. This makes it relatively easy to create balanced
+    palettes through trajectories in this HCL space. In contrast, in the more
+    commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation
+    of ‘RGB’), the three axes are confounded so that luminance changes along
+    with the hue leading to very unbalanced palettes.
+
+    `qualitative_hcl` distinguishes the underlying categories by a
+    sequence of hues while keeping both chroma and luminance constant to give
+    each color in the resulting palette the same perceptual weight. Thus, `h`
+    should be a pair of hues (or equivalently `h1` and `h2` can be used) with
+    the starting and ending hue of the palette. Then, an equidistant sequence
+    between these hues is employed, by default spanning the full color wheel
+    (i.e, the full 360 degrees). Chroma `c` (or equivalently `c1`) and
+    luminance `l` (or equivalently `l1`) are constants. If `h` is str it will
+    overwrite the `palette` argument. In this case, pre-specified palette
+    settings will be loaded but are allowed to be overwritten by the user. At
+    any time the user can overwrite any of the settings. If `h` is str it will
+    overwrite the `palette` argument. In this case, pre-specified palette
+    settings will be loaded but are allowed to be overwritten by the user. At
+    any time the user can overwrite any of the settings.
+
     By default, `qualitative_hcl` returns an object of class `hclpalette` which
     allows to draw a number of colors (`n`) uniformly distributed around the
     circle (`[0, 360 * (n - 1) / n]`) controlled via the `h` (Hue) argument. As
     the number of colors is not yet defined, the upper hue limit (`h[1]`, `h2`)
     is defined via lambda function.
-
-    If `h` is str it will overwrite the `palette` argument. In this case,
-    pre-specified palette settings will be loaded but are allowed to be
-    overwritten by the user. At any time the user can overwrite any of
-    the settings.
 
     See also: :py:class:`sequential_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -1362,8 +1385,10 @@ class qualitative_hcl(hclpalette):
 class rainbow_hcl(qualitative_hcl):
     """HCL Based Rainbow Palette
 
-    HCL rainbow, a qualitative cyclic rainbow color palette with uniform
-    luminance and chroma.
+    `rainbow_hcl` computes a rainbow of colors via :py:class:`qualitative_hcl`
+    defined by different hues given a single value of each chroma and
+    luminance. It corresponds to `rainbow` which computes a rainbow in
+    HSV space.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
@@ -1406,10 +1431,10 @@ class rainbow_hcl(qualitative_hcl):
         >>>
         >>> #: Testing lambda function for both, start and end
         >>> pal = rainbow_hcl(start = lambda n: (n - 1) / n,
-        >>>                   end = lambda n: 360 - (n - 1) / n)
-        >>> pal(5)
+        >>>                   end   = lambda n: 360 - (n - 1) / n)
+        >>> pal.swatchplot(n = 5, show_names = False, figsize = (5.5, 0.5))
         >>> #:
-        >>> pal(11)
+        >>> pal.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5))
     """
 
     _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
@@ -1472,13 +1497,40 @@ class rainbow_hcl(qualitative_hcl):
 class diverging_hcl(hclpalette):
     """Diverging HCL Color Palettes
 
-    By default, `diverging_hcl` returns an object of class `hclpalette`
-    identical to the pre-defined `"Blue-Red"` palette.
+    The HCL (hue-chroma-luminance) color model is a perceptual color model
+    obtained by using polar coordinates in CIELUV space
+    (i.e., :py:class:`polarLUV <colorspace.colorlib.polarLUV>`),
+    where steps of equal size correspond to approximately equal perceptual
+    changes in color. By taking polar coordinates the resulting three
+    dimensions capture the three perceptual axes very well: hue is the type of
+    color, chroma the colorfulness compared to the corresponding gray, and
+    luminance the brightness. This makes it relatively easy to create balanced
+    palettes through trajectories in this HCL space. In contrast, in the more
+    commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation
+    of ‘RGB’), the three axes are confounded so that luminance changes along
+    with the hue leading to very unbalanced palettes.
+
+    `diverging_hcl` codes the underlying numeric values by a
+    triangular luminance sequence with different hues in the left and
+    in the right arm of the palette. Thus, it can be seen as a
+    combination of two sequential palettes with some restrictions: (a)
+    a single hue is used for each arm of the palette, (b) chroma and
+    luminance trajectory are balanced between the two arms, (c) the
+    neutral central value has zero chroma. To specify such a palette a
+    vector of two hues `h` (or equivalently `h1` and `h2`), either a
+    single chroma value `c` (or `c1`) or a vector of two chroma values
+    `c` (or `c1` and `cmax`), a vector of two luminances `l` (or `l1`
+    and `l2`), and power parameter(s) `power` (or `p1` and `p2`) are
+    used. For more flexible diverging palettes without the
+    restrictrictions above (and consequently more parameters)
+    `divergingx_hcl` is available. For backward compatibility,
+    `diverge_hcl` is a copy of `diverging_hcl`.
 
     If `h` is str it will overwrite the `palette` argument. In this case,
     pre-specified palette settings will be loaded but are allowed to be
-    overwritten by the user. At any time the user can overwrite any of
-    the settings.
+    overwritten by the user. At any time the user can overwrite any of the
+    settings. By default, `diverging_hcl` returns an object of class
+    `hclpalette` identical to the pre-defined `"Blue-Red"` palette.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -1710,6 +1762,28 @@ class divergingx_hcl(hclpalette):
     More flexible version of the `diverging_hcl` class. A diverging X
     palette basically consists of two multi-hue sequential palettes.
 
+    The `divergingx_hcl` function simply calls :py:class:`sequential_hcl` twice
+    with a prespecified set of hue, chroma, and luminance parameters. This is
+    similar to :py:class:`diverging_hcl` but allows for more flexibility:
+    :py:class:`diverging_hcl` employs two _single-hue_ sequential palettes,
+    always uses zero chroma for the neutral/central color, and restricts the
+    chroma/luminance path to be the same in both "arms" of the palette. In
+    contrast, `divergingx_hcl` relaxes this to two full _multi-hue_ palettes
+    that can thus go through a non-gray neutral color (typically light yellow).
+    Consequently, the chroma/luminance paths can be rather unbalanced between
+    the two arms.
+
+    With this additional flexibility various diverging palettes
+    suggested by <https://ColorBrewer2.org/> and CARTO
+    (<https://carto.com/carto-colors/>), can be emulated along with
+    the Zissou 1 palette from 'wesanderson', Cividis from 'viridis',
+    and Roma from 'scico'.
+
+    * Available CARTO palettes: ArmyRose, Earth, Fall, Geyser, TealRose,
+      Temps, and Tropic (available in :py:class:`diverging_hcl`).
+    * Available ColorBrewer.org palettes: PuOr, RdBu, RdGy, PiYG, PRGn,
+      BrBG, RdYlBu, RdYlGn, Spectral.
+
     If `h` is str it will overwrite the `palette` argument. In this case,
     pre-specified palette settings will be loaded but are allowed to be
     overwritten by the user. At any time the user can overwrite any of
@@ -1763,21 +1837,62 @@ class divergingx_hcl(hclpalette):
 
     Example:
 
-        >>> from colorspace import diverging_hcl
-        >>> a = diverging_hcl()
-        >>> a.colors(10)
-        >>> #: Different color palette by name
-        >>> b = diverging_hcl("Blue-Yellow 3")
-        >>> b.colors(10)
+        >>> from colorspace import divergingx_hcl
+        >>> pal1 = divergingx_hcl()
+        >>> pal1.colors(5)
         >>> #:
-        >>> b.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>> pal1.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>>
+        >>> #: Different color palette by name
+        >>> pal2 = divergingx_hcl("ArmyRose")
+        >>> pal2.colors(7)
+        >>> #:
+        >>> pal2.swatchplot(show_names = False, figsize = (5.5, 0.5));
+        >>>
         >>> #: The standard call of the object also returns hex colors
-        >>> diverging_hcl("Temps")(10)
+        >>> divergingx_hcl("Fall")(3)
+        >>>
+        >>> #: Manual palette with user settings. The following diverginx
+        >>> # palette goes from h = 180 (left) to h = 100 (center) and h = 20 (right).
+        >>> # Croma is c = 30 (left), c = 5 (center), and c = 30 (right).
+        >>> # In addition, both 'arms' have a maximum chroma of cmax = 70
+        >>> # in the center of each of the two arms.
+        >>> pal3 = divergingx_hcl(h = [180, 100, 20], 
+        >>>                       c = [30, 5, 30],
+        >>>                       cmax = [70, 70]) 
+        >>> pal3.specplot();
+        >>> #: Drawing 5 colors from the custom palette.
+        >>> pal3(3)
+        >>>
+        >>> #: Available default palettes (divergingx_hcl palettes)
+        >>> from colorspace import divergingx_hcl, swatchplot, palette
+        >>>
+        >>> carto  = ["ArmyRose", "Earth", "Fall",
+        >>>           "Geyser", "TealRose", "Temps"]                 
+        >>> brewer = ["PuOr", "RdBu", "RdGy", "PiYG", "PRGn",
+        >>>           "BrBG", "RdYlBu", "RdYlGn", "Spectral"]
+        >>> others = ["Zissou 1", "Cividis", "Roma"]
+        >>>
+        >>> # Create named palettes for swatchplot
+        >>> col_carto  = [palette(divergingx_hcl(x)(11), name = x) for x in carto]
+        >>> col_brewer = [palette(divergingx_hcl(x)(11), name = x) for x in carto]
+        >>> col_others = [palette(divergingx_hcl(x)(11), name = x) for x in others]
+        >>>
+        >>> # Visualize available divergingx palettes
+        >>> swatchplot({"Carto":  col_carto,
+        >>>             "Brewer": col_brewer,
+        >>>             "Others": col_others},
+        >>>            figsize = (5.5, 6));
+        >>>
+        >>> #: Checking settings of a specific palette
+        >>> pal4 = divergingx_hcl("PRGn")
+        >>> pal4.show_settings()
+
     """
 
-    _allowed_parameters = ["h1", "h2", "h3", "c1", "c2", "c3",
-                           "l1", "l2", "l3", "p1", "p2", "p3", "p4",
-                           "cmax1", "cmax2"]
+    _allowed_parameters = ["h1", "h2", "h3",
+                           "c1", "cmax1", "c2", "cmax2", "c3",
+                           "l1", "l2", "l3", "p1", "p2", "p3", "p4"]
     _name = "DivergingX HCL"
 
     def __init__(self, h = [192, 77, 21], c = [40, 35, 100], l = [50, 95, 50], \
@@ -1978,13 +2093,42 @@ class divergingx_hcl(hclpalette):
 class sequential_hcl(hclpalette):
     """Sequential HCL Color Palettes
 
+    The HCL (hue-chroma-luminance) color model is a perceptual color model
+    obtained by using polar coordinates in CIELUV space
+    (i.e., :py:class:`polarLUV <colorspace.colorlib.polarLUV>`),
+    where steps of equal size correspond to approximately equal perceptual
+    changes in color. By taking polar coordinates the resulting three
+    dimensions capture the three perceptual axes very well: hue is the type of
+    color, chroma the colorfulness compared to the corresponding gray, and
+    luminance the brightness. This makes it relatively easy to create balanced
+    palettes through trajectories in this HCL space. In contrast, in the more
+    commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation
+    of ‘RGB’), the three axes are confounded so that luminance changes along
+    with the hue leading to very unbalanced palettes.
+
+    `qualitative_hcl` distinguishes the underlying categories by a sequence of
+    hues while keeping both chroma and luminance constant to give each color in
+    the resulting palette the same perceptual weight. Thus, `h` should be a
+    pair of hues (or equivalently `h1` and `h2` can be used) with the starting
+    and ending hue of the palette. Then, an equidistant sequence between these
+    hues is employed, by default spanning the full color wheel (i.e, the full
+    360 degrees). Chroma `c` (or equivalently `c1`) and luminance `l` (or
+    equivalently `l1`) are constants. If `h` is str it will overwrite the
+    `palette` argument. In this case, pre-specified palette settings will be
+    loaded but are allowed to be overwritten by the user. At any time the user
+    can overwrite any of the settings.
+
     By default, `sequential_hcl` returns an object of class `hclpalette`
     identical to the pre-defined `"Blues 2"` palette.
 
-    If `h` is str it will overwrite the `palette` argument. In this case,
-    pre-specified palette settings will be loaded but are allowed to be
-    overwritten by the user. At any time the user can overwrite any of
-    the settings.
+    `h1` and `h2` both allow for lambda functions to create uniformly distributed
+    hues around the (full) circle (360 degrees).
+
+    * `h1`: can be a lambda function with one single argument `n` (number of colors).
+    * `h2`: can be a lambda function with one or two arguments. If only one, `n`
+        (number of colors) will be handed over when evaluated. If two, the first
+        one is expected to be `n` (number of colors), as second argument the
+        value `h1` will be used.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`diverging_hcl`,
     :py:class:`divergingx_hcl`, :py:class:`rainbow_hcl`, :py:class:`heat_hcl`,
@@ -2187,7 +2331,8 @@ class sequential_hcl(hclpalette):
 class heat_hcl(sequential_hcl):
     """HCL Based Heat Color Palette
 
-    Heat hcl, a sequential HCL color palette.
+    `heat_hcl` is an implementation of the base _R_ 'heat.colors' palette but
+    constructed in HCL space based on a call to :py:class:`sequential_hcl`. 
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
@@ -2272,7 +2417,8 @@ class heat_hcl(sequential_hcl):
 class terrain_hcl(sequential_hcl):
     """HCL Based Terrain Color Palette
 
-    Terrain colors, a sequential HCL palette.
+    `terrain_hcl` is an implementation of the base _R_ 'terrain.colors' palette but
+    constructed in HCL space based on a call to :py:class:`sequential_hcl`. 
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
@@ -2352,6 +2498,11 @@ class terrain_hcl(sequential_hcl):
 class diverging_hsv(hclpalette):
     """Diverging HSV Color Palettes
 
+    `diverging_hsv` provides an HSV-based version of :py:class:`diverging_hcl`.
+    Its purpose is mainly didactic to show that HSV-based diverging palettes
+    are less appealing, more difficult to read and more flashy than HCL-based
+    diverging palettes.
+
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
     :py:class:`rainbow_hcl`, :py:class:`heat_hcl`, :py:class:`terrain_hcl`, and
@@ -2366,7 +2517,7 @@ class diverging_hsv(hclpalette):
             argument acts like the `palette` argument (see `palette` input
             parameter).
         s (float): Saturation value for the two ends of the palette.
-        v (float): Value (the HSV value) of the two ends of the palette.
+        v (float): Value (the HSV value) of the colors.
         power (numeric): Power parameter for non-linear behaviour of the color
             palette.
         fixup (bool): Only used when converting the HCL colors to hex.  Should
@@ -2391,6 +2542,15 @@ class diverging_hsv(hclpalette):
         >>> pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
         >>> #: The standard call of the object also returns hex colors
         >>> diverging_hsv()(10)
+        >>> #: Manually modified palette from 'cyan' to 'orange'
+        >>> diverging_hsv(h = [180, 30]).swatchplot(
+        >>>               n = 7, show_names = False, figsize = (5.5, 0.5))
+        >>> #: Additionally, lower saturation on the two ends
+        >>> diverging_hsv(h = [180, 30], s = 0.4).swatchplot(
+        >>>               n = 7, show_names = False, figsize = (5.5, 0.5))
+        >>> #: Lowering the value
+        >>> diverging_hsv(h = [180, 30], s = 0.4, v = 0.75).swatchplot(
+        >>>               n = 7, show_names = False, figsize = (5.5, 0.5))
     """
 
     _allowed_parameters = ["h1", "h2", "s", "v"]
@@ -2405,18 +2565,18 @@ class diverging_hsv(hclpalette):
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            h     = self._checkinput_(int,   2, True,  False, h = h)
+            h     = self._checkinput_(int,   2, 2,     False, h = h)
             s     = self._checkinput_(float, 1, False, False, s = s)
             v     = self._checkinput_(float, 1, False, False, v = v)
-            power = self._checkinput_(float, 1, True,  False, power = power)
+            power = self._checkinput_(float, 1, 1,     False, power = power)
         except Exception as e:
             raise ValueError(str(e))
 
         # Save settins
         try:
-            self.settings = {"h1": int(h[0]), "h2": int(h[1]),
-                             "s":  s,  "v": v,  "power": power,
-                             "fixup": bool(fixup)}
+            self.settings = {"h1": int(h[0]),   "h2": int(h[1]),
+                             "s":  float(s[0]), "v":  float(v[0]),
+                             "power": power,    "fixup": bool(fixup)}
         except ValueError as e:
             raise ValueError(f"wrong inputs to {self.__class__.__name__}: {str(e)}")
         except Exception as e:
@@ -2450,18 +2610,20 @@ class diverging_hsv(hclpalette):
         longer needed; else think about revamping this functionality.
         """
 
-        from numpy import linspace, power, abs, repeat
+        from numpy import linspace, power, abs, repeat, where
         from numpy import ndarray, ndenumerate
+        from .colorlib import HSV
 
         # Calculate palette
         rval = linspace(-self.get("s"), self.get("s"), n)
-        H = ndarray(n, dtype = "float")
-        for i,val in ndenumerate(rval):
-            H[i] = self.get("h1") if val > 0 else self.get("h2")
+
+        # Calculate H, S, V coordinates
+        H    = repeat(self.get("h1"), n)
+        H[where(rval > 0)] = self.get("h2")
         S = power(abs(rval), self.get("power"))
         V = repeat(self.get("v"), n)
 
-        from .colorlib import HSV
+        # Generate color object
         HSV = HSV(H, S, V)
 
         # If kwargs have a key "colorobject" return HCL colorobject
@@ -2480,6 +2642,20 @@ class diverging_hsv(hclpalette):
 # -------------------------------------------------------------------
 class rainbow(hclpalette):
     """Infamous sRGB Rainbow Color Palette
+
+    Implements the (in-)famous rainbow (or jet) color palette that was used
+    very frequently in many software packages but has been widely criticized
+    for its many perceptual problems. It is specified by a `start` and `end`
+    hue $\in [0.-1.]$ with `red = 0`, `yellow = 1/6`, `green = 2/6`, `cyan =
+    3/6`, blue = `4/6`, and `magenta = 5/6`. However, these are very flashy and
+    unbalanced with respect to both chroma and luminance which can lead to
+    various optical illusions. Also, the hues that are equispaced in RGB space
+    tend to cluster at the red, green, and blue primaries. Therefore, it is
+    recommended to use a suitable palette from `hcl.colors` instead of
+    `rainbow`.
+
+    `start` and/or `end` both allow for lambda functions with one single
+    argument `n` (number of colors), see examples.
 
     See also: :py:class:`qualitative_hcl`, :py:class:`sequential_hcl`,
     :py:class:`diverging_hcl`, :py:class:`divergingx_hcl`,
@@ -2514,6 +2690,12 @@ class rainbow(hclpalette):
         >>> pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
         >>> #: The standard call of the object also returns hex colors
         >>> rainbow()(10)
+        >>>
+        >>> #: Using lambda functions for start/end
+        >>> p = rainbow(start = lambda n: 1 / n, end = lambda n: 1 - 1 / n)
+        >>> p.swatchplot(n = 5, show_names = False, figsize = (5.5, 0.5));
+        >>> #:
+        >>> p.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5));
 
     Raises:
         ValueError: If `s` or `v` are not single floating point values (or int)
