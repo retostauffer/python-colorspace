@@ -62,6 +62,10 @@ opacity. If `None` (default) no transparency is added.</dd>
     </dt>
     <dd>Check for Alpha Channel</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[polarLUV.hclplot(**kwargs)](colorspace.colorlib.polarLUV.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[polarLUV.length()](colorspace.colorlib.polarLUV.length.qmd)</code>
     </dt>
     <dd>Get Number of Colors</dd>

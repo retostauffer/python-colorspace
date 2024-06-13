@@ -50,6 +50,10 @@ colors will be handled as `numpy.nan`.</dd>
     </dt>
     <dd>Check for Alpha Channel</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[hexcols.hclplot(**kwargs)](colorspace.colorlib.hexcols.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[hexcols.length()](colorspace.colorlib.hexcols.length.qmd)</code>
     </dt>
     <dd>Get Number of Colors</dd>

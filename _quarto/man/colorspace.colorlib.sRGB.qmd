@@ -64,6 +64,10 @@ Can be specified to overwrite the default.</dd>
     </dt>
     <dd>Check for Alpha Channel</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[sRGB.hclplot(**kwargs)](colorspace.colorlib.sRGB.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[sRGB.length()](colorspace.colorlib.sRGB.length.qmd)</code>
     </dt>
     <dd>Get Number of Colors</dd>

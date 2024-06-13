@@ -75,7 +75,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         >>> # Sequential HCL palette, hclplot with all available options
         >>> from colorspace import sequential_hcl, hclplot
         >>>
-        >>> x = sequential_hcl("Red-Blue")(10)
+        >>> x = sequential_hcl("Red-Blue")(5)
         >>> hclplot(x,
         >>>         xlabel  = "Chroma dimension",
         >>>         ylabel  = "Luminance dimension",
@@ -87,8 +87,8 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         >>> 
         >>> # Three different palettes  
         >>> pal1 = sequential_hcl(h = 260, c = 80,          l = [35, 95], power = 1)
-        >>> pal2 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = 1)
-        >>> pal3 = sequential_hcl(h = 245, c = [40, 0, 75], l = [30, 95], power = [0.8, 1.4])
+        >>> pal2 = sequential_hcl(h = 245, c = [40, 75, 0], l = [30, 95], power = 1)
+        >>> pal3 = sequential_hcl(h = 245, c = [40, 75, 0], l = [30, 95], power = [0.8, 1.4])
         >>> #:
         >>> pal1.show_settings()
         >>> #:

@@ -82,6 +82,10 @@ see examples.
     </dt>
     <dd>Get Specific Palette Setting</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[terrain_hcl.hclplot(n=7, **kwargs)](colorspace.palettes.terrain_hcl.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[terrain_hcl.name()](colorspace.palettes.terrain_hcl.name.qmd)</code>
     </dt>
     <dd>Get Palette Name</dd>

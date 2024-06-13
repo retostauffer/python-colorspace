@@ -44,10 +44,10 @@ pair of colors.</dd>
    <code id="colorspace.colorlib.compare_colors:atol">atol</code><code class="argument-class">None or float</code>
   </dt>
  <dd>Absolute tolerance for the distance measure
-between two colors to be considered as nearly equal. Only used if
-`exact = False`, else `atol = 1e-6` is used.  If set to `None`
-the tolerance will automatically be set depending on the type of the
-objects. Defaults to None.</dd>
+between two colors to be considered as nearly equal (must be > 0 if set).
+Only used if `exact = False`, else `atol = 1e-6` is used.  If set
+to `None` the tolerance will automatically be set depending on the
+type of the objects. Defaults to None.</dd>
 </dl>
 
 ### Return
@@ -148,7 +148,8 @@ compare_colors(z, zz)
 <li><code class="text-warning">TypeError</code>: If `a` and `b` are not of the same class.
 <li><code class="text-warning">ValueError</code>: If `a` and `b` are not of the same length, i.e., do not contain
 the same number of colors.
-<li><code class="text-warning">ValueError</code>: If `exact` or `_all` are not bool.
-<li><code class="text-warning">ValueError</code>: If `atol` is neither `None` nor float.
+<li><code class="text-warning">TypeError</code>: If `exact` or `_all` are not bool.
+<li><code class="text-warning">TypeError</code>: If `atol` is neither `None` nor float.
+<li><code class="text-warning">ValueError</code>: If `atol` is not larger than 0.
 </ul>
 

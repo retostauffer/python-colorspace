@@ -93,6 +93,10 @@ examples.
     </dt>
     <dd>Get Specific Palette Setting</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[qualitative_hcl.hclplot(n=7, **kwargs)](colorspace.palettes.qualitative_hcl.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[qualitative_hcl.name()](colorspace.palettes.qualitative_hcl.name.qmd)</code>
     </dt>
     <dd>Get Palette Name</dd>

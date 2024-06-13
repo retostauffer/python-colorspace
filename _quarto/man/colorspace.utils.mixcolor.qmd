@@ -9,7 +9,7 @@ additive mixing (e.g., as appropriate for RGB and XYZ).
 
 ### Usage
 
-<pre><code class='language-python'>mixcolor(alpha, color1, color2, where=1)</code></pre>
+<pre><code class='language-python'>mixcolor(alpha, color1, color2, where)</code></pre>
 
 ### Arguments
 

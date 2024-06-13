@@ -42,7 +42,7 @@ Only used if `files = None`.</dd>
     </dt>
     <dd>Get Palette Types</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[hclpalettes.get_palettes(type_=None)](colorspace.palettes.hclpalettes.get_palettes.qmd)</code>
+       <code>[hclpalettes.get_palettes(type_=None, exact=False)](colorspace.palettes.hclpalettes.get_palettes.qmd)</code>
     </dt>
     <dd>Get Type-Specific Palettes</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">

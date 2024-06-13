@@ -61,6 +61,10 @@ opacity. If `None` (default) no transparency is added.</dd>
     </dt>
     <dd>Check for Alpha Channel</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[CIELAB.hclplot(**kwargs)](colorspace.colorlib.CIELAB.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[CIELAB.length()](colorspace.colorlib.CIELAB.length.qmd)</code>
     </dt>
     <dd>Get Number of Colors</dd>

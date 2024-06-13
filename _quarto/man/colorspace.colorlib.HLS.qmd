@@ -62,6 +62,10 @@ opacity. If `None` (default) no transparency is added.</dd>
     </dt>
     <dd>Check for Alpha Channel</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HLS.hclplot(**kwargs)](colorspace.colorlib.HLS.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[HLS.length()](colorspace.colorlib.HLS.length.qmd)</code>
     </dt>
     <dd>Get Number of Colors</dd>

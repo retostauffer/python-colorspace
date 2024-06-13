@@ -8,7 +8,7 @@ Get all palettes of a specific type.
 
 ### Usage
 
-<pre><code class='language-python'>hclpalettes.get_palettes(type_=None)</code></pre>
+<pre><code class='language-python'>hclpalettes.get_palettes(type_=None, exact=False)</code></pre>
 
 ### Arguments
 
@@ -20,8 +20,22 @@ Get all palettes of a specific type.
 String matching is used; partial matches are allowed.
 If set to `None` (default) all palettes will be returned. Names
 have to match but are not case sensitive, defaults to None.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.hclpalettes.get_palettes:exact">exact</code><code class="argument-class">bool</code>
+  </dt>
+ <dd>If `False` (default) partial matching is used. If `True`,
+`type_` must be an exact match (case sensitive).</dd>
 </dl>
 
 ### Return
 
 Returns a `list` containing `defaultpalette` objects objects.
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If `type_` is not str or None.
+<li><code class="text-warning">TypeError</code>: If `exact` is not bool.
+<li><code class="text-warning">ValueError</code>: If no matching palette is found.
+</ul>
+
