@@ -307,6 +307,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.utils.lighten.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">lighten</span></a>
   </div>
@@ -339,12 +345,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/colorspace.swatchplot.swatchplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">swatchplot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">hclplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -614,7 +614,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="75c7817d" class="cell" data-execution_count="1">
+<div id="9d7a8001" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check contrast ratio of default palette on white background</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, contrast_ratio</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> rainbow().colors(<span class="dv">7</span>)</span>
@@ -625,7 +625,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
         2.72729349,  6.27489463])</code></pre>
 </div>
 </div>
-<div id="e352d68c" class="cell" data-execution_count="2">
+<div id="28050585" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize contrast ratio against white</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#FFFFFF"</span>, plot <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -636,7 +636,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
 </div>
 </div>
 </div>
-<div id="bb09ffab" class="cell" data-execution_count="3">
+<div id="27c4475d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize contrast ratio against black</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#000000"</span>, plot <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -647,7 +647,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
 </div>
 </div>
 </div>
-<div id="13b3b376" class="cell" data-execution_count="4">
+<div id="958dca80" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing figure size</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#000000"</span>, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">

@@ -310,6 +310,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.utils.lighten.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">lighten</span></a>
   </div>
@@ -342,12 +348,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/colorspace.swatchplot.swatchplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">swatchplot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">hclplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -545,8 +545,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
+<p>The HCL (hue-chroma-luminance) color model is a perceptual color model obtained by using polar coordinates in CIELUV space (i.e., <a href="../man/colorspace.colorlib.polarLUV.html">polarLUV</a>), where steps of equal size correspond to approximately equal perceptual changes in color. By taking polar coordinates the resulting three dimensions capture the three perceptual axes very well: hue is the type of color, chroma the colorfulness compared to the corresponding gray, and luminance the brightness. This makes it relatively easy to create balanced palettes through trajectories in this HCL space. In contrast, in the more commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation of ‘RGB’), the three axes are confounded so that luminance changes along with the hue leading to very unbalanced palettes.</p>
+<p><code>qualitative_hcl</code> distinguishes the underlying categories by a sequence of hues while keeping both chroma and luminance constant to give each color in the resulting palette the same perceptual weight. Thus, <code>h</code> should be a pair of hues (or equivalently <code>h1</code> and <code>h2</code> can be used) with the starting and ending hue of the palette. Then, an equidistant sequence between these hues is employed, by default spanning the full color wheel (i.e, the full 360 degrees). Chroma <code>c</code> (or equivalently <code>c1</code>) and luminance <code>l</code> (or equivalently <code>l1</code>) are constants. If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user. At any time the user can overwrite any of the settings. If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user. At any time the user can overwrite any of the settings.</p>
 <p>By default, <code>qualitative_hcl</code> returns an object of class <code>hclpalette</code> which allows to draw a number of colors (<code>n</code>) uniformly distributed around the circle (<code>[0, 360 * (n - 1) / n]</code>) controlled via the <code>h</code> (Hue) argument. As the number of colors is not yet defined, the upper hue limit (<code>h[1]</code>, <code>h2</code>) is defined via lambda function.</p>
-<p>If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user. At any time the user can overwrite any of the settings.</p>
 <p>See also: <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>, <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.divergingx_hcl.html">divergingx_hcl</a>, <a href="../man/colorspace.palettes.rainbow_hcl.html">rainbow_hcl</a>, <a href="../man/colorspace.palettes.heat_hcl.html">heat_hcl</a>, <a href="../man/colorspace.palettes.terrain_hcl.html">terrain_hcl</a>, <a href="../man/colorspace.palettes.diverging_hsv.html">diverging_hsv</a>, and <a href="../man/colorspace.palettes.rainbow.html">rainbow</a>.</p>
 </section>
 <section id="usage" class="level3">
@@ -659,7 +660,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="f66b9426" class="cell" data-execution_count="1">
+<div id="5c29a904" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> qualitative_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -676,7 +677,7 @@ Palette Swatch Plot
  '#DD64BE']</code></pre>
 </div>
 </div>
-<div id="7bdd0468" class="cell" data-execution_count="2">
+<div id="69f16f68" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> qualitative_hcl(<span class="st">"Warm"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -692,7 +693,7 @@ Palette Swatch Plot
  '#E093C3']</code></pre>
 </div>
 </div>
-<div id="ed24407a" class="cell" data-execution_count="3">
+<div id="b4a6f4c5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -702,7 +703,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="0fcb34c6" class="cell" data-execution_count="4">
+<div id="aa5ea3aa" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(<span class="st">"Warm"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -718,7 +719,7 @@ Palette Swatch Plot
  '#E093C3']</code></pre>
 </div>
 </div>
-<div id="81669e2c" class="cell" data-execution_count="5">
+<div id="82f71191" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example where `h` is a list of two lambda functions</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hexcols</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> qualitative_hcl([<span class="kw">lambda</span> n: <span class="fl">100.</span> <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n,  </span>
@@ -735,7 +736,7 @@ Palette Swatch Plot
 </ul>
 </div>
 </div>
-<div id="73420b3f" class="cell" data-execution_count="6">
+<div id="53829898" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"HCL"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">

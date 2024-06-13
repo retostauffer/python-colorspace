@@ -307,6 +307,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.utils.lighten.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">lighten</span></a>
   </div>
@@ -339,12 +345,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/colorspace.swatchplot.swatchplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">swatchplot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">hclplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -541,8 +541,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>By default, <code>diverging_hcl</code> returns an object of class <code>hclpalette</code> identical to the pre-defined <code>"Blue-Red"</code> palette.</p>
-<p>If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user. At any time the user can overwrite any of the settings.</p>
+<p>The HCL (hue-chroma-luminance) color model is a perceptual color model obtained by using polar coordinates in CIELUV space (i.e., <a href="../man/colorspace.colorlib.polarLUV.html">polarLUV</a>), where steps of equal size correspond to approximately equal perceptual changes in color. By taking polar coordinates the resulting three dimensions capture the three perceptual axes very well: hue is the type of color, chroma the colorfulness compared to the corresponding gray, and luminance the brightness. This makes it relatively easy to create balanced palettes through trajectories in this HCL space. In contrast, in the more commonly-used ‘HSV’ (hue-saturation-value) model (a simple transformation of ‘RGB’), the three axes are confounded so that luminance changes along with the hue leading to very unbalanced palettes.</p>
+<p><code>diverging_hcl</code> codes the underlying numeric values by a triangular luminance sequence with different hues in the left and in the right arm of the palette. Thus, it can be seen as a combination of two sequential palettes with some restrictions: (a) a single hue is used for each arm of the palette, (b) chroma and luminance trajectory are balanced between the two arms, (c) the neutral central value has zero chroma. To specify such a palette a vector of two hues <code>h</code> (or equivalently <code>h1</code> and <code>h2</code>), either a single chroma value <code>c</code> (or <code>c1</code>) or a vector of two chroma values <code>c</code> (or <code>c1</code> and <code>cmax</code>), a vector of two luminances <code>l</code> (or <code>l1</code> and <code>l2</code>), and power parameter(s) <code>power</code> (or <code>p1</code> and <code>p2</code>) are used. For more flexible diverging palettes without the restrictrictions above (and consequently more parameters) <code>divergingx_hcl</code> is available. For backward compatibility, <code>diverge_hcl</code> is a copy of <code>diverging_hcl</code>.</p>
+<p>If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user. At any time the user can overwrite any of the settings. By default, <code>diverging_hcl</code> returns an object of class <code>hclpalette</code> identical to the pre-defined <code>"Blue-Red"</code> palette.</p>
 <p>See also: <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a>, <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>, <a href="../man/colorspace.palettes.divergingx_hcl.html">divergingx_hcl</a>, <a href="../man/colorspace.palettes.rainbow_hcl.html">rainbow_hcl</a>, <a href="../man/colorspace.palettes.heat_hcl.html">heat_hcl</a>, <a href="../man/colorspace.palettes.terrain_hcl.html">terrain_hcl</a>, <a href="../man/colorspace.palettes.diverging_hsv.html">diverging_hsv</a>, and <a href="../man/colorspace.palettes.rainbow.html">rainbow</a>.</p>
 </section>
 <section id="usage" class="level3">
@@ -667,7 +668,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="8cf39c15" class="cell" data-execution_count="1">
+<div id="828c7bda" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> diverging_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -684,7 +685,7 @@ Palette Swatch Plot
  '#8E063B']</code></pre>
 </div>
 </div>
-<div id="5500f2f2" class="cell" data-execution_count="2">
+<div id="babe25b0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different color palette by name</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> diverging_hcl(<span class="st">"Tropic"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -701,7 +702,7 @@ Palette Swatch Plot
  '#C75DAA']</code></pre>
 </div>
 </div>
-<div id="623bac1f" class="cell" data-execution_count="3">
+<div id="3199c744" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -711,7 +712,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="4ff4c221" class="cell" data-execution_count="4">
+<div id="f3680423" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diverging_hcl(<span class="st">"Tropic"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">

@@ -307,6 +307,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.utils.lighten.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">lighten</span></a>
   </div>
@@ -339,12 +345,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/colorspace.swatchplot.swatchplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">swatchplot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">hclplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -541,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>HCL rainbow, a qualitative cyclic rainbow color palette with uniform luminance and chroma.</p>
+<p><code>rainbow_hcl</code> computes a rainbow of colors via <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a> defined by different hues given a single value of each chroma and luminance. It corresponds to <code>rainbow</code> which computes a rainbow in HSV space.</p>
 <p>See also: <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a>, <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>, <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.divergingx_hcl.html">divergingx_hcl</a>, <a href="../man/colorspace.palettes.heat_hcl.html">heat_hcl</a>, <a href="../man/colorspace.palettes.terrain_hcl.html">terrain_hcl</a>, <a href="../man/colorspace.palettes.diverging_hsv.html">diverging_hsv</a>, and <a href="../man/colorspace.palettes.rainbow.html">rainbow</a>.</p>
 </section>
 <section id="usage" class="level3">
@@ -666,7 +666,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="675615e5" class="cell" data-execution_count="1">
+<div id="3d073cde" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -683,7 +683,7 @@ Palette Swatch Plot
  '#DE94C8']</code></pre>
 </div>
 </div>
-<div id="4b9db122" class="cell" data-execution_count="2">
+<div id="93cf29dd" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -693,7 +693,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="73bcb379" class="cell" data-execution_count="3">
+<div id="38e9fac5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors. Thus,</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can make your code slimmer by calling</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rainbow_hcl()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -710,29 +710,27 @@ Palette Swatch Plot
  '#DE94C8']</code></pre>
 </div>
 </div>
-<div id="685db2f3" class="cell" data-execution_count="4">
+<div id="bb968dfd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing lambda function for both, start and end</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl(start <span class="op">=</span> <span class="kw">lambda</span> n: (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                  end <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">360</span> <span class="op">-</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>pal(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>['#E495A4', '#AAB065', '#39BEB1', '#ABA4E2', '#E495A6']</code></pre>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                  end   <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">360</span> <span class="op">-</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(n <span class="op">=</span> <span class="dv">5</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.rainbow_hcl_files/figure-html/cell-5-output-1.png" width="547" height="67" class="figure-img"></p>
+</figure>
 </div>
 </div>
-<div id="b7ac253c" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pal(<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>['#E495A4',
- '#D79F7E',
- '#BCAB66',
- '#95B56D',
- '#64BC8C',
- '#39BEB1',
- '#55B8D0',
- '#90ACE1',
- '#C19DDE',
- '#DD94C8',
- '#E495A6']</code></pre>
+</div>
+<div id="f4e829ee" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(n <span class="op">=</span> <span class="dv">10</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.rainbow_hcl_files/figure-html/cell-6-output-1.png" width="547" height="67" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 

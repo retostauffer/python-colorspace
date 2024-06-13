@@ -307,6 +307,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.utils.lighten.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">lighten</span></a>
   </div>
@@ -339,12 +345,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/colorspace.swatchplot.swatchplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">swatchplot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">hclplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -541,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Terrain colors, a sequential HCL palette.</p>
+<p><code>terrain_hcl</code> is an implementation of the base <em>R</em> ‘terrain.colors’ palette but constructed in HCL space based on a call to <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>.</p>
 <p>See also: <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a>, <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>, <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.divergingx_hcl.html">divergingx_hcl</a>, <a href="../man/colorspace.palettes.rainbow_hcl.html">rainbow_hcl</a>, <a href="../man/colorspace.palettes.heat_hcl.html">heat_hcl</a>, <a href="../man/colorspace.palettes.diverging_hsv.html">diverging_hsv</a>, and <a href="../man/colorspace.palettes.rainbow.html">rainbow</a>.</p>
 </section>
 <section id="usage" class="level3">
@@ -666,7 +666,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="4a841ed4" class="cell" data-execution_count="1">
+<div id="7eb9b0f6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> terrain_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> terrain_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -683,7 +683,7 @@ Palette Swatch Plot
  '#F1F1F1']</code></pre>
 </div>
 </div>
-<div id="6434407c" class="cell" data-execution_count="2">
+<div id="01242942" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -693,7 +693,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="3c3f008e" class="cell" data-execution_count="3">
+<div id="871d6354" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>terrain_hcl()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">

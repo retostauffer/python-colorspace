@@ -307,6 +307,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">hclplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.utils.lighten.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">lighten</span></a>
   </div>
@@ -339,12 +345,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../man/colorspace.swatchplot.swatchplot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">swatchplot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.hclplot.hclplot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">hclplot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -542,6 +542,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p>More flexible version of the <code>diverging_hcl</code> class. A diverging X palette basically consists of two multi-hue sequential palettes.</p>
+<p>The <code>divergingx_hcl</code> function simply calls <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a> twice with a prespecified set of hue, chroma, and luminance parameters. This is similar to <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a> but allows for more flexibility: <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a> employs two <em>single-hue</em> sequential palettes, always uses zero chroma for the neutral/central color, and restricts the chroma/luminance path to be the same in both “arms” of the palette. In contrast, <code>divergingx_hcl</code> relaxes this to two full <em>multi-hue</em> palettes that can thus go through a non-gray neutral color (typically light yellow). Consequently, the chroma/luminance paths can be rather unbalanced between the two arms.</p>
+<p>With this additional flexibility various diverging palettes suggested by <a href="https://ColorBrewer2.org/" class="uri">https://ColorBrewer2.org/</a> and CARTO (<a href="https://carto.com/carto-colors/" class="uri">https://carto.com/carto-colors/</a>), can be emulated along with the Zissou 1 palette from ‘wesanderson’, Cividis from ‘viridis’, and Roma from ‘scico’.</p>
+<ul>
+<li>Available CARTO palettes: ArmyRose, Earth, Fall, Geyser, TealRose, Temps, and Tropic (available in <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>).</li>
+<li>Available ColorBrewer.org palettes: PuOr, RdBu, RdGy, PiYG, PRGn, BrBG, RdYlBu, RdYlGn, Spectral.</li>
+</ul>
 <p>If <code>h</code> is str it will overwrite the <code>palette</code> argument. In this case, pre-specified palette settings will be loaded but are allowed to be overwritten by the user. At any time the user can overwrite any of the settings.</p>
 <p>See also: <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a>, <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>, <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.rainbow_hcl.html">rainbow_hcl</a>, <a href="../man/colorspace.palettes.heat_hcl.html">heat_hcl</a>, <a href="../man/colorspace.palettes.terrain_hcl.html">terrain_hcl</a>, <a href="../man/colorspace.palettes.diverging_hsv.html">diverging_hsv</a>, and <a href="../man/colorspace.palettes.rainbow.html">rainbow</a>.</p>
 </section>
@@ -673,64 +679,121 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="5aff3eac" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> diverging_hcl()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="75ad59dd" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> divergingx_hcl</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal1 <span class="op">=</span> divergingx_hcl()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal1.colors(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>['#023FA5',
- '#6371AF',
- '#959CC3',
- '#BEC1D4',
- '#DBDCE0',
- '#E0DBDC',
- '#D6BCC0',
- '#C6909A',
- '#AE5A6D',
- '#8E063B']</code></pre>
+<pre><code>['#008585', '#9BBAA0', '#FBF2C4', '#D4AA7F', '#C7522B']</code></pre>
 </div>
 </div>
-<div id="6c39ad1f" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different color palette by name</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> diverging_hcl(<span class="st">"Blue-Yellow 3"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>['#9FA2FF',
- '#BCBFFF',
- '#D3D5FF',
- '#E3E4FF',
- '#ECEDFF',
- '#F6F1CE',
- '#F2EBAC',
- '#E7DD87',
- '#D4C958',
- '#BAAE00']</code></pre>
-</div>
-</div>
-<div id="f5a10a36" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="933529ef" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal1.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="colorspace.palettes.divergingx_hcl_files/figure-html/cell-4-output-1.png" width="547" height="67" class="figure-img"></p>
+<p><img src="colorspace.palettes.divergingx_hcl_files/figure-html/cell-3-output-1.png" width="547" height="67" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="da6436f5" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diverging_hcl(<span class="st">"Temps"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>['#089392',
- '#2DA7A6',
- '#46BCBB',
- '#5DD1D0',
- '#75E7E6',
- '#DFD792',
- '#CAC27D',
- '#B5AD6A',
- '#A09957',
- '#8C8545']</code></pre>
+<div id="37482731" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different color palette by name</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pal2 <span class="op">=</span> divergingx_hcl(<span class="st">"ArmyRose"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pal2.colors(<span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['#D66982', '#DF94A3', '#EEBEC7', '#FFF2F7', '#F3C3B2', '#BEA062', '#798233']</code></pre>
+</div>
+</div>
+<div id="de11b05b" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pal2.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.divergingx_hcl_files/figure-html/cell-5-output-1.png" width="547" height="67" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="1ba716bf" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>divergingx_hcl(<span class="st">"Fall"</span>)(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>['#3C5941', '#FBF2C4', '#C7522B']</code></pre>
+</div>
+</div>
+<div id="931d29be" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual palette with user settings. The following diverginx</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># palette goes from h = 180 (left) to h = 100 (center) and h = 20 (right).</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Croma is c = 30 (left), c = 5 (center), and c = 30 (right).</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># In addition, both 'arms' have a maximum chroma of cmax = 70</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># in the center of each of the two arms.</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>pal3 <span class="op">=</span> divergingx_hcl(h <span class="op">=</span> [<span class="dv">180</span>, <span class="dv">100</span>, <span class="dv">20</span>], </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                      c <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">5</span>, <span class="dv">30</span>],</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                      cmax <span class="op">=</span> [<span class="dv">70</span>, <span class="dv">70</span>]) </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>pal3.specplot()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.divergingx_hcl_files/figure-html/cell-7-output-1.png" width="638" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="bdca4f5d" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drawing 5 colors from the custom palette.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pal3(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>['#3C827A', '#EFF2EB', '#976D66']</code></pre>
+</div>
+</div>
+<div id="832c453b" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Available default palettes (divergingx_hcl palettes)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> divergingx_hcl, swatchplot, palette</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>carto  <span class="op">=</span> [<span class="st">"ArmyRose"</span>, <span class="st">"Earth"</span>, <span class="st">"Fall"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Geyser"</span>, <span class="st">"TealRose"</span>, <span class="st">"Temps"</span>]                 </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>brewer <span class="op">=</span> [<span class="st">"PuOr"</span>, <span class="st">"RdBu"</span>, <span class="st">"RdGy"</span>, <span class="st">"PiYG"</span>, <span class="st">"PRGn"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">"BrBG"</span>, <span class="st">"RdYlBu"</span>, <span class="st">"RdYlGn"</span>, <span class="st">"Spectral"</span>]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>others <span class="op">=</span> [<span class="st">"Zissou 1"</span>, <span class="st">"Cividis"</span>, <span class="st">"Roma"</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create named palettes for swatchplot</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>col_carto  <span class="op">=</span> [palette(divergingx_hcl(x)(<span class="dv">11</span>), name <span class="op">=</span> x) <span class="cf">for</span> x <span class="kw">in</span> carto]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>col_brewer <span class="op">=</span> [palette(divergingx_hcl(x)(<span class="dv">11</span>), name <span class="op">=</span> x) <span class="cf">for</span> x <span class="kw">in</span> carto]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>col_others <span class="op">=</span> [palette(divergingx_hcl(x)(<span class="dv">11</span>), name <span class="op">=</span> x) <span class="cf">for</span> x <span class="kw">in</span> others]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize available divergingx palettes</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>swatchplot({<span class="st">"Carto"</span>:  col_carto,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Brewer"</span>: col_brewer,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Others"</span>: col_others},</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>           figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="dv">6</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.divergingx_hcl_files/figure-html/cell-9-output-1.png" width="547" height="595" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="10521bad" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking settings of a specific palette</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pal4 <span class="op">=</span> divergingx_hcl(<span class="st">"PRGn"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>pal4.show_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Class:  divergingx_hcl
+h1           300
+h2           300
+h3           128
+c1            30
+cmax1         65
+c2             0
+cmax2         65
+c3            30
+l1            15
+l2            97
+l3            25
+p1           1.3
+p2           1.2
+p3           0.9
+p4           1.5
+fixup       True</code></pre>
 </div>
 </div>
 
