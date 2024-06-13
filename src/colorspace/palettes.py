@@ -370,7 +370,7 @@ class defaultpalette:
 
             # Not yet a parameter in our dictionary? Add None first
             if not key in self._settings_.keys():
-                self._settings_[key] = val
+                self._settings_[key] = float(val)
             # If already existing we convert the new value into the existing type.
             elif isinstance(self._settings_[key], int):
                 self._settings_[key] = int(val)
@@ -882,9 +882,9 @@ class hclpalette:
         from .palettes import divergingx_hcl
 
         if not isinstance(self, divergingx_hcl):
-            keys = ["h1", "h2", "c1", "c2", "cmax", "l1", "l2", "p1", "p2", "fixup"]
+            keys = ["h1", "h2", "c1", "cmax", "c2", "l1", "l2", "p1", "p2", "fixup"]
         else:
-            keys = ["h1", "h1", "h2", "h3", "c1", "c2", "c3", "cmax1", "cmax2",
+            keys = ["h1", "h1", "h2", "h3", "c1", "cmax1", "c2", "cmax2", "c3",
                     "l1", "l2", "l3", "p1", "p2", "p3", "p4", "fixup"]
 
         print(f"Class:  {self.__class__.__name__}")
@@ -1588,15 +1588,15 @@ class diverging_hcl(hclpalette):
             settings["h1"]    = h[0]
             settings["h2"]    = h[1]
             if isinstance(c, ndarray):
-                settings["c1"]    = c    if len(c) == 1 else c[0]
-                if len(c) == 2: settings["cmax"] = c[1]
+                settings["c1"]    = float(c[0])
+                if len(c) == 2: settings["cmax"] = float(c[1])
             else:
                 settings["c1"]    = c
             settings["l1"]    = l[0]
             settings["l2"]    = l[1]
             if isinstance(power, ndarray):
-                settings["p1"]    = power if len(power) == 1 else power[0]
-                if len(power) == 2: settings["p2"] = power[1]
+                settings["p1"]    = float(power[0])
+                if len(power) == 2: settings["p2"] = float(power[1])
             else:
                 settings["p1"]    = power
             settings["fixup"] = fixup

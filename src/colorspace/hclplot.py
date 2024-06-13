@@ -75,12 +75,12 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         >>> # Sequential HCL palette, hclplot with all available options
         >>> from colorspace import sequential_hcl, hclplot
         >>>
-        >>> x = sequential_hcl("Red-Blue")(5)
+        >>> x = sequential_hcl("PurpOr")(5)
         >>> hclplot(x,
         >>>         xlabel  = "Chroma dimension",
         >>>         ylabel  = "Luminance dimension",
         >>>         title   = "hclplot Example (Sequential)",
-        >>>         figsize = (2, 2), s = 500);
+        >>>         figsize = (5, 5), s = 250);
         >>> #: Multiple subplots
         >>> import matplotlib.pyplot as plt 
         >>> from colorspace import sequential_hcl, hclplot

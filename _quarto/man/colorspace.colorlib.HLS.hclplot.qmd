@@ -1,0 +1,40 @@
+---
+title: "Palette Plot in HCL Space"
+---
+
+### Description
+
+Internally calls [hclplot](colorspace.hclplot.hclplot.qmd),
+additional arguments to this main function can be forwarded via the
+`**kwargs` argument.
+
+### Usage
+
+<pre><code class='language-python'>HLS.hclplot(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HLS.hclplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>Additional named arguments forwarded to
+[hclplot](colorspace.hclplot.hclplot.qmd).</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| error: true
+#| warning: true
+from colorspace.colorlib import HCL
+cols = HCL(H = [160, 210, 260, 310, 360],
+           C = [ 70,  40,  10,  40,  70],
+           L = [ 50,  70,  90,  70,  50])
+cols.hclplot();
+cols.hclplot(figsize = (6, 0.5));
+```
+
+
+

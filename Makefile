@@ -4,10 +4,10 @@
 # -------------------------------------------------------------------
 
 
-venv: requirements.txt
+venv: requirements_devel.txt
 	-rm -rf venv
 	virtualenv -p 3 venv
-	venv/bin/pip install -r requirements.txt
+	venv/bin/pip install -r requirements_devel.txt
 
 install: setup.py
 	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"

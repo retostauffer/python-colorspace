@@ -1,0 +1,18 @@
+pytest
+pytest-mpl
+pytest-cov
+coverage
+docutils
+ipython
+imageio
+matplotlib
+matplotlib-inline
+numpy
+pandas
+seaborn
+plotly
+Pillow
+jupyter
+jupyter-cache
+colormaps
+pyp2qmd @ git+https://github.com/retostauffer/pyp2qmd@main
