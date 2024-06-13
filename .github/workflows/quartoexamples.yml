@@ -38,7 +38,6 @@ jobs:
 
     - name: Render Quarto documents
       run: |
-        pyp2qmd examples --package colorspace
-        cd _examples && for file in *.qmd; do quarto render $$file; done
+        make examples
 
 
