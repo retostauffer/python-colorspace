@@ -3,6 +3,7 @@
 ## A Python toolbox for manipulating and assessing colors and palettes
 
 [![Documentation](https://github.com/retostauffer/python-colorspace/actions/workflows/quartodoc.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/quartodoc.yml)
+[![Examples](https://github.com/retostauffer/python-colorspace/actions/workflows/quartoexamples.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/quartoexamples.yml)
 [![Testing](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml)
 [![Coverage](https://github.com/retostauffer/python-colorspace/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/coverage.yml)
 ![](coverage.svg)

@@ -4,6 +4,8 @@ colorspace.egg-info
 __pycache__
 /dist
 /htmlcov
+/_examples
+/foo*
 
 # Test files and folders
 /test*

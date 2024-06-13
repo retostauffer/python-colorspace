@@ -9,6 +9,7 @@ matplotlib
 matplotlib-inline
 numpy
 pandas
+statsmodels
 seaborn
 plotly
 Pillow
