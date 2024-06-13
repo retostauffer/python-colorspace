@@ -8,6 +8,8 @@ venv: requirements_devel.txt
 	-rm -rf venv
 	virtualenv -p 3 venv
 	venv/bin/pip install -r requirements_devel.txt
+	make install
+	
 
 install: setup.py
 	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
@@ -68,7 +70,10 @@ doctest:
 	pip install -e .
 	pytest src/colorspace --doctest-modules
 
+.PHONY: cov
 cov:
+	make venv
+	make install
 	(pytest --cov=src/colorspace --cov-report html)
 	###(pytest --cov=src/colorspace --cov-report html:htmlcov/ --cov-report xml:coverage.xml && \
 	###	firefox htmlcov/index.html)
