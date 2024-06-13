@@ -25,8 +25,8 @@ Note that `show_names` will always be set to `False`.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import palette
 pal = palette(["#FCFFC9", "#E8C167", "#D67500", "#913640", "#1D0B14"],
               name = "Custom Palette")

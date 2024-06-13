@@ -46,8 +46,8 @@ modified colors as people with deuteranomaly see these colors (simulated).
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import rainbow_hcl, deutan, palette
 from colorspace import specplot, swatchplot
 # Drawing 100 colors along the HCL rainbow color palette
@@ -57,22 +57,22 @@ specplot(cols);
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 specplot(deutan(cols));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 specplot(deutan(cols, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # List of (hex) colors
 cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
 deutan(cols);
@@ -80,8 +80,8 @@ deutan(cols);
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Visualize original and simulated color swatches
 swatchplot([cols, deutan(cols)],
            show_names = False, figsize = (5, 1.5));
@@ -89,8 +89,8 @@ swatchplot([cols, deutan(cols)],
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # From palette object
 pal = palette(cols, name = "custom palette")
 deutan(pal)
@@ -98,8 +98,8 @@ deutan(pal)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # From cmap (returns cmap)
 deutan(pal.cmap())
 ```

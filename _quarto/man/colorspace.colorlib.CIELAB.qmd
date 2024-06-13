@@ -95,8 +95,8 @@ opacity. If `None` (default) no transparency is added.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import CIELAB
 # Constructing color object with one single color via float
 CIELAB(-30, 10, 10)
@@ -104,16 +104,16 @@ CIELAB(-30, 10, 10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via lists
 CIELAB([-30, 30], [20, 80], [40, 40])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via numpy arrays
 from numpy import asarray
 CIELAB(asarray([-30, 30]), asarray([20, 80]), asarray([40, 40]))

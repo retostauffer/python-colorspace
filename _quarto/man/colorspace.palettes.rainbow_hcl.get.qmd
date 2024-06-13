@@ -30,8 +30,8 @@ returned.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.palettes import rainbow_hcl
 a = rainbow_hcl()
 a.get("h1")

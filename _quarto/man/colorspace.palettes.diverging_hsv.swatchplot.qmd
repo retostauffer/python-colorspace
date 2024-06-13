@@ -28,8 +28,8 @@ function. Plotting the spectrum of the current color palette.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import diverging_hcl
 pal = diverging_hcl()
 pal.swatchplot()

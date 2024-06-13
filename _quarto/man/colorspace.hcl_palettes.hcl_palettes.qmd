@@ -75,8 +75,8 @@ an object of class [hclpalettes](colorspace.palettes.hclpalettes.qmd) is returne
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 ## Basic usage:
 
 from colorspace import hcl_palettes
@@ -86,32 +86,32 @@ hcl_palettes()
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Get all diverging HCL palettes (basic and advanced)
 hcl_palettes(type_ = "Diverging")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Get only basic diverging HCL palettes
 hcl_palettes(type_ = "Basic: Diverging")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Get specific HCL palettes by name
 hcl_palettes(name = ["Oranges", "Tropic"]) 
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Visualize all diverging HCL palettes
 hcl_palettes(type_ = "Diverging", ncol = 2,
              plot = True, figsize = (6, 4));
@@ -119,8 +119,8 @@ hcl_palettes(type_ = "Diverging", ncol = 2,
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Visualize specific palettes selected by name
 hcl_palettes(name = ["Oranges", "Tropic"],
              plot = True, ncol = 1, figsize = (6, 2));
@@ -128,8 +128,8 @@ hcl_palettes(name = ["Oranges", "Tropic"],
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Specify number of colors shown
 hcl_palettes(n = 5,  type_ = "Basic: Diverging",
              plot = True, ncol = 1, figsize = (6, 3));
@@ -137,16 +137,16 @@ hcl_palettes(n = 5,  type_ = "Basic: Diverging",
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 hcl_palettes(n = 51, type_ = "Advanced: Diverging",
              plot = True, ncol = 1, figsize = (6, 8));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Extract specific palettes after loading
 palettes = hcl_palettes()
 c1 = palettes.get_palette("Oranges")
@@ -155,16 +155,16 @@ c1
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 c2 = palettes.get_palette("Greens")
 c2
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Modify palettes by overwriting palette settings
 c1.set(h1 = 99, l2 = 30, l1 = 30)
 c1.rename("Custom Palette #1")

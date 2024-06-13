@@ -54,8 +54,8 @@ Forwarded to different plot types.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Importing modules
 from colorspace import *
 from colorspace.colorlib import *
@@ -66,8 +66,8 @@ hexlist
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # A (HCL based) colorobject with (n = 3)
 colorobj = HCL([0, 90, 180], [60, 60, 60], [60, 60, 60])
 colorobj
@@ -75,8 +75,8 @@ colorobj
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Default diverging HCL palette
 hclpalette = diverging_hcl()
 hclpalette
@@ -84,8 +84,8 @@ hclpalette
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Default color palette shipped with the package
 berlin = hcl_palettes(name = "Berlin").get_palettes()[0]
 berlin
@@ -93,37 +93,37 @@ berlin
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Demoplots
 demoplot(hexlist, "Bar");
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 demoplot(colorobj, "Lines");
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 demoplot(hclpalette, "Pie", n = 4);
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 demoplot(berlin.colors(), "Matrix", n = 11);
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Using custom subplots and plot titles
 from matplotlib import pyplot as plt
 from colorspace import protan, deutan, desaturate

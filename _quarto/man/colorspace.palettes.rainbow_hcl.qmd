@@ -114,8 +114,8 @@ see examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import rainbow_hcl
 pal = rainbow_hcl()
 pal.colors(10)
@@ -123,15 +123,15 @@ pal.colors(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors. Thus,
 # you can make your code slimmer by calling
 rainbow_hcl()(10)
@@ -139,8 +139,8 @@ rainbow_hcl()(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Testing lambda function for both, start and end
 pal = rainbow_hcl(start = lambda n: (n - 1) / n,
                   end   = lambda n: 360 - (n - 1) / n)
@@ -149,8 +149,8 @@ pal.swatchplot(n = 5, show_names = False, figsize = (5.5, 0.5))
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5))
 ```
 

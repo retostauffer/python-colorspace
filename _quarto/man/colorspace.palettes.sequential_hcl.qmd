@@ -151,8 +151,8 @@ see examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import sequential_hcl
 a = sequential_hcl()
 a.colors(10)
@@ -160,8 +160,8 @@ a.colors(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Different color palette by name
 b = sequential_hcl("Peach")
 b.colors(10)
@@ -169,15 +169,15 @@ b.colors(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 b.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors
 sequential_hcl("Peach")(10)
 ```

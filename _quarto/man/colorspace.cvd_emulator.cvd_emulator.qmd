@@ -62,23 +62,23 @@ to `output`; the figure which has just been created.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import cvd_emulator
 cvd_emulator("DEMO", "deutan", 0.5);
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 cvd_emulator("DEMO", "desaturate", 1.0, "output.png");
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 cvd_emulator("DEMO", ["original", "deutan", "protan"],
              0.5, dropalpha = True);
 ```

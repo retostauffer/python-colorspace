@@ -102,8 +102,8 @@ figure or on an existing axis (if `ax` is provided, see `**kwargs`).
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Sequential HCL palette, hclplot with all available options
 from colorspace import sequential_hcl, hclplot
 x = sequential_hcl("PurpOr")(5)
@@ -116,8 +116,8 @@ hclplot(x,
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Multiple subplots
 import matplotlib.pyplot as plt 
 from colorspace import sequential_hcl, hclplot
@@ -130,30 +130,30 @@ pal3 = sequential_hcl(h = 245, c = [40, 75, 0], l = [30, 95], power = [0.8, 1.4]
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal1.show_settings()
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal2.show_settings()
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal3.show_settings()
 
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (12, 4))
 hclplot(pal1(7), ax = ax1)            
 hclplot(pal2(7), ax = ax2) 
@@ -163,8 +163,8 @@ plt.show();
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Another example with two sequential and one
 # diverging palettes with custom settings
 from colorspace import sequential_hcl, diverging_hcl, hclplot
@@ -182,8 +182,8 @@ plt.show();
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Another example with two sequential and one
 # diverging palettes with custom settings
 from colorspace import sequential_hcl, diverging_hcl, qualitative_hcl, hclplot

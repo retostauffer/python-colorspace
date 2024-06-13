@@ -96,8 +96,8 @@ opacity. If `None` (default) no transparency is added.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import polarLUV, HCL
 # Constructing color object with one single color via float
 polarLUV(100., 30, 50.)
@@ -105,8 +105,8 @@ polarLUV(100., 30, 50.)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # polarLUV is the HCL color space, this
 #  is equivalent to the command above.
 HCL(100., 30, 50.)
@@ -114,16 +114,16 @@ HCL(100., 30, 50.)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via lists
 HCL([100, 80], [30, 50], [30, 80])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via numpy arrays
 from numpy import asarray
 HCL(asarray([100, 80]), asarray([30, 50]), asarray([30, 80]))

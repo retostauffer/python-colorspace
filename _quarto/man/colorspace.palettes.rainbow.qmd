@@ -113,8 +113,8 @@ see examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import rainbow
 pal = rainbow()
 pal.colors(10)
@@ -122,23 +122,23 @@ pal.colors(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors
 rainbow()(10)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Using lambda functions for start/end
 p = rainbow(start = lambda n: 1 / n, end = lambda n: 1 - 1 / n)
 p.swatchplot(n = 5, show_names = False, figsize = (5.5, 0.5));
@@ -146,8 +146,8 @@ p.swatchplot(n = 5, show_names = False, figsize = (5.5, 0.5));
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 p.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5));
 ```
 

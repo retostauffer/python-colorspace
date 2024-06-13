@@ -95,8 +95,8 @@ opacity. If `None` (default) no transparency is added.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import CIEXYZ
 # Constructing color object with one single color via float
 CIEXYZ(80, 30, 10)
@@ -104,16 +104,16 @@ CIEXYZ(80, 30, 10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via lists
 CIEXYZ([10, 0], [20, 80], [40, 40])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via numpy arrays
 from numpy import asarray
 CIEXYZ(asarray([10, 0]), asarray([20, 80]), asarray([40, 40]))

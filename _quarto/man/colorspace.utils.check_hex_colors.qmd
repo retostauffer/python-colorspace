@@ -36,44 +36,44 @@ six digit colors. Else the function will raise a ValueError.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import check_hex_colors
 check_hex_colors("#ff003311")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 check_hex_colors("#ff0033")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 check_hex_colors("#f03")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 check_hex_colors(["#FFF", "0", "black", "blue", "magenta"])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from numpy import asarray
 check_hex_colors(asarray(["#f0f", "#00F", "#00FFFF", "#ff003311"]))
 ```

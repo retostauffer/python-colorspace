@@ -44,8 +44,8 @@ maximum possible chroma for these hue-luminance combinations.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import max_chroma
 # Max Chroma for Hue = 0 (red) with Luminance = 50
 max_chroma(0, 50)
@@ -53,16 +53,16 @@ max_chroma(0, 50)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Max Chroma for Hue = 0 (red) for different Luminance levels
 max_chroma(0, [25, 50, 75])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Max Chroma for Hue in sequence [0, 360] by 60, Luminace = 50
 import numpy as np
 max_chroma(np.arange(0, 360, 60), 50)
@@ -71,8 +71,8 @@ max_chroma(np.arange(0, 360, 60), 50)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Same as above but floored
 max_chroma(np.arange(0, 360, 60), 50, floor = True)
 ```

@@ -41,8 +41,8 @@ Returns a list of modified hex colors.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import palette, diverging_hcl, desaturate
 from colorspace import specplot, swatchplot
 from colorspace.colorlib import hexcols
@@ -52,15 +52,15 @@ specplot(desaturate(cols));
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 specplot(desaturate(cols, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Take a list of colors which can be interpreted/translated to hex
 # colors and desaturate them via the HCL color space
 cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
@@ -69,16 +69,16 @@ desaturate(cols)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 swatchplot([cols, desaturate(cols)],
            show_names = False, figsize = (5, 1.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Desaturate palette object (same colors as above)
 pal = palette(cols, name = "custom palette")
 desaturate(pal)
@@ -86,8 +86,8 @@ desaturate(pal)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Desaturate a matplotlib cmap object
 desaturate(pal.cmap())
 ```

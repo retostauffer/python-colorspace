@@ -109,8 +109,8 @@ see examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import terrain_hcl
 pal = terrain_hcl()
 pal.colors(10)
@@ -118,15 +118,15 @@ pal.colors(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors
 terrain_hcl()(10)
 ```

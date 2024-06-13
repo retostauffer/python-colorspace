@@ -30,7 +30,7 @@ def mixcolor(alpha, color1, color2, where):
         >>> # in the RGB color space (M1) and in the HCL space (M2).
         >>> RGB_1  = RGB(R = 1, G = 0, B = 0)
         >>> RGB_2  = RGB(R = 0, G = 1, B = 0)
-        >>> RGB_M1 = mixcolor(0.5, RGB_1, RGB_2, "RGB")
+        >>> RGB_M1 = mixcolor(0.5, RGB_1, RGB_2, "sRGB")
         >>> RGB_M1
         >>> #: Mixing via XYZ color space
         >>> RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "CIEXYZ")

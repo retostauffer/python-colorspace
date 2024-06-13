@@ -96,8 +96,8 @@ opacity. If `None` (default) no transparency is added.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import polarLAB
 cols = polarLAB([50, 80, 30], [100, 120, 140], [40, 130, 300])
 cols
@@ -105,8 +105,8 @@ cols
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Convert to hex colors
 cols.to("hex")
 cols

@@ -35,8 +35,8 @@ on the `mode` specified.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import *
 from colorspace.colorlib import hexcols
 
@@ -54,37 +54,37 @@ extract_transparency(x1)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 extract_transparency(x2)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Return mode
 extract_transparency(x2, mode = "float")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 extract_transparency(x2, mode = "int")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 extract_transparency(x2, mode = "str")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Extracting transparency from palette objects
 from colorspace import palette
 p1 = palette(cols1, name = "custom palette 1")
@@ -93,16 +93,16 @@ p2 = palette(cols2, name = "custom palette 2")
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # No return as colors in palette `p1` have no transparency
 extract_transparency(p1, mode = "str")
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Extracting transparency from colors in palette `p2`
 extract_transparency(p2, mode = "str")
 ```

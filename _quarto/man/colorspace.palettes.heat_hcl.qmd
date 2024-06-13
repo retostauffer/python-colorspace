@@ -109,8 +109,8 @@ see examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.palettes import heat_hcl
 pal = heat_hcl()
 pal.colors(3)
@@ -118,15 +118,15 @@ pal.colors(3)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors
 heat_hcl()(10)
 ```

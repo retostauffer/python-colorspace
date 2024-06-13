@@ -32,8 +32,8 @@ defaults to False.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import diverging_hcl, palette
 pal = diverging_hcl()
 pal = palette(pal(5), name = "Diverging Palette with 5 Colors")

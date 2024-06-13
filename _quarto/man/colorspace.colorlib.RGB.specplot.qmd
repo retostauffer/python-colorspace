@@ -27,8 +27,8 @@ additional arguments to this main function can be forwarded via the
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import HCL
 cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
 cols.specplot();

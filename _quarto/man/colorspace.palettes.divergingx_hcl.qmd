@@ -160,8 +160,8 @@ see examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import divergingx_hcl
 pal1 = divergingx_hcl()
 pal1.colors(5)
@@ -169,15 +169,15 @@ pal1.colors(5)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal1.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Different color palette by name
 pal2 = divergingx_hcl("ArmyRose")
 pal2.colors(7)
@@ -185,23 +185,23 @@ pal2.colors(7)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal2.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors
 divergingx_hcl("Fall")(3)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Manual palette with user settings. The following diverginx
 # palette goes from h = 180 (left) to h = 100 (center) and h = 20 (right).
 # Croma is c = 30 (left), c = 5 (center), and c = 30 (right).
@@ -215,16 +215,16 @@ pal3.specplot();
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Drawing 5 colors from the custom palette.
 pal3(3)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Available default palettes (divergingx_hcl palettes)
 from colorspace import divergingx_hcl, swatchplot, palette
 carto  = ["ArmyRose", "Earth", "Fall",
@@ -245,8 +245,8 @@ swatchplot({"Carto":  col_carto,
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Checking settings of a specific palette
 pal4 = divergingx_hcl("PRGn")
 pal4.show_settings()

@@ -40,8 +40,8 @@ of colors as the argument on `color1`.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import RGB
 from colorspace.colorlib import hexcols
 from colorspace import *
@@ -56,8 +56,8 @@ RGB_M1
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Mixing via XYZ color space
 RGB_M2 = mixcolor(0.5, RGB_1, RGB_2, "CIEXYZ")
 RGB_M2
@@ -65,8 +65,8 @@ RGB_M2
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Mixing two lists of hex-colors of length 5.
 #  Mixing takes place once in the RGB color space (M1)
 #  and once in the HCL color space (M2)
@@ -78,8 +78,8 @@ HEX_M1
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Mixing via XYZ color space
 HEX_M2 = mixcolor(0.8, HEX_1, HEX_2, "CIEXYZ")
 HEX_M2
@@ -87,16 +87,16 @@ HEX_M2
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2],
            show_names = False, figsize = (5.5, 1));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Mixing objects of different length and type
 #  Coordinates of the shorter object (RGB_1) will be recycled
 #  to the same number of colors as in the longer object (HEX_2)
@@ -106,16 +106,16 @@ RES_1.colors()
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 RES_2 = mixcolor(0.8, RGB_1, HEX_2, "sRGB")
 RES_2.colors()
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 swatchplot([RGB_1, RES_2, HEX_2, RES_1, RES_2],
            show_names = False, figsize = (5.5, 2));
 ```

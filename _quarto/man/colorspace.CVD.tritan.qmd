@@ -45,8 +45,8 @@ modified colors as people with tritanomaly see these colors (simulated).
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import rainbow_hcl, tritan, palette
 from colorspace import specplot, swatchplot
 # Drawing 100 colors along the HCL rainbow color palette
@@ -56,22 +56,22 @@ specplot(cols);
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 specplot(tritan(cols));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 specplot(tritan(cols, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # List of (hex) colors
 cols = ["magenta", "red", "orange", "#F2F204", "#6BF204", "#4DA00D"]
 tritan(cols);
@@ -79,8 +79,8 @@ tritan(cols);
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Visualize original and simulated color swatches
 swatchplot([cols, tritan(cols)],
            show_names = False, figsize = (5, 1.5));
@@ -88,8 +88,8 @@ swatchplot([cols, tritan(cols)],
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # From palette object
 pal = palette(cols, name = "custom palette")
 tritan(pal)
@@ -97,8 +97,8 @@ tritan(pal)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # From cmap (returns cmap)
 tritan(pal.cmap())
 ```

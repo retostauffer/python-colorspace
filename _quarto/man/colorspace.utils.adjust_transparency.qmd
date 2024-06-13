@@ -39,8 +39,8 @@ else a numpy.ndarray is returned.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import *
 from colorspace.colorlib import hexcols
 import numpy as np
@@ -56,32 +56,32 @@ x1
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Extract transparency
 extract_transparency(x1) # Returns 'None' (no transparency)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # `x1`: Setting constant transparency of 0.5 for all colors
 adjust_transparency(x1, 0.5)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Setting custom transparency (adjusting; overwrite existing 0.5)
 adjust_transparency(x1, [0.7, 0.3, 0.7]) # Add transparency
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Converting list of hex colors `cols2` into `hexcolor` objects
 # and extract transparency defined via 8 digit hex color str
 x2 = hexcols(cols2)
@@ -90,8 +90,8 @@ extract_transparency(x2)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Removing transparency, extracting new values (None)
 x2 = adjust_transparency(x2, None)
 extract_transparency(x2) # Returns 'None' (no transparency)
@@ -99,8 +99,8 @@ extract_transparency(x2) # Returns 'None' (no transparency)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Adding transparency again
 x2 = adjust_transparency(x2, np.asarray([0.8, 0.4, 0.8]))
 x2
@@ -108,8 +108,8 @@ x2
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 extract_transparency(x2)
 ```
 

@@ -45,8 +45,8 @@ be fixed (corrected)? Defaults to `True`.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import darken, lighten, swatchplot
 original = "#ff3322"
 lighter  = lighten(original, amount = 0.3, method = "relative", space = "HCL")

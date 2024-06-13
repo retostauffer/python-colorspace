@@ -113,8 +113,8 @@ see examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import diverging_hsv
 pal = diverging_hsv()
 pal.colors(10)
@@ -122,23 +122,23 @@ pal.colors(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 pal.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors
 diverging_hsv()(10)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Manually modified palette from 'cyan' to 'orange'
 diverging_hsv(h = [180, 30]).swatchplot(
               n = 7, show_names = False, figsize = (5.5, 0.5))
@@ -146,8 +146,8 @@ diverging_hsv(h = [180, 30]).swatchplot(
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Additionally, lower saturation on the two ends
 diverging_hsv(h = [180, 30], s = 0.4).swatchplot(
               n = 7, show_names = False, figsize = (5.5, 0.5))
@@ -155,8 +155,8 @@ diverging_hsv(h = [180, 30], s = 0.4).swatchplot(
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Lowering the value
 diverging_hsv(h = [180, 30], s = 0.4, v = 0.75).swatchplot(
               n = 7, show_names = False, figsize = (5.5, 0.5))

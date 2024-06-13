@@ -142,8 +142,8 @@ examples.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import qualitative_hcl
 a = qualitative_hcl()
 a.colors(10)
@@ -151,31 +151,31 @@ a.colors(10)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 b = qualitative_hcl("Warm")
 b.colors(10)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 b.swatchplot(show_names = False, figsize = (5.5, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # The standard call of the object also returns hex colors
 qualitative_hcl("Warm")(10)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Example where `h` is a list of two lambda functions
 from colorspace import hexcols
 pal = qualitative_hcl([lambda n: 100. * (n - 1) / n,  
@@ -186,8 +186,8 @@ cols
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 cols.to("HCL")
 cols
 ```

@@ -30,8 +30,8 @@ additional arguments to this main function can be forwarded via the
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import diverging_hcl
 pal = diverging_hcl()
 pal.hclplot()

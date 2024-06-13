@@ -67,8 +67,8 @@ Can be set to a list of characters. Allowed:
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import swatchplot, palette
 from colorspace import sequential_hcl, diverging_hcl, heat_hcl
 # List of hex colors
@@ -78,8 +78,8 @@ swatchplot(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Create a custom 'palette' (named):
 pal = palette(['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
               "Custom Named Palette")
@@ -88,8 +88,8 @@ swatchplot(pal, figsize = (7, 0.5));
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # A HCL palette. 'n' defines the number of colors.
 swatchplot(sequential_hcl("PuBu"), n = 10,
            figsize = (7, 0.5));
@@ -97,8 +97,8 @@ swatchplot(sequential_hcl("PuBu"), n = 10,
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Combine all three
 swatchplot([['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
             pal, sequential_hcl("PuBu")], n = 7,
@@ -107,8 +107,8 @@ swatchplot([['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # A color object (e.g., RGB, HCL, CIELUV, ...)
 from colorspace.colorlib import hexcols
 cobject  = hexcols(heat_hcl()(5))
@@ -118,15 +118,15 @@ print(cobject)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 swatchplot(cobject, figsize = (7, 0.5));
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Using dictionaries to add subtitles
 # to 'group' different palettes.
 swatchplot({"Diverging": [diverging_hcl(), diverging_hcl("Red-Green")],

@@ -26,8 +26,8 @@ additional arguments to this main function can be forwarded via the
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import HCL
 cols = HCL(H = [160, 210, 260, 310, 360],
            C = [ 70,  40,  10,  40,  70],

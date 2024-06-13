@@ -34,8 +34,8 @@ No return, modifies the current color object.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import HCL
 cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
 print(cols)
@@ -43,8 +43,8 @@ print(cols)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 cols.set(H = [150, 150, 30])
 print(cols)
 ```

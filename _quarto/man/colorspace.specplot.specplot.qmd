@@ -66,8 +66,8 @@ if `fig = None`.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import rainbow_hcl
 from colorspace import specplot
 pal = rainbow_hcl()
@@ -76,16 +76,16 @@ specplot(pal.colors(21));
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Show spectrum in standard RGB space
 specplot(pal.colors(21), rgb = True);
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Reduced number of colors.
 # Show sRGB spectrum, hide HCL spectrum
 # and color palette swatch.

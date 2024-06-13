@@ -61,8 +61,8 @@ of all colors in `a` and `b`.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import *
 # Three RGB colors
 a = RGB([0.5, 0.5], [0.1, 0.1], [0.9, 0.9])
@@ -73,29 +73,29 @@ compare_colors(a, b)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 compare_colors(a, b, atol = 0.1)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 compare_colors(a, b, exact = True)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 compare_colors(a, b, exact = True, _all = False)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Same example using two sets of hexcolor objects
 x = hexcols(["#ff00ff", "#003300"])
 y = hexcols(["#ff00ff", "#003301"])
@@ -104,15 +104,15 @@ compare_colors(x, y)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 compare_colors(x, y, _all = False)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Convert HEX to HCL (polarLUV) and back, compare the
 # resulting colors to the original ones; should be identical
 from copy import deepcopy
@@ -124,16 +124,16 @@ print(zz)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 zz.to("hex")
 print(zz)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 compare_colors(z, zz)
 ```
 

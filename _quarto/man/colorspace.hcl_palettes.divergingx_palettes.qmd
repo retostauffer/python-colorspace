@@ -29,8 +29,8 @@ of available arguments see the description of [hcl_palettes](colorspace.hcl_pale
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace import divergingx_palettes
 # Get palettes
 divergingx_palettes()
@@ -38,8 +38,8 @@ divergingx_palettes()
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Visualize palettes
 divergingx_palettes(n = 15, ncol = 2, plot = True, figsize = (7, 5));
 ```

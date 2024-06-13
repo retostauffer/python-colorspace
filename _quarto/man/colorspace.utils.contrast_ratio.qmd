@@ -85,8 +85,8 @@ A numeric vector with the contrast ratios is returned (invisibly, if `plot` is `
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # check contrast ratio of default palette on white background
 from colorspace import rainbow, contrast_ratio
 colors = rainbow().colors(7)
@@ -96,24 +96,24 @@ contrast_ratio(colors, "#000000") # Against black
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Visualize contrast ratio against white
 contrast_ratio(colors, "#FFFFFF", plot = True);
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Visualize contrast ratio against black
 contrast_ratio(colors, "#000000", plot = True);
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Changing figure size
 contrast_ratio(colors, "#000000", plot = True, figsize = (4, 3));
 ```

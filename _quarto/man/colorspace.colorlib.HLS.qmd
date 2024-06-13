@@ -96,8 +96,8 @@ opacity. If `None` (default) no transparency is added.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import HLS
 # Constructing color object with one single color via float
 HLS(150, 0.1, 3)
@@ -105,16 +105,16 @@ HLS(150, 0.1, 3)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via lists
 HLS([150, 0, 10], [0.1, 0.7, 0.1], [3, 0, 3])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via numpy arrays
 from numpy import asarray
 cols = HLS(asarray([150, 0, 10]),
@@ -125,8 +125,8 @@ cols
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Converting to RGB
 cols.to("RGB")
 cols

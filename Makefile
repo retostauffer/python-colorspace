@@ -18,6 +18,12 @@ document:
 	@echo "********* CREATE (OVERWRITE) QMD FILES ************"
 	pyp2qmd document --package colorspace
 
+examples:
+	@echo "********* CREATE (EXAMPLES) QMD FILES *************"
+	rm -rf _examples
+	pyp2qmd examples --package colorspace
+	cd _examples && for file in *.qmd; do quarto render $$file; done
+
 render:
 	@echo "********* RENDERING QUARTO WEBSITE ****************"
 	(cd _quarto && quarto render)

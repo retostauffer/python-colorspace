@@ -93,8 +93,8 @@ opacity. If `None` (default) no transparency is added.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import RGB
 # Constructing color object with one single color via float
 RGB(1., 0.3, 0.5)
@@ -102,16 +102,16 @@ RGB(1., 0.3, 0.5)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via lists
 RGB([1., 0.8], [0.5, 0.5], [0.0, 0.2])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via numpy arrays
 from numpy import asarray
 RGB(asarray([1., 0.8]), asarray([0.5, 0.5]), asarray([0.0, 0.2]))

@@ -32,8 +32,8 @@ No return, stores the new definition on the object.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import hexcols
 c = hexcols("#ff0000")
 c.set_whitepoint(X = 100., Y = 100., Z = 101.)

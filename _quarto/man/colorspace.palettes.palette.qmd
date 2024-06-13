@@ -66,8 +66,8 @@ An object of class [colorspace.palettes.palette](colorspace.palettes.palette.qmd
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.palettes import palette
 colors = ["#070707", "#690056", "#C30E62", "#ED8353", "#FDF5EB"]
 custom_pal = palette(colors, "test palette")
@@ -76,8 +76,8 @@ custom_pal
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Creating custom palettes based on different input
 # types (str, list, colorobject)
 from colorspace.colorlib import hexcols
@@ -94,29 +94,29 @@ print(pal1)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 print(pal2)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 print(pal3)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 print(pal4)
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Palette Swatch Plot
 from colorspace import swatchplot
 swatchplot([pal3, pal4], figsize = (5.5, 2.0));

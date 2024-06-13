@@ -84,8 +84,8 @@ colors will be handled as `numpy.nan`.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import hexcols
 # Creating hex color object from string
 hexcols("#cecece")
@@ -93,16 +93,16 @@ hexcols("#cecece")
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Creating hex color object from list of strings
 hexcols(["#ff0000", "#00ff00"])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Creating hex colors via numpy array
 from numpy import asarray
 cols = hexcols(asarray(["#ff000030", "#00ff0030", 
@@ -112,8 +112,8 @@ cols
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Convert hex colors to another color space (CIEXYZ)
 cols.to("CIEXYZ")
 cols
@@ -121,8 +121,8 @@ cols
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Picking 7 hex colors from the Green-Orange
 # diverging palette for demonstrating standard representation
 # in jupyter engine and standard print.
@@ -133,8 +133,8 @@ cols2 # jupyter HTML representation
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 print(cols2) # default representation
 ```
 

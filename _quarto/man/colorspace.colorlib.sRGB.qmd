@@ -98,8 +98,8 @@ Can be specified to overwrite the default.</dd>
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.colorlib import sRGB
 # Constructing color object with one single color via float
 sRGB(1., 0.3, 0.5)
@@ -107,16 +107,16 @@ sRGB(1., 0.3, 0.5)
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via lists
 sRGB([1., 0.8], [0.5, 0.5], [0.0, 0.2])
 ```
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 # Constructing object via numpy arrays
 from numpy import asarray
 sRGB(asarray([1., 0.8]), asarray([0.5, 0.5]), asarray([0.0, 0.2]))

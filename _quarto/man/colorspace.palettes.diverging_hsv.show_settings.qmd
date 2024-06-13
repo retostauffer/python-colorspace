@@ -15,8 +15,8 @@ seen as a development method than a very useful thing.
 
 ```{python}
 #| echo: true
-#| error: true
 #| warning: true
+#| error: true
 from colorspace.palettes import rainbow_hcl
 a = rainbow_hcl(10)
 a.show_settings()
