@@ -27,3 +27,14 @@ a {
     }
 }
 
+// margin-footer styling (font size and color)
+#quarto-margin-sidebar {
+    .quarto-margin-footer {
+        font-size: 0.8rem;
+        color: #595959;
+        code {
+            background-color: transparent;
+            color: #595959;
+        }
+    }
+}
