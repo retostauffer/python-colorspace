@@ -32,7 +32,7 @@ jobs:
     #    wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.5.37/quarto-1.5.37-linux-amd64.deb -O quarto.deb # pre-release version!
     #    sudo dpkg -i quarto.deb
     - name: Installing quarto
-      uses: quarto-dev/quarto-actions/setup@v1.5.37
+      uses: quarto-dev/quarto-actions/setup@v2
 
     - name: Manipulate quarto yaml file
       run: |
