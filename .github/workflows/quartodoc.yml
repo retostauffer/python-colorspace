@@ -27,16 +27,21 @@ jobs:
         pip install -r requirements_devel.txt
         python setup.py install
 
-    #- name: Execute preparation script
+    #- name: Install Quarto
     #  run: |
-    #    python make_docs/main.py  # Generates qmd files
+    #    wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.5.37/quarto-1.5.37-linux-amd64.deb -O quarto.deb # pre-release version!
+    #    sudo dpkg -i quarto.deb
+    - name: Installing quarto
+      uses: quarto-dev/quarto-actions/setup@v1.5.37
 
-    - name: Install Quarto
+    - name: Manipulate quarto yaml file
       run: |
-        wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.5.37/quarto-1.5.37-linux-amd64.deb -O quarto.deb # pre-release version!
-        sudo dpkg -i quarto.deb
+        P_VERSION=`python --version | awk '{print $2}'`
+        Q_VERSION=`quarto --version`
+        sed -i 's/{{QUARTO_VERSION}}/'${Q_VERSION}'/g' _quarto/_quarto.yml
+        sed -i 's/{{PYTHON_VERSION}}/'${P_VERSION}'/g' _quarto/_quarto.yml
 
-    - name: Render Quarto documents
+    - name: Render quarto documents
       run: |
         quarto render _quarto
 
@@ -44,5 +49,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_quarto/_site  # Change to the output directory of your Quarto render
+        publish_dir: ./_quarto/_site  # Change to the output directory of your quarto render
 

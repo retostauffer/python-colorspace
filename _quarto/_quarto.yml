@@ -14,6 +14,9 @@ project:
   type: website
 website:
   issue-url: https://github.com/retostauffer/python-colorspace/issues
+  margin-footer: |
+    Documentation built with Python {{PYTHON_VERSION}}
+    and quarto {{QUARTO_VERSION}} on GitHub.
   navbar:
     left:
     - file: index.qmd
