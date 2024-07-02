@@ -75,8 +75,7 @@ cov:
 	make venv
 	make install
 	(pytest --cov=src/colorspace --cov-report html)
-	###(pytest --cov=src/colorspace --cov-report html:htmlcov/ --cov-report xml:coverage.xml && \
-	###	firefox htmlcov/index.html)
+	firefox htmlcov/index.html
 
 .PHONY: clean
 clean:
