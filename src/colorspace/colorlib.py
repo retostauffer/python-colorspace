@@ -1341,6 +1341,110 @@ class colorlib:
         return [r, g, b]
 
 
+    # -------------------------------------------------------------------
+    # Direct conversion ('shortcut') from RGB to HLS
+    def RGB_to_HLS(self, r, g, b):
+        """Convert RGB to HLS
+
+        Shortcut from RGB to HLS (not via sRGB).
+        All r/g/b values in `[0., 1.]`, h in `[0., 360.]`, l and s in `[0., 1.]`.
+
+        Args:
+            r (numpy.ndarray): Intensities for red (`[0., 1.]`)
+            g (numpy.ndarray): Intensities for green (`[0., 1.]`)
+            b (numpy.ndarray): Intensities for blue (`[0., 1.]`)
+
+        Returns:
+            list: Returns a list of `numpy.ndarray`s with the corresponding
+            coordinates in the HLS color space (`[h, l, s]`). Same length as
+            the inputs.
+        """
+
+        __fname__ = inspect.stack()[0][3] # Name of this method
+
+        # Checking input
+        self._check_input_arrays_(__fname__, r = r, g = g, b = b)
+
+        # Create 2d numpy array where the first dimension corresponds
+        # to specific colors, the second one to [r, g, b] of that color.
+        tmp = np.transpose(np.stack((r, g, b)))
+
+        def gethls(x):
+            """x is expected to be a numpy array of length 3 with [r, g, b] coordinates."""
+
+            mn = np.min(x)
+            mx = np.max(x)
+
+            # If minimum equals maximum we know the solution already
+            if mn == mx:        return [0., mn, 0.] # [h, l, s]
+
+            # Else do the calculations
+            l = (mn + mx) / 2.
+            s = (mx - mn) / (mx + mn) if l < 0.5 else (mx - mn) / (2. - mx - mn)
+
+            # x[0] is 'r', x[1] = 'g', x[2] = 'b'
+            if x[0] == mx:      h = 60. * (x[1] - x[2]) / (mx - mn)
+            elif x[1] == mx:    h = 60. * (2. + (x[2] - x[0]) / (mx - mn))
+            else:               h = 60. * (4. + (x[0] - x[1]) / (mx - mn))
+
+            if h < 0.:          h = h + 360.
+            elif h > 360.:      h = h - 360.
+
+            return [h, l, s]
+
+
+        return np.transpose([gethls(x) for x in tmp])
+
+
+    # -------------------------------------------------------------------
+    # Direct conversion ('shortcut') from RGB to HSV
+    def RGB_to_HSV(self, r, g, b):
+        """Convert RGB to HSV
+
+        Shortcut from RGB to HSV (not via sRGB).
+        All r/g/b values in `[0., 1.]`, h in `[0., 360.]`, l and s in `[0., 1.]`.
+
+        Args:
+            r (numpy.ndarray): Intensities for red (`[0., 1.]`)
+            g (numpy.ndarray): Intensities for green (`[0., 1.]`)
+            b (numpy.ndarray): Intensities for blue (`[0., 1.]`)
+
+        Returns:
+            list: Returns a list of `numpy.ndarray`s with the corresponding
+            coordinates in the HSV color space (`[h, s, v]`). Same length as
+            the inputs.
+        """
+
+        __fname__ = inspect.stack()[0][3] # Name of this method
+
+        # Checking input
+        self._check_input_arrays_(__fname__, r = r, g = g, b = b)
+
+        # Create 2d numpy array where the first dimension corresponds
+        # to specific colors, the second one to [r, g, b] of that color.
+        tmp = np.transpose(np.stack((r, g, b)))
+
+        def gethsv(x):
+            """x is expected to be a numpy array of length 3 with [r, g, b] coordinates."""
+
+            mn = np.min(x)
+            mx = np.max(x)
+
+            # If minimum equals maximum we know the solution already
+            if mn == mx:        return [0., 0., mx] # [h, s, v]
+
+            # Else calculate new dimensions
+            f = (x[1] - x[2]) if x[0] == mn else x[2] - x[0] if x[2] == mn else x[0] - x[1]
+            i = 3. if x[0] == mn else 5. if x[1] == mn else 1.
+
+            # Returning [h, s, v]
+            return [60. * (i - f / (mx - mn)),  (mx - mn) / mx,  mx]
+
+        return np.transpose([gethsv(x) for x in tmp])
+
+
+
+
 # -------------------------------------------------------------------
 # Color object base class
 # will be extended by the different color classes.
@@ -2412,6 +2516,18 @@ class RGB(colorobject):
                                         self.WHITEX, self.WHITEY, self.WHITEZ)
             self._data_ = {"X" : X, "Y" : Y, "Z" : Z, "alpha" : self.get("alpha")}
             self.__class__ = CIEXYZ
+
+        # From RGB to HLS: take direct path (not via sRGB)
+        elif to in ["HLS"]:
+            [H, L, S] = clib.RGB_to_HLS(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "L" : L, "S" : S, "alpha" : self.get("alpha")}
+            self.__class__ = HLS
+
+        # From RGB to HSV: take direct path (not via sRGB)
+        elif to in ["HSV"]:
+            [H, S, V] = clib.RGB_to_HSV(self.get("R"), self.get("G"), self.get("B"))
+            self._data_ = {"H" : H, "S" : S, "V" : V, "alpha" : self.get("alpha")}
+            self.__class__ = HSV
 
         # The rest are transformations along a path
         elif to in ["HLS", "HSV", "hex"]:
