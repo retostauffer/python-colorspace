@@ -22,9 +22,14 @@ flowchart LR
   PLUV((polarLUV<br/>HCL)) --- LUV[CIELUV] --- X
   PLAB((polarLAB)) --- LAB[CIELAB] --- X
   X ---|white point<br>= D65| RGB[RGB] ---|gamma<br>=2.4| sRGB[sRGB]
+  RGB --- HSV
   sRGB --- HSV((HSV))
   sRGB --- hex{HEX}
   sRGB --- HLS((HLS))
+  RGB --- HLS
+
+  linkStyle 6 stroke-width:2px,fill:none,stroke:LightBlue;
+  linkStyle 10 stroke-width:2px,fill:none,stroke:LightBlue;
 ```
 
 Color models that are (or try to be) perceptually-based are displayed with

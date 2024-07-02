@@ -279,7 +279,56 @@ def test_convert_color_spaces():
     x.to("RGB"); x.to("hex")
     assert compare_colors(colors_to_test, x)
 
+## We are using a shortcut from RGB to HLS and back
+def test_shortcut_RGB_HLS():
+    from colorspace import rainbow
+    x = rainbow()(20) + ["#000000", "#FFFFFF"] # Adding extremes
+    x = hexcols(x)
+    x.to("RGB")
+    orig = deepcopy(x)
+    x.to("HLS")
+    x.to("RGB")
+    assert compare_colors(x, orig)
 
+## We are using a shortcut from RGB to HSV and back
+def test_shortcut_RGB_HLS():
+    from colorspace import rainbow
+    x = rainbow()(20) + ["#000000", "#FFFFFF"] # Adding extremes
+    x = hexcols(x)
+    x.to("RGB")
+    orig = deepcopy(x)
+    x.to("HSV")
+    x.to("RGB")
+    assert compare_colors(x, orig)
+
+## Testing long route (not shortcut as above)
+def test_long_route_RGB_HLS():
+    from colorspace import rainbow
+    x = rainbow()(20) + ["#000000", "#FFFFFF"] # Adding extremes
+    x = hexcols(x)
+    x.to("RGB")
+    orig = deepcopy(x)
+    x.to("sRGB")
+    x.to("HLS")
+    x.to("sRGB")
+    x.to("RGB")
+    assert compare_colors(x, orig)
+
+## Testing long route (not shortcut as above)
+def test_long_route_RGB_HLS():
+    from colorspace import rainbow
+    x = rainbow()(20) + ["#000000", "#FFFFFF"] # Adding extremes
+    x = hexcols(x)
+    x.to("RGB")
+    orig = deepcopy(x)
+    x.to("sRGB")
+    x.to("HSV")
+    x.to("sRGB")
+    x.to("RGB")
+    assert compare_colors(x, orig)
+
+# --------------------------------------------
+# --------------------------------------------
 # Testing standard representation (only that we get a string)
 def test_repr():
     color = hexcols("#ff0000")

@@ -3430,9 +3430,20 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
     if exact: atol = 1e-6
 
     def distance(a, b):
-        dist = 0
+        dist = 0. # Start with zero distance
         for n in list(a._data_.keys()):
-            dist += (a.get(n)[0] - b.get(n)[0])**2.0
+            tmpa = a.get(n)
+            tmpb = b.get(n)
+            # Both None and that is our alpha channel, no judgement
+            if tmpa is None and tmpb is None and n == "alpha":
+                continue
+            # Bot not none, calc Eudlidean distance
+            elif not tmpa is None and not tmpb is None:
+                dist += (tmpa[0] - tmpb[0])**2.0
+            # One missing? Penalize by + 100
+            else:
+                dist += 100.
+
         return sqrt(dist)
 
     # Compare hex colors; always on string level
