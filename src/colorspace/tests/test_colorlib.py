@@ -27,7 +27,6 @@ def test_HCL_to_RGB_black():
 # --------------------------------------------
 # Testing the 'compare colors' function
 # --------------------------------------------
-
 def test_hexcols_repr_alpha():
     from re import match, DOTALL
     # No alpha, there should be no 'alpha' in output
@@ -422,7 +421,9 @@ def test_set_coords():
     assert np.array_equal(x, cols.get("hex_"))
 
     
-
+# --------------------------------------------
+# Testing whitepoint
+# --------------------------------------------
 def test_getset_whitepoint():
     # Get default whitepoint
     res = hexcols(["red", "blue"]).get_whitepoint()
@@ -459,6 +460,21 @@ def test_getset_whitepoint():
     raises(ValueError, cols.set_whitepoint, Y = "foo") # cannot conver to float
     raises(ValueError, cols.set_whitepoint, Z = "foo") # cannot conver to float
 
+
+# --------------------------------------------
+# Testing misuse of whitepoint
+# --------------------------------------------
+def test_misuse_whitepoint():
+    # Killing WHITEX, WHITEY, and/or WHITEZ for testing
+    x = RGB(1, 0.5, 0); x.WHITEX = [1, 2] 
+    raises(ValueError, x.to, to = "CIEXYZ")
+    x = RGB(1, 0.5, 0); x.WHITEY = [1, 2] 
+    raises(ValueError, x.to, to = "CIEXYZ")
+    x = RGB(1, 0.5, 0); x.WHITEZ = [1, 2] 
+    raises(ValueError, x.to, to = "CIEXYZ")
+    x = RGB(1, 0.5, 0); x.WHITEX = [1, 2]; x.WHITEZ = ["a", "b", "c"]
+    raises(ValueError, x.to, to = "CIEXYZ")
+
 # --------------------------------------------
 # Plotting ..
 # --------------------------------------------
@@ -483,5 +499,6 @@ def test_colorlib_hclplot_method():
     cols = hexcols(diverging_hcl()(5))
     cols.hclplot()
     plt.close() # Closing figure instance
+
 
 

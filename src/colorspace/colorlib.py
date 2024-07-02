@@ -134,10 +134,6 @@ class colorlib:
         if isinstance(YN, float): YN = np.asarray([YN])
         if isinstance(ZN, float): ZN = np.asarray([ZN])
 
-        # Checking type
-        if not np.all(isinstance(x, np.ndarray) for x in [XN, YN, ZN]):
-            raise TypeError(f"argument `{__fname__}` must be numpy.ndarray")
-
         # Expand if required
         if len(XN) == 1 and not len(XN) == n: XN = np.repeat(XN, n)
         if len(YN) == 1 and not len(YN) == n: YN = np.repeat(YN, n)

@@ -219,9 +219,8 @@ def check_hex_colors(colors):
             x = x.upper()
 
         tmp = pat.match(x)
-        if not tmp:
-            raise ValueError(f"string \"{x}\" is no valid hex color")
-        elif len(tmp.group(1)) == 3 and not tmp.group(2) == None:
+        # Testing pattern matching (hex color validation)
+        if len(tmp.group(1)) == 3 and not tmp.group(2) == None:
             raise ValueError(f"string \"{x}\" is no valid hex color")
         # Three digit: extend
         elif len(tmp.group(1)) == 3:
