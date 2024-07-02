@@ -286,6 +286,17 @@ class colorlib:
 
         return u
 
+    # Support function qtrans
+    def qtrans(self, q1, q2, hue):
+        if hue > 360.:   hue = hue - 360.
+        if hue < 0:      hue = hue + 360.
+
+        if hue < 60.:    return q1 + (q2 - q1) * hue / 60.
+        elif hue < 180.: return q2
+        elif hue < 240.: return q1 + (q2 - q1) * (240. - hue) / 60.
+        else:            return q1
+
+
     def sRGB_to_RGB(self, R, G, B, gamma = 2.4):
         """Convert Standard RGB to RGB
 
@@ -993,16 +1004,6 @@ class colorlib:
         # Checking input
         self._check_input_arrays_(__fname__, h = h, l = l, s = s)
 
-        # Support function qtrans
-        def qtrans(q1, q2, hue):
-            if hue > 360.:   hue = hue - 360.
-            if hue < 0:      hue = hue + 360.
-
-            if hue < 60.:    return q1 + (q2 - q1) * hue / 60.
-            elif hue < 180.: return q2
-            elif hue < 240.: return q1 + (q2 - q1) * (240. - hue) / 60.
-            else:            return q1
-
         # Support function
         def getrgb(h, l, s):
             p2 = l * (1. + s) if l <= 0.5 else l + s - (l * s)
@@ -1011,9 +1012,9 @@ class colorlib:
             # If saturation is zero
             if (s == 0):    return np.repeat(l, 3)
             # Else
-            return [qtrans(p1, p2, h + 120.),   # r
-                    qtrans(p1, p2, h),          # g
-                    qtrans(p1, p2, h - 120.)]   # b
+            return [self.qtrans(p1, p2, h + 120.),   # r
+                    self.qtrans(p1, p2, h),          # g
+                    self.qtrans(p1, p2, h - 120.)]   # b
 
         # Result arrays
         r = np.ndarray(len(h), dtype = "float"); r[:] = 0.
@@ -1397,6 +1398,50 @@ class colorlib:
 
 
     # -------------------------------------------------------------------
+    # Direct conversion ('shortcut') from HLS to RGB
+    def HLS_to_RGB(self, h, l, s):
+        """Convert HLS to RGB
+
+        Shortcut from HLS to RGB (not via sRGB). Expecting h in `[0., 360.]`,
+        l/s in `[0., 1.]`. Returns r/g/b in `[0.,1.]`.
+
+        Args:
+            h (numpy.ndarray): Hue (`[0., 360.]`)
+            l (numpy.ndarray): Luminance (`[0., 1.]`)
+            s (numpy.ndarray): Saturation (`[0., 1.]`)  
+
+        Returns:
+            list: Returns a list of `numpy.ndarray`s with the corresponding
+            coordinates in the RGB color space (`[r, g, b]`). Same length as
+            the inputs.
+        """
+
+        __fname__ = inspect.stack()[0][3] # Name of this method
+
+        # Checking input
+        self._check_input_arrays_(__fname__, h = h, l = l, s = s)
+
+        # Create 2d numpy array where the first dimension corresponds
+        # to specific colors, the second one to [r, g, b] of that color.
+        tmp = np.transpose(np.stack((h, l, s)))
+
+        def getrgb(x):
+            """x is expected to be a numpy array of length 3 with [h, l, s] coordinates."""
+
+            # If saturation equals zero, return [l, l, l]
+            if x[2] == 0.: return [x[1], x[1], x[1]]
+
+            # x[0] = 'h', x[1] = 'l', x[2] = 's'
+            p2 = x[1] * (1 + x[2]) if x[1] <= 0.5 else x[1] + x[2] - (x[1] * x[2])
+            p1 = 2 * x[1] - p2
+
+            return [self.qtrans(p1, p2, x[0] + 120.),
+                    self.qtrans(p1, p2, x[0]),
+                    self.qtrans(p1, p2, x[0] - 120.)]
+
+        return np.transpose([getrgb(x) for x in tmp])
+
+    # -------------------------------------------------------------------
     # Direct conversion ('shortcut') from RGB to HSV
     def RGB_to_HSV(self, r, g, b):
         """Convert RGB to HSV
@@ -1443,6 +1488,53 @@ class colorlib:
         return np.transpose([gethsv(x) for x in tmp])
 
 
+    # -------------------------------------------------------------------
+    # Direct conversion ('shortcut') from HSV to RGB
+    def HSV_to_RGB(self, h, s, v):
+        """Convert HSV to RGB
+
+        Shortcut from HLS to RGB (not via sRGB). Expecting h in `[0., 360.]`,
+        l/s in `[0., 1.]`. Returns r/g/b in `[0.,1.]`.
+
+        Args:
+            h (numpy.ndarray): Hue (`[0., 360.]`)
+            s (numpy.ndarray): Saturation (`[0., 1.]`)  
+            v (numpy.ndarray): Value (`[0., 1.]`)
+
+        Returns:
+            list: Returns a list of `numpy.ndarray`s with the corresponding
+            coordinates in the RGB color space (`[r, g, b]`). Same length as
+            the inputs.
+        """
+
+        __fname__ = inspect.stack()[0][3] # Name of this method
+
+        # Checking input
+        self._check_input_arrays_(__fname__, h = h, s = s, v = v)
+
+        # Create 2d numpy array where the first dimension corresponds
+        # to specific colors, the second one to [r, g, b] of that color.
+        tmp = np.transpose(np.stack((h, s, v)))
+
+        def getrgb(x):
+            """x is expected to be a numpy array of length 3 with [h, s, v] coordinates."""
+
+            h = x[0] / 60.       # Convert to [0, 6]
+            i = np.int8(np.floor(h))
+            f = h - i
+            if i % 2 == 0:    f = 1. - f  # if i is even
+
+            m = x[2] * (1. - x[1])
+            n = x[2] * (1. - x[1] * f)
+
+            if i == 0 or i == 6:   return [x[2], n, m]
+            elif i == 1:           return [n, x[2], m]
+            elif i == 2:           return [m, x[2], n]
+            elif i == 3:           return [m, n, x[2]]
+            elif i == 4:           return [n, m, x[2]]
+            elif i == 5:           return [x[2], m, n]
+
+        return np.transpose([getrgb(x) for x in tmp])
 
 
 # -------------------------------------------------------------------
@@ -2962,10 +3054,11 @@ class HSV(colorobject):
             self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = sRGB
 
-        # The rest are transformations along a path
-        elif to == "RGB":
-            via = ["sRGB", to]
-            self._transform_via_path_(via, fixup = fixup)
+        # From HLS to RGB: take direct path (not via sRGB)
+        elif to in ["RGB"]:
+            [R, G, B] = clib.HSV_to_RGB(self.get("H"), self.get("S"), self.get("V"))
+            self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
+            self.__class__ = RGB
 
         elif to == "hex":
             via = ["sRGB", to]
@@ -3061,10 +3154,11 @@ class HLS(colorobject):
             self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
             self.__class__ = sRGB
 
-        # The rest are transformations along a path
-        elif to == "RGB":
-            via = ["sRGB", to]
-            self._transform_via_path_(via, fixup = fixup)
+        # From HSV to RGB: take direct path (not via sRGB)
+        elif to in ["RGB"]:
+            [R, G, B] = clib.HLS_to_RGB(self.get("H"), self.get("L"), self.get("S"))
+            self._data_ = {"R" : R, "G" : G, "B" : B, "alpha" : self.get("alpha")}
+            self.__class__ = RGB
 
         elif to == "hex":
             via = ["sRGB", to]
