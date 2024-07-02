@@ -277,7 +277,7 @@ def test_convert_hex_to_HLS_to_hex():
 def test_convert_color_spaces():
     x = deepcopy(colors_to_test); x.to("sRGB"); x.to("CIEXYZ")
     x.to("RGB"); x.to("HSV"); x.to("RGB"); x.to("HLS");
-    x.to("hex")
+    x.to("RGB"); x.to("hex")
     assert compare_colors(colors_to_test, x)
 
 

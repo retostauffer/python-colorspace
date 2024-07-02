@@ -1479,7 +1479,7 @@ class colorlib:
             if mn == mx:        return [0., 0., mx] # [h, s, v]
 
             # Else calculate new dimensions
-            f = (x[1] - x[2]) if x[0] == mn else x[2] - x[0] if x[2] == mn else x[0] - x[1]
+            f = (x[1] - x[2]) if x[0] == mn else x[2] - x[0] if x[1] == mn else x[0] - x[1]
             i = 3. if x[0] == mn else 5. if x[1] == mn else 1.
 
             # Returning [h, s, v]
