@@ -616,7 +616,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="203b7990" class="cell" data-execution_count="1">
+<div id="8d6de0e3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check contrast ratio of default palette on white background</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, contrast_ratio</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> rainbow().colors(<span class="dv">7</span>)</span>
@@ -627,7 +627,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
         2.72729349,  6.27489463])</code></pre>
 </div>
 </div>
-<div id="a63dbe8e" class="cell" data-execution_count="2">
+<div id="2eae2d9b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize contrast ratio against white</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#FFFFFF"</span>, plot <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -638,7 +638,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
 </div>
 </div>
 </div>
-<div id="0addf2d6" class="cell" data-execution_count="3">
+<div id="a9c30bce" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize contrast ratio against black</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#000000"</span>, plot <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -649,7 +649,7 @@ Allows to specify <code>figsize</code> forwarded to <code>maptlotlib.pyplot.figu
 </div>
 </div>
 </div>
-<div id="3ac6c343" class="cell" data-execution_count="4">
+<div id="c9d2ace7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing figure size</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>contrast_ratio(colors, <span class="st">"#000000"</span>, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
