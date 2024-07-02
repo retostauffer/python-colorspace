@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.53">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -518,7 +518,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.52</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.53</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -545,7 +545,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The colorspace package provides a broad toolbox for selecting individual colors or color palettes, manipulating colors, and employing them in various kinds of visualizations.</p>
 <p>At the core of the package is a class which allows to draw and transform colors in different color spaces (as the package name conveys). Thus, the package helps to map various three-dimensional representations of color to each other. A particularly important mapping is the one from the perceptually-based and device-independent color model HCL (Hue-Chroma-Luminance) to standard Red-Green-Blue (sRGB) which is the basis for color specifications in many systems based on the corresponding hex codes (e.g., in HTML but also in R). For completeness further standard color models are included as well in the package: <a href="./man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a> (=HCL), <a href="./man/colorspace.colorlib.CIELUV.html"><code>CIELUV</code></a>, <a href="./man/colorspace.colorlib.polarLAB.html"><code>polarLAB</code></a>, <a href="./man/colorspace.colorlib.CIELAB.html"><code>CIELAB</code></a>, <a href="./man/colorspace.colorlib.CIEXYZ.html"><code>CIEXYZ</code></a>, <a href="./man/colorspace.colorlib.RGB.html"><code>RGB</code></a>, <a href="./man/colorspace.colorlib.sRGB.html"><code>sRGB</code></a>, <a href="./man/colorspace.colorlib.HLS.html"><code>HLS</code></a>, <a href="./man/colorspace.colorlib.HSV.html"><code>HSV</code></a>.</p>
 <p>The HCL space (= polar coordinates in <a href="./man/colorspace.colorlib.CIELUV.html"><code>CIELUV</code></a>) is particularly useful for specifying individual colors and color palettes as its three axes match those of the human visual system very well: Hue (= type of color, dominant wavelength), chroma (= colorfulness), luminance (= brightness).</p>
-<div id="207d2c2f" class="cell" data-execution_count="1">
+<div id="e39dcf9c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette, sequential_hcl, swatchplot</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> palette(sequential_hcl(h <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">300</span>], c <span class="op">=</span> [<span class="dv">60</span>, <span class="dv">60</span>], l <span class="op">=</span> <span class="dv">65</span>).colors(<span class="dv">5</span>), <span class="st">"Hue"</span>)</span>
@@ -593,7 +593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="choosing-hcl-based-color-palettes" class="level2">
 <h2 class="anchored" data-anchor-id="choosing-hcl-based-color-palettes">Choosing HCL-based color palettes</h2>
 <p>The colorspace package ships with a wide range of predefined color palettes, specified through suitable trajectories in the HCL (Hue-Chroma-Luminance) color space. A quick overview can be gained easily with the <a href="./man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes</code></a> function:</p>
-<div id="96cc36ec" class="cell" data-execution_count="2">
+<div id="d3011eb2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">15</span>, <span class="dv">10</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -605,7 +605,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>A suitable palette object can be easily computed by specifying the desired palette name (see the plot above), e.g.,</p>
-<div id="9cbb194b" class="cell" data-execution_count="3">
+<div id="a745763d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> qualitative_hcl(<span class="st">"Dark 3"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pal(<span class="dv">4</span>)  <span class="co"># Draw list of 4 colors across the palette</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -618,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="use-with-matplotlib-graphics" class="level2">
 <h2 class="anchored" data-anchor-id="use-with-matplotlib-graphics">Use with matplotlib graphics</h2>
 <p>All color palettes come with a <code>cmap()</code> method to generate objects of class <code>LinearSegmentedColormap</code> as used by <code>matplotlib</code> and can thus usually be passed directly to most matplotlib plotting functions, typically through the <code>cmap</code> argument. Here, a <code>pcolormesh()</code> example is shown using the diverging HCL color palette “<em>Blue-Red 3</em>”.</p>
-<div id="715aa8b4" class="cell" data-execution_count="4">
+<div id="ee1312be" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -643,7 +643,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>As another example for a sequential palette, we demonstrate how to create a line plot using <code>rainbowplot()</code> provided by the <code>statsmodels</code> package. The “<em>Purples 3</em>” palette is used which is similar to the <a href="https://colorbrewer2.org/">ColorBrewer2.org</a> palette ‘Purples’.</p>
-<div id="51be8faf" class="cell" data-execution_count="5">
+<div id="14e3ca0e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -675,7 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="palette-visualization-and-assessment">Palette visualization and assessment</h2>
 <p>The <em>colorspace</em> package also provides a number of functions that aid visualization and assessment of its palettes. The <a href="./man/colorspace.demos.demoplot.html"><code>demoplot</code></a> function provides a series of generic/basic plot types as used by the interactive interface (<a href="./man/colorspace.choose_palette.choose_palette.html"><code>choose_palette</code></a> which can also be used in-line to test color palettes.</p>
 <p>In addition, <a href="./man/colorspace.specplot.specplot.html"><code>specplot</code></a> allows to visualize and graphically assess the spectrum of a series of colors in the RGB and HCL spectrum, whilst <a href="./man/colorspace.hclplot.hclplot.html"><code>hclplot</code></a> converts the colors of a palette to the corresponding hue/chroma/luminance coordinates and displays them in HCL space with one dimension collapsed. The collapsed dimension is the luminance for qualitative palettes and the hue for sequential/diverging palettes.</p>
-<div id="0c68e072" class="cell" data-execution_count="6">
+<div id="f93c016a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, demoplot</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -693,7 +693,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="3558ee4c" class="cell" data-execution_count="7">
+<div id="2d2250fa" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, specplot</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Purple-Green"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">100</span>), hcl <span class="op">=</span> <span class="va">True</span>, palette <span class="op">=</span> <span class="va">True</span>, rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -705,7 +705,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="0dba05fb" class="cell" data-execution_count="8">
+<div id="848156b8" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl, qualitative_hcl, hclplot</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1148,7 +1148,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","openEffect":"zoom","selector":".lightbox","closeEffect":"zoom"});
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.53">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -546,7 +546,7 @@ window.Quarto = {
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.52</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.53</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -587,7 +587,7 @@ window.Quarto = {
 <p>Desaturation should map a given color to the gray with the same “brightness”. In principle, any perceptually-based color model (HCL, HLS, HSV, …) could be employed for this but HCL works particularly well because its coordinates capture the perceptual properties better than most other color models.</p>
 <p>The <a href="../man/colorspace.CVD.desaturate.html"><code>desaturate</code></a> function converts any given hex color code to the corresponding HCL coordinates and sets the chroma to zero. Thus, only the luminance matters which captures the “brightness” mentioned above. Finally, the resulting HCL coordinates are transformed back to hex color codes.</p>
 <p>For illustration, a few simple examples are presented below. More examples in the context of palettes for statistical graphics are discussed along with the color vision deficiency article.</p>
-<div id="2e0a3b2c" class="cell" data-execution_count="1">
+<div id="3a34396e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, desaturate, swatchplot, palette</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw 5 colros from the infamous RGB rainbow</span></span>
@@ -597,7 +597,7 @@ window.Quarto = {
 <pre><code>['#FF0000', '#CCFF00', '#00FF66', '#0066FF', '#CC00FF']</code></pre>
 </div>
 </div>
-<div id="d5934862" class="cell" data-execution_count="2">
+<div id="9d631cdb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desaturate the colors</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>col_desat   <span class="op">=</span> desaturate(col_rainbow)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>col_desat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -609,7 +609,7 @@ window.Quarto = {
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>swatchplot([palette(col_rainbow, name <span class="op">=</span> <span class="st">"original"</span>),</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            palette(col_desat,   name <span class="op">=</span> <span class="st">"desaturated"</span>)],</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="fl">1.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="a1dc1ab4" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="3">
+<div id="fbcc88f6" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="manipulation_utilities_files/figure-html/cell-4-output-1.png" class="img-fluid" width="787"></p>
@@ -634,7 +634,7 @@ window.Quarto = {
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="f2fa8f06" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="4">
+<div id="f1f54cc7" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="4">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="manipulation_utilities_files/figure-html/cell-5-output-1.png" class="img-fluid" width="758"></p>
@@ -659,7 +659,7 @@ window.Quarto = {
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            palette(darken(oi, <span class="fl">0.2</span>), <span class="st">"+20%"</span>),</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            palette(darken(oi, <span class="fl">0.4</span>), <span class="st">"+40%"</span>)],</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="6296390c" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="5">
+<div id="cec5655a" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="5">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="manipulation_utilities_files/figure-html/cell-6-output-1.png" class="img-fluid" width="547"></p>
@@ -683,7 +683,7 @@ window.Quarto = {
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> hexcols([<span class="st">"black"</span>, <span class="st">"#000000"</span>, <span class="st">"0"</span>])</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cabd8627" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="6">
+<div id="2c5892ea" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="6">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>hexcols color object (3 colors)
@@ -694,13 +694,13 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="abd859f3" class="cell" data-execution_count="7">
+<div id="6d05da24" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols.colors())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['#000000', '#000000', '#000000']</code></pre>
 </div>
 </div>
-<div id="3c952a58" class="cell" data-execution_count="8">
+<div id="802e6ece" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> adjust_transparency(cols, [<span class="fl">0.0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>])</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -711,7 +711,7 @@ window.Quarto = {
     b'#000000'    FF</code></pre>
 </div>
 </div>
-<div id="e13b1060" class="cell" data-execution_count="9">
+<div id="b19e74ff" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols.colors())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['#00000000', '#00000050', '#000000']</code></pre>
@@ -722,7 +722,7 @@ window.Quarto = {
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> adjust_transparency(cols, <span class="fl">0.8</span>)   <span class="co"># Set to constant</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="0bee4126" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
+<div id="972e86d4" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>hexcols color object (3 colors)
@@ -733,7 +733,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="f6fb29c8" class="cell" data-execution_count="11">
+<div id="f388e55e" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> adjust_transparency(cols, <span class="va">None</span>)  <span class="co"># Remove transparency</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -746,7 +746,7 @@ window.Quarto = {
 </div>
 <p>The <a href="../man/colorspace.utils.extract_transparency.html"><code>extract_transparency</code></a> function can be used to extract the alpha transparency from a set of colors. It allows to define the mode of the return value. This can either be float (<span class="math inline">\(\in [0., 1.]\)</span>), int (<span class="math inline">\({0, 1, ..., 255}\)</span>), or str (<code>"00"</code>, <code>"01"</code>, …, <code>"FF"</code>). In case no transparency is defined at all, <code>None</code> will be returned.</p>
 <p>For illustration we extract the transparency from the gray colors in <code>x</code> in different formats.</p>
-<div id="5a882151" class="cell" data-execution_count="12">
+<div id="df078965" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Some colors with transparency 80%, 40%, 80%</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> hexcols([<span class="st">'#023FA5CC'</span>, <span class="st">'#E2E2E266'</span>, <span class="st">'#8E063BCC'</span>])</span>
@@ -756,13 +756,13 @@ window.Quarto = {
 <pre><code>array([0.8, 0.4, 0.8])</code></pre>
 </div>
 </div>
-<div id="44b93c43" class="cell" data-execution_count="13">
+<div id="3473a49b" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>extract_transparency(x, mode <span class="op">=</span> <span class="st">"int"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>array([204, 102, 204], dtype=int16)</code></pre>
 </div>
 </div>
-<div id="00a53d7d" class="cell" data-execution_count="14">
+<div id="919f5e48" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>extract_transparency(x, mode <span class="op">=</span> <span class="st">"str"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>array(['CC', '66', 'CC'], dtype='&lt;U2')</code></pre>
@@ -773,7 +773,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="compute-and-visualize-w3c-contrast-ratios">Compute and visualize W3C contrast ratios</h2>
 <p>The Web Content Accessibility Guidelines (WCAG) by the World Wide Web Consortium (W3C) recommend a contrast ratio of at least 4.5 for the color of regular text on the background color, and a ratio of at least 3 for large text. See . This relies on a specific definition of relative luminances (essentially based on power-transformed sRGB coordinates) that is different from the perceptual luminance as defined, for example, in the HCL color model. Note also that the WCAG pertain to text and background color and not to colors used in data visualization.</p>
 <p>For illustration we compute and visualize the contrast ratios of the default palette in R compared to a white background.</p>
-<div id="6aa5ef0c" class="cell" data-execution_count="15">
+<div id="7024eaf5" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, contrast_ratio</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> rainbow().colors(<span class="dv">7</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>contrast_ratio(cols, <span class="st">"#FFFFFF"</span>) <span class="co"># Against white</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -782,7 +782,7 @@ window.Quarto = {
        7.69994138, 3.34666975])</code></pre>
 </div>
 </div>
-<div id="ca1f944b" class="cell" data-execution_count="16">
+<div id="e3e55d83" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>contrast_ratio(cols, <span class="st">"#000000"</span>) <span class="co"># Against black</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>array([ 5.252     , 15.38460716, 15.58729349, 15.71906457,  6.55555374,
@@ -790,7 +790,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> contrast_ratio(cols, plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="324a02f8" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="17">
+<div id="d15a7b97" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="17">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
@@ -806,7 +806,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="maximum-chroma-for-given-hue-and-luminance">Maximum chroma for given hue and luminance</h2>
 <p>As the possible combinations of chroma and luminance in HCL space depend on hue, it is not obvious which trajectories through HCL space are possible prior to trying a specific HCL coordinate by calling <a href="../man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a>. To avoid having to fix up the color upon conversion to RGB hex color codes, the <a href="../man/colorspace.utils.max_chroma.html"><code>max_chroma</code></a> function computes (approximately) the maximum chroma possible.</p>
 <p>For illustration we show that for given luminance (here: <code>L = 50</code>) the maximum chroma varies substantially with hue:</p>
-<div id="5d03f371" class="cell" data-execution_count="18">
+<div id="eb39a11f" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> max_chroma</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linspace</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -816,7 +816,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Similarly, maximum chroma also varies substantially across luminance values for a given hue (here: <code>H = 120</code>, green):</p>
-<div id="18fc612f" class="cell" data-execution_count="19">
+<div id="bc55cf18" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> max_chroma</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linspace</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -887,7 +887,7 @@ window.Quarto = {
 <span id="cb35-59"><a href="#cb35-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Display result</span></span>
 <span id="cb35-60"><a href="#cb35-60" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
 <span id="cb35-61"><a href="#cb35-61" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="76d4522e" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="20">
+<div id="89408417" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="20">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="manipulation_utilities_files/figure-html/cell-21-output-1.png" class="img-fluid" width="858"></p>
