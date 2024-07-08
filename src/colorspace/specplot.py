@@ -86,7 +86,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
     # Checking y
     if not isinstance(y, (type(None), list)):
-        raise TypeError("argument `x` must be None or list")
+        raise TypeError("argument `y` must be None or list")
     if not isinstance(y, type(None)):
         y = check_hex_colors(y) # Checks if all entries are valid
         if not len(x) == len(y):

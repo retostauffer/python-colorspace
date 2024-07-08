@@ -26,9 +26,17 @@ all extend this class. These are
     </dt>
     <dd>Convert degrees into radiant</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.HLS_to_RGB(h, l, s)](colorspace.colorlib.colorlib.HLS_to_RGB.qmd)</code>
+    </dt>
+    <dd>Convert HLS to RGB</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.HLS_to_sRGB(h, l, s)](colorspace.colorlib.colorlib.HLS_to_sRGB.qmd)</code>
     </dt>
     <dd>Convert HLC to Standard RGB (sRGB)</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.HSV_to_RGB(h, s, v)](colorspace.colorlib.colorlib.HSV_to_RGB.qmd)</code>
+    </dt>
+    <dd>Convert HSV to RGB</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.HSV_to_sRGB(h, s, v)](colorspace.colorlib.colorlib.HSV_to_sRGB.qmd)</code>
     </dt>
@@ -53,6 +61,14 @@ all extend this class. These are
        <code>[colorlib.RAD2DEG(x)](colorspace.colorlib.colorlib.RAD2DEG.qmd)</code>
     </dt>
     <dd>Convert radiant to degrees</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.RGB_to_HLS(r, g, b)](colorspace.colorlib.colorlib.RGB_to_HLS.qmd)</code>
+    </dt>
+    <dd>Convert RGB to HLS</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.RGB_to_HSV(r, g, b)](colorspace.colorlib.colorlib.RGB_to_HSV.qmd)</code>
+    </dt>
+    <dd>Convert RGB to HSV</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.RGB_to_XYZ(R, G, B, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.RGB_to_XYZ.qmd)</code>
     </dt>
@@ -97,6 +113,10 @@ all extend this class. These are
        <code>[colorlib.polarLUV_to_LUV(L, C, H)](colorspace.colorlib.colorlib.polarLUV_to_LUV.qmd)</code>
     </dt>
     <dd>Convert Polar CIELUV (HCL) to CIELUV</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[colorlib.qtrans(q1, q2, hue)](colorspace.colorlib.colorlib.qtrans.qmd)</code>
+    </dt>
+    <dd>WARNING(short_description missing)</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.sRGB_to_HLS(r, g, b)](colorspace.colorlib.colorlib.sRGB_to_HLS.qmd)</code>
     </dt>

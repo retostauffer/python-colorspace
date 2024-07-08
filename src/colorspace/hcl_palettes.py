@@ -152,7 +152,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             import inspect
             str = "List with custom palettes provided to {:s}".format(inspect.stack()[0][3])
             str += " but not all elements are of type defaultpalette"
-            raise ValueError(str)
+            raise TypeError(str)
 
         if isinstance(custom, defaultpalette):
             pals._palettes_["Custom"] = [custom]

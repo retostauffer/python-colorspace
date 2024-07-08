@@ -214,25 +214,6 @@ def test_split_return():
         assert x[i] == res[i][0]
 
 
-if __name__ == "__main__":
-    # nprange
-    test_nprange_wrong_usage()
-    test_nprange_wrong_ndarray()
-    test_nprange_return()
-
-    # natural cubic spline
-    test_spline_wrong_usage()
-    test_spline_return()
-
-    # linear regression
-    test_lm_wrong_usage()
-    test_lm_return()
-
-    # split
-    test_split_wrong_usage()
-    test_split_return()
-
-
 
 
 

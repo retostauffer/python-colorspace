@@ -291,7 +291,7 @@ def test_shortcut_RGB_HLS():
     assert compare_colors(x, orig)
 
 ## We are using a shortcut from RGB to HSV and back
-def test_shortcut_RGB_HLS():
+def test_shortcut_RGB_HSV():
     from colorspace import rainbow
     x = rainbow()(20) + ["#000000", "#FFFFFF"] # Adding extremes
     x = hexcols(x)
@@ -315,7 +315,7 @@ def test_long_route_RGB_HLS():
     assert compare_colors(x, orig)
 
 ## Testing long route (not shortcut as above)
-def test_long_route_RGB_HLS():
+def test_long_route_RGB_HSV():
     from colorspace import rainbow
     x = rainbow()(20) + ["#000000", "#FFFFFF"] # Adding extremes
     x = hexcols(x)
@@ -327,6 +327,57 @@ def test_long_route_RGB_HLS():
     x.to("RGB")
     assert compare_colors(x, orig)
 
+def test_colorlib_gtrans():
+
+    from numpy import asarray, ndarray
+    from colorspace import colorlib
+    clib = colorlib()
+
+    # u of length 1, gamma of length 1; gtrans will
+    # return an array of length 1. If 'gamma' is of length 1
+    # but u length > 1, gamma will be recycled.
+    u1    = asarray([10])
+    u3    = asarray([10, 20, 30])
+    gamma = asarray([0.1])
+
+    res1 = clib.gtrans(u1, gamma)
+    assert isinstance(res1, ndarray)
+    assert len(res1) == 1
+
+    res3 = clib.gtrans(u3, gamma)
+    assert isinstance(res3, ndarray)
+    assert len(res3) == 3
+
+    # If len(gamma) > 1 it it must match the length of u.
+    gamma2 = asarray([0.1, 0.1])
+    with pytest.raises(ValueError): clib.gtrans(u3, gamma2)
+
+
+def test_colorlib_ftrans():
+
+    from numpy import asarray, ndarray
+    from colorspace import colorlib
+    clib = colorlib()
+
+    # u of length 1, gamma of length 1; ftrans will
+    # return an array of length 1. If 'gamma' is of length 1
+    # but u length > 1, gamma will be recycled.
+    u1    = asarray([10])
+    u3    = asarray([10, 20, 30])
+    gamma = asarray([0.1])
+
+    res1 = clib.ftrans(u1, gamma)
+    assert isinstance(res1, ndarray)
+    assert len(res1) == 1
+
+    res3 = clib.ftrans(u3, gamma)
+    assert isinstance(res3, ndarray)
+    assert len(res3) == 3
+
+    # If len(gamma) > 1 it it must match the length of u.
+    gamma2 = asarray([0.1, 0.1])
+    with pytest.raises(ValueError): clib.ftrans(u3, gamma2)
+
 # --------------------------------------------
 # --------------------------------------------
 # Testing standard representation (only that we get a string)
@@ -335,15 +386,18 @@ def test_repr():
     for x in ["CIELAB", "CIELUV", "HCL", "CIEXYZ", "RGB", "HSV", "HLS", "hex"]:
         color.to(x)
         assert isinstance(repr(color), str)
+
 # Testing truncated output
 def test_repr_truncation():
     colors = hexcols(["#000000"] * 100)
     assert isinstance(repr(colors), str)
+
 def test_iterate():
     for col in colors_to_test:
         assert isinstance(col, type(colors_to_test))
         assert col.length() == 1
         assert isinstance(repr(col), str)
+
 def test_getitem():
     assert isinstance(colors_to_test[0], type(colors_to_test))
     assert colors_to_test[0].length() == 1
@@ -373,6 +427,78 @@ def test_sRGB_RGB_value_limits():
     with pytest.raises(ValueError): RGB(0, 0, 0, alpha = -0.0001)
     with pytest.raises(ValueError): RGB(0, 0, 0, alpha = 1.0001)
 
+def test_dimensions_of_different_lengths():
+    with pytest.raises(ValueError): RGB(0.1, 0.2, [0.3, 0,4]) # Unequal length
+    with pytest.raises(ValueError): RGB(0.1, [0.2, 0.3], 0,4) # Unequal length
+    with pytest.raises(ValueError): RGB([0.1, 0.2], 0.3, 0,4) # Unequal length
+
+def test_dimensions_not_convertable_to_array():
+    with pytest.raises(ValueError): RGB(0.1, 0.2, [0.3, 0.4, [0.5, 0.6, 0.7]])
+
+
+# -------------------------------------------------------------------
+# There are two paths from RGB to HSV, either:
+# - RGB -> sRGB -> HSV
+# - or RGB -> HSV directly
+# Testing a few colors against the R colorspace package.
+def test_sRGB_to_HSV():
+    # R> x <- RGB(c(0, 0.5, 0, 0.5, 1), c(0.5, 0, 0, 0.5, 0.5), c(0, 0, 0.5, 0.5, 1))
+    # R> as(x, "sRGB")@coords
+    cols = RGB([0.0, 0.5, 0.0, 0.5, 1.0], [0.5, 0.0, 0.0, 0.5, 0.5], [0.0, 0.0, 0.5, 0.5, 1.0])
+    cols.to("sRGB") # Just testing RGB -> sRGB, can't hurt
+    assert np.all(np.isclose(cols.get("R"), [0.000000, 0.735357, 0.000000, 0.735357, 1.000000], 1e-5))
+    assert np.all(np.isclose(cols.get("G"), [0.735357, 0.000000, 0.000000, 0.735357, 0.735357], 1e-5))
+    assert np.all(np.isclose(cols.get("B"), [0.000000, 0.000000, 0.735357, 0.735357, 1.000000], 1e-5))
+    del cols
+
+    # R> x <- RGB(c(0, 0.5, 0, 0.5, 1), c(0.5, 0, 0, 0.5, 0.5), c(0, 0, 0.5, 0.5, 1))
+    # R> as(as(x, "sRGB"), "HSV")@coords
+    cols = RGB([0.0, 0.5, 0.0, 0.5, 1.0], [0.5, 0.0, 0.0, 0.5, 0.5], [0.0, 0.0, 0.5, 0.5, 1.0])
+    cols.to("sRGB") # RGB -> sRGB
+    cols.to("HSV")  # sRGB -> HSV
+    assert np.all(np.isclose(cols.get("H"), [120,      360,      240,      0,        300     ], 1e-5))
+    assert np.all(np.isclose(cols.get("S"), [1.000000, 1.000000, 1.000000, 0.000000, 0.264643], 1e-5))
+    assert np.all(np.isclose(cols.get("V"), [0.735357, 0.735357, 0.735357, 0.735357, 1.000000], 1e-5))
+    del cols
+
+    # R> x <- RGB(c(0, 0.5, 0, 0.5, 1), c(0.5, 0, 0, 0.5, 0.5), c(0, 0, 0.5, 0.5, 1))
+    # R> as(x "HSV")@coords
+    cols = RGB([0.0, 0.5, 0.0, 0.5, 1.0], [0.5, 0.0, 0.0, 0.5, 0.5], [0.0, 0.0, 0.5, 0.5, 1.0])
+    cols.to("HSV") # Directly RGB -> HSV
+    assert np.all(np.isclose(cols.get("H"), [120,      360,      240,      0,        300     ], 1e-5))
+    assert np.all(np.isclose(cols.get("S"), [1.000000, 1.000000, 1.000000, 0.000000, 0.500000], 1e-5))
+    assert np.all(np.isclose(cols.get("V"), [0.500000, 0.500000, 0.500000, 0.500000, 1.000000], 1e-5))
+    del cols
+
+
+# -------------------------------------------------------------------
+# There are two paths from RGB to HLS, either:
+# - RGB -> sRGB -> HLS
+# - or RGB -> HLS directly
+# Testing a few colors against the R colorspace package.
+def test_sRGB_to_HLS():
+    # R> x <- RGB(c(0, 0.5, 0, 0.5, 1), c(0.5, 0, 0, 0.5, 0.5), c(0, 0, 0.5, 0.5, 1))
+    # R> as(as(x, "sRGB"), "HLS")@coords
+    cols = RGB([0.0, 0.5, 0.0, 0.5, 1.0], [0.5, 0.0, 0.0, 0.5, 0.5], [0.0, 0.0, 0.5, 0.5, 1.0])
+    cols.to("sRGB") # RGB -> sRGB
+    cols.to("HLS")  # sRGB -> HLS
+    assert np.all(np.isclose(cols.get("H"), [120,      0,        240,      0,        300     ], 1e-5))
+    assert np.all(np.isclose(cols.get("L"), [0.367678, 0.367678, 0.367678, 0.735357, 0.867678], 1e-5))
+    assert np.all(np.isclose(cols.get("S"), [1.000000, 1.000000, 1.000000, 0.000000, 1.000000], 1e-5))
+    del cols
+
+    # R> x <- RGB(c(0, 0.5, 0, 0.5, 1), c(0.5, 0, 0, 0.5, 0.5), c(0, 0, 0.5, 0.5, 1))
+    # R> as(x "HLS")@coords
+    cols = RGB([0.0, 0.5, 0.0, 0.5, 1.0], [0.5, 0.0, 0.0, 0.5, 0.5], [0.0, 0.0, 0.5, 0.5, 1.0])
+    cols.to("HLS") # Directly RGB -> HLS
+    assert np.all(np.isclose(cols.get("H"), [120,      0,        240,      0,        300     ], 1e-5))
+    assert np.all(np.isclose(cols.get("L"), [0.250000, 0.250000, 0.250000, 0.500000, 0.750000], 1e-5))
+    assert np.all(np.isclose(cols.get("S"), [1.000000, 1.000000, 1.000000, 0.000000, 1.000000], 1e-5))
+    del cols
+
+# -------------------------------------------------------------------
+# Testing alpha value handling
+# -------------------------------------------------------------------
 def test_check_for_alpha_values():
     a = RGB(0, 1, 0, alpha = 0.3)
     b = RGB(0, 1, 0)
@@ -385,6 +511,10 @@ def test_dropalpha_values():
     a.dropalpha()
     assert a.hasalpha() == False
 
+
+# -------------------------------------------------------------------
+# Extracting colors
+# -------------------------------------------------------------------
 def test_get_colors():
 
     x = deepcopy(colors_to_test)
@@ -540,6 +670,10 @@ def test_colorlib_swatchplot_method():
     # Create 'colorlib' based object
     cols = hexcols(diverging_hcl()(5))
     cols.swatchplot()
+    plt.close() # Closing figure instance
+
+    # If `show_names` is set, it will be deleted internally
+    cols.swatchplot(show_names = "something (will be ignored anyways")
     plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare

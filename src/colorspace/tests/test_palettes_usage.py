@@ -2,6 +2,8 @@
 
 import pytest
 import colorspace
+from colorspace import palette, hclpalettes
+from colorspace.palettes import defaultpalette
 import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,30 +14,30 @@ import matplotlib.pyplot as plt
 # Testing usage of 'palette()'
 # ------------------------------------------
 def test_palette_valid_list():
-    x = colorspace.palettes.palette(["#00ff00", "#ff00ff"], name = "test")
+    x = palette(["#00ff00", "#ff00ff"], name = "test")
     pass
 
 def test_palette_name_no_inputs():
     with pytest.raises(TypeError):
-        colorspace.palettes.palette()
+        palette()
 
 def test_palette_invalid_hex_values():
     with pytest.raises(ValueError):
-        colorspace.palettes.palette(["a", "#00ff00"], name = "test")
+        palette(["a", "#00ff00"], name = "test")
 
 def test_palette_invalid_type_name():
     with pytest.raises(TypeError):
-        colorspace.palettes.palette(["#ff0000", "#00ff00"], name = 123)
+        palette(["#ff0000", "#00ff00"], name = 123)
 
 def test_palette_invalid_type_color():
     with pytest.raises(ValueError):
-        colorspace.palettes.palette([123, "#00ff00"], name = "test")
+        palette([123, "#00ff00"], name = "test")
 
 def test_palette_repr():
-    assert isinstance(repr(colorspace.palettes.palette(["#00ff00"], name = "test")), str)
+    assert isinstance(repr(palette(["#00ff00"], name = "test")), str)
 
 def test_palette_name_and_rename():
-    x =  colorspace.palettes.palette(["#00ff00"], name = "test")
+    x =  palette(["#00ff00"], name = "test")
     assert isinstance(x.name(), str)
     assert x.name() == "test"
     x.rename("foo")
@@ -44,22 +46,22 @@ def test_palette_name_and_rename():
 
 def test_palette_invalid_rename():
     with pytest.raises(ValueError):
-        x =  colorspace.palettes.palette(["#00ff00"], name = "test")
+        x =  palette(["#00ff00"], name = "test")
         x.rename(123)
 
 # ------------------------------------------
-# Testing colorspace.palettes.palette.cmap() method
+# Testing palette.cmap() method
 # ------------------------------------------
 def test_palette_cmap_class():
-    x = colorspace.palettes.palette(["#00ff00"], name = "test")
+    x = palette(["#00ff00"], name = "test")
     assert isinstance(x.cmap(), matplotlib.colors.LinearSegmentedColormap)
 
 def test_palette_cmap_class_rev_False():
-    x = colorspace.palettes.palette(["#00ff00"], name = "test")
+    x = palette(["#00ff00"], name = "test")
     assert isinstance(x.cmap(rev = False), matplotlib.colors.LinearSegmentedColormap)
 
 def test_palette_cmap_param_n():
-    x = colorspace.palettes.palette(["#00ff00"], name = "test")
+    x = palette(["#00ff00"], name = "test")
     cm = x.cmap(n = 10)
     assert isinstance(cm, matplotlib.colors.LinearSegmentedColormap)
     assert cm.N == 10
@@ -67,23 +69,23 @@ def test_palette_cmap_param_n():
 # ------------------------------------------
 # ------------------------------------------
 def test_hclpalettes_class():
-    x = colorspace.palettes.hclpalettes()
-    assert isinstance(x, colorspace.palettes.hclpalettes)
+    x = hclpalettes()
+    assert isinstance(x, hclpalettes)
     assert x.length() > 0
 
 def test_hclpalettes_file_does_not_exist():
     with pytest.raises(FileNotFoundError):
-        colorspace.palettes.hclpalettes(files = "foo")
+        hclpalettes(files = "foo")
 
 def test_hclpalettes_file_no_file():
     with pytest.raises(ValueError):
-        colorspace.palettes.hclpalettes(files = [])
+        hclpalettes(files = [])
 
 def test_hclpalettes_repr():
-    assert isinstance(repr(colorspace.palettes.hclpalettes()), str)
+    assert isinstance(repr(hclpalettes()), str)
 
 def test_hclpalettes_get_palette_types():
-    pals  = colorspace.palettes.hclpalettes()
+    pals  = hclpalettes()
     # Getting loaded palette types; list of character strings
     types = pals.get_palette_types()
     assert isinstance(types, list)
@@ -93,33 +95,33 @@ def test_hclpalettes_get_palette_types():
     type_pals = pals.get_palettes(types[0])
     assert isinstance(type_pals, list)
     assert len(type_pals) > 0
-    assert np.all([isinstance(x, colorspace.palettes.defaultpalette) for x in type_pals])
+    assert np.all([isinstance(x, defaultpalette) for x in type_pals])
 
 def test_hclpalettes_get_palettes_invalid_type_name():
     with pytest.raises(ValueError):
-        colorspace.palettes.hclpalettes().get_palettes("foo")
+        hclpalettes().get_palettes("foo")
 
 def test_hclpalettes_get_palettes_invalid_type_type():
     with pytest.raises(TypeError):
-        colorspace.palettes.hclpalettes().get_palettes(123)
+        hclpalettes().get_palettes(123)
 
 def test_hclpalettes_get_palettes_type_none():
     # Testig default (type_ = None)
-    x = colorspace.palettes.hclpalettes().get_palettes(type_ = None)
+    x = hclpalettes().get_palettes(type_ = None)
     assert isinstance(x, list)
     assert len(x) > 0
     # Explicitly testing for type_ = None
-    x = colorspace.palettes.hclpalettes().get_palettes(type_ = None)
-    x = colorspace.palettes.hclpalettes().get_palettes(type_ = None)
+    x = hclpalettes().get_palettes(type_ = None)
+    x = hclpalettes().get_palettes(type_ = None)
     assert isinstance(x, list)
     assert len(x) > 0
 
 
 # ------------------------------------------
-# Testing colorspace.palettes.hclpalettes.get_palette()
+# Testing hclpalettes.get_palette()
 # ------------------------------------------
 def test_hclpalettes_get_palette():
-    pals  = colorspace.palettes.hclpalettes()
+    pals  = hclpalettes()
     # Getting first type of palettes
     first = pals.get_palettes(pals.get_palette_types()[0])
     assert isinstance(first, list)
@@ -128,11 +130,49 @@ def test_hclpalettes_get_palette():
     assert isinstance(pal_name, str)
     # Getting this specific palette
     pal      = pals.get_palette(pal_name)
-    assert isinstance(pal, colorspace.palettes.defaultpalette)
+    assert isinstance(pal, defaultpalette)
     assert isinstance(pal.name(), str)
 
+
+def test_hclpalettes_get_palettes():
+    from re import compile
+
+    hclpals = hclpalettes()
+    assert isinstance(hclpals, hclpalettes)
+
+    # Getting all available palettes
+    pals = hclpals.get_palettes()
+    assert len(pals) == 115
+    del pals
+
+    # Get all Diverging (no exact match)
+    pat  = compile(r".*?Diverging.*?")
+    pals = hclpals.get_palettes("Diverging")
+    assert len(pals) == 36
+    for p in pals: assert pat.match(p.type())
+    del pals
+
+    # Get all 'Advanced: Diverging' (no exact match).
+    # This will also include 'Advanced: DivergingX'.
+    pat  = compile(r"^Advanced: Diverging.*?")
+    pals = hclpals.get_palettes("Advanced: Diverging")
+    assert len(pals) == 29
+    for p in pals: assert pat.match(p.type())
+    del pals
+
+    # Get all 'Advanced: Diverging' (exact match).
+    # No longer includes 'Advanced: DivergingX'.
+    pat  = compile(r"^Advanced: Diverging$")
+    pals = hclpals.get_palettes("Advanced: Diverging", exact = True)
+    assert len(pals) == 11
+    for p in pals: assert pat.match(p.type())
+
+    # Testing order of arguments
+    assert pals == hclpals.get_palettes("Advanced: Diverging", True)
+
+
 def test_hclpalettes_get_palette_invalid_name():
-    pals  = colorspace.palettes.hclpalettes()
+    pals  = hclpalettes()
     with pytest.raises(ValueError):
         pals.get_palette("this_is_a_test_foo_bar")
 

@@ -1,0 +1,14 @@
+---
+title: "WARNING(short_description missing)"
+---
+
+WARNING(long_description missing)
+
+### Usage
+
+<pre><code class='language-python'>colorlib.qtrans(q1, q2, hue)</code></pre>
+
+### Arguments
+
+<ul><li>WARNING(missing argument definition "q1" in docstring)</li><li>WARNING(missing argument definition "q2" in docstring)</li><li>WARNING(missing argument definition "hue" in docstring)</li></ul><dl class="pyp-list param-list">
+</dl>

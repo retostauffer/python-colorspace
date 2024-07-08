@@ -368,18 +368,17 @@ class defaultpalette:
             if isinstance(val, bool):
                 val = 1 if val else 0
 
-            # Not yet a parameter in our dictionary? Add None first
+            # Not yet a parameter in our dictionary? Add as float
             if not key in self._settings_.keys():
                 self._settings_[key] = float(val)
             # If already existing we convert the new value into the existing type.
             elif isinstance(self._settings_[key], int):
                 self._settings_[key] = int(val)
             elif isinstance(self._settings_[key], float):
-                self._settings_[key] = int(val)
+                self._settings_[key] = float(val)
             else:
                 raise Exception(f"whoops, some code needed here in {self.__class__.__name__}.set")
 
-        self._settings_[key] = val
 
     def get_settings(self):
         """Get All Palette Settings
@@ -549,6 +548,26 @@ class hclpalettes:
                 have to match but are not case sensitive, defaults to None.
             exact (bool): If `False` (default) partial matching is used. If `True`,
                 `type_` must be an exact match (case sensitive).
+
+        Examples:
+            >>> # Initialize hclpalettes object
+            >>> from colorspace import hclpalettes
+            >>> hclpals = hclpalettes()
+            >>>
+            >>> # Get all Diverging palettes
+            >>> pals1 = hclpals.get_palettes("Diverging")
+            >>> len(pals1)
+            >>>
+            >>> #: Get 'Advanced: Diverging' palettes, also includes
+            >>> # 'Advanced: DivergingX' (partial match).
+            >>> pals2 = hclpals.get_palettes("Advanced: Diverging")
+            >>> len(pals2)
+            >>>
+            >>> #: Only get 'Advanced: Diverging' (exact match)
+            >>> pals3 = hclpals.get_palettes("Advanced: Diverging", exact = True)
+            >>> len(pals3)
+            >>> #:
+            >>> pals3
 
         Returns:
             Returns a `list` containing `defaultpalette` objects objects.

@@ -6,11 +6,43 @@ from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 from colorspace import *
 
+# ---------------------------------
+# Wrong usage
+# ---------------------------------
+def test_swatchplot_wrong_usage():
+
+    cols = diverging_hcl().colors(5)
+
+    # Testing non-allowed cvd types
+    raises(TypeError, swatchplot, cols, cvd = 3)
+    raises(TypeError, swatchplot, cols, cvd = 3.)
+    raises(TypeError, swatchplot, cols, cvd = True)
+    raises(TypeError, swatchplot, cols, cvd = {"a":3})
+    raises(TypeError, swatchplot, cols, cvd = (3))
+
+    # If list, it must only contain str
+    raises(ValueError, swatchplot, cols, cvd = [3])
+    raises(ValueError, swatchplot, cols, cvd = ["foo", 3])
+    raises(ValueError, swatchplot, cols, cvd = [True, False])
+    raises(ValueError, swatchplot, cols, cvd = [None])
+
+    # Invalid value(s) on cvd
+    raises(ValueError, swatchplot, cols, cvd = "foo")
+    raises(ValueError, swatchplot, cols, cvd = ["deutan", "foo"])
+
+    # Figsize - if provided - must be a tuple of length 2 with int/float
+    raises(ValueError, swatchplot, cols, figsize = 3)
+    raises(ValueError, swatchplot, cols, figsize = [3, 5])
+    raises(ValueError, swatchplot, cols, figsize = (3))
+    raises(ValueError, swatchplot, cols, figsize = (3, "foo"))
+    raises(ValueError, swatchplot, cols, figsize = (3, 3, 5))
+
 
 
 # ---------------------------------
 # Testing a series of swatchplot options
 # ---------------------------------
+
 
 # Single list of hex colors
 @pytest.mark.mpl_image_compare
@@ -74,4 +106,79 @@ def test_swatchplot_two_hclpalettes_two_titles():
     plt.close() # Closing figure instance
 
 
+# ---------------------------------------------------------
+# Testing different inputs
+# ---------------------------------------------------------
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_input_str():
+    fig = swatchplot("#ff0033")
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_input_palette():
+    fig = swatchplot(palette(diverging_hcl().colors(5)))
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_input_cmap():
+    fig = swatchplot(diverging_hcl().cmap())
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_input_dict():
+    fig = swatchplot({"Diverging": diverging_hcl(),
+                      "Sequential": sequential_hcl()})
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+    fig = swatchplot({"Diverging": diverging_hcl().colors(5),
+                      "Sequential": sequential_hcl()})
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+    fig = swatchplot({"Diverging": [diverging_hcl().colors(5), rainbow()],
+                      "Sequential": [sequential_hcl(), heat_hcl().colors(3)]})
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+
+# ---------------------------------------------------------
+# Providing 'cvd' argument; creates additional swatches
+# with simulated CVD colors.
+# ---------------------------------------------------------
+
+# Single list of hex colors
+@pytest.mark.mpl_image_compare
+def test_swatchplot_single_hex_list_CVD_deutan():
+    fig = swatchplot(diverging_hcl()(7), cvd = "deutan")
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_single_hex_list_CVD_protan():
+    fig = swatchplot(diverging_hcl()(7), cvd = "protan")
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_single_hex_list_CVD_tritan():
+    fig = swatchplot(diverging_hcl()(7), cvd = "tritan")
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_single_hex_list_CVD_desaturate():
+    fig = swatchplot(diverging_hcl()(7), cvd = "desaturate")
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_single_hex_list_CVD_desaturate():
+    fig = swatchplot(diverging_hcl()(7), cvd = ["deutan", "protan", "tritan", "desaturate"])
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
 

@@ -1,9 +1,10 @@
 
-from colorspace import palette
+from colorspace import palette, diverging_hcl
 from colorspace.colorlib import hexcols
 from colorspace.colorlib import HCL
 import numpy as np
 
+import pytest
 from pytest import raises
 
 # ------------------------------------------
@@ -116,6 +117,43 @@ def test_cmap():
     del x, cmap
 
 
+# ------------------------------------------
+# Checking __repr__
+# ------------------------------------------
+def test_standard_representation():
 
+    from re import match
+    N    = 5
+    name = "test"
+    txt  = repr(palette(diverging_hcl().colors(N), name))
+    assert match(f"^Palette Name: {name}\n\s+Type: Custom palette\n\s+Number of colors: {N}$", txt)
 
+    N    = 20
+    name = "my_palette"
+    txt  = repr(palette(diverging_hcl().colors(N), name))
+    assert match(f"^Palette Name: {name}\n\s+Type: Custom palette\n\s+Number of colors: {N}$", txt)
+
+# ------------------------------------------
+# Swatchplot feature
+# ------------------------------------------
+@pytest.mark.mpl_image_compare
+def test_swatchplot():
+
+    import matplotlib.pyplot as plt
+
+    pal = palette(diverging_hcl(5), "test")
+    assert isinstance(pal.name(), str)
+    assert pal.name() == "test"
+
+    # Plotting
+    pal.swatchplot()
+    plt.close()
+
+    # Different figure size
+    pal.swatchplot(figsize = (6, 2))
+    plt.close()
+
+    # Setting show_names; is deleted internally
+    pal.swatchplot(figsize = (6, 2), show_names = "foo")
+    plt.close()
 

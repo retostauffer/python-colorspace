@@ -179,9 +179,9 @@ class colorlib:
 
         # Check if all do have the same length
         if not np.all([x == lengths[0] for x in lengths]):
-            msg += " Arguments of different lengths: {:s}".format(
-                   ", ".join(["{:s} = {:d}".format(kwargs.keys()[i],lengths[i]) \
-                   for i in range(0,len(kwargs))]))
+            tmp = []
+            for k,v in kwargs.items(): tmp.append(f"{k} = {v}")
+            msg = f" Arguments of different lengths: {', '.join(tmp)}."
             raise ValueError(msg)
 
         # If all is fine, simply return True
@@ -1862,7 +1862,7 @@ class colorobject:
 
         # Check if all do have the same length
         if not np.all([x == lengths[0] for x in lengths]):
-            msg += "Arguments of different lengths: {:s}".format(
+            msg += " Arguments of different lengths: {:s}".format(
                    ", ".join(["{:s} = {:d}".format(keys_to_check[i], lengths[i]) \
                     for i in range(0, len(keys_to_check))]))
             raise ValueError(msg)
@@ -2158,6 +2158,7 @@ class colorobject:
         return self.length()
 
 
+    # Currently not used but implemented as fallback for the future
     def _cannot(self, from_, to):
         """Error: Conversion not Possible
 
@@ -2296,6 +2297,7 @@ class polarLUV(colorobject):
         elif to in ["HLS", "HSV"]:
             self._ambiguous(self.__class__.__name__, to)
 
+        # Currently not used but implemented as fallback for the future
         else: self._cannot(self.__class__.__name__, to)
 
 # polarLUV is HCL, make copy
@@ -2618,7 +2620,7 @@ class RGB(colorobject):
             self.__class__ = HSV
 
         # The rest are transformations along a path
-        elif to in ["HLS", "HSV", "hex"]:
+        elif to in ["hex"]:
             via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
@@ -2632,10 +2634,6 @@ class RGB(colorobject):
 
         elif to == "polarLAB":
             via = ["CIEXYZ", "CIELAB", to]
-            self._transform_via_path_(via, fixup = fixup)
-
-        elif to in ["HLS", "HSV", "hex"]:
-            via = ["sRGB", to]
             self._transform_via_path_(via, fixup = fixup)
 
         else: self._cannot(self.__class__.__name__, to)

@@ -1,0 +1,35 @@
+---
+title: "Convert HLS to RGB"
+---
+
+### Description
+
+Shortcut from HLS to RGB (not via sRGB). Expecting h in `[0., 360.]`,
+l/s in `[0., 1.]`. Returns r/g/b in `[0.,1.]`.
+
+### Usage
+
+<pre><code class='language-python'>colorlib.HLS_to_RGB(h, l, s)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.HLS_to_RGB:h">h</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>Hue (`[0., 360.]`)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.HLS_to_RGB:l">l</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>Luminance (`[0., 1.]`)</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.colorlib.HLS_to_RGB:s">s</code><code class="argument-class">numpy.ndarray</code>
+  </dt>
+ <dd>Saturation (`[0., 1.]`)  </dd>
+</dl>
+
+### Return
+
+Returns a list of `numpy.ndarray`s with the corresponding
+coordinates in the RGB color space (`[r, g, b]`). Same length as
+the inputs.

@@ -544,6 +544,8 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         if l is not None:
             nd[2] = np.repeat(float(l), nd.shape[1])
         elif len(cols) < 3 or np.diff(nprange(cols.get("L"))) < 10.:
+            nd[2] = np.median(cols.get("L"))
+        else:
             # Model matrix for estimation and prediction
             X    = np.transpose(np.asarray([np.repeat(1., len(cols)),
                                             cols.get("C"), cols.get("H")]))

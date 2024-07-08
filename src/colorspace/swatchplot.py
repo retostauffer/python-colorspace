@@ -100,10 +100,11 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             raise ValueError("unexpected input on argument for `cvd`")
     elif isinstance(cvd, str):
         cvd = [cvd]
+
     # Checking values
     if isinstance(cvd, list):
         valid_cvd_types = ["protan", "tritan", "deutan", "desaturate"]
-        if not all(x in valid_cvd_types for x in cvd):
+        if not all([x in valid_cvd_types for x in cvd]):
             raise ValueError(f"allowed values for argument `cvd` are: {', '.join(valid_cvd_types)}")
 
 
@@ -123,7 +124,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         figsize = kwargs["figsize"]
         if not isinstance(figsize, tuple) or not len(figsize) == 2:
             raise ValueError("argument `figsize` must be a tuple of length 2")
-        for i in range(0, 1):
+        for i in range(2):
             if not isinstance(figsize[i], int) and not isinstance(figsize[i], float):
                 raise ValueError(f"element [{i}] in `figsize` not int or float.")
     else:

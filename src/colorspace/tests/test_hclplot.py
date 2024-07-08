@@ -59,7 +59,28 @@ def test_hclplot_wrong_usage():
     raises(TypeError, hclplot, x = cols, ax = True)
 
 
-#hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs):
+# -------------------------------------------------------------------
+# Conversion
+# If first arg is str or list, an `hclcols()` object is created.
+# Else we call `hclcols(x.colors())`. Testing this here.
+@pytest.mark.mpl_image_compare
+def test_hclplot_diverging_HSV_colorobject():
+    x = hexcols(diverging_hcl()(7))
+    x.to("HSV") # Now this is a hue-saturation-value object
+    fig = hclplot(x)
+    plt.close() # Closing figure instance
+
+
+# -------------------------------------------------------------------
+# Testing with colors with very low chroma
+@pytest.mark.mpl_image_compare
+def test_hclplot_qualitative_very_low_chroma():
+    x = hexcols(rainbow_hcl()(7))
+    x.to("HCL") # Now this is a hue-saturation-value object
+    x.set(C = np.repeat(6, len(x)))
+    fig = hclplot(x, _type = "qualitative")
+    plt.close() # Closing figure instance
+
 
 # -------------------------------------------------------------------
 # Diverging
@@ -122,6 +143,14 @@ def test_hclplot_sequential_simple():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+# Manually setting hue level (where the pane slices trough the HCL space)
+@pytest.mark.mpl_image_compare
+def test_hclplot_qualitative_custom_h():
+    pal = sequential_hcl()
+    fig = hclplot(pal(7), h = 45)
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
 @pytest.mark.mpl_image_compare
 def test_hclplot_sequential_h1():
     pal = sequential_hcl(h = 60)
@@ -157,6 +186,14 @@ def test_hclplot_qualitative_simple():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+# Manually setting chroma level (where the pane slices trough the HCL space)
+@pytest.mark.mpl_image_compare
+def test_hclplot_qualitative_custom_c():
+    pal = qualitative_hcl()
+    fig = hclplot(pal(7), c = 100)
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_h1():
     pal = qualitative_hcl(l = 60)
@@ -179,6 +216,16 @@ def test_hclplot_qualitative_labels():
 def test_hclplot_qualitative_noaxes():
     pal = qualitative_hcl()
     fig = hclplot(pal(7), _type = "qualitative", axes = False)
+    plt.close() # Closing figure instance
+
+# Custom 'ax' argument
+@pytest.mark.mpl_image_compare
+def test_hclplot_qualitative_custom_ax():
+    fig,ax = plt.subplots(1, 1)
+    with pytest.warns(UserWarning, match = r"^cannot approximate L well as a linear function of C and H$"):
+        ax = hclplot(rainbow()(10), ax = ax)
+    assert isinstance(ax, plt.Axes)
+    plt.show()  # Show custom figure
     plt.close() # Closing figure instance
 
 

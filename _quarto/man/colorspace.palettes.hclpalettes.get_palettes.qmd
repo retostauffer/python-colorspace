@@ -31,6 +31,49 @@ have to match but are not case sensitive, defaults to None.</dd>
 
 Returns a `list` containing `defaultpalette` objects objects.
 
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Initialize hclpalettes object
+from colorspace import hclpalettes
+hclpals = hclpalettes()
+# Get all Diverging palettes
+pals1 = hclpals.get_palettes("Diverging")
+len(pals1)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Get 'Advanced: Diverging' palettes, also includes
+# 'Advanced: DivergingX' (partial match).
+pals2 = hclpals.get_palettes("Advanced: Diverging")
+len(pals2)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Only get 'Advanced: Diverging' (exact match)
+pals3 = hclpals.get_palettes("Advanced: Diverging", exact = True)
+len(pals3)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+pals3
+```
+
+
+
+
 ### Raises
 
 <ul class="python-raises">

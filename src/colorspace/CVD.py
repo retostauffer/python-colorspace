@@ -462,7 +462,7 @@ class CVD(object):
             lo = int(floor(severity * 10.))
             hi = int(ceil(severity * 10.))
             if lo == hi:
-                cvd = fun(lo+1) 
+                cvd = fun(lo) 
             else:
                 cvd = (hi - severity * 10.) * fun(lo) + \
                       (severity * 10. - lo) * fun(hi)
@@ -503,7 +503,6 @@ class CVD(object):
         CVD = self._interpolate_cvd_transform()
 
         # Apply coefficients/CVD transformation matrix
-        [R, G, B] = [RGB[i] for i in [0,1,2]]
         RGB = RGB.transpose().dot(CVD).transpose()
 
         # Save simulated data
@@ -584,7 +583,7 @@ def desaturate(cols, amount = 1.):
             `amount = 1.` removes all color, `amount = 0.` none, defaults to `1.`.
 
     Returns:
-        list: Returns a list of modified hex colors.
+        list: Returns a list of (modified) hex colors.
 
     Example:
 
@@ -666,7 +665,11 @@ def desaturate(cols, amount = 1.):
         raise Exception("internal error; `cols` should be a colorobject by now but is not")
 
     # Checking amount
-    if amount == 0.: return input_cols
+    if amount == 0.:
+        if not CMAP:
+            return input_cols if isinstance(input_cols, (str, list)) else input_cols.colors()
+        else:
+            return input_cols # CMAP
 
     # Keep original class
     original_class = cols.__class__.__name__
@@ -693,6 +696,7 @@ def desaturate(cols, amount = 1.):
     if not CMAP:
         if original_class == "hex": cols = cols.colors()
         return cols
+
     # Else manipulate the original cmap object and return
     # a new cmap object with adjusted colors
     else:
