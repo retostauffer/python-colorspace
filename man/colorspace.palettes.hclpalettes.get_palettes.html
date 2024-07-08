@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -478,6 +512,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -534,6 +569,183 @@ If <code>False</code> (default) partial matching is used. If <code>True</code>, 
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
 <p>Returns a <code>list</code> containing <code>defaultpalette</code> objects objects.</p>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div id="86578a79" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize hclpalettes object</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hclpalettes</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hclpals <span class="op">=</span> hclpalettes()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get all Diverging palettes</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>pals1 <span class="op">=</span> hclpals.get_palettes(<span class="st">"Diverging"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pals1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>36</code></pre>
+</div>
+</div>
+<div id="fa6aa4a6" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get 'Advanced: Diverging' palettes, also includes</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 'Advanced: DivergingX' (partial match).</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pals2 <span class="op">=</span> hclpals.get_palettes(<span class="st">"Advanced: Diverging"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pals2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>29</code></pre>
+</div>
+</div>
+<div id="b887706e" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only get 'Advanced: Diverging' (exact match)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pals3 <span class="op">=</span> hclpals.get_palettes(<span class="st">"Advanced: Diverging"</span>, exact <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pals3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>11</code></pre>
+</div>
+</div>
+<div id="f699d4c7" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pals3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>[Palette Name: Blue-Red 3
+         Type: Advanced: Diverging
+         Inspired by: ...
+          c1            50
+          cmax          80
+          fixup       True
+          gui            1
+          h1           255
+          h2            12
+          l1            20
+          l2            97
+          p1           1.0
+          p2           1.3,
+ Palette Name: Red-Green
+         Type: Advanced: Diverging
+         Inspired by: ...
+          c1            60
+          cmax          80
+          fixup       True
+          gui            1
+          h1           340
+          h2           128
+          l1            30
+          l2            97
+          p1           0.8
+          p2           1.5,
+ Palette Name: Purple-Green
+         Type: Advanced: Diverging
+         Inspired by: ...
+          c1            30
+          cmax          65
+          fixup       True
+          gui            1
+          h1           300
+          h2           128
+          l1            20
+          l2            95
+          p1           1.0
+          p2           1.4,
+ Palette Name: Purple-Brown
+         Type: Advanced: Diverging
+         Inspired by: ...
+          c1            30
+          cmax          70
+          fixup       True
+          gui            1
+          h1           270
+          h2            40
+          l1            20
+          l2            98
+          p1           0.8
+          p2           1.2,
+ Palette Name: Green-Brown
+         Type: Advanced: Diverging
+         Inspired by: ...
+          c1            40
+          cmax          65
+          fixup       True
+          gui            1
+          h1           180
+          h2            55
+          l1            25
+          l2            97
+          p1           0.8
+          p2           1.4,
+ Palette Name: Broc
+         Type: Advanced: Diverging
+         Inspired by: Crameri's sico palettes
+          c1            30
+          cmax          45
+          fixup       True
+          gui            0
+          h1           240
+          h2            85
+          l1            15
+          l2            98
+          p1           0.9,
+ Palette Name: Cork
+         Type: Advanced: Diverging
+         Inspired by: Crameri's sico palettes
+          c1            30
+          cmax          55
+          fixup       True
+          gui            1
+          h1           245
+          h2           125
+          l1            15
+          l2            95
+          p1           0.9
+          p2           1.1,
+ Palette Name: Vik
+         Type: Advanced: Diverging
+         Inspired by: Crameri's sico palettes
+          c1            45
+          cmax          65
+          fixup       True
+          gui            0
+          h1           240
+          h2            55
+          l1            15
+          l2            95
+          p1           0.8
+          p2           1.1,
+ Palette Name: Berlin
+         Type: Advanced: Diverging
+         Inspired by: Crameri's sico palettes
+          c1            60
+          cmax          80
+          fixup       True
+          gui            1
+          h1           240
+          h2            15
+          l1            75
+          l2             5
+          p1           1.2
+          p2           1.5,
+ Palette Name: Lisbon
+         Type: Advanced: Diverging
+         Inspired by: Crameri's sico palettes
+          c1            30
+          cmax          45
+          fixup       True
+          gui            1
+          h1           240
+          h2            85
+          l1            98
+          l2             8
+          p1           1.0,
+ Palette Name: Tofino
+         Type: Advanced: Diverging
+         Inspired by: Crameri's sico palettes
+          c1            45
+          cmax          55
+          fixup       True
+          gui            1
+          h1           260
+          h2           120
+          l1            90
+          l2             5
+          p1           0.8
+          p2           1.0]</code></pre>
+</div>
+</div>
 </section>
 <section id="raises" class="level3">
 <h3 class="anchored" data-anchor-id="raises">Raises</h3>

@@ -629,7 +629,7 @@ div.csl-indent {
 <div>
 
 </div>
-<div id="2b693df9" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
+<div id="a4051385" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="color_spaces_files/figure-html/cell-2-output-1.png" class="img-fluid" width="858"></p>
@@ -643,7 +643,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">120</span>, <span class="dv">240</span>], C <span class="op">=</span> [<span class="fl">50.</span>] <span class="op">*</span> <span class="dv">3</span>, L <span class="op">=</span> [<span class="fl">70.</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="ff844beb" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
+<div id="505a66cf" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="2">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>polarLUV color object (3 colors)
@@ -657,7 +657,7 @@ div.csl-indent {
 <p>The resulting three colors are pastel red (Hue = 0), green (Hue = 120), and blue (Hue = 240) with moderate chroma and luminance. For display in other systems an sRGB representation might be needed:</p>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)    <span class="co"># Convert to sRGB coordinates</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="30fedbbc" class="cell quarto-layout-panel" data-execution_count="3" data-layout-ncol="1">
+<div id="085e7d10" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="3">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>sRGB color object (3 colors)
@@ -672,7 +672,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HSV"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.get(<span class="st">"S"</span>))     <span class="co"># Saturation dimension only</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="c79b0b79" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<div id="6915c815" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="4">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>HSV color object (3 colors)
@@ -686,7 +686,7 @@ div.csl-indent {
 </div>
 <p>For display in many systems hex color codes based on the sRGB coordinates can be created:</p>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.colors())     <span class="co"># Automatically converts to hex</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="95532574" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
+<div id="8e6b6839" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="5">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>['#E495A5', '#86B875', '#7DB0DD']</code></pre>
@@ -711,7 +711,7 @@ div.csl-indent {
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> palette(x, <span class="st">"custom cmap palette"</span>).cmap()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="129b8e18" class="cell quarto-layout-panel" data-execution_count="6" data-layout-ncol="1">
+<div id="7bfb576c" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="6">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>3</code></pre>
@@ -719,7 +719,7 @@ div.csl-indent {
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div style="vertical-align: middle;"><strong>custom cmap palette</strong> </div><div class="cmap"><img alt="custom cmap palette colormap" title="custom cmap palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAInRFWHRUaXRsZQBjdXN0b20gY21hcCBwYWxldHRlIGNvbG9ybWFwsHZduQAAACh0RVh0RGVzY3JpcHRpb24AY3VzdG9tIGNtYXAgcGFsZXR0ZSBjb2xvcm1hcEbBm9kAAAAwdEVYdEF1dGhvcgBNYXRwbG90bGliIHYzLjkuMCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ/H/4w4AAAAydEVYdFNvZnR3YXJlAE1hdHBsb3RsaWIgdjMuOS4wLCBodHRwczovL21hdHBsb3RsaWIub3Jn31l8KQAAAUBJREFUeJzt1jERwkAAAMEkVjAXQxFAgR9E4OFLIiFU/GRuV8GVt36O13eBG3g+3rMT4NIY++wE+Mk2OwAA+D8DAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDoBPJ6B4d4/iGIAAAAAElFTkSuQmCC"></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#e495a5ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #e495a5ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#7db0ddff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #7db0ddff;"></div></div>
+<div style="vertical-align: middle;"><strong>custom cmap palette</strong> </div><div class="cmap"><img alt="custom cmap palette colormap" title="custom cmap palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAInRFWHRUaXRsZQBjdXN0b20gY21hcCBwYWxldHRlIGNvbG9ybWFwsHZduQAAACh0RVh0RGVzY3JpcHRpb24AY3VzdG9tIGNtYXAgcGFsZXR0ZSBjb2xvcm1hcEbBm9kAAAAwdEVYdEF1dGhvcgBNYXRwbG90bGliIHYzLjkuMSwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ1R0cwAAAAAydEVYdFNvZnR3YXJlAE1hdHBsb3RsaWIgdjMuOS4xLCBodHRwczovL21hdHBsb3RsaWIub3JnetLsJwAAAUBJREFUeJzt1jERwkAAAMEkVjAXQxFAgR9E4OFLIiFU/GRuV8GVt36O13eBG3g+3rMT4NIY++wE+Mk2OwAA+D8DAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDIAABAkAEAgCADAABBBgAAggwAAAQZAAAIMgAAEGQAACDoBPJ6B4d4/iGIAAAAAElFTkSuQmCC"></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#e495a5ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #e495a5ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#7db0ddff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #7db0ddff;"></div></div>
 </div>
 </div>
 </div>
@@ -731,7 +731,7 @@ div.csl-indent {
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> pal.cmap()</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="49ef2f69" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
+<div id="a1d6f859" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="7">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>101</code></pre>
@@ -739,7 +739,7 @@ div.csl-indent {
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div style="vertical-align: middle;"><strong>custom_hcl_cmap</strong> </div><div class="cmap"><img alt="custom_hcl_cmap colormap" title="custom_hcl_cmap" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAHnRFWHRUaXRsZQBjdXN0b21faGNsX2NtYXAgY29sb3JtYXCpyZflAAAAJHRFWHREZXNjcmlwdGlvbgBjdXN0b21faGNsX2NtYXAgY29sb3JtYXBjdX6KAAAAMHRFWHRBdXRob3IATWF0cGxvdGxpYiB2My45LjAsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmfx/+MOAAAAMnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHYzLjkuMCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ99ZfCkAAAHnSURBVHic7dZNSgNBEIbhHicRwYXexvsvvI1Lwf+MB6gKdEwQ8XueZVHdk5lFeJf7x4dtNO6W6zK7bWY3Y19nS51dt7NdnY062zdn983Z/VjLbNfu1Vm3t1ua+9qzde/YfJ08v2veZZ38jWv7HS67t3Z70+/x82cc2z3rd5+1d/W3n3vCd10OX3W21dmY3Dvrvgv/lt/Z+6x7Z9452u/aPGf6vnq2+9bd3ux983tz79G+70l3fkzu1dl2aM5297XP6Pbem71mtr01e691bXtp9p6b+57qbIxR/0UAgH9PAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIG+ARu3aQym9asOAAAAAElFTkSuQmCC"></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#11c638ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #11c638ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#ef9708ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #ef9708ff;"></div></div>
+<div style="vertical-align: middle;"><strong>custom_hcl_cmap</strong> </div><div class="cmap"><img alt="custom_hcl_cmap colormap" title="custom_hcl_cmap" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAHnRFWHRUaXRsZQBjdXN0b21faGNsX2NtYXAgY29sb3JtYXCpyZflAAAAJHRFWHREZXNjcmlwdGlvbgBjdXN0b21faGNsX2NtYXAgY29sb3JtYXBjdX6KAAAAMHRFWHRBdXRob3IATWF0cGxvdGxpYiB2My45LjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmdUdHMAAAAAMnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHYzLjkuMSwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ3rS7CcAAAHnSURBVHic7dZNSgNBEIbhHicRwYXexvsvvI1Lwf+MB6gKdEwQ8XueZVHdk5lFeJf7x4dtNO6W6zK7bWY3Y19nS51dt7NdnY062zdn983Z/VjLbNfu1Vm3t1ua+9qzde/YfJ08v2veZZ38jWv7HS67t3Z70+/x82cc2z3rd5+1d/W3n3vCd10OX3W21dmY3Dvrvgv/lt/Z+6x7Z9452u/aPGf6vnq2+9bd3ux983tz79G+70l3fkzu1dl2aM5297XP6Pbem71mtr01e691bXtp9p6b+57qbIxR/0UAgH9PAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIG+ARu3aQym9asOAAAAAElFTkSuQmCC"></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#11c638ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #11c638ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#ef9708ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #ef9708ff;"></div></div>
 </div>
 </div>
 </div>
@@ -779,7 +779,7 @@ div.csl-indent {
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> ax.contourf(X, Y, z, locator<span class="op">=</span>ticker.LogLocator(), cmap<span class="op">=</span>cmap)</span>
 <span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="2638ac10" class="cell quarto-layout-panel" data-execution_count="8" data-layout-ncol="1">
+<div id="312cf8b1" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="8">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="color_spaces_files/figure-html/cell-9-output-1.png" class="img-fluid" width="586"></p>
