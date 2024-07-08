@@ -40,7 +40,7 @@ jobs:
         uses: tj-actions/coverage-badge-py@v2
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v16
+        uses: tj-actions/verify-changed-files@v17
         id: verify-changed-files
         with:
           files: coverage.svg
