@@ -1833,10 +1833,14 @@ class colorobject:
             keys_to_check.append(key)
 
             # If is list: convert to ndarray no matter how long the element is
-            if isinstance(val,float) or isinstance(val,int):
+            if isinstance(val, float) or isinstance(val, int):
                 val = np.asarray([val])
             elif isinstance(val,list):
-                val = np.asarray(val)
+                try:
+                    val = np.asarray(val)
+                except Exception as e:
+                    raise Exception(e)
+
 
             # For alpha, R, G, and B: check range
             if isinstance(self, RGB) or isinstance(self, sRGB):

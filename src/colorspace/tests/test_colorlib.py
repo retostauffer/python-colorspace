@@ -433,7 +433,9 @@ def test_dimensions_of_different_lengths():
     with pytest.raises(ValueError): RGB([0.1, 0.2], 0.3, 0,4) # Unequal length
 
 def test_dimensions_not_convertable_to_array():
-    with pytest.raises(ValueError): RGB(0.1, 0.2, [0.3, 0.4, [0.5, 0.6, 0.7]])
+    # Raises a general exception as the second list can't be
+    # converted into a numpy.ndarray due to its inhomogeneous part
+    with pytest.raises(Exception): RGB(0.1, 0.2, [0.3, 0.4, [0.5, 0.6, 0.7]])
 
 
 # -------------------------------------------------------------------
