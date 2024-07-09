@@ -63,9 +63,13 @@ jobs:
       # Deploy coverage on GitHub Pages subdirectory
       - name: Deploy coverage report to GitHub Pages
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git clone --branch=gh-pages https://github.com/retostauffer/python-colorspace.git gh-pages
+          #git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          #git config --local user.name "github-actions[bot]"
+          #git clone --branch=gh-pages https://github.com/retostauffer/python-colorspace.git gh-pages
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git clone --branch=gh-pages https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
+#
           cd gh-pages
           mkdir -p coverage
           cp -r ../htmlcov/* coverage/

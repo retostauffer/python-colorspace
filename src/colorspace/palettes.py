@@ -1691,12 +1691,12 @@ class diverging_hcl(hclpalette):
             for key,value in kwargs.items():
                 if key in self._allowed_parameters: pal.set(**{key: value})
 
-            #### Extending h2 if h1 == h2 or h2 is None
-            ###if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
-            ###    pal.set(h2 = pal.get("h1") + 360)
-            ###    if pal.get("h2") > 360:
-            ###        pal.set(h1 = pal.get("h1") - 360)
-            ###        pal.set(h2 = pal.get("h2") - 360)
+            # Extending h2 if h1 == h2 or h2 is None
+            if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
+                pal.set(h2 = pal.get("h1") + 360)
+                if pal.get("h2") > 360:
+                    pal.set(h1 = pal.get("h1") - 360)
+                    pal.set(h2 = pal.get("h2") - 360)
 
             # Getting settings
             settings = pal.get_settings()

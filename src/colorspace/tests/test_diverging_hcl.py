@@ -212,19 +212,3 @@ def test_diverging_hcl_Tofino():
         assert tmp.get(k) == v
         assert ref.get(k) == tmp.get(k)
 
-
-## Testing another color palette where heu-axis should be adjusted to 0-360 only
-#@pytest.mark.mpl_image_compare
-#def test_specplot_provide_figure_obj():
-#    import matplotlib.pyplot as plt
-#
-#    fig  = plt.figure(figsize = (4, 6))
-#    cols = rainbow(start = 0, end= 1/3)(51)
-#    fig  = specplot(cols, fig = fig)
-#    assert isinstance(fig, Figure)
-#    # Ensure we got our custom figure object back
-#    assert fig.get_figwidth() == 4.
-#    assert fig.get_figheight() == 6.
-#    plt.show()
-#    plt.close() # Closing figure instance
-
