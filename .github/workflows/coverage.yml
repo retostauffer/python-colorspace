@@ -67,7 +67,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git clone --branch=gh-pages https://${{ secrets.GITHUB_TOKEN }}@github.com/retostaufer/python-colorspace.git gh-pages
+          git clone --branch=gh-pages https://${{ secrets.GITHUB_TOKEN }}@github.com/retostauffer/python-colorspace.git gh-pages
 
           cd gh-pages
           mkdir -p coverage
