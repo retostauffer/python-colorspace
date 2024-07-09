@@ -340,7 +340,7 @@ class defaultpalette:
             return None
 
 
-    def set(self, **kwargs):
+    def set(self, lambda_allowed = False, **kwargs):
         """Set Specific Palette Settings
 
         Allows to set/overwrite color palette parameters (e.g., `h1`, `h2`,
@@ -348,21 +348,32 @@ class defaultpalette:
         parameters.
 
         Args:
+            lambda_allowed (bool): Defaults to `False`, for qualitative palettes this
+                is set `True` for `h2`.
             **kwargs: A set of named arguments (`key = value` pairs) where the key
                 defines the parameter which should be overruled, value the
                 corresponding value. Allowed value types are bool, int, and float.
         """
+        if not isinstance(lambda_allowed, bool):
+            ValueError("argument `lambda_allowed` must be bool")
+
         for key,val in kwargs.items():
-            #if not key in self._settings_.keys():
-            #    raise ValueError("{:s} named {:s}".format(self.__class__.__name__, self.name()) + \
-            #            " has no parameter called {:s}".format(key))
+            # Float or integer? Default case; passing forward
+            if isinstance(val, (float, int)):
+                pass
+            # If key == h2 and val is callable, we do allow this (for qualitative palettes)
+            # if lambda_allowed is set True; passing foward as well
+            elif key == "h2" and lambda_allowed and callable(val):
+                pass
             # Else check current type specification and append
             # if possible (and convert to the new type).
-            if not isinstance(val, (int, float, bool)):
+            elif not isinstance(val, (int, float, bool)):
                 raise ValueError(f"argument `{key}` to {self.__class__.__name__}" + \
                                  f" is of type {type(val)}; only bool, int, and float allowed.")
-            if isinstance(val, bool):
+            elif isinstance(val, bool):
                 val = 1 if val else 0
+            else:
+                raise Exception(f"whoops, no rule yet to handle {key} = {val=}")
 
             # Not yet a parameter in our dictionary? Add as float
             if not key in self._settings_.keys():
@@ -1335,7 +1346,7 @@ class qualitative_hcl(hclpalette):
 
             # Allow to overrule few things
             for key,value in kwargs.items():
-                if key in self._allowed_parameters: pal.set(**{key: value})
+                if key in self._allowed_parameters: pal.set(**{key: value}, lambda_allowed = True)
 
             # Extending h2 if h1 = h2 (h2 None)
             if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
