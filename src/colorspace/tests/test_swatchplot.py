@@ -37,6 +37,13 @@ def test_swatchplot_wrong_usage():
     raises(ValueError, swatchplot, cols, figsize = (3, "foo"))
     raises(ValueError, swatchplot, cols, figsize = (3, 3, 5))
 
+    # Provide a colorobject with no colors at all; should
+    # raise an error.
+    raises(ValueError, swatchplot, hexcols([]))
+
+    # Providing a list with a dictionary inside; a type which
+    # is now allowed.
+    raises(Exception, swatchplot, [{"a_dict": diverging_hcl()}])
 
 
 # ---------------------------------
@@ -48,6 +55,14 @@ def test_swatchplot_wrong_usage():
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list():
     fig = swatchplot(diverging_hcl()(7))
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+# Colorobject as input
+@pytest.mark.mpl_image_compare
+def test_swatchplot_single_colorobject():
+    x = hexcols(rainbow_hcl().colors(7))
+    fig = swatchplot(x)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 

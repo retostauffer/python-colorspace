@@ -1,8 +1,4 @@
 
-import os
-import sys
-
-
 
 class palette:
     """Custom Color Palette
@@ -453,6 +449,8 @@ class hclpalettes:
     """
     def __init__(self, files = None, files_regex = None):
 
+        from os.path import dirname, join, isfile
+
         if not isinstance(files, (type(None), str, list)):
             raise TypeError("argument `files` must either be None, str, or list of str")
         if isinstance(files, str): files = [files]
@@ -463,8 +461,11 @@ class hclpalettes:
 
         if files is None:
             import glob
-            resource_package = os.path.dirname(__file__)
-            tmp = glob.glob(os.path.join(resource_package, "palconfig", "*.conf"))
+            resource_package = dirname(__file__)
+            tmp = glob.glob(join(resource_package, "palconfig", "*.conf"))
+            # Ensure files_regex is of appropriate type
+            if not isinstance(files_regex, (str, type(None))):
+                raise TypeError("argument `filex_regex` must be None or str")
             if files_regex:
                 from re import match
                 files = []
@@ -477,7 +478,7 @@ class hclpalettes:
         if not len(files) > 0:
             raise ValueError(f"no palette config files provided ({self.__class__.__name__})")
         for file in files:
-            if not os.path.isfile(file):
+            if not isfile(file):
                 raise FileNotFoundError(f"file \"{file}\" does not exist")
 
 
@@ -657,7 +658,7 @@ class hclpalettes:
             palette_type   = CNF.get("main", "type")
             palette_method = CNF.get("main", "method")
         except Exception as e:
-            raise Exception("fmisspecification in palconfig file = \"{file}\": {str(e)}")
+            raise Exception(f"misspecification in palconfig file = \"{file}\": {str(e)}")
 
         # The dictionary which will be returned.
         pals = []
@@ -945,7 +946,12 @@ class hclpalette:
         # Support function
         def fun(key, value, dtype, length_min, length_max, recycle, nansallowed):
 
-            from numpy import vstack, asarray, isnan, nan, any, atleast_1d
+            from numpy import vstack, ndarray, asarray, isnan, nan, any, atleast_1d
+
+            if not nansallowed and any(isnan(value)):
+                raise ValueError(f"nan's not allowed in `{key}`")
+            elif isinstance(value, ndarray) and len(value) < length_min:
+                raise ValueError(f"argument `{key}` too short (< {length_min})")
 
             # If None
             if value == None: return value
@@ -954,7 +960,11 @@ class hclpalette:
             try:
                 value = asarray([value], dtype = dtype).flatten()
             except Exception as e:
-                raise ValueError(f"wrong input for \"{key}\" to {self.__class__.__name__}: {str(e)}")
+                raise ValueError(f"incorrect input on argument `{key}`: {str(e)}")
+
+            # Vector of length 0?
+            if len(value) == 0:
+                raise ValueError(f"argument `{key}` of length 0")
 
             # Not enough input values, check if we are allowed to
             # recycle.
@@ -989,6 +999,7 @@ class hclpalette:
 
         # Looping over all kwargs
         for key,value in kwargs.items():
+            if value is None: raise ValueError(f"argument `{key}` cannot be None")
             kwargs[key] = fun(key, value, dtype, length_min, length_max, recycle, nansallowed)
 
         # If only one kwarg was given: return values, else return dict.
@@ -998,71 +1009,7 @@ class hclpalette:
             return kwargs
 
 
-
-    def _check_inputs_(self, n, h, c, l, p, palette):
-
-        from numpy import all
-
-        # Convert input x into a list with elements of type
-        # "totype".
-        def tolist(x, totype, n, cls):
-            # Converting inputs to list
-            if not x:
-                return None
-            elif isinstance(x, float) or isinstance(x, int):
-                x = [totype(x)]
-            elif isinstance(x, list):
-                x = [totype(e) for e in x]
-            else:
-                raise ValueError(f"don't know how to convert {type(x)} to list")
-            if not all([isinstance(e, totype) for e in x]):
-                raise ValueError(f"problems with inputs for {self.__class__.__name__}: {e}")
-            # Checking length
-            if len(x) < n:   x = x * n
-            elif len(x) > n: x = x[0:2]
-            return x
-
-        # Converts inputs to single values of "totype".
-        def tovalue(x, totype, cls):
-            if not x:
-                return None
-            elif isinstance(x, float) or isinstance(x, int):
-                return totype(x)
-            else:
-                raise ValueError("problems with inputs for {:s}: {:s}".format(self.__class__.__name__, e))
-
-        # If "h" is a str this is ment to be the palette
-        # argument, switch "palette" and "h"
-        if isinstance(h, str):
-            palette = h; h = None 
-
-        if isinstance(n, int) or isinstance(n, float):
-            n = int(n)
-        else:
-            raise ValueError(f"argument `n` has to be a int")
-
-        # For sequential hcl palettes
-        if isinstance(self, sequential_hcl):
-            n = tovalue(n, int, cls)
-            h = tolist(h,  int, 2, cls)
-            c = tolist(c,  int, 2, cls)
-            l = tolist(l,  int, 2, cls)
-            p = tolist(p,  float, 2, cls)
-        # For sequential hcl palettes
-        elif isinstance(self, diverging_hcl):
-            n = tovalue(n, int, cls)
-            h = tolist(h,  int, 2, cls)
-            c = tovalue(c, int, cls)
-            l = tolist(l,  int, 2, cls)
-            p = tovalue(p, float, cls)
-
-        # If "n" is set to small: exit
-        if n <= 0:
-            raise ValueError("argument `n` has to be larger or equal to zero")
-
-        return [n, h, c, l, p, palette]
-
-
+    # Return matplotlib.colors.LinearSegmentedColormap
     def cmap(self, n = 101, name = "custom_hcl_cmap"):
         """Get matplotlib Compatible Color Map
 
@@ -1114,6 +1061,19 @@ class hclpalette:
         cmap = LinearSegmentedColormap(name, cdict, n)
         return cmap
 
+
+    def _set_rev(self, rev):
+        """Helper function: Store 'rev' argument
+
+        Args:
+            rev (bool): Should the palette be reversed?
+
+        Raises:
+            TypeError: If argument `rev` is not bool.
+        """
+        if not isinstance(rev, bool):
+            raise TypeError("argument `rev` must e bool")
+        self._rev = rev # Just store it
 
 
     def _chroma_trajectory(self, i, p1, c1, c2, cmax):
@@ -1268,8 +1228,10 @@ class qualitative_hcl(hclpalette):
     def __init__(self, h = [0, lambda n: 360. * (n - 1.) / n], c = 80, l = 60,
         fixup = True, palette = None, rev = False, **kwargs):
 
-        # Store reverse flag
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
+        if not isinstance(palette, (str, type(None))):
+            raise TypeError("argument `palette` must be None or str")
 
         # If a str is given on "h": exchange with "palette".
         if isinstance(h, str):
@@ -1462,8 +1424,8 @@ class rainbow_hcl(qualitative_hcl):
     def __init__(self, c = 50, l = 70, start = 0, end = lambda n: 360 * (n - 1) / n,
                  gamma = None, fixup = True, rev = False, *args, **kwargs):
 
-        # Store reverse
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -1609,16 +1571,19 @@ class diverging_hcl(hclpalette):
         power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
-        # Store reverse
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
+        if not isinstance(palette, (str, type(None))):
+            raise TypeError("argument `palette` must be None or str")
 
         if isinstance(h, str):
-            palette = h; h = None
+            palette = h
+            h       = -999 # Temporarliy setting to dummy value
         if isinstance(power, int) or isinstance(power, float):
-            power = [power]
+            power   = [power]
 
         # _checkinput_ parameters (in the correct order):
-        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        # - dtype, length_min, length_max, recycle, nansallowed, **kwargs
         try:
             h     = self._checkinput_(int,   2, 2, True,  False, h = h)
             c     = self._checkinput_(int,   1, 2, False, False, c = c)
@@ -1919,13 +1884,16 @@ class divergingx_hcl(hclpalette):
                  fixup = True, palette = None, rev = False, *args, **kwargs):
 
 
-        # Store reverse
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
+        if not isinstance(palette, (str, type(None))):
+            raise TypeError("argument `palette` must be None or str")
 
         if isinstance(h, str):
-            palette = h; h = None
+            palette = h
+            h       = -999 # Temporarliy setting to dummy value
         if isinstance(power, int) or isinstance(power, float):
-            power = [power]
+            power   = [power]
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
@@ -2205,11 +2173,14 @@ class sequential_hcl(hclpalette):
         *args, **kwargs):
 
         # Save reverse flag
+        if not isinstance(rev, bool):
+            raise TypeError("argument `rev` must be bool")
         self._rev = rev
 
         # If input "h" is a str: exchange with "palette"
         if isinstance(h, str):
-            palette = h; h = None
+            palette = h
+            h       = -999 # Temporarliy setting to dummy value
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length_min = None, length_max = None,
@@ -2224,7 +2195,8 @@ class sequential_hcl(hclpalette):
 
         # For handy use of the function
         if isinstance(h,str):
-            palette = h; h = None
+            palette = h
+            h       = -999 # Temporarliy setting to dummy value
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
@@ -2397,6 +2369,8 @@ class heat_hcl(sequential_hcl):
                  fixup = True, rev = False, *args, **kwargs):
 
         # Save reverse flag
+        if not isinstance(rev, bool):
+            raise TypeError("argument `rev` must be bool")
         self._rev = rev
 
         # _checkinput_ parameters (in the correct order):
@@ -2482,6 +2456,8 @@ class terrain_hcl(sequential_hcl):
                  fixup = True, rev = False, *args, **kwargs):
 
         # Save reverse flag
+        if not isinstance(rev, bool):
+            raise TypeError("argument `rev` must be bool")
         self._rev = rev
 
         # _checkinput_ parameters (in the correct order):
@@ -2579,6 +2555,8 @@ class diverging_hsv(hclpalette):
         fixup = True, rev = False, *args, **kwargs):
 
         # Save reverse flag
+        if not isinstance(rev, bool):
+            raise TypeError("argument `rev` must be bool")
         self._rev = rev
 
         # _checkinput_ parameters (in the correct order):
@@ -2729,8 +2707,7 @@ class rainbow(hclpalette):
     def __init__(self, s = 1, v = 1, start = 0, end = lambda n: max(1., n - 1.) / n,
         rev = False, *args, **kwargs):
 
-        # Store reverse
-        self._rev = rev
+        self._set_rev(rev)
 
         # Doing all the sanity checks.
         if not isinstance(s, (float, int)): raise ValueError("argument 's' must be float")

@@ -114,6 +114,16 @@ def test_hclplot_diverging_h2():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+# DivergingX palette to test the title which is auto-generated
+# as H = [a, b]/[c, d]
+@pytest.mark.mpl_image_compare
+def test_hclplot_divergingx_autotitle():
+    cols = divergingx_palettes().get_palette("Geyser").colors(7)
+    fig = hclplot(cols)
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+
 # Setting xlabel, ylabel, and title
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_labels():

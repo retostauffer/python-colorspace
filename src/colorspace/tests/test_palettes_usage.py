@@ -1,6 +1,7 @@
 
 
 import pytest
+from pytest import raises
 import colorspace
 from colorspace import palette, hclpalettes
 from colorspace.palettes import defaultpalette
@@ -68,6 +69,18 @@ def test_palette_cmap_param_n():
 
 # ------------------------------------------
 # ------------------------------------------
+def test_hclpalettes_get_palettes_wrong_usage():
+
+    # Incorrect first argument (type_)
+    pals = hclpalettes()
+    raises(TypeError, pals.get_palette, type_ = 3)
+    raises(TypeError, pals.get_palette, type_ = ["Qualitative"])
+
+    # Incorrect type for 'exact' (must be bool)
+    raises(TypeError, pals.get_palette, type_ = "Qualitative", exact = 3)
+    raises(TypeError, pals.get_palette, type_ = "Qualitative", exact = None)
+    raises(TypeError, pals.get_palette, type_ = "Qualitative", exact = [False])
+
 def test_hclpalettes_class():
     x = hclpalettes()
     assert isinstance(x, hclpalettes)
@@ -118,7 +131,9 @@ def test_hclpalettes_get_palettes_type_none():
 
 
 # ------------------------------------------
-# Testing hclpalettes.get_palette()
+# Testing hclpalettes.get_palettes(),
+# hclpalettes.get_palette(), and some features
+# of the object returned.
 # ------------------------------------------
 def test_hclpalettes_get_palette():
     pals  = hclpalettes()
@@ -175,6 +190,30 @@ def test_hclpalettes_get_palette_invalid_name():
     pals  = hclpalettes()
     with pytest.raises(ValueError):
         pals.get_palette("this_is_a_test_foo_bar")
+
+
+def test_hclpalettes_get_palette_methods():
+
+    pal = hclpalettes().get_palette("Teal")
+    pal_settings = pal.get_settings()
+    assert isinstance(pal_settings, dict)
+
+    expected = ["desc", "h1", "h2", "c1", "c2", "l1",
+                "l2", "p1", "p2", "cmax", "fixup", "gui"]
+    assert all([x in expected for x in pal_settings.keys()])
+
+
+@pytest.mark.mpl_image_compare
+def test_hclpalettes_plot_method():
+    pals = hclpalettes()
+    pals.plot()
+    plt.close()
+
+    # Wrong argument 'n' (must be positive int)
+    raises(TypeError, pals.plot, n = None)
+    raises(TypeError, pals.plot, n = 10.0)
+    raises(ValueError, pals.plot, n = 0)
+    raises(ValueError, pals.plot, n = -1)
 
 # --------------------------------------------
 # Plotting ..

@@ -1,5 +1,5 @@
 
-from colorspace import hcl_palettes, palettes
+from colorspace import hcl_palettes, palettes, diverging_hcl, divergingx_hcl
 import pytest
 from pytest import raises
 
@@ -80,9 +80,7 @@ def test_defaultpalette_set_get_settings():
 def test_defaultpalette_standard_representation_agSunset():
 
     from re import match
-
     pal = hcl_palettes().get_palette("ag_Sunset")
-
     txt = repr(pal)
 
     pattern = ["^Palette Name: ag_Sunset",
@@ -102,4 +100,98 @@ def test_defaultpalette_standard_representation_agSunset():
     ####DEV####print("\n".join(pattern))
 
     match("\n".join(pattern), txt)
+
+
+# Testing standard representation of Pastel 1 (qualitative
+# palette) as it has a lambda function on 'h2'.
+def test_defaultpalette_standard_representation_Pastel1():
+
+    from re import match
+    pal = hcl_palettes().get_palette("Pastel 1")
+    txt = repr(pal)
+
+    pattern = ["^Palette Name: Pastel 1",
+            "\\s+Type: Basic: Qualitative", 
+               "\\s+Inspired by: \\.\\.\\.",
+               "\\s+c1.*?",   
+               "\\s+fixup.*?",
+               "\\s+gui.*?",
+               "\\s+h1.*?",
+               "\\s+h2\\s+<function\\s<lambda>\\sat\\s.*?>", 
+               "\\s+l1.*?"]
+    ####DEV####print("\n".join(pattern))
+
+    match("\n".join(pattern), txt)
+
+
+# ---------------------------------------------------
+# Testing methods from superclass
+# ---------------------------------------------------
+def test_diverging_hcl_methods():
+
+    # Capturing stdout for show_settings
+    import io
+    from contextlib import redirect_stdout
+
+    # Using the diverging_hcl palette for testing
+    x = diverging_hcl()
+    capture = io.StringIO()
+    with redirect_stdout(capture): x.show_settings()
+    txt = capture.getvalue()
+
+    # Representation of show_settings
+    from re import match
+    pattern = ["Class:\\s+diverging_hcl",
+               "h1\\s+[0-9\\.-]+",
+               "h2\\s+[0-9\\.-]+",
+               "c1\\s+[0-9\\.-]+",
+               "cmax\\s+[0-9\\.-]+",
+               "c2\\s+[0-9\\.-]+",
+               "l1\\s+[0-9\\.-]+",
+               "l2\\s+[0-9\\.-]+",
+               "p1\\s+[0-9\\.-]+",
+               "p2\\s+[0-9\\.-]+",
+               "fixup\\s+(True|False)"]
+
+    match("\n".join(pattern), txt)
+
+    # Using diverging_hcl again but replacing h2 with a lambda function
+    # and h1 with an integer 50 to test show_settings()
+    x = diverging_hcl(h1 = 50, h2 = lambda x: -x / 2.0)
+    capture = io.StringIO()
+    with redirect_stdout(capture): x.show_settings()
+    txt = capture.getvalue()
+
+    # Representation of show_settings
+    from re import match
+    pattern = ["Class:\\s+diverging_hcl",
+               "h1\\s+50",
+               "h2\\s+<lambda>",
+               "c1\\s+[0-9\\.-]+",
+               "cmax\\s+[0-9\\.-]+",
+               "c2\\s+[0-9\\.-]+",
+               "l1\\s+[0-9\\.-]+",
+               "l2\\s+[0-9\\.-]+",
+               "p1\\s+[0-9\\.-]+",
+               "p2\\s+[0-9\\.-]+",
+               "fixup\\s+(True|False)"]
+
+    match("\n".join(pattern), txt)
+
+    # DivergingX palette; has some more output
+    x = divergingx_hcl()
+    capture = io.StringIO()
+    with redirect_stdout(capture): x.show_settings()
+    txt = capture.getvalue()
+
+    # Representation of show_settings
+    from re import match
+    parms = ["h1", "h2", "h3", "c1", "cmax1", "c2", "cmax2", "c3", 
+                    "l1", "l2", "l3", "p1", "p2", "p3", "p4"]
+    pattern = ["Class:\\s+divergingx_hcl"] + \
+              [f"{x}\\s+[0-9\\.-]+" for x in parms] + \
+              ["fixup\\s+(True|False)"]
+
+    match("\n".join(pattern), txt)
+
 
