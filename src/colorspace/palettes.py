@@ -1564,7 +1564,7 @@ class diverging_hcl(hclpalette):
         >>> diverging_hcl("Tropic")(10)
     """
 
-    _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
+    _allowed_parameters = ["h1", "h2", "c1", "cmax", "l1", "l2", "p1", "p2"]
     _name = "Diverging HCL"
 
     def __init__(self, h = [260, 0], c = 80, l = [30, 90],
@@ -1604,14 +1604,14 @@ class diverging_hcl(hclpalette):
 
             # Allow to overule few things
             for key,value in kwargs.items():
-                if key in ["h1", "c1", "l1"]: pal.set(**{key: value})
+                if key in self._allowed_parameters: pal.set(**{key: value})
 
-            # Extending h2 if h1 = h2 (h2 None)
-            if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
-                pal.set(h2 = pal.get("h1") + 360)
-                if pal.get("h2") > 360:
-                    pal.set(h1 = pal.get("h1") - 360)
-                    pal.set(h2 = pal.get("h2") - 360)
+            #### Extending h2 if h1 == h2 or h2 is None
+            ###if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
+            ###    pal.set(h2 = pal.get("h1") + 360)
+            ###    if pal.get("h2") > 360:
+            ###        pal.set(h1 = pal.get("h1") - 360)
+            ###        pal.set(h2 = pal.get("h2") - 360)
 
             # Getting settings
             settings = pal.get_settings()
@@ -1623,18 +1623,14 @@ class diverging_hcl(hclpalette):
             # User settings
             settings["h1"]    = h[0]
             settings["h2"]    = h[1]
-            if isinstance(c, ndarray):
-                settings["c1"]    = float(c[0])
-                if len(c) == 2: settings["cmax"] = float(c[1])
-            else:
-                settings["c1"]    = c
+            settings["c1"]    = float(c[0])
+            if len(c) == 2:
+                settings["cmax"] = float(c[1])
             settings["l1"]    = l[0]
             settings["l2"]    = l[1]
-            if isinstance(power, ndarray):
-                settings["p1"]    = float(power[0])
-                if len(power) == 2: settings["p2"] = float(power[1])
-            else:
-                settings["p1"]    = power
+            settings["p1"]    = float(power[0])
+            if len(power) == 2:
+                settings["p2"] = float(power[1])
             settings["fixup"] = fixup
             settings["rev"]   = rev
 
@@ -1661,29 +1657,46 @@ class diverging_hcl(hclpalette):
                 outside the defined color space?  If `None` the `fixup`
                 parameter from the object will be used. Can be set to `True` or
                 `False` to explicitly control the fixup here.
-            alpha (None, float): Float (single value) or vector of floats in the
-                range of `[0.,1.]` for alpha transparency channel (`0.` means full
-                transparency, `1.` opaque).  If a single value is provided it will be
-                applied to all colors, if a vector is given the length has to be `n`.
+            alpha (None, float, numpy.ndarray): Float (single value) or vector
+                of floats in the range of `[0.,1.]` for alpha transparency channel
+                (`0.` means full transparency, `1.` opaque).  If a single value is
+                provided it will be applied to all colors, if a numpy array is given the
+                length has to be `n`.
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
-        TODO: Check kwargs and where the current version is used or if it is no
-        longer needed; else think about revamping this functionality.
+        TODO: Alpha handling should work, thouhg at the end HCL.colors()
+        ignores the stored alpha values.
         """
+
+        from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
+        from numpy import asarray, ndarray, ndenumerate, concatenate, flip
+        from numpy import vstack, transpose, repeat
+        from . import colorlib
 
         # Sanity checks
         if not isinstance(n, int):
             raise TypeError("argument `n` must be int")
         elif not n > 1:
-            raise TypeError("argument `n` must be positive")
+            raise ValueError("argument `n` must be positive")
+
+        # Alpha handling
+        if not isinstance(alpha, (type(None), float, ndarray)):
+            raise TypeError("argument `alpha` must be None, float, or a numpy array")
+        if isinstance(alpha, float):
+            if alpha < 0. or alpha > 1.:
+                raise ValueError("`alpha` must be in range [0.0, 1.0]")
+            alpha = repeat(alpha, n)
+        elif isinstance(alpha, ndarray):
+            alpha = asarray(alpha, dtype = "float")
+            if len(alpha) == 1:
+                alpha = np.repeat(alpha, n)
+            elif not len(alpha) == n:
+                raise ValueError("`alpha` (if numpy array) must be of length 'n'")
+            if any(alpha < 0.0) or any(alpha > 1.0):
+                raise ValueError("`alpha` must be in range [0.0, 1.0]")
 
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
-
-        from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
-        from numpy import asarray, ndarray, ndenumerate, concatenate, flip
-        from numpy import vstack, transpose
-        from . import colorlib
 
         # Calculate H/C/L
         p1   = self.get("p1")
@@ -1710,16 +1723,6 @@ class diverging_hcl(hclpalette):
 
         # Non-even number of colors? We need to remove one.
         if n % 2 == 1: C = delete(C, int(ceil(n / 2.)))
-
-        # Alpha handling
-        if isinstance(alpha, float):
-            alpha = repeat(alpha, n)
-        elif isinstance(alpha, list):
-            try:
-                asarray(alpha, dtype = float)
-            except Exception as e:
-                raise ValueError("alpha values provided to {:s}".format(self.__class__.__name__) + \
-                        "not of float-type: {:s}".format(str(e)))
 
         # Create new HCL color object
         from .colorlib import HCL
