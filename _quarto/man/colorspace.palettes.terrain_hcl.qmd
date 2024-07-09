@@ -75,7 +75,7 @@ see examples.
     </dt>
     <dd>Get matplotlib Compatible Color Map</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[terrain_hcl.colors(n=11, fixup=True, **kwargs)](colorspace.palettes.terrain_hcl.colors.qmd)</code>
+       <code>[terrain_hcl.colors(n=11, fixup=True, alpha=None, **kwargs)](colorspace.palettes.terrain_hcl.colors.qmd)</code>
     </dt>
     <dd>Get Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">

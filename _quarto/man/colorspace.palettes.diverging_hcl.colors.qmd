@@ -25,12 +25,13 @@ outside the defined color space?  If `None` the `fixup`
 parameter from the object will be used. Can be set to `True` or
 `False` to explicitly control the fixup here.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.diverging_hcl.colors:alpha">alpha</code><code class="argument-class">None, float</code>
+   <code id="colorspace.palettes.diverging_hcl.colors:alpha">alpha</code><code class="argument-class">None, float, list, or numpy.ndarray</code>
   </dt>
- <dd>Float (single value) or vector of floats in the
-range of `[0.,1.]` for alpha transparency channel (`0.` means full
-transparency, `1.` opaque).  If a single value is provided it will be
-applied to all colors, if a vector is given the length has to be `n`.</dd>
+ <dd>Allows to add an transparency
+(alpha channel) to the colors. Can be a single float, a list, or a
+numpy array. If a list or array is provided it must be of length 1 or
+of length `n` and be convertible to float, providing values
+between `0.0` (full opacity) and `1.0` (full transparency)</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.diverging_hcl.colors:**kwargs">**kwargs</code>
   </dt>

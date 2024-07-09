@@ -114,11 +114,17 @@ def test_diverging_hcl_colors():
     col3 = diverging_hcl().colors(5, fixup = "foo")
     assert np.all(col1 == col3)
 
-    # Alpha must be None, float, or numpy array. If array,
+    # Alpha must be None, float, list (which can be converted)
+    # to numpy array of dtype float), or numpy array. If array,
     # same length as n or 1. Values must be within 0-1
+    # If input is a list or an array, the length must be 1 or equal to n.
     raises(TypeError, pal.colors, 3, alpha = "foo")
     raises(ValueError, pal.colors, 3, alpha = -0.01)
     raises(ValueError, pal.colors, 3, alpha = 1.01)
+    raises(ValueError, pal.colors, 3, alpha = [-0.01])
+    raises(ValueError, pal.colors, 3, alpha = [1.01])
+    raises(ValueError, pal.colors, 3, alpha = [0.1, 0.1])
+    raises(ValueError, pal.colors, 3, alpha = [0.1, 0.1, 0.1, 0.1])
     raises(ValueError, pal.colors, 3, alpha = np.repeat(0.3, 2))
     raises(ValueError, pal.colors, 3, alpha = np.repeat(0.3, 4))
     raises(ValueError, pal.colors, 3, alpha = np.repeat(-0.01, 3))
@@ -137,14 +143,14 @@ def test_diverging_hcl_named_palette():
     assert isinstance(pal2, diverging_hcl)
     assert pal1.settings == pal2.settings
 
-# Allows for kwargs "h1", "c1", "l1". All others should be ignored
-def test_diverging_hcl_ignore_kwargs():
+# Testing unallowed parameters
+def test_diverging_hcl_invalid_kwargs():
     pal1 = diverging_hcl()
-    pal2 = diverging_hcl(xyz = 1)
-    assert pal1.settings == pal2.settings
+    not_allowed = ["foo", "c2"]
+    for k in not_allowed:
+        raises(ValueError, diverging_hcl, **{k: 0.})
 
-# Allowed are: "h1", "h2", "c1", "l1", "l2", "p1"
-# Unnamed palette (using default)
+# Testing allowed parameters
 def test_diverging_hcl_allowed_kwargs_unnamed():
     # Reference palette
     settings = {"h1": 11, "h2": 12, "c1": 13, "l1": 14, "l2": 15, "p1": 16}

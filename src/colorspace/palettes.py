@@ -1075,6 +1075,71 @@ class hclpalette:
             raise TypeError("argument `rev` must e bool")
         self._rev = rev # Just store it
 
+    def _get_alpha_array(self, alpha, n):
+        """Get numpy.ndarray for alpha values
+
+        The .color() method allowes to specify an additonal alpha
+        channel, a value between 0. (fully opaque) to 1. (fully transparent)
+        which can be provided in different ways.
+
+        Args:
+            alpha (None, float, list, or numpy.ndarray): Can be `None`
+                (default), a single float, a list, or a numpy array. If a list or
+                array is provided it must be of length 1 or of length `n` and be
+                convertible to float, providing values between `0.0` (full opacity)
+                and `1.0` (full transparency)
+            n (int): Number of colors (must be > 0).
+        Raises:
+            TypeError: If `n` is not int.
+            ValueError: If `n` is not > 0.
+            TypeError: If `alpha` is not among the allowed types.
+            ValueError: If `alpha` is a numpy.array of length > 1 but not of length n.
+
+        Return:
+        None, numpy.ndarray: Returns None (if input alpha is None) or a numpy
+        numeric numpy array of length 'n'.
+        """
+        import numpy as np
+
+        if not isinstance(n, int):
+            raise TypeError("argument `n` must be int")
+        elif n <= 0:
+            raise ValueError("argument `n` (int) must larger than 0")
+
+        # checking alpha
+        if not isinstance(alpha, (type(None), float, list, np.ndarray)):
+            raise TypeError("argument `alpha` not among the allowed types")
+        elif isinstance(alpha, (list, np.ndarray)) and len(alpha) == 0:
+            raise ValueError("argument `alpha` is of length 0 (not allowed)")
+
+        # If alpha is None, we can return immediately
+        if alpha is None: return None
+
+        # If alpha is a numpy array of length > 0, but not equal to n, error.
+        if isinstance(alpha, np.ndarray) and len(alpha) > 1 and not len(alpha) == n:
+            raise ValueError("if `alpha` is a numpy array, it must be of the same length as `n`")
+        elif isinstance(alpha, list) and not len(alpha) == n:
+            raise ValueError("if `alpha` is a list, it must be of the same length as `n`")
+        elif isinstance(alpha, float):
+            alpha = np.repeat(alpha, n)
+        elif len(alpha) == 1:
+            try:
+                alpha = np.repeat(alpha[0], n)
+                alpha = alpha.dtype("float")
+            except Exception as e:
+                raise Exception(f"problems converting alpha: {e}")
+        else:
+            try:
+                alpha = np.asarray(alpha, dtype = "float")
+            except Exception as e:
+                raise Exception(f"problems converting alpha: {e}")
+
+        # Now we know we have a float array
+        if np.any(alpha < 0) or np.any(alpha > 1):
+            raise ValueError("values `alpha` must be in the range of [0.0, 1.0]")
+
+        # Returning numpy.ndarray
+        return alpha
 
     def _chroma_trajectory(self, i, p1, c1, c2, cmax):
         """Helper function: Calculate linear or triangle trajectory for chroma dimension.
@@ -1295,11 +1360,11 @@ class qualitative_hcl(hclpalette):
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
-        if not kwargs is None:
-            if "settings" in kwargs.keys():
-                for key,val in kwargs["settings"].items():
-                    if key in settings.keys() and not val is None:
-                        settings[key] = val
+        if kwargs:
+            for key,val in kwargs.items():
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                settings[key] = val
 
         # Save settings
         self.settings = settings
@@ -1596,7 +1661,8 @@ class diverging_hcl(hclpalette):
         if isinstance(palette, str):
             from numpy import where
             pals = hclpalettes().get_palettes("Diverging")
-            idx  = where([x.name().upper().replace(" ", "") == palette.upper().replace(" ", "") for x in pals])[0]
+            idx  = where([x.name().upper().replace(" ", "") == \
+                    palette.upper().replace(" ", "") for x in pals])[0]
             if len(idx) == 0:
                 raise ValueError(f"palette {palette} is not a valid diverging palette. " + \
                                  f"Choose one of: {', '.join([x.name() for x in pals])}")
@@ -1638,8 +1704,9 @@ class diverging_hcl(hclpalette):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters:
-                    settings[key] = val
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                settings[key] = val
 
         # Save settings
         self.settings = settings
@@ -1657,11 +1724,11 @@ class diverging_hcl(hclpalette):
                 outside the defined color space?  If `None` the `fixup`
                 parameter from the object will be used. Can be set to `True` or
                 `False` to explicitly control the fixup here.
-            alpha (None, float, numpy.ndarray): Float (single value) or vector
-                of floats in the range of `[0.,1.]` for alpha transparency channel
-                (`0.` means full transparency, `1.` opaque).  If a single value is
-                provided it will be applied to all colors, if a numpy array is given the
-                length has to be `n`.
+            alpha (None, float, list, or numpy.ndarray): Allows to add an transparency
+                (alpha channel) to the colors. Can be a single float, a list, or a
+                numpy array. If a list or array is provided it must be of length 1 or
+                of length `n` and be convertible to float, providing values
+                between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
@@ -1674,28 +1741,7 @@ class diverging_hcl(hclpalette):
         from numpy import vstack, transpose, repeat
         from . import colorlib
 
-        # Sanity checks
-        if not isinstance(n, int):
-            raise TypeError("argument `n` must be int")
-        elif not n > 1:
-            raise ValueError("argument `n` must be positive")
-
-        # Alpha handling
-        if not isinstance(alpha, (type(None), float, ndarray)):
-            raise TypeError("argument `alpha` must be None, float, or a numpy array")
-        if isinstance(alpha, float):
-            if alpha < 0. or alpha > 1.:
-                raise ValueError("`alpha` must be in range [0.0, 1.0]")
-            alpha = repeat(alpha, n)
-        elif isinstance(alpha, ndarray):
-            alpha = asarray(alpha, dtype = "float")
-            if len(alpha) == 1:
-                alpha = np.repeat(alpha, n)
-            elif not len(alpha) == n:
-                raise ValueError("`alpha` (if numpy array) must be of length 'n'")
-            if any(alpha < 0.0) or any(alpha > 1.0):
-                raise ValueError("`alpha` must be in range [0.0, 1.0]")
-
+        alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         # Calculate H/C/L
@@ -1967,8 +2013,9 @@ class divergingx_hcl(hclpalette):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters:
-                    settings[key] = val
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                settings[key] = val
 
         # Save settings
         self.settings = settings
@@ -1986,10 +2033,11 @@ class divergingx_hcl(hclpalette):
                 outside the defined color space?  If `None` the `fixup`
                 parameter from the object will be used. Can be set to `True` or
                 `False` to explicitly control the fixup here.
-            alpha (None, float): Float (single value) or vector of floats in the
-                range of `[0.,1.]` for alpha transparency channel (`0.` means full
-                transparency, `1.` opaque).  If a single value is provided it will be
-                applied to all colors, if a vector is given the length has to be `n`.
+            alpha (None, float, list, or numpy.ndarray): Allows to add an transparency
+                (alpha channel) to the colors. Can be a single float, a list, or a
+                numpy array. If a list or array is provided it must be of length 1 or
+                of length `n` and be convertible to float, providing values
+                between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
@@ -2002,18 +2050,13 @@ class divergingx_hcl(hclpalette):
             as it is basically the same.
         """
 
-        # Sanity checks
-        if not isinstance(n, int):
-            raise TypeError("argument `n` must be int")
-        elif not n > 1:
-            raise TypeError("argument `n` must be positive")
-
-        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
-
         from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
         from numpy import asarray, ndarray, ndenumerate, concatenate, flip
         from numpy import vstack, transpose
         from . import colorlib
+
+        alpha = self._get_alpha_array(alpha, n)
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         # Calculate H/C/L by basically calculating the sequential palette twice;
         # once for each side.
@@ -2250,8 +2293,9 @@ class sequential_hcl(hclpalette):
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters:
-                    settings[key] = val
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                settings[key] = val
 
         if isinstance(settings["h2"], type(None)): settings["h2"] = settings["h1"]
 
@@ -2260,7 +2304,7 @@ class sequential_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True, **kwargs):
+    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
         """Get Colors
 
         Returns the colors of the current color palette.
@@ -2271,6 +2315,11 @@ class sequential_hcl(hclpalette):
                 outside the defined color space?  If `None` the `fixup`
                 parameter from the object will be used. Can be set to `True` or
                 `False` to explicitly control the fixup here.
+            alpha (None, float, list, or numpy.ndarray): Allows to add an transparency
+                (alpha channel) to the colors. Can be a single float, a list, or a
+                numpy array. If a list or array is provided it must be of length 1 or
+                of length `n` and be convertible to float, providing values
+                between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
@@ -2278,11 +2327,12 @@ class sequential_hcl(hclpalette):
         longer needed; else think about revamping this functionality.
         """
 
-        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
-
         from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
         from numpy import vstack, transpose, where
         from . import colorlib
+
+        alpha = self._get_alpha_array(alpha, n)
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         # Calculate H/C/L
         rval = linspace(1., 0., n)
@@ -2592,7 +2642,7 @@ class diverging_hsv(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True, **kwargs):
+    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
         """Get Colors
 
         Returns the colors of the current color palette.
@@ -2603,6 +2653,11 @@ class diverging_hsv(hclpalette):
                 outside the defined color space?  If `None` the `fixup`
                 parameter from the object will be used. Can be set to `True` or
                 `False` to explicitly control the fixup here.
+            alpha (None, float, list, or numpy.ndarray): Allows to add an transparency
+                (alpha channel) to the colors. Can be a single float, a list, or a
+                numpy array. If a list or array is provided it must be of length 1 or
+                of length `n` and be convertible to float, providing values
+                between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
@@ -2613,6 +2668,9 @@ class diverging_hsv(hclpalette):
         from numpy import linspace, power, abs, repeat, where
         from numpy import ndarray, ndenumerate
         from .colorlib import HSV
+
+        alpha = self._get_alpha_array(alpha, n)
+        fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         # Calculate palette
         rval = linspace(-self.get("s"), self.get("s"), n)
@@ -2737,10 +2795,11 @@ class rainbow(hclpalette):
 
         Args:
             n (int): Number of colors which should be returned. Defaults to `11`.
-            alpha (None, float): Float (single value) or vector of floats in the
-                range of `[0.,1.]` for alpha transparency channel (`0.` means full
-                transparency, `1.` opaque).  If a single value is provided it will be
-                applied to all colors, if a vector is given the length has to be `n`.
+            alpha (None, float, list, or numpy.ndarray): Allows to add an transparency
+                (alpha channel) to the colors. Can be a single float, a list, or a
+                numpy array. If a list or array is provided it must be of length 1 or
+                of length `n` and be convertible to float, providing values
+                between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
@@ -2758,6 +2817,8 @@ class rainbow(hclpalette):
             raise ValueError("argument `n` must be float or int")
         n = int(n)
         if n < 1: raise ValueError("argument `n` must be positive (>= 1)")
+
+        alpha = self._get_alpha_array(alpha, n)
 
         # Evaluate start and end given 'n'
         start = self.settings["start"]
