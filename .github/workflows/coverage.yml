@@ -34,7 +34,7 @@ jobs:
       - name: Coverage
         run: |
           python setup.py install
-          pytest --cov=src/colorspace --cov-report html
+          pytest --cov=src/colorspace --cov-report html:htmlcov
 
       - name: Coverage Badge
         uses: tj-actions/coverage-badge-py@v2
@@ -70,7 +70,8 @@ jobs:
           git clone --branch=gh-pages https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
           mkdir -p gh-pages/coverage
           cp -r htmlcov/* gh-pages/coverage/
-          cd gh-pages
+          cd gh-pages/coverage/
           git add .
           git commit -m "Update coverage report"
           git push origin gh-pages
+
