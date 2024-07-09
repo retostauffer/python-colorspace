@@ -150,6 +150,7 @@ def test_diverging_hcl_invalid_kwargs():
     for k in not_allowed:
         raises(ValueError, diverging_hcl, **{k: 0.})
 
+# Allowed are: "h1", "h2", "c1", "l1", "l2", "p1"
 # Testing allowed parameters
 def test_diverging_hcl_allowed_kwargs_unnamed():
     # Reference palette
@@ -170,7 +171,6 @@ def test_diverging_hcl_allowed_kwargs_unnamed():
     for k in settings.keys():
         assert ref.get(k) == tmp.get(k)
 
-# Allowed are: "h1", "h2", "c1", "l1", "l2", "p1"
 # Using named palette (should be overwritten)
 def test_diverging_hcl_allowed_kwargs_named():
     # Reference palette

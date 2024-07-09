@@ -370,8 +370,10 @@ class defaultpalette:
             # If already existing we convert the new value into the existing type.
             elif isinstance(self._settings_[key], int):
                 self._settings_[key] = int(val)
-            elif isinstance(self._settings_[key], float):
-                self._settings_[key] = float(val)
+            # If setitng exists and is float, int, or a lambda function: replace
+            # If val is itself a callable function, take it as is. Else convert to float.
+            elif isinstance(self._settings_[key], (int, float)) or callable(self._settings_[key]):
+                self._settings_[key] = val if callable(val) else float(val)
             else:
                 raise Exception(f"whoops, some code needed here in {self.__class__.__name__}.set")
 
@@ -1301,10 +1303,10 @@ class qualitative_hcl(hclpalette):
         # If a str is given on "h": exchange with "palette".
         if isinstance(h, str):
             palette = h
-            h       = [0, lambda n: 360. * (n - 1.) / n]
+            h       = [0, lambda n: 360. * (n - 1.) / n] # Temporary override
         # Else it must be list of length 2
         elif not isinstance(h, list) or not len(h) == 2:
-            raise TypeError("argument `h` must be str or list of length 2")
+            raise ValueError("argument `h` must be str or list of length 2")
         # Check list elements for allowed types
         else:
             for rec in h:
@@ -1314,10 +1316,10 @@ class qualitative_hcl(hclpalette):
                     raise TypeError("unexpected type in list on argument `h`")
 
         # _checkinput_ parameters (in the correct order):
-        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        # - dtype, length_min, length_max, recycle, nansallowed, **kwargs
         try:
-            c = self._checkinput_(int,   1, False, False, c = c)
-            l = self._checkinput_(int,   1, False, False, l = l)
+            c = self._checkinput_(int, 1, 2, False, c = c)
+            l = self._checkinput_(int, 1, 2, False, l = l)
         except Exception as e:
             raise ValueError(str(e))
 
@@ -1333,7 +1335,7 @@ class qualitative_hcl(hclpalette):
 
             # Allow to overrule few things
             for key,value in kwargs.items():
-                if key in _allowed_parameters: pal.set({key: value})
+                if key in self._allowed_parameters: pal.set(**{key: value})
 
             # Extending h2 if h1 = h2 (h2 None)
             if pal.get("h2") == None or pal.get("h1") == pal.get("h2"):
@@ -1370,7 +1372,7 @@ class qualitative_hcl(hclpalette):
         self.settings = settings
 
 
-    def colors(self, n = 11, fixup = None, **kwargs):
+    def colors(self, n = 11, fixup = None, alpha = None, **kwargs):
         """Get Colors
 
         Returns the colors of the current color palette.
@@ -1381,6 +1383,11 @@ class qualitative_hcl(hclpalette):
                 the defined color space?  If `None` the `fixup` parameter from the
                 object will be used. Can be set to `True` or `False` to explicitly
                 control the fixup here.
+            alpha (None, float, list, or numpy.ndarray): Allows to add an transparency
+                (alpha channel) to the colors. Can be a single float, a list, or a
+                numpy array. If a list or array is provided it must be of length 1 or
+                of length `n` and be convertible to float, providing values
+                between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: If any `colorobject =` argument is specified, HCL colors
                 will be returned.
 
@@ -1392,6 +1399,7 @@ class qualitative_hcl(hclpalette):
         from numpy import vstack, transpose
         from . import colorlib
 
+        alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         # If either h1 or h2 is a lambda function: evaluate now.
@@ -1411,7 +1419,7 @@ class qualitative_hcl(hclpalette):
 
         # Create new HCL color object
         from .colorlib import HCL
-        HCL = HCL(H, C, L)
+        HCL = HCL(H, C, L, alpha)
 
         # If kwargs have a key "colorobject" return HCL colorobject
         # TODO: What is the usecase for this?
