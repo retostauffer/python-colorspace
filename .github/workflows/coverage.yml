@@ -34,7 +34,7 @@ jobs:
       - name: Coverage
         run: |
           python setup.py install
-          pytest --cov=src/colorspace --cov-report xml
+          pytest --cov=src/colorspace --cov-report html
 
       - name: Coverage Badge
         uses: tj-actions/coverage-badge-py@v2
@@ -59,6 +59,19 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           branch: ${{ github.ref }}
+
+      # Deploy coverage on GitHub Pages subdirectory
+      - name: Deploy coverage report to GitHub Pages
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git clone --branch=gh-pages https://github.com/retostauffer/python-colorspace.git gh-pages
+          cd gh-pages
+          mkdir -p coverage
+          cp -r ../htmlcov/* coverage/
+          git add .
+          git commit -m "Update coverage report"
+          git push origin gh-pages
 
 
 
