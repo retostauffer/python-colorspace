@@ -60,14 +60,20 @@ jobs:
           github_token: ${{ secrets.github_token }}
           branch: ${{ github.ref }}
 
-      # Deploy coverage on GitHub Pages subdirectory
-      - name: Deploy coverage report to GitHub Pages
+      - name: Configure Git user
         run: |
+          git config --global user.name 'Reto Stauffer'
+          git config --global user.email 'reto.stauffer@uibk.ac.at'
+
+      - name: Commit coverage report to gh-pages
+        run: |
+          git fetch origin gh-pages
           git checkout gh-pages
-          git pull
           mkdir -p coverage
           cp -r htmlcov/* coverage/
           git add coverage/
           git commit -m "Update coverage report"
           git push origin gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
