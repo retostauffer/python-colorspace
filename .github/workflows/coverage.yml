@@ -1,9 +1,15 @@
 name: Coverage
 
+#on:
+#  push:
+#    branch:
+#      - main
 on:
-  push:
-    branch:
-      - main
+  workflow_run:
+    workflows: ["Testing", "Documentation"]
+    branches: ["main"]
+    types:
+      - completed
 
 jobs:
   build:
