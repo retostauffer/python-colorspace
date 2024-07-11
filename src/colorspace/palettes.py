@@ -2237,10 +2237,10 @@ class sequential_hcl(hclpalette):
         power = 1.5, fixup = True, palette = None, rev = False,
         *args, **kwargs):
 
-        # Save reverse flag
-        if not isinstance(rev, bool):
-            raise TypeError("argument `rev` must be bool")
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
+        if not isinstance(palette, (str, type(None))):
+            raise TypeError("argument `palette` must be None or str")
 
         # If input "h" is a str: exchange with "palette"
         if isinstance(h, str):

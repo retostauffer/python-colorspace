@@ -7,6 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from colorspace import diverging_hcl, hcl_palettes
 
+# All parameters
+_all_parameters = ["foo", "h1", "h2", "c1", "cmax", "c3", "l1", "l2", "p1", "p2"]
 
 # ---------------------------------------------
 # Default settings
@@ -146,15 +148,30 @@ def test_diverging_hcl_named_palette():
 # Testing unallowed parameters
 def test_diverging_hcl_invalid_kwargs():
     pal1 = diverging_hcl()
-    not_allowed = ["foo", "c2"]
+
+    not_allowed = []
+    for p in _all_parameters:
+        if not p in diverging_hcl._allowed_parameters:
+            not_allowed.append(p)
+
     for k in not_allowed:
         raises(ValueError, diverging_hcl, **{k: 0.})
 
 # Allowed are: "h1", "h2", "c1", "l1", "l2", "p1"
 # Testing allowed parameters
 def test_diverging_hcl_allowed_kwargs_unnamed():
-    # Reference palette
+    # Test settings
     settings = {"h1": 11, "h2": 12, "c1": 13, "l1": 14, "l2": 15, "p1": 16}
+
+    # Ensure I test all allowed parameters
+    for k in diverging_hcl._allowed_parameters:
+        # Skipping cmax, p1; testing for basic diverging; there
+        # are separate tests below to test the advanced diverging palette
+        if k in ["cmax", "p2"]: continue
+        if not k in settings.keys():
+            raise Exception(f"missing allowed parameter \"{k}\" in test settings")
+
+    # Reference palette
     ref = diverging_hcl(h = [settings["h1"], settings["h2"]],
                         c = settings["c1"],
                         l = [settings["l1"], settings["l2"]],
