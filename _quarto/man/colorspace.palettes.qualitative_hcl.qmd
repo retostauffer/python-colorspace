@@ -108,7 +108,7 @@ examples.
     </dt>
     <dd>Get matplotlib Compatible Color Map</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[qualitative_hcl.colors(n=11, fixup=None, **kwargs)](colorspace.palettes.qualitative_hcl.colors.qmd)</code>
+       <code>[qualitative_hcl.colors(n=11, fixup=None, alpha=None, **kwargs)](colorspace.palettes.qualitative_hcl.colors.qmd)</code>
     </dt>
     <dd>Get Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">

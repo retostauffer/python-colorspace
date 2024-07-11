@@ -32,11 +32,11 @@ will be used while the rest is ignored.  If input `h` is a str this
 argument acts like the `palette` argument (see `palette` input
 parameter).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.diverging_hsv:s">s</code><code class="argument-class">float</code>
+   <code id="colorspace.palettes.diverging_hsv:s">s</code><code class="argument-class">float, int</code>
   </dt>
  <dd>Saturation value for the two ends of the palette.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.diverging_hsv:v">v</code><code class="argument-class">float</code>
+   <code id="colorspace.palettes.diverging_hsv:v">v</code><code class="argument-class">float, int</code>
   </dt>
  <dd>Value (the HSV value) of the colors.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">

@@ -157,9 +157,9 @@ p.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5));
 ### Raises
 
 <ul class="python-raises">
-<li><code class="text-warning">ValueError</code>: If `s` or `v` are not single floating point values (or int)
-in the range of `[0., 1.]`.
-<li><code class="text-warning">ValueError</code>: If `start` and `end` are not float/int in `[0., 1.]` or functions.
-<li><code class="text-warning">ValueError</code>: If `rev` is not bool.
+<li><code class="text-warning">TypeError</code>: If `s` or `v` are not float or int.
+<li><code class="text-warning">ValueError</code>: If `s` or `v` are outside range, must be in `[0., 1.]`.
+<li><code class="text-warning">TypeError</code>: If `start` and `end` are not float/int in `[0., 1.]` or lambda functions.
+<li><code class="text-warning">TypeError</code>: If `rev` is not bool.
 </ul>
 

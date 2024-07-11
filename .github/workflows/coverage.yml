@@ -60,18 +60,19 @@ jobs:
           github_token: ${{ secrets.github_token }}
           branch: ${{ github.ref }}
 
-      ## Deploy coverage on GitHub Pages subdirectory
-      #- name: Deploy coverage report to GitHub Pages
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  run: |
-      #    git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      #    git config --global user.name "github-actions[bot]"
-      #    git clone --branch=gh-pages https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
-      #    mkdir -p gh-pages/coverage
-      #    cp -r htmlcov/* gh-pages/coverage/
-      #    cd gh-pages/coverage/
-      #    git add .
-      #    git commit -m "Update coverage report"
-      #    git push origin gh-pages
+      # Deploy coverage on GitHub Pages subdirectory
+      #env:
+      #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy coverage report to GitHub Pages
+        run: |
+          git clone --branch=gh-pages https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          mkdir -p gh-pages/coverage
+          cp -r htmlcov/* gh-pages/coverage/
+          cd gh-pages/coverage/
+          git add .
+          git commit -m "Update coverage report"
+          git push origin gh-pages
 
