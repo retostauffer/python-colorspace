@@ -604,7 +604,7 @@ Forwarded to the main <a href="../man/colorspace.swatchplot.swatchplot.html">swa
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="a1d84497" class="cell" data-execution_count="1">
+<div id="3dc46299" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Basic usage:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hcl_palettes</span>
@@ -647,7 +647,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
        Green-Brown, Broc, Cork, Vik, Berlin, Lisbon, Tofino</code></pre>
 </div>
 </div>
-<div id="1107a16d" class="cell" data-execution_count="2">
+<div id="7b008b19" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get all diverging HCL palettes (basic and advanced)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(type_ <span class="op">=</span> <span class="st">"Diverging"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -662,7 +662,7 @@ Names: Blue-Red 3, Red-Green, Purple-Green, Purple-Brown
        Green-Brown, Broc, Cork, Vik, Berlin, Lisbon, Tofino</code></pre>
 </div>
 </div>
-<div id="f12d533c" class="cell" data-execution_count="3">
+<div id="3e4c4cd1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get only basic diverging HCL palettes</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(type_ <span class="op">=</span> <span class="st">"Basic: Diverging"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -673,7 +673,7 @@ Names: Blue-Red, Blue-Red 2, Blue-Yellow 2, Blue-Yellow 3
        Green-Orange, Cyan-Magenta, Tropic</code></pre>
 </div>
 </div>
-<div id="147548a1" class="cell" data-execution_count="4">
+<div id="504b4ffa" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get specific HCL palettes by name</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(name <span class="op">=</span> [<span class="st">"Oranges"</span>, <span class="st">"Tropic"</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -686,7 +686,7 @@ Type:  Advanced: Sequential (multi-hue)
 Names: Oranges</code></pre>
 </div>
 </div>
-<div id="85b09dbe" class="cell" data-execution_count="5">
+<div id="3f92516a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize all diverging HCL palettes</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(type_ <span class="op">=</span> <span class="st">"Diverging"</span>, ncol <span class="op">=</span> <span class="dv">2</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>             plot <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">6</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -698,7 +698,7 @@ Names: Oranges</code></pre>
 </div>
 </div>
 </div>
-<div id="019ebe4d" class="cell" data-execution_count="6">
+<div id="d576ac79" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize specific palettes selected by name</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(name <span class="op">=</span> [<span class="st">"Oranges"</span>, <span class="st">"Tropic"</span>],</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>             plot <span class="op">=</span> <span class="va">True</span>, ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">6</span>, <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -710,7 +710,7 @@ Names: Oranges</code></pre>
 </div>
 </div>
 </div>
-<div id="278462a8" class="cell" data-execution_count="7">
+<div id="d956ccfb" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify number of colors shown</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>hcl_palettes(n <span class="op">=</span> <span class="dv">5</span>,  type_ <span class="op">=</span> <span class="st">"Basic: Diverging"</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>             plot <span class="op">=</span> <span class="va">True</span>, ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">6</span>, <span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -722,7 +722,7 @@ Names: Oranges</code></pre>
 </div>
 </div>
 </div>
-<div id="8d15a78d" class="cell" data-execution_count="8">
+<div id="1bf016fe" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hcl_palettes(n <span class="op">=</span> <span class="dv">51</span>, type_ <span class="op">=</span> <span class="st">"Advanced: Diverging"</span>,</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>             plot <span class="op">=</span> <span class="va">True</span>, ncol <span class="op">=</span> <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">6</span>, <span class="dv">8</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -733,7 +733,7 @@ Names: Oranges</code></pre>
 </div>
 </div>
 </div>
-<div id="bb271754" class="cell" data-execution_count="9">
+<div id="1d0fe69d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract specific palettes after loading</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>palettes <span class="op">=</span> hcl_palettes()</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> palettes.get_palette(<span class="st">"Oranges"</span>)</span>
@@ -755,7 +755,7 @@ Names: Oranges</code></pre>
          p2           1.3</code></pre>
 </div>
 </div>
-<div id="43ef0b2f" class="cell" data-execution_count="10">
+<div id="5ac9afe9" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> palettes.get_palette(<span class="st">"Greens"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>c2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
@@ -775,7 +775,7 @@ Names: Oranges</code></pre>
          p2           1.5</code></pre>
 </div>
 </div>
-<div id="10ee3967" class="cell" data-execution_count="11">
+<div id="6003186b" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify palettes by overwriting palette settings</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>c1.<span class="bu">set</span>(h1 <span class="op">=</span> <span class="dv">99</span>, l2 <span class="op">=</span> <span class="dv">30</span>, l1 <span class="op">=</span> <span class="dv">30</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>c1.rename(<span class="st">"Custom Palette #1"</span>)</span>
