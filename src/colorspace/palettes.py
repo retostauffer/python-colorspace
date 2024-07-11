@@ -373,7 +373,7 @@ class defaultpalette:
             elif isinstance(val, bool):
                 val = 1 if val else 0
             else:
-                raise Exception(f"whoops, no rule yet to handle {key} = {val=}")
+                raise Exception(f"whoops, no rule yet to handle {key} = {val}")
 
             # Not yet a parameter in our dictionary? Add as float
             if not key in self._settings_.keys():
