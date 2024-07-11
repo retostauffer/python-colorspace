@@ -151,3 +151,5 @@ website:
       - file: man/colorspace.palettes.terrain_hcl.qmd
         text: terrain_hcl
       section: Class references
+    - text: "Coverage report"
+      href: coverage/index.html
