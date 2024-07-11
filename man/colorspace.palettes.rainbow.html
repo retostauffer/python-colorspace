@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
+<meta name="generator" content="quarto-1.5.54">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -547,7 +547,7 @@ window.Quarto = {
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.53</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.54</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -687,7 +687,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="c31e8d93" class="cell" data-execution_count="1">
+<div id="85eb02d7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -704,7 +704,7 @@ Palette Swatch Plot
  '#FF0099']</code></pre>
 </div>
 </div>
-<div id="9c2a0fb0" class="cell" data-execution_count="2">
+<div id="1e99122c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -714,7 +714,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="93a1a16a" class="cell" data-execution_count="3">
+<div id="0123387a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rainbow()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -730,7 +730,7 @@ Palette Swatch Plot
  '#FF0099']</code></pre>
 </div>
 </div>
-<div id="6e189029" class="cell" data-execution_count="4">
+<div id="18efd717" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using lambda functions for start/end</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> rainbow(start <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">1</span> <span class="op">/</span> n, end <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">1</span> <span class="op">-</span> <span class="dv">1</span> <span class="op">/</span> n)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>p.swatchplot(n <span class="op">=</span> <span class="dv">5</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -742,7 +742,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="6e68163d" class="cell" data-execution_count="5">
+<div id="3bfbcbce" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p.swatchplot(n <span class="op">=</span> <span class="dv">10</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -757,11 +757,13 @@ Palette Swatch Plot
 <h3 class="anchored" data-anchor-id="raises">Raises</h3>
 <ul class="python-raises">
 <li>
-<code class="text-warning">ValueError</code>: If <code>s</code> or <code>v</code> are not single floating point values (or int) in the range of <code>[0., 1.]</code>.
+<code class="text-warning">TypeError</code>: If <code>s</code> or <code>v</code> are not float or int.
 </li><li>
-<code class="text-warning">ValueError</code>: If <code>start</code> and <code>end</code> are not float/int in <code>[0., 1.]</code> or functions.
+<code class="text-warning">ValueError</code>: If <code>s</code> or <code>v</code> are outside range, must be in <code>[0., 1.]</code>.
 </li><li>
-<code class="text-warning">ValueError</code>: If <code>rev</code> is not bool.
+<code class="text-warning">TypeError</code>: If <code>start</code> and <code>end</code> are not float/int in <code>[0., 1.]</code> or lambda functions.
+</li><li>
+<code class="text-warning">TypeError</code>: If <code>rev</code> is not bool.
 </li></ul>
 
 

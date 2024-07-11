@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
+<meta name="generator" content="quarto-1.5.54">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -517,7 +517,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.53</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.54</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -554,25 +554,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
 <dl class="pyp-list param-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.rainbow_hcl:c">c</code><code class="argument-class">int</code>
+<code id="colorspace.palettes.rainbow_hcl:c">c</code><code class="argument-class">float, int</code>
 </dt>
 <dd>
 Chroma (colorfullness) of the color map <code>[0-100+]</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.rainbow_hcl:l">l</code><code class="argument-class">int</code>
+<code id="colorspace.palettes.rainbow_hcl:l">l</code><code class="argument-class">float, int</code>
 </dt>
 <dd>
 Luminance (lightness) of the color map <code>[0-100]</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.rainbow_hcl:start">start</code><code class="argument-class">int, lambda</code>
+<code id="colorspace.palettes.rainbow_hcl:start">start</code><code class="argument-class">float, int, lambda</code>
 </dt>
 <dd>
 Hue at which the rainbow should start or lambda function with one argument. Defaults to 0.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.rainbow_hcl:end">end</code><code class="argument-class">int, lambda</code>
+<code id="colorspace.palettes.rainbow_hcl:end">end</code><code class="argument-class">float, int, lambda</code>
 </dt>
 <dd>
 Hue (int) at which the rainbow should end or lambda function with one argument. By default a lambda function evaluated when drawing colors (<code>360 * (n - 1) / n</code>).
@@ -623,7 +623,7 @@ Additional named arguments to overwrite the palette settings. Allowed: <code>h1<
 Get matplotlib Compatible Color Map
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code><a href="../man/colorspace.palettes.rainbow_hcl.colors.html">rainbow_hcl.colors(n=11, fixup=None, **kwargs)</a></code>
+<code><a href="../man/colorspace.palettes.rainbow_hcl.colors.html">rainbow_hcl.colors(n=11, fixup=None, alpha=None, **kwargs)</a></code>
 </dt>
 <dd>
 Get Colors
@@ -668,7 +668,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="287fdf37" class="cell" data-execution_count="1">
+<div id="656a1af3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -685,7 +685,7 @@ Palette Swatch Plot
  '#DE94C8']</code></pre>
 </div>
 </div>
-<div id="194d05d5" class="cell" data-execution_count="2">
+<div id="43afe9dc" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -695,7 +695,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="1cba2301" class="cell" data-execution_count="3">
+<div id="e383c894" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors. Thus,</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can make your code slimmer by calling</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rainbow_hcl()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -712,7 +712,7 @@ Palette Swatch Plot
  '#DE94C8']</code></pre>
 </div>
 </div>
-<div id="3bf73d84" class="cell" data-execution_count="4">
+<div id="72e19b9b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing lambda function for both, start and end</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl(start <span class="op">=</span> <span class="kw">lambda</span> n: (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                  end   <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">360</span> <span class="op">-</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n)</span>
@@ -725,7 +725,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="c02cbcc9" class="cell" data-execution_count="5">
+<div id="90e297a8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(n <span class="op">=</span> <span class="dv">10</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>

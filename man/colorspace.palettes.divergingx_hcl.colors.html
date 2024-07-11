@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
+<meta name="generator" content="quarto-1.5.54">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -480,7 +480,7 @@ ul.task-list li input[type="checkbox"] {
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.53</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.54</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -528,10 +528,10 @@ Number of colors which should be returned.
 Should sRGB colors be corrected if they lie outside the defined color space? If <code>None</code> the <code>fixup</code> parameter from the object will be used. Can be set to <code>True</code> or <code>False</code> to explicitly control the fixup here.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.divergingx_hcl.colors:alpha">alpha</code><code class="argument-class">None, float</code>
+<code id="colorspace.palettes.divergingx_hcl.colors:alpha">alpha</code><code class="argument-class">None, float, list, or numpy.ndarray</code>
 </dt>
 <dd>
-Float (single value) or vector of floats in the range of <code>[0.,1.]</code> for alpha transparency channel (<code>0.</code> means full transparency, <code>1.</code> opaque). If a single value is provided it will be applied to all colors, if a vector is given the length has to be <code>n</code>.
+Allows to add an transparency (alpha channel) to the colors. Can be a single float, a list, or a numpy array. If a list or array is provided it must be of length 1 or of length <code>n</code> and be convertible to float, providing values between <code>0.0</code> (full opacity) and <code>1.0</code> (full transparency)
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.divergingx_hcl.colors:**kwargs">**kwargs</code>
