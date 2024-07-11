@@ -986,7 +986,7 @@ class hclpalette:
                 # recycle the value or not.
                 if not recycle:
                     raise ValueError(f"wrong length of input \"{key}\", expected min {length_min} elements, " + \
-                                     f"got {len(value)} when calling {self.__class__.__name}")
+                                     f"got {len(value)} when calling {self.__class__.__name__}")
                 else:
                     value = vstack([value] * length_min).flatten()[0:length_min]
             elif length_min and not length_max and len(value) > length_min:
@@ -1461,11 +1461,11 @@ class rainbow_hcl(qualitative_hcl):
     and :py:class:`rainbow`.
 
     Args:
-        c (int): Chroma (colorfullness) of the color map `[0-100+]`.
-        l (int): Luminance (lightness) of the color map `[0-100]`.
-        start (int, lambda): Hue at which the rainbow should start or lambda function
+        c (float, int): Chroma (colorfullness) of the color map `[0-100+]`.
+        l (float, int): Luminance (lightness) of the color map `[0-100]`.
+        start (float, int, lambda): Hue at which the rainbow should start or lambda function
             with one argument. Defaults to 0.
-        end (int, lambda): Hue (int) at which the rainbow should end or lambda function
+        end (float, int, lambda): Hue (int) at which the rainbow should end or lambda function
             with one argument. By default a lambda function evaluated when
             drawing colors (`360 * (n - 1) / n`).
         gamma (float): Gamma value used for transfiromation from/to sRGB.
@@ -1502,7 +1502,7 @@ class rainbow_hcl(qualitative_hcl):
         >>> pal.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5))
     """
 
-    _allowed_parameters = ["h1", "h2", "c1", "l1", "l2", "p1"]
+    _allowed_parameters = ["h1", "h2", "c1", "l1"]
     _name = "Rainbow HCL"
 
     def __init__(self, c = 50, l = 70, start = 0, end = lambda n: 360 * (n - 1) / n,
@@ -1514,14 +1514,14 @@ class rainbow_hcl(qualitative_hcl):
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            c     = self._checkinput_(int,   1, False, False, c = c)
-            l     = self._checkinput_(int,   1, False, False, l = l)
+            c     = self._checkinput_(int,   1, 1, False, c = c)
+            l     = self._checkinput_(int,   1, 1, False, l = l)
         except Exception as e:
             raise ValueError(str(e))
 
         # Checking start and end. If int, use _checkinput_, if callable make
         # sure it is a lambda function with one single input argument.
-        if isinstance(start, int):
+        if isinstance(start, (float, int)):
             start = self._checkinput_(int,   1, False, False, start = start)
         elif callable(start):
             if not start.__code__.co_argcount == 1:
@@ -1538,24 +1538,21 @@ class rainbow_hcl(qualitative_hcl):
             raise TypeError("argument `end` must be int or lambda function")
 
         # Save settins
-        try:
-            self.settings = {"h1": start if callable(start) else int(start[0]),
-                             "h2": end if callable(end) else int(end[0]),
-                             "c1": int(c[0]),
-                             "l1": int(l[0]),
-                             "fixup": bool(fixup)}
-        except ValueError as e:
-            raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, str(e)))
-        except Exception as e:
-            raise Exception("in {:s}: {:s}".format(self.__class__.__name__, str(e)))
+        self.settings = {"h1": start if callable(start) else int(start[0]),
+                         "h2": end if callable(end) else int(end[0]),
+                         "c1": int(c[0]),
+                         "l1": int(l[0]),
+                         "fixup": bool(fixup)}
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters:
-                    settings[key] = val
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                self.settings[key] = val
+
+        self.settings["rev"] = self._rev
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -1626,7 +1623,7 @@ class diverging_hcl(hclpalette):
         rev (bool): Should the color map be reversed.
         *args: Currently unused.
         **kwargs: Additional named arguments to overwrite the palette settings.
-            Allowed: `h1`, `h2`, `c1`, `l1`, `l2`, `p1`.
+            Allowed: `h1`, `h2`, `c1`, `cmax`, `l1`, `l2`, `p1`, `p2`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -1878,8 +1875,8 @@ class divergingx_hcl(hclpalette):
         rev (bool): Should the color map be reversed.
         *args: Currently unused.
         **kwargs: Additional named arguments to overwrite the palette settings.
-            Allowed: `h1`, `h2`, `h3`, `c1`, `c2`, `c3`, `l1`, `l2`, `l3`,
-            `p1`, `p2`, `p3`, `p4`, `cmax1`, `cmax2`.
+            Allowed: `h1`, `h2`, `h3`, `c1`, `cmax1`, `c2`, `cmax2` `c3`,
+            `l1`, `l2`, `l3`, `p1`, `p2`, `p3`, `p4`.
 
     Returns:
         Initialize new object, no return. Raises a set of errors if the parameters
@@ -1959,7 +1956,7 @@ class divergingx_hcl(hclpalette):
 
         if isinstance(h, str):
             palette = h
-            h       = -999 # Temporarliy setting to dummy value
+            h       = [-999.] * 3 # Temporarliy setting to dummy value
         if isinstance(power, int) or isinstance(power, float):
             power   = [power]
 
@@ -2258,11 +2255,6 @@ class sequential_hcl(hclpalette):
         except Exception as e:
             raise ValueError(str(e))
 
-        # For handy use of the function
-        if isinstance(h,str):
-            palette = h
-            h       = -999 # Temporarliy setting to dummy value
-
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
             from numpy import where
@@ -2440,40 +2432,35 @@ class heat_hcl(sequential_hcl):
     def __init__(self, h = [0, 90], c = [100, 30], l = [50, 90], power = [1./5., 1.],
                  fixup = True, rev = False, *args, **kwargs):
 
-        # Save reverse flag
-        if not isinstance(rev, bool):
-            raise TypeError("argument `rev` must be bool")
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
 
         # _checkinput_ parameters (in the correct order):
-        # dtype, length = None, recycle = False, nansallowed = False, **kwargs
+        # - dtype, length_min, length_max, recycle, nansallowed, **kwargs
         try:
-            h     = self._checkinput_(int,   2, False, False, h = h)
-            c     = self._checkinput_(int,   2, False, False, c = c)
-            l     = self._checkinput_(int,   2, False, False, l = l)
-            power = self._checkinput_(float, 2, False, False, power = power)
+            h     = self._checkinput_(int,   2, 2, False, h = h)
+            c     = self._checkinput_(int,   2, 2, False, c = c)
+            l     = self._checkinput_(int,   2, 2, False, l = l)
+            power = self._checkinput_(float, 2, 2, False, power = power)
         except Exception as e:
             raise ValueError(str(e))
 
         # Save settins
-        try:
-            self.settings = {"h1": int(h[0]), "h2": int(h[1]),
-                             "c1": int(c[0]), "c2": int(c[1]),
-                             "l1": int(l[0]), "l2": int(l[1]),
-                             "p1": power[0],  "p2": power[1],
-                             "fixup": bool(fixup)}
-        except ValueError as e:
-            raise ValueError("wrong inputs to {:s}: {:s}".format(
-                self.__class__.__name__, str(e)))
-        except Exception as e:
-            raise Exception(f"in {self.__class__.__name__}: {str(e)}")
+        self.settings = {"h1": int(h[0]), "h2": int(h[1]),
+                         "c1": int(c[0]), "c2": int(c[1]),
+                         "l1": int(l[0]), "l2": int(l[1]),
+                         "p1": power[0],  "p2": power[1],
+                         "fixup": bool(fixup)}
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters:
-                    settings[key] = val
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                self.settings[key] = val
+
+        self.settings["rev"] = self._rev
 
 
 # -------------------------------------------------------------------
@@ -2527,39 +2514,35 @@ class terrain_hcl(sequential_hcl):
     def __init__(self, h = [130, 0], c = [80, 0], l = [60, 95], power = [1./10., 1.],
                  fixup = True, rev = False, *args, **kwargs):
 
-        # Save reverse flag
-        if not isinstance(rev, bool):
-            raise TypeError("argument `rev` must be bool")
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            h     = self._checkinput_(int,   2, False, False, h = h)
-            c     = self._checkinput_(int,   2, False, False, c = c)
-            l     = self._checkinput_(int,   2, False, False, l = l)
-            power = self._checkinput_(float, 2, False, False, power = power)
+            h     = self._checkinput_(int,   2, 2, False, h = h)
+            c     = self._checkinput_(int,   2, 2, False, c = c)
+            l     = self._checkinput_(int,   2, 2, False, l = l)
+            power = self._checkinput_(float, 2, 2, False, power = power)
         except Exception as e:
             raise ValueError(str(e))
 
         # Save settins
-        try:
-            self.settings = {"h1": int(h[0]), "h2": int(h[1]),
-                             "c1": int(c[0]), "c2": int(c[1]),
-                             "l1": int(l[0]), "l2": int(l[1]),
-                             "p1": power[0],  "p2": power[1],
-                             "fixup": bool(fixup)}
-        except ValueError as e:
-            raise ValueError(f"wrong inputs to {self.__class__.__name__}: {str(e)}")
-        except Exception as e:
-            raise Exception(f"in {self.__class__.__name__}: {str(e)}")
+        self.settings = {"h1": int(h[0]), "h2": int(h[1]),
+                         "c1": int(c[0]), "c2": int(c[1]),
+                         "l1": int(l[0]), "l2": int(l[1]),
+                         "p1": power[0],  "p2": power[1],
+                         "fixup": bool(fixup)}
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters:
-                    settings[key] = val
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                self.settings[key] = val
+
+        self.settings["rev"] = self._rev
 
 
 class diverging_hsv(hclpalette):
@@ -2583,8 +2566,8 @@ class diverging_hsv(hclpalette):
             will be used while the rest is ignored.  If input `h` is a str this
             argument acts like the `palette` argument (see `palette` input
             parameter).
-        s (float): Saturation value for the two ends of the palette.
-        v (float): Value (the HSV value) of the colors.
+        s (float, int): Saturation value for the two ends of the palette.
+        v (float, int): Value (the HSV value) of the colors.
         power (numeric): Power parameter for non-linear behaviour of the color
             palette.
         fixup (bool): Only used when converting the HCL colors to hex.  Should
@@ -2626,37 +2609,42 @@ class diverging_hsv(hclpalette):
     def __init__(self, h = [240, 0], s = 1., v = 1., power = 1.,
         fixup = True, rev = False, *args, **kwargs):
 
-        # Save reverse flag
-        if not isinstance(rev, bool):
-            raise TypeError("argument `rev` must be bool")
-        self._rev = rev
+        self._set_rev(rev)
+        if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
+
+        # Doing all the sanity checks.
+        if not isinstance(s, (float, int)):
+            raise TypeError("argument 's' must be float or int")
+        s = float(s)
+        if s < 0. or s > 1.: raise ValueError("argument 's' must be in [0., 1.]")
+
+        if not isinstance(v, (float, int)):
+            raise TypeError("argument 'v' must be float or int")
+        v = float(v)
+        if v < 0. or v > 1.: raise ValueError("argument 'v' must be in [0., 1.]")
 
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
-            h     = self._checkinput_(int,   2, 2,     False, h = h)
-            s     = self._checkinput_(float, 1, False, False, s = s)
-            v     = self._checkinput_(float, 1, False, False, v = v)
-            power = self._checkinput_(float, 1, 1,     False, power = power)
+            h     = self._checkinput_(int,   2, 2, False, h = h)
+            power = self._checkinput_(float, 1, 1, False, power = power)[0]
         except Exception as e:
             raise ValueError(str(e))
 
         # Save settins
-        try:
-            self.settings = {"h1": int(h[0]),   "h2": int(h[1]),
-                             "s":  float(s[0]), "v":  float(v[0]),
-                             "power": power,    "fixup": bool(fixup)}
-        except ValueError as e:
-            raise ValueError(f"wrong inputs to {self.__class__.__name__}: {str(e)}")
-        except Exception as e:
-            raise Exception(f"in {self.__class__.__name__}: {str(e)}")
+        self.settings = {"h1": int(h[0]),  "h2": int(h[1]),
+                         "s": s,           "v": v,
+                         "power": power,   "fixup": fixup}
 
         # If keyword arguments are set:
         # overwrite the settings if possible.
         if kwargs:
             for key,val in kwargs.items():
-                if key in self._allowed_parameters:
-                    settings[key] = val
+                if not key in self._allowed_parameters + ["desc", "gui"]:
+                    raise ValueError(f"argument `{key}` not allowed for {type(self).__name__}")
+                self.settings[key] = val
+
+        self.settings["rev"] = self._rev
 
 
 
@@ -2775,10 +2763,10 @@ class rainbow(hclpalette):
         >>> p.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5));
 
     Raises:
-        ValueError: If `s` or `v` are not single floating point values (or int)
-            in the range of `[0., 1.]`.
-        ValueError: If `start` and `end` are not float/int in `[0., 1.]` or functions.
-        ValueError: If `rev` is not bool.
+        TypeError: If `s` or `v` are not float or int.
+        ValueError: If `s` or `v` are outside range, must be in `[0., 1.]`.
+        TypeError: If `start` and `end` are not float/int in `[0., 1.]` or lambda functions.
+        TypeError: If `rev` is not bool.
     """
 
     _allowed_parameters = ["s", "v", "start", "end"]
@@ -2790,20 +2778,30 @@ class rainbow(hclpalette):
         self._set_rev(rev)
 
         # Doing all the sanity checks.
-        if not isinstance(s, (float, int)): raise ValueError("argument 's' must be float")
-        if not isinstance(v, (float, int)): raise ValueError("argument 'v' must be float")
-        if s < 0. or s > 1.:                raise ValueError("argument 's' must be in [0., 1.]")
-        if v < 0. or v > 1.:                raise ValueError("argument 'v' must be in [0., 1.]")
+        if not isinstance(s, (float, int)):
+            raise TypeError("argument 's' must be float or int")
+        s = float(s)
+        if s < 0. or s > 1.: raise ValueError("argument 's' must be in [0., 1.]")
+
+        if not isinstance(v, (float, int)):
+            raise TypeError("argument 'v' must be float or int")
+        v = float(v)
+        if v < 0. or v > 1.: raise ValueError("argument 'v' must be in [0., 1.]")
+
+        if not isinstance(start, (float, int)) and not callable(start):
+            raise TypeError("argument `start` must be float, int, or lambda function")
+        if not isinstance(end, (float, int)) and not callable(end):
+            raise TypeError("argument `end` must be float, int, or lambda function")
+
         # Check start and end. Either functions (lambda functions)
         # or a single floating point number in [0-1].
         if callable(start):                     pass
         elif isinstance(start, (float, int)):   start = float(start)
         if callable(end):                       pass
         elif isinstance(end, (float, int)):     end   = float(end)
-        if not isinstance(rev, bool):       raise ValueError("argument `rev` must be bool")
 
         # Store these settings
-        self.settings = {"s": float(s), "v": float(v), "start": start, "end": end}
+        self.settings = {"s": float(s), "v": float(v), "start": start, "end": end, "rev": self._rev}
 
 
     # Return hex colors
@@ -2832,10 +2830,10 @@ class rainbow(hclpalette):
         from numpy import linspace, mod, repeat
         from .colorlib import HSV
 
-        if not isinstance(n, (float, int)):
-            raise ValueError("argument `n` must be float or int")
+        if not isinstance(n, int):
+            raise TypeError("argument `n` must be int")
         n = int(n)
-        if n < 1: raise ValueError("argument `n` must be positive (>= 1)")
+        if n <= 0: raise ValueError("argument `n` must be positive (>= 1)")
 
         alpha = self._get_alpha_array(alpha, n)
 

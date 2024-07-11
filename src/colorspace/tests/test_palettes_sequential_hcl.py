@@ -153,7 +153,6 @@ def test_sequential_hcl_invalid_kwargs():
         if not p in sequential_hcl._allowed_parameters:
             not_allowed.append(p)
 
-    print(not_allowed)
     for k in not_allowed:
         raises(ValueError, sequential_hcl, **{k: 0.})
 
