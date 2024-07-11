@@ -1,9 +1,8 @@
 name: Coverage
 
-#on:
-#  push:
-#    branch:
-#      - main
+# Run coverage after the tests and, more importantly, after the documentation
+# finished as we store the coverage report inside gh-pages. If run before, the
+# Documentation workflow would overwrite these files.
 on:
   workflow_run:
     workflows: ["Testing", "Documentation"]
