@@ -2,7 +2,8 @@
 
 
 
-def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs):
+def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
+            linewidth = 1, s = 150, **kwargs):
     """Palette Plot in HCL Space
 
     The function `hclplot` is an auxiliary function for illustrating
@@ -54,17 +55,20 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
             qualitative palettes a hue-chroma plane is used, otherwise a
             chroma-luminance plane. By default (`_type = None`) the type is
             inferred from the luminance trajectory corresponding to `x`.
-        h (None, int, float): if int or float, it must be within `[-360, 360]`
-        c (None, int, float): if int or float, it must be positive
-        l (None, int, float): if int or float, it must be positive
+        h (None, int, float): If int or float, it must be within `[-360, 360]`
+        c (None, int, float): If int or float, it must be positive
+        l (None, int, float): If int or float, it must be positive
         axes (bool): Wheter or not axes should be drawn, defaults to `True`.
+        linewidth (int, float, None): Line width, if set `0` or `None` the line connecting
+            the colors of the palette will be suppressed.
+        s (int, float, None): Marker size, defaults to `150`. If set `0` or `None` the
+            position of the colors of the palette will be suppressed.
         **kwargs: Allowed to overwrite some default settings such as
-            `title` (str), `xlabel` (str), `ylabel` (str), `figsize`
-            (forwarded to `pyplot.figure`), `s` (int, float) to change
-            marker size, defaults to `150`. `xlabel`/`ylabel` only for
-            qualitative and diverging plots. A matplotlib axis can be provided
-            via `ax` (object of type `matplotlib.axes._axes.Axes`) which allows
-            to draw multiple HCL spaces on one figure.
+            `title` (str), `xlabel` (str), `ylabel` (str), `figsize` (forwarded
+            to `pyplot.figure`). `xlabel`/`ylabel` only used for qualitative
+            and diverging plots. A matplotlib axis can be provided via `ax`
+            (object of type `matplotlib.axes._axes.Axes`) which allows to draw
+            multiple HCL spaces on one figure.
 
     Returns:
         No return, visualizes the palette and HCL space either on a new
@@ -138,6 +142,8 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         ValueError: If `c`,`l` is not None and smaller or equal to `0` (must be positive).
         ValueError: If `h` is tuple length `0` or `>2` (must be one or two).
         ValueError: If `h` is not None and not within the range `[-360, 360]`.
+        TypeError: If `s`, `linewidth` are not int, float, or None.
+        ValueError: If `s`, `linewidth` are int/float but negative (`<0`).
     """
 
     from .colorlib import hexcols
@@ -158,6 +164,21 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         raise TypeError("argument `l` must be None, int, or float")
     elif l is not None and l <= 0:
         raise ValueError("argument `l` must be positive if set")
+
+    # Checking line width and marker size (linewidth, s)
+    if not isinstance(linewidth, (type(None), int, float)):
+        raise TypeError("argument `linewidth` must be None or int")
+    elif isinstance(linewidth, (int, float)) and linewidth < 0.:
+        raise ValueError("argument `linewidth` must be >= 0.")
+    elif isinstance(linewidth, (int, float)) and linewidth == 0.:
+        linewidth = None # Setting line width to 0
+
+    if not isinstance(s, (type(None), int, float)):
+        raise TypeError("argument `s` must be None, int or float")
+    elif isinstance(s, (int, float)) and s < 0.:
+        raise ValueError("argument `s` must be >= 0.")
+    elif isinstance(s, (int, float)) and s == 0.:
+        s = None # Setting line width to 0
 
     allowed_types = ["diverging", "sequential", "qualitative"]
     if isinstance(_type, str):
@@ -245,9 +266,9 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
             # Split index into 'continuous segments'.
             idxs = split(idx, np.cumsum(np.concatenate(([1], np.diff(idx))) > 1))
 
-            s = 0
+            seg = 0
             while len(idxs) > 0:
-                if s in idxs[0]:
+                if seg in idxs[0]:
                     if len(idxs) > 1:
                         e = idxs[1][0] - 1
                     else:
@@ -257,7 +278,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
                         e = len(cols) - 1
                     else:
                         e = np.round(np.mean([np.max(idxs[0]), np.min(idxs[0])]))
-                seq  = np.arange(s, e + 1)
+                seq  = np.arange(seg, e + 1)
                 seql = np.asarray([x in idxs[0] for x in seq])
                 io   = split(seq, seql)
 
@@ -274,7 +295,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
 
                 # Remove first entry from list idxs
                 del idxs[0]
-                s = e + 1 # Next segment start
+                seg = e + 1 # Next segment start
 
     # Getting maximum chroma
     if c is not None:
@@ -370,12 +391,12 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
                     np.ceil(np.max(nd[2]) / 2.5) * 2.5) # Luminance
 
         # Adding actual palette
-        ax.plot(cols.get("C"), cols.get("L"), "-", color = "black", linewidth = 1,
-                zorder = 3)
-
-        s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
-        ax.scatter(cols.get("C"), cols.get("L"), edgecolor = "white", s = s,
-                linewidth = 2, color = cols.colors(), zorder = 3)
+        if linewidth is not None:
+            ax.plot(cols.get("C"), cols.get("L"), "-", color = "black",
+                    linewidth = linewidth, zorder = 3)
+        if s is not None:
+            ax.scatter(cols.get("C"), cols.get("L"), edgecolor = "white", s = s,
+                    linewidth = 2, color = cols.colors(), zorder = 3)
 
         # Plot labels
         # TODO(R): In R, the colors where C > 0 and L < 1 is TRUE are set to NA,
@@ -500,15 +521,16 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         ax.set_xticks(xtick)
         ax.set_xticklabels([int(t) for t in np.abs(xtick)])
 
-        # Adding actual palette
+        # Adding actual palette if needed
         C  = cols.get("C")
         il = np.arange(len(cols) / 2, dtype = np.int16)
         C[il] = -1 * C[il]
-        ax.plot(C, cols.get("L"), "-", color = "black", linewidth = 1, zorder = 3)
-
-        s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
-        ax.scatter(C, cols.get("L"), edgecolor = "white", s = s,
-                linewidth = 2, color = cols.colors(), zorder = 3)
+        if linewidth is not None:
+            ax.plot(C, cols.get("L"), "-", color = "black",
+                    linewidth = linewidth, zorder = 3)
+        if s is not None:
+            ax.scatter(C, cols.get("L"), edgecolor = "white", s = s,
+                       linewidth = 2, color = cols.colors(), zorder = 3)
 
         # Specifying title
         if "title" in kwargs.keys():
@@ -577,13 +599,14 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True, **kwargs
         ax.set_ylim(-maxchroma * 1.1, +maxchroma * 1.1)
         ax.set_aspect("equal")
 
-        # Adding actual palette
+        # Adding actual palette if needed
         cols_x, cols_y = HC_to_xy(cols.get("H"), cols.get("C"))
-        ax.plot(cols_x, cols_y, "-", color = "black", linewidth = 1, zorder = 3)
-
-        s = 150 if not "s" in kwargs.keys() else float(kwargs["s"])
-        ax.scatter(cols_x, cols_y, edgecolor = "white", s = s,
-                linewidth = 2, color = cols.colors(), zorder = 3)
+        if linewidth is not None:
+            ax.plot(cols_x, cols_y, "-", color = "black",
+                    linewidth = linewidth, zorder = 3)
+        if s is not None:
+            ax.scatter(cols_x, cols_y, edgecolor = "white", s = s,
+                    linewidth = 2, color = cols.colors(), zorder = 3)
 
         # Adding outer circle
         cx, cy = HC_to_xy(np.linspace(0, 360, 361), np.repeat(maxchroma, 361))
