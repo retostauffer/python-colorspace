@@ -254,25 +254,52 @@ Colors can be transformed from and to (mostly all) color spaces using the
 ## Matplotlib color maps
 
 In addition many objects provided by the *colorspace* package allow to convert a
-series of colors (color palette) into a
-`matplotlib.colors.LinearSegmentedColormap`
-'cmap' used by matplotlib. As an example using the object `x` from above:
+series of colors (color palette) into a matplotlib "cmap"
+(`matplotlib.colors.LinearSegmentedColormap`)
+As an example using the object `x` from above:
 
 ```{python}
 #| echo: true
-#| layout-ncol: 1
 
 from colorspace import palette
 cmap = palette(x, "custom cmap palette").cmap()
-print(cmap.N)
+cmap.N # Number of colors the cmap is based on
+```
+
+```{python}
+#| layout-ncol: 1
 cmap
 ```
 
-
-
 Please note that matplotlib performs linear interpolation in the sRGB color
 space between the colors specified. This allows us to draw more than 3 colors
-from the color map above. However, this may result in skewed color gradients!
+from the color map above. However, this may result in skewed color gradients
+a shown in the example below.
+
+Two cmaps are defined (`cmap4`, `cmap`) where the first one is based on
+solely $4$ colors, the latter on $101$ colors (default) based on the same
+sequential palette. From both cmaps, $50$ equally distanced colors are drawn
+resulting in the following two sets of colors:
+
+
+```{python}
+from numpy import arange
+from colorspace import sequential_hcl, specplot
+from colorspace.colorlib import sRGB
+
+cmap4  = sequential_hcl(5).cmap(4) # Cmap based on only 4 colors
+cmap   = sequential_hcl(5).cmap()  # Cmap based on only 101 colors (default)
+
+seq     = arange(0.0, 1.0, 0.02) # Sequence from 0 to 1 by 0.02 (length 50)
+coords4 = cmap4(seq).transpose() # sRGB coordinates from cmap4
+coords  = cmap(seq).transpose()  # sRGB coordinates from cmap
+
+# Convert via sRGB to hex colors
+cols4   = sRGB(R = coords4[0], G = coords4[1], B = coords4[2]).colors()
+cols    = sRGB(R = coords[0],  G = coords[1],  B = coords[2]).colors()
+
+specplot(cols4, cols);
+```
 
 The better way to go is to define/design your custom palette in the
 HCL color space using [`qualitative_hcl`](/man/colorspace.palettes.qualitative_hcl.qmd),

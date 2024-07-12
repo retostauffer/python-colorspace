@@ -26,6 +26,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      # Installing required packages for conduting the
+      # tests and test coverage
       - name: Install Required Packages
         run: |
           python -m pip install --upgrade pip
@@ -36,44 +38,46 @@ jobs:
           pip install matplotlib
           pip install numpy
           pip install -e .
+
+      # Run pytest coverage, write output folder 'htmlcov'
       - name: Coverage
         run: |
           python setup.py install
           pytest --cov=src/colorspace --cov-report html:htmlcov
 
+      # Creating coverage badge (SVG; generated 'locally')
       - name: Coverage Badge
         uses: tj-actions/coverage-badge-py@v2
 
+      # Verify changed file (badge update)
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v17
         id: verify-changed-files
         with:
           files: coverage.svg
 
-      - name: Commit files
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add coverage.svg
-          git commit -m "Updated coverage.svg"
-
-      - name: Push changes
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.github_token }}
-          branch: ${{ github.ref }}
-
+      # Configuring git user, checking out gh-pages branch
+      # which (must/has been) created by the quartodoc.yml workflow.
       - name: Configure Git user
         run: |
           git config --global user.name 'Reto Stauffer'
           git config --global user.email 'reto.stauffer@uibk.ac.at'
-
-      - name: Commit coverage report to gh-pages
-        run: |
           git fetch origin gh-pages
           git checkout gh-pages
+
+      - name: Commit files
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          git add coverage.svg
+          git commit -m "Updated coverage.svg"
+
+      # Adding coverage (htmlcov folder) and badge to gh-pages;
+      # deploy updated gh-pages branch.
+      - name: Commit coverage to gh-pages
+        run: |
+          # Badge
+          git add coverage.svg
+          # Coverage output
           mkdir -p coverage
           cp -r htmlcov/* coverage/
           git add coverage/
@@ -81,4 +85,36 @@ jobs:
           git push origin gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      #- name: Commit files
+      #  if: steps.verify-changed-files.outputs.files_changed == 'true'
+      #  run: |
+      #    git config --local user.email "github-actions[bot]@users.noreply.github.com"
+      #    git config --local user.name "github-actions[bot]"
+      #    git add coverage.svg
+      #    git commit -m "Updated coverage.svg"
+
+      #- name: Push changes
+      #  if: steps.verify-changed-files.outputs.files_changed == 'true'
+      #  uses: ad-m/github-push-action@master
+      #  with:
+      #    github_token: ${{ secrets.github_token }}
+      #    branch: ${{ github.ref }}
+
+      #- name: Configure Git user
+      #  run: |
+      #    git config --global user.name 'Reto Stauffer'
+      #    git config --global user.email 'reto.stauffer@uibk.ac.at'
+
+      #- name: Commit coverage report to gh-pages
+      #  run: |
+      #    git fetch origin gh-pages
+      #    git checkout gh-pages
+      #    mkdir -p coverage
+      #    cp -r htmlcov/* coverage/
+      #    git add coverage/
+      #    git commit -m "Update coverage report"
+      #    git push origin gh-pages
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
