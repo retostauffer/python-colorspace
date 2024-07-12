@@ -542,13 +542,13 @@ div.csl-indent {
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#human-color-vision-and-the-hcl-color-model" id="toc-human-color-vision-and-the-hcl-color-model" class="nav-link" data-scroll-target="#human-color-vision-and-the-hcl-color-model">Human color vision and the HCL color model</a></li>
-  <li><a href="#illustration-of-basic-colorspace-functionality" id="toc-illustration-of-basic-colorspace-functionality" class="nav-link" data-scroll-target="#illustration-of-basic-colorspace-functionality">Illustration of basic <em>colorspace</em> functionality</a></li>
+  <li><a href="#illustration-of-basic-colorspace-functionality" id="toc-illustration-of-basic-colorspace-functionality" class="nav-link" data-scroll-target="#illustration-of-basic-colorspace-functionality">Illustration of basic colorspace functionality</a></li>
   <li><a href="#color-library" id="toc-color-library" class="nav-link" data-scroll-target="#color-library">Color library</a></li>
   <li><a href="#matplotlib-color-maps" id="toc-matplotlib-color-maps" class="nav-link" data-scroll-target="#matplotlib-color-maps">Matplotlib color maps</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code> and quarto <code>1.5.54</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.54</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -619,23 +619,15 @@ div.csl-indent {
 <li>Green/red contrasts (helpful for assessing the ripeness of fruit).</li>
 </ol>
 <p>See <span class="citation" data-cites="color:Kaiser+Boynton:1996">Kaiser and Boynton (<a href="#ref-color:Kaiser+Boynton:1996" role="doc-biblioref">1996</a>)</span>, <span class="citation" data-cites="color:Knoblauch:2002">Knoblauch (<a href="#ref-color:Knoblauch:2002" role="doc-biblioref">2002</a>)</span>, <span class="citation" data-cites="color:Ihaka:2003">Ihaka (<a href="#ref-color:Ihaka:2003" role="doc-biblioref">2003</a>)</span>, <span class="citation" data-cites="color:dichromat">Lumley (<a href="#ref-color:dichromat" role="doc-biblioref">2013</a>)</span> and/or <span class="citation" data-cites="color:Zeileis+Hornik+Murrell:2007">Zeileis, Hornik, and Murrell (<a href="#ref-color:Zeileis+Hornik+Murrell:2007" role="doc-biblioref">2007</a>)</span> for more details and references. Thus, colors can be described using a 3-dimensional space:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../images/human-axes.svg" class="img-fluid figure-img"></p>
-<figcaption>Representation of the three axis of human color vision.</figcaption>
-</figure>
-</div>
-<p>However, for describing colors in such a space, it is more natural for humans to employ polar coordinates in the color plane (yellow/blue vs.&nbsp;green/red, visualized by the dashed circle above) plus a third light/dark axis. Hence, color models that attempt to capture these perceptual axes are also called perceptually-based color spaces. As already argued above, the HCL model captures these dimensions very well, calling them: hue, chroma, and luminance.</p>
-<p>The corresponding sRGB gamut, i.e., the HCL colors that can also be represented in sRGB, is visualized in the animation below <span class="citation" data-cites="color:Horvath+Lipka:2016">(<a href="#ref-color:Horvath+Lipka:2016" role="doc-biblioref">Horvath and Lipka 2016</a>)</span>.</p>
-<ul>
-<li><a href="https://upload.wikimedia.org/wikipedia/commons/transcoded/8/8d/SRGB_gamut_within_CIELCHuv_color_space_mesh.webm/SRGB_gamut_within_CIELCHuv_color_space_mesh.webm.480p.vp9.webm">Link to video (wikimedia.org)</a></li>
-</ul>
+<p><img src="../images/human-axes.svg" class="img-fluid"></p>
+<p>However, for describing colors in such a space, it is more natural for humans to employ polar coordinates in the color plane (yellow/blue vs.&nbsp;green/red, visualized by the dashed circle above) plus a third light/dark axis. Hence, color models that attempt to capture these perceptual axes are also called perceptually-based color spaces. As already argued above, the HCL model captures these dimensions very well, calling them: hue, chroma, and luminance. The corresponding sRGB gamut, i.e., the HCL colors that can also be represented in sRGB, is visualized in the animation below <span class="citation" data-cites="color:Horvath+Lipka:2016">(<a href="#ref-color:Horvath+Lipka:2016" role="doc-biblioref">Horvath and Lipka 2016</a>)</span>.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/SRGB_gamut_within_CIELCHuv_color_space_mesh.webm/512px--SRGB_gamut_within_CIELCHuv_color_space_mesh.webm.jpg" class="img-fluid"></p>
 <p>The shape of the HCL space is a distorted double cone which is seen best by looking at vertical slices, i.e., chroma-luminance planes for given hues. For example, the left panel below depicts the chroma-luminance plane for a certain blue (hue = 255). Along with luminance the colors change from dark to light. With increasing chroma the colors become more colorful, where the highest chroma is possible for intermediate luminance.</p>
 <p>As some colors are relatively dark (e.g., blue and red assume their maximum chroma for relatively low luminances) while others are relatively light (e.g., yellow and green), horizontal slices of hue-chroma planes for given hue have somewhat irregular shapes. The right panel below shows such a hue-chroma plane for moderately light colors (luminance = 70). At that luminance, green and orange can become much more colorful compared to blue or red.</p>
 <div>
 
 </div>
-<div id="1fed4209" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
+<div id="b5af6f20" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="color_spaces_files/figure-html/cell-2-output-1.png" class="img-fluid" width="858"></p>
@@ -644,14 +636,14 @@ div.csl-indent {
 </div>
 </section>
 <section id="illustration-of-basic-colorspace-functionality" class="level2">
-<h2 class="anchored" data-anchor-id="illustration-of-basic-colorspace-functionality">Illustration of basic <em>colorspace</em> functionality</h2>
-<p>As an example a vector of colors x can be specified in the HCL (or polar LUV) model:</p>
+<h2 class="anchored" data-anchor-id="illustration-of-basic-colorspace-functionality">Illustration of basic colorspace functionality</h2>
+<p>As an example an object containing a series of colors can be specified in the HCL (i.e., <a href="../man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a>) color model:</p>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">120</span>, <span class="dv">240</span>], C <span class="op">=</span> [<span class="fl">50.</span>] <span class="op">*</span> <span class="dv">3</span>, L <span class="op">=</span> [<span class="fl">70.</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="bedc5c16" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="46635f94" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="2">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>polarLUV color object (3 colors)
            H       C       L
   1:    0.00   50.00   70.00
@@ -660,12 +652,21 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The resulting three colors are pastel red (Hue = 0), green (Hue = 120), and blue (Hue = 240) with moderate chroma and luminance. For display in other systems an sRGB representation might be needed:</p>
+<div id="86d7422e" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="3">
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E495A5">#E495A5</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#86B875">#86B875</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#7DB0DD">#7DB0DD</li>
+</ul>
+</div>
+</div>
+<p>The resulting three colors are pastel red (Hue = 0), green (Hue = 120), and blue (Hue = 240) with moderate chroma and luminance as shown above. For display in other systems an sRGB representation might be needed. Objects based on the internal <a href="../man/colorspace.colorlib.colorlib.html"><code>colorlib</code></a> can easily be transformed from one color space to another (see <a href="#overview">Overview</a>) using the <code>.to()</code> method.</p>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)    <span class="co"># Convert to sRGB coordinates</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="c30c8609" class="cell quarto-layout-panel" data-execution_count="3" data-layout-ncol="1">
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a6e6ac7d" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="4">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>sRGB color object (3 colors)
            R       G       B
   1:    0.89    0.59    0.65
@@ -674,27 +675,33 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The displayed coordinates can also be extracted as numeric matrices by the calling the <code>.get()</code> method on a <code>colorobject</code>. As an example we convert the three colors to the <a href="../man/colorspace.colorlib.HSV.html"><code>HSV</code></a> color space and extract the saturation coordinate only by calling <a href="../man/colorspace.colorlib.HSV.get.html"><code>x.get("S")</code></a>.</p>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HSV"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.get(<span class="st">"S"</span>))     <span class="co"># Saturation dimension only</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="bcd441ac" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<p>The displayed coordinates can also be extracted as numeric numpy arrays the calling the <code>.get()</code> method on a <code>colorobject</code>. As an example we convert the three colors to the <a href="../man/colorspace.colorlib.HSV.html"><code>HSV</code></a> color space and extract the saturation coordinate only by calling <a href="../man/colorspace.colorlib.HSV.get.html"><code>x.get("S")</code></a>.</p>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from sRGB to HSV</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HSV"</span>) <span class="co"># Convert from sRGB to HSV</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="97b83aa6" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="5">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>HSV color object (3 colors)
            H       S       V
   1:  348.07    0.34    0.89
       104.61    0.36    0.72
-      208.07    0.43    0.87
-[0.34460077 0.36458245 0.4341857 ]</code></pre>
+      208.07    0.43    0.87</code></pre>
 </div>
+</div>
+</div>
+<div id="233c1290" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting saturation dimension</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x.get(<span class="st">"S"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>array([0.34460077, 0.36458245, 0.4341857 ])</code></pre>
 </div>
 </div>
 <p>For display in many systems hex color codes based on the sRGB coordinates can be created:</p>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.colors())     <span class="co"># Automatically converts to hex</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="40b0b1b7" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x.colors()   <span class="co"># Automatically converts to hex colors (list of str)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="dfdb542a" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="7">
 <div class="quarto-layout-row">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>['#E495A5', '#86B875', '#7DB0DD']</code></pre>
 </div>
 </div>
@@ -713,11 +720,11 @@ div.csl-indent {
 <section id="matplotlib-color-maps" class="level2">
 <h2 class="anchored" data-anchor-id="matplotlib-color-maps">Matplotlib color maps</h2>
 <p>In addition many objects provided by the <em>colorspace</em> package allow to convert a series of colors (color palette) into a <code>matplotlib.colors.LinearSegmentedColormap</code> ‘cmap’ used by matplotlib. As an example using the object <code>x</code> from above:</p>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> palette(x, <span class="st">"custom cmap palette"</span>).cmap()</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="3c8c1ade" class="cell quarto-layout-panel" data-execution_count="6" data-layout-ncol="1">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> palette(x, <span class="st">"custom cmap palette"</span>).cmap()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3bdd6503" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="8">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>3</code></pre>
@@ -732,12 +739,12 @@ div.csl-indent {
 <p>Please note that matplotlib performs linear interpolation in the sRGB color space between the colors specified. This allows us to draw more than 3 colors from the color map above. However, this may result in skewed color gradients!</p>
 <p>The better way to go is to define/design your custom palette in the HCL color space using <a href="../man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a>, <a href="../man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a>, <a href="../man/colorspace.palettes.divergingx_hcl.html"><code>divergingx_hcl</code></a>, and <a href="../man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a> among others (see :ref:<code>HCL-Based Color Palettes &lt;article-hcl_palettes&gt;</code> for details).</p>
 <p>These classes define color palettes via functions in the HCL color space and allow to draw large numbers of colors along the function space. The <code>.cmap()</code> will still return a <code>matplotlib.colors.LinearSegmentedColormap</code> but (by default) based on <code>n = 101</code> distinct colors which will require less linear interpolation.</p>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pal  <span class="op">=</span> diverging_hcl(<span class="st">"Green-Orange"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> pal.cmap()</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="46462943" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pal  <span class="op">=</span> diverging_hcl(<span class="st">"Green-Orange"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> pal.cmap()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d13c328c" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="9">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>101</code></pre>
@@ -750,45 +757,45 @@ div.csl-indent {
 </div>
 </div>
 <p>A simple example using <code>matplotlib.pyplot.contourf</code> with a custom HCL based color palette (<code>sequential_hcl("Rocket").cmap()</code>):</p>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> ma</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> ticker, cm</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom color map</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> sequential_hcl(<span class="st">"Rocket"</span>).cmap()</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">3.0</span>, N)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.0</span>, <span class="fl">2.0</span>, N)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># A low hump with a spike coming out.</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Needs to have z/colour axis on a log scale so we see both hump and spike.</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># linear scale only shows the spike.</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>Z1 <span class="op">=</span> np.exp(<span class="op">-</span>X<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> Y<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>Z2 <span class="op">=</span> np.exp(<span class="op">-</span>(X <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> (Y <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> Z1 <span class="op">+</span> <span class="dv">50</span> <span class="op">*</span> Z2</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Put in some negative values (lower left corner) to cause trouble with logs:</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>z[:<span class="dv">5</span>, :<span class="dv">5</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co"># The following is not strictly essential, but it will eliminate</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co"># a warning.  Comment it out to see the warning.</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> ma.masked_where(z <span class="op">&lt;=</span> <span class="dv">0</span>, z)</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatic selection of levels works; setting the</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co"># log locator tells contourf to use a log scale:</span></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Matlplotlib.contourf decides to draw 9 levels</span></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> ax.contourf(X, Y, z, locator<span class="op">=</span>ticker.LogLocator(), cmap<span class="op">=</span>cmap)</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="77ff35b3" class="cell quarto-layout-panel" data-execution_count="8" data-layout-ncol="1">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> ma</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> ticker, cm</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom color map</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> sequential_hcl(<span class="st">"Rocket"</span>).cmap()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">3.0</span>, N)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.0</span>, <span class="fl">2.0</span>, N)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># A low hump with a spike coming out.</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Needs to have z/colour axis on a log scale so we see both hump and spike.</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># linear scale only shows the spike.</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>Z1 <span class="op">=</span> np.exp(<span class="op">-</span>X<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> Y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>Z2 <span class="op">=</span> np.exp(<span class="op">-</span>(X <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> (Y <span class="op">*</span> <span class="dv">10</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> Z1 <span class="op">+</span> <span class="dv">50</span> <span class="op">*</span> Z2</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Put in some negative values (lower left corner) to cause trouble with logs:</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>z[:<span class="dv">5</span>, :<span class="dv">5</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co"># The following is not strictly essential, but it will eliminate</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co"># a warning.  Comment it out to see the warning.</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> ma.masked_where(z <span class="op">&lt;=</span> <span class="dv">0</span>, z)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatic selection of levels works; setting the</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co"># log locator tells contourf to use a log scale:</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Matlplotlib.contourf decides to draw 9 levels</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> ax.contourf(X, Y, z, locator<span class="op">=</span>ticker.LogLocator(), cmap<span class="op">=</span>cmap)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="af37a5e4" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="10">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
-<p><img src="color_spaces_files/figure-html/cell-9-output-1.png" class="img-fluid" width="586"></p>
+<p><img src="color_spaces_files/figure-html/cell-11-output-1.png" class="img-fluid" width="586"></p>
 </div>
 </div>
 </div>
