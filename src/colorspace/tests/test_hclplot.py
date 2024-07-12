@@ -58,6 +58,18 @@ def test_hclplot_wrong_usage():
     # providing 'ax' which is not a matplotlib axis
     raises(TypeError, hclplot, x = cols, ax = True)
 
+    # linewidth and s (scatter point size) can be provided. If probided,
+    # must be None, or int/float >= 0.
+    raises(TypeError, hclplot, x = cols, s = "foo")
+    raises(TypeError, hclplot, x = cols, s = [1, 2, 3])
+    raises(ValueError, hclplot, x = cols, s = -0.00001)
+    raises(ValueError, hclplot, x = cols, s = -1)
+
+    raises(TypeError, hclplot, x = cols, linewidth = "foo")
+    raises(TypeError, hclplot, x = cols, linewidth = [1, 2, 3])
+    raises(ValueError, hclplot, x = cols, linewidth = -0.00001)
+    raises(ValueError, hclplot, x = cols, linewidth = -1)
+
 
 # -------------------------------------------------------------------
 # Conversion

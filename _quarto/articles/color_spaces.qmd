@@ -111,7 +111,7 @@ See @color:Kaiser+Boynton:1996, @color:Knoblauch:2002, @color:Ihaka:2003, @color
 and/or @color:Zeileis+Hornik+Murrell:2007 for more details and references.
 Thus, colors can be described using a 3-dimensional space:
 
-![Representation of the three axis of human color vision.](../images/human-axes.svg)
+![](/images/human-axes.svg)
 
 However, for describing colors in such a space, it is more natural for humans
 to employ polar coordinates in the color plane (yellow/blue vs. green/red,
@@ -119,11 +119,10 @@ visualized by the dashed circle above) plus a third light/dark axis. Hence,
 color models that attempt to capture these perceptual axes are also called
 perceptually-based color spaces. As already argued above, the HCL model
 captures these dimensions very well, calling them: hue, chroma, and luminance.
-
 The corresponding sRGB gamut, i.e., the HCL colors that can also be represented
 in sRGB, is visualized in the animation below [@color:Horvath+Lipka:2016].
 
-* [Link to video (wikimedia.org)](https://upload.wikimedia.org/wikipedia/commons/transcoded/8/8d/SRGB_gamut_within_CIELCHuv_color_space_mesh.webm/SRGB_gamut_within_CIELCHuv_color_space_mesh.webm.480p.vp9.webm)
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/SRGB_gamut_within_CIELCHuv_color_space_mesh.webm/512px--SRGB_gamut_within_CIELCHuv_color_space_mesh.webm.jpg)
 
 The shape of the HCL space is a distorted double cone which is seen best by
 looking at vertical slices, i.e., chroma-luminance planes for given hues. For
@@ -148,16 +147,17 @@ from colorspace import sequential_hcl, qualitative_hcl, hclplot
 import matplotlib.pyplot as plt
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
-hclplot(sequential_hcl(h = 255), h = 255, ax = ax1)
-hclplot(qualitative_hcl(l = 75), l = 75,  ax = ax2)
+hclplot(sequential_hcl(h = 255), h = 255, ax = ax1, s = None, linewidth = None)
+hclplot(qualitative_hcl(l = 70), l = 70,  ax = ax2, s = None, linewidth = None)
 plt.show()
 ```
 
 
-## Illustration of basic *colorspace* functionality
+## Illustration of basic colorspace functionality
 
-As an example a vector of colors x can be specified in the HCL (or polar LUV)
-model:
+As an example an object containing a series of colors can be specified
+in the HCL (i.e., [`polarLUV`](/man/colorspace.colorlib.polarLUV.qmd))
+color model:
 
 ```{python}
 #| echo: true
@@ -165,35 +165,51 @@ model:
 
 from colorspace.colorlib import HCL
 x = HCL(H = [0, 120, 240], C = [50.] * 3, L = [70.] * 3)
-print(x)
+x
+```
+
+```{python}
+#| echo: false
+
+from colorspace.colorlib import hexcols
+hexcols(x.colors())
 ```
 
 The resulting three colors are pastel red (Hue = 0), green (Hue = 120), and
-blue (Hue = 240) with moderate chroma and luminance. For display in other
-systems an sRGB representation might be needed:
+blue (Hue = 240) with moderate chroma and luminance as shown above. For display
+in other systems an sRGB representation might be needed. 
+Objects based on the internal [`colorlib`](/man/colorspace.colorlib.colorlib.qmd)
+can easily be transformed from one color space to another (see
+[Overview](#overview)) using the `.to()` method.
 
 ```{python}
 #| echo: true
 #| layout-ncol: 1
 
 x.to("sRGB")    # Convert to sRGB coordinates
-print(x)
+x
 ```
 
-The displayed coordinates can also be extracted as numeric matrices by
-the calling the `.get()` method on a `colorobject`.
-As an example we convert the three colors to the
-[`HSV`](/man/colorspace.colorlib.HSV.qmd) color space
-and extract the saturation coordinate only by calling [`x.get("S")`](/man/colorspace.colorlib.HSV.get.qmd).
+
+The displayed coordinates can also be extracted as numeric numpy arrays the
+calling the `.get()` method on a `colorobject`. As an example we convert the
+three colors to the [`HSV`](/man/colorspace.colorlib.HSV.qmd) color space
+and extract the saturation coordinate only by calling
+[`x.get("S")`](/man/colorspace.colorlib.HSV.get.qmd).
 
 
 ```{python}
 #| echo: true
 #| layout-ncol: 1
 
-x.to("HSV")
-print(x)
-print(x.get("S"))     # Saturation dimension only
+# Convert from sRGB to HSV
+x.to("HSV") # Convert from sRGB to HSV
+x
+```
+
+```{python}
+# Extracting saturation dimension
+x.get("S")
 ```
 
 For display in many systems hex color codes based on the
@@ -203,7 +219,7 @@ sRGB coordinates can be created:
 #| echo: true
 #| layout-ncol: 1
 
-print(x.colors())     # Automatically converts to hex
+x.colors()   # Automatically converts to hex colors (list of str)
 ```
 
 

@@ -134,6 +134,9 @@ class palette:
             **kwargs: forwarded to :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`.
                 Note that `show_names` will always be set to `False`.
 
+        Return:
+        Returns what :py:func:`colorspace.swatchplot.swatchplot` returns.
+
         Example:
 
             >>> from colorspace import palette
@@ -146,7 +149,57 @@ class palette:
         from .swatchplot import swatchplot
         if "show_names" in kwargs.keys():
             del kwargs["show_names"]
-        swatchplot(pals = self.colors(), show_names = False, **kwargs)
+        return swatchplot(pals = self.colors(), show_names = False, **kwargs)
+
+    def specplot(self, *args, **kwargs):
+        """Color Spectrum Plot
+
+        Interfacing the :py:func:`colorspace.specplot.specplot` function.
+        Plotting the spectrum of the current color palette.
+
+        Args:
+            *args: Forwarded to :py:func:`colorspace.specplot.specplot`.
+            **kwargs: Forwarded to :py:func:`colorspace.specplot.specplot`.
+
+        Return:
+        Returns what :py:func:`colorspace.specplot.specplot` returns.
+
+        Example:
+
+            >>> from colorspace import palette, diverging_hcl
+            >>> pal = palette(diverging_hcl().colors(7))
+            >>> pal.specplot()
+            >>> pal.specplot(rgb = False)
+        """
+
+        from .specplot import specplot
+        return specplot(self.colors(), *args, **kwargs)
+
+
+    def hclplot(self, **kwargs):
+        """Palette Plot in HCL Space
+
+        Internally calls :py:func:`hclplot <colorspace.hclplot.hclplot>`,
+        additional arguments to this main function can be forwarded via the
+        `**kwargs` argument.
+
+        Args:
+            **kwargs: Additional named arguments forwarded to
+                :py:func:`hclplot <colorspace.hclplot.hclplot>`.
+
+        Return:
+        Returns what :py:func:`colorspace.hclplot.hclplot` returns.
+
+        Example:
+
+            >>> from colorspace import diverging_hcl
+            >>> pal = palette(diverging_hcl().colors(7))
+            >>> pal.hclplot()
+        """
+
+        from .hclplot import hclplot
+        return hclplot(x = self.colors(), **kwargs)
+
 
     def cmap(self, n = None, rev = False):
         """Get matplotlib Compatible Color Map
@@ -758,7 +811,7 @@ class hclpalettes:
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 class hclpalette:
-    """HCL Palettes Superclass
+    """HCL Palette Superclass
 
     Hy, I am the base class.  Is extended by the different HCL based color
     palettes such as the classes :py:class:`diverging_hcl`, :py:class:`qualitative_hcl`,
@@ -1408,7 +1461,7 @@ class qualitative_hcl(hclpalette):
 
         from numpy import repeat, linspace, asarray
         from numpy import vstack, transpose
-        from . import colorlib
+        from .colorlib import HCL
 
         alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
@@ -1429,7 +1482,6 @@ class qualitative_hcl(hclpalette):
         H = linspace(h1, h2, n)
 
         # Create new HCL color object
-        from .colorlib import HCL
         HCL = HCL(H, C, L, alpha)
 
         # If kwargs have a key "colorobject" return HCL colorobject
@@ -1755,7 +1807,7 @@ class diverging_hcl(hclpalette):
         from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
         from numpy import asarray, ndarray, ndenumerate, concatenate, flip
         from numpy import vstack, transpose, repeat
-        from . import colorlib
+        from .colorlib import HCL
 
         alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
@@ -1787,7 +1839,6 @@ class diverging_hcl(hclpalette):
         if n % 2 == 1: C = delete(C, int(ceil(n / 2.)))
 
         # Create new HCL color object
-        from .colorlib import HCL
         HCL = HCL(H, C, L, alpha)
 
         # If kwargs have a key "colorobject" return HCL colorobject
@@ -2069,7 +2120,7 @@ class divergingx_hcl(hclpalette):
         from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
         from numpy import asarray, ndarray, ndenumerate, concatenate, flip
         from numpy import vstack, transpose
-        from . import colorlib
+        from .colorlib import HCL
 
         alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
@@ -2121,7 +2172,6 @@ class divergingx_hcl(hclpalette):
         L = concatenate((La, Lb[::-1]))
 
         # Create new HCL color object
-        from .colorlib import HCL
         HCL = HCL(H, C, L, alpha)
 
         # If kwargs have a key "colorobject" return HCL colorobject
@@ -2340,7 +2390,7 @@ class sequential_hcl(hclpalette):
 
         from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
         from numpy import vstack, transpose, where
-        from . import colorlib
+        from .colorlib import HCL
 
         alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
@@ -2366,7 +2416,6 @@ class sequential_hcl(hclpalette):
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
 
         # Create new HCL color object
-        from .colorlib import HCL
         HCL = HCL(H, C, L)
 
         # If kwargs have a key "colorobject" return HCL colorobject
