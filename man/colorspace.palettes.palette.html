@@ -586,16 +586,22 @@ positive int, number of colors drawn from an <code>hclpalette</code> object. Onl
 <h3 class="anchored" data-anchor-id="methods">Methods</h3>
 <dl class="pyp-list method-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code><a href="../man/colorspace.palettes.palette.cmap.html">palette.cmap(n=None, rev=False)</a></code>
+<code><a href="../man/colorspace.palettes.palette.cmap.html">palette.cmap(continuous=True)</a></code>
 </dt>
 <dd>
-Get matplotlib Compatible Color Map
+Create Matplotlib Compatible Color Map
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code><a href="../man/colorspace.palettes.palette.colors.html">palette.colors(*args, **kwargs)</a></code>
 </dt>
 <dd>
 Get Palette Colors
+</dd>
+<dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code><a href="../man/colorspace.palettes.palette.hclplot.html">palette.hclplot(**kwargs)</a></code>
+</dt>
+<dd>
+Palette Plot in HCL Space
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code><a href="../man/colorspace.palettes.palette.name.html">palette.name()</a></code>
@@ -610,6 +616,12 @@ Get Palette Name
 Rename Custom Palette
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code><a href="../man/colorspace.palettes.palette.specplot.html">palette.specplot(*args, **kwargs)</a></code>
+</dt>
+<dd>
+Color Spectrum Plot
+</dd>
+<dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code><a href="../man/colorspace.palettes.palette.swatchplot.html">palette.swatchplot(**kwargs)</a></code>
 </dt>
 <dd>
@@ -619,7 +631,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="0cb2a9a1" class="cell" data-execution_count="1">
+<div id="798dc2be" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.palettes <span class="im">import</span> palette</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#070707"</span>, <span class="st">"#690056"</span>, <span class="st">"#C30E62"</span>, <span class="st">"#ED8353"</span>, <span class="st">"#FDF5EB"</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>custom_pal <span class="op">=</span> palette(colors, <span class="st">"test palette"</span>)</span>
@@ -630,7 +642,7 @@ Palette Swatch Plot
        Number of colors: 5</code></pre>
 </div>
 </div>
-<div id="7b2088c6" class="cell" data-execution_count="2">
+<div id="3105063b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating custom palettes based on different input</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># types (str, list, colorobject)</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
@@ -650,7 +662,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="96713916" class="cell" data-execution_count="3">
+<div id="1da3e318" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pal2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Palette Name: Custom Palette
@@ -659,7 +671,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="34270071" class="cell" data-execution_count="4">
+<div id="49879167" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pal3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Palette Name: Custom Palette #3
@@ -668,7 +680,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="2f320119" class="cell" data-execution_count="5">
+<div id="39dca287" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pal4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Palette Name: Custom Palette #4
@@ -677,7 +689,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="0d572143" class="cell" data-execution_count="6">
+<div id="64d8fe9c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette Swatch Plot</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> swatchplot</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>swatchplot([pal3, pal4], figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">2.0</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

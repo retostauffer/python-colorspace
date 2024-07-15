@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Get matplotlib Compatible Color Map – colorspace</title>
+<title>Create Matplotlib Compatible Color Map – colorspace</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -206,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Get matplotlib Compatible Color Map</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Create Matplotlib Compatible Color Map</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -518,6 +518,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -528,7 +529,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Get matplotlib Compatible Color Map</h1>
+<h1 class="title">Create Matplotlib Compatible Color Map</h1>
 </div>
 
 
@@ -547,46 +548,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Converts the current palette into a <code>matplotlib.colors.LinearSegmentedColormap</code> color map. If input argument <code>n = None</code> the color map will provide the same number of colors as defined for this palette. Can also be set higher to allow matplotlib to interpolate between the colors.</p>
+<p>Converts the current palette into a <code>matplotlib.colors.LinearSegmentedColormap</code> color map based on the colors provided creating this palette object. If <code>continuous = True</code> a series of <code>256</code> unique colors will be created using linear interpolation in the standard RGB color space. If <code>continuous = False</code> the resulting color map is solely based on the number of colors of the palette which yields a non-continuous color map with step-functions in R, G, and B (see Example).</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-python">palette.cmap(n=None, rev=False)</code></pre>
+<pre><code class="language-python">palette.cmap(continuous=True)</code></pre>
 </section>
 <section id="arguments" class="level3">
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
 <dl class="pyp-list param-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.palette.cmap:n">n</code><code class="argument-class">None or int</code>
+<code id="colorspace.palettes.palette.cmap:continuous">continuous</code><code class="argument-class">bool</code>
 </dt>
 <dd>
-<code>None</code> or a positive int which is greater or equal to the number of colors of the palette (check <code>len()</code> of the object).
-</dd>
-<dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.palette.cmap:rev">rev</code><code class="argument-class">bool</code>
-</dt>
-<dd>
-If set to <code>True</code> the color map will be reversed, defaults to False.
+If <code>True</code> (default) the resulting colormap will contain 256 colors, linearely interpolated in between the colors of the palette. If <code>False</code>, only the <code>N</code> colors of the palette are used (see Examples).
 </dd>
 </dl>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="3681051f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, palette</span>
+<div id="2266bb22" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, palette, specplot</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette(pal(<span class="dv">5</span>), name <span class="op">=</span> <span class="st">"Diverging Palette with 5 Colors"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> pal.cmap()</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(cmap))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>cmap2 <span class="op">=</span> pal.cmap(n <span class="op">=</span> <span class="dv">256</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap2.N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;class 'matplotlib.colors.LinearSegmentedColormap'&gt;
-5
-256</code></pre>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Continuous colormap</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>cmap1 <span class="op">=</span> pal.cmap(continuous <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>cmap1.N <span class="co"># Internal number of colors</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>256</code></pre>
 </div>
 </div>
+<div id="dbc6aca8" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-continuous version of the colormap</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cmap2 <span class="op">=</span> pal.cmap(continuous <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cmap2.N <span class="co"># Internal number of colors</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>5</code></pre>
+</div>
+</div>
+<div id="50bee564" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using helper function for demonstration</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.cmap <span class="im">import</span> cmap_to_sRGB</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>specplot(cmap1, rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.palette.cmap_files/figure-html/cell-4-output-1.png" width="647" height="439" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="8954fb37" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>specplot(cmap2, rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="colorspace.palettes.palette.cmap_files/figure-html/cell-5-output-1.png" width="642" height="439" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="raises" class="level3">
+<h3 class="anchored" data-anchor-id="raises">Raises</h3>
+<ul class="python-raises">
+<li>
+<code class="text-warning">TypeError</code>: If <code>continuous</code> is not bool
+</li></ul>
 
 
 </section>

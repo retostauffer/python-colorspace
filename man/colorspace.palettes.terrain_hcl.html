@@ -623,10 +623,10 @@ Additional arguments to overwrite the h/c/l settings. Allowed: <code>h1</code>, 
 <h3 class="anchored" data-anchor-id="methods">Methods</h3>
 <dl class="pyp-list method-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code><a href="../man/colorspace.palettes.terrain_hcl.cmap.html">terrain_hcl.cmap(n=101, name='custom_hcl_cmap')</a></code>
+<code><a href="../man/colorspace.palettes.terrain_hcl.cmap.html">terrain_hcl.cmap(n=256, name='custom_hcl_cmap')</a></code>
 </dt>
 <dd>
-Get matplotlib Compatible Color Map
+Create Matplotlib Compatible Color Map
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code><a href="../man/colorspace.palettes.terrain_hcl.colors.html">terrain_hcl.colors(n=11, fixup=True, alpha=None, **kwargs)</a></code>
@@ -674,7 +674,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="fe631fc6" class="cell" data-execution_count="1">
+<div id="6228cf37" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> terrain_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> terrain_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -691,7 +691,7 @@ Palette Swatch Plot
  '#F1F1F1']</code></pre>
 </div>
 </div>
-<div id="898421aa" class="cell" data-execution_count="2">
+<div id="85133196" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -701,7 +701,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="44a3e6c0" class="cell" data-execution_count="3">
+<div id="07b3e328" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>terrain_hcl()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">

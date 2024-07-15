@@ -561,7 +561,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
-<pre><code class="language-python">hclplot(x, _type=None, h=None, c=None, l=None,<br>        axes=True, **kwargs)</code></pre>
+<pre><code class="language-python">hclplot(x, _type=None, h=None, c=None, l=None,<br>        axes=True, linewidth=1, s=150, **kwargs)</code></pre>
 </section>
 <section id="arguments" class="level3">
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
@@ -582,19 +582,19 @@ Specifying which type of palette should be visualized (<code>"qualitative"</code
 <code id="colorspace.hclplot.hclplot:h">h</code><code class="argument-class">None, int, float</code>
 </dt>
 <dd>
-if int or float, it must be within <code>[-360, 360]</code>
+If int or float, it must be within <code>[-360, 360]</code>
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.hclplot.hclplot:c">c</code><code class="argument-class">None, int, float</code>
 </dt>
 <dd>
-if int or float, it must be positive
+If int or float, it must be positive
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.hclplot.hclplot:l">l</code><code class="argument-class">None, int, float</code>
 </dt>
 <dd>
-if int or float, it must be positive
+If int or float, it must be positive
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.hclplot.hclplot:axes">axes</code><code class="argument-class">bool</code>
@@ -603,10 +603,22 @@ if int or float, it must be positive
 Wheter or not axes should be drawn, defaults to <code>True</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="colorspace.hclplot.hclplot:linewidth">linewidth</code><code class="argument-class">int, float, None</code>
+</dt>
+<dd>
+Line width, if set <code>0</code> or <code>None</code> the line connecting the colors of the palette will be suppressed.
+</dd>
+<dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
+<code id="colorspace.hclplot.hclplot:s">s</code><code class="argument-class">int, float, None</code>
+</dt>
+<dd>
+Marker size, defaults to <code>150</code>. If set <code>0</code> or <code>None</code> the position of the colors of the palette will be suppressed.
+</dd>
+<dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.hclplot.hclplot:**kwargs">**kwargs</code>
 </dt>
 <dd>
-Allowed to overwrite some default settings such as <code>title</code> (str), <code>xlabel</code> (str), <code>ylabel</code> (str), <code>figsize</code> (forwarded to <code>pyplot.figure</code>), <code>s</code> (int, float) to change marker size, defaults to <code>150</code>. <code>xlabel</code>/<code>ylabel</code> only for qualitative and diverging plots. A matplotlib axis can be provided via <code>ax</code> (object of type <code>matplotlib.axes._axes.Axes</code>) which allows to draw multiple HCL spaces on one figure.
+Allowed to overwrite some default settings such as <code>title</code> (str), <code>xlabel</code> (str), <code>ylabel</code> (str), <code>figsize</code> (forwarded to <code>pyplot.figure</code>). <code>xlabel</code>/<code>ylabel</code> only used for qualitative and diverging plots. A matplotlib axis can be provided via <code>ax</code> (object of type <code>matplotlib.axes._axes.Axes</code>) which allows to draw multiple HCL spaces on one figure.
 </dd>
 </dl>
 </section>
@@ -616,7 +628,7 @@ Allowed to overwrite some default settings such as <code>title</code> (str), <co
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="fe058a71" class="cell" data-execution_count="1">
+<div id="a730853c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sequential HCL palette, hclplot with all available options</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, hclplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sequential_hcl(<span class="st">"PurpOr"</span>)(<span class="dv">5</span>)</span>
@@ -633,7 +645,7 @@ Allowed to overwrite some default settings such as <code>title</code> (str), <co
 </div>
 </div>
 </div>
-<div id="24eedfcc" class="cell" data-execution_count="2">
+<div id="c6776666" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple subplots</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, hclplot</span>
@@ -643,7 +655,7 @@ Allowed to overwrite some default settings such as <code>title</code> (str), <co
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>pal2 <span class="op">=</span> sequential_hcl(h <span class="op">=</span> <span class="dv">245</span>, c <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">75</span>, <span class="dv">0</span>], l <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">95</span>], power <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>pal3 <span class="op">=</span> sequential_hcl(h <span class="op">=</span> <span class="dv">245</span>, c <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">75</span>, <span class="dv">0</span>], l <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">95</span>], power <span class="op">=</span> [<span class="fl">0.8</span>, <span class="fl">1.4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4b896629" class="cell" data-execution_count="3">
+<div id="f61dbe65" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal1.show_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class:  sequential_hcl
@@ -659,7 +671,7 @@ p2           1.0
 fixup       True</code></pre>
 </div>
 </div>
-<div id="cc98f129" class="cell" data-execution_count="4">
+<div id="d9a1ca8e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pal2.show_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class:  sequential_hcl
@@ -675,7 +687,7 @@ p2           1.0
 fixup       True</code></pre>
 </div>
 </div>
-<div id="e2e4eb0b" class="cell" data-execution_count="5">
+<div id="525c3304" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pal3.show_settings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class:  sequential_hcl
@@ -691,7 +703,7 @@ p2           1.4
 fixup       True</code></pre>
 </div>
 </div>
-<div id="e3aa48f2" class="cell" data-execution_count="6">
+<div id="223ea7f4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2, ax3) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize <span class="op">=</span> (<span class="dv">12</span>, <span class="dv">4</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hclplot(pal1(<span class="dv">7</span>), ax <span class="op">=</span> ax1)            </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>hclplot(pal2(<span class="dv">7</span>), ax <span class="op">=</span> ax2) </span>
@@ -705,7 +717,7 @@ fixup       True</code></pre>
 </div>
 </div>
 </div>
-<div id="7834675a" class="cell" data-execution_count="7">
+<div id="9d112de3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Another example with two sequential and one</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># diverging palettes with custom settings</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl, hclplot</span>
@@ -727,7 +739,7 @@ fixup       True</code></pre>
 </div>
 </div>
 </div>
-<div id="60eff3a0" class="cell" data-execution_count="8">
+<div id="9b7ff62d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Another example with two sequential and one</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># diverging palettes with custom settings</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl, qualitative_hcl, hclplot</span>
@@ -763,6 +775,10 @@ fixup       True</code></pre>
 <code class="text-warning">ValueError</code>: If <code>h</code> is tuple length <code>0</code> or <code>&amp;gt;2</code> (must be one or two).
 </li><li>
 <code class="text-warning">ValueError</code>: If <code>h</code> is not None and not within the range <code>[-360, 360]</code>.
+</li><li>
+<code class="text-warning">TypeError</code>: If <code>s</code>, <code>linewidth</code> are not int, float, or None.
+</li><li>
+<code class="text-warning">ValueError</code>: If <code>s</code>, <code>linewidth</code> are int/float but negative (<code>&amp;lt;0</code>).
 </li></ul>
 
 

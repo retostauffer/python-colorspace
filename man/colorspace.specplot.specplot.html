@@ -550,6 +550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p>Visualization of color palettes (given as hex codes) in HCL and/or RGB coordinates.</p>
 <p>As the hues for low-chroma colors are not (or poorly) identified, by default a smoothing is applied to the hues (<code>fix = TRUE</code>). Also, to avoid jumps from <code>0</code> to <code>360</code> or vice versa, the hue coordinates are shifted suitably.</p>
+<p>If argument <code>x</code> is a <code>maplotlib.colors.LinearSegmentedColormap</code>, <code>256</code> distinct colors across the color map are drawn and visualized.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -559,10 +560,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
 <dl class="pyp-list param-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.specplot.specplot:x">x</code><code class="argument-class">list</code>
+<code id="colorspace.specplot.specplot:x">x</code><code class="argument-class">list, LinearSegmentedColormap</code>
 </dt>
 <dd>
-list of str (hex colors or standard-names of colors).
+list of str (hex colors or standard-names of colors) or a <code>matplotlib.colors.LinearSegmentedColormap</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.specplot.specplot:y">y</code><code class="argument-class">None or list</code>
@@ -616,7 +617,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="d7b6cfe6" class="cell" data-execution_count="1">
+<div id="9970c76e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl()</span>
@@ -629,7 +630,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="1feaeee4" class="cell" data-execution_count="2">
+<div id="84550af2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show spectrum in standard RGB space</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors(<span class="dv">21</span>), rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -640,7 +641,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="e9e9cda5" class="cell" data-execution_count="3">
+<div id="afcb1966" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduced number of colors.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Show sRGB spectrum, hide HCL spectrum</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and color palette swatch.</span></span>
@@ -659,7 +660,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 <h3 class="anchored" data-anchor-id="raises">Raises</h3>
 <ul class="python-raises">
 <li>
-<code class="text-warning">TypeError</code>: If <code>x</code> is not a list.
+<code class="text-warning">TypeError</code>: If <code>x</code> is not list or <code>matplotlib.colors.LinearSegmentedColormap</code>.
 </li><li>
 <code class="text-warning">TypeError</code>: If <code>y</code> is neither a list nor <code>None</code>.
 </li><li>
