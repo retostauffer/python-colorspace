@@ -7,5 +7,5 @@
 /.quarto/
 /_freeze/
 /_site/
-
-
+*_files/
+*.ipynb

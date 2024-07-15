@@ -49,7 +49,7 @@ with the matplotlib library.
 #| error: true
 # Create LinearSegmentedColormap from diverging_hcl() palette.
 # By default, 256 distinct colors are used across the palette.
-from colorspace import diverging_hcl
+from colorspace import diverging_hcl, specplot
 pal = diverging_hcl()
 cmap1 = pal.cmap()
 cmap1.N
@@ -69,14 +69,14 @@ cmap2.N
 #| warning: true
 #| error: true
 # Plotting HCL and sRGB spectrum for both cmaps
-specplot(cmap1, rgb = True);
+specplot(cmap1, rgb = True, figsize = (8, 6));
 ```
 
 ```{python}
 #| echo: true
 #| warning: true
 #| error: true
-specplot(cmap2, rgb = True);
+specplot(cmap2, rgb = True, figsize = (8, 6));
 ```
 
 

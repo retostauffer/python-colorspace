@@ -35,7 +35,7 @@ of the palette are used (see Examples).</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace import diverging_hcl, palette, specplot
+from colorspace import diverging_hcl, palette #, specplot
 pal = diverging_hcl()
 pal = palette(pal(5), name = "Diverging Palette with 5 Colors")
 # Continuous colormap
@@ -57,15 +57,14 @@ cmap2.N # Internal number of colors
 #| warning: true
 #| error: true
 # Using helper function for demonstration
-from colorspace.cmap import cmap_to_sRGB
-specplot(cmap1, rgb = True);
+specplot(cmap1, rgb = True, figsize = (8, 6));
 ```
 
 ```{python}
 #| echo: true
 #| warning: true
 #| error: true
-specplot(cmap2, rgb = True);
+specplot(cmap2, rgb = True, figsize = (8, 6));
 ```
 
 

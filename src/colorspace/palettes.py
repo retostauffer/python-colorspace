@@ -264,7 +264,7 @@ class palette:
 
         Example:
 
-            >>> from colorspace import diverging_hcl, palette, specplot
+            >>> from colorspace import diverging_hcl, palette #, specplot
             >>> pal = diverging_hcl()
             >>> pal = palette(pal(5), name = "Diverging Palette with 5 Colors")
             >>>
@@ -277,10 +277,9 @@ class palette:
             >>> cmap2.N # Internal number of colors
             >>>
             >>> #: Using helper function for demonstration
-            >>> from colorspace.cmap import cmap_to_sRGB
-            >>> specplot(cmap1, rgb = True);
+            >>> specplot(cmap1, rgb = True, figsize = (8, 6));
             >>> #:
-            >>> specplot(cmap2, rgb = True);
+            >>> specplot(cmap2, rgb = True, figsize = (8, 6));
 
         Raises:
             TypeError: If `continuous` is not bool
@@ -1133,7 +1132,7 @@ class hclpalette:
 
             >>> # Create LinearSegmentedColormap from diverging_hcl() palette.
             >>> # By default, 256 distinct colors are used across the palette.
-            >>> from colorspace import diverging_hcl
+            >>> from colorspace import diverging_hcl, specplot
             >>> pal = diverging_hcl()
             >>> cmap1 = pal.cmap()
             >>> cmap1.N
@@ -1143,9 +1142,9 @@ class hclpalette:
             >>> cmap2.N
             >>>
             >>> #: Plotting HCL and sRGB spectrum for both cmaps
-            >>> specplot(cmap1, rgb = True);
+            >>> specplot(cmap1, rgb = True, figsize = (8, 6));
             >>> #:
-            >>> specplot(cmap2, rgb = True);
+            >>> specplot(cmap2, rgb = True, figsize = (8, 6));
 
         Returns:
             Returns a `LinearSegmentedColormap` (cmap) to be used

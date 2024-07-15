@@ -24,7 +24,7 @@ examples:
 	@echo "********* CREATE (EXAMPLES) QMD FILES *************"
 	rm -rf _examples
 	pyp2qmd examples --package colorspace
-	cd _examples && for file in *.qmd; do quarto render $$file; done
+	cd _examples && for file in *.qmd; do quarto render $$file || exit 99; done
 
 render:
 	@echo "********* RENDERING QUARTO WEBSITE ****************"
