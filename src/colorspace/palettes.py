@@ -231,7 +231,7 @@ class palette:
 
         Example:
 
-            >>> from colorspace import diverging_hcl
+            >>> from colorspace import palette, diverging_hcl
             >>> pal = palette(diverging_hcl().colors(7))
             >>> pal.hclplot()
         """

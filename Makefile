@@ -26,9 +26,17 @@ examples:
 	pyp2qmd examples --package colorspace
 	cd _examples && for file in *.qmd; do quarto render $$file || exit 99; done
 
+renderissues:
+	@echo "******* TRYING TO DETECT RENDER ISSUES ************"
+	(cd _quarto/_site && grep -ir 'cell-output-error')
+	# Looking for cell-output-error HTML nodes. Warnings
+	# seem to also carry this class.
+
+
 render:
 	@echo "********* RENDERING QUARTO WEBSITE ****************"
 	(cd _quarto && quarto render)
+	make renderissues
 
 develop: setup.py
 	@echo "********* REMOVE AND REINSTALL PY PACKAGE *********"
