@@ -264,7 +264,7 @@ class palette:
 
         Example:
 
-            >>> from colorspace import diverging_hcl, palette #, specplot
+            >>> from colorspace import diverging_hcl, palette, specplot
             >>> pal = diverging_hcl()
             >>> pal = palette(pal(5), name = "Diverging Palette with 5 Colors")
             >>>
