@@ -25,6 +25,11 @@ The package provides a Python 3 version of the
 - **Utilities:** Various color manipulations including tools to desaturate, lighten, darken,
   adjust the transparency, or compute the contrast ratio.
 
+## Development and Deployment
+
+For more details about development and deployment, please have a look
+at [GITHUBACTIONS.md](https://github.com/retostauffer/python-colorspace/GITHUBACTIONS.md).
+
 ## Links
 
 - **PyPI:** <https://pypi.org/project/colorspace/>
