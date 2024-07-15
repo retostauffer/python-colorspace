@@ -28,7 +28,7 @@ additional arguments to this main function can be forwarded via the
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace import diverging_hcl
+from colorspace import palette, diverging_hcl
 pal = palette(diverging_hcl().colors(7))
 pal.hclplot()
 ```

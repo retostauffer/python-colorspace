@@ -35,7 +35,7 @@ renderissues:
 
 render:
 	@echo "********* RENDERING QUARTO WEBSITE ****************"
-	(cd _quarto && quarto render)
+	(make document && cd _quarto && quarto render)
 	make renderissues
 
 develop: setup.py
