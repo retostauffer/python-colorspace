@@ -656,7 +656,7 @@ window.Quarto = {
 <div>
 
 </div>
-<div id="a5c9126c" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
+<div id="650ad212" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="color_spaces_files/figure-html/cell-2-output-1.png" class="img-fluid" width="858"></p>
@@ -670,7 +670,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">120</span>, <span class="dv">240</span>], C <span class="op">=</span> [<span class="fl">50.</span>] <span class="op">*</span> <span class="dv">3</span>, L <span class="op">=</span> [<span class="fl">70.</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="d382680f" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
+<div id="b83c7bdf" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>polarLUV color object (3 colors)
@@ -681,7 +681,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="38f4d7e8" class="cell" data-execution_count="3">
+<div id="cba36fa3" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 <ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
 <li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E495A5">#E495A5</li>
@@ -693,7 +693,7 @@ window.Quarto = {
 <p>The resulting three colors are pastel red (Hue = 0), green (Hue = 120), and blue (Hue = 240) with moderate chroma and luminance as shown above. For display in other systems an sRGB representation might be needed. Objects based on the internal <a href="../man/colorspace.colorlib.colorlib.html"><code>colorlib</code></a> can easily be transformed from one color space to another (see <a href="#overview">Overview</a>) using the <code>.to()</code> method.</p>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)    <span class="co"># Convert to sRGB coordinates</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="749cff4f" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<div id="4103c2d6" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>sRGB color object (3 colors)
@@ -708,7 +708,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from sRGB to HSV</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HSV"</span>) <span class="co"># Convert from sRGB to HSV</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="f3b3b964" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
+<div id="3b6a53d3" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>HSV color object (3 colors)
@@ -719,7 +719,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="ebc982d7" class="cell" data-execution_count="6">
+<div id="85ebd3fe" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting saturation dimension</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x.get(<span class="st">"S"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -728,7 +728,7 @@ window.Quarto = {
 </div>
 <p>For display in many systems hex color codes based on the sRGB coordinates can be created:</p>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x.colors()   <span class="co"># Automatically converts to hex colors (list of str)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="241515b3" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
+<div id="76b35b8c" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>['#E495A5', '#86B875', '#7DB0DD']</code></pre>
@@ -749,7 +749,7 @@ window.Quarto = {
 <section id="matplotlib-color-maps" class="level2">
 <h2 class="anchored" data-anchor-id="matplotlib-color-maps">Matplotlib color maps</h2>
 <p>In addition many objects provided by the <em>colorspace</em> package allow to convert a series of colors (color palette) into a matplotlib “cmap” (<code>matplotlib.colors.LinearSegmentedColormap</code>) As an example using the object <code>x</code> from above:</p>
-<div id="ea5b795d" class="cell" data-execution_count="8">
+<div id="92cbc857" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> palette(x, <span class="st">"custom cmap palette"</span>).cmap()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cmap.N <span class="co"># Number of colors the cmap is based on</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -758,7 +758,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="52b66fbd" class="cell quarto-layout-panel" data-execution_count="9" data-layout-ncol="1">
+<div id="433c6479" class="cell quarto-layout-panel" data-execution_count="9" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div style="vertical-align: middle;"><strong>custom cmap palette</strong> </div><div class="cmap"><img alt="custom cmap palette colormap" title="custom cmap palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAInRFWHRUaXRsZQBjdXN0b20gY21hcCBwYWxldHRlIGNvbG9ybWFwsHZduQAAACh0RVh0RGVzY3JpcHRpb24AY3VzdG9tIGNtYXAgcGFsZXR0ZSBjb2xvcm1hcEbBm9kAAAAwdEVYdEF1dGhvcgBNYXRwbG90bGliIHYzLjkuMSwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ1R0cwAAAAAydEVYdFNvZnR3YXJlAE1hdHBsb3RsaWIgdjMuOS4xLCBodHRwczovL21hdHBsb3RsaWIub3JnetLsJwAAAdtJREFUeJzt1jtynEAAANHB9099BN/M90CBJZeWj2CEHfV7CbXAfGAJevn989c6xhjrWMef4xiff49lHJ7/+D2W7bj34/L3juPxy+uV2+N35zfjp+d93c/66crRvOv4evz8vJv3eXJ+N36zn6vx5/Nunmdy3vvfydm8x+/p8fe3Gz/3neznvfifL+f9N9/J69WZec/Gf1g2x7Pz371vOV5vfTrv1/etV/c/Xv/4/v26s+vP7eP8f/w/61++17v7uLn++ft8+N2crL8+fa7J9a+fb3Lem/v9MQCAHAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIOgNwsuhiVplWhIAAAAASUVORK5CYII="></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#e495a5ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #e495a5ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#7db0ddff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #7db0ddff;"></div></div>
@@ -767,7 +767,7 @@ window.Quarto = {
 </div>
 <p>Please note that matplotlib performs linear interpolation in the sRGB color space between the colors specified. This allows us to draw more than 3 colors from the color map above. However, this may result in skewed color gradients a shown in the example below.</p>
 <p>Two cmaps are defined (<code>cmap4</code>, <code>cmap</code>) where the first one is based on solely <span class="math inline">\(4\)</span> colors, the latter on <span class="math inline">\(101\)</span> colors (default) based on the same sequential palette. From both cmaps, <span class="math inline">\(50\)</span> equally distanced colors are drawn resulting in the following two sets of colors:</p>
-<div id="7eae48a2" class="cell" data-execution_count="10">
+<div id="aaf6e3a8" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> arange</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, specplot</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> sRGB</span>
@@ -799,7 +799,7 @@ window.Quarto = {
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> pal.cmap()</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="b3545239" class="cell quarto-layout-panel" data-execution_count="11" data-layout-ncol="1">
+<div id="6f47353f" class="cell quarto-layout-panel" data-execution_count="11" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>256</code></pre>
@@ -847,7 +847,7 @@ window.Quarto = {
 <span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> ax.contourf(X, Y, z, locator<span class="op">=</span>ticker.LogLocator(), cmap<span class="op">=</span>cmap)</span>
 <span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="08bd6f7f" class="cell quarto-layout-panel" data-execution_count="12" data-layout-ncol="1">
+<div id="7cc9ef4c" class="cell quarto-layout-panel" data-execution_count="12" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="color_spaces_files/figure-html/cell-13-output-1.png" class="img-fluid" width="586"></p>
