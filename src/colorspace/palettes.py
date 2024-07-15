@@ -201,68 +201,60 @@ class palette:
         return hclplot(x = self.colors(), **kwargs)
 
 
-    def cmap(self, n = None, rev = False):
-        """Get matplotlib Compatible Color Map
+    def cmap(self, continuous = True):
+        """Create Matplotlib Compatible Color Map
 
-        Converts the current palette into a `matplotlib.colors.LinearSegmentedColormap` color map.
-        If input argument `n = None` the color map will provide the same number
-        of colors as defined for this palette. Can also be set higher to
-        allow matplotlib to interpolate between the colors.
+        Converts the current palette into a
+        `matplotlib.colors.LinearSegmentedColormap` color map based on the
+        colors provided creating this palette object. If `continuous = True`
+        a series of `256` unique colors will be created using linear
+        interpolation in the standard RGB color space. If `continuous = False`
+        the resulting color map is solely based on the number of colors of
+        the palette which yields a non-continuous color map with step-functions
+        in R, G, and B (see Example).
 
         Args:
-            n (None or int): `None` or a positive int which is greater or equal
-                to the number of colors of the palette (check `len()` of the object).
-            rev (bool): If set to `True` the color map will be reversed,
-                defaults to False.
+            continuous (bool): If `True` (default) the resulting colormap
+                will contain 256 colors, linearely interpolated in between
+                the colors of the palette. If `False`, only the `N` colors
+                of the palette are used (see Examples).
 
         Return:
-            Returns a :py:class:`matplotlib.colors.LinearSegmentedColormap` (cmap) to be used
-            with the matplotlib library.
+            matplotlib.colors.LinearSegmentedColormap: Colormap to be used with
+            matplotlib.
 
         Example:
 
-            >>> from colorspace import diverging_hcl, palette
+            >>> from colorspace import diverging_hcl, palette, specplot
             >>> pal = diverging_hcl()
             >>> pal = palette(pal(5), name = "Diverging Palette with 5 Colors")
             >>>
-            >>> cmap = pal.cmap()
-            >>> print(type(cmap))
-            >>> print(cmap.N)
+            >>> # Continuous colormap
+            >>> cmap1 = pal.cmap(continuous = True)
+            >>> cmap1.N # Internal number of colors
             >>>
-            >>> cmap2 = pal.cmap(n = 256)
-            >>> print(cmap2.N)
+            >>> #: Non-continuous version of the colormap
+            >>> cmap2 = pal.cmap(continuous = False)
+            >>> cmap2.N # Internal number of colors
+            >>>
+            >>> #: Using helper function for demonstration
+            >>> from colorspace.cmap import cmap_to_sRGB
+            >>> specplot(cmap1, rgb = True);
+            >>> #:
+            >>> specplot(cmap2, rgb = True);
+
+        Raises:
+            TypeError: If `continuous` is not bool
         """
 
-        import matplotlib
         from matplotlib.colors import LinearSegmentedColormap
-        from numpy import linspace, round, fmin, fmax
 
-        from .colorlib import hexcols
-        cobj = hexcols(self.colors())
-        cobj.to("sRGB")
+        if not isinstance(continuous, bool):
+            raise TypeError("argument `continuous` must be bool")
 
-        if n is None:
-            n = len(self.colors())
-        elif not isinstance(n, int) or n < len(self.colors()):
-            raise ValueError("argument `n` must be None or int greater or equal to" + \
-                             f"the number of colors in the palette (>= {len(self.colors())})")
-
-        # Get coordinates
-        pos = round(linspace(0, 1, len(self.colors())), 6)
-        # Fixup RGB colors if not within [0,1]
-        r   = fmax(0, fmin(1, round(cobj.get("R"),   6)))
-        g   = fmax(0, fmin(1, round(cobj.get("G"),   6)))
-        b   = fmax(0, fmin(1, round(cobj.get("B"),   6)))
-
-        # Create dict for cmap
-        cdict = {'red':[], 'green':[], 'blue':[]}
-        for i in range(0, len(self.colors())):
-            j = i if not rev else n - i - 1
-            cdict['red'].append(   (pos[i], r[j], r[j]) ) 
-            cdict['green'].append( (pos[i], g[j], g[j]) )
-            cdict['blue'].append(  (pos[i], b[j], b[j]) )
-
-        cmap = LinearSegmentedColormap(self.name(), cdict, n)
+        # Create colormap
+        n = 256 if continuous else len(self.colors())
+        cmap = LinearSegmentedColormap.from_list(self.name(), self.colors(), n)
         return cmap
 
 
@@ -1076,8 +1068,8 @@ class hclpalette:
 
 
     # Return matplotlib.colors.LinearSegmentedColormap
-    def cmap(self, n = 101, name = "custom_hcl_cmap"):
-        """Get matplotlib Compatible Color Map
+    def cmap(self, n = 256, name = "custom_hcl_cmap"):
+        """Create Matplotlib Compatible Color Map
 
         Allows to retrieve a matplotlib LinearSegmentedColormap color map.
         Clasically LinearSegmentedColormaps allow to retrieve a set of `N`
@@ -1095,37 +1087,46 @@ class hclpalette:
         palettes in your existing workflow.
 
         Args:
-            n (int): Number of colors the cmap should be based on; default is `n = 101`.
+            n (int): Number of colors the cmap should be based on; default is `n = 256`
             name (str): Name of the custom color map. Default is `custom_hcl_cmap`
+
+        Example:
+
+            >>> # Create LinearSegmentedColormap from diverging_hcl() palette.
+            >>> # By default, 256 distinct colors are used across the palette.
+            >>> from colorspace import diverging_hcl
+            >>> pal = diverging_hcl()
+            >>> cmap1 = pal.cmap()
+            >>> cmap1.N
+            >>>
+            >>> #: Same as above, but only using 5 distinct colors.
+            >>> cmap2 = pal.cmap(n = 5)
+            >>> cmap2.N
+            >>>
+            >>> #: Plotting HCL and sRGB spectrum for both cmaps
+            >>> specplot(cmap1, rgb = True);
+            >>> #:
+            >>> specplot(cmap2, rgb = True);
 
         Returns:
             Returns a `LinearSegmentedColormap` (cmap) to be used
             with the matplotlib library.
+
+        Raises:
+            TypeError: If `n` is not int
+            ValueError: If `n` is lower than 2
         """
         import matplotlib
         from matplotlib.colors import LinearSegmentedColormap
         from numpy import linspace, round, fmin, fmax
 
-        cobj = self.colors(n, colorobject = True)
-        cobj.to("sRGB")
+        if not isinstance(n, int):
+            raise TypeError("argument `n` must be int")
+        elif n < 2:
+            raise ValueError("argument `n` must be >= 2")
 
-        # Get coordinates
-        pos = round(linspace(0,1,n), 6)
-        # Fixup RGB colors if not within [0,1]
-        r   = fmax(0, fmin(1, round(cobj.get("R"),   6)))
-        g   = fmax(0, fmin(1, round(cobj.get("G"),   6)))
-        b   = fmax(0, fmin(1, round(cobj.get("B"),   6)))
-
-        # Create dict for cmap
-        cdict = {'red':[], 'green':[], 'blue':[]}
-        for i in range(0,n):
-            j = i if not self._rev else n - i - 1
-            cdict['red'].append(   (pos[i], r[j], r[j]) ) 
-            cdict['green'].append( (pos[i], g[j], g[j]) )
-            cdict['blue'].append(  (pos[i], b[j], b[j]) )
-
-        cmap = LinearSegmentedColormap(name, cdict, n)
-        return cmap
+        cols = self.colors(n)
+        return LinearSegmentedColormap.from_list(name, cols, n)
 
 
     def _set_rev(self, rev):

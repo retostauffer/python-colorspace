@@ -1,0 +1,40 @@
+---
+title: "Color Spectrum Plot"
+---
+
+### Description
+
+Interfacing the [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd) function.
+Plotting the spectrum of the current color palette.
+
+### Usage
+
+<pre><code class='language-python'>palette.specplot(*args, **kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette.specplot:*args">*args</code>
+  </dt>
+ <dd>Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.palettes.palette.specplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>Forwarded to [colorspace.specplot.specplot](colorspace.specplot.specplot.qmd).</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import palette, diverging_hcl
+pal = palette(diverging_hcl().colors(7))
+pal.specplot()
+pal.specplot(rgb = False)
+```
+
+
+

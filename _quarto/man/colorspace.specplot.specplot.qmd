@@ -12,6 +12,9 @@ default a smoothing is applied to the hues (`fix = TRUE`). Also, to avoid
 jumps from `0` to `360` or vice versa, the hue coordinates are shifted
 suitably.
 
+If argument `x` is a `maplotlib.colors.LinearSegmentedColormap`, `256` distinct
+colors across the color map are drawn and visualized.
+
 ### Usage
 
 <pre><code class='language-python'>specplot(x, y=None, hcl=True, palette=True,<br/>         fix=True, rgb=False, title=None, fig=None,<br/>         **figargs)</code></pre>
@@ -20,9 +23,10 @@ suitably.
 
 <dl class="pyp-list param-list">
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.specplot.specplot:x">x</code><code class="argument-class">list</code>
+   <code id="colorspace.specplot.specplot:x">x</code><code class="argument-class">list, LinearSegmentedColormap</code>
   </dt>
- <dd>list of str (hex colors or standard-names of colors).</dd>
+ <dd>list of str (hex colors or
+standard-names of colors) or a `matplotlib.colors.LinearSegmentedColormap`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.specplot.specplot:y">y</code><code class="argument-class">None or list</code>
   </dt>
@@ -99,7 +103,7 @@ palette = False, figsize = (8, 3));
 ### Raises
 
 <ul class="python-raises">
-<li><code class="text-warning">TypeError</code>: If `x` is not a list.
+<li><code class="text-warning">TypeError</code>: If `x` is not list or `matplotlib.colors.LinearSegmentedColormap`.
 <li><code class="text-warning">TypeError</code>: If `y` is neither a list nor `None`.
 <li><code class="text-warning">ValueError</code>: If `x` contains str which can not be converted to hex colors.
 <li><code class="text-warning">ValueError</code>: If `y` contains str which can not be converted to hex colors.

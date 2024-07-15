@@ -1,5 +1,5 @@
 ---
-title: "Get matplotlib Compatible Color Map"
+title: "Create Matplotlib Compatible Color Map"
 ---
 
 ### Description
@@ -21,7 +21,7 @@ palettes in your existing workflow.
 
 ### Usage
 
-<pre><code class='language-python'>rainbow_hcl.cmap(n=101,<br/>                 name=&#x27;custom_hcl_cmap&#x27;)</code></pre>
+<pre><code class='language-python'>rainbow_hcl.cmap(n=256,<br/>                 name=&#x27;custom_hcl_cmap&#x27;)</code></pre>
 
 ### Arguments
 
@@ -29,7 +29,7 @@ palettes in your existing workflow.
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow_hcl.cmap:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>Number of colors the cmap should be based on; default is `n = 101`.</dd>
+ <dd>Number of colors the cmap should be based on; default is `n = 256`</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.rainbow_hcl.cmap:name">name</code><code class="argument-class">str</code>
   </dt>
@@ -40,3 +40,52 @@ palettes in your existing workflow.
 
 Returns a `LinearSegmentedColormap` (cmap) to be used
 with the matplotlib library.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Create LinearSegmentedColormap from diverging_hcl() palette.
+# By default, 256 distinct colors are used across the palette.
+from colorspace import diverging_hcl
+pal = diverging_hcl()
+cmap1 = pal.cmap()
+cmap1.N
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Same as above, but only using 5 distinct colors.
+cmap2 = pal.cmap(n = 5)
+cmap2.N
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Plotting HCL and sRGB spectrum for both cmaps
+specplot(cmap1, rgb = True);
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+specplot(cmap2, rgb = True);
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If `n` is not int
+<li><code class="text-warning">ValueError</code>: If `n` is lower than 2
+</ul>
+

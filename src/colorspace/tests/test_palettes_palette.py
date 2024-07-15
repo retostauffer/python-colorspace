@@ -96,25 +96,36 @@ def test_cmap():
 
     from matplotlib.colors import LinearSegmentedColormap
 
+
     # Default
     x = palette(["#F00", "#00FF00", "#0000FF"])
-    cmap = x.cmap()
+
+    # Wrong input type
+    raises(TypeError, x.cmap, continuous = 1)
+    raises(TypeError, x.cmap, continuous = [True, False])
+
+    # Non-continuous color map
+    cmap = x.cmap(continuous = False)
     assert isinstance(cmap, LinearSegmentedColormap)
     assert cmap.N == len(x)
     assert isinstance(cmap.name, type(None))
     del x, cmap
 
-    # Using custom N
+    # Named palette
     x = palette(["#F00", "#00FF00", "#0000FF"], name = "demo palette")
-    cmap = x.cmap(n = 10)
+    cmap = x.cmap(continuous = False)
     assert isinstance(cmap, LinearSegmentedColormap)
-    assert cmap.N == 10
+    assert cmap.N == 3
     assert isinstance(cmap.name, str)
     assert cmap.name == "demo palette"
 
-    # Fails if we ask for less than n
-    raises(ValueError, x.cmap, n = 2)
-    del x, cmap
+    # Continous palette
+    x = palette(["#F00", "#00FF00", "#0000FF"], name = "demo palette")
+    cmap = x.cmap(continuous = True)
+    assert isinstance(cmap, LinearSegmentedColormap)
+    assert cmap.N == 256
+    assert isinstance(cmap.name, str)
+    assert cmap.name == "demo palette"
 
 
 # ------------------------------------------

@@ -76,9 +76,9 @@ see examples.
 
 <dl class="pyp-list method-list">
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[rainbow_hcl.cmap(n=101, name=&#x27;custom_hcl_cmap&#x27;)](colorspace.palettes.rainbow_hcl.cmap.qmd)</code>
+       <code>[rainbow_hcl.cmap(n=256, name=&#x27;custom_hcl_cmap&#x27;)](colorspace.palettes.rainbow_hcl.cmap.qmd)</code>
     </dt>
-    <dd>Get matplotlib Compatible Color Map</dd>
+    <dd>Create Matplotlib Compatible Color Map</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[rainbow_hcl.colors(n=11, fixup=None, alpha=None, **kwargs)](colorspace.palettes.rainbow_hcl.colors.qmd)</code>
     </dt>

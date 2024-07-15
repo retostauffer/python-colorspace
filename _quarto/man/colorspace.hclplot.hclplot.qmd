@@ -47,7 +47,7 @@ Note: Requires `matplotlib` to be installed.
 
 ### Usage
 
-<pre><code class='language-python'>hclplot(x, _type=None, h=None, c=None, l=None,<br/>        axes=True, **kwargs)</code></pre>
+<pre><code class='language-python'>hclplot(x, _type=None, h=None, c=None, l=None,<br/>        axes=True, linewidth=1, s=150, **kwargs)</code></pre>
 
 ### Arguments
 
@@ -68,29 +68,38 @@ inferred from the luminance trajectory corresponding to `x`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hclplot.hclplot:h">h</code><code class="argument-class">None, int, float</code>
   </dt>
- <dd>if int or float, it must be within `[-360, 360]`</dd>
+ <dd>If int or float, it must be within `[-360, 360]`</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hclplot.hclplot:c">c</code><code class="argument-class">None, int, float</code>
   </dt>
- <dd>if int or float, it must be positive</dd>
+ <dd>If int or float, it must be positive</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hclplot.hclplot:l">l</code><code class="argument-class">None, int, float</code>
   </dt>
- <dd>if int or float, it must be positive</dd>
+ <dd>If int or float, it must be positive</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hclplot.hclplot:axes">axes</code><code class="argument-class">bool</code>
   </dt>
  <dd>Wheter or not axes should be drawn, defaults to `True`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:linewidth">linewidth</code><code class="argument-class">int, float, None</code>
+  </dt>
+ <dd>Line width, if set `0` or `None` the line connecting
+the colors of the palette will be suppressed.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.hclplot.hclplot:s">s</code><code class="argument-class">int, float, None</code>
+  </dt>
+ <dd>Marker size, defaults to `150`. If set `0` or `None` the
+position of the colors of the palette will be suppressed.</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.hclplot.hclplot:**kwargs">**kwargs</code>
   </dt>
  <dd>Allowed to overwrite some default settings such as
-`title` (str), `xlabel` (str), `ylabel` (str), `figsize`
-(forwarded to `pyplot.figure`), `s` (int, float) to change
-marker size, defaults to `150`. `xlabel`/`ylabel` only for
-qualitative and diverging plots. A matplotlib axis can be provided
-via `ax` (object of type `matplotlib.axes._axes.Axes`) which allows
-to draw multiple HCL spaces on one figure.</dd>
+`title` (str), `xlabel` (str), `ylabel` (str), `figsize` (forwarded
+to `pyplot.figure`). `xlabel`/`ylabel` only used for qualitative
+and diverging plots. A matplotlib axis can be provided via `ax`
+(object of type `matplotlib.axes._axes.Axes`) which allows to draw
+multiple HCL spaces on one figure.</dd>
 </dl>
 
 ### Return
@@ -209,5 +218,7 @@ not containing int/float.
 <li><code class="text-warning">ValueError</code>: If `c`,`l` is not None and smaller or equal to `0` (must be positive).
 <li><code class="text-warning">ValueError</code>: If `h` is tuple length `0` or `&gt;2` (must be one or two).
 <li><code class="text-warning">ValueError</code>: If `h` is not None and not within the range `[-360, 360]`.
+<li><code class="text-warning">TypeError</code>: If `s`, `linewidth` are not int, float, or None.
+<li><code class="text-warning">ValueError</code>: If `s`, `linewidth` are int/float but negative (`&lt;0`).
 </ul>
 

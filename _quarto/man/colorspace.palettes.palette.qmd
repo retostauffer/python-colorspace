@@ -40,13 +40,17 @@ An object of class [colorspace.palettes.palette](colorspace.palettes.palette.qmd
 
 <dl class="pyp-list method-list">
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[palette.cmap(n=None, rev=False)](colorspace.palettes.palette.cmap.qmd)</code>
+       <code>[palette.cmap(continuous=True)](colorspace.palettes.palette.cmap.qmd)</code>
     </dt>
-    <dd>Get matplotlib Compatible Color Map</dd>
+    <dd>Create Matplotlib Compatible Color Map</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[palette.colors(*args, **kwargs)](colorspace.palettes.palette.colors.qmd)</code>
     </dt>
     <dd>Get Palette Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[palette.hclplot(**kwargs)](colorspace.palettes.palette.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[palette.name()](colorspace.palettes.palette.name.qmd)</code>
     </dt>
@@ -55,6 +59,10 @@ An object of class [colorspace.palettes.palette](colorspace.palettes.palette.qmd
        <code>[palette.rename(name)](colorspace.palettes.palette.rename.qmd)</code>
     </dt>
     <dd>Rename Custom Palette</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[palette.specplot(*args, **kwargs)](colorspace.palettes.palette.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[palette.swatchplot(**kwargs)](colorspace.palettes.palette.swatchplot.qmd)</code>
     </dt>

@@ -57,15 +57,22 @@ def test_palette_cmap_class():
     x = palette(["#00ff00"], name = "test")
     assert isinstance(x.cmap(), matplotlib.colors.LinearSegmentedColormap)
 
-def test_palette_cmap_class_rev_False():
-    x = palette(["#00ff00"], name = "test")
-    assert isinstance(x.cmap(rev = False), matplotlib.colors.LinearSegmentedColormap)
+def test_palette_cmap_class():
+    x = palette(["#00ff00", "#ff00ff", "#ff00ff"], name = "test")
 
-def test_palette_cmap_param_n():
-    x = palette(["#00ff00"], name = "test")
-    cm = x.cmap(n = 10)
-    assert isinstance(cm, matplotlib.colors.LinearSegmentedColormap)
-    assert cm.N == 10
+    # Continuous
+    cmap = x.cmap(continuous = True)
+    assert isinstance(cmap, matplotlib.colors.LinearSegmentedColormap)
+    assert cmap.name == "test"
+    assert cmap.N == 256
+
+    # Non-continuous
+    cmap = x.cmap(continuous = False)
+    assert isinstance(cmap, matplotlib.colors.LinearSegmentedColormap)
+    assert cmap.name == "test"
+    assert cmap.N == 3
+
+
 
 # ------------------------------------------
 # ------------------------------------------

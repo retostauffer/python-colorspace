@@ -12,8 +12,12 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     jumps from `0` to `360` or vice versa, the hue coordinates are shifted
     suitably.
 
+    If argument `x` is a `maplotlib.colors.LinearSegmentedColormap`, `256` distinct
+    colors across the color map are drawn and visualized.
+
     Args:
-        x (list): list of str (hex colors or standard-names of colors).
+        x (list, LinearSegmentedColormap): list of str (hex colors or
+            standard-names of colors) or a `matplotlib.colors.LinearSegmentedColormap`.
         y (None or list): if set it must be a list of str (see `x`) with the very
             same length as the object provided on argument `x`. Allows to draw
             two sets of colors for comparison, defaults to `None`.
@@ -43,7 +47,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
        >>> palette = False, figsize = (8, 3));
 
     Raises:
-        TypeError: If `x` is not a list.
+        TypeError: If `x` is not list or `matplotlib.colors.LinearSegmentedColormap`.
         TypeError: If `y` is neither a list nor `None`.
         ValueError: If `x` contains str which can not be converted to hex colors.
         ValueError: If `y` contains str which can not be converted to hex colors.
@@ -79,19 +83,36 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         if ylo > 0:
             ax.plot([0, 1], [ylo] * 2, ls = "-", c = "0")
 
+    # Trying to load matplotlib. If not possible, `x` must be a list.
+    # Else `x` can be either a list or a LinearSegmentedColormap. If the latter,
+    # 256 distinct colors will be extracted.
+    try:
+        from matplotlib.colors import LinearSegmentedColormap
+        matplotlib_loaded = True
+    except:
+        matplotlib_loaded = False
 
-    # Checking main arguments 'x' and 'y'
-    if not isinstance(x, list): raise TypeError("Argument `x` must be a list.")
-    x = check_hex_colors(x) # Checks if all entries are valid
+    # Checking `x`
+    if not matplotlib_loaded:
+        if not isinstance(x, list):
+            raise TypeError("Argument `x` must be a list.")
+    else:
+        if not isinstance(x, (list, LinearSegmentedColormap)):
+            raise TypeError("Argument `x` must be list or LinearSegmentedColormap")
+        elif isinstance(x, LinearSegmentedColormap):
+            from colorspace.cmap import cmap_to_sRGB
+            x = cmap_to_sRGB(x).colors()
 
-    # Checking y
+    # Checks if all entries are valid
+    x = check_hex_colors(x)
+
+    # Checking `y`
     if not isinstance(y, (type(None), list)):
         raise TypeError("argument `y` must be None or list")
     if not isinstance(y, type(None)):
         y = check_hex_colors(y) # Checks if all entries are valid
         if not len(x) == len(y):
             raise ValueError("if argument `y` is provided it must be of the same length as `x`")
-
 
     # Sanity check for input arguemnts to control the different parts
     # of the spectogram plot. Namely rgb spectrum, hcl spectrum, and the palette.
