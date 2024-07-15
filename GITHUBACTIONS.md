@@ -128,12 +128,14 @@ Whilst the sections above outline local testing, this section will provide
 insights our CI (Continuous Integration) and GitHub Actions setup. The
 configuration for all steps can be found under `.github/workflow/`.
 
-Overall, we have a series of workflows in use:
+Overall, we have a series of workflows in use with a series
+of dependencies (via workflow run) outlined by the list nesting
+below.
 
-1. `.github/workflow/pytest.yml`: Running "Tests"
-2. `.github/workflow/quartoexamples.yml`: Testing "Examples"
-3. `.github/workflow/quartodoc.yml`: Rendering "Documentation"
-4. `.github/workflow/coverage.yml`: Running "Coverage"
+* (1) `.github/workflow/pytest.yml`: Running "Tests"
+    * (2) `.github/workflow/quartoexamples.yml`: Testing "Examples"
+    * (3) ``.github/workflow/quartodoc.yml`: Rendering "Documentation"
+        * (4) `.github/workflow/coverage.yml`: Running "Coverage"
 
 Using GitHub's `workflow_run` they are not independent.
 
