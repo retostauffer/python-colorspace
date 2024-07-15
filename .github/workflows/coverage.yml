@@ -49,13 +49,6 @@ jobs:
       - name: Coverage Badge
         uses: tj-actions/coverage-badge-py@v2
 
-      # Verify changed file (badge update)
-      - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v17
-        id: verify-changed-files
-        with:
-          files: coverage.svg
-
       # Configuring git user, checking out gh-pages branch
       # which (must/has been) created by the quartodoc.yml workflow.
       - name: Configure Git user
@@ -65,23 +58,26 @@ jobs:
           git fetch origin gh-pages
           git checkout gh-pages
 
-      - name: Commit files
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: |
-          git add coverage.svg
-          git commit -m "Updated coverage.svg"
+      # Verify changed file (badge update)
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v17
+        id: verify-changed-files
+        with:
+          files: coverage.svg
 
       # Adding coverage (htmlcov folder) and badge to gh-pages;
       # deploy updated gh-pages branch.
       - name: Commit coverage to gh-pages
         run: |
-          # Badge
+          # Adding coverage badge
           git add coverage.svg
+          git commit -am "Updated coverage.svg"
+
           # Coverage output
           mkdir -p coverage
           cp -r htmlcov/* coverage/
           git add coverage/
-          git commit -m "Update coverage report"
+          git commit -am "Update coverage report"
           git push origin gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
