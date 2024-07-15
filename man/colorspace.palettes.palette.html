@@ -520,6 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -559,10 +560,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
 <dl class="pyp-list param-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.palette:colors">colors</code><code class="argument-class">str, list, colorspace.colorlib.colorobject</code>
+<code id="colorspace.palettes.palette:colors">colors</code><code class="argument-class">str, list, colorspace.colorlib.colorobject, LinearSegmentedColormap</code>
 </dt>
 <dd>
-One or multiple colors which will make up the custom palette.
+One or multiple colors which will make up the custom palette, or a <code>matplotlib.colors.LinearSegmentedColormap</code>.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.palette:name">name</code><code class="argument-class">str</code>
@@ -574,7 +575,7 @@ Name of this custom palette. Defaults to <code>"user_palette"</code>. Used for o
 <code id="colorspace.palettes.palette:n">n</code><code class="argument-class">int</code>
 </dt>
 <dd>
-positive int, number of colors drawn from an <code>hclpalette</code> object. Only taken into account if the object provided on <code>colors</code> inherits from <code>colorspace.palettes.hclpalette</code>.
+int (<code>&gt;1</code>), number of colors drawn from an <code>hclpalette</code> object. Only taken into account if the object provided on <code>colors</code> inherits from <code>colorspace.palettes.hclpalette</code>.
 </dd>
 </dl>
 </section>
@@ -631,7 +632,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="d4a7243b" class="cell" data-execution_count="1">
+<div id="50d21318" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.palettes <span class="im">import</span> palette</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#070707"</span>, <span class="st">"#690056"</span>, <span class="st">"#C30E62"</span>, <span class="st">"#ED8353"</span>, <span class="st">"#FDF5EB"</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>custom_pal <span class="op">=</span> palette(colors, <span class="st">"test palette"</span>)</span>
@@ -642,7 +643,7 @@ Palette Swatch Plot
        Number of colors: 5</code></pre>
 </div>
 </div>
-<div id="3dd23421" class="cell" data-execution_count="2">
+<div id="68a7c055" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating custom palettes based on different input</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># types (str, list, colorobject)</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
@@ -662,7 +663,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="2ff68cbd" class="cell" data-execution_count="3">
+<div id="8586a61c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pal2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Palette Name: Custom Palette
@@ -671,7 +672,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="5b564407" class="cell" data-execution_count="4">
+<div id="36d0fba0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pal3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Palette Name: Custom Palette #3
@@ -680,7 +681,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="bfaabf68" class="cell" data-execution_count="5">
+<div id="ad780f41" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pal4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Palette Name: Custom Palette #4
@@ -689,7 +690,7 @@ Palette Swatch Plot
 </code></pre>
 </div>
 </div>
-<div id="4cff48a4" class="cell" data-execution_count="6">
+<div id="ea3e5641" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette Swatch Plot</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> swatchplot</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>swatchplot([pal3, pal4], figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">2.0</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -701,6 +702,17 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
+</section>
+<section id="raises" class="level3">
+<h3 class="anchored" data-anchor-id="raises">Raises</h3>
+<ul class="python-raises">
+<li>
+<code class="text-warning">TypeError</code>: If <code>n</code> is not int.
+</li><li>
+<code class="text-warning">ValueError</code>: If <code>n</code> is <code>&amp;lt; 2</code>.
+</li><li>
+<code class="text-warning">TypeError</code>: If <code>name</code> is neither <code>str</code> nor <code>None</code>.
+</li></ul>
 
 
 </section>
