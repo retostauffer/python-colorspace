@@ -7,11 +7,12 @@ class palette:
     set of colors based on hex color inputs.
 
     Args:
-        colors (str, list, colorspace.colorlib.colorobject): One or multiple
-            colors which will make up the custom palette.
+        colors (str, list, colorspace.colorlib.colorobject, LinearSegmentedColormap):
+            One or multiple colors which will make up the custom palette, or a
+            `matplotlib.colors.LinearSegmentedColormap`.
         name (str): Name of this custom palette. Defaults to `"user_palette"`.
             Used for object representation/visualization.
-        n (int): positive int, number of colors drawn from an `hclpalette` object.
+        n (int): int (`>1`), number of colors drawn from an `hclpalette` object.
             Only taken into account if the object provided on `colors` inherits
             from `colorspace.palettes.hclpalette`.
 
@@ -48,6 +49,10 @@ class palette:
         >>> from colorspace import swatchplot
         >>> swatchplot([pal3, pal4], figsize = (5.5, 2.0));
 
+    Raises:
+        TypeError: If `n` is not int.
+        ValueError: If `n` is `< 2`.
+        TypeError: If `name` is neither `str` nor `None`.
     """
 
     def __init__(self, colors, name = None, n = 7):
@@ -56,6 +61,19 @@ class palette:
         from colorspace.colorlib import colorobject
         from colorspace.palettes import hclpalette
         from colorspace import check_hex_colors, palette
+
+        if not isinstance(n, int):
+            raise TypeError("argument `n` must be int")
+        elif n <= 1:
+            raise ValueError("argument `n` must be > 1")
+
+        # Trying to load matplotlib to allow 'colors' to be a
+        # LinearSegmentedColormap
+        try:
+            from matplotlib.colors import LinearSegmentedColormap
+            matplotlib_loaded = True
+        except:
+            matplotlib_loaded = False
 
         # This is a palette object? Well ...
         if isinstance(colors, hclpalette):
@@ -67,6 +85,9 @@ class palette:
         # draw the colors as a hex list.
         elif isinstance(colors, colorobject):
             colors = colors.colors()
+        # Matplotlib loaded and 'colors' is a LinearSegmentedColormap
+        elif matplotlib_loaded and isinstance(colors, LinearSegmentedColormap):
+            colors = self._LinearSegmentedColormap_to_colors(colors, n)
 
         # Now check if all our colors are valid hex colors
         self._colors = check_hex_colors(colors)
@@ -75,6 +96,24 @@ class palette:
             raise TypeError("argument `name` must be None or a str")
 
         self._name = name
+
+
+    def _LinearSegmentedColormap_to_colors(self, x, n):
+        from matplotlib.colors import LinearSegmentedColormap
+        from numpy import linspace
+        from colorspace.colorlib import sRGB
+
+        assert isinstance(x, LinearSegmentedColormap)
+        assert isinstance(n, int) and n > 1
+
+        # Evaluate at
+        at  = linspace(0.0, 1.0, n)
+        # Get sRGB Coordinates
+        rgb = x(at).transpose()
+
+        # Create sRGB colorobject, return hex color list
+        return sRGB(R = rgb[0], G = rgb[1], B = rgb[2]).colors()
+
 
     def __len__(self):
         """Number of Colors

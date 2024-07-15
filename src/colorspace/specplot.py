@@ -18,9 +18,10 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     Args:
         x (list, LinearSegmentedColormap): list of str (hex colors or
             standard-names of colors) or a `matplotlib.colors.LinearSegmentedColormap`.
-        y (None or list): if set it must be a list of str (see `x`) with the very
-            same length as the object provided on argument `x`. Allows to draw
-            two sets of colors for comparison, defaults to `None`.
+        y (None, list, LinearSegmentedColormap): if set it must be a list of
+            str (see `x`) with the very same length as the object provided on
+            argument `x` or a `maplotlib.colors.LinearSegmentedColormap`.
+            Allows to draw two sets of colors for comparison, defaults to `None`.
         hcl (bool): Whether or not to plot the HCL color spectrum.
         palette (bool): Whether or not to plot the colors as a color map (color swatch).
         fix (bool): Should the hues be fixed to be on a smooth(er) curve?
@@ -34,7 +35,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
 
     Example:
 
-       >>> from colorspace import rainbow_hcl
+       >>> from colorspace import rainbow_hcl, diverging_hcl
        >>> from colorspace import specplot
        >>> pal = rainbow_hcl()
        >>> specplot(pal.colors(21));
@@ -44,7 +45,17 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
        >>> # Show sRGB spectrum, hide HCL spectrum
        >>> # and color palette swatch.
        >>> specplot(pal.colors(), rgb = True, hcl = False,
-       >>> palette = False, figsize = (8, 3));
+       >>>          palette = False, figsize = (8, 3));
+       >>> #: Comparing full diverging_hcl() color spectrum to
+       >>> # a LinearSegmentedColormap (cmap) with only 5 colors
+       >>> # (an extreme example)
+       >>> specplot(diverging_hcl("Green-Orange").colors(101),
+       >>>          diverging_hcl("Green-Orange").cmap(5),
+       >>>          rgb = True, figsize = (8, 3));
+       >>> #: Same as above using .cmap() default with N = 256 colors
+       >>> specplot(diverging_hcl("Green-Orange").colors(101),
+       >>>          diverging_hcl("Green-Orange").cmap(),
+       >>>          rgb = True, figsize = (8, 3));
 
     Raises:
         TypeError: If `x` is not list or `matplotlib.colors.LinearSegmentedColormap`.
@@ -107,6 +118,10 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     x = check_hex_colors(x)
 
     # Checking `y`
+    if matplotlib_loaded and isinstance(y, LinearSegmentedColormap):
+        # [!] Do not import as 'palette' (we have a variable called 'palette')
+        from colorspace import palette as cp
+        y = cp(y, n = len(x)).colors()
     if not isinstance(y, (type(None), list)):
         raise TypeError("argument `y` must be None or list")
     if not isinstance(y, type(None)):

@@ -28,11 +28,18 @@ def test_wrong_usage():
     raises(TypeError,  palette, colors = np.asarray([["#FF0000"], ["#00ff00", "#0ff"]], 
                                                     dtype = "object"))
 
+    # Misuse of 'n'
+    cols = diverging_hcl().colors(3)
+    raises(TypeError, palette, cols, n = None) # Not integer
+    raises(TypeError, palette, cols, n = 10.4) # Not integer
+    raises(ValueError, palette, cols, n = 1) # <= 1
+
+
 # ------------------------------------------
 # Testing different types of objects allowed
 # as input 'colors'.
 # ------------------------------------------
-def test_input_types():
+def test_palette_input_types():
 
     # 'palettes' can take up
     # str: single hex color
@@ -54,6 +61,35 @@ def test_input_types():
 
     assert np.all(res2.colors() == res3.colors())
 
+
+def test_palette_input_type_cmap():
+    from matplotlib.colors import LinearSegmentedColormap
+
+    # Default number of colors
+    x = diverging_hcl().cmap()
+    assert isinstance(x, LinearSegmentedColormap)
+    assert x.N == 256
+
+    pal = palette(x)
+    assert isinstance(pal, palette)
+    assert len(pal.colors()) == 7
+    pal = palette(x, n = 101)
+    assert isinstance(pal, palette)
+    assert len(pal.colors()) == 101
+
+    del x, pal
+
+    # Picking 100 colors
+    x = diverging_hcl().cmap()
+    assert isinstance(x, LinearSegmentedColormap)
+    assert x.N == 256
+
+    pal = palette(x)
+    assert isinstance(pal, palette)
+    assert len(pal.colors()) == 7
+    pal = palette(x, n = 101)
+    assert isinstance(pal, palette)
+    assert len(pal.colors()) == 101
 
 # ------------------------------------------
 # Testing generic methods

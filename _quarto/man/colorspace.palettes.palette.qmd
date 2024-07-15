@@ -15,10 +15,10 @@ set of colors based on hex color inputs.
 
 <dl class="pyp-list param-list">
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.palette:colors">colors</code><code class="argument-class">str, list, colorspace.colorlib.colorobject</code>
+   <code id="colorspace.palettes.palette:colors">colors</code><code class="argument-class">str, list, colorspace.colorlib.colorobject, LinearSegmentedColormap</code>
   </dt>
- <dd>One or multiple
-colors which will make up the custom palette.</dd>
+ <dd>One or multiple colors which will make up the custom palette, or a
+`matplotlib.colors.LinearSegmentedColormap`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette:name">name</code><code class="argument-class">str</code>
   </dt>
@@ -27,7 +27,7 @@ Used for object representation/visualization.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.palette:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>positive int, number of colors drawn from an `hclpalette` object.
+ <dd>int (`>1`), number of colors drawn from an `hclpalette` object.
 Only taken into account if the object provided on `colors` inherits
 from `colorspace.palettes.hclpalette`.</dd>
 </dl>
@@ -131,4 +131,13 @@ swatchplot([pal3, pal4], figsize = (5.5, 2.0));
 ```
 
 
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If `n` is not int.
+<li><code class="text-warning">ValueError</code>: If `n` is `&lt; 2`.
+<li><code class="text-warning">TypeError</code>: If `name` is neither `str` nor `None`.
+</ul>
 
