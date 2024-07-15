@@ -582,7 +582,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="8ea69cd8" class="cell" data-execution_count="1">
+<div id="4d0ac4f4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette, diverging_hcl, desaturate</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, swatchplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
@@ -596,7 +596,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </div>
 </div>
 </div>
-<div id="7542448e" class="cell" data-execution_count="2">
+<div id="f6a70b80" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>specplot(desaturate(cols, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -606,7 +606,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </div>
 </div>
 </div>
-<div id="bd2ad7b2" class="cell" data-execution_count="3">
+<div id="9e3b5424" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Take a list of colors which can be interpreted/translated to hex</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># colors and desaturate them via the HCL color space</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"magenta"</span>, <span class="st">"red"</span>, <span class="st">"orange"</span>, <span class="st">"#F2F204"</span>, <span class="st">"#6BF204"</span>, <span class="st">"#4DA00D"</span>]</span>
@@ -615,7 +615,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 <pre><code>['#919191', '#7F7F7F', '#B8B8B8', '#EAEAEA', '#D5D5D5', '#8D8D8D']</code></pre>
 </div>
 </div>
-<div id="4e2544d6" class="cell" data-execution_count="4">
+<div id="52e8ec7a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>swatchplot([cols, desaturate(cols)],</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>           show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="dv">5</span>, <span class="fl">1.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -626,7 +626,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </div>
 </div>
 </div>
-<div id="b361b549" class="cell" data-execution_count="5">
+<div id="ecacf6af" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desaturate palette object (same colors as above)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette(cols, name <span class="op">=</span> <span class="st">"custom palette"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>desaturate(pal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -634,7 +634,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 <pre><code>['#919191', '#7F7F7F', '#B8B8B8', '#EAEAEA', '#D5D5D5', '#8D8D8D']</code></pre>
 </div>
 </div>
-<div id="d9c26bbd" class="cell" data-execution_count="6">
+<div id="3a1287f5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desaturate a matplotlib cmap object</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>desaturate(pal.cmap())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
