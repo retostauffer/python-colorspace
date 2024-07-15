@@ -5,7 +5,7 @@ name: Coverage
 # Documentation workflow would overwrite these files.
 on:
   workflow_run:
-    workflows: ["Testing", "Documentation"]
+    workflows: ["Documentation"]
     branches: ["main"]
     types:
       - completed
