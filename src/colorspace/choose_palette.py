@@ -526,6 +526,9 @@ class gui(Tk):
     # Used to store the control buttons (desaturate, reversed, ...)
     _control        = None
 
+    # Used with the .after method to 'lock' updating/calling certain tkinter functions
+    _locked         = False
+
     # Initialize defaults
     _setting_names = ["h1", "h2", "c1", "cmax", "c2", "l1", "l2", "p1", "p2", "n"]
     _settings       = {}
@@ -561,14 +564,17 @@ class gui(Tk):
 
         # The different palette types
         self._Dropdown       = self._add_paltype_dropdown(pal.type())
+
         # Adding current palette has to be before the sliders
         # as they need the current palette canvas for the
         # to be able to be reactive.
         self._sliders        = self._add_sliders()
+
         # Adding drop down menu and select color map
         # Add the frame with the default palettes
         # on top of the GUI
         self._palframe       = self._add_palframe(pal.type())
+
         ## Add the horizontal color map for current colors.
         self._currentpalette = self._add_currentpalettecanvas()
         self._draw_currentpalette()
@@ -600,8 +606,7 @@ class gui(Tk):
         paltypevar.set(type_) # default value
 
         # Option menu
-        menu = OptionMenu(self, paltypevar, *opts,
-                          command = self.OnPaltypeChange)
+        menu = OptionMenu(self, paltypevar, *opts, command = self.OnPaltypeChange)
         menu.config(width = 40, pady = 5, padx = 5)
         menu.grid(column = 1, row = len(opts))
         menu.place(x = 10, y = 30)
@@ -614,6 +619,10 @@ class gui(Tk):
         The callback function of the drop down element. Triggered
         every time the drop down element changes.
         """
+
+        import time
+
+        self._locked = True
 
         # Updating the palette-frame.
         self._palframe = self._add_palframe(args[0])
@@ -650,6 +659,11 @@ class gui(Tk):
             # Disable slider
             else:
                 elem.disable()
+
+        # All sliders set; unlock and call _draw_currentpalette()
+        self._locked = False
+        time.sleep(0.1)
+        self._draw_currentpalette()
 
     def _add_control(self):
         """Add Control Options
@@ -859,7 +873,8 @@ class gui(Tk):
         Shows the colors in the current palette frame."""
 
         # Re-draw the canvas.
-        self._currentpalette._draw_canvas(self.get_colors())
+        if not self._locked:
+            self._currentpalette._draw_canvas(self.get_colors())
 
     def get_colors(self):
         """Get Colors
@@ -876,6 +891,25 @@ class gui(Tk):
             if elem.is_active():
                 params[elem.name()] = float(elem.get())
 
+        # Small helper function to check if e.g., "c1", "c2", "cmax"
+        # are parameters in the params dict. Scopes 'dim' (loop variable)
+        # and 'params' (the parameters for this palette).
+        def phas(x):
+            return f"{dim}{str(x)}" in params.keys()
+
+        # Similar to the 'phas' method but will return the 
+        # actual value. Will throw an error if it does not exist (that means
+        # you have not properly checked if has(x)!
+        def pget(x):
+            x = f"{dim}{str(x)}"
+            assert x in params.keys(), Exception(f"get(\"{str(x)}\"): None or not existing")
+            return params[x]
+
+        # Similar to the two functions above.
+        # Will delete an element from 'params', again scoping.
+        def pdel(x):
+            del params[f"{dim}{str(x)}"]
+
         # Manipulate params
         from re import match
         for dim in ["h", "c", "l", "p"]:
@@ -887,29 +921,11 @@ class gui(Tk):
             dim3 = f"{dim}max"
             dim  = "power" if dim == "p" else dim
 
-            # Small helper function to check if e.g., "c1", "c2", "cmax"
-            # are parameters in the params dict. Scopes 'dim' (loop variable)
-            # and 'params' (the parameters for this palette).
-            def phas(x):
-                return f"{dim}{str(x)}" in params.keys()
-
-            # Similar to the 'phas' method but will return the 
-            # actual value. Will throw an error if it does not exist (that means
-            # you have not properly checked if has(x)!
-            def pget(x):
-                x = f"{dim}{str(x)}"
-                assert x in params.keys(), Exception(f"get(\"{str(x)}\"): None or not existing")
-                return params[x]
-
-            # Similar to the two functions above.
-            # Will delete an element from 'params', again scoping.
-            def pdel(x):
-                del params[f"{dim}{str(x)}"]
-
             # All three available? That must be c1, c2, cmax.
             # Get it in the order [c1, cmax, c2] as the hcl palette function requires it.
             if phas(1) and phas(2) and phas("max"):
                 params[dim] = [pget(x) for x in ["1", "max", "2"]]
+
             # If has 1 and 2: [c1, c2]
             elif phas(1) and phas("max"):
                 # Diverging chemes: only [c1, cmax] allowed, for
@@ -921,6 +937,7 @@ class gui(Tk):
             # If has 1 and 2: [c1, c2]
             elif phas(1) and phas(2):
                 params[dim] = [pget(x) for x in ["1", "2"]]
+
             # If has 1: [c1]
             elif phas(1):
                 params[dim] = pget(1)
@@ -929,6 +946,7 @@ class gui(Tk):
             for x in ["1", "2", "max"]:
                 if phas(x): pdel(x)
 
+        # Loading 'n' from slider
         for elem in self.sliders():
             if elem.name() == "n":
                 n = elem.get()
@@ -941,7 +959,7 @@ class gui(Tk):
         if "n" in params: del params["n"]
         params["fixup"] = control["fixup"]
 
-        # Craw colors from current color map
+        # Draw colors from current color map
         from . import palettes
         type_    = self._Dropdown.get()
         colorfun = self.palettes().get_palettes(type_, exact = True)[0].method()
@@ -1045,8 +1063,7 @@ class gui(Tk):
         demovar.set(opts[0]) # default value
 
         # Demo plot option menu. No callback
-        menu = OptionMenu(self, demovar, *opts,
-                          command = self.OnChange)
+        menu = OptionMenu(self, demovar, *opts, command = self.OnChange)
         menu.config(width = 10, pady = 5, padx = 5)
         menu.grid(column = 1, row = len(opts))
         menu.place(x = 180, y = self.HEIGHT - 40)
