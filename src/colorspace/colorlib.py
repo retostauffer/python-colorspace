@@ -1251,6 +1251,9 @@ class colorlib:
 
         def rgbcleanup(r, g, b):
             def fun(x):
+                # Allow tiny correction close to 0. and 1.
+                x[np.logical_and(x < 0.0, x >= -0.001)] = 0.0
+                x[np.logical_and(x > 1.0, x <=  1.001)] = 1.0
                 return np.asarray([e if np.logical_and(e >= 0., e <= 1.)
                        else np.nan for e in x])
             return [fun(r), fun(g), fun(b)]

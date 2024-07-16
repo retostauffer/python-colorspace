@@ -189,6 +189,8 @@ class Slider(object):
         return self._name
 
     def set(self, val):
+        # Ensure it is integer if slider only accepts integer
+        if isinstance(self._Value, IntVar): val = int(val)
         # Setting slider
         self._Scale.set(val)
         # Setting Text

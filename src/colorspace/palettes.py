@@ -1375,7 +1375,7 @@ class qualitative_hcl(hclpalette):
         >>> #: Example where `h` is a list of two lambda functions
         >>> from colorspace import hexcols
         >>> pal = qualitative_hcl([lambda n: 100. * (n - 1) / n,  
-        >>>                       lambda n, h1: 300. * (n - 1) / n + h1], c = 30)
+        >>>                        lambda n, h1: 300. * (n - 1) / n + h1], c = 30)
         >>> cols = hexcols(pal.colors(5))
         >>> cols
         >>> #:
@@ -1820,7 +1820,7 @@ class diverging_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
+    def colors(self, n = 11, fixup = None, alpha = None, **kwargs):
         """Get Colors
 
         Returns the colors of the current color palette.
@@ -2128,7 +2128,7 @@ class divergingx_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
+    def colors(self, n = 11, fixup = None, alpha = None, **kwargs):
         """Get Colors
 
         Returns the colors of the current color palette.
@@ -2404,7 +2404,7 @@ class sequential_hcl(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
+    def colors(self, n = 11, fixup = None, alpha = None, **kwargs):
         """Get Colors
 
         Returns the colors of the current color palette.
@@ -2737,7 +2737,7 @@ class diverging_hsv(hclpalette):
 
 
     # Return hex colors
-    def colors(self, n = 11, fixup = True, alpha = None, **kwargs):
+    def colors(self, n = 11, fixup = None, alpha = None, **kwargs):
         """Get Colors
 
         Returns the colors of the current color palette.
