@@ -66,28 +66,36 @@ for n in group_labels:
 # Create distplot with custom bin_size
 fig = ff.create_distplot(hist_data, group_labels, bin_size=.2,
           colors = pal.colors(4))
-fig.update_layout(template = "plotly_white")
+fig.update_layout(template = "plotly_white",
+          title_text = "Distribution of daily maximum temperature<br>given season. " +
+                       "Sonnenberg, Harz, Germany")
 fig.show()
 ```
 
 ## Heatmap
 
-Plotting the [Tipping data](https://vincentarelbundock.github.io/Rdatasets/doc/reshape2/tips.html)
-as two-dimensional heatmap with the yellow-orange-red sequential color palette,
+Plotting the joint distribution of the daily minimum and maximum temperature
+(2021-2023) at station Sonnenberg using the sequential HCL-based color palette
+"YlOrRd" (yellow-orange-red).
 
 ```{python plotly_example_3}
 #| warning: true
 #| error: true
 
+from colorspace import sequential_hcl, datasets
 import plotly.express as px
-df = px.data.tips()
 
-fig = px.density_heatmap(df, x="total_bill", y="tip",
+# Loading data
+df = dataset("HarzTraffic")
+
+fig = px.density_heatmap(df, x = "tempmin", y = "tempmax",
+         title = "Joint distribution of daily minimum and maximum tmeperature",
          color_continuous_scale = sequential_hcl("YlOrRd", rev = True)(51))
 fig.show()
 ```
 
-or using a fully customized sequential HCL-based color palette.
+Alternatively a fully customised sequential palette is used for the
+following figure, showing the same information as the plot above.
 
 ```{python plotly_example_3_1}
 #| warning: true
@@ -103,8 +111,9 @@ pal = sequential_hcl(h = [330, 170], c = [45, 70, 10],
                      l = [25, 95], power = [0.5, 1.5])
 
 # Creating plot
-fig = px.density_heatmap(df, x = "tempmin", y="tempmax",
-         color_continuous_scale = pal.colors(51, rev = True))
+fig = px.density_heatmap(df, x = "tempmin", y = "tempmax",
+         title = "Joint distribution of daily minimum and maximum tmeperature",
+         color_continuous_scale = pal.colors(21, rev = True))
 fig.show()
 ```
 

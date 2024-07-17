@@ -11,7 +11,11 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.7", "3.9", "3.11"]
+        python-version: ["3.8", "3.9", "3.11", "3.12"]
+        # https://devguide.python.org/versions/
+        # Python 3.7 reached EOL mid 2023
+        # Python 3.8 will reach EOL mid 2024
+        # Python 3.9 will reach EOL mid 2025
 
     steps:
       - uses: actions/checkout@v4
