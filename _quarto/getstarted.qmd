@@ -145,63 +145,117 @@ Finally, even more flexible diverging HCL palettes are provided by
 [`divergingx_hcl`](/man/colorspace.palettes.divergingx_hcl.qmd).
 
 
-## Use with matplotlib graphics
+## Use with matplotlib, seaborn, and plotly graphics
 
-All color palettes come with a `cmap()` method to generate objects
-of class `LinearSegmentedColormap` as used by `matplotlib` and can
-thus usually be passed directly to most matplotlib plotting functions, typically
-through the `cmap` argument. Here, a `pcolormesh()` example is shown using
-the diverging HCL color palette "*Blue-Red 3*".
+The HCL-based color palettes can be integrated into commonly used
+Python packages for plotting such as 
+[`seaborn`](https://seaborn.pydata.org/),
+[`plotly`](https://plotly.com/python/), and [`matplotlib`](https://matplotlib.org/).
+For the latter all palettes come with a `cmap()` method to generate objects of 
+class `LinearSegmentedColormap` as used by by matplotlib, making it straight forward
+to be used with most matplotlib plotting functions.
+
+The rest of this section shows one example for each, matplotlib, seaborn, and plotly.
+More examples can be found on the dedicated articles:
+
+* [HCL-Based Color Scales for matplotlib](/articles/usewith_matplotlib.qmd)
+* [HCL-Based Color Scales for seaborn](/articles/usewith_seaborn.qmd)
+* [HCL-Based Color Scales for plotly](/articles/usewith_plotly.qmd)
+
+#### Matplotlib
 
 ```{python}
-#| echo: true
+#| warning: true
+#| error: true
 
+from colorspace import sequential_hcl, qualitative_hcl
 import matplotlib.pyplot as plt
 import numpy as np
+
+np.random.seed(6020)
+X,Y,Z = [np.random.normal(10, 3, 100), np.random.rand(100), np.random.rand(100)]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 3))
+ax1.scatter(X, Y, c = Z, alpha = 0.7,
+            cmap = sequential_hcl("Purples 3").cmap())
+ax2.scatter(X, Y, c = np.ceil(Z * 3), alpha = 0.7,
+            cmap = qualitative_hcl("Cold").cmap())
+plt.show()
+```
+
+
+#### Seaborn
+
+```{python}
+#| warning: true
+#| error: true
 
 from colorspace import diverging_hcl
-pal = diverging_hcl("Blue-Red 3")
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-np.random.seed(19680801)
-Z = np.random.rand(6, 10)
-x = np.arange(-0.5, 10, 1)  # len = 11
-y = np.arange(4.5, 11, 1)  # len = 7
+# Loading data set; calculate number of colors needed
+dots = sns.load_dataset("dots")
+N    = len(np.unique(dots.coherence))
 
-fig, ax = plt.subplots()
-dead_end = ax.pcolormesh(x, y, Z, cmap = pal.cmap())
-
+# Plot the lines on two facets
+sns.relplot(data = dots, x = "time", y = "firing_rate",
+            hue = "coherence", size = "choice", col = "align",
+            kind = "line", size_order = ["T1", "T2"],
+            height = 3, aspect = 2, facet_kws = dict(sharex = False),
+            palette = diverging_hcl("Green-Orange").colors(N))
 plt.show()
 ```
-
-
-As another example for a sequential palette, we demonstrate how to create a
-line plot using `rainbowplot()` provided by the `statsmodels` package.
-The "*Purples 3*" palette is used which is similar to the
-[ColorBrewer2.org](https://colorbrewer2.org/) palette 'Purples'.
-
 
 ```{python}
-#| echo: true
-
-import numpy as np
-import matplotlib.pyplot as plt
-import statsmodels.api as sm
-data = sm.datasets.elnino.load()
-
 from colorspace import sequential_hcl
-pal = sequential_hcl("Purples 3")
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-res = sm.graphics.rainbowplot(data.raw_data.iloc[:, 1:], ax = ax, cmap = pal.cmap())
-dead_end = ax.set_xlabel("month of the year")
-dead_end = ax.set_ylabel("sea surface temperature (C)")
-dead_end = ax.set_xticks(np.arange(13, step=3) - 1)
-dead_end = ax.set_xticklabels(["", "Mar", "Jun", "Sep", "Dec"])
-dead_end = ax.set_xlim([-0.2, 11.2])
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+data = {"months": np.tile(months, 3),
+        "label":  np.repeat(["Primary", "Secondary", "Tertiary"], len(months)),
+        "value":  np.concatenate((np.random.uniform(12, 15, len(months)),
+                                  np.random.uniform(10, 15, len(months)),
+                                  np.random.uniform(7, 12, len(months))))}
+data = pd.DataFrame(data)
 
+fig, ax = plt.subplots(1, 1, figsize = (10, 4))
+sns.barplot(x = "months", y = "value", hue = "label", data = data, ax = ax,
+            palette = sequential_hcl("Burg", rev = True)(3))
 plt.show()
 ```
+
+#### Plotly
+
+```{python}
+#| warning: true
+#| error: true
+
+from colorspace import qualitative_hcl
+import plotly.graph_objects as go
+import numpy as np
+
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+config = {"Primary":   {"low": 12, "high": 15},
+          "Secondary": {"low": 10, "high": 15},
+          "Tertiary":  {"low": 7, "high": 12}}
+
+fig = go.Figure()
+for k,v in config.items():
+    y = np.random.uniform(v["low"], v["high"], len(months))
+    fig.add_trace(go.Bar(x = months, y = y, name = k))
+
+# Here we modify the tickangle of the xaxis, resulting in rotated labels.
+fig.update_traces(marker_color = qualitative_hcl("Cold")(3))
+fig.show()
+```
+
+
 
 
 ## Palette visualization and assessment

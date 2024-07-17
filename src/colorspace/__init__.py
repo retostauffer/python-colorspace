@@ -58,6 +58,9 @@ from .choose_palette import choose_palette
 from .cvd_emulator import cvd_emulator
 from .demos import demoplot
 
+# Demo data
+from .datasets import dataset
+
 # Adding version
 from colorspace import version
 __version__ = version.short_version
