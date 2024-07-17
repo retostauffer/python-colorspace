@@ -35,11 +35,19 @@ def _getdataset_HarzTraffic():
     # Convert 'data' column to datetime
     data.date = pd.to_datetime(data.date).dt.date
 
+    # Adding season
     m = pd.DatetimeIndex(data.date).month
     data["season"] = np.repeat("winter", data.shape[0])
     data.loc[(m >= 3) & (m <=  5), "season"] = "spring"
     data.loc[(m >= 6) & (m <=  8), "season"] = "summer"
     data.loc[(m >= 9) & (m <= 11), "season"] = "autumn"
+    del m
+
+    # Boolean flag for 'weekend'
+    d = pd.DatetimeIndex(data.date).dayofweek
+    data["weekend"] = np.repeat(False, data.shape[0])
+    data.loc[(d >= 5), "weekend"] = True # Saturday (5) or Sunday (6)
+    del d
 
     return data
 
@@ -124,6 +132,8 @@ def dataset(name):
     * `sunshine` int64, sunshine duration in minutes.
     * `wind` float64, mean wind speed in meters per second.
     * `windmax` float64, maximum wind speed in meters per second.
+    * `season`: object, local season (sprint, summer, autumn, winter).
+    * `weekend`: bool, True if the day is Saturday or Sunday, else False.
 
     Weather data: Deutscher Wetterdienst (DWD), Climate Data Center (CDC),
     station Wernigerode (5490; Sachsen-Anhalt) w/ location 10.7686/51.8454/233

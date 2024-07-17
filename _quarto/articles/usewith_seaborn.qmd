@@ -8,8 +8,8 @@ title: "HCL-Based Color Scales for seaborn"
 
 The following example shows the number of motorbikes recorded by an automatic
 traffic counting station in the Harz Mountains (Germany), an region very
-popular with bikers. The number of bikes (y-axis) is plotted against the daily
-mean temperature (x-axis) and colored by season using custom colors from the
+popular with bikers. The number of bikes (y-axis) is plotted against the
+daily mean temperature (x-axis) and colored by season using custom colors from the
 HCL-based qualitative color palette "Dark 3".
 
 ```{python seaborn_example_1}
@@ -17,20 +17,22 @@ HCL-based qualitative color palette "Dark 3".
 #| error: true
 
 from colorspace import qualitative_hcl, dataset 
+import matplotlib.pyplot as plt
 import pandas as pd
-import plotly.express as px
+import seaborn as sns
 
 # Loading HarzTraffic data set
 df = dataset("HarzTraffic")       
 
+
 # Creating plot
-fig = px.scatter(df, x = "temp", y = "bikes", color = "season",
-        labels = {"temp": "daily mean temperature [deg C]", "bikes": "number of bikes"},
-        title = "Number of bikes per day given season<br>Sonnenberg, Harz, Germany",    
-        color_discrete_sequence = qualitative_hcl()(4))         
-fig.update_traces(marker = dict(size = 7))   
-fig.update_layout(template = "plotly_white")
-fig.show() 
+fig, ax = plt.subplots(1, 1, figsize = (8, 4))
+sns.scatterplot(data = df, x = "temp", y = "bikes",
+                hue="season", ax = ax,
+                palette = qualitative_hcl("Dark 3").colors(4))
+plt.title("Number of bikes given daily mean temperature")
+plt.xlabel("temperature [deg C]")
+plt.show() 
 ```
 
 
@@ -38,12 +40,13 @@ fig.show()
 
 The next example shows a multi-group distribution plot (`kind = "kde"`) based
 on the 'HarzTraffic' data set where the distribution of the daily maximum temperature
-is shown given the prevailing season. Again, the sequential HCL-based color palette
-"Dark 3" is used.
+is shown given the prevailing season. The colors are based on a modified
+sequential HCL-based palette using "Dark 3" as template (adjusting hues).
 
 ```{python seaborn_example_2}
 #| warning: true
 #| error: true
+#| layout-ncol: 1
 
 from colorspace import qualitative_hcl, dataset
 from matplotlib import pyplot as plt
@@ -52,68 +55,121 @@ import seaborn as sns
 # Loading penguins data set
 df = dataset("HarzTraffic")
 
+# Palette to be used
+pal = qualitative_hcl("Dark 3", h1 = -180, h2 = 100)
+
 # Creating plot
-g = sns.displot(data = df, x = "tempmax", hue = "season", fill = "season",     
-                kind = "kde", rug = True, height = 4, aspect = 3,
-                palette = qualitative_hcl("Dark 3", rev = True).colors(4))                  
-g.set_axis_labels("daily maximum temperature [deg C]")
+g = sns.displot(data = df, x = "tempmax", hue = "season", fill = "season",   
+                kind = "kde", rug = True, height = 4, aspect = 1.5,
+                palette = pal.colors(4))
+g.set_axis_labels("temperature [deg C]")              
+g.set(title = "Distribution of daily maximum temperature given season")
+plt.tight_layout()
 plt.show()
 ```
 
 ## Heatmap
 
 HCL-based color maps (`LinearSegmentedColormap` objects) can be used directly
-for seaborn heatmaps, here employing the sequential HCL-based "YlOrRd" (yellow-orange-red)
-palette in reverse order (`rev = True`).
+for seaborn heatmaps. The plot below shows the joint density of 
+the daily maximum temperature (y-axis) and daily minimum temperature (x-axis)
+based on the 'HarzTraffic' data set.
+
+The left subplot employs one of the pre-defined sequential HCL-based
+color palette "YlOrRd" (yellow-orange-red) in reverse order, while the
+right subplot shows the same information but using a custom sequential
+HCL-based palette. Instead of reversing the palette via `rev = True`,
+the `.reversed()` method on the `LinearSegmentedColormap` (cmap) is
+used to get the same effect.
+
 
 ```{python seaborn_example_3}
 #| warning: true
 #| error: true
 
-from colorspace import sequential_hcl
+from colorspace import sequential_hcl, dataset
+import seaborn as sns
+import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
- 
-# Simulate data from a bivariate Gaussian 
-n    = 10000 
-mean = [0, 0] 
-cov  = [(2, .4), (.4, .2)] 
-rng  = np.random.RandomState(0) 
-x, y = rng.multivariate_normal(mean, cov, n).T 
- 
-# Draw heatmap
-sns.histplot(x = x, y = y, bins = 50, pthresh = .1,             
-             cmap = sequential_hcl("YlOrRd", rev = True).cmap())
-plt.show()
-```
 
-In addition to pre-defined palettes, fully custom color maps can
-be defined and used for plotting. Here the matplotlib `.reverse()` method
-is used to reverse the colormap, which could also be done when specifying
-the `sequential_hcl()` palette.
+# Loading penguins data set
+df = dataset("HarzTraffic")
 
-```{python seaborn_example_3_1}
-#| warning: true
-#| error: true
+# New figure with 2 subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (12, 6))
 
-from colorspace import sequential_hcl
-import seaborn as sns
-import matplotlib.pyplot as plt
+# Draw heatmap (left)
+g1 = sns.histplot(x = "tempmin", y = "tempmax", data = df,
+            bins = 25, pthresh = .1, ax = ax1,
+            cmap = sequential_hcl("YlOrRd", rev = True).cmap()) 
+
+g1.plot([-50, 50], [-50, 50], color = "black") # Adding diagonal
+g1.set(xlim = [-8, 18], ylim = [-5, 32]) # Re-adjusting limits
+g1.set_xlabel("daily minimum temperature [deg C]")    
+g1.set_ylabel("daily maximum temperature [deg C]")                   
+g1.set_title("Joint density of daily minimum and maximum\n" +
+            "temperature. Sonnenberg, Harz, Germany")
 
 # Create fully customized HCL-based sequential palette
 custom_cmap = sequential_hcl(h = [330, 170], c = [45, 70, 10],
                              l = [25, 95], power = [0.5, 1.5]).cmap().reversed()
 
-# Draw heatmap
-sns.histplot(x = x, y = y, bins = 50, pthresh = .1,             
-             cmap = custom_cmap)
+# Draw heatmap (right) with customized color map
+g2 = sns.histplot(x = "tempmin", y = "tempmax", data = df,
+            bins = 25, pthresh = .1, ax = ax2,
+            cmap = custom_cmap)
+
+g2.plot([-50, 50], [-50, 50], color = "black") # Adding diagonal
+g2.set(xlim = [-8, 18], ylim = [-5, 32]) # Re-adjusting limits
+g2.set_xlabel("daily minimum temperature [deg C]")    
+g2.set_ylabel("daily maximum temperature [deg C]")                   
+g2.set_title("Joint density of daily minimum and maximum\n" +
+            "temperature. Sonnenberg, Harz, Germany")
+
 plt.show()
 ```
 
+## Lineplot with multiple facets
 
+As a last example the number of bikes and cars are shown for the
+different years by day of year (`yday`; Julian day) using
+a diverging HCL-based color palette.
 
+```{python}
+#| warning: true
+#| error: true
+#| layout-ncol: 1
 
+from colorspace import diverging_hcl
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+# Loading penguins data set
+df = dataset("HarzTraffic")
+df["year"] = pd.DatetimeIndex(df.date).year
+
+# Reorganizing the data
+a = df.loc[:, ["year", "yday", "bikes"]].rename(columns = {"bikes": "count"})
+a.insert(2, "type", "bikes")
+b = df.loc[:, ["year", "yday", "cars"]].rename(columns = {"cars": "count"})
+b.insert(2, "type", "cars")
+
+# Concatenate (rowwise)
+df = pd.concat([a, b], axis = 0)
+del a, b
+
+# Number of colors required
+N  = len(np.unique(df.year))
+
+# Plot the lines on two facets
+sns.relplot(data = df, x = "yday", y = "count",
+            hue = "year", row = "type",
+            kind = "line", size_order = ["cars", "bikes"],
+            height = 4, aspect = 3, facet_kws = dict(sharey = False),
+            palette = diverging_hcl("Green-Orange").colors(N))
+plt.show()
+```
 
 
 

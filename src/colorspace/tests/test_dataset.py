@@ -32,7 +32,7 @@ def test_dataset_HarzTraffic():
     # Expected columns (in this order)
     expected = np.asarray(["date", "yday", "bikes", "cars", "trucks", "others",
         "tempmin", "tempmax", "temp", "humidity", "tempdew", "cloudiness", "rain",
-        "sunshine", "wind", "windmax", "season"])
+        "sunshine", "wind", "windmax", "season", "weekend"])
 
     # Loading data
     x = dataset("HarzTraffic")

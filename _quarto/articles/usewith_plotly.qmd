@@ -6,22 +6,29 @@ title: "HCL-Based Color Scales for plotly"
 
 ## Scatterplot
 
-The following example from the plotly gallery shows 'sepal length'
-plotted against 'sepal width' from the
-[Iris flower data set](https://en.wikipedia.org/wiki/Iris_flower_data_set)
-in a two-dimensional scatterplot, using different colors from the qualitative
-HCL-based 'Dark 3' color palette for the different species.
+The following example shows the number of motorbikes recorded by an automatic
+traffic counting station in the Harz Mountains (Germany), an region very
+popular with bikers. The number of bikes (y-axis) is plotted against the daily               
+mean temperature (x-axis) and colored by season using custom colors from the
+HCL-based qualitative color palette "Dark 3".
 
 ```{python plotly_example_1}
 #| warning: true
 #| error: true
 
+from colorspace import qualitative_hcl, dataset 
+import pandas as pd
 import plotly.express as px
-from colorspace import *
 
-df  = px.data.iris()
-fig = px.scatter(df, x = "sepal_width", y = "sepal_length", color = "species",
-        color_discrete_sequence = qualitative_hcl("Dark 3")(3))
+# Loading HarzTraffic data set
+df = dataset("HarzTraffic")       
+
+# Creating plot
+fig = px.scatter(df, x = "temp", y = "bikes", color = "season",
+        labels = {"temp": "daily mean temperature [deg C]", "bikes": "number of bikes"},
+        title = "Number of bikes per day given season<br>Sonnenberg, Harz, Germany",    
+        color_discrete_sequence = qualitative_hcl("Dark 3")(4))         
+fig.update_traces(marker = dict(size = 7))   
 fig.update_layout(template = "plotly_white")
 fig.show()
 ```
@@ -29,33 +36,36 @@ fig.show()
 
 ## Multi-group histogram
 
-The example below shows a distplot for four different randomly drawn
-data sets with different locations (mean) showing histograms, kernel
-density estimation as well as a rug plot at the bottom using different
-colors from the qualitative HCL-based color palettel 'Warm' for the different
-groups.
+The next example shows a multi-group distribution plot based on
+the 'HarzTraffic' data set where the distribution of the daily maximum
+temperature is shown given the prevailing season. The colors are based
+on an adjusted qualitative HCL-based palette using "Dark 3" as template
+(adjusting hues).
+
 
 ```{python plotly_example_2}
 #| warning: true
 #| error: true
 
+from colorspace import qualitative_hcl, dataset
 import plotly.figure_factory as ff
 import numpy as np
 
-# Add histogram data
-x1 = np.random.randn(200) - 2
-x2 = np.random.randn(200)
-x3 = np.random.randn(200) + 2
-x4 = np.random.randn(200) + 4
+# Palette to be used
+pal = qualitative_hcl("Dark 3", h1 = -180, h2 = 100)
 
-# Group data together
-hist_data = [x1, x2, x3, x4]
+# Loading data
+df = dataset("HarzTraffic")
 
-group_labels = ['Group 1', 'Group 2', 'Group 3', 'Group 4']
+# Creating objects for plotting
+group_labels = ["winter", "spring", "summer", "autumn"]
+hist_data    = []
+for n in group_labels:
+    hist_data.append(df.loc[df.season == n, "tempmax"])
 
 # Create distplot with custom bin_size
 fig = ff.create_distplot(hist_data, group_labels, bin_size=.2,
-                         colors = qualitative_hcl("Warm")(4))
+          colors = pal.colors(4))
 fig.update_layout(template = "plotly_white")
 fig.show()
 ```
@@ -83,9 +93,17 @@ or using a fully customized sequential HCL-based color palette.
 #| warning: true
 #| error: true
 
+from colorspace import sequential_hcl, dataset
+import plotly.express as px
+
+# Loading data
+df = dataset("HarzTraffic")
+
 pal = sequential_hcl(h = [330, 170], c = [45, 70, 10],
                      l = [25, 95], power = [0.5, 1.5])
-fig = px.density_heatmap(df, x="total_bill", y="tip",
+
+# Creating plot
+fig = px.density_heatmap(df, x = "tempmin", y="tempmax",
          color_continuous_scale = pal.colors(51, rev = True))
 fig.show()
 ```
@@ -104,11 +122,11 @@ a multi-hue sequential palette.
 #| fig-height: 5
 #| layout-ncol: 1
 
-from colorspace.demos import get_volcano_data
+from colorspace import terrain_hcl, dataset
 import plotly.graph_objects as go
 import numpy as np
 
-volcano = get_volcano_data(True) / 100.
+volcano = dataset("volcano") / 100.
 
 # Custom set of colors to be used
 cols = terrain_hcl().colors(51) 
