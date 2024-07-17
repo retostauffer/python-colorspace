@@ -566,7 +566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scatterplot" class="level2">
 <h2 class="anchored" data-anchor-id="scatterplot">Scatterplot</h2>
 <p>The following example shows the number of motorbikes recorded by an automatic traffic counting station in the Harz Mountains (Germany), an region very popular with bikers. The number of bikes (y-axis) is plotted against the daily mean temperature (x-axis) and colored by season using custom colors from the HCL-based qualitative color palette “Dark 3”.</p>
-<div id="38c8d5b2" class="cell" data-execution_count="1">
+<div id="4a12c083" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl, dataset </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -614,7 +614,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>g.<span class="bu">set</span>(title <span class="op">=</span> <span class="st">"Distribution of daily maximum temperature given season"</span>)</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="0b837fe8" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
+<div id="b1dbaae3" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="usewith_seaborn_files/figure-html/cell-3-output-1.png" class="img-fluid" width="677"></p>
@@ -626,7 +626,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="heatmap">Heatmap</h2>
 <p>HCL-based color maps (<code>LinearSegmentedColormap</code> objects) can be used directly for seaborn heatmaps. The plot below shows the joint density of the daily maximum temperature (y-axis) and daily minimum temperature (x-axis) based on the ‘HarzTraffic’ data set.</p>
 <p>The left subplot employs one of the pre-defined sequential HCL-based color palette “YlOrRd” (yellow-orange-red) in reverse order, while the right subplot shows the same information but using a custom sequential HCL-based palette. Instead of reversing the palette via <code>rev = True</code>, the <code>.reversed()</code> method on the <code>LinearSegmentedColormap</code> (cmap) is used to get the same effect.</p>
-<div id="04cbf824" class="cell" data-execution_count="3">
+<div id="e4b152a9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, dataset</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -708,7 +708,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            height <span class="op">=</span> <span class="dv">4</span>, aspect <span class="op">=</span> <span class="dv">3</span>, facet_kws <span class="op">=</span> <span class="bu">dict</span>(sharey <span class="op">=</span> <span class="va">False</span>),</span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            palette <span class="op">=</span> diverging_hcl(<span class="st">"Green-Orange"</span>).colors(N))</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="e6bf4fd6" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<div id="27d5fc81" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="usewith_seaborn_files/figure-html/cell-5-output-1.png" class="img-fluid" width="1227"></p>
