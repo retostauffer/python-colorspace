@@ -599,7 +599,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="07f02fc8" class="cell" data-execution_count="1">
+<div id="f8115c41" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl, protan, palette</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, swatchplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Drawing 100 colors along the HCL rainbow color palette</span></span>
@@ -613,7 +613,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="9f6adad1" class="cell" data-execution_count="2">
+<div id="9173f161" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>specplot(protan(cols))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -623,7 +623,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="affe1b99" class="cell" data-execution_count="3">
+<div id="92cb6a7e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>specplot(protan(cols, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -633,12 +633,12 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="fb57bf41" class="cell" data-execution_count="4">
+<div id="831680e7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of (hex) colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"magenta"</span>, <span class="st">"red"</span>, <span class="st">"orange"</span>, <span class="st">"#F2F204"</span>, <span class="st">"#6BF204"</span>, <span class="st">"#4DA00D"</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>protan(cols)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2570834a" class="cell" data-execution_count="5">
+<div id="3deedc97" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize original and simulated color swatches</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>swatchplot([cols, protan(cols)],</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="dv">5</span>, <span class="fl">1.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -650,7 +650,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="2a8fb185" class="cell" data-execution_count="6">
+<div id="96d11fd6" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From palette object</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette(cols, name <span class="op">=</span> <span class="st">"custom palette"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>protan(pal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -658,7 +658,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 <pre><code>['#007FFF', '#6D5F00', '#C3AC00', '#FFE700', '#FADC00', '#A69200']</code></pre>
 </div>
 </div>
-<div id="cd809fb0" class="cell" data-execution_count="7">
+<div id="83e1b557" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From cmap (returns cmap)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>protan(pal.cmap())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
