@@ -596,7 +596,7 @@ window.Quarto = {
 <p>The following example shows simple two-dimensional scatter plot using randomly generated data. The colors are based on a <code>LinearSegmentedColormap</code> fro the qualitative HCL-based color palette “Dark 3”.</p>
 <p>Each random <code>(x, y)</code> data point is assigned a random value <code>cfloat</code> <span class="math inline">\(\in [0.0, 1.0]\)</span> defining its color, which is also converted into an integer vector <code>cint</code> <span class="math inline">\(\in \{1, 2, 3\}\)</span>.</p>
 <p>The first subplot uses <code>cfloat</code> and <code>qualitative_hcl("Dark 3").cmap()</code> which returns a continuous <code>LinearSegmentedColormap</code> with <code>N = 256</code> colors along the “Dark 3” palette. The second subplot uses <code>.cmap(3)</code>, which results in a <code>LinearSegmentedColormap</code> with only three colors, thus having three distinct groups. Similarly, the third subplot uses the integer array (<code>cint</code>) to color the individual data points, giving exactly the same result as the second subplot.</p>
-<div id="8b140fd8" class="cell" data-execution_count="1">
+<div id="d7955804" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -633,7 +633,7 @@ window.Quarto = {
 <section id="heatmap" class="level2">
 <h2 class="anchored" data-anchor-id="heatmap">Heatmap</h2>
 <p>Another example of how HCL-based <code>LinearSegmentedColormaps</code> can be used are heatmaps (<code>imshow</code>). The following subplots use the pre-defined sequential HCL-based “YlOrRd” (yellow-orange-red) color palette, once in the default order and once reversed (<code>rev = True</code>).</p>
-<div id="81e4c61d" class="cell" data-execution_count="2">
+<div id="fb8a1837" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -664,7 +664,7 @@ window.Quarto = {
 </div>
 </div>
 <p>In addition to pre-defined palettes, fully custoized color maps can be created and used for plotting. The example below shows heatmaps with two fully custom HCL-based color palettes, a sequential palette (left) and a reversed diverging palette (right).</p>
-<div id="f395f5a8" class="cell" data-execution_count="3">
+<div id="5ec41cdc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -731,7 +731,7 @@ window.Quarto = {
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                       linewidth <span class="op">=</span> <span class="dv">0</span>, antialiased <span class="op">=</span> <span class="va">False</span>, shade <span class="op">=</span> <span class="va">False</span>)</span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="6108657f" class="cell quarto-layout-panel" data-execution_count="4" data-fig-height="5" data-fig-width="8" data-layout-ncol="1">
+<div id="ca797719" class="cell quarto-layout-panel" data-execution_count="4" data-fig-height="5" data-fig-width="8" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="usewith_matplotlib_files/figure-html/cell-5-output-1.png" class="img-fluid" width="979"></p>
