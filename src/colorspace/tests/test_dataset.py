@@ -21,11 +21,16 @@ def test_dataset_wrong_usage():
 
 def test_dataset_volcano():
 
+    from sys import version_info
+
     x = dataset("volcano")
 
     assert isinstance(x, np.ndarray)
     assert np.all(x.shape == np.asarray((61, 87)))
-    assert np.isdtype(x.dtype, np.int64)
+    
+    # numpy.isdtype available Python 3.9+
+    if version_info > (3, 8):
+        assert np.isdtype(x.dtype, np.int64)
 
 def test_dataset_HarzTraffic():
 
