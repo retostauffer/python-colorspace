@@ -68,6 +68,7 @@ A `pandas.DataFrame` containing 35 observations (rows) on 10 variables:
 * `temp`: float64, monthly mean temperature in degrees Celsius.
 * `sunshine`: int64, monthly average of sunshine per day in minutes.
 * `wind`: float64, monthly mean wind speed in meters per second.
+* `season`: object, local season (sprint, summer, autumn, winter).
 
 Data source and license: see data set description 'HarzTraffic'.
 

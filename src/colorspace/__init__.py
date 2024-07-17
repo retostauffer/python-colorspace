@@ -57,8 +57,6 @@ from .hclplot import hclplot
 from .choose_palette import choose_palette
 from .cvd_emulator import cvd_emulator
 from .demos import demoplot
-
-# Demo data
 from .datasets import dataset
 
 # Adding version

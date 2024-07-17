@@ -1,6 +1,6 @@
 
 
-from colorspace.datasets import dataset
+from colorspace import dataset
 from pytest import raises
 import numpy as np
 import pandas as pd
@@ -9,7 +9,7 @@ import pandas as pd
 # -------------------------------------------------
 # Wrong usage
 # -------------------------------------------------
-def test_datasets_wrong_usage():
+def test_dataset_wrong_usage():
 
     raises(TypeError, dataset, 1)
     raises(TypeError, dataset, name = True)
@@ -19,7 +19,7 @@ def test_datasets_wrong_usage():
     raises(ValueError, dataset, name = "name_of_non_existing_dataset")
 
 
-def test_datasets_volcano():
+def test_dataset_volcano():
 
     x = dataset("volcano")
 
@@ -29,15 +29,18 @@ def test_datasets_volcano():
 
 def test_dataset_HarzTraffic():
 
+    # Expected columns (in this order)
+    expected = np.asarray(["date", "yday", "bikes", "cars", "trucks", "others",
+        "tempmin", "tempmax", "temp", "humidity", "tempdew", "cloudiness", "rain",
+        "sunshine", "wind", "windmax", "season"])
+
+    # Loading data
     x = dataset("HarzTraffic")
 
     assert isinstance(x, pd.DataFrame)
-    assert np.all(x.shape == np.asarray((1057, 16)))
+    assert np.all(x.shape == np.asarray((1057, len(expected))))
 
     # checking expected column names
-    expected = np.asarray(["date", "yday", "bikes", "cars", "trucks", "others",
-        "tempmin", "tempmax", "temp", "humidity", "tempdew", "cloudiness", "rain",
-        "sunshine", "wind", "windmax"])
     assert np.all(x.columns == expected)
 
     # Quick data check
@@ -48,14 +51,16 @@ def test_dataset_HarzTraffic():
 
 def test_dataset_MonthlyHarzTraffic():
 
+    # Expected columns (in this order)
+    expected = np.asarray(["year", "month", "bikes", "cars", "trucks", "others",
+        "rain", "temp", "sunshine", "wind", "season"])
+
+    # Loading data
     x = dataset("MonthlyHarzTraffic")
 
     assert isinstance(x, pd.DataFrame)
-    assert np.all(x.shape == np.asarray((35, 10)))
-
+    assert np.all(x.shape == np.asarray((35, len(expected))))
     # checking expected column names
-    expected = np.asarray(["year", "month", "bikes", "cars", "trucks", "others",
-        "rain", "temp", "sunshine", "wind"])
     assert np.all(x.columns == expected)
 
     # Quick data check

@@ -83,6 +83,8 @@ website:
         text: cvd_emulator
       - file: man/colorspace.utils.darken.qmd
         text: darken
+      - file: man/colorspace.datasets.dataset.qmd
+        text: dataset
       - file: man/colorspace.demos.demoplot.qmd
         text: demoplot
       - file: man/colorspace.CVD.desaturate.qmd

@@ -6,55 +6,57 @@ title: "HCL-Based Color Scales for seaborn"
 
 ## Scatterplot
 
-The following example from the seaborn gallery shows fuel consumption
-(miles per gallon) at a given horsepower for a number of cars based on the
-[`mpg`](https://github.com/mwaskom/seaborn-data/blob/master/mpg.csv) data set
-using custom colors from the HCL-based qualitative color palette "Dark 3".
+The following example shows the number of motorbikes recorded by an automatic
+traffic counting station in the Harz Mountains (Germany), an region very
+popular with bikers. The number of bikes (y-axis) is plotted against the daily
+mean temperature (x-axis) and colored by season using custom colors from the
+HCL-based qualitative color palette "Dark 3".
 
 ```{python seaborn_example_1}
 #| warning: true
 #| error: true
 
-from colorspace import qualitative_hcl
-from matplotlib import pyplot as plt
-import seaborn as sns
-sns.set_theme(style="white")
+from colorspace import qualitative_hcl, dataset 
+import pandas as pd
+import plotly.express as px
 
-# Load the example mpg dataset
-mpg = sns.load_dataset("mpg")
+# Loading HarzTraffic data set
+df = dataset("HarzTraffic")       
 
-# Colors to be used
-pal = qualitative_hcl("Dark 3").colors(3)
-
-# Plot miles per gallon against horsepower with other semantics
-sns.relplot(x = "horsepower", y = "mpg", hue = "origin", size = "weight", 
-            sizes = (40, 400), alpha = .5, palette = pal,
-            height = 6, data = mpg)
-plt.show()
+# Creating plot
+fig = px.scatter(df, x = "temp", y = "bikes", color = "season",
+        labels = {"temp": "daily mean temperature [deg C]", "bikes": "number of bikes"},
+        title = "Number of bikes per day given season<br>Sonnenberg, Harz, Germany",    
+        color_discrete_sequence = qualitative_hcl()(4))         
+fig.update_traces(marker = dict(size = 7))   
+fig.update_layout(template = "plotly_white")
+fig.show() 
 ```
 
 
 ## Multi-group histogram
 
 The next example shows a multi-group distribution plot (`kind = "kde"`) based
-on the [`penguins data set`](https://github.com/mwaskom/seaborn-data/blob/master/penguins.csv),
-again using a range of colors from the sequential HCL-based color palette "Dark 3".
+on the 'HarzTraffic' data set where the distribution of the daily maximum temperature
+is shown given the prevailing season. Again, the sequential HCL-based color palette
+"Dark 3" is used.
 
 ```{python seaborn_example_2}
 #| warning: true
 #| error: true
 
-from colorspace import qualitative_hcl 
+from colorspace import qualitative_hcl, dataset
 from matplotlib import pyplot as plt
 import seaborn as sns 
 
 # Loading penguins data set
-penguins = sns.load_dataset("penguins")
+df = dataset("HarzTraffic")
 
 # Creating plot
-sns.displot(data=penguins, x = "flipper_length_mm",                           
-        hue = "species", fill = "species", kind = "kde", rug = True, 
-        palette = qualitative_hcl("Dark 3").colors(3))                  
+g = sns.displot(data = df, x = "tempmax", hue = "season", fill = "season",     
+                kind = "kde", rug = True, height = 4, aspect = 3,
+                palette = qualitative_hcl("Dark 3", rev = True).colors(4))                  
+g.set_axis_labels("daily maximum temperature [deg C]")
 plt.show()
 ```
 

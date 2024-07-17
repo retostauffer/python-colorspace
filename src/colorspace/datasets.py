@@ -20,6 +20,7 @@ def _getdataset_HarzTraffic():
     except:
         raise Exception("'HarzTraffic' requires `pandas` to be installed")
     import os
+    import numpy as np
 
     # Loading the data set
     resource_package = os.path.dirname(__file__)
@@ -33,6 +34,12 @@ def _getdataset_HarzTraffic():
 
     # Convert 'data' column to datetime
     data.date = pd.to_datetime(data.date).dt.date
+
+    m = pd.DatetimeIndex(data.date).month
+    data["season"] = np.repeat("winter", data.shape[0])
+    data.loc[(m >= 3) & (m <=  5), "season"] = "spring"
+    data.loc[(m >= 6) & (m <=  8), "season"] = "summer"
+    data.loc[(m >= 9) & (m <= 11), "season"] = "autumn"
 
     return data
 
@@ -67,6 +74,12 @@ def _getdataset_MonthlyHarzTraffic():
     for col in data.columns:
         if np.issubdtype(data.loc[:, col], np.floating):
             data.loc[:, col] = np.round(data.loc[:, col], 1)
+
+    # Adding season flat
+    data["season"] = np.repeat("winter", data.shape[0])
+    data.loc[(data.month >= 3) & (data.month <=  5), "season"] = "spring"
+    data.loc[(data.month >= 6) & (data.month <=  8), "season"] = "summer"
+    data.loc[(data.month >= 9) & (data.month <= 11), "season"] = "autumn"
 
     return data
 
@@ -139,6 +152,7 @@ def dataset(name):
     * `temp`: float64, monthly mean temperature in degrees Celsius.
     * `sunshine`: int64, monthly average of sunshine per day in minutes.
     * `wind`: float64, monthly mean wind speed in meters per second.
+    * `season`: object, local season (sprint, summer, autumn, winter).
 
     Data source and license: see data set description 'HarzTraffic'.
 
