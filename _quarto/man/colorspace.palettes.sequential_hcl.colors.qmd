@@ -8,7 +8,7 @@ Returns the colors of the current color palette.
 
 ### Usage
 
-<pre><code class='language-python'>sequential_hcl.colors(n=11, fixup=True, alpha=None,<br/>                      **kwargs)</code></pre>
+<pre><code class='language-python'>sequential_hcl.colors(n=11, fixup=None, alpha=None,<br/>                      **kwargs)</code></pre>
 
 ### Arguments
 

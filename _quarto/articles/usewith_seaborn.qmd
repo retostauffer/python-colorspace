@@ -1,0 +1,118 @@
+---
+title: "HCL-Based Color Scales for seaborn"
+---
+
+
+
+## Scatterplot
+
+The following example from the seaborn gallery shows gas consumption
+(miles per gallon) given horsepower for a series of cars based on the
+[`mpg`](https://github.com/mwaskom/seaborn-data/blob/master/mpg.csv) data set
+using custom colors from the HCL-based qualitative color palette "Dark 3".
+
+```{python seaborn_example_1}
+#| warning: true
+#| error: true
+
+from colorspace import qualitative_hcl
+from matplotlib import pyplot as plt
+import seaborn as sns
+sns.set_theme(style="white")
+
+# Load the example mpg dataset
+mpg = sns.load_dataset("mpg")
+
+# Colors to be used
+pal = qualitative_hcl("Dark 3").colors(3)
+
+# Plot miles per gallon against horsepower with other semantics
+sns.relplot(x = "horsepower", y = "mpg", hue = "origin", size = "weight", 
+            sizes = (40, 400), alpha = .5, palette = pal,
+            height = 6, data = mpg)
+plt.show()
+```
+
+
+## Multi-group histogram
+
+The next example shows a 'multi group' distribution plot (`kind = "kde"`)
+based on the [`penguins`](https://github.com/mwaskom/seaborn-data/blob/master/penguins.csv)
+data set using, again, a series of colors from the sequential HCL-based
+color palette "Dark 3".
+
+```{python seaborn_example_2}
+#| warning: true
+#| error: true
+
+from colorspace import qualitative_hcl 
+from matplotlib import pyplot as plt
+import seaborn as sns 
+
+# Loading penguins data set
+penguins = sns.load_dataset("penguins")
+
+# Creating plot
+sns.displot(data=penguins, x = "flipper_length_mm",                           
+        hue = "species", fill = "species", kind = "kde", rug = True, 
+        palette = qualitative_hcl("Dark 3").colors(3))                  
+plt.show()
+```
+
+## Heatmap
+
+HCL-based color maps (`LinearSegmentedColormap` objects) can directly
+be used for seaborn heatmaps, here using the sequential HCL-based 'yellow-orange-red'
+("YlOrRd") palette in reversed order (`rev = True`).
+
+```{python seaborn_example_3}
+#| warning: true
+#| error: true
+
+from colorspace import sequential_hcl
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+ 
+# Simulate data from a bivariate Gaussian 
+n    = 10000 
+mean = [0, 0] 
+cov  = [(2, .4), (.4, .2)] 
+rng  = np.random.RandomState(0) 
+x, y = rng.multivariate_normal(mean, cov, n).T 
+ 
+# Draw heatmap
+sns.histplot(x = x, y = y, bins = 50, pthresh = .1,             
+             cmap = sequential_hcl("YlOrRd", rev = True).cmap())
+plt.show()
+```
+
+Besides the pre-definec palettes, fully customized color maps can
+be defined and used for plotting, here reversing the color palette
+using matplotlibs `.reversed()` method.
+
+```{python seaborn_example_3_1}
+#| warning: true
+#| error: true
+
+from colorspace import sequential_hcl
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create fully customized HCL-based sequential palette
+custom_cmap = sequential_hcl(h = [330, 170], c = [45, 70, 10],
+                             l = [25, 95], power = [0.5, 1.5]).cmap().reversed()
+
+# Draw heatmap
+sns.histplot(x = x, y = y, bins = 50, pthresh = .1,             
+             cmap = custom_cmap)
+plt.show()
+```
+
+
+
+
+
+
+
+

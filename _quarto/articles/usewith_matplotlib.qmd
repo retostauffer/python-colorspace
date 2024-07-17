@@ -1,0 +1,175 @@
+---
+title: "HCL-Based Color Scales for matplotlib"
+---
+
+
+
+## Scatterplot
+
+The following example shows simple two-dimensional scatter plot using
+randomly generated data. The colors are based on a `LinearSegmentedColormap`
+fro the qualitative HCL-based color palette "Dark 3".
+
+Each random `(x, y)` data point is assigned a random value `cfloat` $\in [0.0, 1.0]$
+which defines its color which is also converted into an integer vector `cint`
+$\in \{1, 2, 3\}$.
+
+The first subplot uses `cfloat` and `qualitative_hcl("Dark 3").cmap()` which
+returns a continuous `LinearSegmentedColormap` with `N = 256` colors along the
+"Dark 3" palette. The second subplot uses `.cmap(3)`, which results in a
+`LinearSegmentedColormap` with only three colors, thus having three distinct
+groups. Similarely for the third subplot, tough here using the integer
+array `cint` for coloring the individual data points which yields the
+very same result as in the second subplot.
+
+```{python matplotlib_example_1}
+#| warning: true
+#| error: true
+
+from colorspace import qualitative_hcl
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Fixing random state for reproducibility
+np.random.seed(6020)
+
+N      = 50
+x      = np.random.rand(N)
+y      = np.random.rand(N)
+cfloat = np.random.rand(N) # Random value [0.0, 1.0]
+cint   = np.ceil(cfloat * 3) # Convert to [1, 2, 3]
+area   = (15 * np.random.rand(N))**2  # 0 to 225 point radii
+
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (10, 3))
+ax1.scatter(x, y, s = area, c = cfloat, alpha = 0.5,
+            cmap = qualitative_hcl("Dark 3").cmap())
+
+ax2.scatter(x, y, s = area, c = cfloat, alpha = 0.5,
+            cmap = qualitative_hcl("Dark 3").cmap(3))
+
+ax3.scatter(x, y, s = area, c = cint, alpha = 0.5,
+            cmap = qualitative_hcl("Dark 3").cmap(3))
+plt.show()
+```
+
+
+## Heatmap
+
+Another example to show how HCL-basec `LinearSegmentedColormaps` can be used
+are heatmaps (`imshow`). The following subplots use the pre-define
+sequential HCL-based "YlOrRd" (yellow-orange-red) color palette
+once in the default order and once reversed (`rev = True`).
+
+```{python matplotlib_example_3}
+#| warning: true
+#| error: true
+
+from colorspace import sequential_hcl
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Fixing random state for reproducibility
+np.random.seed(6020)
+z = np.random.random((10, 10))
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
+
+# Using pre-defined 'YlOrRd'
+ax1.imshow(z, interpolation = "nearest",
+           cmap = sequential_hcl("YlOrRd").cmap())
+ax1.set_title("YlOrRd")
+
+# Using pre-defined 'YlOrRd' in reversed order
+ax2.imshow(z, interpolation = "nearest",
+           cmap = sequential_hcl("YlOrRd", rev = True).cmap())
+ax2.set_title("Reversed YlOrRd")
+
+plt.show()
+```
+
+Besides the pre-defined palettes, fully customized color maps can
+be constructed and used for plotting. The example below once again
+shows to heatmaps with two fully custom HCL-based color palettes,
+once a sequential palette (left) and once a reversed diverging palette (right).
+
+```{python matplotlib_example_3_1}
+#| warning: true
+#| error: true
+
+from colorspace import sequential_hcl, diverging_hcl
+import matplotlib.pyplot as plt
+import numpy as np
+
+# The two fully custom HCL-based palettes to be used
+custom1 = sequential_hcl(h = [330, 170], c = [45, 70, 10],
+                         l = [25, 95], power = [0.5, 1.5])
+custom2 = diverging_hcl(h = [280, 100], c = [70, 50],
+                        l = [40, 90], power = [1.0, 2.0], rev = True)
+
+# Fixing random state for reproducibility
+np.random.seed(6020)
+z = np.random.random((15, 15))
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
+
+ax1.imshow(z, interpolation = "nearest", cmap = custom1.cmap())
+ax1.set_title("Custom sequential palette")
+
+ax2.imshow(z, interpolation = "nearest", cmap = custom2.cmap())
+ax2.set_title("Custom diverging palette")
+
+plt.show()
+```
+
+
+## Three-dimensional surface
+
+Lastly, the example below shows the topographic data of
+Maunga Whau (Mt Eden) located in the Auckland volcanic field
+on a 10m by 10m grid using the HCL-based terrain color palette,
+a multi-hue sequential palette.
+
+```{python matplotlib_example_4}
+#| warning: true
+#| error: true
+#| fig-width: 8
+#| fig-height: 5
+#| layout-ncol: 1
+
+from colorspace import terrain_hcl
+from colorspace.demos import get_volcano_data
+import matplotlib.pyplot as plt
+from matplotlib.colors import LightSource
+import numpy as np
+
+volcano = get_volcano_data(True)
+
+# Palette to be used
+pal = terrain_hcl()
+
+# Loading vulcano
+data = get_volcano_data(True)
+Y    = np.linspace(1, data.shape[0], data.shape[0])
+X    = np.linspace(1, data.shape[1], data.shape[1])
+X, Y = np.meshgrid(X, Y)
+
+fig, ax = plt.subplots(subplot_kw ={"projection": "3d"}, figsize = (10, 6))
+
+ax.set_axis_off()
+ax.set_box_aspect(aspect = (data.shape[1], data.shape[0], data.shape[0] / 3))
+fig.subplots_adjust(left = 0, right = 1, bottom = -.4, top = 1.6)
+
+# Create/calculate facing colors using custom shading
+ls      = LightSource(270, 45)
+fcolors = ls.shade(data, cmap = pal.cmap(), vert_exag=0.1, blend_mode='soft')
+
+surf = ax.plot_surface(X, Y, data, rstride = 1, cstride = 1, facecolors = fcolors,
+                       linewidth = 0, antialiased = False, shade = False)
+
+plt.show()
+```
+
+
+
+
+

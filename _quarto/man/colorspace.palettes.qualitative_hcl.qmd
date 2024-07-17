@@ -179,7 +179,7 @@ qualitative_hcl("Warm")(10)
 # Example where `h` is a list of two lambda functions
 from colorspace import hexcols
 pal = qualitative_hcl([lambda n: 100. * (n - 1) / n,  
-                      lambda n, h1: 300. * (n - 1) / n + h1], c = 30)
+                       lambda n, h1: 300. * (n - 1) / n + h1], c = 30)
 cols = hexcols(pal.colors(5))
 cols
 ```

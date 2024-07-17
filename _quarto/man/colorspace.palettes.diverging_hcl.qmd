@@ -119,7 +119,7 @@ see examples.
     </dt>
     <dd>Create Matplotlib Compatible Color Map</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[diverging_hcl.colors(n=11, fixup=True, alpha=None, **kwargs)](colorspace.palettes.diverging_hcl.colors.qmd)</code>
+       <code>[diverging_hcl.colors(n=11, fixup=None, alpha=None, **kwargs)](colorspace.palettes.diverging_hcl.colors.qmd)</code>
     </dt>
     <dd>Get Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">

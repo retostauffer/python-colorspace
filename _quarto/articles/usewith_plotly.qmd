@@ -1,0 +1,130 @@
+---
+title: "HCL-Based Color Scales for plotly"
+---
+
+
+
+## Scatterplot
+
+The following example from the plotly gallery shows 'sepal length'
+plotted against 'sepal width' from the
+["Iris flower data set"](https://en.wikipedia.org/wiki/Iris_flower_data_set)
+in a two-dimensional scatterplot, using
+different colors from the qualitative HCL-based 'Dark 3' color palette
+for the different species.
+
+```{python plotly_example_1}
+#| warning: true
+#| error: true
+
+import plotly.express as px
+from colorspace import *
+
+df  = px.data.iris()
+fig = px.scatter(df, x = "sepal_width", y = "sepal_length", color = "species",
+        color_discrete_sequence = qualitative_hcl("Dark 3")(3))
+fig.update_layout(template = "plotly_white")
+fig.show()
+```
+
+
+## Multi-group histogram
+
+The example below shows a distplot for four different randomly drawn
+data sets with different locations (mean) showing histograms, kernel
+density estimation as well as a rug plot at the bottom using different
+colors from the qualitative HCL-based color palettel 'Warm' for the different
+groups.
+
+```{python plotly_example_2}
+#| warning: true
+#| error: true
+
+import plotly.figure_factory as ff
+import numpy as np
+
+# Add histogram data
+x1 = np.random.randn(200) - 2
+x2 = np.random.randn(200)
+x3 = np.random.randn(200) + 2
+x4 = np.random.randn(200) + 4
+
+# Group data together
+hist_data = [x1, x2, x3, x4]
+
+group_labels = ['Group 1', 'Group 2', 'Group 3', 'Group 4']
+
+# Create distplot with custom bin_size
+fig = ff.create_distplot(hist_data, group_labels, bin_size=.2,
+                         colors = qualitative_hcl("Warm")(4))
+fig.update_layout(template = "plotly_white")
+fig.show()
+```
+
+## Heatmap
+
+Plotting the ["Tipping data"](https://vincentarelbundock.github.io/Rdatasets/doc/reshape2/tips.html) as two-dimensional heatmap with the yellow-orange-red sequential color palette,
+
+```{python plotly_example_3}
+#| warning: true
+#| error: true
+
+import plotly.express as px
+df = px.data.tips()
+
+fig = px.density_heatmap(df, x="total_bill", y="tip",
+         color_continuous_scale = sequential_hcl("YlOrRd", rev = True)(51))
+fig.show()
+```
+
+or using a fully customized sequential HCL-based color palette.
+
+```{python plotly_example_3_1}
+#| warning: true
+#| error: true
+
+pal = sequential_hcl(h = [330, 170], c = [45, 70, 10],
+                     l = [25, 95], power = [0.5, 1.5])
+fig = px.density_heatmap(df, x="total_bill", y="tip",
+         color_continuous_scale = pal.colors(51, rev = True))
+fig.show()
+```
+
+## Three-dimensional surface
+
+Lastly, the example below shows the topographic data of
+Maunga Whau (Mt Eden) located in the Auckland volcanic field
+on a 10m by 10m grid using the HCL-based terrain color palette,
+a multi-hue sequential palette.
+
+```{python plotly_example_4}
+#| warning: true
+#| error: true
+#| fig-width: 8
+#| fig-height: 5
+#| layout-ncol: 1
+
+from colorspace.demos import get_volcano_data
+import plotly.graph_objects as go
+import numpy as np
+
+volcano = get_volcano_data(True) / 100.
+
+# Custom set of colors to be used
+cols = terrain_hcl().colors(51) 
+
+# Plotting data
+fig = go.Figure(data = [go.Surface(z = volcano, colorscale = cols)],
+                layout = go.Layout(title = "Maunga Whau (Mt Eden)",
+                                   width = 800, height = 500))
+fig.update_layout(template = "plotly_white")
+fig.show()
+```
+
+
+
+
+
+
+
+

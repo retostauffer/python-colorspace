@@ -35,6 +35,12 @@ website:
         text: Color spaces
       - file: articles/hcl_palettes.qmd
         text: HCL-Based Color Palettes
+      - file: articles/usewith_matplotlib.qmd
+        text: HCL-Based Color Palettes for matplotlib
+      - file: articles/usewith_seaborn.qmd
+        text: HCL-Based Color Palettes for seaborn
+      - file: articles/usewith_plotly.qmd
+        text: HCL-Based Color Palettes for plotly
       - file: articles/palette_visualization.qmd
         text: Palette Visualization and Assessment
       - file: articles/choose_palette.qmd

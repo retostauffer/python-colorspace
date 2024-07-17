@@ -669,7 +669,11 @@ def Spectrum(*args, **kwargs):
 
 
 def get_volcano_data(array = False):
-    """Load Vulcano Data
+    """Topographic Information on Auckland's Maunga Whau Volcano
+
+    Maunga Whau (Mt Eden) is one of about 50 volcanos in the Auckland
+    volcanic field.  This data set gives topographic information for
+    Maunga Whau on a 10m by 10m grid.
 
     Args:
         array (bool): should the return be a list (default) or 2d
