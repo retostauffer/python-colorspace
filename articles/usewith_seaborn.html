@@ -558,8 +558,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="scatterplot" class="level2">
 <h2 class="anchored" data-anchor-id="scatterplot">Scatterplot</h2>
-<p>The following example from the seaborn gallery shows gas consumption (miles per gallon) given horsepower for a series of cars based on the <a href="https://github.com/mwaskom/seaborn-data/blob/master/mpg.csv"><code>mpg</code></a> data set using custom colors from the HCL-based qualitative color palette “Dark 3”.</p>
-<div id="ca3202b6" class="cell" data-execution_count="1">
+<p>The following example from the seaborn gallery shows fuel consumption (miles per gallon) at a given horsepower for a number of cars based on the <a href="https://github.com/mwaskom/seaborn-data/blob/master/mpg.csv"><code>mpg</code></a> data set using custom colors from the HCL-based qualitative color palette “Dark 3”.</p>
+<div id="0fdbb426" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -587,8 +587,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="multi-group-histogram" class="level2">
 <h2 class="anchored" data-anchor-id="multi-group-histogram">Multi-group histogram</h2>
-<p>The next example shows a ‘multi group’ distribution plot (<code>kind = "kde"</code>) based on the <a href="https://github.com/mwaskom/seaborn-data/blob/master/penguins.csv"><code>penguins</code></a> data set using, again, a series of colors from the sequential HCL-based color palette “Dark 3”.</p>
-<div id="602c8301" class="cell" data-execution_count="2">
+<p>The next example shows a multi-group distribution plot (<code>kind = "kde"</code>) based on the <a href="https://github.com/mwaskom/seaborn-data/blob/master/penguins.csv"><code>penguins data set</code></a>, again using a range of colors from the sequential HCL-based color palette “Dark 3”.</p>
+<div id="7f1cf927" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns </span>
@@ -612,8 +612,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="heatmap" class="level2">
 <h2 class="anchored" data-anchor-id="heatmap">Heatmap</h2>
-<p>HCL-based color maps (<code>LinearSegmentedColormap</code> objects) can directly be used for seaborn heatmaps, here using the sequential HCL-based ‘yellow-orange-red’ (“YlOrRd”) palette in reversed order (<code>rev = True</code>).</p>
-<div id="b458f088" class="cell" data-execution_count="3">
+<p>HCL-based color maps (<code>LinearSegmentedColormap</code> objects) can be used directly for seaborn heatmaps, here employing the sequential HCL-based “YlOrRd” (yellow-orange-red) palette in reverse order (<code>rev = True</code>).</p>
+<div id="d39ed4f3" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -638,8 +638,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Besides the pre-definec palettes, fully customized color maps can be defined and used for plotting, here reversing the color palette using matplotlibs <code>.reversed()</code> method.</p>
-<div id="a68434bb" class="cell" data-execution_count="4">
+<p>In addition to pre-defined palettes, fully custom color maps can be defined and used for plotting. Here the matplotlib <code>.reverse()</code> method is used to reverse the colormap, which could also be done when specifying the <code>sequential_hcl()</code> palette.</p>
+<div id="67b345ad" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>

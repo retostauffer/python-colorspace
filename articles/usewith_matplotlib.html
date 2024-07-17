@@ -588,9 +588,9 @@ window.Quarto = {
 <section id="scatterplot" class="level2">
 <h2 class="anchored" data-anchor-id="scatterplot">Scatterplot</h2>
 <p>The following example shows simple two-dimensional scatter plot using randomly generated data. The colors are based on a <code>LinearSegmentedColormap</code> fro the qualitative HCL-based color palette “Dark 3”.</p>
-<p>Each random <code>(x, y)</code> data point is assigned a random value <code>cfloat</code> <span class="math inline">\(\in [0.0, 1.0]\)</span> which defines its color which is also converted into an integer vector <code>cint</code> <span class="math inline">\(\in \{1, 2, 3\}\)</span>.</p>
-<p>The first subplot uses <code>cfloat</code> and <code>qualitative_hcl("Dark 3").cmap()</code> which returns a continuous <code>LinearSegmentedColormap</code> with <code>N = 256</code> colors along the “Dark 3” palette. The second subplot uses <code>.cmap(3)</code>, which results in a <code>LinearSegmentedColormap</code> with only three colors, thus having three distinct groups. Similarely for the third subplot, tough here using the integer array <code>cint</code> for coloring the individual data points which yields the very same result as in the second subplot.</p>
-<div id="28a2e8df" class="cell" data-execution_count="1">
+<p>Each random <code>(x, y)</code> data point is assigned a random value <code>cfloat</code> <span class="math inline">\(\in [0.0, 1.0]\)</span> defining its color, which is also converted into an integer vector <code>cint</code> <span class="math inline">\(\in \{1, 2, 3\}\)</span>.</p>
+<p>The first subplot uses <code>cfloat</code> and <code>qualitative_hcl("Dark 3").cmap()</code> which returns a continuous <code>LinearSegmentedColormap</code> with <code>N = 256</code> colors along the “Dark 3” palette. The second subplot uses <code>.cmap(3)</code>, which results in a <code>LinearSegmentedColormap</code> with only three colors, thus having three distinct groups. Similarly, the third subplot uses the integer array (<code>cint</code>) to color the individual data points, giving exactly the same result as the second subplot.</p>
+<div id="b89b9452" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -626,8 +626,8 @@ window.Quarto = {
 </section>
 <section id="heatmap" class="level2">
 <h2 class="anchored" data-anchor-id="heatmap">Heatmap</h2>
-<p>Another example to show how HCL-basec <code>LinearSegmentedColormaps</code> can be used are heatmaps (<code>imshow</code>). The following subplots use the pre-define sequential HCL-based “YlOrRd” (yellow-orange-red) color palette once in the default order and once reversed (<code>rev = True</code>).</p>
-<div id="868f616e" class="cell" data-execution_count="2">
+<p>Another example of how HCL-based <code>LinearSegmentedColormaps</code> can be used are heatmaps (<code>imshow</code>). The following subplots use the pre-defined sequential HCL-based “YlOrRd” (yellow-orange-red) color palette, once in the default order and once reversed (<code>rev = True</code>).</p>
+<div id="b631d8d5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -657,8 +657,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Besides the pre-defined palettes, fully customized color maps can be constructed and used for plotting. The example below once again shows to heatmaps with two fully custom HCL-based color palettes, once a sequential palette (left) and once a reversed diverging palette (right).</p>
-<div id="cb5d1d54" class="cell" data-execution_count="3">
+<p>In addition to pre-defined palettes, fully custoized color maps can be created and used for plotting. The example below shows heatmaps with two fully custom HCL-based color palettes, a sequential palette (left) and a reversed diverging palette (right).</p>
+<div id="820b803b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -693,7 +693,7 @@ window.Quarto = {
 </section>
 <section id="three-dimensional-surface" class="level2">
 <h2 class="anchored" data-anchor-id="three-dimensional-surface">Three-dimensional surface</h2>
-<p>Lastly, the example below shows the topographic data of Maunga Whau (Mt Eden) located in the Auckland volcanic field on a 10m by 10m grid using the HCL-based terrain color palette, a multi-hue sequential palette.</p>
+<p>Finally, the example below shows the topographic data of Maunga Whau (Mt Eden) located in the Auckland volcanic field on a 10m by 10m grid using the HCL-based terrain color palette, a multi-hue sequential palette.</p>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> terrain_hcl</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.demos <span class="im">import</span> get_volcano_data</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -725,7 +725,7 @@ window.Quarto = {
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                       linewidth <span class="op">=</span> <span class="dv">0</span>, antialiased <span class="op">=</span> <span class="va">False</span>, shade <span class="op">=</span> <span class="va">False</span>)</span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="e68b5a1c" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1" data-fig-height="5" data-fig-width="8">
+<div id="70642d9b" class="cell quarto-layout-panel" data-execution_count="4" data-fig-width="8" data-fig-height="5" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="usewith_matplotlib_files/figure-html/cell-5-output-1.png" class="img-fluid" width="979"></p>
