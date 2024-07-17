@@ -155,6 +155,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">HCL-Based Color Palettes</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../articles/usewith_matplotlib.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for matplotlib</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_seaborn.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for seaborn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_plotly.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for plotly</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../articles/palette_visualization.html">
  <span class="dropdown-text">Palette Visualization and Assessment</span></a>
   </li>  
@@ -576,7 +588,7 @@ Named arguments. The key is the name of the dimension to be changed, the value a
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="1cd46bbb" class="cell" data-execution_count="1">
+<div id="dddd860e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">260</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">80</span>, <span class="dv">0</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">30</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -588,7 +600,7 @@ Named arguments. The key is the name of the dimension to be changed, the value a
        30.00   80.00   30.00</code></pre>
 </div>
 </div>
-<div id="cd1d15b5" class="cell" data-execution_count="2">
+<div id="630a2c00" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cols.<span class="bu">set</span>(H <span class="op">=</span> [<span class="dv">150</span>, <span class="dv">150</span>, <span class="dv">30</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

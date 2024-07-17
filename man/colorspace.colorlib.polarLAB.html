@@ -158,6 +158,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">HCL-Based Color Palettes</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../articles/usewith_matplotlib.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for matplotlib</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_seaborn.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for seaborn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_plotly.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for plotly</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../articles/palette_visualization.html">
  <span class="dropdown-text">Palette Visualization and Assessment</span></a>
   </li>  
@@ -665,7 +677,7 @@ Transform Color Space
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="8360c304" class="cell" data-execution_count="1">
+<div id="618cfc2a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> polarLAB</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> polarLAB([<span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">100</span>, <span class="dv">120</span>, <span class="dv">140</span>], [<span class="dv">40</span>, <span class="dv">130</span>, <span class="dv">300</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -677,7 +689,7 @@ Transform Color Space
        30.00  140.00  300.00</code></pre>
 </div>
 </div>
-<div id="1c169642" class="cell" data-execution_count="2">
+<div id="a3f1a6b1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to hex colors</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"hex"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

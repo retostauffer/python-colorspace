@@ -155,6 +155,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">HCL-Based Color Palettes</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../articles/usewith_matplotlib.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for matplotlib</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_seaborn.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for seaborn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_plotly.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for plotly</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../articles/palette_visualization.html">
  <span class="dropdown-text">Palette Visualization and Assessment</span></a>
   </li>  
@@ -636,7 +648,7 @@ Additional named arguments to overwrite the palette settings. Allowed: <code>h1<
 Create Matplotlib Compatible Color Map
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code><a href="../man/colorspace.palettes.sequential_hcl.colors.html">sequential_hcl.colors(n=11, fixup=True, alpha=None, **kwargs)</a></code>
+<code><a href="../man/colorspace.palettes.sequential_hcl.colors.html">sequential_hcl.colors(n=11, fixup=None, alpha=None, **kwargs)</a></code>
 </dt>
 <dd>
 Get Colors
@@ -681,7 +693,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="3ea05865" class="cell" data-execution_count="1">
+<div id="45b7cbaa" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> sequential_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -698,7 +710,7 @@ Palette Swatch Plot
  '#E2E2E2']</code></pre>
 </div>
 </div>
-<div id="e253f9e6" class="cell" data-execution_count="2">
+<div id="2ea1f2da" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different color palette by name</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> sequential_hcl(<span class="st">"Peach"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -715,7 +727,7 @@ Palette Swatch Plot
  '#FADDC3']</code></pre>
 </div>
 </div>
-<div id="afbd202c" class="cell" data-execution_count="3">
+<div id="24d05dce" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -725,7 +737,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="9f95e4aa" class="cell" data-execution_count="4">
+<div id="1aff7cbe" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sequential_hcl(<span class="st">"Peach"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">

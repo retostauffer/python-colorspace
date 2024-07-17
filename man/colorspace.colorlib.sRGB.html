@@ -155,6 +155,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">HCL-Based Color Palettes</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../articles/usewith_matplotlib.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for matplotlib</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_seaborn.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for seaborn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/usewith_plotly.html">
+ <span class="dropdown-text">HCL-Based Color Palettes for plotly</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../articles/palette_visualization.html">
  <span class="dropdown-text">Palette Visualization and Assessment</span></a>
   </li>  
@@ -668,7 +680,7 @@ Transform Color Space
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="b25e1e66" class="cell" data-execution_count="1">
+<div id="16d0693c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> sRGB</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing color object with one single color via float</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sRGB(<span class="fl">1.</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -678,7 +690,7 @@ Transform Color Space
   1:    1.00    0.30    0.50</code></pre>
 </div>
 </div>
-<div id="707cdd7f" class="cell" data-execution_count="2">
+<div id="1215fd15" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing object via lists</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sRGB([<span class="fl">1.</span>, <span class="fl">0.8</span>], [<span class="fl">0.5</span>, <span class="fl">0.5</span>], [<span class="fl">0.0</span>, <span class="fl">0.2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -688,7 +700,7 @@ Transform Color Space
         0.80    0.50    0.20</code></pre>
 </div>
 </div>
-<div id="4545c57d" class="cell" data-execution_count="3">
+<div id="1bbe9210" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing object via numpy arrays</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> asarray</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sRGB(asarray([<span class="fl">1.</span>, <span class="fl">0.8</span>]), asarray([<span class="fl">0.5</span>, <span class="fl">0.5</span>]), asarray([<span class="fl">0.0</span>, <span class="fl">0.2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
