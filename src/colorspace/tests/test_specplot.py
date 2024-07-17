@@ -14,6 +14,10 @@ cols = diverging_hcl()(7)
 def test_wrong_usage():
     raises(ValueError, specplot, x = cols, hcl = False, palette = False, rgb = False)
 
+    # x not list or LinearSegmentedColormap
+    raises(TypeError, specplot, x = "foo")
+    raises(TypeError, specplot, x = 123)
+
     # If y is set (not None) it must be a list
     raises(TypeError, specplot, x = cols, y = "foo")
 
@@ -104,4 +108,42 @@ def test_specplot_provide_figure_obj():
     assert fig.get_figheight() == 6.
     plt.show()
     plt.close() # Closing figure instance
+
+# Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.mpl_image_compare
+def test_specplot_input_cmap():
+    cmap = diverging_hcl().cmap() # Default, n = 256
+    specplot(cmap)
+    plt.close()
+    del cmap
+
+    cmap = diverging_hcl().cmap(n = 5) # With n = 5
+    specplot(cmap)
+    plt.close()
+    del cmap
+
+# Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.mpl_image_compare
+def test_specplot_input_list_plus_cmap():
+    # Providing a series of colors as list (length 5)
+    # and a cmap (n = 256); `specplot` should draw n = 5
+    # colors from the LinearSegmentedColormap
+    cols = diverging_hcl(c1 = 50).colors(5)
+    cmap = diverging_hcl().cmap() # Default, n = 256
+    specplot(cols, cmap)
+    plt.close()
+
+    # The other way around it must fail, as y (n = 5)
+    # does not match the length of x (n = 256) in this case.
+    raises(ValueError, specplot, cmap, cols)
+    del cmap
+
+    # However, if the LinearSegmentedColormap also only has
+    # exactly n = 5 colors it should work.
+    cmap = diverging_hcl().cmap(n  = 5)
+    specplot(cols, cmap)
+    plt.close()
+    del cmap, cols
+
+
 
