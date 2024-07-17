@@ -6,8 +6,8 @@ title: "HCL-Based Color Scales for seaborn"
 
 ## Scatterplot
 
-The following example from the seaborn gallery shows gas consumption
-(miles per gallon) given horsepower for a series of cars based on the
+The following example from the seaborn gallery shows fuel consumption
+(miles per gallon) at a given horsepower for a number of cars based on the
 [`mpg`](https://github.com/mwaskom/seaborn-data/blob/master/mpg.csv) data set
 using custom colors from the HCL-based qualitative color palette "Dark 3".
 
@@ -36,10 +36,9 @@ plt.show()
 
 ## Multi-group histogram
 
-The next example shows a 'multi group' distribution plot (`kind = "kde"`)
-based on the [`penguins`](https://github.com/mwaskom/seaborn-data/blob/master/penguins.csv)
-data set using, again, a series of colors from the sequential HCL-based
-color palette "Dark 3".
+The next example shows a multi-group distribution plot (`kind = "kde"`) based
+on the [`penguins data set`](https://github.com/mwaskom/seaborn-data/blob/master/penguins.csv),
+again using a range of colors from the sequential HCL-based color palette "Dark 3".
 
 ```{python seaborn_example_2}
 #| warning: true
@@ -61,9 +60,9 @@ plt.show()
 
 ## Heatmap
 
-HCL-based color maps (`LinearSegmentedColormap` objects) can directly
-be used for seaborn heatmaps, here using the sequential HCL-based 'yellow-orange-red'
-("YlOrRd") palette in reversed order (`rev = True`).
+HCL-based color maps (`LinearSegmentedColormap` objects) can be used directly
+for seaborn heatmaps, here employing the sequential HCL-based "YlOrRd" (yellow-orange-red)
+palette in reverse order (`rev = True`).
 
 ```{python seaborn_example_3}
 #| warning: true
@@ -87,9 +86,10 @@ sns.histplot(x = x, y = y, bins = 50, pthresh = .1,
 plt.show()
 ```
 
-Besides the pre-definec palettes, fully customized color maps can
-be defined and used for plotting, here reversing the color palette
-using matplotlibs `.reversed()` method.
+In addition to pre-defined palettes, fully custom color maps can
+be defined and used for plotting. Here the matplotlib `.reverse()` method
+is used to reverse the colormap, which could also be done when specifying
+the `sequential_hcl()` palette.
 
 ```{python seaborn_example_3_1}
 #| warning: true

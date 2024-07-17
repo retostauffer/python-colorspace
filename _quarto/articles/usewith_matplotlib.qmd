@@ -11,16 +11,15 @@ randomly generated data. The colors are based on a `LinearSegmentedColormap`
 fro the qualitative HCL-based color palette "Dark 3".
 
 Each random `(x, y)` data point is assigned a random value `cfloat` $\in [0.0, 1.0]$
-which defines its color which is also converted into an integer vector `cint`
+defining its color, which is also converted into an integer vector `cint`
 $\in \{1, 2, 3\}$.
 
 The first subplot uses `cfloat` and `qualitative_hcl("Dark 3").cmap()` which
 returns a continuous `LinearSegmentedColormap` with `N = 256` colors along the
 "Dark 3" palette. The second subplot uses `.cmap(3)`, which results in a
 `LinearSegmentedColormap` with only three colors, thus having three distinct
-groups. Similarely for the third subplot, tough here using the integer
-array `cint` for coloring the individual data points which yields the
-very same result as in the second subplot.
+groups. Similarly, the third subplot uses the integer array (`cint`) to color
+the individual data points, giving exactly the same result as the second subplot.
 
 ```{python matplotlib_example_1}
 #| warning: true
@@ -55,9 +54,9 @@ plt.show()
 
 ## Heatmap
 
-Another example to show how HCL-basec `LinearSegmentedColormaps` can be used
-are heatmaps (`imshow`). The following subplots use the pre-define
-sequential HCL-based "YlOrRd" (yellow-orange-red) color palette
+Another example of how HCL-based `LinearSegmentedColormaps` can be used
+are heatmaps (`imshow`). The following subplots use the pre-defined
+sequential HCL-based "YlOrRd" (yellow-orange-red) color palette,
 once in the default order and once reversed (`rev = True`).
 
 ```{python matplotlib_example_3}
@@ -87,10 +86,10 @@ ax2.set_title("Reversed YlOrRd")
 plt.show()
 ```
 
-Besides the pre-defined palettes, fully customized color maps can
-be constructed and used for plotting. The example below once again
-shows to heatmaps with two fully custom HCL-based color palettes,
-once a sequential palette (left) and once a reversed diverging palette (right).
+In addition to pre-defined palettes, fully custoized color maps
+can be created and used for plotting.
+The example below shows heatmaps with two fully custom HCL-based color
+palettes, a sequential palette (left) and a reversed diverging palette (right).
 
 ```{python matplotlib_example_3_1}
 #| warning: true
@@ -124,7 +123,7 @@ plt.show()
 
 ## Three-dimensional surface
 
-Lastly, the example below shows the topographic data of
+Finally, the example below shows the topographic data of
 Maunga Whau (Mt Eden) located in the Auckland volcanic field
 on a 10m by 10m grid using the HCL-based terrain color palette,
 a multi-hue sequential palette.

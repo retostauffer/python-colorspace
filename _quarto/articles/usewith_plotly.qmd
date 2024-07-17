@@ -8,10 +8,9 @@ title: "HCL-Based Color Scales for plotly"
 
 The following example from the plotly gallery shows 'sepal length'
 plotted against 'sepal width' from the
-["Iris flower data set"](https://en.wikipedia.org/wiki/Iris_flower_data_set)
-in a two-dimensional scatterplot, using
-different colors from the qualitative HCL-based 'Dark 3' color palette
-for the different species.
+[Iris flower data set](https://en.wikipedia.org/wiki/Iris_flower_data_set)
+in a two-dimensional scatterplot, using different colors from the qualitative
+HCL-based 'Dark 3' color palette for the different species.
 
 ```{python plotly_example_1}
 #| warning: true
@@ -63,7 +62,8 @@ fig.show()
 
 ## Heatmap
 
-Plotting the ["Tipping data"](https://vincentarelbundock.github.io/Rdatasets/doc/reshape2/tips.html) as two-dimensional heatmap with the yellow-orange-red sequential color palette,
+Plotting the [Tipping data](https://vincentarelbundock.github.io/Rdatasets/doc/reshape2/tips.html)
+as two-dimensional heatmap with the yellow-orange-red sequential color palette,
 
 ```{python plotly_example_3}
 #| warning: true
@@ -92,7 +92,7 @@ fig.show()
 
 ## Three-dimensional surface
 
-Lastly, the example below shows the topographic data of
+Finally, the example below shows the topographic data of
 Maunga Whau (Mt Eden) located in the Auckland volcanic field
 on a 10m by 10m grid using the HCL-based terrain color palette,
 a multi-hue sequential palette.
