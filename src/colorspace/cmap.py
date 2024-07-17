@@ -2,7 +2,25 @@
 
 
 def cmap_to_sRGB(x, n = None):
-    """Convert Matplotlib Colormap to sRGB Color Object"""
+    """Convert Matplotlib Colormap to sRGB Color Object
+
+    This function is for internal use, e.g., when providing
+    a `LinearSegmentedColormap` (cmap) to `specplot()`.
+    Internally, the cmap will be converted to an sRGB colorobject
+    used to extract the required information for plotting.
+
+    Args:
+        x (LinearSegmentedColormap, ListedColormap): matplotlib cmap.
+        n (None, int): None or integer >= 2.
+
+    Raises:
+    TypeError: If argument `x` is not LinearSegmentedColormap or ListedColormap.
+    TypeError: If `n` is not None or int.
+    ValueError: If `n` is smaller or equal to 1.
+
+    Return:
+    sRGB: A colorobject of class `sRGB`.
+    """
 
     from colorspace.palettes import palette
     from matplotlib.colors import LinearSegmentedColormap, ListedColormap
