@@ -44,16 +44,15 @@ jobs:
         P_VERSION=`python --version | awk '{print $2}'`
         Q_VERSION=`quarto --version`
         X_VERSION=`pip list | egrep pyp2qmd | awk '{print $2}'`
-        sed -i 's/{{QUARTO_VERSION}}/'${Q_VERSION}'/g' _quarto/_quarto.yml
-        sed -i 's/{{PYTHON_VERSION}}/'${P_VERSION}'/g' _quarto/_quarto.yml
-        sed -i 's/{{PYP2QMD_VERSION}}/'${X_VERSION}'/g' _quarto/_quarto.yml
+        sed -i "s/{{QUARTO_VERSION}}/${Q_VERSION}/g" _quarto/_quarto.yml
+        sed -i "s/{{PYTHON_VERSION}}/${P_VERSION}/g" _quarto/_quarto.yml
+        sed -i "s/{{PYP2QMD_VERSION}}/${X_VERSION}/g" _quarto/_quarto.yml
 
     - name: Manipulate installation.qmd
       run: |
         ## Adding python versions we currently test for; .github/workflows/pytest.yml
-        #PYTEST_VERSIONS=`grep -Po "(?!=(python-version:))\[.*\]" .github/workflows/pytest.yml | sed 's/\[//g' | sed 's/\]//g'`
-        PYTEST_VERSIONS=`grep -Po "(?!=(python-version:))\[.*\]" .github/workflows/pytest.yml`
-        sed -i 's/{{PYTEST_VERSIONS}}/'${PYTEST_VERSIONS}'/g' _quarto/installation.qmd
+        PYTEST_VERSIONS=`grep -Po "(?!=(python-version:))\[.*\]" .github/workflows/pytest.yml | sed 's/\[//g' | sed 's/\]//g'`
+        sed -i "s/{{PYTEST_VERSIONS}}/${PYTEST_VERSIONS}/g" _quarto/installation.qmd
 
     - name: Render quarto documents
       run: |
