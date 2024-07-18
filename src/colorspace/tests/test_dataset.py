@@ -30,7 +30,7 @@ def test_dataset_volcano():
     assert np.all(x.shape == np.asarray((61, 87)))
     
     # numpy.isdtype available Python 3.9+
-    if version_info > (3, 8):
+    if version_info <= (3, 8):
         pytest.skip("Skipping because numpy.isdtype not available for Python 3.8-")
 
     assert np.isdtype(x.dtype, np.int64)
