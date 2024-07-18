@@ -12,11 +12,12 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     jumps from `0` to `360` or vice versa, the hue coordinates are shifted
     suitably.
 
-    If argument `x` is a `maplotlib.colors.LinearSegmentedColormap`, `256` distinct
+    If argument `x` is a `maplotlib.colors.LinearSegmentedColormap` or
+    `matplotlib.colors.ListedColrmap`, `256` distinct
     colors across the color map are drawn and visualized.
 
     Args:
-        x (list, LinearSegmentedColormap): list of str (hex colors or
+        x (list, LinearSegmentedColormap, ListedColormap): list of str (hex colors or
             standard-names of colors) or a `matplotlib.colors.LinearSegmentedColormap`.
         y (None, list, LinearSegmentedColormap): if set it must be a list of
             str (see `x`) with the very same length as the object provided on
@@ -98,7 +99,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     # Else `x` can be either a list or a LinearSegmentedColormap. If the latter,
     # 256 distinct colors will be extracted.
     try:
-        from matplotlib.colors import LinearSegmentedColormap
+        from matplotlib.colors import LinearSegmentedColormap, ListedColormap
         matplotlib_loaded = True
     except:
         matplotlib_loaded = False
@@ -108,9 +109,9 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         if not isinstance(x, list):
             raise TypeError("Argument `x` must be a list.")
     else:
-        if not isinstance(x, (list, LinearSegmentedColormap)):
-            raise TypeError("Argument `x` must be list or LinearSegmentedColormap")
-        elif isinstance(x, LinearSegmentedColormap):
+        if not isinstance(x, (list, LinearSegmentedColormap, ListedColormap)):
+            raise TypeError("Argument `x` must be list, LinearSegmentedColormap or ListedColormap")
+        elif isinstance(x, (ListedColormap, LinearSegmentedColormap)):
             from colorspace.cmap import cmap_to_sRGB
             x = cmap_to_sRGB(x).colors()
 
@@ -118,7 +119,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     x = check_hex_colors(x)
 
     # Checking `y`
-    if matplotlib_loaded and isinstance(y, LinearSegmentedColormap):
+    if matplotlib_loaded and isinstance(y, (LinearSegmentedColormap, ListedColormap)):
         # [!] Do not import as 'palette' (we have a variable called 'palette')
         from colorspace import palette as cp
         y = cp(y, n = len(x)).colors()

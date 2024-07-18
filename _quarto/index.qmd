@@ -80,16 +80,24 @@ Scientific articles with more detailed insights:
 * [And others](http://www.hclwizard.org/references/)
   ([HCLwizard.org](https://hclwizard.org) reference list).
 
-Some other packages providing color maps in Python (on top of the default color
-maps) wich might be of interest:
+Some other packages providing color maps in Python
+wich might be of interest:
 
+* [matplotlib](https://matplotlib.org/): Library for creating visualizations.
+  Provides a range of (mostly) well specified color maps
+  [colormaps](https://matplotlib.org/stable/users/explain/colors/colormaps.html).
 * [seaborn](https://seaborn.pydata.org>):
   Statistical data visualization. The package also provides access to a
   range of (mostly) well specified
   [color palettes](https://seaborn.pydata.org/tutorial/color_palettes.html).
+* [plotly](https://plotly.com/python): Graphing library for interactive plots
+  and figures which comes with a series of built-in and (mostly) well defined
+  [color scales](https://plotly.com/python/builtin-colorscales/).
 * [palettable](https://jiffyclub.github.io/palettable): Color palettes for Python.
   Formely known as `brewer2mpl`. Provides a range of color palettes including
   "Brewer2" and "Carto" palettes.
+* [cmcrameri](https://pypi.org/project/cmcrameri/): Python package with a few
+  series of sequential and diverging color palettes.
 * [ColorBrewer2.org](http://colorbrewer2.org): The source of the brewer colors,
   interactive web page by Cynthia Brewer, Mark Harrower, and The Pennsylvania
   State University.
