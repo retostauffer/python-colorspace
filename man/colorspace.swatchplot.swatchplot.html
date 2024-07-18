@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -540,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.54</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.55</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -573,7 +573,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>a list of objects listed above (all of the same type or mixed),</li>
 <li>a dictionary with lists of objects as above. If a dictionary is used the keys of the dictionary are used as ‘subtitles’ to group sets of palettes,</li>
 <li>an object of class <code>colorspace.palettes.hclpalettes</code>,</li>
-<li>or an object of class <code>matplotlib.colors.LinearSegmentedColormap</code>.</li>
+<li>or an object of class <code>matplotlib.colors.LinearSegmentedColormap</code> or <code>matplotlib.colors.ListedColormap</code>.</li>
 </ul>
 <p>Requires the <code>matplotlib</code> to be installed.</p>
 </section>
@@ -624,7 +624,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>, can be used to control e.g.
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="1ae0f3a7" class="cell" data-execution_count="1">
+<div id="046cd1b4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> swatchplot, palette</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl, heat_hcl</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># List of hex colors</span></span>
@@ -638,7 +638,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>, can be used to control e.g.
 </div>
 </div>
 </div>
-<div id="2bbd6a77" class="cell" data-execution_count="2">
+<div id="6d3db860" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a custom 'palette' (named):</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette([<span class="st">'#7FBFF5'</span>, <span class="st">'#2A4962'</span>, <span class="st">'#111111'</span>, <span class="st">'#633C39'</span>, <span class="st">'#F8A29E'</span>],</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Custom Named Palette"</span>)</span>
@@ -651,7 +651,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>, can be used to control e.g.
 </div>
 </div>
 </div>
-<div id="a662d110" class="cell" data-execution_count="3">
+<div id="bd15b147" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A HCL palette. 'n' defines the number of colors.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>swatchplot(sequential_hcl(<span class="st">"PuBu"</span>), n <span class="op">=</span> <span class="dv">10</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           figsize <span class="op">=</span> (<span class="dv">7</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -663,7 +663,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>, can be used to control e.g.
 </div>
 </div>
 </div>
-<div id="794806a0" class="cell" data-execution_count="4">
+<div id="d73bc8ee" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all three</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>swatchplot([[<span class="st">'#7FBFF5'</span>, <span class="st">'#2A4962'</span>, <span class="st">'#111111'</span>, <span class="st">'#633C39'</span>, <span class="st">'#F8A29E'</span>],</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            pal, sequential_hcl(<span class="st">"PuBu"</span>)], n <span class="op">=</span> <span class="dv">7</span>,</span>
@@ -676,7 +676,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>, can be used to control e.g.
 </div>
 </div>
 </div>
-<div id="35f2b6e0" class="cell" data-execution_count="5">
+<div id="d393fbd8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A color object (e.g., RGB, HCL, CIELUV, ...)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>cobject  <span class="op">=</span> hexcols(heat_hcl()(<span class="dv">5</span>))</span>
@@ -692,7 +692,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>, can be used to control e.g.
        90.40   29.80   90.06</code></pre>
 </div>
 </div>
-<div id="65415b34" class="cell" data-execution_count="6">
+<div id="0e96d727" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>swatchplot(cobject, figsize <span class="op">=</span> (<span class="dv">7</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -702,7 +702,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>, can be used to control e.g.
 </div>
 </div>
 </div>
-<div id="cc801da9" class="cell" data-execution_count="7">
+<div id="24906380" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using dictionaries to add subtitles</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to 'group' different palettes.</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>swatchplot({<span class="st">"Diverging"</span>: [diverging_hcl(), diverging_hcl(<span class="st">"Red-Green"</span>)],</span>

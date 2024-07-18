@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -541,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.54</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.55</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -616,7 +616,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="2ad9266a" class="cell" data-execution_count="1">
+<div id="73062182" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> cvd_emulator</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"deutan"</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -627,7 +627,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </div>
 </div>
 </div>
-<div id="63bd91b6" class="cell" data-execution_count="2">
+<div id="623f0370" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"desaturate"</span>, <span class="fl">1.0</span>, <span class="st">"output.png"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -637,7 +637,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </div>
 </div>
 </div>
-<div id="80555cce" class="cell" data-execution_count="3">
+<div id="265b54db" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, [<span class="st">"original"</span>, <span class="st">"deutan"</span>, <span class="st">"protan"</span>],</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.5</span>, dropalpha <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">

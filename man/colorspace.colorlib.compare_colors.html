@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -541,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.54</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.55</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -614,7 +614,7 @@ Absolute tolerance for the distance measure between two colors to be considered 
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="e99ef0e8" class="cell" data-execution_count="1">
+<div id="58727bdf" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Three RGB colors</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> RGB([<span class="fl">0.5</span>, <span class="fl">0.5</span>], [<span class="fl">0.1</span>, <span class="fl">0.1</span>], [<span class="fl">0.9</span>, <span class="fl">0.9</span>])</span>
@@ -625,25 +625,25 @@ Absolute tolerance for the distance measure between two colors to be considered 
 <pre><code>np.False_</code></pre>
 </div>
 </div>
-<div id="2c9d359d" class="cell" data-execution_count="2">
+<div id="39a9adcb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>compare_colors(a, b, atol <span class="op">=</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>np.True_</code></pre>
 </div>
 </div>
-<div id="1556eeca" class="cell" data-execution_count="3">
+<div id="ef78fd85" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>compare_colors(a, b, exact <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>np.False_</code></pre>
 </div>
 </div>
-<div id="9c10cba9" class="cell" data-execution_count="4">
+<div id="671b45a2" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>compare_colors(a, b, exact <span class="op">=</span> <span class="va">True</span>, _all <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([ True, False])</code></pre>
 </div>
 </div>
-<div id="076b358e" class="cell" data-execution_count="5">
+<div id="4fa7b1ef" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same example using two sets of hexcolor objects</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> hexcols([<span class="st">"#ff00ff"</span>, <span class="st">"#003300"</span>])</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> hexcols([<span class="st">"#ff00ff"</span>, <span class="st">"#003301"</span>])</span>
@@ -652,13 +652,13 @@ Absolute tolerance for the distance measure between two colors to be considered 
 <pre><code>np.False_</code></pre>
 </div>
 </div>
-<div id="039a046d" class="cell" data-execution_count="6">
+<div id="ec92ee43" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>compare_colors(x, y, _all <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>[True, False]</code></pre>
 </div>
 </div>
-<div id="4ebf9154" class="cell" data-execution_count="7">
+<div id="83cdd467" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert HEX to HCL (polarLUV) and back, compare the</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># resulting colors to the original ones; should be identical</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
@@ -673,7 +673,7 @@ Absolute tolerance for the distance measure between two colors to be considered 
       128.06   26.54   17.32</code></pre>
 </div>
 </div>
-<div id="8573ddb9" class="cell" data-execution_count="8">
+<div id="7575f2fa" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>zz.to(<span class="st">"hex"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -683,7 +683,7 @@ Absolute tolerance for the distance measure between two colors to be considered 
     b'#003301'</code></pre>
 </div>
 </div>
-<div id="02ee3c6d" class="cell" data-execution_count="9">
+<div id="40dafbba" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>compare_colors(z, zz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>np.True_</code></pre>

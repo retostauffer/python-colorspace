@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -567,7 +567,7 @@ window.Quarto = {
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.54</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.55</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -596,7 +596,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="scatterplot">Scatterplot</h2>
 <p>The following example depicts a scatter plot for the daily number of motorbikes (y-axis) against average daily mean temperature (x-axis), recorded on a public road in Sonnenberg in the Harz region (Germany). It is provided as a the example dataset “HarzTraffic” in the <em>colorspace</em> package.</p>
 <p>The individual <code>(x, y)</code> data points are colored according to the day of the year (Julian day) using a circular qualitative HCL-based color palette, where blueish colors (<span class="math inline">\(\text{Hue} = \pm 180\)</span> at the start and end of the palette) correspond to winter time and reddish colors (<span class="math inline">\(\text{Hue} = 0\)</span>) to summer time.</p>
-<div id="ac7392a8" class="cell" data-execution_count="1">
+<div id="62999cfd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl, dataset</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -628,7 +628,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="heatmap">Heatmap</h2>
 <p>The “HarzTraffic” example data set also includes daily minimum and maximum temperatures measured at a meteorological station in the area. The following example visualizes their two-dimensional density using a heatmap. Two alternative sequential HCL-based ’cmap’s (<code>LinearSegmentedColormap</code>s) are created using the <code>.cmap()</code> method.</p>
 <p>While the left supblot uses the sequential HCL-based color palette “ag_Sunset” (reversed), the right plot shows the same data using the “Blues 2” palette.</p>
-<div id="8232774d" class="cell" data-execution_count="2">
+<div id="fd4c92c4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, dataset</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -659,7 +659,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Alternatively, fully customized color maps can be created and used for plotting. The example below shows heatmaps with two fully custom HCL-based color palettes, a sequential palette (left) and a reversed diverging palette (right).</p>
-<div id="c7d6c47c" class="cell" data-execution_count="3">
+<div id="2ad78d63" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, diverging_hcl, dataset</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -729,7 +729,7 @@ window.Quarto = {
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                       linewidth <span class="op">=</span> <span class="dv">0</span>, antialiased <span class="op">=</span> <span class="va">False</span>, shade <span class="op">=</span> <span class="va">False</span>)</span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="2247425c" class="cell quarto-layout-panel" data-layout-ncol="1" data-fig-height="5" data-execution_count="4" data-fig-width="8">
+<div id="f2651acc" class="cell quarto-layout-panel" data-fig-height="5" data-layout-ncol="1" data-execution_count="4" data-fig-width="8">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="usewith_matplotlib_files/figure-html/cell-5-output-1.png" class="img-fluid" width="979"></p>
