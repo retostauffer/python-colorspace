@@ -11,7 +11,7 @@ import os
 from setuptools import setup, find_packages
 
 ISRELEASED    = False
-VERSION       = "0.4.4"
+VERSION       = "0.4.5"
 FULLVERSION   = VERSION
 WRITE_VERSION = True
 

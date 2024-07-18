@@ -1,7 +1,7 @@
 
 
 import pytest
-from pytest import raises
+from pytest import raises, warns
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 from colorspace import *
@@ -132,14 +132,49 @@ def test_swatchplot_input_str():
     plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
+def test_swatchplot_input_dict():
+    cols = {"test": diverging_hcl()(5)}
+    fig = swatchplot(cols)
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.filterwarnings("ignore:swatchplot")
+def test_swatchplot_input_dict_with_cvd():
+    cols = {"test": diverging_hcl()(5)}
+    fig = swatchplot(cols)
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_input_dict_in_dict():
+    cols = {"outer": {"test": diverging_hcl()(5)}}
+    fig = swatchplot(cols)
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.filterwarnings("ignore:swatchplot")
+def test_swatchplot_input_dict_in_dict_with_cvd():
+    cols = {"outer": {"test": diverging_hcl()(5)}}
+    fig = swatchplot(cols)
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
 def test_swatchplot_input_palette():
     fig = swatchplot(palette(diverging_hcl().colors(5)))
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
 @pytest.mark.mpl_image_compare
-def test_swatchplot_input_cmap():
+def test_swatchplot_input_LinearSegmentedColormap():
     fig = swatchplot(diverging_hcl().cmap())
+    assert isinstance(fig, Figure)
+    plt.close() # Closing figure instance
+
+@pytest.mark.mpl_image_compare
+def test_swatchplot_input_ListedColormap():
+    from matplotlib.colors import ListedColormap
+    fig = swatchplot(ListedColormap(diverging_hcl()(10)))
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 

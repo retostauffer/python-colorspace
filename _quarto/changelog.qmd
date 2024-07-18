@@ -13,7 +13,13 @@ software under the terms of the GPL. Moreover, bug reports and
 suggestions for improvement are very welcome via the GitHub issues.
 
 
-## Version 0.4.4
+## Version 0.4.5 (next release)
+
+* Added swatchplot support for `matplotlib.colors.ListedColormap`s
+* (ongoing) Extending pytests to adjust for changes in the software.
+
+
+## Version 0.4.4 (July 18, 2024)
 
 * Improvements and streamlining in documentation.
 * HTML representation of `hexcols` objects when rendered via jupyter
