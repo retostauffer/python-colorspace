@@ -15,7 +15,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         the keys of the dictionary are used as 'subtitles' to group sets
         of palettes,
     * an object of class `colorspace.palettes.hclpalettes`,
-    * or an object of class `matplotlib.colors.LinearSegmentedColormap`.
+    * or an object of class `matplotlib.colors.LinearSegmentedColormap` or
+        `matplotlib.colors.ListedColormap`.
 
     Requires the `matplotlib` to be installed.
 
@@ -236,7 +237,7 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
             to be displayed.
         """
 
-        from matplotlib.colors import LinearSegmentedColormap
+        from matplotlib.colors import LinearSegmentedColormap, ListedColormap
 
         # In case we get a list let's check if we have a valid hex list.
         # Can also be a list of list processed later on.
@@ -255,15 +256,11 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         elif isinstance(pals, list):
             res = [_pal_to_dict(x, n) for x in pals]
         # Matplotlib colormap? Convert
-        elif isinstance(pals, LinearSegmentedColormap):
-            from .colorlib import sRGB
-            from numpy import linspace
-            tmp_R = []; tmp_G = []; tmp_B = []
-            for i in linspace(0, 1, n):
-                tmp = pals(i)
-                tmp_R.append(tmp[0]); tmp_G.append(tmp[1]); tmp_B.append(tmp[2])
-            res = [_pal_to_dict(palette(sRGB(tmp_R, tmp_G, tmp_B), name = pals.name), n)]
-            del tmp_R, tmp_G, tmp_B, tmp
+        elif isinstance(pals, (LinearSegmentedColormap, ListedColormap)):
+            from .cmap import cmap_to_sRGB
+            tmp_cols = cmap_to_sRGB(pals, n).colors()
+            res = [_pal_to_dict(palette(tmp_cols, name = pals.name), n)]
+            del tmp_cols
         # If we got a dictionary we keep the keys as names and extract
         # the colors from the object(s) itself.
         elif isinstance(pals, dict):

@@ -109,9 +109,8 @@ def test_specplot_provide_figure_obj():
     plt.show()
     plt.close() # Closing figure instance
 
-# Testing another color palette where heu-axis should be adjusted to 0-360 only
 @pytest.mark.mpl_image_compare
-def test_specplot_input_cmap():
+def test_specplot_input_LinearSegmentedColormap():
     cmap = diverging_hcl().cmap() # Default, n = 256
     specplot(cmap)
     plt.close()
@@ -121,6 +120,12 @@ def test_specplot_input_cmap():
     specplot(cmap)
     plt.close()
     del cmap
+
+@pytest.mark.mpl_image_compare
+def test_specplot_input_ListedColormap():
+    from matplotlib.colors import ListedColormap
+    specplot(ListedColormap(diverging_hcl().colors(10)))
+    plt.close()
 
 # Testing another color palette where heu-axis should be adjusted to 0-360 only
 @pytest.mark.mpl_image_compare
