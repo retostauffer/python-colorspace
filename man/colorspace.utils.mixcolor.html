@@ -603,7 +603,7 @@ The color space where the mixing is to take place, either <code>"RGB"</code> or 
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="e9db5673" class="cell" data-execution_count="1">
+<div id="5916dc80" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> RGB</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> <span class="op">*</span></span>
@@ -620,7 +620,7 @@ The color space where the mixing is to take place, either <code>"RGB"</code> or 
   1:    0.50    0.50    0.00</code></pre>
 </div>
 </div>
-<div id="017d942c" class="cell" data-execution_count="2">
+<div id="1f0ef0b9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixing via XYZ color space</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>RGB_M2 <span class="op">=</span> mixcolor(<span class="fl">0.5</span>, RGB_1, RGB_2, <span class="st">"CIEXYZ"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>RGB_M2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -630,7 +630,7 @@ The color space where the mixing is to take place, either <code>"RGB"</code> or 
   1:   38.50   46.39    6.93</code></pre>
 </div>
 </div>
-<div id="eb65f6c7" class="cell" data-execution_count="3">
+<div id="a53424bf" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixing two lists of hex-colors of length 5.</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mixing takes place once in the RGB color space (M1)</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  and once in the HCL color space (M2)</span></span>
@@ -648,7 +648,7 @@ The color space where the mixing is to take place, either <code>"RGB"</code> or 
         0.45    0.07    0.31</code></pre>
 </div>
 </div>
-<div id="1d84d326" class="cell" data-execution_count="4">
+<div id="1d8fa8ac" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixing via XYZ color space</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>HEX_M2 <span class="op">=</span> mixcolor(<span class="fl">0.8</span>, HEX_1, HEX_2, <span class="st">"CIEXYZ"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>HEX_M2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -662,7 +662,7 @@ The color space where the mixing is to take place, either <code>"RGB"</code> or 
         9.28    6.27   30.02</code></pre>
 </div>
 </div>
-<div id="eb0a392a" class="cell" data-execution_count="5">
+<div id="ab1003b7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>swatchplot([HEX_1, HEX_2, HEX_M1, HEX_M2],</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>           show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -673,7 +673,7 @@ The color space where the mixing is to take place, either <code>"RGB"</code> or 
 </div>
 </div>
 </div>
-<div id="4361bf06" class="cell" data-execution_count="6">
+<div id="cf2e28aa" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixing objects of different length and type</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  Coordinates of the shorter object (RGB_1) will be recycled</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  to the same number of colors as in the longer object (HEX_2)</span></span>
@@ -683,14 +683,14 @@ The color space where the mixing is to take place, either <code>"RGB"</code> or 
 <pre><code>['#E8010C', '#F41F21', '#F92D2D', '#EC2128', '#CC0D21']</code></pre>
 </div>
 </div>
-<div id="4487e024" class="cell" data-execution_count="7">
+<div id="30266875" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>RES_2 <span class="op">=</span> mixcolor(<span class="fl">0.8</span>, RGB_1, HEX_2, <span class="st">"sRGB"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>RES_2.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>['#A5052F', '#D57D83', '#E8B5B5', '#B485A0', '#353284']</code></pre>
 </div>
 </div>
-<div id="7e9e9267" class="cell" data-execution_count="8">
+<div id="6b666c17" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>swatchplot([RGB_1, RES_2, HEX_2, RES_1, RES_2],</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>           show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
