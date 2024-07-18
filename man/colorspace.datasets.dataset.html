@@ -556,6 +556,10 @@ ul.task-list li input[type="checkbox"] {
 <li><code>sunshine</code> int64, sunshine duration in minutes.</li>
 <li><code>wind</code> float64, mean wind speed in meters per second.</li>
 <li><code>windmax</code> float64, maximum wind speed in meters per second.</li>
+<li><code>season</code>: object, local season (sprint, summer, autumn, winter).</li>
+<li><code>dow</code>: int64, numeric day of week (0 = Mon, 6 = Sun).</li>
+<li><code>dayofweek</code>: object, short name of day of week.</li>
+<li><code>weekend</code>: bool, True if the day is Saturday or Sunday, else False.</li>
 </ul>
 <p>Weather data: Deutscher Wetterdienst (DWD), Climate Data Center (CDC), station Wernigerode (5490; Sachsen-Anhalt) w/ location 10.7686/51.8454/233 (lon, lat, alt, EPSG 4326). CC-BY 4.0, available via <a href="https://opendata.dwd.de/climate_environment/CDC/" class="uri">https://opendata.dwd.de/climate_environment/CDC/</a>.</p>
 <p>Traffic data: Bundesanstalt für Strassenwesen (BASt), station Sonnenberg. CC-BY 4.0, available via <a href="https://www.bast.de" class="uri">https://www.bast.de</a>, <a href="https://www.bast.de/DE/Verkehrstechnik/Fachthemen/v2-verkehrszaehlung/Verkehrszaehlung.html" class="uri">https://www.bast.de/DE/Verkehrstechnik/Fachthemen/v2-verkehrszaehlung/Verkehrszaehlung.html</a>.</p>

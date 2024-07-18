@@ -674,7 +674,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Another important difference between the two palettes is that the HCL-based alternative is completely balanced between the two “arms” of the palette while the rainbow is not. Specifically, the green arm has an almost flat luminance trajectory while the red arm reaches much lower luminances (i.e., darker colors).</p>
-<div id="87237a1d" class="cell" data-execution_count="1">
+<div id="4342c7ac" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, specplot</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow(start <span class="op">=</span> <span class="dv">0</span>, end <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -686,7 +686,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="f9b8272a" class="cell" data-execution_count="2">
+<div id="83a1953e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, specplot</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Purple-Green"</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -717,7 +717,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Depicting the hue/chroma/luminance trajectories of both palettes also shows the abrupt changes in the original palette which do not convey a continuous temperature scale. Instead, the HCL-based sunset palette is also built from a wide range of hues but changes hue, chroma, and luminance smoothly.</p>
-<div id="54d4eacd" class="cell" data-execution_count="3">
+<div id="8c3e967e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> [<span class="st">"#F6C77B"</span>, <span class="st">"#A8373A"</span>, <span class="st">"#009BFF"</span>, <span class="st">"#D35252"</span>, <span class="st">"#0DD189"</span>, <span class="st">"#E3AF36"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"#9CE743"</span>, <span class="st">"#EE8130"</span>, <span class="st">"#FE9E23"</span>, <span class="st">"#E4E4E4"</span>, <span class="st">"#ACFBA4"</span>, <span class="st">"#4EF159"</span>,</span>
@@ -732,7 +732,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="a9ea0449" class="cell" data-execution_count="4">
+<div id="7b0595bd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, specplot</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> sequential_hcl(<span class="st">"ag_Sunset"</span>).colors(<span class="dv">23</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>specplot(pal)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -818,7 +818,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Showing changes in hue/chroma/luminance across the two palettes also highlights the discontinuity vs.&nbsp;smoothness of the two palettes.</p>
-<div id="7b05030e" class="cell" data-execution_count="5">
+<div id="cdeacd34" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, specplot</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow(end <span class="op">=</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -830,7 +830,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="9e815572" class="cell" data-execution_count="6">
+<div id="bcadc695" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, specplot</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> sequential_hcl(<span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

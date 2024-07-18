@@ -536,6 +536,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#multi-group-histogram" id="toc-multi-group-histogram" class="nav-link" data-scroll-target="#multi-group-histogram">Multi-group histogram</a></li>
   <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap">Heatmap</a></li>
   <li><a href="#lineplot-with-multiple-facets" id="toc-lineplot-with-multiple-facets" class="nav-link" data-scroll-target="#lineplot-with-multiple-facets">Lineplot with multiple facets</a></li>
+  <li><a href="#barplot" id="toc-barplot" class="nav-link" data-scroll-target="#barplot">Barplot</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -566,7 +567,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scatterplot" class="level2">
 <h2 class="anchored" data-anchor-id="scatterplot">Scatterplot</h2>
 <p>The following example shows the number of motorbikes recorded by an automatic traffic counting station in the Harz Mountains (Germany), an region very popular with bikers. The number of bikes (y-axis) is plotted against the daily mean temperature (x-axis) and colored by season using custom colors from the HCL-based qualitative color palette “Dark 3”.</p>
-<div id="4a12c083" class="cell" data-execution_count="1">
+<div id="2a46250a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl, dataset </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -614,7 +615,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>g.<span class="bu">set</span>(title <span class="op">=</span> <span class="st">"Distribution of daily maximum temperature given season"</span>)</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="b1dbaae3" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
+<div id="0bb71d1e" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="usewith_seaborn_files/figure-html/cell-3-output-1.png" class="img-fluid" width="677"></p>
@@ -626,7 +627,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="heatmap">Heatmap</h2>
 <p>HCL-based color maps (<code>LinearSegmentedColormap</code> objects) can be used directly for seaborn heatmaps. The plot below shows the joint density of the daily maximum temperature (y-axis) and daily minimum temperature (x-axis) based on the ‘HarzTraffic’ data set.</p>
 <p>The left subplot employs one of the pre-defined sequential HCL-based color palette “YlOrRd” (yellow-orange-red) in reverse order, while the right subplot shows the same information but using a custom sequential HCL-based palette. Instead of reversing the palette via <code>rev = True</code>, the <code>.reversed()</code> method on the <code>LinearSegmentedColormap</code> (cmap) is used to get the same effect.</p>
-<div id="e4b152a9" class="cell" data-execution_count="3">
+<div id="5a73e98b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, dataset</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -678,7 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="lineplot-with-multiple-facets" class="level2">
 <h2 class="anchored" data-anchor-id="lineplot-with-multiple-facets">Lineplot with multiple facets</h2>
-<p>As a last example the number of bikes and cars are shown for the different years by day of year (<code>yday</code>; Julian day) using a diverging HCL-based color palette.</p>
+<p>This example shows the number of bikes and cars for the different years by day of year (<code>yday</code>; Julian day) using a diverging HCL-based color palette.</p>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -708,10 +709,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            height <span class="op">=</span> <span class="dv">4</span>, aspect <span class="op">=</span> <span class="dv">3</span>, facet_kws <span class="op">=</span> <span class="bu">dict</span>(sharey <span class="op">=</span> <span class="va">False</span>),</span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            palette <span class="op">=</span> diverging_hcl(<span class="st">"Green-Orange"</span>).colors(N))</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="27d5fc81" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<div id="68b5ece4" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="4">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="usewith_seaborn_files/figure-html/cell-5-output-1.png" class="img-fluid" width="1227"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="barplot" class="level2">
+<h2 class="anchored" data-anchor-id="barplot">Barplot</h2>
+<p>The Harz region in Germany is well known amongst bikers which often use their time on the weekend to go for a ride. To visualize this, the following barplot shows the average number of bikes (with error bars) during the summer seasons (June-August) 2021-2023 based on the “HarzTraffic” data set. The qualitative HCL-based color palette “Harmonic” is used to colorize the different days of week.</p>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl, dataset</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading data set</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> dataset(<span class="st">"HarzTraffic"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.loc[(df.season <span class="op">==</span> <span class="st">"summer"</span>), :]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>sns.barplot(x <span class="op">=</span> <span class="st">"dayofweek"</span>, y <span class="op">=</span> <span class="st">"bikes"</span>, hue <span class="op">=</span> <span class="st">"dow"</span>, data <span class="op">=</span> df,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            order <span class="op">=</span> [<span class="st">"Mon"</span>, <span class="st">"Tue"</span>, <span class="st">"Wed"</span>, <span class="st">"Thu"</span>, <span class="st">"Fri"</span>, <span class="st">"Sat"</span>, <span class="st">"Sun"</span>],</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            legend <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            palette <span class="op">=</span> qualitative_hcl(<span class="st">"Harmonic"</span>).colors(<span class="dv">7</span>))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Average number of bikes per day of week</span><span class="ch">\n</span><span class="st">summer season 2021-2023"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f515f7e2" class="cell quarto-layout-panel" data-layout-ncol="1" data-execution_count="5">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="usewith_seaborn_files/figure-html/cell-6-output-1.png" class="img-fluid" width="593"></p>
+</div>
+</div>
+</div>
+<p>As a slightly more complex example, the visualization below shows grouped barplots with the total number of bikes, cars, trucks, and other vehicles registered on a monthly basis between January 2021 and November 2023, using the example data set The different vehicle types are colorized using the sequential HCL-based color palette “Plasma”. The upper plot shows original colors (no visual constraints), the lower simulates the same colors seen by people with deuteranope vision (green-yellow-red weakness).</p>
+<div id="67c1b1f7" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, dataset, deutan</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading penguins data set</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> dataset(<span class="st">"MonthlyHarzTraffic"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshaping the pandas DataFrame</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> []</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> [<span class="st">"bikes"</span>, <span class="st">"cars"</span>, <span class="st">"trucks"</span>, <span class="st">"others"</span>]:</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    tmp <span class="op">=</span> df.loc[:, [<span class="st">"year"</span>, <span class="st">"month"</span>, t]].rename(columns <span class="op">=</span> {t: <span class="st">"count"</span>})</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    tmp.insert(<span class="dv">3</span>, <span class="st">"type"</span>, t)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    res.append(tmp)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(res, axis <span class="op">=</span> <span class="dv">0</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> res, tmp</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># New figure</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>)<span class="co">#, figsize = (8, 6))</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting (unconstraint and deuteranope vision)</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>sns.barplot(x <span class="op">=</span> <span class="st">"month"</span>, y <span class="op">=</span> <span class="st">"count"</span>, hue <span class="op">=</span> <span class="st">"type"</span>, data <span class="op">=</span> df, ax <span class="op">=</span> ax1,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>            palette <span class="op">=</span> sequential_hcl(<span class="st">"Plasma"</span>)(<span class="dv">4</span>))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>sns.barplot(x <span class="op">=</span> <span class="st">"month"</span>, y <span class="op">=</span> <span class="st">"count"</span>, hue <span class="op">=</span> <span class="st">"type"</span>, data <span class="op">=</span> df, ax <span class="op">=</span> ax2,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>            palette <span class="op">=</span> deutan(sequential_hcl(<span class="st">"Plasma"</span>)(<span class="dv">4</span>)))</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting title, adjusting legend</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Total number of vehicles, 2021-2023"</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="va">None</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>sns.move_legend(ax1, <span class="st">"upper left"</span>, ncol <span class="op">=</span> <span class="dv">4</span>, title <span class="op">=</span> <span class="va">None</span>, frameon <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>sns.move_legend(ax2, <span class="st">"upper left"</span>, ncol <span class="op">=</span> <span class="dv">4</span>, title <span class="op">=</span> <span class="va">None</span>, frameon <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="usewith_seaborn_files/figure-html/cell-7-output-1.png" width="610" height="449" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
