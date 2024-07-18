@@ -2,6 +2,7 @@
 from colorspace import palette, diverging_hcl
 from colorspace.colorlib import hexcols
 from colorspace.colorlib import HCL
+from matplotlib.figure import Figure
 import numpy as np
 
 import pytest
@@ -181,7 +182,7 @@ def test_standard_representation():
     assert match(f"^Palette Name: {name}\n\s+Type: Custom palette\n\s+Number of colors: {N}$", txt)
 
 # ------------------------------------------
-# Swatchplot feature
+# Swatchplot method
 # ------------------------------------------
 @pytest.mark.mpl_image_compare
 def test_swatchplot():
@@ -193,7 +194,8 @@ def test_swatchplot():
     assert pal.name() == "test"
 
     # Plotting
-    pal.swatchplot()
+    fig =pal.swatchplot()
+    assert isinstance(fig, Figure)
     plt.close()
 
     # Different figure size
@@ -201,6 +203,20 @@ def test_swatchplot():
     plt.close()
 
     # Setting show_names; is deleted internally
-    pal.swatchplot(figsize = (6, 2), show_names = "foo")
+    fig = pal.swatchplot(figsize = (6, 2), show_names = "foo")
+    assert isinstance(fig, Figure)
     plt.close()
 
+# ------------------------------------------
+# Specplot method
+# ------------------------------------------
+@pytest.mark.mpl_image_compare
+def test_specplot():
+    import matplotlib.pyplot as plt
+
+    pal = palette(diverging_hcl(5), "test")
+
+    # Plotting
+    fig = pal.specplot()
+    assert isinstance(fig, Figure)
+    plt.close()
