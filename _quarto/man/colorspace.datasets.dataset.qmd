@@ -40,6 +40,10 @@ A `pandas.DataFrame` containing 1057 observations (rows) on 16 variables:
 * `sunshine` int64, sunshine duration in minutes.
 * `wind` float64, mean wind speed in meters per second.
 * `windmax` float64, maximum wind speed in meters per second.
+* `season`: object, local season (sprint, summer, autumn, winter).
+* `dow`: int64, numeric day of week (0 = Mon, 6 = Sun).
+* `dayofweek`: object, short name of day of week.
+* `weekend`: bool, True if the day is Saturday or Sunday, else False.
 
 Weather data: Deutscher Wetterdienst (DWD), Climate Data Center (CDC),
 station Wernigerode (5490; Sachsen-Anhalt) w/ location 10.7686/51.8454/233

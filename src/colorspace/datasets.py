@@ -45,6 +45,9 @@ def _getdataset_HarzTraffic():
 
     # Boolean flag for 'weekend'
     d = pd.DatetimeIndex(data.date).dayofweek
+    names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    data["dow"] = d # Use integer this for order
+    data["dayofweek"] = np.asarray([names[x] for x in d])
     data["weekend"] = np.repeat(False, data.shape[0])
     data.loc[(d >= 5), "weekend"] = True # Saturday (5) or Sunday (6)
     del d
@@ -133,6 +136,8 @@ def dataset(name):
     * `wind` float64, mean wind speed in meters per second.
     * `windmax` float64, maximum wind speed in meters per second.
     * `season`: object, local season (sprint, summer, autumn, winter).
+    * `dow`: int64, numeric day of week (0 = Mon, 6 = Sun).
+    * `dayofweek`: object, short name of day of week.
     * `weekend`: bool, True if the day is Saturday or Sunday, else False.
 
     Weather data: Deutscher Wetterdienst (DWD), Climate Data Center (CDC),

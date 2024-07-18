@@ -131,7 +131,7 @@ plt.show()
 
 ## Lineplot with multiple facets
 
-As a last example the number of bikes and cars are shown for the
+This example shows the number of bikes and cars for the
 different years by day of year (`yday`; Julian day) using
 a diverging HCL-based color palette.
 
@@ -170,6 +170,84 @@ sns.relplot(data = df, x = "yday", y = "count",
             palette = diverging_hcl("Green-Orange").colors(N))
 plt.show()
 ```
+
+
+## Barplot
+
+The Harz region in Germany is well known amongst bikers which
+often use their time on the weekend to go for a ride. To visualize
+this, the following barplot shows the average number of bikes (with error bars)
+during the summer seasons (June-August) 2021-2023 based on the "HarzTraffic" data set.
+The qualitative HCL-based color palette "Harmonic" is used to colorize the different
+days of week.
+
+```{python seaborn_minimal}
+#| warning: true
+#| error: true
+#| layout-ncol: 1
+
+from colorspace import qualitative_hcl, dataset
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Loading data set
+df = dataset("HarzTraffic")
+df = df.loc[(df.season == "summer"), :]
+
+sns.barplot(x = "dayofweek", y = "bikes", hue = "dow", data = df,
+            order = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            legend = False,
+            palette = qualitative_hcl("Harmonic").colors(7))
+plt.title("Average number of bikes per day of week\nsummer season 2021-2023")
+plt.show()
+```
+
+As a slightly more complex example, the visualization below shows grouped
+barplots with the total number of bikes, cars, trucks, and other vehicles
+registered on a monthly basis between January 2021 and November 2023, using the
+example data set The different vehicle types are colorized using the sequential
+HCL-based color palette "Plasma". The upper plot shows original colors (no
+visual constraints), the lower simulates the same colors seen by people with
+deuteranope vision (green-yellow-red weakness).
+
+```{python seaborn_barplot}
+#| error: true
+#| warning: true
+
+from colorspace import sequential_hcl, dataset, deutan
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ 
+# Loading penguins data set
+df = dataset("MonthlyHarzTraffic")
+
+# Reshaping the pandas DataFrame
+res = []
+for t in ["bikes", "cars", "trucks", "others"]:
+    tmp = df.loc[:, ["year", "month", t]].rename(columns = {t: "count"})
+    tmp.insert(3, "type", t)
+    res.append(tmp)
+df = pd.concat(res, axis = 0)
+del res, tmp
+
+# New figure
+fig, (ax1, ax2) = plt.subplots(2, 1)#, figsize = (8, 6))
+    
+# Plotting (unconstraint and deuteranope vision)
+sns.barplot(x = "month", y = "count", hue = "type", data = df, ax = ax1,
+            palette = sequential_hcl("Plasma")(4))
+sns.barplot(x = "month", y = "count", hue = "type", data = df, ax = ax2,
+            palette = deutan(sequential_hcl("Plasma")(4)))
+
+# Setting title, adjusting legend
+ax1.set_title("Total number of vehicles, 2021-2023")
+ax1.set_xlabel(None)
+sns.move_legend(ax1, "upper left", ncol = 4, title = None, frameon = False)
+sns.move_legend(ax2, "upper left", ncol = 4, title = None, frameon = False)
+plt.show()
+```
+
 
 
 

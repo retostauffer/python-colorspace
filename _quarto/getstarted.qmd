@@ -164,97 +164,101 @@ More examples can be found on the dedicated articles:
 
 #### Matplotlib
 
-```{python}
+For demonstration, the figure below shows a two-dimensional histogram
+(joint density) of the daily minimum and maximum temperature observed
+at a weather station in the Harz region in Germany using the
+"HarzTraffic" data set. The custom HCL-based palette is provided
+as 'cmap' (a `LinearSegmentedColormap`) using the `.cmap()` method.
+
+Whilst the left supblot uses the sequential
+HCL-based color palette "ag_Sunset" (reversed), the right plot shows
+the same data using the "Blues 2" palette.
+
+```{python matplotlib_minimal}
 #| warning: true
 #| error: true
 
-from colorspace import sequential_hcl, qualitative_hcl
+from colorspace import sequential_hcl, dataset
 import matplotlib.pyplot as plt
-import numpy as np
 
-np.random.seed(6020)
-X,Y,Z = [np.random.normal(10, 3, 100), np.random.rand(100), np.random.rand(100)]
+# Loading data
+df = dataset("HarzTraffic")
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 3))
-ax1.scatter(X, Y, c = Z, alpha = 0.7,
-            cmap = sequential_hcl("Purples 3").cmap())
-ax2.scatter(X, Y, c = np.ceil(Z * 3), alpha = 0.7,
-            cmap = qualitative_hcl("Cold").cmap())
+# Creating new figure
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
+
+ax1.hist2d(df.tempmin, df.tempmax, bins = 20,
+           cmap = sequential_hcl("ag_Sunset", rev = True).cmap())
+ax2.hist2d(df.tempmin, df.tempmax, bins = 20,
+           cmap = sequential_hcl("Blues 2").cmap())
+
+# Setting title and labels
+ax1.set_title("Joint density daily min/max temperature")
+ax1.set_xlabel("minimum temperature [deg C]")
+ax1.set_ylabel("maximum temperature [deg C]")
+ax2.set_title("Joint density daily min/max temperature")
+ax2.set_xlabel("minimum temperature [deg C]")
 plt.show()
 ```
 
 
 #### Seaborn
 
-```{python}
+To show an example of how to integrate HCL-based color maps with seaborn,
+the barplot below shows the average number of bikes per day of week (with error bars)
+during summer seasons (June, July, August) 2021 to 2023.
+
+```{python seaborn_minimal}
 #| warning: true
 #| error: true
+#| layout-ncol: 1
 
-from colorspace import diverging_hcl
+from colorspace import qualitative_hcl, dataset
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Loading data set; calculate number of colors needed
-dots = sns.load_dataset("dots")
-N    = len(np.unique(dots.coherence))
+# Loading data set
+df = dataset("HarzTraffic")
+df = df.loc[(df.season == "summer"), :]
 
-# Plot the lines on two facets
-sns.relplot(data = dots, x = "time", y = "firing_rate",
-            hue = "coherence", size = "choice", col = "align",
-            kind = "line", size_order = ["T1", "T2"],
-            height = 3, aspect = 2, facet_kws = dict(sharex = False),
-            palette = diverging_hcl("Green-Orange").colors(N))
-plt.show()
-```
-
-```{python}
-from colorspace import sequential_hcl
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-
-months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-data = {"months": np.tile(months, 3),
-        "label":  np.repeat(["Primary", "Secondary", "Tertiary"], len(months)),
-        "value":  np.concatenate((np.random.uniform(12, 15, len(months)),
-                                  np.random.uniform(10, 15, len(months)),
-                                  np.random.uniform(7, 12, len(months))))}
-data = pd.DataFrame(data)
-
-fig, ax = plt.subplots(1, 1, figsize = (10, 4))
-sns.barplot(x = "months", y = "value", hue = "label", data = data, ax = ax,
-            palette = sequential_hcl("Burg", rev = True)(3))
+sns.barplot(x = "dayofweek", y = "bikes", hue = "dow", data = df,
+            order = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            legend = False,
+            palette = qualitative_hcl("Harmonic").colors(7))
+plt.title("Average number of bikes per day of week\nsummer season 2021-2023")
 plt.show()
 ```
 
 #### Plotly
 
-```{python}
+Finally, an example using the plotly graphics library is shown.
+The interactive plot below shows the daily mean temperature plotted
+against the day of year (Julian day) for the three consecutive years
+2021, 2022, and 2023 using colors from the (slightly adjusted) diverging HCL-based
+color palette "Blue-Red".
+
+```{python plotly_minimal}
 #| warning: true
 #| error: true
 
-from colorspace import qualitative_hcl
-import plotly.graph_objects as go
-import numpy as np
+from colorspace import diverging_hcl, dataset
+import plotly.express as px
+import pandas as pd
 
-months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-config = {"Primary":   {"low": 12, "high": 15},
-          "Secondary": {"low": 10, "high": 15},
-          "Tertiary":  {"low": 7, "high": 12}}
+df = dataset("HarzTraffic")
+df["year"] = pd.DatetimeIndex(df.date).year
 
-fig = go.Figure()
-for k,v in config.items():
-    y = np.random.uniform(v["low"], v["high"], len(months))
-    fig.add_trace(go.Bar(x = months, y = y, name = k))
+# Picking three colors from (adjusted) diverging color map
+cols = diverging_hcl("Blue-Red", l2 = 60).colors(3)
 
-# Here we modify the tickangle of the xaxis, resulting in rotated labels.
-fig.update_traces(marker_color = qualitative_hcl("Cold")(3))
+# Plotting
+fig = px.line(df, x = "yday", y = "temp", color = "year",
+        title = "Daily mean temperature<br>Sonnenberg, Harz, Germany",
+        color_discrete_sequence = cols,
+        template = "plotly_white",
+        labels = {"yday": "day of year", "temp": "temperature [deg C]"})
 fig.show()
 ```
-
 
 
 
