@@ -32,8 +32,8 @@ def test_dataset_volcano():
     # numpy.isdtype available Python 3.9+
     if version_info <= (3, 8):
         pytest.skip("Skipping because numpy.isdtype not available for Python 3.8-")
-
-    assert np.isdtype(x.dtype, np.int64)
+    else:
+        assert np.isdtype(x.dtype, np.int64)
 
 def test_dataset_HarzTraffic():
 

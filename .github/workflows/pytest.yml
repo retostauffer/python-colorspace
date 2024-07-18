@@ -32,7 +32,7 @@ jobs:
           pip install -e .
           # Testing
           pip list
-      - name: Coverage
+      - name: Running Tests
         run: |
           pytest -s
 
