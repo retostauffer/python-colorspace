@@ -7,7 +7,7 @@ bibliography: ../references.bib
 
 Different kinds of limitations can be emulated using the physiologically-based
 model for simulating color vision deficiency (CVD) of
-@color:Machado+Oliveira+Fernandes:2009`
+@color:Machado+Oliveira+Fernandes:2009
 deuteranomaly (green cone cells defective), protanomaly (red
 cone cells defective), and tritanomaly (blue cone cells defective). While most
 other CVD simulations handle only dichromacy, where one of three cones is
@@ -17,8 +17,8 @@ spectral sensitivity. As anomalous trichromacy is the most common form of color
 vision deficiency, it is important to emulate along with the rarer, but more
 severe dichromacy.
 
-The workhorse function to emulate color vision deficiencies is simulate_cvd(),
-which can take any vector of valid R colors and transform them according to a
+The workhorse function to emulate color vision deficiencies is `CVD.CVD` (not
+exported) which can take any vector of valid colors and transform them according to a
 certain CVD transformation matrix and transformation equation. The
 transformation matrices have been established by
 @color:Machado+Oliveira+Fernandes:2009 and are provided by methods
