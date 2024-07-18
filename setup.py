@@ -47,6 +47,12 @@ def README():
 setup(name="colorspace",     # This is the package name
       version = VERSION,     # Current package version, what else
       description = "A Python toolbox for manipulating and assessing colors and palettes",
+      project_urls = {
+          "Documentation": "https://retostauffer.github.io/python-colorspace/",
+          "Repository": "https://github.com/retostauffer/python-colorspace/",
+          "Issues": "https://github.com/retostauffer/python-colorspace",
+          "HCL Wizard": "https://hclwizard.org/"
+      },
       long_description = README(),
       long_description_content_type = "text/markdown",
       url = "https://github.com/retostauffer/python-colorspace",
@@ -58,7 +64,7 @@ setup(name="colorspace",     # This is the package name
       keywords             = "colors, color palettes, color spaces, manipulate colors, HCL, HCL colors, color vision deficiencies",
       classifiers = [
           "Topic :: Scientific/Engineering :: Visualization",
-          "Development Status :: 4 - Beta",
+          "Development Status :: 5 - Production/Stable",
           "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
           "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
           "Programming Language :: Python :: 3.11"
