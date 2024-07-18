@@ -25,10 +25,6 @@ The package provides a Python 3 version of the
 - **Utilities:** Various color manipulations including tools to desaturate, lighten, darken,
   adjust the transparency, or compute the contrast ratio.
 
-## Development and Deployment
-
-For more details about development and deployment, please have a look
-at [GITHUBACTIONS.md](https://github.com/retostauffer/python-colorspace/GITHUBACTIONS.md).
 
 ## Links
 
@@ -36,8 +32,8 @@ at [GITHUBACTIONS.md](https://github.com/retostauffer/python-colorspace/GITHUBAC
 - **GitHub:** <https://github.com/retostauffer/python-colorspace/>
 - **Documentation:** <https://retostauffer.github.io/python-colorspace/>
 - **Bug reports:** https://github.com/retostauffer/python-colorspace/issues  
-  Currently, the package is in advanced beta status. Bug reports and suggestions
-  are welcome and very much appreciated!
+  _Bug reports and suggestions are welcome and very much appreciated!_
+
 
 ## Contributors
 
@@ -52,3 +48,9 @@ that is co-written with
 [Jason C. Fisher](https://www.usgs.gov/staff-profiles/jason-c-fisher),
 [Claus O. Wilke](https://clauswilke.com/),
 [Claire D. McWhite](https://clairemcwhite.github.io/).
+
+
+## Development notes
+
+Notes about development and deployment are documented in
+[GITHUBACTIONS.md](https://github.com/retostauffer/python-colorspace/blob/main/GITHUBACTIONS.md).
