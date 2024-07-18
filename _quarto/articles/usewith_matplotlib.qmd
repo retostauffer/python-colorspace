@@ -9,15 +9,15 @@ color maps based on the _colorspace_ package.
 
 ## Scatterplot
 
-The following example shows simple two-dimensional scatter plot using
-the 'HarzTraffic' example data set. Visualized is the daily number of bikes
-(motorbikes; y-axis) recorded on a public road in Sonnenberg in the Harz region
-(Germany) against the average daily mean temperature (x-axis).
+The following example depicts a scatter plot for the daily number of motorbikes
+(y-axis) against average daily mean temperature (x-axis), recorded on a public
+road in Sonnenberg in the Harz region (Germany). It is provided as a the example
+dataset "HarzTraffic" in the _colorspace_ package.
 
 The individual `(x, y)` data points are colored according to the day of the year
 (Julian day) using a circular qualitative HCL-based color palette, where blueish
-colors ($\text{Hue} = \pm 180$) correspond to winter time and reddish colors ($\text{Hue} = 0$)
-to summer time.
+colors ($\text{Hue} = \pm 180$ at the start and end of the palette) correspond to
+winter time and reddish colors ($\text{Hue} = 0$) to summer time.
 
 ```{python matplotlib_example_1}
 #| warning: true
@@ -47,13 +47,12 @@ plt.show()
 ## Heatmap
 
 The "HarzTraffic" example data set also includes daily minimum and
-maximum temperatures measured at a meteorological station. The
-following two-dimensional histogram shows the heatmap
-(joint density) betweeen those two variables using
-two sequential HCL-based 'cmap's (`LinearSegmentedColormap`s) 
+maximum temperatures measured at a meteorological station in the area.
+The following example visualizes their two-dimensional density using a heatmap.
+Two alternative sequential HCL-based 'cmap's (`LinearSegmentedColormap`s) are
 created using the `.cmap()` method.
 
-Whilst the left supblot uses the sequential
+While the left supblot uses the sequential
 HCL-based color palette "ag_Sunset" (reversed), the right plot shows
 the same data using the "Blues 2" palette.
 
