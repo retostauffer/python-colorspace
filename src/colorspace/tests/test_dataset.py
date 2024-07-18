@@ -2,6 +2,7 @@
 
 from colorspace import dataset
 from pytest import raises
+import pytest
 import numpy as np
 import pandas as pd
 
@@ -30,14 +31,16 @@ def test_dataset_volcano():
     
     # numpy.isdtype available Python 3.9+
     if version_info > (3, 8):
-        assert np.isdtype(x.dtype, np.int64)
+        pytest.skip("Skipping because numpy.isdtype not available for Python 3.8-")
+
+    assert np.isdtype(x.dtype, np.int64)
 
 def test_dataset_HarzTraffic():
 
     # Expected columns (in this order)
     expected = np.asarray(["date", "yday", "bikes", "cars", "trucks", "others",
         "tempmin", "tempmax", "temp", "humidity", "tempdew", "cloudiness", "rain",
-        "sunshine", "wind", "windmax", "season", "weekend"])
+        "sunshine", "wind", "windmax", "season", "dow", "dayofweek", "weekend"])
 
     # Loading data
     x = dataset("HarzTraffic")
