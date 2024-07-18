@@ -22,10 +22,6 @@ all extend this class. These are
 
 <dl class="pyp-list method-list">
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[colorlib.DEG2RAD(x)](colorspace.colorlib.colorlib.DEG2RAD.qmd)</code>
-    </dt>
-    <dd>Convert degrees into radiant</dd>
-    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.HLS_to_RGB(h, l, s)](colorspace.colorlib.colorlib.HLS_to_RGB.qmd)</code>
     </dt>
     <dd>Convert HLS to RGB</dd>
@@ -57,10 +53,6 @@ all extend this class. These are
        <code>[colorlib.LUV_to_polarLUV(L, U, V)](colorspace.colorlib.colorlib.LUV_to_polarLUV.qmd)</code>
     </dt>
     <dd>Convert CIELUV to the polar representation (polarLUV; HCL)</dd>
-    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[colorlib.RAD2DEG(x)](colorspace.colorlib.colorlib.RAD2DEG.qmd)</code>
-    </dt>
-    <dd>Convert radiant to degrees</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.RGB_to_HLS(r, g, b)](colorspace.colorlib.colorlib.RGB_to_HLS.qmd)</code>
     </dt>
@@ -113,10 +105,6 @@ all extend this class. These are
        <code>[colorlib.polarLUV_to_LUV(L, C, H)](colorspace.colorlib.colorlib.polarLUV_to_LUV.qmd)</code>
     </dt>
     <dd>Convert Polar CIELUV (HCL) to CIELUV</dd>
-    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[colorlib.qtrans(q1, q2, hue)](colorspace.colorlib.colorlib.qtrans.qmd)</code>
-    </dt>
-    <dd>WARNING(short_description missing)</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.sRGB_to_HLS(r, g, b)](colorspace.colorlib.colorlib.sRGB_to_HLS.qmd)</code>
     </dt>

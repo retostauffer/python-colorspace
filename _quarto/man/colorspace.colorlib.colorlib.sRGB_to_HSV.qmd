@@ -2,7 +2,11 @@
 title: "Convert RGB to HSV"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Convert one (or multiple) rgb colors given their red, blue, and
+red coodinates (`[0.0, 1.0]`) to their corresponding hue, saturation,
+and value (HSV) coordinates.
 
 ### Usage
 
@@ -27,5 +31,6 @@ WARNING(long_description missing)
 
 ### Return
 
-Returns a `numpy.ndarray` with the corresponding coordinates in the
-HSV color space (`[h, s, v]`). Same length as the inputs.
+Returns a list of `numpy.ndarray`s with the corresponding
+coordinates in the HSV color space (`[h, s, v]`). Same length as
+the inputs.

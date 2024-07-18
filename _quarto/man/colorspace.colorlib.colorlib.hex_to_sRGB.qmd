@@ -2,7 +2,9 @@
 title: "Convert Hex Colors to Standard RGB (sRGB)"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Convert one (or multiple) hex colors to sRGB.
 
 ### Usage
 

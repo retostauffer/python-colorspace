@@ -68,7 +68,7 @@ class colorlib:
     """Z value for default white spot. Used for coordinate transformations."""
 
     # Conversion function
-    def DEG2RAD(self, x):
+    def _DEG2RAD(self, x):
         """Convert degrees into radiant
 
         Args:
@@ -81,8 +81,11 @@ class colorlib:
 
 
     # Conversion function
-    def RAD2DEG(self, x):
-        """Convert radiant to degrees
+    def _RAD2DEG(self, x):
+        """Convert Radiant to Degrees
+
+        Converting degrees to radiants, used to convert to polar
+        color coordinates.
 
         Args:
             x (float, array of floats): Value(s) in radiant.
@@ -283,7 +286,7 @@ class colorlib:
         return u
 
     # Support function qtrans
-    def qtrans(self, q1, q2, hue):
+    def _qtrans(self, q1, q2, hue):
         if hue > 360.:   hue = hue - 360.
         if hue < 0:      hue = hue + 360.
 
@@ -321,6 +324,10 @@ class colorlib:
 
     def RGB_to_sRGB(self, R, G, B, gamma = 2.4):
         """Convert RGB to Standard RGB
+
+        Converts one (or multiple) colors defined by their red, blue, green,
+        and blue coordinates (`[0.0, 1.0]`) to the Standard RGB color space;
+        returning a modified list of red, green, blue coordinates.
 
         Args:
             R (numpy.ndarray): Intensities for red (`[0., 1.]`).
@@ -773,7 +780,7 @@ class colorlib:
         self._check_input_arrays_(__fname__, L = L, A = A, B = B)
 
         # Compute H
-        H = self.RAD2DEG(np.arctan2(B, A))
+        H = self._RAD2DEG(np.arctan2(B, A))
         for i,val in np.ndenumerate(H):
             while val > 360.:   val -= 360.
             while val <   0.:   val += 360.
@@ -805,8 +812,8 @@ class colorlib:
         # Checking input
         self._check_input_arrays_(__fname__, L = L, C = C, H = H)
 
-        A = np.cos(self.DEG2RAD(H)) * C
-        B = np.sin(self.DEG2RAD(H)) * C
+        A = np.cos(self._DEG2RAD(H)) * C
+        B = np.sin(self._DEG2RAD(H)) * C
 
         return [L, A, B]
 
@@ -817,14 +824,19 @@ class colorlib:
     def sRGB_to_HSV(self, r, g, b):
         """Convert RGB to HSV
 
+        Convert one (or multiple) rgb colors given their red, blue, and
+        red coodinates (`[0.0, 1.0]`) to their corresponding hue, saturation,
+        and value (HSV) coordinates.
+
         Args:
             r (numpy.ndarray): Intensities for red (`[0., 1.]`).
             g (numpy.ndarray): Intensities for green (`[0., 1.]`).
             b (numpy.ndarray): Intensities for blue (`[0., 1.]`).
 
         Returns:
-            list: Returns a `numpy.ndarray` with the corresponding coordinates in the
-            HSV color space (`[h, s, v]`). Same length as the inputs.
+            list: Returns a list of `numpy.ndarray`s with the corresponding
+            coordinates in the HSV color space (`[h, s, v]`). Same length as
+            the inputs.
         """
 
         __fname__ = inspect.stack()[0][3] # Name of this method
@@ -1008,9 +1020,9 @@ class colorlib:
             # If saturation is zero
             if (s == 0):    return np.repeat(l, 3)
             # Else
-            return [self.qtrans(p1, p2, h + 120.),   # r
-                    self.qtrans(p1, p2, h),          # g
-                    self.qtrans(p1, p2, h - 120.)]   # b
+            return [self._qtrans(p1, p2, h + 120.),   # r
+                    self._qtrans(p1, p2, h),          # g
+                    self._qtrans(p1, p2, h - 120.)]   # b
 
         # Result arrays
         r = np.ndarray(len(h), dtype = "float"); r[:] = 0.
@@ -1030,6 +1042,10 @@ class colorlib:
     # -------------------------------------------------------------------
     def XYZ_to_uv(self, X, Y, Z):
         """Convert CIEXYZ to u and v
+
+        Converting one (or multiple) colors defined by their X, Y, and Z
+        coordinates in the CIEXYZ color space to their corresponding
+        u and v coordinates.
 
         Args:
             X (numpy.ndarray): Values for the `Z` dimension.
@@ -1192,7 +1208,7 @@ class colorlib:
 
         # Calculate polarLUV coordinates
         C = np.sqrt(U * U + V * V)
-        H = self.RAD2DEG(np.arctan2(V, U))
+        H = self._RAD2DEG(np.arctan2(V, U))
         for i,val in np.ndenumerate(H):
             while val > 360: val -= 360.
             while val < 0.:  val += 360.
@@ -1205,8 +1221,7 @@ class colorlib:
 
         Convert colors from the polar representation of the CIELUV color space,
         also known as HCL (Hue-Chroma-Luminance) color space, into CIELAB
-        coordinates.
-        Inverse function of :py:meth:`LUV_to_polarLUV`.
+        coordinates. Inverse function of :py:meth:`LUV_to_polarLUV`.
 
         Args:
             L (numpy.ndarray): Values for the polar `L` dimension.
@@ -1223,12 +1238,15 @@ class colorlib:
         # Checking input
         self._check_input_arrays_(__fname__, L = L, C = C, H = H)
 
-        H = self.DEG2RAD(H)
+        H = self._DEG2RAD(H)
         return [L, C * np.cos(H), C * np.sin(H)] # [L, U, V]
 
 
     def sRGB_to_hex(self, r, g, b, fixup = True):
         """Convert Standard RGB (sRGB) to Hex Colors
+
+        Converting one (or multiple) colors defined by their red, green, and blue
+        coordinates from the RGB color space to hex colors.
 
         Args:
             r (numpy.ndarray): Intensities for red (`[0., 1.,]`).
@@ -1299,6 +1317,8 @@ class colorlib:
 
     def hex_to_sRGB(self, hex_, gamma = 2.4):
         """Convert Hex Colors to Standard RGB (sRGB)
+
+        Convert one (or multiple) hex colors to sRGB.
 
         Args:
             hex_ (str, list of str): hex color str or list of str.
@@ -1435,9 +1455,9 @@ class colorlib:
             p2 = x[1] * (1 + x[2]) if x[1] <= 0.5 else x[1] + x[2] - (x[1] * x[2])
             p1 = 2 * x[1] - p2
 
-            return [self.qtrans(p1, p2, x[0] + 120.),
-                    self.qtrans(p1, p2, x[0]),
-                    self.qtrans(p1, p2, x[0] - 120.)]
+            return [self._qtrans(p1, p2, x[0] + 120.),
+                    self._qtrans(p1, p2, x[0]),
+                    self._qtrans(p1, p2, x[0] - 120.)]
 
         return np.transpose([getrgb(x) for x in tmp])
 

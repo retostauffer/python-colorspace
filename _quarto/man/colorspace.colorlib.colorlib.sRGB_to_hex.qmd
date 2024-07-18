@@ -2,7 +2,10 @@
 title: "Convert Standard RGB (sRGB) to Hex Colors"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Converting one (or multiple) colors defined by their red, green, and blue
+coordinates from the RGB color space to hex colors.
 
 ### Usage
 

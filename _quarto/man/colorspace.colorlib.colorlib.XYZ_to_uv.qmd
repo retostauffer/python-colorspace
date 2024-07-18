@@ -2,7 +2,11 @@
 title: "Convert CIEXYZ to u and v"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Converting one (or multiple) colors defined by their X, Y, and Z
+coordinates in the CIEXYZ color space to their corresponding
+u and v coordinates.
 
 ### Usage
 

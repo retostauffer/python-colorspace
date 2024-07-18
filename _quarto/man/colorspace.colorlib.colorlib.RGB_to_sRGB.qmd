@@ -2,7 +2,11 @@
 title: "Convert RGB to Standard RGB"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Converts one (or multiple) colors defined by their red, blue, green,
+and blue coordinates (`[0.0, 1.0]`) to the Standard RGB color space;
+returning a modified list of red, green, blue coordinates.
 
 ### Usage
 

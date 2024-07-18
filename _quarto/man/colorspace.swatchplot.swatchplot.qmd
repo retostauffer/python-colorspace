@@ -16,7 +16,8 @@ The first argument `pals` is very flexible and can be:
     the keys of the dictionary are used as 'subtitles' to group sets
     of palettes,
 * an object of class `colorspace.palettes.hclpalettes`,
-* or an object of class `matplotlib.colors.LinearSegmentedColormap`.
+* or an object of class `matplotlib.colors.LinearSegmentedColormap` or
+    `matplotlib.colors.ListedColormap`.
 
 Requires the `matplotlib` to be installed.
 

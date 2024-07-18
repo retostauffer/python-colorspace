@@ -6,8 +6,7 @@ title: "Convert Polar CIELUV (HCL) to CIELUV"
 
 Convert colors from the polar representation of the CIELUV color space,
 also known as HCL (Hue-Chroma-Luminance) color space, into CIELAB
-coordinates.
-Inverse function of :py:meth:`LUV_to_polarLUV`.
+coordinates. Inverse function of :py:meth:`LUV_to_polarLUV`.
 
 ### Usage
 
