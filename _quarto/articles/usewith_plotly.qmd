@@ -2,6 +2,9 @@
 title: "HCL-Based Color Scales for plotly"
 ---
 
+This article shows a series of different plots and figures using the
+[`plotly`](https://plotly.com/python/) graphing library using
+color maps based on the _colorspace_ package.
 
 
 ## Scatterplot
@@ -127,8 +130,6 @@ a multi-hue sequential palette.
 ```{python plotly_example_4}
 #| warning: true
 #| error: true
-#| fig-width: 8
-#| fig-height: 5
 #| layout-ncol: 1
 
 from colorspace import terrain_hcl, dataset
@@ -142,16 +143,9 @@ cols = terrain_hcl().colors(51)
 
 # Plotting data
 fig = go.Figure(data = [go.Surface(z = volcano, colorscale = cols)],
-                layout = go.Layout(title = "Maunga Whau (Mt Eden)",
-                                   width = 800, height = 500))
+                layout = go.Layout(title = "Maunga Whau (Mt Eden)"))
 fig.update_layout(template = "plotly_white")
 fig.show()
 ```
-
-
-
-
-
-
 
 

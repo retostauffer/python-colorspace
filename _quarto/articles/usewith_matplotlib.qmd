@@ -2,92 +2,89 @@
 title: "HCL-Based Color Scales for matplotlib"
 ---
 
+This article shows a series of different plots and figures using the
+[`matplotlib`](https://matplotlib.org/) graphics library using
+color maps based on the _colorspace_ package.
 
 
 ## Scatterplot
 
 The following example shows simple two-dimensional scatter plot using
-randomly generated data. The colors are based on a `LinearSegmentedColormap`
-fro the qualitative HCL-based color palette "Dark 3".
+the 'HarzTraffic' example data set. Visualized is the daily number of bikes
+(motorbikes; y-axis) recorded on a public road in Sonnenberg in the Harz region
+(Germany) against the average daily mean temperature (x-axis).
 
-Each random `(x, y)` data point is assigned a random value `cfloat` $\in [0.0, 1.0]$
-defining its color, which is also converted into an integer vector `cint`
-$\in \{1, 2, 3\}$.
-
-The first subplot uses `cfloat` and `qualitative_hcl("Dark 3").cmap()` which
-returns a continuous `LinearSegmentedColormap` with `N = 256` colors along the
-"Dark 3" palette. The second subplot uses `.cmap(3)`, which results in a
-`LinearSegmentedColormap` with only three colors, thus having three distinct
-groups. Similarly, the third subplot uses the integer array (`cint`) to color
-the individual data points, giving exactly the same result as the second subplot.
+The individual `(x, y)` data points are colored according to the day of the year
+(Julian day) using a circular qualitative HCL-based color palette, where blueish
+colors ($\text{Hue} = \pm 180$) correspond to winter time and reddish colors ($\text{Hue} = 0$)
+to summer time.
 
 ```{python matplotlib_example_1}
 #| warning: true
 #| error: true
 
-from colorspace import qualitative_hcl
-import matplotlib.pyplot as plt
-import numpy as np
+from colorspace import qualitative_hcl, dataset
+from matplotlib import pyplot as plt
 
-# Fixing random state for reproducibility
-np.random.seed(6020)
+# Loading data
+df = dataset("HarzTraffic")
 
-N      = 50
-x      = np.random.rand(N)
-y      = np.random.rand(N)
-cfloat = np.random.rand(N) # Random value [0.0, 1.0]
-cint   = np.ceil(cfloat * 3) # Convert to [1, 2, 3]
-area   = (15 * np.random.rand(N))**2  # 0 to 225 point radii
+# Circular qualitative palette  
+pal = qualitative_hcl("Dark 3", h1 = -180, h2 = 180)
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize = (10, 3))
-ax1.scatter(x, y, s = area, c = cfloat, alpha = 0.5,
-            cmap = qualitative_hcl("Dark 3").cmap())
-
-ax2.scatter(x, y, s = area, c = cfloat, alpha = 0.5,
-            cmap = qualitative_hcl("Dark 3").cmap(3))
-
-ax3.scatter(x, y, s = area, c = cint, alpha = 0.5,
-            cmap = qualitative_hcl("Dark 3").cmap(3))
+# Plotting
+plt.scatter(df.temp, df.bikes, s = 20,
+            c = df.yday, alpha = 0.5,
+            cmap = pal.cmap())  
+plt.colorbar()
+plt.title("Number of bikes given daily mean temperature")   
+plt.xlabel("temperature [deg C]")   
+plt.ylabel("bikes")   
 plt.show()
 ```
 
 
 ## Heatmap
 
-Another example of how HCL-based `LinearSegmentedColormaps` can be used
-are heatmaps (`imshow`). The following subplots use the pre-defined
-sequential HCL-based "YlOrRd" (yellow-orange-red) color palette,
-once in the default order and once reversed (`rev = True`).
+The "HarzTraffic" example data set also includes daily minimum and
+maximum temperatures measured at a meteorological station. The
+following two-dimensional histogram shows the heatmap
+(joint density) betweeen those two variables using
+two sequential HCL-based 'cmap's (`LinearSegmentedColormap`s) 
+created using the `.cmap()` method.
 
-```{python matplotlib_example_3}
+Whilst the left supblot uses the sequential
+HCL-based color palette "ag_Sunset" (reversed), the right plot shows
+the same data using the "Blues 2" palette.
+
+```{python matplotlib_minimal}
 #| warning: true
 #| error: true
 
-from colorspace import sequential_hcl
+from colorspace import sequential_hcl, dataset
 import matplotlib.pyplot as plt
-import numpy as np
 
-# Fixing random state for reproducibility
-np.random.seed(6020)
-z = np.random.random((10, 10))
+# Loading data
+df = dataset("HarzTraffic")
 
+# Creating new figure
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
 
-# Using pre-defined 'YlOrRd'
-ax1.imshow(z, interpolation = "nearest",
-           cmap = sequential_hcl("YlOrRd").cmap())
-ax1.set_title("YlOrRd")
+ax1.hist2d(df.tempmin, df.tempmax, bins = 20,
+           cmap = sequential_hcl("ag_Sunset", rev = True).cmap())
+ax2.hist2d(df.tempmin, df.tempmax, bins = 20,
+           cmap = sequential_hcl("Blues 2").cmap())
 
-# Using pre-defined 'YlOrRd' in reversed order
-ax2.imshow(z, interpolation = "nearest",
-           cmap = sequential_hcl("YlOrRd", rev = True).cmap())
-ax2.set_title("Reversed YlOrRd")
-
+# Setting title and labels
+ax1.set_title("Joint density daily min/max temperature")
+ax1.set_xlabel("minimum temperature [deg C]")
+ax1.set_ylabel("maximum temperature [deg C]")
+ax2.set_title("Joint density daily min/max temperature")
+ax2.set_xlabel("minimum temperature [deg C]")
 plt.show()
 ```
 
-In addition to pre-defined palettes, fully custoized color maps
-can be created and used for plotting.
+Alternatively, fully customized color maps can be created and used for plotting.
 The example below shows heatmaps with two fully custom HCL-based color
 palettes, a sequential palette (left) and a reversed diverging palette (right).
 
@@ -95,28 +92,30 @@ palettes, a sequential palette (left) and a reversed diverging palette (right).
 #| warning: true
 #| error: true
 
-from colorspace import sequential_hcl, diverging_hcl
+from colorspace import sequential_hcl, diverging_hcl, dataset
 import matplotlib.pyplot as plt
-import numpy as np
 
 # The two fully custom HCL-based palettes to be used
-custom1 = sequential_hcl(h = [330, 170], c = [45, 70, 10],
-                         l = [25, 95], power = [0.5, 1.5])
+custom1 = sequential_hcl(h = [170, 330], c = [10, 70, 45],
+                         l = [95, 25], power = [1.5, 0.5])
 custom2 = diverging_hcl(h = [280, 100], c = [70, 50],
                         l = [40, 90], power = [1.0, 2.0], rev = True)
 
-# Fixing random state for reproducibility
-np.random.seed(6020)
-z = np.random.random((15, 15))
+# Loading data
+df = dataset("HarzTraffic")
 
+# Creating new figure
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
 
-ax1.imshow(z, interpolation = "nearest", cmap = custom1.cmap())
-ax1.set_title("Custom sequential palette")
+ax1.hist2d(df.tempmin, df.tempmax, bins = 20, cmap = custom1.cmap())
+ax2.hist2d(df.tempmin, df.tempmax, bins = 20, cmap = custom2.cmap())
 
-ax2.imshow(z, interpolation = "nearest", cmap = custom2.cmap())
-ax2.set_title("Custom diverging palette")
-
+# Setting title and labels
+ax1.set_title("Joint density daily min/max temperature")
+ax1.set_xlabel("minimum temperature [deg C]")
+ax1.set_ylabel("maximum temperature [deg C]")
+ax2.set_title("Joint density daily min/max temperature")
+ax2.set_xlabel("minimum temperature [deg C]")
 plt.show()
 ```
 
@@ -141,7 +140,8 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LightSource
 import numpy as np
 
-volcano = get_volcano_data(True)
+# Loading data set
+volcano = dataset("volcano")
 
 # Palette to be used
 pal = terrain_hcl()

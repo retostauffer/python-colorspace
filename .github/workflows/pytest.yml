@@ -30,6 +30,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements_devel.txt
           pip install -e .
+          # Testing
+          pip list
       - name: Coverage
         run: |
           pytest -s

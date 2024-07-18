@@ -82,9 +82,8 @@ More detailed overviews and examples are provided in the articles:
 ## Installation
 
 The latest release candidate of this package is
-available via the Python Package Index (PyPI) (see
-<https://pypi.org/project/colorspace/>) as well as on
-[GitHub](https://https://github.com/retostauffer/python-colorspace>).
+available via the [Python Package Index (PyPI)](https://pypi.org/project/colorspace/)
+as well as on [GitHub](https://https://github.com/retostauffer/python-colorspace>).
 
 **Install via pip**
 
@@ -155,8 +154,9 @@ For the latter all palettes come with a `cmap()` method to generate objects of
 class `LinearSegmentedColormap` as used by by matplotlib, making it straight forward
 to be used with most matplotlib plotting functions.
 
-The rest of this section shows one example for each, matplotlib, seaborn, and plotly.
-More examples can be found on the dedicated articles:
+Below, one example on how to use colors based on the _colorspace_ package
+with matplotlib, seaborn, and plotly. Several additional examples can be found
+on the dedicated articles:
 
 * [HCL-Based Color Scales for matplotlib](/articles/usewith_matplotlib.qmd)
 * [HCL-Based Color Scales for seaborn](/articles/usewith_seaborn.qmd)
@@ -164,7 +164,7 @@ More examples can be found on the dedicated articles:
 
 #### Matplotlib
 
-For demonstration, the figure below shows a two-dimensional histogram
+The following figure shows a two-dimensional histogram
 (joint density) of the daily minimum and maximum temperature observed
 at a weather station in the Harz region in Germany using the
 "HarzTraffic" data set. The custom HCL-based palette is provided
@@ -204,7 +204,7 @@ plt.show()
 
 #### Seaborn
 
-To show an example of how to integrate HCL-based color maps with seaborn,
+To demonstrate the use of HCL-based colormaps with seaborn, 
 the barplot below shows the average number of bikes per day of week (with error bars)
 during summer seasons (June, July, August) 2021 to 2023.
 
