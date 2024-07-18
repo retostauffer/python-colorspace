@@ -18,7 +18,10 @@ on:
       - completed
 
 jobs:
-  build:
+  #build:
+  follow_up:
+    if: github.event.workflow_run.event == 'push'  # Ensure it runs only on push events
+
     runs-on: ubuntu-latest
 
     steps:
