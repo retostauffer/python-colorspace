@@ -7,10 +7,12 @@ This package is available via the
 [GitHub](https://github.com/retostauffer/python-colorspace).
 A few requirements are needed to be able to use the package and all its features.
 
-* Python `3.10+`
+* Python `3.10+` (tested for {{PYTEST_VERSIONS}})
 * [`numpy`](https://pypi.org/project/numpy/>)
 * [`matplotlib`](https://pypi.org/project/matplotlib/>)
-* [`imageio`](https://pypi.org/project/imageio/>) (optional).
+* [`imageio`](https://pypi.org/project/imageio/>) (optional; only used for
+    [`cvd_emulator`](/man/colorspace.cvd_emulator.cvd_emulator.qmd))
+* [`pandas`](https://pandas.pydata.org/) (optional; used [`dataset`](/man/colorspace.datasets.dataset.qmd))
 
 Please use the the [GitHub issues](https://github.com/retostauffer/python-colorspace/issues>)
 to report bugs and issues as well as feature requests. There is no
