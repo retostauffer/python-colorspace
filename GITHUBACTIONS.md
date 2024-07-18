@@ -1,24 +1,21 @@
-
-
 # Local Testing and GitHub Workflow Pipeline
 
-Our GitHub repository comes with a `Makefile` (GNU make utility) as well
+Our GitHub repository comes with a `Makefile` (GNU make utility) as well as
 pip requirement files allowing for local testing and building the documentation.
 These rules are also used for the GitHub actions (see `.github/workflow`)
-used for continuous integration.
+for continuous integration.
 
 This file gives a brief overview of how to (i) run local tests and how
 (ii) the GitHub workflow is set up.
 
-**PLEASE NOTE:** If you are not a developer wishing to use our package, please refer to the
+**PLEASE NOTE:** If you are not a developer wishing to fully build/test our package, please refer to the
 [Package Installation](https://retostauffer.github.io/python-colorspace/installation.html)
-article available via the documentation. The following is intended
-for contributors and developers, focusing on console users.
+article available via the documentation.
 
 
 # Local Development and Testing
 
-## (1) Clone git repository
+## 1. Clone git repository
 
 The following requires a local copy (i.e., clone) of our GitHub repository.
 To clone the head branch (the current development version) all you need is:
@@ -28,7 +25,7 @@ git clone https://github.com/retostauffer/python-colorspace.git
 cd python-colorspace
 ```
 
-## (1) Setup
+## 2. Setup
 
 Tough trying to limit the dependencies for our `colorspace` package, a series
 of additional python packages is required for testing and building the documentation.
@@ -44,7 +41,7 @@ to set up the environment to run the test is as follows:
 make venv
 ```
 
-## (2) Activating Virtual Environment
+## 3. Activating Virtual Environment
 
 To activate the virtual environment simply call:
 
@@ -52,7 +49,7 @@ To activate the virtual environment simply call:
 source venv/bin/activate   # Activate the virtual environment
 ```
 
-## (3) Installing `colorspace` from local git clone
+## 4. Installing `colorspace` from local git clone
 
 Once all dependencies (as well as those needed for testing) are installed,
 the `colorspace` package can be installed into your virtual environment
@@ -62,7 +59,7 @@ the `colorspace` package can be installed into your virtual environment
 make install               # Installs colorspace from local git clone
 ```
 
-## (3) Local testing
+## 5. Local testing
 
 We use `pytest` to test our software. For local testing, simply call:
 
@@ -70,7 +67,7 @@ We use `pytest` to test our software. For local testing, simply call:
 make test
 ```
 
-## (4) Building Documentation
+## 6. Building Documentation
 
 For our documentation we use [`pyp2qmd`](https://github.com/retostauffer/pyp2qmd)
 to automatically generate documentation for all exported classes, functions and methods
@@ -97,7 +94,7 @@ docstrings throws an error or warning, the documentation will still be built. Se
 the next section for more information.
 
 
-## (5) Running Examples
+## 7. Running Examples
 
 In addition to rendering the documentation (see section above) the Makefile
 provides a rule to run only the 'Examples' from the Python dostrings of all
@@ -116,7 +113,7 @@ used for testing the 'Examples' during CI.
 make examples     # Extract and run/render all 'Examples'
 ```
 
-## (6) Coverage
+## 8. Coverage
 
 As for testing, `pytest` (pytest coverage) is used. We do not run any doctests
 (for now), but have a set of test files located in `src/colorspace/tests` that
@@ -146,7 +143,7 @@ Overall, we have a number of workflows in use with a series of dependencies
 
 Using GitHub's `workflow_run` they are not independent.
 
-## (1) Testing
+## 1. Testing
 
 When pushed to our main branch, our "Test" action (1) will be triggered first
 (basically `make test`). If successful, this will trigger both "Examples" (2) and
@@ -160,21 +157,3 @@ If step (3), rendering the documentation, was successful, it will be pushed
 to GitHub pages, triggering Coverage (4). Using `pytest` all tests will be run
 again, pushing the current coverage report and creating the coverage
 badge shown on the [README](https://github.com/retostauffer/python-colorspace).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
