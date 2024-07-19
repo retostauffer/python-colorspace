@@ -20,10 +20,44 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -66,6 +100,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -368,6 +405,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -501,6 +544,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -564,6 +609,50 @@ Allows to add an transparency (alpha channel) to the colors. Can be a single flo
 Currently allows for <code>rev = True</code> to reverse the colors and <code>colorobject = 'anything'</code> to get HCL colors as return.
 </dd>
 </dl>
+</section>
+<section id="return" class="level3">
+<h3 class="anchored" data-anchor-id="return">Return</h3>
+<p><code>list</code>: Returns a list of str with <code>n</code> colors from the color palette.</p>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div id="4a081386" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, hexcols</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sequential_hcl().colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>['#023FA5',
+ '#3F56A6',
+ '#5D6CAE',
+ '#7681B6',
+ '#8C94BF',
+ '#A1A6C8',
+ '#B3B7CF',
+ '#C4C6D6',
+ '#D2D3DC',
+ '#DCDDE0',
+ '#E2E2E2']</code></pre>
+</div>
+</div>
+<div id="33273ade" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different sequential palette</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> sequential_hcl(<span class="st">"Rocket"</span>).colors(<span class="dv">5</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>['#070707', '#690056', '#C30E62', '#ED8353', '#FDF5EB']</code></pre>
+</div>
+</div>
+<div id="8c565b2f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hexcols(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#070707">#070707</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#690056">#690056</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:white;background-color:#C30E62">#C30E62</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#ED8353">#ED8353</li>
+<li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#FDF5EB">#FDF5EB</li>
+</ul>
+</div>
+</div>
 
 
 </section>

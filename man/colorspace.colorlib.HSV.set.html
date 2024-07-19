@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Set/Manipulate Colors – colorspace</title>
+<title>Set Coordinates/Manipulate Colors – colorspace</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Set/Manipulate Colors</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Set Coordinates/Manipulate Colors</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -535,7 +541,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
-  <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul>
@@ -548,7 +553,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Set/Manipulate Colors</h1>
+<h1 class="title">Set Coordinates/Manipulate Colors</h1>
 </div>
 
 
@@ -567,7 +572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Allows to manipulate the current colors. The named input arguments have to fulfil a specific set or requirements. If not, the function raises exceptions. The requirements:</p>
+<p>Allows to manipulate current colors. The named input arguments have to fulfil a specific set or requirements. If not, the function raises exceptions. The requirements:</p>
 <ul>
 <li>Dimension has to exist</li>
 <li>New data/values must be of same length and type as the existing ones</li>
@@ -588,17 +593,15 @@ Named arguments. The key is the name of the dimension to be changed, the value a
 </dd>
 </dl>
 </section>
-<section id="return" class="level3">
-<h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>No return, modifies the current color object.</p>
-</section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="c8e82e1d" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">260</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">80</span>, <span class="dv">0</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">30</span>])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<div id="a64569bb" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example shown for HCL colors, works the same</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for all other color objects (sRGB, hexcols, ...)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> HCL</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">260</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">80</span>, <span class="dv">0</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">30</span>])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>polarLUV color object (3 colors)
            H       C       L
   1:  260.00   80.00   30.00
@@ -606,10 +609,10 @@ Named arguments. The key is the name of the dimension to be changed, the value a
        30.00   80.00   30.00</code></pre>
 </div>
 </div>
-<div id="23ed82e5" class="cell" data-execution_count="3">
+<div id="e9f05b07" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cols.<span class="bu">set</span>(H <span class="op">=</span> [<span class="dv">150</span>, <span class="dv">150</span>, <span class="dv">30</span>])</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>polarLUV color object (3 colors)
            H       C       L
   1:  150.00   80.00   30.00

@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -584,22 +590,30 @@ Additional named arguments forwarded to <a href="../man/colorspace.specplot.spec
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="1b78e05b" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">260</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">80</span>, <span class="dv">0</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">30</span>])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols.specplot()<span class="op">;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cols.specplot(rgb <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="dv">6</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1d5e4211" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using HCL colors</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> HCL, hexcols</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">220</span>, <span class="dv">196</span>, <span class="dv">172</span>, <span class="dv">148</span>, <span class="dv">125</span>],</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>           C <span class="op">=</span> [ <span class="dv">44</span>,  <span class="dv">49</span>,  <span class="dv">55</span>,  <span class="dv">59</span>,  <span class="dv">50</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>           L <span class="op">=</span> [ <span class="dv">49</span>,  <span class="dv">61</span>,  <span class="dv">72</span>,  <span class="dv">82</span>,  <span class="dv">90</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>cols.specplot(figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="colorspace.colorlib.CIELAB.specplot_files/figure-html/cell-2-output-1.png" width="638" height="431" class="figure-img"></p>
+<p><img src="colorspace.colorlib.CIELAB.specplot_files/figure-html/cell-2-output-1.png" width="712" height="351" class="figure-img"></p>
 </figure>
 </div>
 </div>
+</div>
+<div id="2beec115" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using hex colors</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> hexcols([<span class="st">"#0FCFC0"</span>, <span class="st">"#9CDED6"</span>, <span class="st">"#D5EAE7"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"#F1F1F1"</span>, <span class="st">"#F3E1EB"</span>, <span class="st">"#F6C4E1"</span>, <span class="st">"#F79CD4"</span>])</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>cols.specplot(rgb <span class="op">=</span> <span class="va">True</span>, hcl <span class="op">=</span> <span class="va">True</span>, palette <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="colorspace.colorlib.CIELAB.specplot_files/figure-html/cell-2-output-2.png" width="563" height="72" class="figure-img"></p>
+<p><img src="colorspace.colorlib.CIELAB.specplot_files/figure-html/cell-3-output-1.png" width="642" height="438" class="figure-img"></p>
 </figure>
 </div>
 </div>

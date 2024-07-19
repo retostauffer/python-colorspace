@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Create swatchplot. – colorspace</title>
+<title>Palette Swatch Plot – colorspace</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -184,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Create swatchplot.</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Palette Swatch Plot</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -368,6 +368,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -498,9 +504,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#usage" id="toc-usage" class="nav-link active" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
-  <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -511,7 +517,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Create swatchplot.</h1>
+<h1 class="title">Palette Swatch Plot</h1>
 </div>
 
 
@@ -528,7 +534,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>WARNING(long_description missing)</p>
+<section id="description" class="level3">
+<h3 class="anchored" data-anchor-id="description">Description</h3>
+<p>Interfacing the main <a href="../man/colorspace.swatchplot.swatchplot.html">swatchplot</a> function. Plotting the spectrum of the current color palette.</p>
+</section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
 <pre><code class="language-python">hclpalettes.plot(n=5)</code></pre>
@@ -540,18 +549,9 @@ ul.task-list li input[type="checkbox"] {
 <code id="colorspace.palettes.hclpalettes.plot:n">n</code><code class="argument-class">int</code>
 </dt>
 <dd>
-Positive int, number of colors.
+Number of colors, defaults to 7.
 </dd>
 </dl>
-</section>
-<section id="raises" class="level3">
-<h3 class="anchored" data-anchor-id="raises">Raises</h3>
-<ul class="python-raises">
-<li>
-<code class="text-warning">TypeError</code>: If 'n' is not an int.
-</li><li>
-<code class="text-warning">ValueError</code>: If 'n' is not positive.
-</li></ul>
 
 
 </section>

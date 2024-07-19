@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -692,7 +698,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="306e8e90" class="cell" data-execution_count="1">
+<div id="f9147168" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -709,7 +715,7 @@ Palette Swatch Plot
  '#DE94C8']</code></pre>
 </div>
 </div>
-<div id="8365f85a" class="cell" data-execution_count="2">
+<div id="4dd97e58" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -719,7 +725,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="6c2f3fb7" class="cell" data-execution_count="3">
+<div id="0a868b4c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors. Thus,</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can make your code slimmer by calling</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rainbow_hcl()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -736,7 +742,7 @@ Palette Swatch Plot
  '#DE94C8']</code></pre>
 </div>
 </div>
-<div id="e708272b" class="cell" data-execution_count="4">
+<div id="4bded75b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing lambda function for both, start and end</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl(start <span class="op">=</span> <span class="kw">lambda</span> n: (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                  end   <span class="op">=</span> <span class="kw">lambda</span> n: <span class="dv">360</span> <span class="op">-</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n)</span>
@@ -749,7 +755,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="13fbc5c0" class="cell" data-execution_count="5">
+<div id="1c678a6a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(n <span class="op">=</span> <span class="dv">10</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>

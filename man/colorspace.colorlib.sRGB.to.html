@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -368,6 +402,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -501,7 +541,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
-  <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -531,7 +571,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Allows to transform the current object into a different color space, if possible.</p>
+<p>Allows to transform the current object into a different color space, if possible. Converting the colors of the current object into another color space. After calling this method, the object will be of a different class.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -544,19 +584,91 @@ ul.task-list li input[type="checkbox"] {
 <code id="colorspace.colorlib.sRGB.to:to">to</code><code class="argument-class">str</code>
 </dt>
 <dd>
-Name of the color space into which the colors should be converted (e.g., <code>CIEXYZ</code>, <code>HCL</code>, <code>hex</code>, <code>RGB</code>, …)
+Name of the color space into which the colors should be converted (e.g., <code>"CIEXYZ"</code>, <code>"HCL"</code>, <code>"hex"</code>, <code>"sRGB"</code>, …).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.colorlib.sRGB.to:fixup">fixup</code><code class="argument-class">bool</code>
 </dt>
 <dd>
-Whether or not colors outside the defined rgb color space should be corrected if necessary, defaults to True.
+Whether or not colors outside the defined rgb color space should be corrected if necessary, defaults to <code>True</code>.
 </dd>
 </dl>
 </section>
-<section id="return" class="level3">
-<h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>No return, converts the object into a new color space and modifies the underlying object. After calling this method the object will be of a different class.</p>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div id="5afe676e" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sRGB</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sRGB([<span class="fl">0.294</span>, <span class="fl">0.749</span>, <span class="fl">0.949</span>, <span class="fl">0.905</span>],</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         [<span class="fl">0.113</span>, <span class="fl">0.129</span>, <span class="fl">0.482</span>, <span class="fl">0.827</span>],</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>         [<span class="fl">0.568</span>, <span class="fl">0.603</span>, <span class="fl">0.407</span>, <span class="fl">0.603</span>])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>sRGB color object (4 colors)
+           R       G       B
+  1:    0.29    0.11    0.57
+        0.75    0.13    0.60
+        0.95    0.48    0.41
+        0.91    0.83    0.60</code></pre>
+</div>
+</div>
+<div id="930c659f" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>colorspace.colorlib.sRGB</code></pre>
+</div>
+</div>
+<div id="ca01eee0" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert colors to CIEXYZ</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"CIELUV"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>CIELUV color object (4 colors)
+           L       U       V
+  1:   24.96    6.02  -69.46
+       44.92   75.45  -49.90
+       64.98   89.52   29.78
+       84.90   15.68   42.39</code></pre>
+</div>
+</div>
+<div id="72c4a389" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>colorspace.colorlib.CIELUV</code></pre>
+</div>
+</div>
+<div id="6e2ef8e8" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from CIELUV to HCL</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HCL"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>polarLUV color object (4 colors)
+           H       C       L
+  1:  274.95   69.72   24.96
+      326.52   90.46   44.92
+       18.40   94.34   64.98
+       69.70   45.20   84.90</code></pre>
+</div>
+</div>
+<div id="e02f9143" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert back to Standard RGB colors.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>sRGB color object (4 colors)
+           R       G       B
+  1:    0.29    0.11    0.57
+        0.75    0.13    0.60
+        0.95    0.48    0.41
+        0.91    0.83    0.60</code></pre>
+</div>
+</div>
+<div id="bd303e0a" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting hex colors (returns list of str)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>['#4B1D91', '#BF219A', '#F27B68', '#E7D39A']</code></pre>
+</div>
+</div>
 
 
 </section>

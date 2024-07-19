@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -566,7 +572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Returns hex colors of the current color object by converting the current color object into an object of class <a href="../man/colorspace.colorlib.hexcols.html">hexcols</a>.</p>
+<p>Convers the current object into an object of class <a href="../man/colorspace.colorlib.hexcols.html">hexcols</a> and extracts the hex colors as list of str.</p>
 <p>If the object contains alpha values, the alpha level is added to the hex string if and only if alpha is not equal to <code>1.0</code>.</p>
 </section>
 <section id="usage" class="level3">
@@ -592,16 +598,39 @@ Should the color palette be reversed? Defaults to <code>False</code>.
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>Returns a list of hex color strings.</p>
+<p><code>list</code>: Returns a list of hex color strings.</p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="d545d6db" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">80</span>], [<span class="dv">85</span>, <span class="dv">60</span>, <span class="dv">35</span>])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c3d14ae8" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> HCL, sRGB, HSV</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using HCL colors</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">80</span>],</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>           [<span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">80</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>           [<span class="dv">85</span>, <span class="dv">60</span>, <span class="dv">35</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>cols.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>['#FAC8D1', '#C08353', '#5F5500']</code></pre>
+</div>
+</div>
+<div id="b817631b" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using sRGB colors</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> sRGB([<span class="fl">0.01</span>, <span class="fl">0.89</span>, <span class="fl">0.56</span>],</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">0.25</span>, <span class="fl">0.89</span>, <span class="fl">0.02</span>],</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">0.65</span>, <span class="fl">0.89</span>, <span class="fl">0.23</span>])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cols.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>['#0340A6', '#E3E3E3', '#8F053B']</code></pre>
+</div>
+</div>
+<div id="0fc14d04" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using HSV colors</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HSV([<span class="dv">218</span>, <span class="dv">0</span>, <span class="dv">336</span>],</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           [<span class="fl">0.65</span>, <span class="fl">0.89</span>, <span class="fl">0.56</span>])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>cols.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['#003DA6', '#E3E3E3', '#8F0039']</code></pre>
 </div>
 </div>
 

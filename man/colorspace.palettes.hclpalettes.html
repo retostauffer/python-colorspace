@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -621,13 +627,13 @@ Get Number of Palettes
 <code><a href="../man/colorspace.palettes.hclpalettes.plot.html">hclpalettes.plot(n=5)</a></code>
 </dt>
 <dd>
-Create swatchplot.
+Palette Swatch Plot
 </dd>
 </dl>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="d60e1522" class="cell" data-execution_count="1">
+<div id="c7d490cd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hclpalettes</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>hclpals <span class="op">=</span> hclpalettes()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hclpals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -676,7 +682,7 @@ Names: ArmyRose, Earth, Fall, Geyser, TealRose, Temps, PuOr
        Vik, Berlin, Lisbon, Tofino</code></pre>
 </div>
 </div>
-<div id="c99dac4d" class="cell" data-execution_count="2">
+<div id="b7b03875" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette swatch plots with 5 colors each</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hclpals.plot(n <span class="op">=</span> <span class="dv">5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -687,7 +693,7 @@ Names: ArmyRose, Earth, Fall, Geyser, TealRose, Temps, PuOr
 </div>
 </div>
 </div>
-<div id="b2b51e36" class="cell" data-execution_count="3">
+<div id="999a1898" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Palette swatch plots with 11 colors each</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>hclpals.plot(n <span class="op">=</span> <span class="dv">11</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">

@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -599,11 +605,11 @@ should return be rounded? Defaults to <code>False</code>.
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>Array of the same length as <code>max(len(H), len(L))</code> with maximum possible chroma for these hue-luminance combinations.</p>
+<p><code>numpy.ndarray</code>: Array of the same length as <code>max(len(H), len(L))</code> with maximum possible chroma for these hue-luminance combinations.</p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="1f1295ce" class="cell" data-execution_count="1">
+<div id="d2b29df7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> max_chroma</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue = 0 (red) with Luminance = 50</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>max_chroma(<span class="dv">0</span>, <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -611,14 +617,14 @@ should return be rounded? Defaults to <code>False</code>.
 <pre><code>array([137.96])</code></pre>
 </div>
 </div>
-<div id="1d5611a4" class="cell" data-execution_count="2">
+<div id="cd15c1e8" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue = 0 (red) for different Luminance levels</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>max_chroma(<span class="dv">0</span>, [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>array([ 69.51, 137.96,  64.37])</code></pre>
 </div>
 </div>
-<div id="8813149c" class="cell" data-execution_count="3">
+<div id="6e508166" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Max Chroma for Hue in sequence [0, 360] by 60, Luminace = 50</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>max_chroma(np.arange(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">60</span>), <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -626,7 +632,7 @@ should return be rounded? Defaults to <code>False</code>.
 <pre><code>array([137.96,  59.99,  69.06,  39.81,  65.45, 119.54])</code></pre>
 </div>
 </div>
-<div id="88528f06" class="cell" data-execution_count="4">
+<div id="c90cc46c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as above but floored</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>max_chroma(np.arange(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">60</span>), <span class="dv">50</span>, floor <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">

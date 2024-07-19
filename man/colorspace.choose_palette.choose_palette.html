@@ -368,6 +368,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -531,7 +537,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Opens a tcltk based graphical user interface (GUI) which allows to tweak existing Hue-Chroma-Luminance (HCL) based color palettes and define custom palettes.</p>
+<p>Opens a Tcl/Tk based graphical user interface (GUI) which allows to tweak existing Hue-Chroma-Luminance (HCL) based color palettes and define custom palettes.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -544,13 +550,13 @@ ul.task-list li input[type="checkbox"] {
 <code id="colorspace.choose_palette.choose_palette:**kwargs">**kwargs</code>
 </dt>
 <dd>
-Optional, can be used to change the defaults when starting the GUI. Currently a parameter called <code>palette</code> is allowed to specify the initial color palette. If not set, <code>palette="Blue-Red"</code> is used.
+Optional, can be used to change the defaults when starting the GUI. Currently a parameter called <code>palette</code> is allowed to specify the initial color palette. If not set, <code>palette = "Blue-Red"</code> is used.
 </dd>
 </dl>
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>An HCL palette object which allows to extract the colors in different ways. The default is to retrieve hex colors. More details on: <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a>, or <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>.</p>
+<p><code>hclpalette</code>: An HCL palette object which allows to extract the colors in different ways. The default is to retrieve hex colors. More details on: <a href="../man/colorspace.palettes.diverging_hcl.html">diverging_hcl</a>, <a href="../man/colorspace.palettes.qualitative_hcl.html">qualitative_hcl</a>, or <a href="../man/colorspace.palettes.sequential_hcl.html">sequential_hcl</a>.</p>
 
 
 </section>

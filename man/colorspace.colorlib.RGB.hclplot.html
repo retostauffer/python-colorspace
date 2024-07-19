@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -565,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Internally calls <a href="../man/colorspace.hclplot.hclplot.html">hclplot</a>, additional arguments to this main function can be forwarded via the <code>**kwargs</code> argument.</p>
+<p>Convenience method for calling <a href="../man/colorspace.hclplot.hclplot.html">hclplot</a> on the current color object. Additional arguments can be forwarded via <code>**kwargs</code> (see <a href="../man/colorspace.hclplot.hclplot.html">hclplot</a> for details).</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -584,13 +590,13 @@ Additional named arguments forwarded to <a href="../man/colorspace.hclplot.hclpl
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="6d6f3f04" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">160</span>, <span class="dv">210</span>, <span class="dv">260</span>, <span class="dv">310</span>, <span class="dv">360</span>],</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>           C <span class="op">=</span> [ <span class="dv">70</span>,  <span class="dv">40</span>,  <span class="dv">10</span>,  <span class="dv">40</span>,  <span class="dv">70</span>],</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>           L <span class="op">=</span> [ <span class="dv">50</span>,  <span class="dv">70</span>,  <span class="dv">90</span>,  <span class="dv">70</span>,  <span class="dv">50</span>])</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>cols.hclplot()<span class="op">;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>cols.hclplot(figsize <span class="op">=</span> (<span class="dv">6</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="817f4d3a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using HCL colors</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> HCL, hexcols</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">220</span>, <span class="dv">196</span>, <span class="dv">172</span>, <span class="dv">148</span>, <span class="dv">125</span>],</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>           C <span class="op">=</span> [ <span class="dv">44</span>,  <span class="dv">49</span>,  <span class="dv">55</span>,  <span class="dv">59</span>,  <span class="dv">50</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>           L <span class="op">=</span> [ <span class="dv">49</span>,  <span class="dv">61</span>,  <span class="dv">72</span>,  <span class="dv">82</span>,  <span class="dv">90</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>cols.hclplot()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -598,10 +604,16 @@ Additional named arguments forwarded to <a href="../man/colorspace.hclplot.hclpl
 </figure>
 </div>
 </div>
+</div>
+<div id="f7bbf11a" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using hex colors</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> hexcols([<span class="st">"#0FCFC0"</span>, <span class="st">"#9CDED6"</span>, <span class="st">"#D5EAE7"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"#F1F1F1"</span>, <span class="st">"#F3E1EB"</span>, <span class="st">"#F6C4E1"</span>, <span class="st">"#F79CD4"</span>])</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>cols.hclplot(figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="fl">3.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="colorspace.colorlib.RGB.hclplot_files/figure-html/cell-2-output-2.png" width="531" height="115" class="figure-img"></p>
+<p><img src="colorspace.colorlib.RGB.hclplot_files/figure-html/cell-3-output-1.png" width="680" height="337" class="figure-img"></p>
 </figure>
 </div>
 </div>

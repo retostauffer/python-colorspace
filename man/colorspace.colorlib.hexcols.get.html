@@ -402,6 +402,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -567,7 +573,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Extracts and returns the current values of a all or one specific coordinate for all colors of this color object.</p>
+<p>Allows to extract the current values of one or multiple dimensions for all colors of this color object. The names of the coordinates varies between different color spaces.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -586,17 +592,57 @@ If <code>None</code> (default) values of all coordinates of the current color ob
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>dict, numpy.ndarray: If argument <code>dimname = None</code> a dictionary is returned containing the values of all colors for all coordinates of the current color space, each entry of the dictionary is a <code>numpy.ndarray</code>. When a specific dimension is requested, a single <code>numpy.ndarray</code> is returned.</p>
+<p>Returns a <code>numpy.ndarray</code> if coordinates of one specific dimension are requested, else a <code>dict</code> of arrays.</p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="aa701f46" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">260</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">80</span>, <span class="dv">0</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">30</span>])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols.get()</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"H"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f25f337c" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> HCL, sRGB, hexcols</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using HCL color object with alpha channel</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">260</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">80</span>, <span class="dv">0</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">30</span>], [<span class="dv">1</span>, <span class="fl">0.6</span>, <span class="fl">0.2</span>])</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"H"</span>) <span class="co"># Specific dimension</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>array([260.,  80.,  30.])</code></pre>
+</div>
+</div>
+<div id="a0c587d2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"alpha"</span>) <span class="co"># Alpha (if existing)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>array([1. , 0.6, 0.2])</code></pre>
+</div>
+</div>
+<div id="616311b5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cols.get() <span class="co"># All dimensions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>{'H': array([260.,  80.,  30.]),
+ 'C': array([80.,  0., 80.]),
+ 'L': array([30., 90., 30.]),
+ 'alpha': array([1. , 0.6, 0.2])}</code></pre>
+</div>
+</div>
+<div id="b601d66a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert colors to sRGB</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"sRGB"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"R"</span>) <span class="co"># Specific dimension</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>array([0.00691302, 0.88757039, 0.49625787])</code></pre>
+</div>
+</div>
+<div id="ac44c657" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cols.get() <span class="co"># All dimensions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>{'R': array([0.00691302, 0.88757039, 0.49625787]),
+ 'G': array([0.24577258, 0.8875635 , 0.17895641]),
+ 'B': array([ 0.64603426,  0.88759885, -0.30114778]),
+ 'alpha': array([1. , 0.6, 0.2])}</code></pre>
+</div>
+</div>
+<div id="85f2ee44" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to hexcols</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"hex"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"hex_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>array(['#023FA5', '#E2E2E2', '#7F2E00'], dtype='&lt;U7')</code></pre>
 </div>
 </div>
 </section>
@@ -604,7 +650,7 @@ If <code>None</code> (default) values of all coordinates of the current color ob
 <h3 class="anchored" data-anchor-id="raises">Raises</h3>
 <ul class="python-raises">
 <li>
-<code class="text-warning">TypeError</code>: If <code>dimname</code> is neither <code>None</code> or str.
+<code class="text-warning">TypeError</code>: If argument <code>dimname</code> is neither None or str.
 </li><li>
 <code class="text-warning">ValueError</code>: If the dimension specified on <code>dimnames</code> does not exist.
 </li></ul>

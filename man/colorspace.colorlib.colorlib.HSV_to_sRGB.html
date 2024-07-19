@@ -368,6 +368,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -498,7 +504,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#usage" id="toc-usage" class="nav-link active" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
   <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
   </ul>
@@ -528,7 +535,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>WARNING(long_description missing)</p>
+<section id="description" class="level3">
+<h3 class="anchored" data-anchor-id="description">Description</h3>
+<p>Takes a series of HSV coordinates and converts them to the sRGB color space.</p>
+</section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
 <pre><code class="language-python">colorlib.HSV_to_sRGB(h, s, v)</code></pre>
@@ -558,7 +568,7 @@ Value (the value-dimension of HSV).
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>Returns a list of <code>numpy.ndarray</code>s with the corresponding coordinates in the sRGB color space (<code>[r, g, b]</code>). Same length as the inputs.</p>
+<p><code>list</code>: Returns a list of <code>numpy.ndarray</code>s with the corresponding coordinates in the sRGB color space (<code>[r, g, b]</code>). Same length as the inputs.</p>
 
 
 </section>

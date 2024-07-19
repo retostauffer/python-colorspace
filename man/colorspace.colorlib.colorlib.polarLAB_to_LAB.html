@@ -368,6 +368,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -501,6 +507,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
   <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#return" id="toc-return" class="nav-link" data-scroll-target="#return">Return</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -530,7 +537,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Convert colors from the polar representation of the CIELAB color space into CIELAB coordinates. Inverse function of :py:meth:<code>LAB_to_polarLAB</code>.</p>
+<p>Convert colors from the polar representation of the CIELAB color space into CIELAB coordinates. Inverse function of <a href="../man/colorspace.colorlib.colorlib.LAB_to_polarLAB.html">LAB_to_polarLAB</a>.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -538,14 +545,6 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="arguments" class="level3">
 <h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
-<ul>
-<li>
-WARNING(missing argument definition “C” in docstring)
-</li>
-<li>
-WARNING(missing argument definition “H” in docstring)
-</li>
-</ul>
 <dl class="pyp-list param-list">
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:L">L</code><code class="argument-class">numpy.ndarray</code>
@@ -554,18 +553,22 @@ WARNING(missing argument definition “H” in docstring)
 Values for the polar <code>L</code> dimension.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:A">A</code><code class="argument-class">numpy.ndarray</code>
+<code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:C">C</code><code class="argument-class">numpy.ndarray</code>
 </dt>
 <dd>
-Values for the polar <code>A</code> dimension.
+Values for the polar <code>C</code> dimension.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:B">B</code><code class="argument-class">numpy.ndarray</code>
+<code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:H">H</code><code class="argument-class">numpy.ndarray</code>
 </dt>
 <dd>
-Values for the polar <code>B</code> dimension.
+Values for the polar <code>H</code> dimension.
 </dd>
 </dl>
+</section>
+<section id="return" class="level3">
+<h3 class="anchored" data-anchor-id="return">Return</h3>
+<p><code>list</code>: Returns corresponding CIELAB chromaticities as a list of <code>numpy.ndarray</code>s of the same length as the inputs (<code>[L, A, B]</code>).</p>
 
 
 </section>

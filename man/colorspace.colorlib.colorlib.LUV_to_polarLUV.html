@@ -368,6 +368,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../man/colorspace.colorlib.HCL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HCL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../man/colorspace.colorlib.HLS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">HLS</span></a>
   </div>
@@ -531,7 +537,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
-<p>Converts colors from the CIELUV color space into its polar representation (<code>polarLUV</code>). The <code>polarLUV</code> color space is also known as the HCL (Hue-Chroma-Luminance) color space which this package uses frequently, e.g., when creating efficient color maps. Inverse function of :py:meth:<code>polarLUV_to_LUV</code>.</p>
+<p>Converts colors from the CIELUV color space into its polar representation (<code>polarLUV</code>). The <code>polarLUV</code> color space is also known as the HCL (Hue-Chroma-Luminance) color space which this package uses frequently, e.g., when creating efficient color maps. Inverse function of <a href="../man/colorspace.colorlib.colorlib.polarLUV_to_LUV.html">polarLUV_to_LUV</a>.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -562,7 +568,7 @@ Values for the <code>V</code> dimension.
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return">Return</h3>
-<p>Returns corresponding polar LUV chromaticities as a list of <code>numpy.ndarray</code>s of the same length as the inputs (<code>[L, A, B]</code>), also known as <code>[H, C, L]</code> coordinates.</p>
+<p><code>list</code>: Returns corresponding polar LUV chromaticities as a list of <code>numpy.ndarray</code>s of the same length as the inputs (<code>[L, A, B]</code>), also known as <code>[H, C, L]</code> coordinates.</p>
 
 
 </section>
