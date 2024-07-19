@@ -74,7 +74,7 @@ Can be specified to overwrite the default.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[sRGB.set(**kwargs)](colorspace.colorlib.sRGB.set.qmd)</code>
     </dt>
-    <dd>Set/Manipulate Colors</dd>
+    <dd>Set Coordinates/Manipulate Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[sRGB.set_whitepoint(**kwargs)](colorspace.colorlib.sRGB.set_whitepoint.qmd)</code>
     </dt>
@@ -100,7 +100,7 @@ Can be specified to overwrite the default.</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import sRGB
+from colorspace import sRGB
 # Constructing color object with one single color via float
 sRGB(1., 0.3, 0.5)
 ```

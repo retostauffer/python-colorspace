@@ -31,4 +31,4 @@ u and v coordinates.
 
 ### Return
 
-Returns a list of `numpy.ndarray`s (`[u, v]`). 
+<code>list</code>: Returns a list of `numpy.ndarray`s (`[u, v]`). 

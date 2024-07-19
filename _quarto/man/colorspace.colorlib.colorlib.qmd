@@ -48,7 +48,7 @@ all extend this class. These are
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.LUV_to_XYZ(L, U, V, XN=None, YN=None, ZN=None)](colorspace.colorlib.colorlib.LUV_to_XYZ.qmd)</code>
     </dt>
-    <dd>Convert CIELUV to CIELAB.</dd>
+    <dd>Convert CIELUV to CIELAB</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[colorlib.LUV_to_polarLUV(L, U, V)](colorspace.colorlib.colorlib.LUV_to_polarLUV.qmd)</code>
     </dt>
@@ -98,7 +98,7 @@ all extend this class. These are
     </dt>
     <dd>Convert Hex Colors to Standard RGB (sRGB)</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[colorlib.polarLAB_to_LAB(L, C, H)](colorspace.colorlib.colorlib.polarLAB_to_LAB.qmd)</code>
+       <code>[colorlib.polarLAB_to_LAB(L, A, B)](colorspace.colorlib.colorlib.polarLAB_to_LAB.qmd)</code>
     </dt>
     <dd>Convert polarLAB to CIELAB</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">

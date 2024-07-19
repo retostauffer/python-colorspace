@@ -4,8 +4,9 @@ title: "Extracting Color Coordinates"
 
 ### Description
 
-Extracts and returns the current values of a all or one specific coordinate
-for all colors of this color object.
+Allows to extract the current values of one or multiple dimensions
+for all colors of this color object. The names of the coordinates varies
+between different color spaces.
 
 ### Usage
 
@@ -24,11 +25,8 @@ can be specified if needed.</dd>
 
 ### Return
 
-dict, numpy.ndarray: If argument `dimname = None` a dictionary is returned
-containing the values of all colors for all coordinates of the current
-color space, each entry of the dictionary is a `numpy.ndarray`.
-When a specific dimension is requested, a single `numpy.ndarray` is
-returned.
+Returns a `numpy.ndarray` if coordinates of one specific dimension are
+requested, else a `dict` of arrays.
 
 ### Examples
 
@@ -36,10 +34,49 @@ returned.
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import HCL
-cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
-cols.get()
-cols.get("H")
+from colorspace import HCL, sRGB, hexcols
+# Example using HCL color object with alpha channel
+cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30], [1, 0.6, 0.2])
+cols.get("H") # Specific dimension
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.get("alpha") # Alpha (if existing)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.get() # All dimensions
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Convert colors to sRGB
+cols.to("sRGB")
+cols.get("R") # Specific dimension
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.get() # All dimensions
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Convert to hexcols
+cols.to("hex")
+cols.get("hex_")
 ```
 
 
@@ -48,8 +85,7 @@ cols.get("H")
 ### Raises
 
 <ul class="python-raises">
-<li><code class="text-warning">TypeError</code>: If `dimname` is neither `None` or str.
-<li><code class="text-warning">ValueError</code>: If the dimension specified on `dimnames` does not
-exist.
+<li><code class="text-warning">TypeError</code>: If argument `dimname` is neither None or str.
+<li><code class="text-warning">ValueError</code>: If the dimension specified on `dimnames` does not exist.
 </ul>
 

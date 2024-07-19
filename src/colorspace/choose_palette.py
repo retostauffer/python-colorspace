@@ -402,14 +402,14 @@ class currentpalettecanvas:
 def choose_palette(**kwargs):
     """Graphical user interface to choose HCL based color palettes
 
-    Opens a tcltk based graphical user interface (GUI) which allows
+    Opens a Tcl/Tk based graphical user interface (GUI) which allows
     to tweak existing Hue-Chroma-Luminance (HCL) based color palettes
     and define custom palettes.
 
     Args:
         **kwargs: Optional, can be used to change the defaults when starting the
             GUI. Currently a parameter called `palette` is allowed to
-            specify the initial color palette. If not set, `palette="Blue-Red"`
+            specify the initial color palette. If not set, `palette = "Blue-Red"`
             is used.
 
     Returns:

@@ -28,7 +28,7 @@ See function description for details. In case it is a
 
 ### Return
 
-Returns a list (length 1 or more) in case all values provided
+<code>list</code>: Returns a list (length 1 or more) in case all values provided
 are valid hex colors. Three digit colors will be expanded to
 six digit colors. Else the function will raise a ValueError.
 

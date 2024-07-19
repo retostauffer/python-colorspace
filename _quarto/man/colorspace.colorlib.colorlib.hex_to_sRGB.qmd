@@ -25,5 +25,5 @@ Convert one (or multiple) hex colors to sRGB.
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with the corresponding
+<code>list</code>: Returns a list of `numpy.ndarray`s with the corresponding
 red, green, and blue intensities (`[r, g, b]`), all in `[0., 1.]`.

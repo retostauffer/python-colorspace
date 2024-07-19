@@ -6,7 +6,7 @@ title: "Convert CIELAB to the polar representation (polarLAB)"
 
 Converts colors from the CIELAB color space into its polar
 representation (`polarLAB`).
-Inverse function of :py:meth:`polarLAB_to_LAB`.
+Inverse function of [polarLAB_to_LAB](colorspace.colorlib.colorlib.polarLAB_to_LAB.qmd).
 
 ### Usage
 
@@ -31,5 +31,5 @@ Inverse function of :py:meth:`polarLAB_to_LAB`.
 
 ### Return
 
-Returns corresponding polar LAB chromaticities as a list of
+<code>list</code>: Returns corresponding polar LAB chromaticities as a list of
 `numpy.ndarray`s of the same length as the inputs (`[L, A, B]`).

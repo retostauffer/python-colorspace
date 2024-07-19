@@ -30,6 +30,6 @@ l/s in `[0., 1.]`. Returns r/g/b in `[0.,1.]`.
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with the corresponding
+<code>list</code>: Returns a list of `numpy.ndarray`s with the corresponding
 coordinates in the RGB color space (`[r, g, b]`). Same length as
 the inputs.

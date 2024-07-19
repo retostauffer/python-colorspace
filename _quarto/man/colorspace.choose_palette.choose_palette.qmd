@@ -4,7 +4,7 @@ title: "Graphical user interface to choose HCL based color palettes"
 
 ### Description
 
-Opens a tcltk based graphical user interface (GUI) which allows
+Opens a Tcl/Tk based graphical user interface (GUI) which allows
 to tweak existing Hue-Chroma-Luminance (HCL) based color palettes
 and define custom palettes.
 
@@ -20,13 +20,13 @@ and define custom palettes.
   </dt>
  <dd>Optional, can be used to change the defaults when starting the
 GUI. Currently a parameter called `palette` is allowed to
-specify the initial color palette. If not set, `palette="Blue-Red"`
+specify the initial color palette. If not set, `palette = "Blue-Red"`
 is used.</dd>
 </dl>
 
 ### Return
 
-An HCL palette object which allows to extract the colors in
+<code>hclpalette</code>: An HCL palette object which allows to extract the colors in
 different ways. The default is to retrieve hex colors.
 More details on:
 [diverging_hcl](colorspace.palettes.diverging_hcl.qmd),

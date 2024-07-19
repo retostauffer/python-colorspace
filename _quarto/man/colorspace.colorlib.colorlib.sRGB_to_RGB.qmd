@@ -31,4 +31,4 @@ WARNING(long_description missing)
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with `R`, `G`, and `B` values.
+<code>list</code>: Returns a list of `numpy.ndarray`s with `R`, `G`, and `B` values.

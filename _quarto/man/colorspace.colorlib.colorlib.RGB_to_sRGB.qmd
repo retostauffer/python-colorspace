@@ -35,4 +35,4 @@ returning a modified list of red, green, blue coordinates.
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with `R`, `G`, and `B` values.
+<code>list</code>: Returns a list of `numpy.ndarray`s with `R`, `G`, and `B` values.

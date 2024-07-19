@@ -5,10 +5,45 @@ title: "Get Number of Colors"
 ### Description
 
 Returns the number of colors defined in this color object.
-
-Return:
-    int: Number of colors defined.
+Note that `len(<object>)` works as well.
 
 ### Usage
 
 <pre><code class='language-python'>CIELAB.length()</code></pre>
+
+### Return
+
+<code>int</code>: Number of colors.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import sRGB, hexcols, HCL
+# Examples for three different color objects
+x1 = sRGB([1, 0], [1, 1], [0, 0])
+[x1.length(), len(x1)]
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+x2 = hexcols(["#ff0000", "#00ff00", "#0000ff"])
+[x2.length(), len(x2)]
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+x3 = HCL([275, 314, 353, 31, 70],
+         [70, 85, 102, 86, 45],
+         [25, 40, 55, 70, 85])
+[x3.length(), len(x3)]
+```
+
+
+

@@ -762,7 +762,7 @@ class colorlib:
 
         Converts colors from the CIELAB color space into its polar
         representation (`polarLAB`).
-        Inverse function of :py:meth:`polarLAB_to_LAB`.
+        Inverse function of :py:method:`polarLAB_to_LAB`.
 
         Args:
             L (numpy.ndarray): Values for the `L` dimension.
@@ -795,14 +795,14 @@ class colorlib:
 
         Convert colors from the polar representation of the CIELAB
         color space into CIELAB coordinates.
-        Inverse function of :py:meth:`LAB_to_polarLAB`.
+        Inverse function of :py:method:`LAB_to_polarLAB`.
 
         Args:
             L (numpy.ndarray): Values for the polar `L` dimension.
-            A (numpy.ndarray): Values for the polar `A` dimension.
-            B (numpy.ndarray): Values for the polar `B` dimension.
+            C (numpy.ndarray): Values for the polar `C` dimension.
+            H (numpy.ndarray): Values for the polar `H` dimension.
 
-        Returns
+        Returns:
             list: Returns corresponding CIELAB chromaticities as a list of
             `numpy.ndarray`s of the same length as the inputs (`[L, A, B]`).
         """
@@ -810,7 +810,7 @@ class colorlib:
         __fname__ = inspect.stack()[0][3] # Name of this method
 
         # Checking input
-        self._check_input_arrays_(__fname__, L = L, C = C, H = H)
+        self._check_input_arrays_(__fname__, L = L, H = H, C = C)
 
         A = np.cos(self._DEG2RAD(H)) * C
         B = np.sin(self._DEG2RAD(H)) * C
@@ -875,6 +875,9 @@ class colorlib:
 
     def HSV_to_sRGB(self, h, s, v):
         """Convert HSV to Standard RGB (sRGB)
+
+        Takes a series of HSV coordinates and converts them
+        to the sRGB color space.
 
         Args:
             h (nympy.ndarray): Hue values.
@@ -1119,7 +1122,7 @@ class colorlib:
         return [L, 13. * L * (u - uN), 13. * L * (v - vN)]  # [L, U, V]
 
     def LUV_to_XYZ(self, L, U, V, XN = None, YN = None, ZN = None):
-        """Convert CIELUV to CIELAB.
+        """Convert CIELUV to CIELAB
 
         `L`, `U`, and `V` specify the values in the three coordinates of the
         CIELAB color space,
@@ -1189,7 +1192,7 @@ class colorlib:
         representation (`polarLUV`). The `polarLUV` color space
         is also known as the HCL (Hue-Chroma-Luminance) color space
         which this package uses frequently, e.g., when creating
-        efficient color maps. Inverse function of :py:meth:`polarLUV_to_LUV`.
+        efficient color maps. Inverse function of :py:method:`polarLUV_to_LUV`.
 
         Args:
             L (numpy.ndarray): Values for the `L` dimension.
@@ -1221,14 +1224,14 @@ class colorlib:
 
         Convert colors from the polar representation of the CIELUV color space,
         also known as HCL (Hue-Chroma-Luminance) color space, into CIELAB
-        coordinates. Inverse function of :py:meth:`LUV_to_polarLUV`.
+        coordinates. Inverse function of :py:method:`LUV_to_polarLUV`.
 
         Args:
-            L (numpy.ndarray): Values for the polar `L` dimension.
-            U (numpy.ndarray): Values for the polar `U` dimension.
-            V (numpy.ndarray): Values for the polar `V` dimension.
+            L (numpy.ndarray): Values for the polar `L` dimension (Luminance).
+            C (numpy.ndarray): Values for the polar `C` dimension (Chroma).
+            H (numpy.ndarray): Values for the polar `H` dimension (Hue).
 
-        Returns
+        Returns:
             list: Returns corresponding CIELAB chromaticities as a list of
             `numpy.ndarray`s of the same length as the inputs (`[L, U, V]`).
         """
@@ -1743,7 +1746,7 @@ class colorobject:
 
         Example:
 
-            >>> from colorspace.colorlib import hexcols
+            >>> from colorspace import hexcols
             >>> c = hexcols("#ff0000")
             >>> c.get_whitepoint()
         """
@@ -1762,15 +1765,15 @@ class colorobject:
                 each of which must be float: White specification for
                 dimension `X`/`Y`/`Z`.
 
-        Returns:
-            No return, stores the new definition on the object.
-
         Example:
 
-            >>> from colorspace.colorlib import hexcols
+            >>> from colorspace import hexcols
             >>> c = hexcols("#ff0000")
             >>> c.set_whitepoint(X = 100., Y = 100., Z = 101.)
             >>> c.get_whitepoint()
+
+        Raises:
+            ValueError: If named argument is not one of `X`, `Y`, `Z`.
         """
         for key,arg in kwargs.items():
             if   key == "X":  self.WHITEX = float(arg)
@@ -1901,8 +1904,19 @@ class colorobject:
     def hasalpha(self):
         """Check for Alpha Channel
 
-        Small helper function to check whether the current color object
-        has alpha channel or not.
+        Helper method to check if the current color object has
+        an alpha channel or not.
+
+        Examples:
+
+            >>> from colorspace import sRGB
+            >>> x1 = sRGB(R = 0.5, G = 0.1, B = 0.3)
+            >>> x1
+            >>> #:
+            >>> x2 = sRGB(R = 0.5, G = 0.1, B = 0.3, alpha = 0.5)
+            >>> x2
+            >>> #: Checking both color objects for alpha channel
+            >>> [x1.hasalpha(), x2.hasalpha()]
 
         Returns:
             bool: `True` if alpha values are present, `False` if not.
@@ -1919,12 +1933,49 @@ class colorobject:
         """Remove Alpha Channel
 
         Remove alpha channel from the color object, if defined
-        (see :py:method:`hasalpha`).
+        (see :py:method:`hasalpha`). Works for all `colorobject`s.
+
+        Examples:
+
+            >>> from colorspace.colorlib import HCL, sRGB, HSV
+            >>> # Example using HCL colors
+            >>> cols = HCL([0, 40, 80],
+            >>>            [30, 60, 80],
+            >>>            [85, 60, 35],
+            >>>            alpha = [1.0, 0.5, 0.1])
+            >>> cols # with alpha channel
+            >>> #:
+            >>> cols.dropalpha()
+            >>> cols # alpha channel removed
+            >>>
+            >>> #: No effect if there is no alpha channel
+            >>> cols.dropalpha()
+            >>> cols
+            >>>
+            >>> #: Example using sRGB colors
+            >>> cols = sRGB([0.01, 0.89, 0.56],
+            >>>             [0.25, 0.89, 0.02],
+            >>>             [0.65, 0.89, 0.23],
+            >>>             alpha = [1.0, 0.5, 0.1])
+            >>> cols # with alpha channel
+            >>> #:
+            >>> cols.dropalpha()
+            >>> cols # alpha channel removed
+            >>>
+            >>> #: Example using HSV colors
+            >>> cols = HSV([218, 0, 336],
+            >>>            [1, 0, 1],
+            >>>            [0.65, 0.89, 0.56],
+            >>>            alpha = [1.0, 0.5, 0.1])
+            >>> cols # with alpha channel
+            >>> #:
+            >>> cols.dropalpha()
+            >>> cols # alpha channel removed
+
+
         """
         if self.hasalpha():
             del self._data_["alpha"]
-
-        return
 
 
     def specplot(self, **kwargs):
@@ -1941,10 +1992,18 @@ class colorobject:
 
         Example:
 
-            >>> from colorspace.colorlib import HCL
-            >>> cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
-            >>> cols.specplot();
-            >>> cols.specplot(rgb = False, figsize = (6, 0.5));
+            >>> # Example using HCL colors
+            >>> from colorspace import HCL, hexcols
+            >>> cols = HCL(H = [220, 196, 172, 148, 125],
+            >>>            C = [ 44,  49,  55,  59,  50],
+            >>>            L = [ 49,  61,  72,  82,  90])
+            >>> cols.specplot(figsize = (8, 4));
+            >>>
+            >>> #: Example using hex colors
+            >>> cols = hexcols(["#0FCFC0", "#9CDED6", "#D5EAE7",
+            >>>                 "#F1F1F1", "#F3E1EB", "#F6C4E1", "#F79CD4"])
+            >>> cols.specplot(rgb = True, hcl = True, palette = True)
+
         """
         from copy import copy
         cols = copy(self)
@@ -1969,12 +2028,17 @@ class colorobject:
 
         Example:
 
-            >>> from colorspace.colorlib import HCL
-            >>> cols = HCL(H = [160, 210, 260, 310, 360],
-            >>>            C = [ 70,  40,  10,  40,  70],
-            >>>            L = [ 50,  70,  90,  70,  50])
-            >>> cols.swatchplot();
-            >>> cols.swatchplot(figsize = (6, 0.5));
+            >>> # Example using HCL colors
+            >>> from colorspace import HCL, hexcols
+            >>> cols = HCL(H = [220, 196, 172, 148, 125],
+            >>>            C = [ 44,  49,  55,  59,  50],
+            >>>            L = [ 49,  61,  72,  82,  90])
+            >>> cols.swatchplot(figsize = (8, 2))
+            >>>
+            >>> #: Example using hex colors
+            >>> cols = hexcols(["#0FCFC0", "#9CDED6", "#D5EAE7",
+            >>>                 "#F1F1F1", "#F3E1EB", "#F6C4E1", "#F79CD4"])
+            >>> cols.swatchplot(figsize = (8, 3.5));
         """
 
         from .swatchplot import swatchplot
@@ -1986,9 +2050,9 @@ class colorobject:
     def hclplot(self, **kwargs):
         """Palette Plot in HCL Space
 
-        Internally calls :py:func:`hclplot <colorspace.hclplot.hclplot>`,
-        additional arguments to this main function can be forwarded via the
-        `**kwargs` argument.
+        Convenience method for calling :py:func:`hclplot <colorspace.hclplot.hclplot>`
+        on the current color object. Additional arguments can be forwarded via `**kwargs`
+        (see  :py:func:`hclplot <colorspace.hclplot.hclplot>` for details).
 
         Args:
             **kwargs: Additional named arguments forwarded to
@@ -1996,12 +2060,17 @@ class colorobject:
 
         Example:
 
-            >>> from colorspace.colorlib import HCL
-            >>> cols = HCL(H = [160, 210, 260, 310, 360],
-            >>>            C = [ 70,  40,  10,  40,  70],
-            >>>            L = [ 50,  70,  90,  70,  50])
+            >>> # Example using HCL colors
+            >>> from colorspace import HCL, hexcols
+            >>> cols = HCL(H = [220, 196, 172, 148, 125],
+            >>>            C = [ 44,  49,  55,  59,  50],
+            >>>            L = [ 49,  61,  72,  82,  90])
             >>> cols.hclplot();
-            >>> cols.hclplot(figsize = (6, 0.5));
+            >>>
+            >>> #: Example using hex colors
+            >>> cols = hexcols(["#0FCFC0", "#9CDED6", "#D5EAE7",
+            >>>                 "#F1F1F1", "#F3E1EB", "#F6C4E1", "#F79CD4"])
+            >>> cols.hclplot(figsize = (8, 3.5));
         """
 
         from .hclplot import hclplot
@@ -2010,8 +2079,8 @@ class colorobject:
     def colors(self, fixup = True, rev = False):
         """Extract Hex Colors
 
-        Returns hex colors of the current color object by converting
-        the current color object into an object of class :py:class:`hexcols`.
+        Convers the current object into an object of class :py:class:`hexcols`
+        and extracts the hex colors as list of str.
 
         If the object contains alpha values, the alpha level is added to the
         hex string if and only if alpha is not equal to `1.0`.
@@ -2026,9 +2095,25 @@ class colorobject:
 
         Example:
 
-            >>> from colorspace.colorlib import HCL
-            >>> cols = HCL([0, 40, 80], [30, 60, 80], [85, 60, 35])
+            >>> from colorspace import HCL, sRGB, HSV
+            >>> # Example using HCL colors
+            >>> cols = HCL([0, 40, 80],
+            >>>            [30, 60, 80],
+            >>>            [85, 60, 35])
             >>> cols.colors()
+            >>>
+            >>> #: Example using sRGB colors
+            >>> cols = sRGB([0.01, 0.89, 0.56],
+            >>>             [0.25, 0.89, 0.02],
+            >>>             [0.65, 0.89, 0.23])
+            >>> cols.colors()
+            >>>
+            >>> #: Example using HSV colors
+            >>> cols = HSV([218, 0, 336],
+            >>>            [1, 0, 1],
+            >>>            [0.65, 0.89, 0.56])
+            >>> cols.colors()
+
         """
 
         from copy import copy
@@ -2054,8 +2139,9 @@ class colorobject:
     def get(self, dimname = None):
         """Extracting Color Coordinates
 
-        Extracts and returns the current values of a all or one specific coordinate
-        for all colors of this color object.
+        Allows to extract the current values of one or multiple dimensions
+        for all colors of this color object. The names of the coordinates varies
+        between different color spaces.
 
         Args:
             dimname (None, str): If `None` (default) values of all coordinates
@@ -2063,23 +2149,33 @@ class colorobject:
                 can be specified if needed.
 
         Returns:
-            dict, numpy.ndarray: If argument `dimname = None` a dictionary is returned
-            containing the values of all colors for all coordinates of the current
-            color space, each entry of the dictionary is a `numpy.ndarray`.
-            When a specific dimension is requested, a single `numpy.ndarray` is
-            returned.
-
-        Raises:
-            TypeError: If `dimname` is neither `None` or str.
-            ValueError: If the dimension specified on `dimnames` does not
-                exist.
+            Returns a `numpy.ndarray` if coordinates of one specific dimension are
+            requested, else a `dict` of arrays.
 
         Example:
 
-            >>> from colorspace.colorlib import HCL
-            >>> cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
-            >>> cols.get()
-            >>> cols.get("H")
+            >>> from colorspace import HCL, sRGB, hexcols
+            >>> # Example using HCL color object with alpha channel
+            >>> cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30], [1, 0.6, 0.2])
+            >>> cols.get("H") # Specific dimension
+            >>> #:
+            >>> cols.get("alpha") # Alpha (if existing)
+            >>> #:
+            >>> cols.get() # All dimensions
+            >>>
+            >>> #: Convert colors to sRGB
+            >>> cols.to("sRGB")
+            >>> cols.get("R") # Specific dimension
+            >>> #:
+            >>> cols.get() # All dimensions
+            >>>
+            >>> #: Convert to hexcols
+            >>> cols.to("hex")
+            >>> cols.get("hex_")
+
+        Raises:
+            TypeError: If argument `dimname` is neither None or str.
+            ValueError: If the dimension specified on `dimnames` does not exist.
         """
 
         # Return all coordinates
@@ -2102,9 +2198,9 @@ class colorobject:
 
 
     def set(self, **kwargs):
-        """Set/Manipulate Colors
+        """Set Coordinates/Manipulate Colors
 
-        Allows to manipulate the current colors. The named input arguments
+        Allows to manipulate current colors. The named input arguments
         have to fulfil a specific set or requirements. If not, the function
         raises exceptions. The requirements:
 
@@ -2116,9 +2212,6 @@ class colorobject:
                 be changed, the value an object which fulfills the requirements
                 (see description of this method)
 
-        Returns:
-            No return, modifies the current color object.
-
         Raises:
             ValueError: If the dimension does not exist.
             ValueError: If the new data can't be converted into
@@ -2128,12 +2221,14 @@ class colorobject:
 
         Example:
 
-            >>> from colorspace.colorlib import HCL
+            >>> # Example shown for HCL colors, works the same
+            >>> # for all other color objects (sRGB, hexcols, ...)
+            >>> from colorspace import HCL
             >>> cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
-            >>> print(cols)
+            >>> cols
             >>> #:
             >>> cols.set(H = [150, 150, 30])
-            >>> print(cols)
+            >>> cols
         """
         # Looping over inputs
         from numpy import asarray, ndarray
@@ -2175,11 +2270,27 @@ class colorobject:
         """Get Number of Colors
 
         Returns the number of colors defined in this color object.
+        Note that `len(<object>)` works as well.
 
-        Return:
-            int: Number of colors defined.
+        Returns:
+            int: Number of colors.
+
+        Examples:
+
+            >>> from colorspace import sRGB, hexcols, HCL
+            >>> # Examples for three different color objects
+            >>> x1 = sRGB([1, 0], [1, 1], [0, 0])
+            >>> [x1.length(), len(x1)]
+            >>> #:
+            >>> x2 = hexcols(["#ff0000", "#00ff00", "#0000ff"])
+            >>> [x2.length(), len(x2)]
+            >>> #:
+            >>> x3 = HCL([275, 314, 353, 31, 70],
+            >>>          [70, 85, 102, 86, 45],
+            >>>          [25, 40, 55, 70, 85])
+            >>> [x3.length(), len(x3)]
+
         """
-        # Number of colors
         return max([0 if self._data_[x] is None else len(self._data_[x]) for x in self._data_.keys()])
 
     def __len__(self):
@@ -2244,7 +2355,7 @@ class polarLUV(colorobject):
 
     Example:
 
-        >>> from colorspace.colorlib import polarLUV, HCL
+        >>> from colorspace import polarLUV, HCL
         >>> # Constructing color object with one single color via float
         >>> polarLUV(100., 30, 50.)
         >>> #: polarLUV is the HCL color space, this
@@ -2270,18 +2381,41 @@ class polarLUV(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> # HCL() identical to polarLUV()
+            >>> from colorspace import HCL
+            >>> x = HCL([275, 314, 353, 31, 70],
+            >>>         [ 70,  85, 102, 86, 45],
+            >>>         [ 25,  40,  55, 70, 85])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to sRGB
+            >>> x.to("sRGB")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert from sRGB to HCL
+            >>> x.to("hex")
+            >>> x
+            >>> #: Convert back to HCL colors.
+            >>> # Round-off errors due to conversion to 'hex'.
+            >>> x.to("HCL")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2357,7 +2491,7 @@ class CIELUV(colorobject):
 
     Example:
 
-        >>> from colorspace.colorlib import CIELUV
+        >>> from colorspace import CIELUV
         >>> # Constructing color object with one single color via float
         >>> CIELUV(0, 10, 10)
         >>> #: Constructing object via lists
@@ -2381,18 +2515,40 @@ class CIELUV(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import CIELUV
+            >>> x = CIELUV([ 25,  45, 65, 85],
+            >>>            [  6,  75, 90, 16],
+            >>>            [-70, -50, 30, 42])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to sRGB
+            >>> x.to("sRGB")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert from sRGB to HCL
+            >>> x.to("hex")
+            >>> x
+            >>> #: Convert back to CIELUV colors.
+            >>> # Round-off errors due to conversion to 'hex'.
+            >>> x.to("CIELUV")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2465,7 +2621,7 @@ class CIEXYZ(colorobject):
 
     Example:
 
-        >>> from colorspace.colorlib import CIEXYZ
+        >>> from colorspace import CIEXYZ
         >>> # Constructing color object with one single color via float
         >>> CIEXYZ(80, 30, 10)
         >>> #: Constructing object via lists
@@ -2489,18 +2645,40 @@ class CIEXYZ(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIELUV"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import CIEXYZ
+            >>> x = CIEXYZ([ 8.5, 27.8, 46.2, 62.1],
+            >>>            [ 4.4, 14.5, 34.1, 65.9],
+            >>>            [27.2, 31.9, 17.2, 40.0])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to sRGB
+            >>> x.to("sRGB")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert from sRGB to HCL
+            >>> x.to("hex")
+            >>> x
+            >>> #: Convert back to CIEXYZ colors.
+            >>> # Round-off errors due to conversion to 'hex'.
+            >>> x.to("CIEXYZ")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2574,7 +2752,7 @@ class RGB(colorobject):
 
     Example:
 
-        >>> from colorspace.colorlib import RGB
+        >>> from colorspace import RGB
         >>> # Constructing color object with one single color via float
         >>> RGB(1., 0.3, 0.5)
         >>> #: Constructing object via lists
@@ -2689,7 +2867,7 @@ class sRGB(colorobject):
 
     Example:
 
-        >>> from colorspace.colorlib import sRGB
+        >>> from colorspace import sRGB
         >>> # Constructing color object with one single color via float
         >>> sRGB(1., 0.3, 0.5)
         >>> #: Constructing object via lists
@@ -2805,7 +2983,7 @@ class CIELAB(colorobject):
 
     Example:
 
-        >>> from colorspace.colorlib import CIELAB
+        >>> from colorspace import CIELAB
         >>> # Constructing color object with one single color via float
         >>> CIELAB(-30, 10, 10)
         >>> #: Constructing object via lists
@@ -3019,7 +3197,7 @@ class HSV(colorobject):
     Examples:
 
         >>> #: Constructing object via numpy arrays
-        >>> from colorspace.colorlib import HSV
+        >>> from colorspace import HSV
         >>> # Constructing color object with one single color via float
         >>> HSV(150, 150, 10)
         >>> #: Constructing object via lists
@@ -3119,7 +3297,7 @@ class HLS(colorobject):
 
     Examples:
 
-        >>> from colorspace.colorlib import HLS
+        >>> from colorspace import HLS
         >>> # Constructing color object with one single color via float
         >>> HLS(150, 0.1, 3)
         >>> #: Constructing object via lists
@@ -3214,7 +3392,7 @@ class hexcols(colorobject):
 
     Examples:
 
-        >>> from colorspace.colorlib import hexcols
+        >>> from colorspace import hexcols
         >>> # Creating hex color object from string
         >>> hexcols("#cecece")
         >>> #: Creating hex color object from list of strings
@@ -3389,7 +3567,7 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
 
     Example:
 
-        >>> from colorspace.colorlib import *
+        >>> from colorspace import RGB, hexcols, compare_colors
         >>>
         >>> # Three RGB colors
         >>> a = RGB([0.5, 0.5], [0.1, 0.1], [0.9, 0.9])
@@ -3416,10 +3594,10 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
         >>> z  = hexcols(["#ff00ff", "#003301"])
         >>> zz = deepcopy(z)
         >>> zz.to("HCL")
-        >>> print(zz)
+        >>> zz
         >>> #:
         >>> zz.to("hex")
-        >>> print(zz)
+        >>> zz
         >>> #:
         >>> compare_colors(z, zz)
 

@@ -71,7 +71,7 @@ opacity. If `None` (default) no transparency is added.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[CIELUV.set(**kwargs)](colorspace.colorlib.CIELUV.set.qmd)</code>
     </dt>
-    <dd>Set/Manipulate Colors</dd>
+    <dd>Set Coordinates/Manipulate Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[CIELUV.set_whitepoint(**kwargs)](colorspace.colorlib.CIELUV.set_whitepoint.qmd)</code>
     </dt>
@@ -97,7 +97,7 @@ opacity. If `None` (default) no transparency is added.</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import CIELUV
+from colorspace import CIELUV
 # Constructing color object with one single color via float
 CIELUV(0, 10, 10)
 ```

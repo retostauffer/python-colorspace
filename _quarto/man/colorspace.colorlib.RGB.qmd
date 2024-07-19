@@ -69,7 +69,7 @@ opacity. If `None` (default) no transparency is added.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[RGB.set(**kwargs)](colorspace.colorlib.RGB.set.qmd)</code>
     </dt>
-    <dd>Set/Manipulate Colors</dd>
+    <dd>Set Coordinates/Manipulate Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[RGB.set_whitepoint(**kwargs)](colorspace.colorlib.RGB.set_whitepoint.qmd)</code>
     </dt>
@@ -95,7 +95,7 @@ opacity. If `None` (default) no transparency is added.</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import RGB
+from colorspace import RGB
 # Constructing color object with one single color via float
 RGB(1., 0.3, 0.5)
 ```

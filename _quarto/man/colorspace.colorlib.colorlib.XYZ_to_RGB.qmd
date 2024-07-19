@@ -46,5 +46,5 @@ When not specified (all `None`) a default white point is used.</dd>
 
 ### Return
 
-Returns corresponding coordinates as a list of
+<code>list</code>: Returns corresponding coordinates as a list of
 `numpy.ndarray`s of the same length as the inputs (`[R, G, B]`).

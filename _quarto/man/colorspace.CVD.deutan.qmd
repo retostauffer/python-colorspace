@@ -39,7 +39,7 @@ gamma-corrected sRGB coordinates (as in the Machado et al. 2009 supplementary ma
 
 ### Return
 
-Returns an object of the same type as the input object `cols` with
+<code>colorobject</code>: Returns an object of the same type as the input object `cols` with
 modified colors as people with deuteranomaly see these colors (simulated).
 
 ### Examples

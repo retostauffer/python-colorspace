@@ -347,10 +347,6 @@ def adjust_transparency(x, alpha):
         numpy.ndarray or None: None if the colorobject has no defined transparency,
             else a numpy.ndarray is returned.
 
-    Raises:
-        TypeError: If input object does not inherit from `colorspace.colorlib.colorobject`.
-        TypeError: If `alpha` is not one of the expected types.
-
     Examples:
         >>> from colorspace import *
         >>> from colorspace.colorlib import hexcols
@@ -388,6 +384,14 @@ def adjust_transparency(x, alpha):
         >>> x2
         >>> #:
         >>> extract_transparency(x2)
+
+    Raises:
+        TypeError: If input object does not inherit from `colorspace.colorlib.colorobject`.
+        TypeError: If `alpha` is not one of the expected types.
+        ValueError: If `alpha` is list or `numpy.ndarray` and does not match length
+                of colors in `x`.
+        ValueError: If `alpha` cannot be converted to float.
+        ValueError: If `alpha` is outside of range `[0., 1.]`.
     """
 
     import numpy as np

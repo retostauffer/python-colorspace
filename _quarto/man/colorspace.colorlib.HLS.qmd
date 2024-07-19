@@ -72,7 +72,7 @@ opacity. If `None` (default) no transparency is added.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[HLS.set(**kwargs)](colorspace.colorlib.HLS.set.qmd)</code>
     </dt>
-    <dd>Set/Manipulate Colors</dd>
+    <dd>Set Coordinates/Manipulate Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[HLS.set_whitepoint(**kwargs)](colorspace.colorlib.HLS.set_whitepoint.qmd)</code>
     </dt>
@@ -98,7 +98,7 @@ opacity. If `None` (default) no transparency is added.</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import HLS
+from colorspace import HLS
 # Constructing color object with one single color via float
 HLS(150, 0.1, 3)
 ```

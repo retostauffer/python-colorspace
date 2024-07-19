@@ -35,7 +35,7 @@ a color color object (such as RGB, hexcols, CIELUV).</dd>
 
 ### Return
 
-Returns a list of (modified) hex colors.
+<code>list</code>: Returns a list of (modified) hex colors.
 
 ### Examples
 

@@ -12,5 +12,5 @@ Get all palette types.
 
 ### Return
 
-Returns a `list` of str with the names of all palette types
+<code>list</code>: Returns a `list` of str with the names of all palette types
 or groups.

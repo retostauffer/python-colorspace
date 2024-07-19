@@ -121,5 +121,9 @@ extract_transparency(x2)
 <ul class="python-raises">
 <li><code class="text-warning">TypeError</code>: If input object does not inherit from `colorspace.colorlib.colorobject`.
 <li><code class="text-warning">TypeError</code>: If `alpha` is not one of the expected types.
+<li><code class="text-warning">ValueError</code>: If `alpha` is list or `numpy.ndarray` and does not match length
+of colors in `x`.
+<li><code class="text-warning">ValueError</code>: If `alpha` cannot be converted to float.
+<li><code class="text-warning">ValueError</code>: If `alpha` is outside of range `[0., 1.]`.
 </ul>
 

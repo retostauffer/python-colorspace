@@ -4,9 +4,9 @@ title: "Palette Plot in HCL Space"
 
 ### Description
 
-Internally calls [hclplot](colorspace.hclplot.hclplot.qmd),
-additional arguments to this main function can be forwarded via the
-`**kwargs` argument.
+Convenience method for calling [hclplot](colorspace.hclplot.hclplot.qmd)
+on the current color object. Additional arguments can be forwarded via `**kwargs`
+(see  [hclplot](colorspace.hclplot.hclplot.qmd) for details).
 
 ### Usage
 
@@ -28,12 +28,22 @@ additional arguments to this main function can be forwarded via the
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import HCL
-cols = HCL(H = [160, 210, 260, 310, 360],
-           C = [ 70,  40,  10,  40,  70],
-           L = [ 50,  70,  90,  70,  50])
+# Example using HCL colors
+from colorspace import HCL, hexcols
+cols = HCL(H = [220, 196, 172, 148, 125],
+           C = [ 44,  49,  55,  59,  50],
+           L = [ 49,  61,  72,  82,  90])
 cols.hclplot();
-cols.hclplot(figsize = (6, 0.5));
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example using hex colors
+cols = hexcols(["#0FCFC0", "#9CDED6", "#D5EAE7",
+                "#F1F1F1", "#F3E1EB", "#F6C4E1", "#F79CD4"])
+cols.hclplot(figsize = (8, 3.5));
 ```
 
 

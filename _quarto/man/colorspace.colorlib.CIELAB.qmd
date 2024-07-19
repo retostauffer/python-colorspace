@@ -71,7 +71,7 @@ opacity. If `None` (default) no transparency is added.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[CIELAB.set(**kwargs)](colorspace.colorlib.CIELAB.set.qmd)</code>
     </dt>
-    <dd>Set/Manipulate Colors</dd>
+    <dd>Set Coordinates/Manipulate Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[CIELAB.set_whitepoint(**kwargs)](colorspace.colorlib.CIELAB.set_whitepoint.qmd)</code>
     </dt>
@@ -97,7 +97,7 @@ opacity. If `None` (default) no transparency is added.</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import CIELAB
+from colorspace import CIELAB
 # Constructing color object with one single color via float
 CIELAB(-30, 10, 10)
 ```

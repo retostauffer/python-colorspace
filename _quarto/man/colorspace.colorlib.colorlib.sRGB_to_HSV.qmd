@@ -31,6 +31,6 @@ and value (HSV) coordinates.
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with the corresponding
+<code>list</code>: Returns a list of `numpy.ndarray`s with the corresponding
 coordinates in the HSV color space (`[h, s, v]`). Same length as
 the inputs.

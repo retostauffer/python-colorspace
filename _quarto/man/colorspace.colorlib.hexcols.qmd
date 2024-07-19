@@ -60,7 +60,7 @@ colors will be handled as `numpy.nan`.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[hexcols.set(**kwargs)](colorspace.colorlib.hexcols.set.qmd)</code>
     </dt>
-    <dd>Set/Manipulate Colors</dd>
+    <dd>Set Coordinates/Manipulate Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[hexcols.set_whitepoint(**kwargs)](colorspace.colorlib.hexcols.set_whitepoint.qmd)</code>
     </dt>
@@ -86,7 +86,7 @@ colors will be handled as `numpy.nan`.</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import hexcols
+from colorspace import hexcols
 # Creating hex color object from string
 hexcols("#cecece")
 ```

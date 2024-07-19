@@ -72,7 +72,7 @@ opacity. If `None` (default) no transparency is added.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[polarLUV.set(**kwargs)](colorspace.colorlib.polarLUV.set.qmd)</code>
     </dt>
-    <dd>Set/Manipulate Colors</dd>
+    <dd>Set Coordinates/Manipulate Colors</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[polarLUV.set_whitepoint(**kwargs)](colorspace.colorlib.polarLUV.set_whitepoint.qmd)</code>
     </dt>
@@ -98,7 +98,7 @@ opacity. If `None` (default) no transparency is added.</dd>
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import polarLUV, HCL
+from colorspace import polarLUV, HCL
 # Constructing color object with one single color via float
 polarLUV(100., 30, 50.)
 ```

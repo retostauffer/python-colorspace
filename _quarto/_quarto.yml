@@ -121,6 +121,8 @@ website:
         text: CIELUV
       - file: man/colorspace.colorlib.CIEXYZ.qmd
         text: CIEXYZ
+      - file: man/colorspace.colorlib.HCL.qmd
+        text: HCL
       - file: man/colorspace.colorlib.HLS.qmd
         text: HLS
       - file: man/colorspace.colorlib.HSV.qmd

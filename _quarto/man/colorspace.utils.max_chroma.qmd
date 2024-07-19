@@ -37,7 +37,7 @@ convertable to float).</dd>
 
 ### Return
 
-Array of the same length as `max(len(H), len(L))` with
+<code>numpy.ndarray</code>: Array of the same length as `max(len(H), len(L))` with
 maximum possible chroma for these hue-luminance combinations.
 
 ### Examples

@@ -95,7 +95,7 @@ Allowed: `h1`, `h2`, `c1`, `l1`.</dd>
 
 ### Return
 
-Initialize new object. Raises exceptions if the parameters are
+<code>qualitative_hcl</code>: Initialize new object. Raises exceptions if the parameters are
 misspecified. Note that the object is callable, the default object call can
 be used to return hex colors (identical to the `.colors()` method), see
 examples.

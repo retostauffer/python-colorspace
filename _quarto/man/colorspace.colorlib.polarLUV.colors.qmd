@@ -4,8 +4,8 @@ title: "Extract Hex Colors"
 
 ### Description
 
-Returns hex colors of the current color object by converting
-the current color object into an object of class [hexcols](colorspace.colorlib.hexcols.qmd).
+Convers the current object into an object of class [hexcols](colorspace.colorlib.hexcols.qmd)
+and extracts the hex colors as list of str.
 
 If the object contains alpha values, the alpha level is added to the
 hex string if and only if alpha is not equal to `1.0`.
@@ -30,7 +30,7 @@ defined range of `[0., 1.]`, defaults to `True`.</dd>
 
 ### Return
 
-Returns a list of hex color strings.
+<code>list</code>: Returns a list of hex color strings.
 
 ### Examples
 
@@ -38,8 +38,33 @@ Returns a list of hex color strings.
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import HCL
-cols = HCL([0, 40, 80], [30, 60, 80], [85, 60, 35])
+from colorspace import HCL, sRGB, HSV
+# Example using HCL colors
+cols = HCL([0, 40, 80],
+           [30, 60, 80],
+           [85, 60, 35])
+cols.colors()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example using sRGB colors
+cols = sRGB([0.01, 0.89, 0.56],
+            [0.25, 0.89, 0.02],
+            [0.65, 0.89, 0.23])
+cols.colors()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example using HSV colors
+cols = HSV([218, 0, 336],
+           [1, 0, 1],
+           [0.65, 0.89, 0.56])
 cols.colors()
 ```
 

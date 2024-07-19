@@ -23,4 +23,4 @@ WARNING(long_description missing)
 
 ### Return
 
-List of all colors of the palette.
+<code>list</code>: List of all colors of the palette.

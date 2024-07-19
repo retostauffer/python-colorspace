@@ -36,4 +36,4 @@ defaults to `True`.</dd>
 
 ### Return
 
-A list with hex color str.
+<code>list</code>: A list with hex color str.

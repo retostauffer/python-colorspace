@@ -8,7 +8,7 @@ Converts colors from the CIELUV color space into its polar
 representation (`polarLUV`). The `polarLUV` color space
 is also known as the HCL (Hue-Chroma-Luminance) color space
 which this package uses frequently, e.g., when creating
-efficient color maps. Inverse function of :py:meth:`polarLUV_to_LUV`.
+efficient color maps. Inverse function of [polarLUV_to_LUV](colorspace.colorlib.colorlib.polarLUV_to_LUV.qmd).
 
 ### Usage
 
@@ -33,6 +33,6 @@ efficient color maps. Inverse function of :py:meth:`polarLUV_to_LUV`.
 
 ### Return
 
-Returns corresponding polar LUV chromaticities as a list of
+<code>list</code>: Returns corresponding polar LUV chromaticities as a list of
 `numpy.ndarray`s of the same length as the inputs (`[L, A, B]`),
 also known as `[H, C, L]` coordinates.

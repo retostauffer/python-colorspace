@@ -2,6 +2,7 @@
 title: Package Installation
 ---
 
+
 This package is available via the
 [Python Package index (PyPI)](https://pypi.org/project/colorspace/) or via 
 [GitHub](https://github.com/retostauffer/python-colorspace).

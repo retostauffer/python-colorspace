@@ -63,7 +63,7 @@ of all colors in `a` and `b`.
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import *
+from colorspace import RGB, hexcols, compare_colors
 # Three RGB colors
 a = RGB([0.5, 0.5], [0.1, 0.1], [0.9, 0.9])
 b = RGB([0.5, 0.5], [0.1, 0.1], [0.9, 0.91])
@@ -119,7 +119,7 @@ from copy import deepcopy
 z  = hexcols(["#ff00ff", "#003301"])
 zz = deepcopy(z)
 zz.to("HCL")
-print(zz)
+zz
 ```
 
 ```{python}
@@ -127,7 +127,7 @@ print(zz)
 #| warning: true
 #| error: true
 zz.to("hex")
-print(zz)
+zz
 ```
 
 ```{python}

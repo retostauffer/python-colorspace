@@ -6,7 +6,7 @@ title: "Convert Polar CIELUV (HCL) to CIELUV"
 
 Convert colors from the polar representation of the CIELUV color space,
 also known as HCL (Hue-Chroma-Luminance) color space, into CIELAB
-coordinates. Inverse function of :py:meth:`LUV_to_polarLUV`.
+coordinates. Inverse function of [LUV_to_polarLUV](colorspace.colorlib.colorlib.LUV_to_polarLUV.qmd).
 
 ### Usage
 
@@ -14,17 +14,22 @@ coordinates. Inverse function of :py:meth:`LUV_to_polarLUV`.
 
 ### Arguments
 
-<ul><li>WARNING(missing argument definition "C" in docstring)</li><li>WARNING(missing argument definition "H" in docstring)</li></ul><dl class="pyp-list param-list">
+<dl class="pyp-list param-list">
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:L">L</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>Values for the polar `L` dimension.</dd>
+ <dd>Values for the polar `L` dimension (Luminance).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:U">U</code><code class="argument-class">numpy.ndarray</code>
+   <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:C">C</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>Values for the polar `U` dimension.</dd>
+ <dd>Values for the polar `C` dimension (Chroma).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:V">V</code><code class="argument-class">numpy.ndarray</code>
+   <code id="colorspace.colorlib.colorlib.polarLUV_to_LUV:H">H</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>Values for the polar `V` dimension.</dd>
+ <dd>Values for the polar `H` dimension (Hue).</dd>
 </dl>
+
+### Return
+
+<code>list</code>: Returns corresponding CIELAB chromaticities as a list of
+`numpy.ndarray`s of the same length as the inputs (`[L, U, V]`).

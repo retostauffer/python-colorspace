@@ -1,10 +1,10 @@
 ---
-title: "Set/Manipulate Colors"
+title: "Set Coordinates/Manipulate Colors"
 ---
 
 ### Description
 
-Allows to manipulate the current colors. The named input arguments
+Allows to manipulate current colors. The named input arguments
 have to fulfil a specific set or requirements. If not, the function
 raises exceptions. The requirements:
 
@@ -26,19 +26,17 @@ be changed, the value an object which fulfills the requirements
 (see description of this method)</dd>
 </dl>
 
-### Return
-
-No return, modifies the current color object.
-
 ### Examples
 
 ```{python}
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import HCL
+# Example shown for HCL colors, works the same
+# for all other color objects (sRGB, hexcols, ...)
+from colorspace import HCL
 cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
-print(cols)
+cols
 ```
 
 ```{python}
@@ -46,7 +44,7 @@ print(cols)
 #| warning: true
 #| error: true
 cols.set(H = [150, 150, 30])
-print(cols)
+cols
 ```
 
 

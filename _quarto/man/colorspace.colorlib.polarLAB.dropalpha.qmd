@@ -5,8 +5,83 @@ title: "Remove Alpha Channel"
 ### Description
 
 Remove alpha channel from the color object, if defined
-(see [hasalpha](colorspace.colorlib.polarLAB.hasalpha.qmd)).
+(see [hasalpha](colorspace.colorlib.polarLAB.hasalpha.qmd)). Works for all `colorobject`s.
 
 ### Usage
 
 <pre><code class='language-python'>polarLAB.dropalpha()</code></pre>
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace.colorlib import HCL, sRGB, HSV
+# Example using HCL colors
+cols = HCL([0, 40, 80],
+           [30, 60, 80],
+           [85, 60, 35],
+           alpha = [1.0, 0.5, 0.1])
+cols # with alpha channel
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.dropalpha()
+cols # alpha channel removed
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# No effect if there is no alpha channel
+cols.dropalpha()
+cols
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example using sRGB colors
+cols = sRGB([0.01, 0.89, 0.56],
+            [0.25, 0.89, 0.02],
+            [0.65, 0.89, 0.23],
+            alpha = [1.0, 0.5, 0.1])
+cols # with alpha channel
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.dropalpha()
+cols # alpha channel removed
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example using HSV colors
+cols = HSV([218, 0, 336],
+           [1, 0, 1],
+           [0.65, 0.89, 0.56],
+           alpha = [1.0, 0.5, 0.1])
+cols # with alpha channel
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.dropalpha()
+cols # alpha channel removed
+```
+
+
+

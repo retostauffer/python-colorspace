@@ -30,6 +30,6 @@ From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with the corresponding
+<code>list</code>: Returns a list of `numpy.ndarray`s with the corresponding
 coordinates in the HLS color space (`[h, l, s]`). Same length as
 the inputs.

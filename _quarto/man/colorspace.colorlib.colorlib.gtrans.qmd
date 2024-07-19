@@ -32,4 +32,4 @@ a power transform with exponent `2.4`.
 
 ### Return
 
-Gamma corrected values, same length as input `u`.
+<code>numpy.ndarray</code>: Gamma corrected values, same length as input `u`.

@@ -14,7 +14,7 @@ point is used.
 
 ### Return
 
-Returns a dict with `X`, `Y`, `Z`, the white point specification
+<code>dict</code>: Returns a dict with `X`, `Y`, `Z`, the white point specification
 for the three dimensions.
 
 ### Examples
@@ -23,7 +23,7 @@ for the three dimensions.
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.colorlib import hexcols
+from colorspace import hexcols
 c = hexcols("#ff0000")
 c.get_whitepoint()
 ```

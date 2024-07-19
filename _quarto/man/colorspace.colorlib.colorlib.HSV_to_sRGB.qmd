@@ -2,7 +2,10 @@
 title: "Convert HSV to Standard RGB (sRGB)"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Takes a series of HSV coordinates and converts them
+to the sRGB color space.
 
 ### Usage
 
@@ -27,6 +30,6 @@ WARNING(long_description missing)
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with the corresponding
+<code>list</code>: Returns a list of `numpy.ndarray`s with the corresponding
 coordinates in the sRGB color space (`[r, g, b]`). Same length as
 the inputs.

@@ -12,4 +12,4 @@ Get length of palette.
 
 ### Return
 
-Integer, number of palettes in the object.
+<code>int</code>: Integer, number of palettes in the object.

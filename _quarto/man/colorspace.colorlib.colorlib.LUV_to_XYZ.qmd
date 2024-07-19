@@ -1,5 +1,5 @@
 ---
-title: "Convert CIELUV to CIELAB."
+title: "Convert CIELUV to CIELAB"
 ---
 
 ### Description
@@ -46,5 +46,5 @@ When not specified (all `None`) a default white point is used.</dd>
 
 ### Return
 
-Returns corresponding coordinates of CIE chromaticities as
+<code>list</code>: Returns corresponding coordinates of CIE chromaticities as
 a list of `numpy.ndarray`s of the same length as the inputs (`[L, A, B]`).

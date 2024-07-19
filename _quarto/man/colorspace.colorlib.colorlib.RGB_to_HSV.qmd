@@ -30,6 +30,6 @@ All r/g/b values in `[0., 1.]`, h in `[0., 360.]`, l and s in `[0., 1.]`.
 
 ### Return
 
-Returns a list of `numpy.ndarray`s with the corresponding
+<code>list</code>: Returns a list of `numpy.ndarray`s with the corresponding
 coordinates in the HSV color space (`[h, s, v]`). Same length as
 the inputs.
