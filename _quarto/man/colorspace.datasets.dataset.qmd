@@ -88,3 +88,7 @@ Data source and license: see data set description 'HarzTraffic'.
   </dt>
  <dd>Name of the data set to be returned.</dd>
 </dl>
+
+### Return
+
+The object returned depends on the data set (see above).

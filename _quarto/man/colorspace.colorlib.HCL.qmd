@@ -1,0 +1,133 @@
+---
+title: "Create polarLUV (HCL) Color Object"
+---
+
+### Description
+
+Creates a color object in the polar representation of the [CIELUV](colorspace.colorlib.CIELUV.qmd)
+color space, also known as the Hue-Chroma-Luminance (HCL) color space.
+Can be converted to: [CIEXYZ](colorspace.colorlib.CIEXYZ.qmd), [CIELUV](colorspace.colorlib.CIELUV.qmd),
+[CIELAB](colorspace.colorlib.CIELAB.qmd), [RGB](colorspace.colorlib.RGB.qmd), [sRGB](colorspace.colorlib.sRGB.qmd),
+[polarLAB](colorspace.colorlib.polarLAB.qmd), and [hexcols](colorspace.colorlib.hexcols.qmd).
+Not allowed (ambiguous) are transformations to [HSV](colorspace.colorlib.HSV.qmd) and [HLS](colorspace.colorlib.HLS.qmd).
+
+### Usage
+
+<pre><code class='language-python'>HCL(H, C, L, alpha=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HCL:H">H</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>Numeric value(s) for hue dimension (`[-360., 360.]`).</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HCL:C">C</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>Numeric value(s) for chroma dimension (`[0., 100.+]`).</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HCL:L">L</code><code class="argument-class">int, float, list, numpy.array</code>
+  </dt>
+ <dd>Numeric value(s) for luminance dimension (`[0., 100.]`).</dd>
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HCL:alpha">alpha</code><code class="argument-class">None, float, list, numpy.array</code>
+  </dt>
+ <dd>Numeric value(s) for the alpha
+channel (`[0., 1.]`) where `0.` equals full transparency, `1.` full
+opacity. If `None` (default) no transparency is added.</dd>
+</dl>
+
+### Methods
+
+<dl class="pyp-list method-list">
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.colors(fixup=True, rev=False)](colorspace.colorlib.HCL.colors.qmd)</code>
+    </dt>
+    <dd>Extract Hex Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.dropalpha()](colorspace.colorlib.HCL.dropalpha.qmd)</code>
+    </dt>
+    <dd>Remove Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.get(dimname=None)](colorspace.colorlib.HCL.get.qmd)</code>
+    </dt>
+    <dd>Extracting Color Coordinates</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.get_whitepoint()](colorspace.colorlib.HCL.get_whitepoint.qmd)</code>
+    </dt>
+    <dd>Get White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.hasalpha()](colorspace.colorlib.HCL.hasalpha.qmd)</code>
+    </dt>
+    <dd>Check for Alpha Channel</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.hclplot(**kwargs)](colorspace.colorlib.HCL.hclplot.qmd)</code>
+    </dt>
+    <dd>Palette Plot in HCL Space</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.length()](colorspace.colorlib.HCL.length.qmd)</code>
+    </dt>
+    <dd>Get Number of Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.set(**kwargs)](colorspace.colorlib.HCL.set.qmd)</code>
+    </dt>
+    <dd>Set Coordinates/Manipulate Colors</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.set_whitepoint(**kwargs)](colorspace.colorlib.HCL.set_whitepoint.qmd)</code>
+    </dt>
+    <dd>Set White Point</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.specplot(**kwargs)](colorspace.colorlib.HCL.specplot.qmd)</code>
+    </dt>
+    <dd>Color Spectrum Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.swatchplot(**kwargs)](colorspace.colorlib.HCL.swatchplot.qmd)</code>
+    </dt>
+    <dd>Palette Swatch Plot</dd>
+    <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+       <code>[HCL.to(to, fixup=True)](colorspace.colorlib.HCL.to.qmd)</code>
+    </dt>
+    <dd>Transform Color Space</dd>
+</dl>
+
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import polarLUV, HCL
+# Constructing color object with one single color via float
+polarLUV(100., 30, 50.)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# polarLUV is the HCL color space, this
+#  is equivalent to the command above.
+HCL(100., 30, 50.)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Constructing object via lists
+HCL([100, 80], [30, 50], [30, 80])
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Constructing object via numpy arrays
+from numpy import asarray
+HCL(asarray([100, 80]), asarray([30, 50]), asarray([30, 80]))
+```
+
+
+

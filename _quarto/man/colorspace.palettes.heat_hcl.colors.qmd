@@ -38,3 +38,37 @@ between `0.0` (full opacity) and `1.0` (full transparency)</dd>
  <dd>Currently allows for `rev = True` to reverse the colors and
 `colorobject = 'anything'` to get HCL colors as return.</dd>
 </dl>
+
+### Return
+
+<code>list</code>: Returns a list of str with `n` colors from the
+color palette.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import sequential_hcl, hexcols
+sequential_hcl().colors()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Different sequential palette
+cols = sequential_hcl("Rocket").colors(5)
+cols
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+hexcols(cols)
+```
+
+
+

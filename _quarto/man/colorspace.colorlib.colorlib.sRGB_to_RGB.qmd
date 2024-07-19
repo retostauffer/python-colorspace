@@ -2,7 +2,9 @@
 title: "Convert Standard RGB to RGB"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Converting colors from the Standard RGB color space to RGB.
 
 ### Usage
 

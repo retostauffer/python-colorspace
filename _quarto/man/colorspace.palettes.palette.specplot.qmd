@@ -31,6 +31,7 @@ Plotting the spectrum of the current color palette.
 #| warning: true
 #| error: true
 from colorspace import palette, diverging_hcl
+# Default diverging HCL palette
 pal = palette(diverging_hcl().colors(7))
 pal.specplot()
 pal.specplot(rgb = False)

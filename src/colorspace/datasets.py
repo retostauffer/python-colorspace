@@ -175,8 +175,8 @@ def dataset(name):
     Args:
         name (str): Name of the data set to be returned.
 
-    Return:
-    Depends on the data set (see above).
+    Returns:
+        The object returned depends on the data set (see above).
     """
 
 

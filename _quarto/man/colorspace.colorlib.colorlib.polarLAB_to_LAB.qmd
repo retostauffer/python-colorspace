@@ -10,7 +10,7 @@ Inverse function of [LAB_to_polarLAB](colorspace.colorlib.colorlib.LAB_to_polarL
 
 ### Usage
 
-<pre><code class='language-python'>colorlib.polarLAB_to_LAB(L, A, B)</code></pre>
+<pre><code class='language-python'>colorlib.polarLAB_to_LAB(L, C, H)</code></pre>
 
 ### Arguments
 
@@ -20,13 +20,13 @@ Inverse function of [LAB_to_polarLAB](colorspace.colorlib.colorlib.LAB_to_polarL
   </dt>
  <dd>Values for the polar `L` dimension.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:A">A</code><code class="argument-class">numpy.ndarray</code>
+   <code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:C">C</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>Values for the polar `A` dimension.</dd>
+ <dd>Values for the polar `C` dimension.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:B">B</code><code class="argument-class">numpy.ndarray</code>
+   <code id="colorspace.colorlib.colorlib.polarLAB_to_LAB:H">H</code><code class="argument-class">numpy.ndarray</code>
   </dt>
- <dd>Values for the polar `B` dimension.</dd>
+ <dd>Values for the polar `H` dimension.</dd>
 </dl>
 
 ### Return

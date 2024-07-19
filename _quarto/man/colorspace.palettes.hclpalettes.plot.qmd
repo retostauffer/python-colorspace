@@ -1,8 +1,11 @@
 ---
-title: "Create swatchplot."
+title: "Palette Swatch Plot"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Interfacing the main [swatchplot](colorspace.swatchplot.swatchplot.qmd)
+function. Plotting the spectrum of the current color palette.
 
 ### Usage
 
@@ -14,13 +17,5 @@ WARNING(long_description missing)
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.hclpalettes.plot:n">n</code><code class="argument-class">int</code>
   </dt>
- <dd>Positive int, number of colors.</dd>
+ <dd>Number of colors, defaults to 7.</dd>
 </dl>
-
-### Raises
-
-<ul class="python-raises">
-<li><code class="text-warning">TypeError</code>: If &#x27;n&#x27; is not an int.
-<li><code class="text-warning">ValueError</code>: If &#x27;n&#x27; is not positive.
-</ul>
-

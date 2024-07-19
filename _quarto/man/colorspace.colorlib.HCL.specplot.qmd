@@ -1,0 +1,51 @@
+---
+title: "Color Spectrum Plot"
+---
+
+### Description
+
+Visualization of the spectrum of this color object.
+Internally calls [specplot](colorspace.specplot.specplot.qmd),
+additional arguments to this main function can be forwarded via the
+`**kwargs` argument.
+
+### Usage
+
+<pre><code class='language-python'>HCL.specplot(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HCL.specplot:**kwargs">**kwargs</code>
+  </dt>
+ <dd>Additional named arguments forwarded to
+[specplot](colorspace.specplot.specplot.qmd).</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example using HCL colors
+from colorspace import HCL, hexcols
+cols = HCL(H = [220, 196, 172, 148, 125],
+           C = [ 44,  49,  55,  59,  50],
+           L = [ 49,  61,  72,  82,  90])
+cols.specplot(figsize = (8, 4));
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example using hex colors
+cols = hexcols(["#0FCFC0", "#9CDED6", "#D5EAE7",
+                "#F1F1F1", "#F3E1EB", "#F6C4E1", "#F79CD4"])
+cols.specplot(rgb = True, hcl = True, palette = True)
+```
+
+
+

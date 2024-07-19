@@ -2,7 +2,10 @@
 title: "Get Palette Colors"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Returns the colors of the current palette as a list
+of hex colors (`str`).
 
 ### Usage
 
@@ -24,3 +27,18 @@ WARNING(long_description missing)
 ### Return
 
 <code>list</code>: List of all colors of the palette.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import palette
+pal = palette(["#11C638", "#E2E2E2", "#EF9708"],
+              name = "My Custom Palette")
+pal.colors()
+```
+
+
+

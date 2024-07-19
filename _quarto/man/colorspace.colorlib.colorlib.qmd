@@ -98,7 +98,7 @@ all extend this class. These are
     </dt>
     <dd>Convert Hex Colors to Standard RGB (sRGB)</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-       <code>[colorlib.polarLAB_to_LAB(L, A, B)](colorspace.colorlib.colorlib.polarLAB_to_LAB.qmd)</code>
+       <code>[colorlib.polarLAB_to_LAB(L, C, H)](colorspace.colorlib.colorlib.polarLAB_to_LAB.qmd)</code>
     </dt>
     <dd>Convert polarLAB to CIELAB</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">

@@ -5,7 +5,7 @@ title: "Palette Swatch Plot"
 ### Description
 
 Visualization the color palette of this color object.
-Internally calls [specplot](colorspace.specplot.specplot.qmd),
+Internally calls [swatchplot](colorspace.swatchplot.swatchplot.qmd),
 additional arguments to this main function can be forwarded via the
 `**kwargs` argument.
 

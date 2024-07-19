@@ -10,4 +10,37 @@ WARNING(long_description missing)
 
 ### Return
 
-None, str: Name of the palette (if set).
+Returns `None` if the palette is unnamed, else
+the name of the palette as `str`.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import palette
+# Unnamed palette
+pal = palette(["#11C638", "#E2E2E2", "#EF9708"])
+pal.name()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+type(pal.name())
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Named palette
+pal = palette(["#11C638", "#E2E2E2", "#EF9708"],
+              name = "My Custom Palette")
+pal.name()
+```
+
+
+

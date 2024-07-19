@@ -31,9 +31,9 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
             useful for png figures having an alpha channel.
 
     Returns:
-        matplotlib.figure.Figure, str: If `output = None` the figure
-        handler is returned, else the return of the function is identical
-        to `output`; the figure which has just been created.
+        Returns a `matplotlib.figure.Figure` object if `output = None`, else
+        the return of the function is identical to `output`; the figure which
+        has just been created.
 
     Example:
 

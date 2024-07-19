@@ -54,9 +54,9 @@ useful for png figures having an alpha channel.</dd>
 
 ### Return
 
-matplotlib.figure.Figure, str: If `output = None` the figure
-handler is returned, else the return of the function is identical
-to `output`; the figure which has just been created.
+Returns a `matplotlib.figure.Figure` object if `output = None`, else
+the return of the function is identical to `output`; the figure which
+has just been created.
 
 ### Examples
 

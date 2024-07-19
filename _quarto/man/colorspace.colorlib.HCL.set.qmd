@@ -1,0 +1,62 @@
+---
+title: "Set Coordinates/Manipulate Colors"
+---
+
+### Description
+
+Allows to manipulate current colors. The named input arguments
+have to fulfil a specific set or requirements. If not, the function
+raises exceptions. The requirements:
+
+* Dimension has to exist
+* New data/values must be of same length and type as the existing ones
+
+### Usage
+
+<pre><code class='language-python'>HCL.set(**kwargs)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HCL.set:**kwargs">**kwargs</code>
+  </dt>
+ <dd>Named arguments. The key is the name of the dimension to
+be changed, the value an object which fulfills the requirements
+(see description of this method)</dd>
+</dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Example shown for HCL colors, works the same
+# for all other color objects (sRGB, hexcols, ...)
+from colorspace import HCL
+cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30])
+cols
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.set(H = [150, 150, 30])
+cols
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">ValueError</code>: If the dimension does not exist.
+<li><code class="text-warning">ValueError</code>: If the new data can&#x27;t be converted into
+`numpy.array` (is done automatically if needed).
+<li><code class="text-warning">ValueError</code>: If new data has wrong length (does not match the
+number of colors/length of current values).
+</ul>
+

@@ -69,7 +69,7 @@ type(x)
 #| echo: true
 #| warning: true
 #| error: true
-# Convert from sRGB to HCL
+# Convert from sRGB to hex
 x.to("hex")
 x
 ```

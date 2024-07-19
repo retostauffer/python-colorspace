@@ -32,6 +32,24 @@ between `0.0` (full opacity) and `1.0` (full transparency)</dd>
 `colorobject = 'anything'` to get HCL colors as return.</dd>
 </dl>
 
+### Return
+
+<code>list</code>: Returns a list of str with `n` colors from the
+color palette.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import rainbow
+rainbow().colors(4)
+```
+
+
+
+
 ### Raises
 
 <ul class="python-raises">

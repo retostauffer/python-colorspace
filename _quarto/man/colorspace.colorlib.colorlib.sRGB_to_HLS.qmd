@@ -5,7 +5,7 @@ title: "Convert Standard RGB (sRGB) to HLS"
 ### Description
 
 All r/g/b values in `[0., 1.]`, h in `[0., 360.]`, l and s in `[0., 1.]`.
-From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
+From: <http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion>.
 
 ### Usage
 

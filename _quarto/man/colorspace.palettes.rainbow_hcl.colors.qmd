@@ -38,3 +38,30 @@ between `0.0` (full opacity) and `1.0` (full transparency)</dd>
  <dd>If any `colorobject =` argument is specified, HCL colors
 will be returned.</dd>
 </dl>
+
+### Return
+
+<code>list</code>: Returns a list of str with `n` colors from the
+color palette.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import qualitative_hcl, rainbow_hcl
+qualitative_hcl("Dark 3").colors()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Same for rainbow_hcl which is a special
+# version of the qualitative HCL color palette
+rainbow_hcl().colors(4)
+```
+
+
+

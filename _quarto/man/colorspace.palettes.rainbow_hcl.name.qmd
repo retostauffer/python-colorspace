@@ -4,7 +4,7 @@ title: "Get Palette Name"
 
 ### Description
 
-Get name of color palette.
+Get name (generic) of color palette.
 
 ### Usage
 
@@ -12,4 +12,42 @@ Get name of color palette.
 
 ### Return
 
-Returns the name of the palette, str.
+<code>str</code>: Returns the name of the palette.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import *
+pal1 = diverging_hcl()
+pal1.name()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+pal2 = sequential_hcl("ag_Sunset")
+pal2.name()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+pal3 = heat_hcl()
+pal3.name()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+pal4 = sequential_hcl("Rocket")
+pal4.name()
+```
+
+
+

@@ -1,0 +1,46 @@
+---
+title: "Check for Alpha Channel"
+---
+
+### Description
+
+Helper method to check if the current color object has
+an alpha channel or not.
+
+### Usage
+
+<pre><code class='language-python'>HCL.hasalpha()</code></pre>
+
+### Return
+
+<code>bool</code>: `True` if alpha values are present, `False` if not.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import sRGB
+x1 = sRGB(R = 0.5, G = 0.1, B = 0.3)
+x1
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+x2 = sRGB(R = 0.5, G = 0.1, B = 0.3, alpha = 0.5)
+x2
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Checking both color objects for alpha channel
+[x1.hasalpha(), x2.hasalpha()]
+```
+
+
+

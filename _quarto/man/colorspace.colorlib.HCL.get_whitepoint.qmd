@@ -1,0 +1,32 @@
+---
+title: "Get White Point"
+---
+
+### Description
+
+This method returns the definition of the white point in use. If not
+explicitly set via the [set_whitepoint](colorspace.colorlib.HCL.set_whitepoint.qmd) method, a default white
+point is used.
+
+### Usage
+
+<pre><code class='language-python'>HCL.get_whitepoint()</code></pre>
+
+### Return
+
+<code>dict</code>: Returns a dict with `X`, `Y`, `Z`, the white point specification
+for the three dimensions.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import hexcols
+c = hexcols("#ff0000")
+c.get_whitepoint()
+```
+
+
+

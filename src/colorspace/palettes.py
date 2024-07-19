@@ -133,11 +133,33 @@ class palette:
     def rename(self, name):
         """Rename Custom Palette
 
+        Allows to set, remplace, or remove the name of a palette.
+
         Args:
             name (None, str): new name for the palette.
 
         Raises:
             ValueError: If input 'name' is not of type str.
+
+        Examples:
+
+            >>> from colorspace import palette
+            >>> #: Starting from an unnamed palette
+            >>> pal = palette(["#11C638", "#E2E2E2", "#EF9708"])
+            >>> pal.name() # Returns None
+            >>>
+            >>> #: Naming the palette
+            >>> pal.rename("Custom palette")
+            >>> pal.name()
+            >>>
+            >>> #: Rename
+            >>> pal.rename("Modified palette name")
+            >>> pal.name()
+            >>>
+            >>> #: Unname (replace current name with None)
+            >>> pal.rename(None)
+            >>> pal.name() # Returns None
+ 
         """
         if not isinstance(name, (type(None), str)):
             raise ValueError("argument `name` must be None or a str")
@@ -147,12 +169,28 @@ class palette:
         """Get Palette Name
 
         Returns:
-            None, str: Name of the palette (if set).
+            Returns `None` if the palette is unnamed, else
+            the name of the palette as `str`.
+
+        Examples:
+            >>> from colorspace import palette
+            >>> # Unnamed palette
+            >>> pal = palette(["#11C638", "#E2E2E2", "#EF9708"])
+            >>> pal.name()
+            >>> #:
+            >>> type(pal.name())
+            >>> #: Named palette
+            >>> pal = palette(["#11C638", "#E2E2E2", "#EF9708"],
+            >>>               name = "My Custom Palette")
+            >>> pal.name()
         """
         return self._name
 
     def colors(self, *args, **kwargs):
         """Get Palette Colors
+
+        Returns the colors of the current palette as a list
+        of hex colors (`str`).
 
         Args:
             *args: Ignored.
@@ -160,6 +198,12 @@ class palette:
 
         Returns:
             list: List of all colors of the palette.
+
+        Examples:
+            >>> from colorspace import palette
+            >>> pal = palette(["#11C638", "#E2E2E2", "#EF9708"],
+            >>>               name = "My Custom Palette")
+            >>> pal.colors()
         """
         return self._colors
 
@@ -206,6 +250,7 @@ class palette:
         Example:
 
             >>> from colorspace import palette, diverging_hcl
+            >>> # Default diverging HCL palette
             >>> pal = palette(diverging_hcl().colors(7))
             >>> pal.specplot()
             >>> pal.specplot(rgb = False)
@@ -388,7 +433,7 @@ class defaultpalette:
         Get name of color palette.
 
         Returns:
-            Returns the name (`str`) of the palette.
+            str: Returns the name of the palette.
         """
         return self._name_
 
@@ -497,7 +542,7 @@ class defaultpalette:
             n (int): Number of colors to be returned, defaults to 11.
 
         Returns:
-            Returns a `list` object with all parameter names.
+            list: Returns a list of str with `n` colors from the palette.
         """
 
         # Dynamically load color function
@@ -822,14 +867,13 @@ class hclpalettes:
 
 
     def plot(self, n = 5):
-        """Create swatchplot.
+        """Palette Swatch Plot
+
+        Interfacing the main :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`
+        function. Plotting the spectrum of the current color palette.
 
         Args:
-            n (int): Positive int, number of colors.
-
-        Raises:
-            TypeError: If 'n' is not an int.
-            ValueError: If 'n' is not positive.
+            n (int): Number of colors, defaults to 7.
         """
         if not isinstance(n, int): raise TypeError("argument `n` must be int")
         if not n > 0:              raise ValueError("argument `n` must be positive")
@@ -876,10 +920,22 @@ class hclpalette:
 
         Example:
 
+            >>> # Default diverging HCL palette
             >>> from colorspace import diverging_hcl
             >>> pal = diverging_hcl()
             >>> pal.specplot()
-            >>> pal.specplot(rgb = False)
+            >>> #:
+            >>> pal.specplot(rgb = True)
+            >>>
+            >>> #: Default sequential HCL palette
+            >>> from colorspace import sequential_hcl
+            >>> pal = sequential_hcl()
+            >>> pal.specplot(figsize = (8, 4))
+            >>>
+            >>> #: Default qualitative HCL palette
+            >>> from colorspace import qualitative_hcl
+            >>> pal = qualitative_hcl()
+            >>> pal.specplot(figsize = (8, 4), hcl = False, rgb = True)
         """
 
         from .specplot import specplot
@@ -899,10 +955,19 @@ class hclpalette:
 
         Example:
 
+            >>> # Exemplarily for diverging_hcl, works for
+            >>> # all other HCL palettes as well.
             >>> from colorspace import diverging_hcl
             >>> pal = diverging_hcl()
-            >>> pal.swatchplot()
-            >>> pal.swatchplot(n = 21)
+            >>> pal.swatchplot(figsize = (8, 2))
+            >>> #: Handing over a series of additional arguments
+            >>> # forwarded to swatchplot()
+            >>> pal.swatchplot(n = 21, figsize = (8, 2),
+            >>>                show_names = False, cvd = "deutan")
+            >>> #:
+            >>> pal.swatchplot(n = 21, figsize = (8, 2),
+            >>>                show_names = False,
+            >>>                cvd = ["protan", "deutan", "tritan", "desaturate"])
         """
 
         from .swatchplot import swatchplot
@@ -935,10 +1000,24 @@ class hclpalette:
     def name(self):
         """Get Palette Name
 
-        Get name of color palette.
+        Get name (generic) of color palette.
 
         Returns:
-            Returns the name of the palette, str.
+            str: Returns the name of the palette.
+
+        Examples:
+            >>> from colorspace import *
+            >>> pal1 = diverging_hcl()
+            >>> pal1.name()
+            >>> #:
+            >>> pal2 = sequential_hcl("ag_Sunset")
+            >>> pal2.name()
+            >>> #:
+            >>> pal3 = heat_hcl()
+            >>> pal3.name()
+            >>> #:
+            >>> pal4 = sequential_hcl("Rocket")
+            >>> pal4.name()
         """
         return self._name
 
@@ -958,11 +1037,16 @@ class hclpalette:
 
         Example:
 
-            >>> from colorspace.palettes import rainbow_hcl
+            >>> # Exemplarily for rainbow_hcl (works for the
+            >>> # other HCL palettes as well)
+            >>> from colorspace import rainbow_hcl
             >>> a = rainbow_hcl()
             >>> a.get("h1")
+            >>> #:
             >>> a.get("c1")
+            >>> #:
             >>> a.get("l1")
+            >>> #:
             >>> a.get("not_defined")
         """
         if not key in self.settings.keys():
@@ -1494,6 +1578,17 @@ class qualitative_hcl(hclpalette):
             **kwargs: If any `colorobject =` argument is specified, HCL colors
                 will be returned.
 
+        Returns:
+            list: Returns a list of str with `n` colors from the
+            color palette.
+
+        Examples:
+            >>> from colorspace import qualitative_hcl, rainbow_hcl
+            >>> qualitative_hcl("Dark 3").colors()
+            >>> #: Same for rainbow_hcl which is a special
+            >>> # version of the qualitative HCL color palette
+            >>> rainbow_hcl().colors(4)
+
         TODO: Check kwargs and where the current version is used or if it is no
         longer needed; else think about revamping this functionality.
         """
@@ -1839,6 +1934,20 @@ class diverging_hcl(hclpalette):
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
+        Returns:
+            list: Returns a list of str with `n` colors from the
+            color palette.
+
+
+        Examples:
+            >>> from colorspace import diverging_hcl, hexcols
+            >>> diverging_hcl().colors()
+            >>> #: Different diverging palette
+            >>> cols = diverging_hcl("Green-Orange").colors(5)
+            >>> cols
+            >>> #:
+            >>> hexcols(cols)
+
         TODO: Alpha handling should work, thouhg at the end HCL.colors()
         ignores the stored alpha values.
         """
@@ -2147,6 +2256,11 @@ class divergingx_hcl(hclpalette):
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
+
+        Returns:
+            list: Returns a list of str with `n` colors from the
+            color palette.
+
         TODO: Check kwargs and where the current version is used or if it is no
         longer needed; else think about revamping this functionality.
 
@@ -2422,6 +2536,19 @@ class sequential_hcl(hclpalette):
                 between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
+
+        Returns:
+            list: Returns a list of str with `n` colors from the
+            color palette.
+
+        Examples:
+            >>> from colorspace import sequential_hcl, hexcols
+            >>> sequential_hcl().colors()
+            >>> #: Different sequential palette
+            >>> cols = sequential_hcl("Rocket").colors(5)
+            >>> cols
+            >>> #:
+            >>> hexcols(cols)
 
         TODO: Check kwargs and where the current version is used or if it is no
         longer needed; else think about revamping this functionality.
@@ -2756,6 +2883,10 @@ class diverging_hsv(hclpalette):
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
 
+        Returns:
+            list: Returns a list of str with `n` colors from the
+            color palette.
+
         TODO: Check kwargs and where the current version is used or if it is no
         longer needed; else think about revamping this functionality.
         """
@@ -2849,6 +2980,8 @@ class rainbow(hclpalette):
         >>> p.swatchplot(n = 5, show_names = False, figsize = (5.5, 0.5));
         >>> #:
         >>> p.swatchplot(n = 10, show_names = False, figsize = (5.5, 0.5));
+        >>> #:
+        >>> p.specplot(rgb = True, figsize = (8, 6))
 
     Raises:
         TypeError: If `s` or `v` are not float or int.
@@ -2907,6 +3040,14 @@ class rainbow(hclpalette):
                 between `0.0` (full opacity) and `1.0` (full transparency)
             **kwargs: Currently allows for `rev = True` to reverse the colors and
                 `colorobject = 'anything'` to get HCL colors as return.
+
+        Returns:
+            list: Returns a list of str with `n` colors from the
+            color palette.
+
+        Examples:
+            >>> from colorspace import rainbow
+            >>> rainbow().colors(4)
 
         TODO: Check kwargs and where the current version is used or if it is no
         longer needed; else think about revamping this functionality.

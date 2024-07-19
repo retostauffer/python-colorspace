@@ -2,7 +2,9 @@
 title: "Rename Custom Palette"
 ---
 
-WARNING(long_description missing)
+### Description
+
+Allows to set, remplace, or remove the name of a palette.
 
 ### Usage
 
@@ -16,6 +18,54 @@ WARNING(long_description missing)
   </dt>
  <dd>new name for the palette.</dd>
 </dl>
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import palette
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Starting from an unnamed palette
+pal = palette(["#11C638", "#E2E2E2", "#EF9708"])
+pal.name() # Returns None
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Naming the palette
+pal.rename("Custom palette")
+pal.name()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Rename
+pal.rename("Modified palette name")
+pal.name()
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Unname (replace current name with None)
+pal.rename(None)
+pal.name() # Returns None
+```
+
+
+
 
 ### Raises
 

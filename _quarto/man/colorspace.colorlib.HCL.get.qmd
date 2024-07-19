@@ -1,0 +1,91 @@
+---
+title: "Extracting Color Coordinates"
+---
+
+### Description
+
+Allows to extract the current values of one or multiple dimensions
+for all colors of this color object. The names of the coordinates varies
+between different color spaces.
+
+### Usage
+
+<pre><code class='language-python'>HCL.get(dimname=None)</code></pre>
+
+### Arguments
+
+<dl class="pyp-list param-list">
+  <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
+   <code id="colorspace.colorlib.HCL.get:dimname">dimname</code><code class="argument-class">None, str</code>
+  </dt>
+ <dd>If `None` (default) values of all coordinates
+of the current color object are returned. A specific coordinate
+can be specified if needed.</dd>
+</dl>
+
+### Return
+
+Returns a `numpy.ndarray` if coordinates of one specific dimension are
+requested, else a `dict` of arrays.
+
+### Examples
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+from colorspace import HCL, sRGB, hexcols
+# Example using HCL color object with alpha channel
+cols = HCL([260, 80, 30], [80, 0, 80], [30, 90, 30], [1, 0.6, 0.2])
+cols.get("H") # Specific dimension
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.get("alpha") # Alpha (if existing)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.get() # All dimensions
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Convert colors to sRGB
+cols.to("sRGB")
+cols.get("R") # Specific dimension
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+cols.get() # All dimensions
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Convert to hexcols
+cols.to("hex")
+cols.get("hex_")
+```
+
+
+
+
+### Raises
+
+<ul class="python-raises">
+<li><code class="text-warning">TypeError</code>: If argument `dimname` is neither None or str.
+<li><code class="text-warning">ValueError</code>: If the dimension specified on `dimnames` does not exist.
+</ul>
+

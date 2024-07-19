@@ -32,11 +32,31 @@ returned.
 #| echo: true
 #| warning: true
 #| error: true
-from colorspace.palettes import rainbow_hcl
+# Exemplarily for rainbow_hcl (works for the
+# other HCL palettes as well)
+from colorspace import rainbow_hcl
 a = rainbow_hcl()
 a.get("h1")
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
 a.get("c1")
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
 a.get("l1")
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
 a.get("not_defined")
 ```
 

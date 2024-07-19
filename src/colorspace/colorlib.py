@@ -299,6 +299,8 @@ class colorlib:
     def sRGB_to_RGB(self, R, G, B, gamma = 2.4):
         """Convert Standard RGB to RGB
 
+        Converting colors from the Standard RGB color space to RGB.
+
         Args:
             R (numpy.ndarray): Intensities for red (`[0., 1.]`).
             G (numpy.ndarray): Intensities for green (`[0., 1.]`).
@@ -940,7 +942,7 @@ class colorlib:
         """Convert Standard RGB (sRGB) to HLS
 
         All r/g/b values in `[0., 1.]`, h in `[0., 360.]`, l and s in `[0., 1.]`.
-        From: http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion.
+        From: <http://wiki.beyondunreal.com/wiki/RGB_To_HLS_Conversion>.
 
         Args:
             r (numpy.ndarray): Intensities for red (`[0., 1.]`)
@@ -1248,8 +1250,8 @@ class colorlib:
     def sRGB_to_hex(self, r, g, b, fixup = True):
         """Convert Standard RGB (sRGB) to Hex Colors
 
-        Converting one (or multiple) colors defined by their red, green, and blue
-        coordinates from the RGB color space to hex colors.
+        Converting one (or multiple) colors defined by their red, green, and
+        blue coordinates from the Standard RGB color space to hex colors.
 
         Args:
             r (numpy.ndarray): Intensities for red (`[0., 1.,]`).
@@ -2018,7 +2020,7 @@ class colorobject:
         """Palette Swatch Plot
 
         Visualization the color palette of this color object.
-        Internally calls :py:func:`specplot <colorspace.specplot.specplot>`,
+        Internally calls :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`,
         additional arguments to this main function can be forwarded via the
         `**kwargs` argument.
 
@@ -2406,7 +2408,7 @@ class polarLUV(colorobject):
             >>> x
             >>> #:
             >>> type(x)
-            >>> #: Convert from sRGB to HCL
+            >>> #: Convert from sRGB to hex
             >>> x.to("hex")
             >>> x
             >>> #: Convert back to HCL colors.
@@ -2539,7 +2541,7 @@ class CIELUV(colorobject):
             >>> x
             >>> #:
             >>> type(x)
-            >>> #: Convert from sRGB to HCL
+            >>> #: Convert from sRGB to hex
             >>> x.to("hex")
             >>> x
             >>> #: Convert back to CIELUV colors.
@@ -2669,7 +2671,7 @@ class CIEXYZ(colorobject):
             >>> x
             >>> #:
             >>> type(x)
-            >>> #: Convert from sRGB to HCL
+            >>> #: Convert from sRGB to hex
             >>> x.to("hex")
             >>> x
             >>> #: Convert back to CIEXYZ colors.
@@ -2778,18 +2780,39 @@ class RGB(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import RGB
+            >>> x = RGB([0.070, 0.520, 0.887, 0.799],
+            >>>         [0.012, 0.015, 0.198, 0.651],
+            >>>         [0.283, 0.323, 0.138, 0.323])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to CIEXYZ
+            >>> x.to("CIELUV")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert from CIELUV to HCL
+            >>> x.to("HCL")
+            >>> x
+            >>> # Convert back to RGB
+            >>> x.to("RGB")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -2895,18 +2918,39 @@ class sRGB(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import sRGB
+            >>> x = sRGB([0.294, 0.749, 0.949, 0.905],
+            >>>          [0.113, 0.129, 0.482, 0.827],
+            >>>          [0.568, 0.603, 0.407, 0.603])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to CIEXYZ
+            >>> x.to("CIELUV")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert from CIELUV to HCL
+            >>> x.to("HCL")
+            >>> x
+            >>> #: Convert back to Standard RGB colors.
+            >>> x.to("sRGB")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -3115,18 +3159,40 @@ class polarLAB(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import polarLAB
+            >>> x = polarLAB([ 25,  45, 65, 85],
+            >>>              [ 72,  75, 54, 31],
+            >>>              [310, 338, 36, 92])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to sRGB
+            >>> x.to("sRGB")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert from sRGB to hex
+            >>> x.to("hex")
+            >>> x
+            >>> #: Convert back to polarLAB colors.
+            >>> # Round-off errors due to conversion to 'hex'.
+            >>> x.to("polarLAB")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -3227,18 +3293,36 @@ class HSV(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import HSV
+            >>> x = HSV([ 264, 314,     8,   44],
+            >>>         [0.80, 0.83, 0.57, 0.33],
+            >>>         [0.57, 0.75, 0.95, 0.91])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to HLS
+            >>> x.to("HLS")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to HSV
+            >>> x.to("HSV")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -3327,18 +3411,36 @@ class HLS(colorobject):
         """Transform Color Space
 
         Allows to transform the current object into a different color space,
-        if possible.
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
 
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"hex"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import HLS
+            >>> x = HLS([264, 314, 8, 44],
+            >>>         [0.34, 0.44, 0.68, 0.75],
+            >>>         [0.67, 0.71, 0.84, 0.62])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to HSV
+            >>> x.to("HSV")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to HLS
+            >>> x.to("HLS")
+            >>> x
+            >>> #: Extracting hex colors (returns list of str)
+            >>> x.colors()
+
         """
         self._check_if_allowed_(to)
         from . import colorlib
@@ -3443,16 +3545,37 @@ class hexcols(colorobject):
         Allows to transform the current object into a different color space,
         if possible.
 
+        Allows to transform the current object into a different color space,
+        if possible. Converting the colors of the current object into
+        another color space. After calling this method, the object
+        will be of a different class.
+
         Args:
             to (str): Name of the color space into which the colors should be
-                converted (e.g., `CIEXYZ`, `HCL`, `hex`, `RGB`, ...)
+                converted (e.g., `"CIEXYZ"`, `"HCL"`, `"HSL"`, `"sRGB"`, ...).
             fixup (bool): Whether or not colors outside the defined rgb color space
-                should be corrected if necessary, defaults to True.
+                should be corrected if necessary, defaults to `True`.
 
-        Returns:
-            No return, converts the object into a new color space and modifies
-            the underlying object. After calling this method the object will
-            be of a different class.
+        Examples:
+
+            >>> from colorspace import hexcols
+            >>> x = hexcols(["#4B1D91", "#BF219A", "#F27B68", "#E7D39A"])
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert colors to sRGB
+            >>> x.to("sRGB")
+            >>> x
+            >>> #:
+            >>> type(x)
+            >>> #: Convert from sRGB to HCL
+            >>> x.to("HCL")
+            >>> x
+            >>> #: Convert back to hex colors.
+            >>> # Round-off errors due to conversion to 'hex'.
+            >>> x.to("hex")
+            >>> x
+
         """
         self._check_if_allowed_(to)
         from . import colorlib

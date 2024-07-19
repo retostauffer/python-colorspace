@@ -52,7 +52,7 @@ Only used if `files = None`.</dd>
     <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
        <code>[hclpalettes.plot(n=5)](colorspace.palettes.hclpalettes.plot.qmd)</code>
     </dt>
-    <dd>Create swatchplot.</dd>
+    <dd>Palette Swatch Plot</dd>
 </dl>
 
 

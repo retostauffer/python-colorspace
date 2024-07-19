@@ -34,10 +34,37 @@ Plotting the spectrum of the current color palette.
 #| echo: true
 #| warning: true
 #| error: true
+# Default diverging HCL palette
 from colorspace import diverging_hcl
 pal = diverging_hcl()
 pal.specplot()
-pal.specplot(rgb = False)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+pal.specplot(rgb = True)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Default sequential HCL palette
+from colorspace import sequential_hcl
+pal = sequential_hcl()
+pal.specplot(figsize = (8, 4))
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Default qualitative HCL palette
+from colorspace import qualitative_hcl
+pal = qualitative_hcl()
+pal.specplot(figsize = (8, 4), hcl = False, rgb = True)
 ```
 
 
