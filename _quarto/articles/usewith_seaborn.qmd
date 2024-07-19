@@ -12,8 +12,8 @@ color maps based on the _colorspace_ package.
 The following example shows the number of motorbikes recorded by an automatic
 traffic counting station in the Harz Mountains (Germany), an region very
 popular with bikers. The number of bikes (y-axis) is plotted against the
-daily mean temperature (x-axis) and colored by season using custom colors from the
-HCL-based qualitative color palette "Dark 3".
+daily mean temperature (x-axis) and colored by season using custom colors from a
+modified version of the HCL-based qualitative color palette "Dark 3".
 
 ```{python seaborn_example_1}
 #| warning: true
@@ -27,12 +27,14 @@ import seaborn as sns
 # Loading HarzTraffic data set
 df = dataset("HarzTraffic")       
 
+# Palette (modified "Dark 3" sequential palette)
+pal = qualitative_hcl("Dark 3", h1 = -150, h2 = 120)
 
 # Creating plot
 fig, ax = plt.subplots(1, 1, figsize = (8, 4))
 sns.scatterplot(data = df, x = "temp", y = "bikes",
                 hue="season", ax = ax,
-                palette = qualitative_hcl("Dark 3").colors(4))
+                palette = pal.colors(4))
 plt.title("Number of bikes given daily mean temperature")
 plt.xlabel("temperature [deg C]")
 plt.show() 

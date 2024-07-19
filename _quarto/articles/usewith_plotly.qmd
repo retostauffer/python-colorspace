@@ -12,8 +12,8 @@ color maps based on the _colorspace_ package.
 The following example shows the number of motorbikes recorded by an automatic
 traffic counting station in the Harz Mountains (Germany), an region very
 popular with bikers. The number of bikes (y-axis) is plotted against the daily               
-mean temperature (x-axis) and colored by season using custom colors from the
-HCL-based qualitative color palette "Dark 3".
+mean temperature (x-axis) and colored by season using custom colors from a
+modified version of the HCL-based qualitative color palette "Dark 3".
 
 ```{python plotly_example_1}
 #| warning: true
@@ -26,11 +26,14 @@ import plotly.express as px
 # Loading HarzTraffic data set
 df = dataset("HarzTraffic")       
 
+# Palette (modified "Dark 3" sequential palette)
+pal = qualitative_hcl("Dark 3", h1 = -150, h2 = 120)
+
 # Creating plot
 fig = px.scatter(df, x = "temp", y = "bikes", color = "season",
         labels = {"temp": "daily mean temperature [deg C]", "bikes": "number of bikes"},
         title = "Number of bikes per day given season<br>Sonnenberg, Harz, Germany",    
-        color_discrete_sequence = qualitative_hcl("Dark 3")(4))         
+        color_discrete_sequence = pal.colors(4))
 fig.update_traces(marker = dict(size = 7))   
 fig.update_layout(template = "plotly_white")
 fig.show()

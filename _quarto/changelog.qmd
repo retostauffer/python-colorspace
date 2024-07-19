@@ -15,6 +15,7 @@ suggestions for improvement are very welcome via the GitHub issues.
 
 ## Version 0.4.5 (next release)
 
+* Leaving beta, changing to Development Status :: 5 - Production/Stable
 * Added swatchplot support for `matplotlib.colors.ListedColormap`s
 * (ongoing) Extending pytests to adjust for changes in the software.
 
