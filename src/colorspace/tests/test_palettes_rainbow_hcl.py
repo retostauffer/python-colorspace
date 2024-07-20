@@ -3,8 +3,6 @@
 import pytest
 from pytest import raises
 import numpy as np
-
-import matplotlib.pyplot as plt
 from colorspace import rainbow_hcl, hcl_palettes
 
 # All parameters

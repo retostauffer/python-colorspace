@@ -177,7 +177,6 @@ def check_hex_colors(colors):
         ValueError: If at least one of the colors is an invalid hex color.
     """
     from re import match, compile
-    from matplotlib.colors import to_hex
     from numpy import all, repeat, ndarray, nan, isnan
     from .colorlib import colorobject
 
@@ -213,6 +212,7 @@ def check_hex_colors(colors):
             if x[0] == "#":
                 raise ValueError(f"string \"{x}\" is not a valid 3/6/8 digit hex color")
             try:
+                from matplotlib.colors import to_hex
                 x = to_hex(x)
             except:
                 raise ValueError(f"string \"{x}\" could not be converted to valid hex color")

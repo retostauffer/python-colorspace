@@ -5,11 +5,14 @@ from pytest import raises
 import colorspace
 from colorspace import palette, hclpalettes
 from colorspace.palettes import defaultpalette
-import matplotlib
 import numpy as np
-import matplotlib.pyplot as plt
 
-
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import LinearSegmentedColormap
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 # ------------------------------------------
 # Testing usage of 'palette()'
@@ -53,22 +56,24 @@ def test_palette_invalid_rename():
 # ------------------------------------------
 # Testing palette.cmap() method
 # ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_palette_cmap_class():
     x = palette(["#00ff00"], name = "test")
-    assert isinstance(x.cmap(), matplotlib.colors.LinearSegmentedColormap)
+    assert isinstance(x.cmap(), LinearSegmentedColormap)
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_palette_cmap_class():
     x = palette(["#00ff00", "#ff00ff", "#ff00ff"], name = "test")
 
     # Continuous
     cmap = x.cmap(continuous = True)
-    assert isinstance(cmap, matplotlib.colors.LinearSegmentedColormap)
+    assert isinstance(cmap, LinearSegmentedColormap)
     assert cmap.name == "test"
     assert cmap.N == 256
 
     # Non-continuous
     cmap = x.cmap(continuous = False)
-    assert isinstance(cmap, matplotlib.colors.LinearSegmentedColormap)
+    assert isinstance(cmap, LinearSegmentedColormap)
     assert cmap.name == "test"
     assert cmap.N == 3
 
@@ -210,6 +215,7 @@ def test_hclpalettes_get_palette_methods():
     assert all([x in expected for x in pal_settings.keys()])
 
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclpalettes_plot_method():
     pals = hclpalettes()
@@ -226,6 +232,7 @@ def test_hclpalettes_plot_method():
 # Plotting ..
 # --------------------------------------------
 # Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_specplot_method():
     cols = colorspace.diverging_hcl()
@@ -234,6 +241,7 @@ def test_colorlib_specplot_method():
     cols.specplot(n = 15)
     plt.close()
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_swatchplot_method():
     cols = colorspace.diverging_hcl()
@@ -242,6 +250,7 @@ def test_colorlib_swatchplot_method():
     cols.swatchplot(n = 15)
     plt.close()
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_hclplot_method():
     cols = colorspace.diverging_hcl()

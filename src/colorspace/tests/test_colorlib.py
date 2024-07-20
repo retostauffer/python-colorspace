@@ -4,9 +4,14 @@ import pytest
 from pytest import raises
 from colorspace.colorlib import *
 from copy import deepcopy
-
-import matplotlib.pyplot as plt
 from colorspace import hexcols, polarLUV, diverging_hcl
+
+try:
+    import matplotlib.pyplot as plt
+    plt.switch_backend("Agg")
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 all_models = ["polarLUV", "HCL", "CIELUV", "CIEXYZ", "CIELAB", "CIELUV", "RGB", \
               "sRGB", "polarLAB", "hex", "HLS", "HSV"]
@@ -57,13 +62,11 @@ def test_compare_colors_hex():
     b = hexcols("#FF0000")
     c = hexcols("#FF0000")
     c.to("HCL")
-    d = hexcols(["#FF0000", "red"])
 
     # a, b no color objects
     raises(TypeError, compare_colors, a = "#00ff00", b = b)
     raises(TypeError, compare_colors, a = a, b = "#ff00ff")
     raises(TypeError, compare_colors, a = a, b = c) # types differ
-    raises(ValueError, compare_colors, a = a, b = d) # length differ
 
     # Additional args
     raises(TypeError, compare_colors, a = a, b = b, exact = 1) # exact wrong type
@@ -71,9 +74,17 @@ def test_compare_colors_hex():
     raises(TypeError, compare_colors, a = a, b = b, atol = "foo") # atol wrong type
     raises(ValueError, compare_colors, a = a, b = b, atol = 0.) # Must be > 0
 
-
     assert compare_colors(hexcols("#ff0000"), hexcols("#FF0000"))
     assert compare_colors(colors_to_test,     colors_to_test)
+
+# Additional tests; requires matplotlib as we need to call to_hex
+# to convert 'red' to its hex color representation.
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_compare_colors_hex_matplotlib():
+
+    a = hexcols("#ff0000")
+    b = hexcols(["#FF0000", "red"])
+    raises(ValueError, compare_colors, a = a, b = b) # length differ
 
 # Compare RGB objects
 def test_compare_colors_RGB_no_alpha():
@@ -607,7 +618,7 @@ def test_set_coords():
 # --------------------------------------------
 def test_getset_whitepoint():
     # Get default whitepoint
-    res = hexcols(["red", "blue"]).get_whitepoint()
+    res = hexcols(["#ff0000", "#0000ff"]).get_whitepoint()
 
     assert isinstance(res, dict)
     assert len(res) == 3
@@ -620,7 +631,7 @@ def test_getset_whitepoint():
     del res
 
     # We can overwrite them (dummy variables)
-    cols = hexcols(["red", "blue"])
+    cols = hexcols(["#ff0000", "#0000ff"])
     cols.set_whitepoint(X = 10., Y = 20., Z = 30.)
     res = cols.get_whitepoint()
 
@@ -660,6 +671,7 @@ def test_misuse_whitepoint():
 # Plotting ..
 # --------------------------------------------
 # Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_specplot_method():
     # Create 'colorlib' based object
@@ -667,6 +679,7 @@ def test_colorlib_specplot_method():
     cols.specplot()
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_swatchplot_method():
     # Create 'colorlib' based object
@@ -678,6 +691,7 @@ def test_colorlib_swatchplot_method():
     cols.swatchplot(show_names = "something (will be ignored anyways")
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_hclplot_method():
     # Create 'colorlib' based object

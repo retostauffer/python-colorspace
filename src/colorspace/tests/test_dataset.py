@@ -2,9 +2,14 @@
 
 from colorspace import dataset
 from pytest import raises
-import pytest
 import numpy as np
-import pandas as pd
+import pytest
+
+try:
+    import pandas as pd
+    _got_pd = True
+except:
+    _got_pd = False
 
 
 # -------------------------------------------------
@@ -19,16 +24,14 @@ def test_dataset_wrong_usage():
     raises(ValueError, dataset, "name_of_non_existing_dataset")
     raises(ValueError, dataset, name = "name_of_non_existing_dataset")
 
-
 def test_dataset_volcano():
-
-    from sys import version_info
 
     x = dataset("volcano")
 
     assert isinstance(x, np.ndarray)
     assert np.all(x.shape == np.asarray((61, 87)))
 
+@pytest.mark.skipif(not _got_pd, reason = "Requires pandas")
 def test_dataset_HarzTraffic():
 
     # Expected columns (in this order)
@@ -50,7 +53,7 @@ def test_dataset_HarzTraffic():
     assert x.cars.sum() == 2017941
     assert np.isclose(x.temp.mean(), 10.718353831598865)
 
-
+@pytest.mark.skipif(not _got_pd, reason = "Requires pandas")
 def test_dataset_MonthlyHarzTraffic():
 
     # Expected columns (in this order)

@@ -1,12 +1,19 @@
 
+import numpy as np
+import pytest
+from pytest import raises
+
 from colorspace import palette, diverging_hcl
 from colorspace.colorlib import hexcols
 from colorspace.colorlib import HCL
-from matplotlib.figure import Figure
-import numpy as np
 
-import pytest
-from pytest import raises
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
+    from matplotlib.colors import LinearSegmentedColormap
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 # ------------------------------------------
 # Wrong usage
@@ -63,8 +70,8 @@ def test_palette_input_types():
     assert np.all(res2.colors() == res3.colors())
 
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_palette_input_type_cmap():
-    from matplotlib.colors import LinearSegmentedColormap
 
     # Default number of colors
     x = diverging_hcl().cmap()
@@ -129,10 +136,8 @@ def test_methods():
 # ------------------------------------------
 # Testing cmap functionality.
 # ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_cmap():
-
-    from matplotlib.colors import LinearSegmentedColormap
-
 
     # Default
     x = palette(["#F00", "#00FF00", "#0000FF"])
@@ -184,10 +189,9 @@ def test_standard_representation():
 # ------------------------------------------
 # Swatchplot method
 # ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot():
-
-    import matplotlib.pyplot as plt
 
     pal = palette(diverging_hcl(5), "test")
     assert isinstance(pal.name(), str)
@@ -210,9 +214,9 @@ def test_swatchplot():
 # ------------------------------------------
 # Specplot method
 # ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot():
-    import matplotlib.pyplot as plt
 
     pal = palette(diverging_hcl(5), "test")
 
@@ -220,3 +224,5 @@ def test_specplot():
     fig = pal.specplot()
     assert isinstance(fig, Figure)
     plt.close()
+
+

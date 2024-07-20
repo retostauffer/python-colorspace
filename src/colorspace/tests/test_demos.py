@@ -2,22 +2,25 @@
 
 import pytest
 import numpy as np
-
-from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
+from pytest import raises
 
 from colorspace import diverging_hcl, sequential_hcl, demoplot, palette
 from colorspace.colorlib import hexcols
 cols = sequential_hcl()(7)
 
-from pytest import raises
-
-plt.switch_backend("Agg")
+try:
+    from matplotlib.figure import Figure
+    import matplotlib.pyplot as plt
+    from matplotlib.axes import Axes
+    plt.switch_backend("Agg")
+    _got_mpl= True
+except:
+    _got_mpl = False
 
 # ---------------------------------
 # Wrong use
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_wrong_usage():
 
     # Missing type
@@ -35,21 +38,28 @@ def test_wrong_usage():
 # ---------------------------------
 # Testing different input types for argument colors
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_input_hex_list():
     fig = demoplot(cols, "Lines")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_input_colorobject():
     x = hexcols(cols)
     x.to("HCL")
     fig = demoplot(x, "Lines")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_input_palette():
     x = palette(cols, "test palette")
     fig = demoplot(x, "Lines")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_input_hclpalette():
     fig = demoplot(diverging_hcl(), "Lines")
     assert isinstance(fig, Figure)
@@ -57,50 +67,58 @@ def test_input_hclpalette():
 
 # ---------------------------------
 # Testing different plots
-# ---------------------------------
 # Here testing non case-sensitivity as well
+# ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Bar():
     fig = demoplot(cols, "bAr")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Heatmap():
     fig = demoplot(cols, "Heatmap")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Lines():
     fig = demoplot(cols, "Lines")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Map():
     fig = demoplot(cols, "Map")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Matrix():
     fig = demoplot(cols, "Matrix")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Pie():
     fig = demoplot(cols, "Pie")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Spectrum():
     fig = demoplot(cols, "Spectrum")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_Spine():
     fig = demoplot(cols, "Spine")
@@ -110,12 +128,14 @@ def test_demoplot_Spine():
 # ---------------------------------
 # Testing ax option
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_demoplot_single_subplot():
     fig = plt.subplot()
     res = demoplot(cols, "Map", ax = fig)
     assert isinstance(res, Axes)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_multi_subplots():
     fig,axes = plt.subplots(2, 2)
@@ -132,6 +152,7 @@ def test_demoplot_multi_subplots():
 # ---------------------------------
 # Adding title and labels (**kwargs)
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_demoplot_title_and_labels():
     fig = demoplot(cols, "Spine",
@@ -145,17 +166,36 @@ def test_demoplot_title_and_labels():
 # ---------------------------------
 # Adding title and labels (**kwargs)
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_invalid_ax_object():
     types = ["Bar", "Pie", "Spine", "Heatmap", "Matrix", "Lines", "Map"]
     for x in types:
         raises(TypeError, demoplot, colors = cols, type_ = x, ax = "foo")
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_return_Axis_object():
     ax = plt.subplot()
     types = ["Bar", "Pie", "Spine", "Heatmap", "Matrix", "Lines", "Map"]
     for x in types:
         res = demoplot(cols, type_ = x, ax = ax)
         assert isinstance(res, Axes)
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_get_map_data():
+    from colorspace.demos import get_map_data
+    from matplotlib.collections import PatchCollection
+
+    # Wrong usage
+    raises(TypeError, get_map_data, some = "thing")
+
+    # Testing returns
+    mapdata = get_map_data()
+    assert isinstance(mapdata, list)
+    assert len(mapdata) == 2
+
+    assert type(mapdata[0]) == PatchCollection
+    assert len(mapdata[1]) == 272
+    assert mapdata[1].dtype == np.float64
 
 
 # ---------------------------------
@@ -177,25 +217,6 @@ def test_get_volcano_data():
     assert isinstance(x, np.ndarray)
     assert x.shape == (61, 87)
     assert x.dtype == np.int64
-
-
-def test_get_map_data():
-    from colorspace.demos import get_map_data
-    from matplotlib.collections import PatchCollection
-
-    # Wrong usage
-    raises(TypeError, get_map_data, some = "thing")
-
-    # Testing returns
-    mapdata = get_map_data()
-    assert isinstance(mapdata, list)
-    assert len(mapdata) == 2
-
-    assert type(mapdata[0]) == PatchCollection
-    assert len(mapdata[1]) == 272
-    assert mapdata[1].dtype == np.float64
-
-
 
 
 

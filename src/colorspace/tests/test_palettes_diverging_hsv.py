@@ -4,7 +4,6 @@ import pytest
 from pytest import raises
 import numpy as np
 
-import matplotlib.pyplot as plt
 from colorspace import diverging_hsv, hcl_palettes
 
 # All parameters

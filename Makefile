@@ -3,6 +3,11 @@
 # Install and test the package
 # -------------------------------------------------------------------
 
+softvenv: requirements.txt
+	-rm -rf softvenv
+	virtualenv -p 3 softvenv
+	softvenv/bin/pip install pytest
+	softvenv/bin/pip install -e .
 
 venv: requirements_devel.txt
 	-rm -rf venv
@@ -71,8 +76,15 @@ baseline:
 	pytest --mpl-generate-path=baseline
 
 test:
+	make softtest
 	pip install -e .
 	pytest -s
+
+.PHONY: softvenv
+softtest:
+	@echo "------ RUNNING TESTS WITH SOFT DEPENDENCIES -----"
+	make softvenv
+	softvenv/bin/pytest -s -m "not matplotlib and not pandas"
 
 doctest:
 	pip install -e .

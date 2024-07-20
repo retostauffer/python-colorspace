@@ -6,9 +6,16 @@ from colorspace import diverging_hcl
 from colorspace.colorlib import sRGB, hexcols
 from colorspace.cmap import cmap_to_sRGB
 
+try:
+    import matplotlib
+    _got_mpl = True
+except:
+    _got_mpl = False
+
 # ---------------------------------
-# Wrong use
+# Wrong usage
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_cmap_to_sRGB_wrong_usage():
 
     raises(TypeError, cmap_to_sRGB, 1)
@@ -24,6 +31,7 @@ def test_cmap_to_sRGB_wrong_usage():
 # ---------------------------------
 # Testing different plots
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_cmap_to_sRGB_return():
 
     cmap = diverging_hcl().cmap()
@@ -49,3 +57,4 @@ def test_cmap_to_sRGB_return():
     assert isinstance(cols, sRGB)
     assert isinstance(len(cols), int) and len(cols) == 7
     del cmap, cols
+

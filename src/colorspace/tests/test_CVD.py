@@ -3,8 +3,16 @@ from colorspace import deutan, protan, tritan, desaturate
 from colorspace import sequential_hcl, diverging_hcl, palette
 from colorspace import hexcols, compare_colors
 from colorspace.CVD import CVD
+
 import numpy as np
+import pytest
 from pytest import raises
+
+try:
+    import matplotlib
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 
 # ------------------------------------------
@@ -161,6 +169,7 @@ def test_CVD_hexcols_input():
 # ------------------------------------------
 # Input is a matplotlib.colors.LinearSegmentedColormap
 # ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_CVD_cmap_input():
 
     from matplotlib.colors import LinearSegmentedColormap
@@ -461,6 +470,7 @@ def test_desaturate_hexcols_input():
 # ------------------------------------------
 # Input is a hexcolor object
 # ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_desaturate_cmap_input():
 
     from matplotlib.colors import LinearSegmentedColormap

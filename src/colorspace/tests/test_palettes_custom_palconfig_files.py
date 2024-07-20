@@ -3,9 +3,7 @@
 import pytest
 from pytest import raises
 from colorspace import hclpalettes
-import matplotlib.pyplot as plt
 import numpy as np
-
 from tempfile import NamedTemporaryFile
 
 # Content used below to create custom temporary palconfig files

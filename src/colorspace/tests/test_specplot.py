@@ -2,15 +2,20 @@
 
 import pytest
 from pytest import raises
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
 from colorspace import diverging_hcl, specplot, rainbow
 cols = diverging_hcl()(7)
 
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 # ---------------------------------
 # Wrong use
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_wrong_usage():
     raises(ValueError, specplot, x = cols, hcl = False, palette = False, rgb = False)
 
@@ -38,48 +43,56 @@ def test_wrong_usage():
 # ---------------------------------
 # Testing different plots
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_default():
     fig = specplot(cols)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_hcl_palette_rgb():
     fig = specplot(cols, rgb = True)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_nohcl_palette_rgb():
     fig = specplot(cols, hcl = False, rgb = True)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_nohcl_nopalette_rgb():
     fig = specplot(cols, hcl = False, palette = False, rgb = True)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_hcl_nopalette_rgb():
     fig = specplot(cols, hcl = True, palette = False, rgb = True)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_nohcl_palette_norgb():
     fig = specplot(cols, hcl = False, palette = True, rgb = False)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_hcl_nopalette_norgb():
     fig = specplot(cols, hcl = True, palette = False, rgb = False)
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_default_with_title():
     fig = specplot(cols, title = "Test Title")
@@ -87,6 +100,7 @@ def test_specplot_default_with_title():
     plt.close() # Closing figure instance
 
 # Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_adjust_hueaxis():
     cols = rainbow(start = 0, end= 1/3)(51)
@@ -95,6 +109,7 @@ def test_specplot_adjust_hueaxis():
     plt.close() # Closing figure instance
 
 # Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_provide_figure_obj():
     import matplotlib.pyplot as plt
@@ -109,6 +124,7 @@ def test_specplot_provide_figure_obj():
     plt.show()
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_input_LinearSegmentedColormap():
     cmap = diverging_hcl().cmap() # Default, n = 256
@@ -121,6 +137,7 @@ def test_specplot_input_LinearSegmentedColormap():
     plt.close()
     del cmap
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_input_ListedColormap():
     from matplotlib.colors import ListedColormap
@@ -128,6 +145,7 @@ def test_specplot_input_ListedColormap():
     plt.close()
 
 # Testing another color palette where heu-axis should be adjusted to 0-360 only
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_specplot_input_list_plus_cmap():
     # Providing a series of colors as list (length 5)

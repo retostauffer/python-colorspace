@@ -1,11 +1,17 @@
 
 from colorspace.colorlib import hexcols
 from colorspace import palette, contrast_ratio
-from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
 import numpy as np
 
+import pytest
 from pytest import raises
+
+try:
+    from matplotlib import pyplot as plt
+    from matplotlib.axes import Axes
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 # ------------------------------------------
 # Wrong usage
@@ -28,9 +34,11 @@ def test_wrong_usage():
     raises(ValueError,  contrast_ratio, colors = "#FF00") # invalid hex
     raises(ValueError,  contrast_ratio, colors = ["#FF00FF", "foo"]) # invalid hex
 
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_wrong_usage_plot():
     # Argument 'plot'
     raises(TypeError,  contrast_ratio, colors = "#FF00FF", plot = "foo")
-
     # Testint argument 'ax'; wrong type of object
     raises(TypeError,  contrast_ratio, colors = "#F00", bg = "#000", plot = True, ax = "foo")
 
@@ -58,22 +66,6 @@ def test_result_on_white_bg():
     assert np.all(np.isclose(res_white1, sol_white))
 
 
-# Testing multiple colors on alternating white/black background.
-# Testing auto-repeat, len(colors) > len(bg)
-def test_result_on_bw_bg():
-
-    # Checking against black
-    cols = hexcols(["#FF0000", "#FFBF00", "#80FF00", "#00FF40",
-                    "#00FFFF", "#0040FF", "#8000FF", "#FF00BF"])
-
-    res_bw = contrast_ratio(cols, ["#FFFFFF", "#000000"])
-    sol_bw = np.asarray([3.998477, 12.704321, 1.294551, 15.378033,
-                         1.253881,  3.177358, 6.246581, 6.004318])
-
-    res_bw = contrast_ratio(cols, ["#FFFFFF", "#000000"], plot = True)
-    assert isinstance(res_bw, np.ndarray)
-    assert np.all(np.isclose(res_bw, sol_bw))
-
 # Taking one main color but 5 different shaded of gray for background
 # Testing len(colors) < len(bg)
 def test_result_varying_bg():
@@ -90,6 +82,24 @@ def test_result_varying_bg():
 # ------------------------------------------
 # Testing plot options
 # ------------------------------------------
+# Testing multiple colors on alternating white/black background.
+# Testing auto-repeat, len(colors) > len(bg)
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_result_on_bw_bg():
+
+    # Checking against black
+    cols = hexcols(["#FF0000", "#FFBF00", "#80FF00", "#00FF40",
+                    "#00FFFF", "#0040FF", "#8000FF", "#FF00BF"])
+
+    res_bw = contrast_ratio(cols, ["#FFFFFF", "#000000"])
+    sol_bw = np.asarray([3.998477, 12.704321, 1.294551, 15.378033,
+                         1.253881,  3.177358, 6.246581, 6.004318])
+
+    res_bw = contrast_ratio(cols, ["#FFFFFF", "#000000"], plot = True)
+    assert isinstance(res_bw, np.ndarray)
+    assert np.all(np.isclose(res_bw, sol_bw))
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_plot_options():
 
     from colorspace.colorlib import hexcols

@@ -2,13 +2,20 @@
 
 import pytest
 from pytest import raises, warns
-from matplotlib import pyplot as plt
-from matplotlib.figure import Figure
 from colorspace import *
+
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
+    _got_mpl = True
+except:
+    _got_mpl = False
+
 
 # ---------------------------------
 # Wrong usage
 # ---------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_swatchplot_wrong_usage():
 
     cols = diverging_hcl().colors(5)
@@ -52,6 +59,7 @@ def test_swatchplot_wrong_usage():
 
 
 # Single list of hex colors
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list():
     fig = swatchplot(diverging_hcl()(7))
@@ -59,6 +67,7 @@ def test_swatchplot_single_hex_list():
     plt.close() # Closing figure instance
 
 # Colorobject as input
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_colorobject():
     x = hexcols(rainbow_hcl().colors(7))
@@ -67,6 +76,7 @@ def test_swatchplot_single_colorobject():
     plt.close() # Closing figure instance
 
 # Single list of hex colors; suppress names
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list_nonames():
     fig = swatchplot(diverging_hcl()(7), show_names = False)
@@ -74,6 +84,7 @@ def test_swatchplot_single_hex_list_nonames():
     plt.close() # Closing figure instance
 
 # Dictionary of single hex color list (adds title)
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list_title():
     fig = swatchplot({"Default diverging": diverging_hcl()(7)})
@@ -81,6 +92,7 @@ def test_swatchplot_single_hex_list_title():
     plt.close() # Closing figure instance
 
 # List of list of hex colors
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_two_hex_lists_nonames():
     fig = swatchplot([diverging_hcl()(7), sequential_hcl()(5)], show_names = False)
@@ -88,6 +100,7 @@ def test_swatchplot_two_hex_lists_nonames():
     plt.close() # Closing figure instance
 
 # Plotting two hclpalettes; no names, no title
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_two_hclpalettes_nonames():
     p1 = diverging_hcl()
@@ -99,6 +112,7 @@ def test_swatchplot_two_hclpalettes_nonames():
     plt.close() # Closing figure instance
 
 # Plotting two hclpalettes; names and single title
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_two_hclpalettes_nonames_title():
     p1 = diverging_hcl()
@@ -110,6 +124,7 @@ def test_swatchplot_two_hclpalettes_nonames_title():
     plt.close() # Closing figure instance
 
 # Plotting two hclpalettes; names and two title
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_two_hclpalettes_two_titles():
     p1 = diverging_hcl()
@@ -125,12 +140,14 @@ def test_swatchplot_two_hclpalettes_two_titles():
 # Testing different inputs
 # ---------------------------------------------------------
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_input_str():
     fig = swatchplot("#ff0033")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_input_dict():
     cols = {"test": diverging_hcl()(5)}
@@ -138,6 +155,7 @@ def test_swatchplot_input_dict():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.filterwarnings("ignore:swatchplot")
 def test_swatchplot_input_dict_with_cvd():
     cols = {"test": diverging_hcl()(5)}
@@ -145,6 +163,7 @@ def test_swatchplot_input_dict_with_cvd():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_input_dict_in_dict():
     cols = {"outer": {"test": diverging_hcl()(5)}}
@@ -152,6 +171,7 @@ def test_swatchplot_input_dict_in_dict():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.filterwarnings("ignore:swatchplot")
 def test_swatchplot_input_dict_in_dict_with_cvd():
     cols = {"outer": {"test": diverging_hcl()(5)}}
@@ -159,18 +179,21 @@ def test_swatchplot_input_dict_in_dict_with_cvd():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_input_palette():
     fig = swatchplot(palette(diverging_hcl().colors(5)))
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_input_LinearSegmentedColormap():
     fig = swatchplot(diverging_hcl().cmap())
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_input_ListedColormap():
     from matplotlib.colors import ListedColormap
@@ -178,6 +201,7 @@ def test_swatchplot_input_ListedColormap():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_input_dict():
     fig = swatchplot({"Diverging": diverging_hcl(),
@@ -202,30 +226,35 @@ def test_swatchplot_input_dict():
 # ---------------------------------------------------------
 
 # Single list of hex colors
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list_CVD_deutan():
     fig = swatchplot(diverging_hcl()(7), cvd = "deutan")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list_CVD_protan():
     fig = swatchplot(diverging_hcl()(7), cvd = "protan")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list_CVD_tritan():
     fig = swatchplot(diverging_hcl()(7), cvd = "tritan")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list_CVD_desaturate():
     fig = swatchplot(diverging_hcl()(7), cvd = "desaturate")
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_swatchplot_single_hex_list_CVD_desaturate():
     fig = swatchplot(diverging_hcl()(7), cvd = ["deutan", "protan", "tritan", "desaturate"])

@@ -26,14 +26,23 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Required Packages
+      - name: Installing colorspace
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements_devel.txt
           pip install -e .
-          # Testing
-          pip list
-      - name: Running Tests
+
+      - name: Running Soft Tests (without development packages)
+        run: |
+          pytest -s
+
+      - name: Install Development Packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_devel.txt
+          pip install -e .
+
+      - name: Running Full Tests (with development packages)
         run: |
           pytest -s
 

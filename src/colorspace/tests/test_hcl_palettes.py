@@ -6,7 +6,11 @@ import numpy as np
 import pytest
 from pytest import raises
 
-import matplotlib.pyplot as plt
+try:
+    import matplotlib.pyplot as plt
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 types = ["diverging", "sequential", "qualitative", "heat", "rainbow", "terrain"]
 
@@ -121,13 +125,19 @@ def test_hcl_palettes_custom():
     assert len(res.get_palettes()) == 2
     del res
     
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_hcl_palettes_custom_plot():
+    # Extract specific palettes after loading
+    palettes = hcl_palettes()
+    c1 = palettes.get_palette("Oranges")
+    c2 = palettes.get_palette("Greens")
+
     # Visualize customized palettes
     res = hcl_palettes(type_ = "Custom", custom = [c1, c2],
                        plot = True, ncol = 1, figsize = (6, 1));
     assert isinstance(res, type(None))
     plt.close()
-
-
 
 # ------------------------------------------
 # Special wrapper function for divergingX palettes

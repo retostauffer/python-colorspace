@@ -3,8 +3,6 @@
 import pytest
 from pytest import raises
 import numpy as np
-
-import matplotlib.pyplot as plt
 from colorspace import divergingx_hcl, hcl_palettes, divergingx_palettes
 
 # All parameters; special for divergingx

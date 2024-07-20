@@ -1,8 +1,17 @@
 
-from colorspace import check_hex_colors, hexcols
-import numpy as np
 
+import numpy as np
+import pytest
 from pytest import raises
+
+from colorspace import check_hex_colors, hexcols
+
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 # ------------------------------------------
 # Wrong usage
@@ -64,6 +73,9 @@ def test_return_value():
     assert np.all([len(x) == 7 for x in x4])
     assert np.all([len(x) == 7 for x in x5])
 
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_matplotlib_to_hex():
     # Using colorobject as input
     res = check_hex_colors(hexcols(["red", "blue"]))
     assert isinstance(res, list)
@@ -71,7 +83,6 @@ def test_return_value():
     assert res[0] == "#FF0000" and res[1] == "#0000FF"
 
 
-def test_matplotlib_to_hex():
 
     assert check_hex_colors("0")[0]       == "#000000" # Color 0 equals black
     assert check_hex_colors("black")[0]   == "#000000" 

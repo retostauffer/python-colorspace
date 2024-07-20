@@ -3,12 +3,17 @@
 import pytest
 from pytest import raises
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
 from colorspace import *
 
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
+    _got_mpl = True
+except:
+    _got_mpl = False
 
 # Wrong use
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_hclplot_wrong_usage():
     cols = diverging_hcl()(5)
     raises(TypeError, hclplot) # No args
@@ -75,6 +80,7 @@ def test_hclplot_wrong_usage():
 # Conversion
 # If first arg is str or list, an `hclcols()` object is created.
 # Else we call `hclcols(x.colors())`. Testing this here.
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_HSV_colorobject():
     x = hexcols(diverging_hcl()(7))
@@ -85,6 +91,7 @@ def test_hclplot_diverging_HSV_colorobject():
 
 # -------------------------------------------------------------------
 # Testing with colors with very low chroma
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_very_low_chroma():
     x = hexcols(rainbow_hcl()(7))
@@ -98,6 +105,7 @@ def test_hclplot_qualitative_very_low_chroma():
 # Diverging
 # -------------------------------------------------------------------
 # Testing different plots
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_simple():
     pal = diverging_hcl()
@@ -105,6 +113,7 @@ def test_hclplot_diverging_simple():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_largen():
     pal = diverging_hcl()
@@ -112,6 +121,7 @@ def test_hclplot_diverging_largen():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_h1():
     pal = diverging_hcl()
@@ -119,6 +129,7 @@ def test_hclplot_diverging_h1():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_h2():
     pal = diverging_hcl()
@@ -128,6 +139,7 @@ def test_hclplot_diverging_h2():
 
 # DivergingX palette to test the title which is auto-generated
 # as H = [a, b]/[c, d]
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_divergingx_autotitle():
     cols = divergingx_palettes().get_palette("Geyser").colors(7)
@@ -137,6 +149,7 @@ def test_hclplot_divergingx_autotitle():
 
 
 # Setting xlabel, ylabel, and title
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_labels():
     pal = diverging_hcl()
@@ -147,6 +160,7 @@ def test_hclplot_diverging_labels():
     plt.close() # Closing figure instance
 
 # Specificly setting _type, suppressing axes
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_diverging_noaxes():
     pal = diverging_hcl()
@@ -158,6 +172,7 @@ def test_hclplot_diverging_noaxes():
 # Sequential
 # -------------------------------------------------------------------
 # Testing different plots
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_sequential_simple():
     pal = sequential_hcl()
@@ -166,6 +181,7 @@ def test_hclplot_sequential_simple():
     plt.close() # Closing figure instance
 
 # Manually setting hue level (where the pane slices trough the HCL space)
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_custom_h():
     pal = sequential_hcl()
@@ -173,6 +189,7 @@ def test_hclplot_qualitative_custom_h():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_sequential_h1():
     pal = sequential_hcl(h = 60)
@@ -181,6 +198,7 @@ def test_hclplot_sequential_h1():
     plt.close() # Closing figure instance
 
 # Setting xlabel, ylabel, and title
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_sequential_labels():
     pal = sequential_hcl()
@@ -191,6 +209,7 @@ def test_hclplot_sequential_labels():
     plt.close() # Closing figure instance
 
 # Specificly setting _type, suppressing axes
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_sequential_noaxes():
     pal = sequential_hcl()
@@ -201,6 +220,7 @@ def test_hclplot_sequential_noaxes():
 # Qualitative
 # -------------------------------------------------------------------
 # Testing different plots
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_simple():
     pal = qualitative_hcl()
@@ -209,6 +229,7 @@ def test_hclplot_qualitative_simple():
     plt.close() # Closing figure instance
 
 # Manually setting chroma level (where the pane slices trough the HCL space)
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_custom_c():
     pal = qualitative_hcl()
@@ -216,6 +237,7 @@ def test_hclplot_qualitative_custom_c():
     assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_h1():
     pal = qualitative_hcl(l = 60)
@@ -224,6 +246,7 @@ def test_hclplot_qualitative_h1():
     plt.close() # Closing figure instance
 
 # Setting xlabel, ylabel, and title
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_labels():
     pal = qualitative_hcl()
@@ -234,6 +257,7 @@ def test_hclplot_qualitative_labels():
     plt.close() # Closing figure instance
 
 # Specificly setting _type, suppressing axes
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_noaxes():
     pal = qualitative_hcl()
@@ -241,6 +265,7 @@ def test_hclplot_qualitative_noaxes():
     plt.close() # Closing figure instance
 
 # Custom 'ax' argument
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_hclplot_qualitative_custom_ax():
     fig,ax = plt.subplots(1, 1)
