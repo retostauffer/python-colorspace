@@ -17,6 +17,9 @@ suggestions for improvement are very welcome via the GitHub issues.
 
 * Leaving beta, changing to Development Status :: 5 - Production/Stable
 * Added swatchplot support for `matplotlib.colors.ListedColormap`s
+* Removed matplitlib dependency in `check_hex_colors` if not needed.
+* Running soft tests (only mandatory packages) and hard tests (additional
+    packages for testing extended functionality).
 * (ongoing) Extending pytests to adjust for changes in the software.
 
 
