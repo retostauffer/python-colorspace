@@ -546,7 +546,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.0</code> and quarto <code>1.5.55</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.1</code> and quarto <code>1.5.55</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -591,15 +591,15 @@ new name for the palette.
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="5354c962" class="cell" data-execution_count="1">
+<div id="e3953aa6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="6c1691f9" class="cell" data-execution_count="2">
+<div id="eaed1e4d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Starting from an unnamed palette</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette([<span class="st">"#11C638"</span>, <span class="st">"#E2E2E2"</span>, <span class="st">"#EF9708"</span>])</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pal.name() <span class="co"># Returns None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7a4bedc7" class="cell" data-execution_count="3">
+<div id="0a40982b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Naming the palette</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pal.rename(<span class="st">"Custom palette"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pal.name()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -607,7 +607,7 @@ new name for the palette.
 <pre><code>'Custom palette'</code></pre>
 </div>
 </div>
-<div id="695335e2" class="cell" data-execution_count="4">
+<div id="7ff52521" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pal.rename(<span class="st">"Modified palette name"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pal.name()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -615,7 +615,7 @@ new name for the palette.
 <pre><code>'Modified palette name'</code></pre>
 </div>
 </div>
-<div id="0a2fd8cc" class="cell" data-execution_count="5">
+<div id="d7e82caa" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unname (replace current name with None)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pal.rename(<span class="va">None</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pal.name() <span class="co"># Returns None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
