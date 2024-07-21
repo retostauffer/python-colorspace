@@ -86,15 +86,14 @@ def test_palette_missing_colors():
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_palette_missing_colors():
 
-    # For god sake, 'green' turns into #000000 with matplotlib.colors.to_hex,
-    # and lime to #00ff00. I'll just go for it.
-    x = ["red", "lime", "#00f", None, None]
+    # For god sake, 'green' turns into #008000
+    x = ["red", "lime", "#00f", "green", None, None]
     pal = palette(x)
-    assert len(pal) == 5
+    assert len(pal) == 6
 
     cols = pal.colors()
-    assert cols[3] is None and cols[4] is None
-    assert np.all(cols[:3] == ["#FF0000", "#00FF00", "#0000FF"])
+    assert cols[4] is None and cols[5] is None
+    assert np.all(cols[:4] == ["#FF0000", "#00FF00", "#0000FF", "#008000"])
 
 
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
