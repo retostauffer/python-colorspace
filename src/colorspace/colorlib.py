@@ -1309,7 +1309,7 @@ class colorlib:
         res = np.ndarray(len(r), dtype = "|S7"); res[:] = ""
 
         # Check valid r/g/b coordinates
-        valid = validrgb(r,g,b)
+        valid = validrgb(r, g, b)
         if len(valid) > 0:
             # Convert valid colors to hex
             res[valid] = gethex(r[valid], g[valid], b[valid])
@@ -2129,7 +2129,7 @@ class colorobject:
         x = copy(self)
         x.to("hex", fixup = fixup)
         if x.hasalpha():
-            res = x.get("hex_")
+            res = x.get("hex_").tolist()
             # Appending alpha if alpha < 1.0
             for i in range(0, len(res)):
                 if self._data_["alpha"][i] < 1.0:
