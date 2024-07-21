@@ -69,6 +69,33 @@ def test_palette_input_types():
 
     assert np.all(res2.colors() == res3.colors())
 
+def test_palette_missing_colors():
+    # Testing missing color inputs
+    x = ["#ff0000", "#00ff00", "#0000ff", None, None]
+    pal = palette(x)
+    assert len(pal) == 5
+
+    cols = pal.colors()
+    assert cols[3] is None and cols[4] is None
+    assert np.all(cols[:3] == [x.upper() for x in x[:3]])
+
+    ref  = ["#00FF00", None, "#00FF00"]
+    cols = palette(["#00ff00", None, "#0f0"]).colors()
+    assert np.all(cols == ref)
+
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_palette_missing_colors():
+
+    # For god sake, 'green' turns into #000000 with matplotlib.colors.to_hex,
+    # and lime to #00ff00. I'll just go for it.
+    x = ["red", "lime", "#00f", None, None]
+    pal = palette(x)
+    assert len(pal) == 5
+
+    cols = pal.colors()
+    assert cols[3] is None and cols[4] is None
+    assert np.all(cols[:3] == ["#FF0000", "#00FF00", "#0000FF"])
+
 
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 def test_palette_input_type_cmap():
