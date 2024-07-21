@@ -240,3 +240,21 @@ def test_qualitative_hcl_allowed_kwargs_named_lambda():
     for k in settings.keys():
         assert pal1.get(k) == pal2.get(k)
 
+
+# Handling of missing colors if fixup = FALSE
+def test_qualitative_hcl_missing_colors_fixup():
+
+    pal1 = qualitative_hcl("Dark 3").colors(7)
+    pal2 = qualitative_hcl("Dark 3").colors(7, fixup = False)
+
+    assert len(pal1) == len(pal2)
+    assert pal2[1] is None
+    assert pal2[2] is None
+    assert pal2[3] is None
+    assert pal2[4] is None
+
+    assert np.all(pal2[5:] == pal1[5:])
+    assert np.all(pal2[5:] == pal1[5:])
+
+
+

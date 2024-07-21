@@ -144,3 +144,14 @@ def test_terrain_hcl_allowed_kwargs_unnamed():
     for k in settings.keys():
         assert ref.get(k) == tmp.get(k)
 
+# Handling of missing colors if fixup = FALSE
+def test_terrain_hcl_missing_colors_fixup():
+
+    pal1 = terrain_hcl(c = [60, 60]).colors(5)
+    pal2 = terrain_hcl(c = [60, 60]).colors(5, fixup = False)
+
+    assert len(pal1) == len(pal2)
+    assert pal2[3] is None
+    assert pal2[4] is None
+
+    assert np.all(pal2[:3] == pal1[:3])

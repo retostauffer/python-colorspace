@@ -139,7 +139,7 @@ def check_hex_colors(colors):
 
     Valid hex colors are three digit hex colors (e.g., `#F00`), six digit
     hex colors (e.g., `#FF00FF`), or six digit colors with additional transparency
-    (eight digit representation). If the inputs do not match one of these hex
+    (eight digit representation) or `None`. If the inputs do not match one of these hex
     representations `matplotlib.color.to_hex` will be called. This allows
     to also convert standard colors such as `"0"`, `"black"`, or `"magenta"` into
     their corresponding hex representation.
@@ -150,9 +150,10 @@ def check_hex_colors(colors):
             `numpy.ndarray` it will be flattened to 1-dimensional if needed.
 
     Returns:
-        list: Returns a list (length 1 or more) in case all values provided
-            are valid hex colors. Three digit colors will be expanded to
-            six digit colors. Else the function will raise a ValueError.
+        list: Returns a list (length 1 or more) in case all values provided are
+            valid hex colors or None. Three digit colors will be expanded to six
+            digit colors, all upper case. Else the function will raise a
+            ValueError.
 
     Examples:
 
@@ -166,6 +167,8 @@ def check_hex_colors(colors):
         >>> check_hex_colors(["#f0f", "#00F", "#00FFFF", "#ff003311"])
         >>> #:
         >>> check_hex_colors(["#FFF", "0", "black", "blue", "magenta"])
+        >>> #:
+        >>> check_hex_colors([None, "#ff0033", None])
         >>>
         >>> #:
         >>> from numpy import asarray
@@ -184,8 +187,8 @@ def check_hex_colors(colors):
     if isinstance(colors, str):
         colors = [colors]
     elif isinstance(colors, list):
-        if not all([isinstance(x, str) for x in colors]):
-            raise ValueError("list on argument `colors` must only contain str")
+        if not all([isinstance(x, (str, type(None))) for x in colors]):
+            raise ValueError("list on argument `colors` must only contain str or None")
     elif isinstance(colors, ndarray):
         if not len(colors.shape) == 1:
             raise TypeError("if an `numpy.ndarray` is provided on argument `colors` it must be 1-dimensional")
@@ -195,12 +198,14 @@ def check_hex_colors(colors):
     else:
         raise TypeError("argument `colors` none of the allowed types")
 
-
     # Regular expression for checking for valid hex colors
     pat   = compile("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$")
 
     # check individual entry. Also extends the color if needed.
     def check(x, pat):
+        # If is none, leave it as None (from fixup = False)
+        if x is None: return x
+
         # Check if str is of allowed type
         tmp = pat.match(x)
 
@@ -225,7 +230,8 @@ def check_hex_colors(colors):
         # Three digit: extend
         elif len(tmp.group(1)) == 3:
             x = "#" + "".join(repeat([x for x in tmp.group(1)], 2))
-        return x
+
+        return x.upper()
 
     colors = [check(x, pat) for x in colors]
 

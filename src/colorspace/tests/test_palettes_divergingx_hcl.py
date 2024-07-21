@@ -232,3 +232,16 @@ def test_divergingx_hcl_allowed_kwargs_named():
     for k in settings.keys():
         assert pal1.get(k) == pal2.get(k)
 
+# Handling of missing colors if fixup = FALSE
+def test_divergingx_hcl_missing_colors_fixup():
+
+    pal1 = divergingx_hcl(cmax1 = 100).colors(11)
+    pal2 = divergingx_hcl(cmax1 = 100).colors(11, fixup = False)
+
+    assert len(pal1) == len(pal2)
+    assert pal2[0] is None
+    assert pal2[1] is None
+    assert pal2[2] is None
+
+    assert np.all(pal2[3:] == pal1[3:])
+

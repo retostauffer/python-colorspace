@@ -90,7 +90,8 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         w = 1. / float(n - 1)
         x = linspace(-w / 2., 1. + w / 2, n + 1)
         for i in range(0,n):
-            rect = Rectangle((x[i], 0. + ylo), w, 1. + ylo, color = hex_[i])
+            rect = Rectangle((x[i], 0. + ylo), w, 1. + ylo,
+                    color = "#FFFFFF" if hex_[i] is None else hex_[i])
             ax.add_patch(rect)
         if ylo > 0:
             ax.plot([0, 1], [ylo] * 2, ls = "-", c = "0")

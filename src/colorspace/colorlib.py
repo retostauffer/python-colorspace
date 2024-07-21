@@ -1315,7 +1315,7 @@ class colorlib:
             res[valid] = gethex(r[valid], g[valid], b[valid])
 
         # Create return list with NAN's for invalid colors
-        res = [np.nan if len(x) == 0 else x.decode() for x in res]
+        res = [None if len(x) == 0 else x.decode() for x in res]
 
         # Return numpy array
         return np.asarray(res)
@@ -1339,8 +1339,10 @@ class colorlib:
 
         # Check for valid hex colors
         def validhex(hex_):
+            from re import compile
+            pat = compile("^#[0-9A-Fa-f]{6}([0-9]{2})?$")
             from re import match
-            return np.where([match("^#[0-9A-Fa-f]{6}([0-9]{2})?$", x) is not None for x in hex_])[0]
+            return np.where([None if x is None else pat.match(x) is not None for x in hex_])[0]
 
         # Convert hex to rgb
         def getrgb(x):
@@ -1638,7 +1640,7 @@ class colorobject:
 
         # Show header
         fmt = "".join(["{:>", "{:d}".format(digits + 6), "s}"])
-        res.append("    " + "".join([fmt.format(x) for x in dims]))
+        res.append("     " + "".join([fmt.format(x) for x in dims]))
 
         # Show data
         # In case of a hexcols object: string formatting and
@@ -1649,9 +1651,12 @@ class colorobject:
             data["hex_"] = np.ndarray(ncol, dtype = "|S7")
             for n in range(0, ncol):
                 x = self._data_["hex_"][n]
-                data["hex_"][n] = fmt.format(x) if isinstance(x, float) else x[0:7]
+                if x is None:
+                    data["hex_"][n] = None
+                else:
+                    data["hex_"][n] = fmt.format(x) if isinstance(x, float) else x[0:7]
             data["alpha"] = self.get("alpha")
-            fmt = "{:>8s}"
+            fmt = "{:<10s}"
         else:
             fmt = "".join(["{:", "{:d}.{:d}".format(6+digits, digits), "f}"])
             data = self._data_
@@ -1660,17 +1665,17 @@ class colorobject:
         count = 0
         for n in range(0, ncol):
             if (n % 10) == 0: 
-                tmp = "{:3d}:".format(n+1)
+                tmp = "{:3d}: ".format(n+1)
             else:
-                tmp = "    "
+                tmp = "     "
             for d in dims:
                 # Special handling for alpha
                 if d == "alpha":
                     if data[d][n] is None:
-                        tmp += "  ---"
+                        tmp += "     ---"
                     elif isinstance(data[d][n], float):
                         if np.isnan(data[d][n]):
-                            tmp += "  ---"
+                            tmp += "     ---"
                         elif isinstance(self, hexcols):
                             tmp += "    {:02X}".format(int(255. * data[d][n]))
                         else:
@@ -2119,6 +2124,8 @@ class colorobject:
         """
 
         from copy import copy
+        from numpy import ndarray
+
         x = copy(self)
         x.to("hex", fixup = fixup)
         if x.hasalpha():
@@ -2126,7 +2133,8 @@ class colorobject:
             # Appending alpha if alpha < 1.0
             for i in range(0, len(res)):
                 if self._data_["alpha"][i] < 1.0:
-                    res[i] += "{:02d}".format(int(self._data_["alpha"][i] * 100.))
+                    tmp = int(self._data_["alpha"][i] * 255)
+                    res[i] += f"{tmp:02X}"
             # Return hex with alpha
             colors = res
         else:
@@ -2135,7 +2143,8 @@ class colorobject:
         if rev:
             from numpy import flip
             colors = flip(colors)
-        return [str(x) for x in colors]
+
+        return colors.tolist() if isinstance(colors, ndarray) else colors
 
 
     def get(self, dimname = None):
@@ -3522,17 +3531,29 @@ class hexcols(colorobject):
         from colorspace import check_hex_colors
         import numpy as np
 
+        # If hex_ is str, convert to list
+        if isinstance(hex_, str): hex_ = [hex_]
+        hex_ = check_hex_colors(hex_)
+
         self._data_ = {} # Dict to store the colors/color dimensions
 
         # This is the one step where we extract transparency from
         # hex colors once we enter the world of colorobjects.
         def get_alpha(hex_):
-            return [None if len(x) == 0 else int(x, 16) / 255 for x in [x[7:9] for x in hex_]]
+            # Trying to extract char 7:9, leave None if color is None
+            hex_ = [None if (x is None or len(x) < 9) else x[7:9] for x in hex_]
+            return [None if x is None else int(x, 16) / 255 for x in hex_]
+
+        # Remove apha if any
+        def remove_alpha(hex_):
+            return [None if x is None else x[:7] if len(x) > 7 else x for x in hex_]
 
         # Forwarding input 'hex_' to check_hex_colors which will throw
         # an error if we do not understand this input type.
-        self._data_["hex_"]  = np.asarray(check_hex_colors(hex_), dtype = "<U9")
-        tmp = np.asarray(get_alpha(hex_), dtype = "float")
+        tmp  = np.asarray(get_alpha(hex_), dtype = "float")
+        # Remove alpha from 9-digit hex if any, convert to ndarray
+        self._data_["hex_"] = np.asarray(remove_alpha(hex_), dtype = object)
+        # Store alpha (if any)
         if not np.all(np.isnan(tmp)): self._data_["alpha"] = tmp
 
         # White spot definition (the default)
@@ -3587,7 +3608,7 @@ class hexcols(colorobject):
 
         # The only transformation we need is from hexcols -> sRGB
         elif to == "sRGB":
-            [R, G, B] = clib.hex_to_sRGB([x[0:7] for x in self.get("hex_")])
+            [R, G, B] = clib.hex_to_sRGB([None if x is None else x[0:7] for x in self.get("hex_")])
             alpha = self.get("alpha")
             self._data_ = {"R": R, "G": G, "B": B}
             if alpha is not None: self._data_["alpha"] = alpha

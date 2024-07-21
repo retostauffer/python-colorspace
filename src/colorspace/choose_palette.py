@@ -387,6 +387,7 @@ class currentpalettecanvas:
         # Overwrite everything with a white box
         self.canvas.create_rectangle(0, 0, self.width, self.height + 1, width = 0, fill = "white")
         for i in range(0, n):
+            if colors[i] is None: continue
             # Dropping Nan's
             if len(str(colors[i])) < 7: continue
             # Last box to self.width

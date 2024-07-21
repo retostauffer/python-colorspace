@@ -91,6 +91,9 @@ def demoplot(colors, type_, n = 7, ax = None, **kwargs):
     # colorobjects, palette objects, and hclpalettes.
     colors = palette(colors, n = n).colors()
 
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
+
     # Loading available demo plot types (functions)
     available_types = []
     for rec in dir(demos):
@@ -171,6 +174,9 @@ def Bar(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
+
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
     # In this case this function will also auto-show the image at the end
@@ -234,6 +240,9 @@ def Pie(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
+
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
     # In this case this function will also auto-show the image at the end
@@ -287,6 +296,9 @@ def Spine(colors, ax = None, **kwargs):
 
     if not isinstance(ax, (Axes, type(None))):
         raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
+
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -367,6 +379,9 @@ def Heatmap(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
+
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
     # In this case this function will also auto-show the image at the end
@@ -443,6 +458,9 @@ def Matrix(colors, ax = None, **kwargs):
 
     if not isinstance(ax, (Axes, type(None))):
         raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
+
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
@@ -540,6 +558,9 @@ def Lines(colors, ax = None, **kwargs):
     if not isinstance(ax, (Axes, type(None))):
         raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
 
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
+
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).
     # In this case this function will also auto-show the image at the end
@@ -610,6 +631,9 @@ def Map(colors, ax = None, **kwargs):
 
     if not isinstance(ax, (Axes, type(None))):
         raise TypeError("argument `ax` must be None or inherit from matplotlib.axes.Axes")
+
+    # Replace missing values with white
+    colors = ["#FFFFFF" if x is None else x for x in colors]
 
     # Open new figure in case the user has not specified the `ax`
     # input argument (matplotlib.axes.Axes) but use `ax = None` (default).

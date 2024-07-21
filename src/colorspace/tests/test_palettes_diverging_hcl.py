@@ -227,3 +227,16 @@ def test_diverging_hcl_Tofino():
         assert tmp.get(k) == v
         assert ref.get(k) == tmp.get(k)
 
+# Handling of missing colors if fixup = FALSE
+def test_diverging_hcl_missing_colors_fixup():
+
+    pal1 = diverging_hcl(c1 = 90).colors(7)
+    pal2 = diverging_hcl(c1 = 90).colors(7, fixup = False)
+
+    assert len(pal1) == len(pal2)
+    assert pal2[0] is None and pal2[6] is None
+
+    assert np.all(pal2[1:6] == pal1[1:6])
+
+
+

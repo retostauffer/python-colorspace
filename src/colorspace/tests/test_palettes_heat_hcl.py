@@ -144,3 +144,16 @@ def test_heat_hcl_allowed_kwargs_unnamed():
     for k in settings.keys():
         assert ref.get(k) == tmp.get(k)
 
+# Handling of missing colors if fixup = FALSE
+def test_heat_hcl_missing_colors_fixup():
+
+    pal1 = heat_hcl(c2 = 100).colors(5)
+    pal2 = heat_hcl(c2 = 100).colors(5, fixup = False)
+
+    assert len(pal1) == len(pal2)
+    assert pal2[2] is None
+    assert pal2[3] is None
+    assert pal2[4] is None
+
+    assert np.all(pal2[:2] == pal1[:2])
+

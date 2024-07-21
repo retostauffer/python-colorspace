@@ -29,9 +29,49 @@ def test_HCL_to_RGB_black():
     required_RGB = ["R", "G", "B", "alpha"]
     assert all(n in required_RGB for n in x._data_.keys())
 
-# --------------------------------------------
+# Testing alpha handling
+def test_hexcols_alpha_handling():
+    # black, last two colors with alpha 0.2, 0.6, 0.8
+    x = ["#000", "#000000", "#00000033", "#00000099", "#000000CC"]
+    cols = hexcols(x)
+
+    ref = np.asarray([np.nan, np.nan, 0.2, 0.6, 0.8])
+    assert np.array_equal(cols.get("alpha"), ref, equal_nan = True)
+
+    # Check if we end up with same colors as above. Note that
+    # the first one (three digit hex) will be extended to six digit hex.
+    x[0] = "#000000"
+    assert np.all(cols.colors() == x)
+
+    x = "#000000FF" # Alpha = 1.0
+    cols = hexcols(x)
+    assert cols.get("alpha")[0] == 1.0
+    assert cols.colors()[0] == "#000000" # will 'lose' alpha as it is 1
+
+# Allowing for missing colors
+def test_hexcols_missing_values():
+    x = ["#ff0000", "#00ff00", None, "#0000ff"]
+    cols = hexcols(x)
+
+    assert len(cols) == 4
+    assert cols.colors()[2] is None
+
+    # "red" converted to "#FF0000", green and blue to uppercase
+    assert np.all(cols.colors() == ["#FF0000", "#00FF00", None, "#0000FF"])
+
+# Allowing for missing colors: with matplotlib support to transform 'red'
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+def test_hexcols_missing_values():
+    x = ["red", "#00ff00", None, "#0000ff"]
+    cols = hexcols(x)
+
+    assert len(cols) == 4
+    assert cols.colors()[2] is None
+
+    # "red" converted to "#FF0000", green and blue to uppercase
+    assert np.all(cols.colors() == ["#FF0000", "#00FF00", None, "#0000FF"])
+
 # Testing the 'compare colors' function
-# --------------------------------------------
 def test_hexcols_repr_alpha():
     from re import match, DOTALL
     # No alpha, there should be no 'alpha' in output

@@ -17,6 +17,10 @@ suggestions for improvement are very welcome via the GitHub issues.
 
 * Leaving beta, changing to Development Status :: 5 - Production/Stable
 * Added swatchplot support for `matplotlib.colors.ListedColormap`s
+* Fixed a bug with handling transparency (alpha channel).
+* Revamped handling of missing colors; color lists now allow for `None`,
+  classes and methods will now also return `None` if a color is invalid
+  (outside defined sRGB space if `fixup = True`).
 * Removed matplitlib dependency in `check_hex_colors` if not needed.
 * Running soft tests (only mandatory packages) and hard tests (additional
     packages for testing extended functionality).

@@ -453,7 +453,8 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         # Plotting the rectangles
         for i in range(0, len(cols)):
             rect = Rectangle((xlo[i], ylo), (step - space), yhi - ylo,
-                    facecolor = cols[i], edgecolor = edgecolor)
+                    facecolor = "#FFFFFF" if cols[i] is None else cols[i],
+                    edgecolor = edgecolor)
             ax.add_patch(rect)
 
         # Outer frame

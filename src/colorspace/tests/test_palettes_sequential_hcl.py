@@ -227,3 +227,16 @@ def test_sequential_hcl_BuPu():
         assert tmp.get(k) == v
         assert ref.get(k) == tmp.get(k)
 
+# Handling of missing colors if fixup = FALSE
+def test_sequential_hcl_missing_colors_fixup():
+
+    pal1 = sequential_hcl(c1 = 100).colors(11)
+    pal2 = sequential_hcl(c1 = 100).colors(11, fixup = False)
+
+    assert len(pal1) == len(pal2)
+    assert pal2[0] is None
+
+    assert np.all(pal2[1:] == pal1[1:])
+
+
+

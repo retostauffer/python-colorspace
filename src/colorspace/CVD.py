@@ -65,9 +65,13 @@ def deutan(cols, severity = 1., linear = True):
     """
 
     from .CVD import CVD
+    from numpy import ndarray
 
     CVD = CVD(cols, "deutan", severity, linear)
-    return CVD.colors()
+
+    # Create return
+    res = CVD.colors()
+    return res.tolist() if isinstance(res, ndarray) else res
 
 
 def protan(cols, severity = 1., linear = True):
@@ -124,9 +128,13 @@ def protan(cols, severity = 1., linear = True):
     """
 
     from .CVD import CVD
+    from numpy import ndarray
 
     CVD = CVD(cols, "protan", severity, linear)
-    return CVD.colors()
+
+    # Create return
+    res = CVD.colors()
+    return res.tolist() if isinstance(res, ndarray) else res
 
 
 def tritan(cols, severity = 1., linear = True):
@@ -183,9 +191,13 @@ def tritan(cols, severity = 1., linear = True):
     """
 
     from .CVD import CVD
+    from numpy import ndarray
 
     CVD = CVD(cols, "tritan", severity, linear)
-    return CVD.colors()
+
+    # Create return
+    res = CVD.colors()
+    return res.tolist() if isinstance(res, ndarray) else res
 
 
 class CVD(object):
@@ -625,6 +637,9 @@ def desaturate(cols, amount = 1.):
     if amount < 0. or amount > 1.:
         raise ValueError("argument `amount` must be in `[0., 1.]`")
 
+    # If input is str, make list out of it
+    if isinstance(cols, str): cols = [cols]
+
     # Keep class of input object for later
     input_cols = deepcopy(cols)
 
@@ -633,8 +648,8 @@ def desaturate(cols, amount = 1.):
 
     # Check if we have a matplotlib.cmap
     try:
-        from matplotlib.colors import LinearSegmentedColormap
-        if isinstance(cols, LinearSegmentedColormap):
+        from matplotlib.colors import LinearSegmentedColormap, ListedColormap
+        if isinstance(cols, (LinearSegmentedColormap, ListedColormap)):
             from copy import copy
             CMAP      = True
             CMAPINPUT = copy(cols)
@@ -646,13 +661,10 @@ def desaturate(cols, amount = 1.):
         CMAPINPUT = None
 
     # If input is a matploblib cmap: convert to sRGB
-    # TODO: Really needed? If yes, write some tests and examples
     if CMAP:
         # Create an sRGB object
-        from .colorlib import sRGB
-        cols = sRGB(R = [x[1] for x in cols._segmentdata["red"]],
-                    G = [x[1] for x in cols._segmentdata["green"]],
-                    B = [x[1] for x in cols._segmentdata["blue"]])
+        from .cmap import cmap_to_sRGB
+        cols = cmap_to_sRGB(cols)
     # If we have hex color input: convert to colorspace.colorlib.hexcols
     elif isinstance(cols, list) or isinstance(cols, str):
         cols = hexcols(cols)
@@ -695,7 +707,9 @@ def desaturate(cols, amount = 1.):
     # If input was no matplotlib cmap
     if not CMAP:
         if original_class == "hex": cols = cols.colors()
-        return cols
+
+        from numpy import ndarray
+        return cols.tolist() if isinstance(cols, ndarray) else cols
 
     # Else manipulate the original cmap object and return
     # a new cmap object with adjusted colors

@@ -554,7 +554,7 @@ class defaultpalette:
         args = copy(self.get_settings())
 
         pal = cfun(**args)
-        return [str(x) for x in pal.colors(n, fixup = True)]
+        return pal.colors(n, fixup = True)
 
 
 # -------------------------------------------------------------------
@@ -1627,7 +1627,7 @@ class qualitative_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
+        return HCL.colors(fixup = fixup, rev = rev)
 
 
 # -------------------------------------------------------------------
@@ -1997,7 +1997,7 @@ class diverging_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
+        return HCL.colors(fixup = fixup, rev = rev)
 
 
 
@@ -2335,7 +2335,7 @@ class divergingx_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
+        return HCL.colors(fixup = fixup, rev = rev)
 
 
 
@@ -2592,7 +2592,7 @@ class sequential_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return [str(x) for x in HCL.colors(fixup = fixup, rev = rev)]
+        return HCL.colors(fixup = fixup, rev = rev)
 
 
 # -------------------------------------------------------------------
@@ -2918,7 +2918,7 @@ class diverging_hsv(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return [str(x) for x in HSV.colors(fixup = fixup, rev = rev)]
+        return HSV.colors(fixup = fixup, rev = rev)
 
 
 
@@ -3086,6 +3086,6 @@ class rainbow(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return [str(x) for x in HSV.colors(fixup = False, rev = rev)]
+        return HSV.colors(fixup = False, rev = rev)
 
 

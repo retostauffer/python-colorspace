@@ -188,3 +188,18 @@ def test_rainbow_hcl_allowed_kwargs_unnamed():
     for k in settings.keys():
         assert ref.get(k) == tmp.get(k)
 
+
+# Handling of missing colors if fixup = FALSE
+def test_rainbow_hcl_missing_colors_fixup():
+
+    pal1 = rainbow_hcl(c = 80).colors(5)
+    pal2 = rainbow_hcl(c = 80).colors(5, fixup = False)
+
+    assert len(pal1) == len(pal2)
+    assert pal2[1] is None
+    assert pal2[2] is None
+    assert pal2[3] is None
+
+    assert np.all(pal2[0] == pal1[0])
+    assert np.all(pal2[4] == pal1[4])
+

@@ -215,7 +215,6 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
         cols = hexcols(x.colors())
     cols.to("HCL")
 
-
     # Determine type of palette based on luminance trajectory
     if _type is None:
         seqn  = 1 + np.arange(0, len(cols), 1)
@@ -338,7 +337,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
         kill_lum = np.where(np.logical_and(np.abs(nd[1]) > 0, nd[2] < 1))[0]
 
         # Find 'nan' colors (due to fixup)
-        kill_nan = np.where([x == 'nan' for x in hexcols.colors()])[0]
+        kill_nan = np.where([x is None for x in hexcols.colors()])[0]
         kill = np.unique(np.concatenate((kill_lum, kill_nan), 0))
 
         # Deleting coordinates and colors we do not need

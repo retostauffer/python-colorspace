@@ -127,29 +127,29 @@ def test_CVD_string_input():
 
     x1   = CVD(col, "deutan")
     x2   = deutan(col)
-    R    = ["#0040A3"] # From R colorspace, severity = 1
+    R    = "#0040A3" # From R colorspace, severity = 1
     assert isinstance(x1, CVD)
     assert isinstance(x2, list)
     assert np.all(x1.colors() == x2)
-    assert np.all(x1.colors() == R)
+    assert np.all(x1.colors() == [R])
     del x1, x2, R
 
     x1   = CVD(col, "protan")
     x2   = protan(col)
-    R    = ["#004EA8"] # From R colorspace, severity = 1
+    R    = "#004EA8" # From R colorspace, severity = 1
     assert isinstance(x1, CVD)
     assert isinstance(x2, list)
     assert np.all(x1.colors() == x2)
-    assert np.all(x1.colors() == R)
+    assert np.all(x1.colors() == [R])
     del x1, x2, R
 
     x1   = CVD(col, "tritan")
     x2   = tritan(col)
-    R    = ["#005A6C"] # From R colorspace, severity = 1
+    R    = "#005A6C" # From R colorspace, severity = 1
     assert isinstance(x1, CVD)
     assert isinstance(x2, list)
     assert np.all(x1.colors() == x2)
-    assert np.all(x1.colors() == R)
+    assert np.all(x1.colors() == [R])
     del x1, x2, R
 
 
@@ -441,14 +441,14 @@ def test_desaturate_odd_amount():
 def test_desaturate_string_input():
 
     col = sequential_hcl()(3)[0] # Taking first color as str
-    R    = ["#474747"]
+    R    = "#474747"
 
     x1   = desaturate(col, amount = 0)
     x2   = desaturate(col, amount = 1)
     x3   = desaturate(col)
-    assert np.all(x1 == col)
-    assert np.all(x2 == R)
-    assert np.all(x3 == R)
+    assert np.all(x1 == [col])
+    assert np.all(x2 == [R])
+    assert np.all(x3 == [R])
 
 
 # ------------------------------------------
