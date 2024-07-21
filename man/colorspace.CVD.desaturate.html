@@ -606,7 +606,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="2170dc47" class="cell" data-execution_count="1">
+<div id="4039f68c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette, diverging_hcl, desaturate</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, swatchplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> hexcols</span>
@@ -620,7 +620,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </div>
 </div>
 </div>
-<div id="7da3266e" class="cell" data-execution_count="2">
+<div id="6ef9f9bb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>specplot(desaturate(cols, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -630,7 +630,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </div>
 </div>
 </div>
-<div id="1bcd8923" class="cell" data-execution_count="3">
+<div id="bd9c3bc9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Take a list of colors which can be interpreted/translated to hex</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># colors and desaturate them via the HCL color space</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"magenta"</span>, <span class="st">"red"</span>, <span class="st">"orange"</span>, <span class="st">"#F2F204"</span>, <span class="st">"#6BF204"</span>, <span class="st">"#4DA00D"</span>]</span>
@@ -639,7 +639,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 <pre><code>['#919191', '#7F7F7F', '#B8B8B8', '#EAEAEA', '#D5D5D5', '#8D8D8D']</code></pre>
 </div>
 </div>
-<div id="2fa046e9" class="cell" data-execution_count="4">
+<div id="792f23d5" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>swatchplot([cols, desaturate(cols)],</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>           show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="dv">5</span>, <span class="fl">1.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -650,7 +650,7 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 </div>
 </div>
 </div>
-<div id="129dba46" class="cell" data-execution_count="5">
+<div id="cc64e86b" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desaturate palette object (same colors as above)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette(cols, name <span class="op">=</span> <span class="st">"custom palette"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>desaturate(pal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -658,11 +658,11 @@ A value in <code>[0.,1.]</code> defining the degree of desaturation. <code>amoun
 <pre><code>['#919191', '#7F7F7F', '#B8B8B8', '#EAEAEA', '#D5D5D5', '#8D8D8D']</code></pre>
 </div>
 </div>
-<div id="6f2152c4" class="cell" data-execution_count="6">
+<div id="0bed8c7c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desaturate a matplotlib cmap object</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>desaturate(pal.cmap())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<div style="vertical-align: middle;"><strong>custom palette</strong> </div><div class="cmap"><img alt="custom palette colormap" title="custom palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAHXRFWHRUaXRsZQBjdXN0b20gcGFsZXR0ZSBjb2xvcm1hcNz5HJEAAAAjdEVYdERlc2NyaXB0aW9uAGN1c3RvbSBwYWxldHRlIGNvbG9ybWFw2tL5YAAAADB0RVh0QXV0aG9yAE1hdHBsb3RsaWIgdjMuOS4xLCBodHRwczovL21hdHBsb3RsaWIub3JnVHRzAAAAADJ0RVh0U29mdHdhcmUATWF0cGxvdGxpYiB2My45LjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmd60uwnAAABcklEQVR4nO3WMW6DMABAUeD+Cxe2OzSRklZdUGhQ/nuLZQPGC+iv+77P5cGcT9Nf87PXP+V9r9p3XddD47Ztnn/j82ePy3KfL5c4z1XGo9/h0fvO3v9TzjHGeLr+c/7X+tn3XeUcc9zW5/+e9/svBwCkCAAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQV87MBE1TTGWLgAAAABJRU5ErkJggg=="></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#919191ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #919191ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#8d8d8dff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #8d8d8dff;"></div></div>
+<div style="vertical-align: middle;"><strong>custom palette</strong> </div><div class="cmap"><img alt="custom palette colormap" title="custom palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAHXRFWHRUaXRsZQBjdXN0b20gcGFsZXR0ZSBjb2xvcm1hcNz5HJEAAAAjdEVYdERlc2NyaXB0aW9uAGN1c3RvbSBwYWxldHRlIGNvbG9ybWFw2tL5YAAAADB0RVh0QXV0aG9yAE1hdHBsb3RsaWIgdjMuOS4xLCBodHRwczovL21hdHBsb3RsaWIub3JnVHRzAAAAADJ0RVh0U29mdHdhcmUATWF0cGxvdGxpYiB2My45LjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmd60uwnAAABOUlEQVR4nO3WwQmAMBBFQbX/SyqORRiC5M00sCz8w7vHGPM62JxHv8cidsIX9sNKu/b0bLkCAPyKAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQ9AIxPQ8mxLPnawAAAABJRU5ErkJggg=="></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#919191ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #919191ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#8e8e8eff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #8e8e8eff;"></div></div>
 </div>
 </div>
 

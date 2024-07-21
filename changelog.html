@@ -548,6 +548,10 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Leaving beta, changing to Development Status :: 5 - Production/Stable</li>
 <li>Added swatchplot support for <code>matplotlib.colors.ListedColormap</code>s</li>
+<li>Fixed a bug with handling transparency (alpha channel).</li>
+<li>Revamped handling of missing colors; color lists now allow for <code>None</code>, classes and methods will now also return <code>None</code> if a color is invalid (outside defined sRGB space if <code>fixup = True</code>).</li>
+<li>Removed matplitlib dependency in <code>check_hex_colors</code> if not needed.</li>
+<li>Running soft tests (only mandatory packages) and hard tests (additional packages for testing extended functionality).</li>
 <li>(ongoing) Extending pytests to adjust for changes in the software.</li>
 </ul>
 </section>
