@@ -8,7 +8,7 @@ This package is available via the
 [GitHub](https://github.com/retostauffer/python-colorspace).
 A few requirements are needed to be able to use the package and all its features.
 
-* Python `3.10+` (tested for {{PYTEST_VERSIONS}})
+* Python, tested for versions {{PYTEST_VERSIONS}})
 * [`numpy`](https://pypi.org/project/numpy/>)
 * [`matplotlib`](https://pypi.org/project/matplotlib/>) (optional; used for visualization)
 * [`imageio`](https://pypi.org/project/imageio/>) (optional; only used by
@@ -56,7 +56,7 @@ virtualenv my_venv && source my_venv/bin/activate
 pip install colorspace
 
 # Installing additional (optional) packages
-pip install colorspace imageio matplotlib pandas
+pip install imageio matplotlib pandas
 ```
 
 ## Test and development
@@ -84,8 +84,8 @@ git clone https://github.com/retostauffer/python-colorspace.git
 virtualenv my_venv
 source my_venv/bin/activate
 
-# Installing pytest and additional packages
-pip install imageio matplotlib pandas pytest
+# Installing pytest and additional packages + pytest
+pip install -r requirements.txt pytest
 
 # Installing Python colorspace (from current main branch)
 pip install -e .

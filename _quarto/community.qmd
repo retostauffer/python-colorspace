@@ -32,14 +32,14 @@ Handling of pull requests:
     or reject the pull request if not suitable.
 * **Make changes:** If changes are requested by the maintainers, please
     implement them and update your pull request accordingly.
-* **Merge:** If approved, your changes will be merged into the main branch.
+* **Merge:** If approved, your changes will be merged into the `main` branch.
     Congrats and thank you for your contribution!
 
 ## Support
 
 The first point of contact is our this documentation where you find a lot
 of examples on how to use the software. In case the documentation does not
-answer your question, feel free to reach out to us via the
+answer your question, feel free to reach out to us via
 [GitHub issues](https://github.com/retostauffer/python-colorspace/issues).
 
 

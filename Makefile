@@ -28,7 +28,7 @@ venv: requirements_devel.txt
 	-rm -rf venv
 	virtualenv -p 3 venv
 	venv/bin/pip install -r requirements_devel.txt
-	make install
+	(source venv/bin/activate && make install)
 	
 # Install Python colorspace.
 install: setup.py
@@ -108,6 +108,7 @@ cov:
 .PHONY: clean
 clean:
 	-rm -rf src/colorspace.egg-info
+	-find . -type d -name "__pycache__" -exec rm -rf {} \;
 
 
 

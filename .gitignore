@@ -15,6 +15,7 @@ __pycache__
 /coverage.xml
 /build
 /venv
+/my_venv
 
 # pyp2qmd testing
 /make_doc_test.py
