@@ -162,5 +162,7 @@ website:
       - file: man/colorspace.palettes.terrain_hcl.qmd
         text: terrain_hcl
       section: Class references
+    - text: "Community guidelines"
+      href: community.qmd
     - text: "Coverage report"
       href: coverage/index.html

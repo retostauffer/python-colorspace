@@ -34,6 +34,12 @@ is also available on [GitHub Pages](https://retostauffer.github.io/python-colors
 * [Somewhere over the Rainbow](articles/endrainbow.qmd)
 
 
+## Community Guidelines
+
+Everyone is warmly welcome to contribute to Python _colorspace_
+by addressing existing issues, reporting bugs, or requesting
+new features. Please refer to our [Community guidelines](community.qmd)
+for more information.
 
 
 ## Other Packages and Further Reading

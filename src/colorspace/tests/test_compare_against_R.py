@@ -21,7 +21,7 @@ def test_against_R():
 
         # If we have _comment: skip
         if "_comment" in rec:
-            print("\n ------- {:s}".format(rec["_comment"]))
+            #print("\n ------- {:s}".format(rec["_comment"]))
             continue
 
         # Print for debugging shown when running pytest -s
@@ -40,5 +40,3 @@ def test_against_R():
         assert len(rec["colors"]) == len(sol)
         assert all([rec["colors"][i].upper() == sol[i].upper() for i in range(len(sol))])
 
-##if __name__ == "__main__":
-##    test_against_R()

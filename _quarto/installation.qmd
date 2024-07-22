@@ -10,17 +10,17 @@ A few requirements are needed to be able to use the package and all its features
 
 * Python `3.10+` (tested for {{PYTEST_VERSIONS}})
 * [`numpy`](https://pypi.org/project/numpy/>)
-* [`matplotlib`](https://pypi.org/project/matplotlib/>)
+* [`matplotlib`](https://pypi.org/project/matplotlib/>) (optional; used for visualization)
 * [`imageio`](https://pypi.org/project/imageio/>) (optional; only used by
     [`cvd_emulator()`](/man/colorspace.cvd_emulator.cvd_emulator.qmd))
 * [`pandas`](https://pandas.pydata.org/) (optional; used by [`dataset()`](/man/colorspace.datasets.dataset.qmd))
 
-Please use the the [GitHub issues](https://github.com/retostauffer/python-colorspace/issues>)
+Please use the [GitHub issues](https://github.com/retostauffer/python-colorspace/issues>)
 to report bugs and issues as well as feature requests. There is no
 guarantee that feature requests can be accommodated, especially as we try to
 keep both, the R and Python version of the package, around the same level.
 
-**Installing**
+## Installation
 
 The latest release can be directly installed from [PyPI](https://pypi.org/project/colorspace/)
 using:
@@ -44,24 +44,111 @@ cd python-colorspace && python setup.py install
 
 **Using a virtual environment**
 
-The repository contains a `Makefile` and requirements files to set up virtual
-environments.  Note that this requires `make` and `virtualenv` to be
-installed.
-
-To set up a virtual environments the git repository must be cloned first;
-afterwards you should be able to set up the virtual environment
-and install the _colorspace_ package.
+Alternatively, a Python virtual environment can be used.
+The additional (optional) packages allow to use full _colorspace_
+functionality, but are optional and not required by most core features.
 
 ```
+# Initialize and activate new virtual env
+virtualenv my_venv && source my_venv/bin/activate
+
+# Installing colorspace
+pip install colorspace
+
+# Installing additional (optional) packages
+pip install colorspace imageio matplotlib pandas
+```
+
+## Test and development
+
+The following sections are intended for developers, not for users,
+and gives some insights on how to run automated tests, create
+coverage reports, test examples, and render the documentation.
+
+If you encounter issues and bugs, or are interested to contribute
+to the Python _colorspace_ package, please read
+our [Community guidelines](community.qmd).
+
+
+### Testing
+
+To run the automated tests with minimal requirements, we suggest
+to clone the repository, set up a virtual environment with the
+required packages, and then run the test using `pytest`.
+
+```
+# Cloning current main branch
 git clone https://github.com/retostauffer/python-colorspace.git
-cd python-colorspace
-make venv
-make install
+
+# Setting up and activating virtual environment
+virtualenv my_venv
+source my_venv/bin/activate
+
+# Installing pytest and additional packages
+pip install imageio matplotlib pandas pytest
+
+# Installing Python colorspace (from current main branch)
+pip install -e .
+
+# Run tests
+pytest
 ```
 
-This will set up a virtual environment and also install the required
-Python packages before installing the latest version of the _colorspace_
-package from the repository.
+For those using the GNU make utility, the package comes with
+a `Makefile` which includes rules for running soft (minimal dependencies)
+and extended (additional dependencies) tests. 
+
+```
+# Cloning current main branch
+git clone https://github.com/retostauffer/python-colorspace.git
+
+# Creates a fresh `softvenv` virtual environment and runs soft tests
+make softtest
+
+# Setting up virtual environment with all dependencies for full
+# tests as well as for creating the documentation, calculating
+# coverage etc., install Python colorspace, activate venv and
+# run full tests.
+make venv && make install && source venv/bin/activate && make test
+```
+
+### Development
+
+For the developers out there, the `Makefile` provides additional
+rules for creating/updating the man pages, creating the coverage report,
+testing the docstring examples, and rendering the documentation. Note
+that the latter two require [`quarto`](https://quarto.org) to be installed.
+
+```
+# Cloning current main branch
+git clone https://github.com/retostauffer/python-colorspace.git
+
+# Setting up virtualenv, installing colorspace (main)
+make venv && make install
+
+# Activate venv
+source venv/bin/activate
+
+# Running tests (runs 'soft tests' first)
+make test
+
+# Create coverage report; tries to open report in firefox
+make cov
+
+# Testing docstring examples; requires pyp2qmd and quarto
+make examples
+
+# Building documentation; requires pyp2qmd and quarto
+make render
+```
+
+
+
+
+
+
+
+
 
 
 

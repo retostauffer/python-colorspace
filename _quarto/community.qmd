@@ -1,0 +1,48 @@
+---
+title: "Community guidelines"
+---
+
+## Reporting issues and bugs
+
+In case you encounter issues or bugs, please report them via
+[GitHub issues](https://github.com/retostauffer/python-colorspace/issues).
+Before creating a new issue, please check for _existing issues_.
+If the problem has already be reported, you are more than welcome to
+_add a comment_ to report when/where you encountered the same problem.
+
+When opening (or commenting on) an issue it helps us a lot if you can
+include a minimal example to reproduce the problem (if possible) as well
+as the error thrown.
+
+## Contribute
+
+You are welcome to contribute to Python _colorspace_ via
+[GitHub](https://github.com/retostauffer/python-colorspace) as follows:
+
+* **Create a fork:** Start by forking the [repository](https://github.com/retostauffer/python-colorspace).
+* **Create new branch:** Create a new branch for your feature request or bug fix.
+    Please make changes against the current `main` branch.
+* **Make changes:** Make the required changes and push them to GitHub.
+* **Create pull request:** Create pull request.
+
+Handling of pull requests:
+
+* **Reviewing:** Your pull request will be reviewed by the maintainers
+    of the repository. If needed they may ask questions, suggest changes,
+    or reject the pull request if not suitable.
+* **Make changes:** If changes are requested by the maintainers, please
+    implement them and update your pull request accordingly.
+* **Merge:** If approved, your changes will be merged into the main branch.
+    Congrats and thank you for your contribution!
+
+## Support
+
+The first point of contact is our this documentation where you find a lot
+of examples on how to use the software. In case the documentation does not
+answer your question, feel free to reach out to us via the
+[GitHub issues](https://github.com/retostauffer/python-colorspace/issues).
+
+
+
+
+
