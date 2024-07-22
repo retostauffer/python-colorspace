@@ -34,6 +34,9 @@ img {
 </style>
 ```
 
+**PAPER LENGTH: 250 -- 1000 words. May be asked to shorten if longer than
+1000.**
+
 # Summary
 
 The Python _colorspace_ package [flexible toolbox] select,
