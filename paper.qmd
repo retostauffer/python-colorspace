@@ -22,6 +22,11 @@ affiliations:
    index: 2
 date: 22 July 2024
 bibliography: paper_assets/paper.bib
+
+# MUST BE DELETED @TODO RETO
+format:
+    html:
+        embed-resources: true
 ---
 
 ```{=html}
