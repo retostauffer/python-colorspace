@@ -1,0 +1,30 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+      {
+          "@id": "http://orcid.org/0000-0002-3798-5507",
+          "@type": "Person",
+          "email": "Reto.Stauffer@uibk.ac.at",
+          "name": "Reto Stauffer",
+          "affiliation": "Department of Statistics and Digital Science Center, University of Innsbruck"
+      },
+      {
+          "@id": "http://orcid.org/0000-0003-0918-3766",
+          "@type": "Person",
+          "email": "Achim.Zeileis@uibk.ac.at",
+          "name": "Achim Zeileis",
+          "affiliation": "Department of Statistics, University of Innsbruck"
+      }
+  ],
+  "identifier": "",
+  "codeRepository": "https://github.com/retostauffer/python-colorspace",
+  "datePublished": "2024-07-22",
+  "dateModified": "2024-07-22",
+  "dateCreated": "2024-07-22",
+  "description": "A Python toolbox for manipulating and assessing colors and palettes",
+  "keywords": "Python, color palettes, color vision, visualization, assessment",
+  "license": "GPL v2.0 | GPL v3.0",
+  "title": "colorspace",
+  "version": "v0.4.5"
+}

@@ -1,0 +1,398 @@
+---
+title: 'colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes'
+tags:
+  - Python
+  - color palettes
+  - color vision
+  - visualization
+  - assesment
+authors:
+  - name: Reto Stauffer
+    orcid: 0000-0002-3798-5507
+    equal-contrib: true
+    affiliation: "1, 2"
+  - name: Achim Zeileis
+    orcid: 0000-0003-0918-3766
+    equal-contrib: true
+    affiliation: 1
+affiliations:
+ - name: Department of Statistics, University of Innsbruck
+   index: 1
+ - name: Digital Science Center, University of Innsbruck
+   index: 2
+date: 22 July 2024
+bibliography: paper.bib
+---
+
+```{=html}
+<style>
+img {
+    width: 100%;
+    max-width: 100% !important;
+    height: auto !important;
+}
+</style>
+```
+
+# Summary
+
+The Python _colorspace_ package [flexible toolbox] select,
+manipulate, and access effective color maps for scientific visualization.
+
+Lightweight implementation.
+
+Can easily be employed with commonly used plotting libraries such as
+matplotlib, seaborn, or plotly.
+
+
+
+Example ref for testing @Zeileis:2020.
+
+# Statement of need
+
+Visualization and graphics are often used to communicate scientific results.
+Inefficient color maps can easily break things.
+Over the past years awareness has risen and many plotting libraries have changed
+their default color palette for the better.
+
+As an example, `matplotlib 2.0` was released with an update on mostly all
+default colors [@matplotlib20:colors]. Most noticeably a new set of default
+property cycle colors as well as a new default for scalar mapping. For the
+latter, 'viridis' is used as the new default replacing the classical 'jet'
+color map which is similar to the infamous RGB rainbow color map, facing the
+same problems.
+
+
+
+```{python dev_jet_scale}
+#| include: false
+from matplotlib import colormaps as cm
+from colorspace.cmap import cmap_to_sRGB
+from colorspace import swatchplot
+
+jet = cm.get("jet")
+cols = cmap_to_sRGB(jet, n = 101).colors()               
+swatchplot(cols, cvd = ["deutan", "protan", "tritan", "desaturate"]);
+```
+
+# Color spaces
+
+<!--
+From color_spaces.qmd
+-->
+
+At the core of the colorspace package are various utilities for computing with
+color spaces Wikipedia (2024c), as the name conveys. Thus, the package helps to
+map various three-dimensional representations of color to each other Ihaka
+(2003). A particularly important mapping is the one from the perceptually-based
+and device-independent color model HCL (Hue-Chroma-Luminance) to standard
+Red-Green-Blue (sRGB) which is the basis for color specifications in many
+systems based on the corresponding hex codes Wikipedia (2024g), e.g., in HTML
+but also in Python. For completeness further standard color models are included
+as well in the package. Their connections are illustrated in the following
+graph:
+
+![Illustration of the different color spaces implemented in package and the connection between them. Color models that are (or try to be) perceptually-based are displayed with circles and models that are not are displayed with rectangles.\label{fig-colorspaces}](paper_figure_color_spaces.png)
+
+# Human color vision
+
+It has been hypothesized that human color vision has evolved in three distinct stages:
+
+1. Perception of light/dark contrasts (monochrome only).
+2. Yellow/blue contrasts (usually associated with our notion of warm/cold colors).
+3. Green/red contrasts (helpful for assessing the ripeness of fruit).
+
+See @Kaiser:1996, @Knoblauch:2002, @Ihaka:2003, @R:dichromat and/or
+@Zeileis:2007 for more details and references. Thus, colors can be described
+using a 3-dimensional space with a yellow-blue axis, a red-green axis, and
+a dark-light axis. However, for describing colors in such spaces, it is more natural
+for humands to employ polar coordinates in the color pane (i.e., from red over yellow,
+green, blue, back to red) plus a third light/dark axis.
+Hence, color models that attempt to capture these perceptual axes are also
+called perceptually-based color spaces. One color space which captures these
+dimensions very well is the Hue-Chroma-Luminance (HCL) model, the polar representation
+of the CIELUV color space. The three dimensions define the following:
+
+* **Hue:** Type of color
+* **Chroma:** Colorfullnes
+* **Luminance:** Brightness
+
+This allows to define a variety of efficient and well-defined color palettes
+by directly controlling the three perceptual dimensions. The figure below shows
+three swatches, each only linearly changing one demension.
+
+**Ups: Da geht bei 'Chroma' was schief in `sequential_hcl`; hat was mit dem `cmax`-umbau
+zu tun denke ich.**
+
+```{python}
+#| echo: false
+#| fig-cap: Three color swatches where only hue, chroma, or luminance varies (linear change from 'left' to 'right') whilst the other two are held constant.
+#| label: fig-dimensions
+from colorspace import palette, sequential_hcl, swatchplot
+
+H = palette(sequential_hcl(h = [0, 300], c = [60, 60], l = 65).colors(6), "Hue")
+C = palette(sequential_hcl(h = 0, c = [0, 100], l = 65).colors(6), "Chroma")
+L = palette(sequential_hcl(h = 0, c = 0, l = [90, 25]).colors(6), "Luminance")
+
+swatchplot([H, C, L], figsize = (6, 1.5));
+```
+
+
+
+Varying hue
+steadily between $0$ and $360$ (from red over green, blue back to red) whilst
+chroma and luminance are held constant creates a qualitative HCL-based color
+palette where all colors have identical luminance and chroma, thus not distorting
+the palette or artificially emphasizing 'weights' on different parts of the palette.
+
+Keeping the hue constant but linearely changing both chroma and luminance across
+the palette yields a (single-hue) sequential HCL-based color palette. Due to the monotone
+linear change, the perceptual change between all neighboring colors is equal.
+
+Putting two sequential palettes together results in a diverging HCL-based color palette.
+Given the (linear) change in chroma and luminance is identical on both sides, these
+palettes are perceptually well balanced, not emphasizing 'weight' on either of the
+two ends of the palette.
+
+The following figure shows one of each type, to be more precise, the
+default palettes of `qualitative_hcl()`, `sequential_hcl()`, and `diverging_hcl()`
+provided by the _colorspace_ package.
+
+```{python}
+#| fig-cap: Example of a qualitative, single-hue sequential, and diverging color palette.
+#| label: fig-palette-types2
+from colorspace import qualitative_hcl, sequential_hcl, diverging_hcl
+from colorspace import palette, swatchplot
+
+qual = palette(qualitative_hcl().colors(7), name = "Qualitative")
+sequ = palette(sequential_hcl().colors(15), name = "Sequential")
+dive = palette(diverging_hcl().colors(15),  name = "Diverging")
+
+swatchplot([qual, sequ, dive], figsize = (6, 1.5));
+```
+
+Taking the diverging palette as example, looking at the spectrum reveals how
+the palette is constructed in the HCL space. Whilst takes a constant value
+on either side of the diverging palette, both luminance and chroma have
+a symmetrical change around the neutral center color, with lowest chroma
+(thus grayish) and highest luminance (towards white) in the center.
+
+
+```{python}
+#| fig-cap: Spectrum of the default `diverging_hcl()` palette in both the HCL color space (bottom) as well as the sRGB color space (top).
+#| label: fig-spectrum
+from colorspace import diverging_hcl
+diverging_hcl().specplot(rgb = True)
+```
+
+# HCL-Based color palettes
+
+<!--
+From hcl_palettes.qmd
+-->
+
+**RETO: Eventuell das oben kuerzen oder gar weglassen, und lieber den Teil aus
+dem hcl_palettes.qmd Artikel aufnehmen?
+
+As motivated previously, the HCL space is particularly useful for
+specifying individual colors and color palettes, as its three axes match those
+of the human visual system very well. Therefore, the colorspace package
+provides three types of palettes based on the HCL model:
+
+* **Qualitative:** Designed for coding categorical information, i.e., where no
+    particular ordering of categories is available and every color should receive
+    the same perceptual weight.
+* **Sequential:** Designed for coding ordered/numeric information, i.e., going
+    from high to low (or vice versa).
+* **Diverging:** Designed for coding ordered/numeric information around a central
+    neutral value, i.e., where colors diverge from neutral to two extremes.
+
+The corresponding classes are `qualitative_hcl`, `sequential_hcl`, and
+`diverging_hcl`. Their construction principles are exemplified in the following
+color swatches and explained in more detail below. The desaturated palettes
+bring out clearly that luminance differences (light-dark contrasts) are crucial
+for sequential and diverging palettes while qualitative palettes are balanced
+at the same luminance.
+
+```{python}
+#| label: fig-palette-types
+from colorspace import *
+
+qual_pal = qualitative_hcl("Set 2")
+qual1 = palette(qual_pal(5), "Color")
+qual2 = palette(desaturate(qual_pal(5)), "Desaturated")
+
+seq_pal = sequential_hcl("Blues 3")
+seq1 = palette(seq_pal(7), "Color")
+seq2 = palette(desaturate(seq_pal(7)), "Desaturated")
+
+div_pal = diverging_hcl("Green-Brown")
+div1 = palette(div_pal(7), "Color")
+div2 = palette(desaturate(div_pal(7)), "Desaturated")
+
+swatchplot({"Qualitative (Set 2)":     [qual1, qual2],
+            "Sequential (Blues 3)":    [seq1, seq2],
+            "Diverging (Green-Brown)": [div1, div2]},
+            nrow = 3, figsize = (10, 1.5));
+```
+
+**TODO:** Comes with a range of pre-defined palettes, however, can all be
+adjusted/customized.
+
+```{python}
+#| label: fig-hcl-palettes
+from colorspace import hcl_palettes
+hcl_palettes(plot = True, figsize = (20, 15))
+```
+
+# Use with plotting libraries
+
+The HCL-based color palettes can be integrated into commonly used
+Python packages for plotting such as 
+[`seaborn`](https://seaborn.pydata.org/),
+[`plotly`](https://plotly.com/python/), and [`matplotlib`](https://matplotlib.org/).
+For the latter all palettes come with a `cmap()` method to generate objects of 
+class `LinearSegmentedColormap` as used by by matplotlib, making it straight forward
+to be used with most matplotlib plotting functions.
+
+Below, one example on how to use colors based on the _colorspace_ package
+with matplotlib, seaborn, and plotly. Several additional examples can be found
+on the dedicated articles:
+
+* [HCL-Based Color Scales for matplotlib](/articles/usewith_matplotlib.qmd)
+* [HCL-Based Color Scales for seaborn](/articles/usewith_seaborn.qmd)
+* [HCL-Based Color Scales for plotly](/articles/usewith_plotly.qmd)
+
+#### Matplotlib
+
+The following figure shows a two-dimensional histogram
+(joint density) of the daily minimum and maximum temperature observed
+at a weather station in the Harz region in Germany using the
+"HarzTraffic" data set. The custom HCL-based palette is provided
+as 'cmap' (a `LinearSegmentedColormap`) using the `.cmap()` method.
+
+Whilst the left supblot uses the sequential
+HCL-based color palette "ag_Sunset" (reversed), the right plot shows
+the same data using the "Blues 2" palette.
+
+```{python matplotlib_minimal}
+#| warning: true
+#| error: true
+#| label: fig-matplotlib
+
+from colorspace import sequential_hcl, dataset
+import matplotlib.pyplot as plt
+
+# Loading data
+df = dataset("HarzTraffic")
+
+# Creating new figure
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10, 5))
+
+ax1.hist2d(df.tempmin, df.tempmax, bins = 20,
+           cmap = sequential_hcl("ag_Sunset", rev = True).cmap())
+ax2.hist2d(df.tempmin, df.tempmax, bins = 20,
+           cmap = sequential_hcl("Blues 2").cmap())
+
+# Setting title and labels
+ax1.set_title("Joint density daily min/max temperature")
+ax1.set_xlabel("minimum temperature [deg C]")
+ax1.set_ylabel("maximum temperature [deg C]")
+ax2.set_title("Joint density daily min/max temperature")
+ax2.set_xlabel("minimum temperature [deg C]")
+plt.show()
+```
+
+
+#### Seaborn
+
+To demonstrate the use of HCL-based colormaps with seaborn, 
+the barplot below shows the average number of bikes per day of week (with error bars)
+during summer seasons (June, July, August) 2021 to 2023.
+
+```{python seaborn_minimal}
+#| fig-cap: Eample of integrating a series of qualitative colors with `seaborn`.
+#| label: fig-seaborn
+#| warning: true
+#| error: true
+#| layout-ncol: 1
+
+from colorspace import qualitative_hcl, dataset
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Loading data set
+df = dataset("HarzTraffic")
+df = df.loc[(df.season == "summer"), :]
+
+sns.barplot(x = "dayofweek", y = "bikes", hue = "dow", data = df,
+            order = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            legend = False,
+            palette = qualitative_hcl("Harmonic").colors(7))
+plt.title("Average number of bikes per day of week\nsummer season 2021-2023")
+plt.show()
+```
+
+#### Plotly
+
+Finally, an example using the plotly graphics library is shown.
+The interactive plot below shows the daily mean temperature plotted
+against the day of year (Julian day) for the three consecutive years
+2021, 2022, and 2023 using colors from the (slightly adjusted) diverging HCL-based
+color palette "Blue-Red".
+
+```{python plotly_minimal}
+from colorspace import diverging_hcl, dataset
+import plotly.express as px
+import pandas as pd
+
+df = dataset("HarzTraffic")
+df["year"] = pd.DatetimeIndex(df.date).year
+
+# Picking three colors from (adjusted) diverging color map
+cols = diverging_hcl("Blue-Red", l2 = 60).colors(3)
+
+# Plotting
+fig = px.line(df, x = "yday", y = "temp", color = "year",
+        title = "Daily mean temperature<br>Sonnenberg, Harz, Germany",
+        color_discrete_sequence = cols,
+        template = "plotly_white",
+        labels = {"yday": "day of year", "temp": "temperature [deg C]"})
+fig.write_image("paper_usewith_plotly.pdf")
+fig.write_image("paper_usewith_plotly.svg")
+```
+
+![Example using colors from a divering palette with `plotly`.\label{fig-plotly}](paper_usewith_plotly.svg)
+
+
+
+
+# Citations
+
+Citations to entries in paper.bib should be in
+[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
+format.
+
+If you want to cite a software repository URL (e.g. something on GitHub without a preferred
+citation) then you can do it with the example BibTeX entry below for @fidgit.
+
+For a quick reference, the following citation commands can be used:
+- `@author:2001`  ->  "Author et al. (2001)"
+- `[@author:2001]` -> "(Author et al., 2001)"
+- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
+
+# Figures
+
+Figures can be included like this:
+![Caption for example figure.\label{fig-example}](figure.png)
+and referenced from text using \autoref{fig-example}.
+
+Figure sizes can be customized by adding an optional second parameter:
+![Caption for example figure.](figure.png){ width=20% }
+
+# Acknowledgements
+
+We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
+Oh, and support from Kathryn Johnston during the genesis of this project.
+
+# References
