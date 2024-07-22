@@ -124,6 +124,8 @@ as well. For more details and further references about human visual system and
 color perception see e.g., @Kaiser:1996, @Knoblauch:2002, @Ihaka:2003,
 @R:dichromat and/or @Zeileis:2007.
 
+Python _colorspace_ is an implementation of the _R_ package
+`colorspace` [@Zeileis:2020]. 
 
 
 # Key functionality
@@ -168,7 +170,7 @@ Using the `.to()` method transforms these colors from sRGB via RGB to CIEXYZ,
 CIELUV, to polarLUV (=HCL) as shown in Figure \autoref{fig-colorspaces}.
 The method `.colors()` then goes trough the same path in reverse, finally
 converting the colors to their hex (web color) representation which are
-`#FF0000` (pure red), `#00FF00` (pure green), and `#0000FF` (pure blue).
+`#FF0000` (red), `#00FF00` (green), and `#0000FF` (blue).
 
 All color models inherit from the superclass `colorobject`, which allows
 to define colors in any of the defined color spaces (Fig. \autoref{fig-colorspaces})
@@ -313,33 +315,31 @@ functionality for color manipulation (see [Documentation](https://retostauffer.g
 
 ## Use with existing plotting libraries
 
-The HCL-based color palettes can be integrated into commonly used
-Python packages for plotting such as 
-[`seaborn`](https://seaborn.pydata.org/),
-[`plotly`](https://plotly.com/python/), and [`matplotlib`](https://matplotlib.org/).
-For the latter all palettes come with a `cmap()` method to generate objects of 
-class `LinearSegmentedColormap` as used by by matplotlib, making it straight forward
-to be used with most matplotlib plotting functions.
 
-Below, examples for `maptlotlib`, `seaborn`, and `plotly` can be seen. More examples
-can be found in the dedicated articles in our [Documentation](https://retostauffer.github.io/python-colorspace/).
+Color palettes made accessible via the _colorspace_ package can easily
+be deployed with existing plotting or graphics libraries.
+for `matplotlib` (and packages building on it), _colorspace_ provides
+functionality for converting HCL-based palettes into compatible
+color maps (`cmap`s; `LinearSegmentedColormap`s).
+
+Below, three examples can be found for `matplotlib`, `seaborn`, and `plotly`,
+using the data "Harz Traffic" data set shipped with the package (requires
+`pandas` to be installed). This real-life data set provides information about
+the number of vehicles (separated in bikes, cars, trucks, and other vehicles)
+as well as the prevailing weather conditions on a daily basis.
+
 
 #### Matplotlib
 
-The following figure shows a two-dimensional histogram
-(joint density) of the daily minimum and maximum temperature observed
-at a weather station in the Harz region in Germany using the
-"HarzTraffic" data set. The custom HCL-based palette is provided
-as 'cmap' (a `LinearSegmentedColormap`) using the `.cmap()` method.
-
-Whilst the left supblot uses the sequential
-HCL-based color palette "ag_Sunset" (reversed), the right plot shows
-the same data using the "Blues 2" palette.
+A two-dimensional histogram (joint density) of the daily minimum and maximum
+temperature observed. The custom HCL-based palette is provided as 'cmap'
+(method `.cmap()`). Whilst the left supblot uses the sequential HCL-based color
+palette "ag_Sunset" (reversed), the right plot shows the same data using the
+"Blues 2" palette.
 
 ```{python matplotlib_minimal}
-#| warning: true
-#| error: true
 #| label: fig-matplotlib
+#| fig-cap: Example of a `matplotlib` `hist2d()` using a custom HCL-based color maps; 2D histograms/joint density of daily minimum and maximum temperature.
 
 from colorspace import sequential_hcl, dataset
 import matplotlib.pyplot as plt
@@ -367,16 +367,14 @@ plt.show()
 
 #### Seaborn
 
-To demonstrate the use of HCL-based colormaps with seaborn, 
-the barplot below shows the average number of bikes per day of week (with error bars)
+The following `seaborn`-based barplot uses seven colors from the
+qualitative HCL-based color map "Harmonic", showing the 
+the average number of bikes per day of week (with error bars)
 during summer seasons (June, July, August) 2021 to 2023.
 
 ```{python seaborn_minimal}
-#| fig-cap: Eample of integrating a series of qualitative colors with `seaborn`.
 #| label: fig-seaborn
-#| warning: true
-#| error: true
-#| layout-ncol: 1
+#| fig-cap: Example on how to use HCL-based palettes with `seaborn`; average number of bikes per day of week during summer season.
 
 from colorspace import qualitative_hcl, dataset
 import matplotlib.pyplot as plt
@@ -419,19 +417,34 @@ fig = px.line(df, x = "yday", y = "temp", color = "year",
         color_discrete_sequence = cols,
         template = "plotly_white",
         labels = {"yday": "day of year", "temp": "temperature [deg C]"})
+
+# fig.shhow()
 fig.write_image("paper_assets/fig_plotly.pdf")
 fig.write_image("paper_assets/fig_plotly.svg")
 ```
 
-![Example using colors from a divering palette with `plotly`.\label{fig-plotly}](paper_assets/fig_plotly.svg)
+![Figure based on the graphing library `plotly` using HCL-based colors; Daily mean temperature given Julian day for three consecutive days.\label{fig-plotly}](paper_assets/fig_plotly.svg)
 
 
+# Dependencies and availability
 
+The _colorspace_ package in Python has been developed having a light-weight design
+in mind. For the core functionality, the only dependency is the widely used
+`numpy` package. For palette assessment (visualizations) `matplotlib` is required.
+In addition, `imageio` is needed when using the `cvd_emulator`, and `pandas` if
+one is using some of the data sets shipped with the package (see `datasets` documentation).
+
+The package is available via PyPI (latest release candidate) as well as via GitHub
+(current development version). Bug reports, software contributions, as well as
+suggestions of additional features are welcome. More details can be found in the
+[Documentation](https://retostauffer.github.io/python-colorspace/).
 
 
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+**TODO**
+
 
 # References
+
+
