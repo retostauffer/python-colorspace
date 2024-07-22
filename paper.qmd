@@ -34,8 +34,18 @@ img {
 </style>
 ```
 
-**PAPER LENGTH: 250 -- 1000 words. May be asked to shorten if longer than
-1000.**
+# Paper requirements (to be deleted)
+
+**TODO: Currently qmd for writing the draft, must - at the end - be a plain md file.
+Also contains some css**
+
+
+* A list of the authors of the software and their affiliations, using the correct format (see the example below).
+* A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience.
+* A Statement of need section that clearly illustrates the research purpose of the software and places it in the context of related work.
+* A list of key references, including to other software addressing related needs. Note that the references should include full names of venues, e.g., journals and conferences, not abbreviations only understood in the context of a specific discipline.
+* Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.
+* Acknowledgement of any financial support.
 
 # Summary
 
@@ -47,9 +57,6 @@ Lightweight implementation.
 Can easily be employed with commonly used plotting libraries such as
 matplotlib, seaborn, or plotly.
 
-
-
-Example ref for testing @Zeileis:2020.
 
 # Statement of need
 
@@ -77,6 +84,43 @@ jet = cm.get("jet")
 cols = cmap_to_sRGB(jet, n = 101).colors()               
 swatchplot(cols, cvd = ["deutan", "protan", "tritan", "desaturate"]);
 ```
+
+# Structure found in other articles
+
+* Statment of need
+* Features
+* Examples
+
+Relatively long: https://joss.theoj.org/papers/10.21105/joss.02392
+
+* Statement of need
+* Functionality
+* Usage
+* ...
+* Related work
+* Further reading
+
+Also relatively long https://joss.theoj.org/papers/10.21105/joss.05076
+
+* Statement of need
+    - The landscape of scientific software
+    - Sciris in practice
+* Vignette
+* Design philosophy
+* Examples of key features
+    - Feature-rich containers
+    - Numerical utilities
+    - Parallelization
+    - Plotting
+    - Sciris web
+    - Beyond Sciris
+
+Or https://joss.theoj.org/papers/10.21105/joss.04183
+
+* Stetement of need
+* Performance
+* Comparison of Algorithms
+* Conclusion
 
 # Color spaces
 
