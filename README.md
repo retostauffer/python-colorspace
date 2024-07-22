@@ -52,5 +52,19 @@ that is co-written with
 
 ## Development notes
 
-Notes about development and deployment are documented in
+### Community guidelines
+
+If you encountery any bugs or issues, or are interested in contributing
+to Python _colorspace_, please have a look at our
+[Community guidelines](https://retostauffer.github.io/python-colorspace/community.html).
+
+### Test and development
+
+More detailed information on how to run automated tests, create coverage reports,
+test examples and render the documentation can be found on our 
+[Installation](https://retostauffer.github.io/python-colorspace/installation.html#test-and-development) page.
+
+### GitHub Action integration (CI)
+
+Additional notes about development and deployment are documented in
 [GITHUBACTIONS.md](https://github.com/retostauffer/python-colorspace/blob/main/GITHUBACTIONS.md).
