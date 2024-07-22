@@ -21,7 +21,7 @@ affiliations:
  - name: Digital Science Center, University of Innsbruck
    index: 2
 date: 22 July 2024
-bibliography: paper.bib
+bibliography: paper_assets/paper.bib
 ---
 
 ```{=html}
@@ -96,7 +96,8 @@ palettes often have serious issues creating (strongly) imbalanced colors which
 can artificially distort information, making figures and graphs hard to digest
 by humands, and/or can hardly be read by people with visual constraints.
 
-**Reto: Hier koennte man e.v. noch Tufte oder dieses Psycopapier einbauen (history).**
+**Reto: Hier koennte man e.v. noch Tufte oder dieses Psycopapier einbauen (history);
+denke aber, dass es dann zu viel wird.**
 
 Thus, people have been working on improved color maps in different areas with
 different strategies. More recently and widely known these days
@@ -140,7 +141,7 @@ systems based on the corresponding hex codes [@Wiki:Webcolors], e.g., in HTML
 but also in Python. All color models supported by _colorspace_ and their interconnections
 are illustrated in Figure \autoref{fig-colorspaces}
 
-![Illustration of the different color spaces implemented in package and the connection between them. Color models that are (or try to be) perceptually-based are displayed with circles and models that are not are displayed with rectangles.\label{fig-colorspaces}](paper_figure_color_spaces.png)
+![Illustration of the different color spaces implemented in package and the connection between them. Color models that are (or try to be) perceptually-based are displayed with circles and models that are not are displayed with rectangles.\label{fig-colorspaces}](paper_assets/fig_colorspaces.png)
 
 ## Color transformation
 
@@ -159,7 +160,7 @@ cols.to("HCL")
 print(cols)
 ```
 ```{python}
-cols.colors()
+cols.colors() # Extract hex colors (list of str)
 ```
 
 `sRGB` is a class for handling one or multiple colors in the sRGB color model.
@@ -169,7 +170,7 @@ The method `.colors()` then goes trough the same path in reverse, finally
 converting the colors to their hex (web color) representation which are
 `#FF0000` (pure red), `#00FF00` (pure green), and `#0000FF` (pure blue).
 
-All color models inherit from the superclass `colorlib`, which allows
+All color models inherit from the superclass `colorobject`, which allows
 to define colors in any of the defined color spaces (Fig. \autoref{fig-colorspaces})
 and convert from one to another (if supported).
 
@@ -180,10 +181,13 @@ and convert from one to another (if supported).
 ## Chosing color palettes
 
 A key feature of _colorspace_ is to chose, modify, and create effective
-color maps in the HCL color space, making use of the color transformation
-library (`colorlib`) shown above.
-
-The three main functions classes are:
+color maps in the HCL color space. This makes use of the color transformation shown
+above, as the three types of HCL-palettes shown below (Fig. \autofig{fig-palette-types})
+are not based on a fixed set of colors, but define functions representing the
+trajectories trough the three dimensions of the HCL color model. When drawing a
+certain number of colors from the palette, the function for all three dimensions
+(hue-chroma-luminance) are evaluated, turned into an object of class `HCL` (`polarLUV`)
+and returned as hex colors. The three main functions classes are:
 
 * `qualitative_hcl`: Create qualitative HCL-based palettes, designed for coding
     categorical information, i.e., where no
@@ -196,13 +200,13 @@ The three main functions classes are:
     ordered/numeric information around a central
     neutral value, i.e., where colors diverge from neutral to two extremes.
 
-Figure \autoref{fig-palette-types}
+Figure \autoref{fig-palette-types} shows the default palette for all three types.
 
 ```{python}
-#| fig-cap: Example of a qualitative, single-hue sequential, and diverging color palette.
+#| fig-cap: Example of a qualitative, single-hue sequential, and diverging color palette, using the `swatchplot` function for visualization.
 #| label: fig-palette-types
-from colorspace import qualitative_hcl, sequential_hcl, diverging_hcl
 from colorspace import palette, swatchplot
+from colorspace import qualitative_hcl, sequential_hcl, diverging_hcl
 
 qual = palette(qualitative_hcl().colors(7), name = "Qualitative")
 sequ = palette(sequential_hcl().colors(15), name = "Sequential")
@@ -212,13 +216,27 @@ swatchplot([qual, sequ, dive], figsize = (6, 1.5));
 ```
 
 Besides the default palettes shown above, _colorspace_ comes with a variety of
-predefined palettes which an be used and customized if needed.
-Figure \autoref{fig-hclpalettes} gives an overview of the available presets which
-can be accessed by using e.g., `qualitative_hcl("Dark 3")`, `sequential_hcl("ag_Sunset")`,
-or `diverging_hcl("Green-Orange")`.
+predefined palettes which an be used and customized if needed. Figure \autoref{fig-namedpalettes} shows an example for each palette type, using the predefined palettes
+`qualitative_hcl("Cold")`, `sequential_hcl("ag_Sunset")`, and `diverging_hcl("Green-Orange")`
+with 15 colors each.
+
+```{python}
+#| label: fig-namedpalette
+#| fig-cap: Different predefined HCL-based color palettes by name.
+from colorspace import swatchplot
+from colorspace import qualitative_hcl, sequential_hcl, diverging_hcl
+
+cold        = qualitative_hcl("Cold")
+agsunset    = sequential_hcl("ag_Sunset")
+greenorange = diverging_hcl("Green-Orange")
+
+swatchplot([cold, agsunset, greenorange], n = 15,
+           show_names = False, figsize = (6, 1.5));
+```
 
 ```{python}
 #| label: fig-hcl-palettes
+#| fig-cap: Overview of all predefined HCL color palettes which can be fully customized and used as a starting point for getting a tailored palette, if needed.
 from colorspace import hcl_palettes
 hcl_palettes(plot = True, figsize = (20, 15))
 ```
@@ -228,25 +246,69 @@ hcl_palettes(plot = True, figsize = (20, 15))
 
 ## Assess and manipulate colors
 
-Taking the diverging palette as example, looking at the spectrum reveals how
-the palette is constructed in the HCL space. Whilst takes a constant value
-on either side of the diverging palette, both luminance and chroma have
-a symmetrical change around the neutral center color, with lowest chroma
-(thus grayish) and highest luminance (towards white) in the center.
-
+Taking `diverging_hcl("Green-Orange")` as example, looking at the spectrum
+reveals how the palette is constructed in the HCL space. Whilst hue is taking a
+constant value on either side of the diverging palette, both luminance and
+chroma have a symmetrical linear change around the neutral center color, with lowest
+chroma (thus grayish) and highest luminance (towards white) in the center.
 
 ```{python}
-#| fig-cap: Spectrum of the default `diverging_hcl()` palette in both the HCL color space (bottom) as well as the sRGB color space (top).
+#| fig-cap: Spectrum of the default `diverging_hcl("Green-Orange")` palette in both the HCL color space (bottom) as well as the sRGB color space (top).
 #| label: fig-spectrum
 from colorspace import diverging_hcl
-diverging_hcl().specplot(rgb = True)
+diverging_hcl("Green-Orange").specplot(rgb = True)
 ```
 
+The RGB spectrum (Fig. \autoref{fig-spectrum}, top) shows that, although possible,
+this palette can't be defined easily or intuitively.
 
+Furthermore, _colorspace_ allows to assess the efficiency of colors/color maps
+with respect to people with visual constraints by (i) simulating the most common
+types of color blindness (deuteranomaly, protanomaly, and tritanomaly) and full
+color blindness, using the infamous RGB rainbow palette and the three default
+sequential, diverging, and qualitative palettes of _colorspace_.
 
+```{python}
+#| label: fig-cvd
+#| fig-caption: Simulating color vision defficiency (`severity = 1.0`; default) for the infamous RGB rainbow palette (left) and default palettes for qualitative, sequential, and diverging HCL-based color palettes.
+from colorspace import rainbow, diverging_hcl, palette
+from colorspace import deutan, protan, tritan, desaturate
+rain = rainbow().colors(11)
+sequ = sequential_hcl().colors(11)
+dive = diverging_hcl().colors(11)
+qual = qualitative_hcl().colors(11)
 
+# Setting up palettes
+rain_pals = [palette(rain, "original"), palette(deutan(rain), "deutan"),
+             palette(protan(rain), "protan"), palette(tritan(rain), "tritan"),
+             palette(desaturate(rain), "desaturate")]
+qual_pals = [palette(qual, "original"), palette(deutan(qual), "deutan"),
+             palette(protan(qual), "protan"), palette(tritan(qual), "tritan"),
+             palette(desaturate(qual), "desaturate")]
+sequ_pals = [palette(sequ, "original"), palette(deutan(sequ), "deutan"),
+             palette(protan(sequ), "protan"), palette(tritan(sequ), "tritan"),
+             palette(desaturate(sequ), "desaturate")]
+dive_pals = [palette(dive, "original"), palette(deutan(dive), "deutan"),
+             palette(protan(dive), "protan"), palette(tritan(dive), "tritan"),
+             palette(desaturate(dive), "desaturate")]
 
-## Color transformations
+swatchplot({"Rainbow": rain_pals, "Qualitative HCL": qual_pals,
+            "Sequential HCL": sequ_pals, "Diverging HCL": dive_pals},
+            nrow = 6 * 2, figsize = (8, 3.5));
+```
+
+Figure \autoref{fig-cvd} shows how badly inefficient color maps can break down. Tough
+this is an extreme example, the RGB rainbow has been used for decades without caution,
+and it (or palettes with similar issues) are still used today. In contrast, the
+well-defined HCL-based color maps (mostly) keep their integrity but are, in all situations,
+better than the rainbow alternative. The qualitative and diverging HCL palettes break
+down in the desaturated version (gray-scale), tough this is by design as the luminance
+(brightness) is almost constant for the qualitative palette, and identical on both
+ends (by construction) in case of diverging palettes.
+
+In addition to the functions demonstrated above, _colorspace_ provides additional
+functionality for color manipulation (see [Documentation](https://retostauffer.github.io/python-colorspace/)).
+
 
 
 ## Use with existing plotting libraries
@@ -259,13 +321,8 @@ For the latter all palettes come with a `cmap()` method to generate objects of
 class `LinearSegmentedColormap` as used by by matplotlib, making it straight forward
 to be used with most matplotlib plotting functions.
 
-Below, one example on how to use colors based on the _colorspace_ package
-with matplotlib, seaborn, and plotly. Several additional examples can be found
-on the dedicated articles:
-
-* [HCL-Based Color Scales for matplotlib](/articles/usewith_matplotlib.qmd)
-* [HCL-Based Color Scales for seaborn](/articles/usewith_seaborn.qmd)
-* [HCL-Based Color Scales for plotly](/articles/usewith_plotly.qmd)
+Below, examples for `maptlotlib`, `seaborn`, and `plotly` can be seen. More examples
+can be found in the dedicated articles in our [Documentation](https://retostauffer.github.io/python-colorspace/).
 
 #### Matplotlib
 
@@ -362,11 +419,11 @@ fig = px.line(df, x = "yday", y = "temp", color = "year",
         color_discrete_sequence = cols,
         template = "plotly_white",
         labels = {"yday": "day of year", "temp": "temperature [deg C]"})
-fig.write_image("paper_usewith_plotly.pdf")
-fig.write_image("paper_usewith_plotly.svg")
+fig.write_image("paper_assets/fig_plotly.pdf")
+fig.write_image("paper_assets/fig_plotly.svg")
 ```
 
-![Example using colors from a divering palette with `plotly`.\label{fig-plotly}](paper_usewith_plotly.svg)
+![Example using colors from a divering palette with `plotly`.\label{fig-plotly}](paper_assets/fig_plotly.svg)
 
 
 
