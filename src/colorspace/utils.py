@@ -5,6 +5,8 @@ def mixcolor(alpha, color1, color2, where):
     This function can be used to compute the result of color mixing, assuming
     additive mixing (e.g., as appropriate for RGB and XYZ).
 
+    Just adding one line in docstring to test pullrequest test integration.
+
     Args:
         alpha (float): The mixed color is obtained by combining an amount
             `1 - alpha` of `color1` with an amount `alpha` of `color2`.
