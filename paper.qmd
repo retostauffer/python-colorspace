@@ -58,6 +58,7 @@ Can easily be employed with commonly used plotting libraries such as
 matplotlib, seaborn, or plotly.
 
 
+
 # Statement of need
 
 Visualization and graphics are often used to communicate scientific results.
@@ -72,7 +73,24 @@ latter, 'viridis' is used as the new default replacing the classical 'jet'
 color map which is similar to the infamous RGB rainbow color map, facing the
 same problems.
 
+To easily create custom effective color palettes ... perceptual dimensions ...
+HCL color model.
 
+Introduce the HCL color model as we need it to understand the rest.
+
+Besides being able to create palettes, _colorspace_ also provides functionality
+for assessing colors and integrate it into existing workflows and plotting libraries.
+
+
+
+# Key functionality
+
+## Chosing color palettes
+
+
+## Assess and manipulate colors
+
+## Use with existing plotting libraries
 
 ```{python dev_jet_scale}
 #| include: false
