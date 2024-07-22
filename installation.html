@@ -545,7 +545,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p>This package is available via the <a href="https://pypi.org/project/colorspace/">Python Package index (PyPI)</a> or via <a href="https://github.com/retostauffer/python-colorspace">GitHub</a>. A few requirements are needed to be able to use the package and all its features.</p>
 <ul>
-<li>Python <code>3.10+</code> (tested for <code>3.8</code>, <code>3.9</code>, <code>3.10</code>, <code>3.11</code>, <code>3.12</code>)</li>
+<li>Python, tested for versions <code>3.8</code>, <code>3.9</code>, <code>3.10</code>, <code>3.11</code>, <code>3.12</code>)</li>
 <li><a href="https://pypi.org/project/numpy/%3E"><code>numpy</code></a></li>
 <li><a href="https://pypi.org/project/matplotlib/%3E"><code>matplotlib</code></a> (optional; used for visualization)</li>
 <li><a href="https://pypi.org/project/imageio/%3E"><code>imageio</code></a> (optional; only used by <a href="./man/colorspace.cvd_emulator.cvd_emulator.html"><code>cvd_emulator()</code></a>)</li>
@@ -570,7 +570,7 @@ virtualenv my_venv &amp;&amp; source my_venv/bin/activate
 pip install colorspace
 
 # Installing additional (optional) packages
-pip install colorspace imageio matplotlib pandas</code></pre>
+pip install imageio matplotlib pandas</code></pre>
 </section>
 <section id="test-and-development" class="level2">
 <h2 class="anchored" data-anchor-id="test-and-development">Test and development</h2>
@@ -586,8 +586,8 @@ git clone https://github.com/retostauffer/python-colorspace.git
 virtualenv my_venv
 source my_venv/bin/activate
 
-# Installing pytest and additional packages
-pip install imageio matplotlib pandas pytest
+# Installing pytest and additional packages + pytest
+pip install -r requirements.txt pytest
 
 # Installing Python colorspace (from current main branch)
 pip install -e .
