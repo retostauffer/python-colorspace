@@ -524,6 +524,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../community.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Community guidelines</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../coverage/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Coverage report</span></a>
   </div>
@@ -603,7 +609,7 @@ Name of the custom color map. Default is <code>custom_hcl_cmap</code>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="77542e24" class="cell" data-execution_count="1">
+<div id="9478dc97" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create LinearSegmentedColormap from diverging_hcl() palette.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, 256 distinct colors are used across the palette.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, specplot</span>
@@ -614,7 +620,7 @@ Name of the custom color map. Default is <code>custom_hcl_cmap</code>
 <pre><code>256</code></pre>
 </div>
 </div>
-<div id="a1177715" class="cell" data-execution_count="2">
+<div id="1c6f535a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as above, but only using 5 distinct colors.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cmap2 <span class="op">=</span> pal.cmap(n <span class="op">=</span> <span class="dv">5</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cmap2.N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -622,7 +628,7 @@ Name of the custom color map. Default is <code>custom_hcl_cmap</code>
 <pre><code>5</code></pre>
 </div>
 </div>
-<div id="ebb555c0" class="cell" data-execution_count="3">
+<div id="f085310d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting HCL and sRGB spectrum for both cmaps</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>specplot(cmap1, rgb <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">6</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -633,7 +639,7 @@ Name of the custom color map. Default is <code>custom_hcl_cmap</code>
 </div>
 </div>
 </div>
-<div id="8b9637b7" class="cell" data-execution_count="4">
+<div id="274dc41e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>specplot(cmap2, rgb <span class="op">=</span> <span class="va">True</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="dv">6</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>

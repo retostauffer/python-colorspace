@@ -490,6 +490,12 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./community.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Community guidelines</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./coverage/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Coverage report</span></a>
   </div>
@@ -500,7 +506,18 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#test-and-development" id="toc-test-and-development" class="nav-link" data-scroll-target="#test-and-development">Test and development</a>
+  <ul class="collapse">
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
+  <li><a href="#development" id="toc-development" class="nav-link" data-scroll-target="#development">Development</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
 <p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.1</code> and quarto <code>1.5.55</code> on GitHub.</p>
 </div></div></div>
@@ -528,14 +545,15 @@ ul.task-list li input[type="checkbox"] {
 
 <p>This package is available via the <a href="https://pypi.org/project/colorspace/">Python Package index (PyPI)</a> or via <a href="https://github.com/retostauffer/python-colorspace">GitHub</a>. A few requirements are needed to be able to use the package and all its features.</p>
 <ul>
-<li>Python <code>3.10+</code> (tested for “3.8”, “3.9”, “3.10”, “3.11”, “3.12”)</li>
+<li>Python <code>3.10+</code> (tested for <code>3.8</code>, <code>3.9</code>, <code>3.10</code>, <code>3.11</code>, <code>3.12</code>)</li>
 <li><a href="https://pypi.org/project/numpy/%3E"><code>numpy</code></a></li>
-<li><a href="https://pypi.org/project/matplotlib/%3E"><code>matplotlib</code></a></li>
+<li><a href="https://pypi.org/project/matplotlib/%3E"><code>matplotlib</code></a> (optional; used for visualization)</li>
 <li><a href="https://pypi.org/project/imageio/%3E"><code>imageio</code></a> (optional; only used by <a href="./man/colorspace.cvd_emulator.cvd_emulator.html"><code>cvd_emulator()</code></a>)</li>
 <li><a href="https://pandas.pydata.org/"><code>pandas</code></a> (optional; used by <a href="./man/colorspace.datasets.dataset.html"><code>dataset()</code></a>)</li>
 </ul>
-<p>Please use the the <a href="https://github.com/retostauffer/python-colorspace/issues%3E">GitHub issues</a> to report bugs and issues as well as feature requests. There is no guarantee that feature requests can be accommodated, especially as we try to keep both, the R and Python version of the package, around the same level.</p>
-<p><strong>Installing</strong></p>
+<p>Please use the <a href="https://github.com/retostauffer/python-colorspace/issues%3E">GitHub issues</a> to report bugs and issues as well as feature requests. There is no guarantee that feature requests can be accommodated, especially as we try to keep both, the R and Python version of the package, around the same level.</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
 <p>The latest release can be directly installed from <a href="https://pypi.org/project/colorspace/">PyPI</a> using:</p>
 <pre><code>pip install colorspace</code></pre>
 <p>… or installing the last version (GitHub head branch) using:</p>
@@ -544,15 +562,78 @@ ul.task-list li input[type="checkbox"] {
 <pre><code>git clone https://github.com/retostauffer/python-colorspace.git
 cd python-colorspace &amp;&amp; python setup.py install</code></pre>
 <p><strong>Using a virtual environment</strong></p>
-<p>The repository contains a <code>Makefile</code> and requirements files to set up virtual environments. Note that this requires <code>make</code> and <code>virtualenv</code> to be installed.</p>
-<p>To set up a virtual environments the git repository must be cloned first; afterwards you should be able to set up the virtual environment and install the <em>colorspace</em> package.</p>
-<pre><code>git clone https://github.com/retostauffer/python-colorspace.git
-cd python-colorspace
-make venv
-make install</code></pre>
-<p>This will set up a virtual environment and also install the required Python packages before installing the latest version of the <em>colorspace</em> package from the repository.</p>
+<p>Alternatively, a Python virtual environment can be used. The additional (optional) packages allow to use full <em>colorspace</em> functionality, but are optional and not required by most core features.</p>
+<pre><code># Initialize and activate new virtual env
+virtualenv my_venv &amp;&amp; source my_venv/bin/activate
+
+# Installing colorspace
+pip install colorspace
+
+# Installing additional (optional) packages
+pip install colorspace imageio matplotlib pandas</code></pre>
+</section>
+<section id="test-and-development" class="level2">
+<h2 class="anchored" data-anchor-id="test-and-development">Test and development</h2>
+<p>The following sections are intended for developers, not for users, and gives some insights on how to run automated tests, create coverage reports, test examples, and render the documentation.</p>
+<p>If you encounter issues and bugs, or are interested to contribute to the Python <em>colorspace</em> package, please read our <a href="./community.html">Community guidelines</a>.</p>
+<section id="testing" class="level3">
+<h3 class="anchored" data-anchor-id="testing">Testing</h3>
+<p>To run the automated tests with minimal requirements, we suggest to clone the repository, set up a virtual environment with the required packages, and then run the test using <code>pytest</code>.</p>
+<pre><code># Cloning current main branch
+git clone https://github.com/retostauffer/python-colorspace.git
+
+# Setting up and activating virtual environment
+virtualenv my_venv
+source my_venv/bin/activate
+
+# Installing pytest and additional packages
+pip install imageio matplotlib pandas pytest
+
+# Installing Python colorspace (from current main branch)
+pip install -e .
+
+# Run tests
+pytest</code></pre>
+<p>For those using the GNU make utility, the package comes with a <code>Makefile</code> which includes rules for running soft (minimal dependencies) and extended (additional dependencies) tests.</p>
+<pre><code># Cloning current main branch
+git clone https://github.com/retostauffer/python-colorspace.git
+
+# Creates a fresh `softvenv` virtual environment and runs soft tests
+make softtest
+
+# Setting up virtual environment with all dependencies for full
+# tests as well as for creating the documentation, calculating
+# coverage etc., install Python colorspace, activate venv and
+# run full tests.
+make venv &amp;&amp; make install &amp;&amp; source venv/bin/activate &amp;&amp; make test</code></pre>
+</section>
+<section id="development" class="level3">
+<h3 class="anchored" data-anchor-id="development">Development</h3>
+<p>For the developers out there, the <code>Makefile</code> provides additional rules for creating/updating the man pages, creating the coverage report, testing the docstring examples, and rendering the documentation. Note that the latter two require <a href="https://quarto.org"><code>quarto</code></a> to be installed.</p>
+<pre><code># Cloning current main branch
+git clone https://github.com/retostauffer/python-colorspace.git
+
+# Setting up virtualenv, installing colorspace (main)
+make venv &amp;&amp; make install
+
+# Activate venv
+source venv/bin/activate
+
+# Running tests (runs 'soft tests' first)
+make test
+
+# Create coverage report; tries to open report in firefox
+make cov
+
+# Testing docstring examples; requires pyp2qmd and quarto
+make examples
+
+# Building documentation; requires pyp2qmd and quarto
+make render</code></pre>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -980,4 +1061,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
