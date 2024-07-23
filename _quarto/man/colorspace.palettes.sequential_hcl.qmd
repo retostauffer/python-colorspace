@@ -64,7 +64,7 @@ input `h` is a str this argument acts like the `palette` argument
    <code id="colorspace.palettes.sequential_hcl:c">c</code><code class="argument-class">numeric list</code>
   </dt>
  <dd>Chroma values (colorfullness), numeric of length one
-(linear to zero), two (linear in interval), or three (advanced; [c1, c2, cmax]).</dd>
+(linear to zero), two (linear in interval), or three (advanced; `[c1, cmax, c2]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.sequential_hcl:l">l</code><code class="argument-class">numeric list</code>
   </dt>

@@ -2393,7 +2393,7 @@ class sequential_hcl(hclpalette):
             input `h` is a str this argument acts like the `palette` argument
             (see `palette` input parameter).
         c (numeric list): Chroma values (colorfullness), numeric of length one
-            (linear to zero), two (linear in interval), or three (advanced; [c1, cmax, c2]).
+            (linear to zero), two (linear in interval), or three (advanced; `[c1, cmax, c2]`).
         l (numeric list): Luminance values (luminance), numeric of length two.
             If multiple values are provided only the first one will be used.
         power (numeric, numeric list): Power parameter for non-linear behaviour
