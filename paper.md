@@ -72,7 +72,7 @@ palette, which is notorious for causing all sorts of problems.
 
 One way to construct efficient color palettes with the desired characteristics is to
 use a perceptual-based color model, a color model that represents the way the human
-visual system processes color information. One such color model is the
+visual system processes color information [@Kaiser:1996; @Knoblauch2002]. One such color model is the
 Hue-Chroma-Luminance (HCL) model, a three-dimensional color space defined by
 the following three axes:
 
@@ -91,7 +91,8 @@ graphing libraries, so they can be integrated in existing workflows.
 In addition, _colorspace_ provides a set of functions and classes for
 handling, transforming, manipulating and visualizing color palettes
 both from _colorspace_ but also from any other package. In particular, this
-includes functionality to emulate color vision deficiencies to check whether or
+includes functionality to emulate color vision deficiencies
+[@Vienot:1995; Machado:2009] to check whether or
 not a certain color palette is efficient and accessible to everyone.
 
 **RETO: Wuerde ich irgendwo gernen nennen, weiss aber nicht wo :)**
@@ -208,7 +209,7 @@ RGB rainbow (left) and once using the sequential HCL palette
 'Blue-Yellow' (right). While the top row shows the original colors for people
 without visual constraints, the bottom row shows an emulation of how people with
 deuteranomaly (colloquially known as "red-green color blindness") perceive the
-same information.
+same information [@Vienot:1995; @Machado:2009; @Knoblauch:2002].
 
 This is admittedly an extreme example, but it illustrates how quickly inefficient color
 maps can break down, making certain figures and results inaccessible to certain
@@ -290,7 +291,8 @@ plt.show()
 
 ![Example of a `matplotlib` 2D histogram and a `seaborn` distribution plot using custom HCL based colors.\label{fig-plotting}](paper_assets/fig-plotting.png)
 
-Additional examples for `matplotlib`, `seaborn`, and `plotly` can be found in the
+Additional examples for `matplotlib` [@Hunter:2007],
+`seaborn` [@Waskom:2021], and `plotly` [@plotly] can be found in the
 [package documentation](https://retostauffer.github.io/python-colorspace/).
 
 
