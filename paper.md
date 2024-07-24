@@ -173,7 +173,7 @@ hcl_palettes(plot = True, figsize = (20, 15))
 ## Assessing color maps
 
 To demonstrate some of the functionality for palette assessment,
-Figure \autoref{fig:spectrumhclplot} shows a color spectrum plot (left) and
+Figure \autoref{fig:specplothclplot} shows a color spectrum plot (left) and
 a slice through the HCL space (right) for color palette `pal4` as defined
 in the previous section.
 
