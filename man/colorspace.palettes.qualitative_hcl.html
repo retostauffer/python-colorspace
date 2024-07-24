@@ -599,19 +599,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code id="colorspace.palettes.qualitative_hcl:h">h</code><code class="argument-class">list, str</code>
 </dt>
 <dd>
-Hue values defining the ‘color’ or name of pre-defined palette (<code>str</code>). Qualitative color palettes require two hues. If more than two values are provided the first two will be used while the rest is ignored. If input <code>h</code> is a str this argument acts like the <code>palette</code> argument (see <code>palette</code> input parameter). Can also be lambda functions or a list of lambda functions which take up one single argument <code>n</code> (number of colors; see default value).
+Hue values defining the ‘color’ or name of pre-defined palette (<code>str</code>) or a list of two numeric values (float/int) defining the hue on the two ends of the palette. If str, it acts as the input argument <code>palette</code>. Elements in list can also be lambda functions with one single input argument <code>n</code> (number of colors; see default value).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.qualitative_hcl:c">c</code><code class="argument-class">int, float</code>
 </dt>
 <dd>
-Chroma value (colorfullness), a single numeric value. If multiple values are provided only the first one will be used.
+Chroma value (colorfullness), a single numeric value.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.qualitative_hcl:l">l</code><code class="argument-class">int, float</code>
 </dt>
 <dd>
-luminance value (lightness), a single numeric value. If multiple values are provided only the first one will be used.
+luminance value (lightness), a single numeric value.
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.qualitative_hcl:fixup">fixup</code><code class="argument-class">bool</code>
@@ -698,7 +698,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="e721fe67" class="cell" data-execution_count="1">
+<div id="52f79b5d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> qualitative_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -715,7 +715,7 @@ Palette Swatch Plot
  '#DD64BE']</code></pre>
 </div>
 </div>
-<div id="2634de3d" class="cell" data-execution_count="2">
+<div id="ea215fff" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> qualitative_hcl(<span class="st">"Warm"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -731,7 +731,7 @@ Palette Swatch Plot
  '#E093C3']</code></pre>
 </div>
 </div>
-<div id="3b5963b8" class="cell" data-execution_count="3">
+<div id="81bfeec2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -741,7 +741,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="7c22adb0" class="cell" data-execution_count="4">
+<div id="e0e51c98" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(<span class="st">"Warm"</span>)(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -757,7 +757,7 @@ Palette Swatch Plot
  '#E093C3']</code></pre>
 </div>
 </div>
-<div id="e8c2cc63" class="cell" data-execution_count="5">
+<div id="a17cb5ec" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example where `h` is a list of two lambda functions</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hexcols</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> qualitative_hcl([<span class="kw">lambda</span> n: <span class="fl">100.</span> <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> n,  </span>
@@ -774,7 +774,7 @@ Palette Swatch Plot
 </ul>
 </div>
 </div>
-<div id="0080bcc2" class="cell" data-execution_count="6">
+<div id="e996f62d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"HCL"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
