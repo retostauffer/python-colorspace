@@ -742,6 +742,9 @@ def get_map_data():
     contains the definition of the different areas (polygons) and 
     values to draw the map.
 
+    Contains polygons representing the southern US states
+    Alabama, Georgia, and South Carolona with simulated data.
+
     Returns:
         list: List of length `2`. The first entry is a `PatchCollection` object
         (`matplotlib.collections`) which sonsists of a series of `Polygon`s
