@@ -45,8 +45,8 @@ Using general strategies, three main types of HCL-based palettes are
 implemented: Qualitative palettes for categorical data, sequential palettes for
 mapping ordered/numeric information, and diverging palettes for coding
 ordered/numeric data with a central neutral value. Besides a variety of
-predefined HCL-palettes, users can easily customize customize existing palettes
-or implement their own, and implement them in their existing Python workflow.
+predefined HCL-palettes, users can customize them or create their own and
+integret them in their existing Python workflow.
 
 Furthermore, _colorspace_ provides a variety of function to visualize and
 assess (existing) sets of colors and color palettes. In particular allowing to
@@ -59,21 +59,22 @@ much further than just providing a series of color palettes.
 
 # Statement of need
 
-Visualization and graphics are often used to communicate scientific results.
-However, inefficient color maps can easily break things and have to be
+Visualization and graphics are often used to communicate (scientific) results.
+However, inefficient color maps can easily break things and therefore need to be
+chosen carefully
 chosen carefully [@Tufte:1990; @Brewer:1999; @Ware:2004; @Wilkinson:2005; @Wilke:2019; @Baum:2019; @Crameri:2020].
-Over the past years awareness has risen and many plotting libraries have
+In recent years, awareness has grown and many plotting libraries have
 changed their default color palette for the better. One well-known example is
 the release of Matplotlib `2.0` with an update on mostly all default
-colors [@matplotlib20:colors]. Most noticeably 'viridis' replaces the classical
+colors [@matplotlib20:colors]. Most notably, 'viridis' replaces the classic
 'jet' color map, a color map very similar to the infamous RGB rainbow color
-palette infamous for causing all sorts of issues.
+palette, which is notorious for causing all sorts of problems.
 
-One way to construct efficient color palettes with the desired properties is to
-use perceptual-based color model, a color space representing the way the human
+One way to construct efficient color palettes with the desired characteristics is to
+use a perceptual-based color model, a color model that represents the way the human
 visual system processes color information. One such color model is the
 Hue-Chroma-Luminance (HCL) model, a three-dimensional color space defined by
-the following three axis:
+the following three axes:
 
 * **Hue:** The type of color
 * **Chroma:** Colorfullness
@@ -83,15 +84,15 @@ As these dimensions represent human perception, it allows for an intuitive
 construction of a wide range of efficient and well-balanced color palettes. The
 _colorspace_ package is not just a collection of fixed palettes, but rather a
 set of building blocks to easily create new hand-tailored perceptually-based
-palettes or adapt existing ones, by defining trajectories (paths) trough the
-HCL space. These palettes can easily be employed with existing plotting and
-graphing libraries, thus be used in existing workflows.
+palettes or customize existing ones by defining trajectories (paths) trough the
+HCL space. These palettes can easily be used with existing plotting and
+graphing libraries, so they can be integrated in existing workflows.
 
-In addition, _colorspace_ provides a series of functions and classes for
-handling, transforming, manipulating and visualizing sets of color palettes
-both, from _colorspace_ but also from any other package. In particular, this
+In addition, _colorspace_ provides a set of functions and classes for
+handling, transforming, manipulating and visualizing color palettes
+both from _colorspace_ but also from any other package. In particular, this
 includes functionality to emulate color vision deficiencies to check whether or
-not a specific color palette is efficient and accessible by everyone.
+not a certain color palette is efficient and accessible to everyone.
 
 **RETO: Wuerde ich irgendwo gernen nennen, weiss aber nicht wo :)**
 
@@ -103,11 +104,11 @@ _R_ package [`colorspace`](https://colorspace.r-forge.r-project.org/) [@Zeileis:
 
 ## Chosing and constructing color palettes
 
-A key feature of _colorspace_ is to chose, modify, and create effective color
-maps in the HCL color space. As mentioned previously, these are not fixed sets
+A key feature of _colorspace_ is ability to select, modify, and create effective color
+maps in the HCL color space. As mentioned above, these are not fixed sets
 of colors but define trajectories trough the HCL space. When drawing 'any'
 number of colors from a palette, these trajectories are evaluated and (if
-needed) converted to e.g., standard RGB or HEX colors (web colors). The package
+needed) converted to e.g., HEX colors (web colors). The package
 provides three main classes of HCL-based color palettes:
 
 * `qualitative_hcl`: Create qualitative HCL-based palettes, designed for coding
@@ -122,13 +123,13 @@ provides three main classes of HCL-based color palettes:
     neutral value, i.e., where colors diverge from neutral to two extremes.
 
 
-To show the flexibility, \autoref{fig:chosingpalettes} shows a swatch
-plot with four HCL-based sequential color palettes. The first palette (`pal1`)
-is the predefined sequential HCL palette 'viridis' as is the second one
-(`pal2`) but this time constructed by hand by specifying the properties of the
-trajectories.
-The remaining two start with 'viridis' settings but adjust certain properties.
-Whilst `pal3` overwrites the chroma trajectory with a triangular one ending in
+To show the flexibility, \autoref{fig:chosingpalettes} color swatches
+for four HCL-based sequential palettes. The first (`pal1`)
+is the predefined sequential HCL-based 'viridis' palette as is the second one
+(`pal2`), but this time constructed by hand, specifying the properties of
+all three trajectories.
+The remaining two start with the 'viridis' settings, but adjust certain properties.
+While `pal3` overwrites the chroma trajectory with a triangular one ending in
 lower chroma than the original, `pal4` limits the hue range to the green-yellow
 range.
 
