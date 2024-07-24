@@ -39,46 +39,31 @@ img {
 </style>
 ```
 
-# Paper requirements (to be deleted)
-
-**TODO: Currently qmd for writing the draft, must - at the end - be a plain md file.
-Also contains some css**
-
-
-* A list of the authors of the software and their affiliations, using the correct format (see the example below).
-* A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience.
-* A Statement of need section that clearly illustrates the research purpose of the software and places it in the context of related work.
-* A list of key references, including to other software addressing related needs. Note that the references should include full names of venues, e.g., journals and conferences, not abbreviations only understood in the context of a specific discipline.
-* Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.
-* Acknowledgement of any financial support.
-
 # Summary
 
-The Python _colorspace_ package provides a toolbox for selecting efficient
+Python _colorspace_ provides a toolbox for selecting efficient
 color palettes, manipulate and assess these colors, and employ them using
 existing plotting and graphing libraries such as e.g., _matplotlib_, _seaborn_,
 or _plotly_.
 
-One key feature is that the package
-provides a variety of color palettes based on the HCL (hue-chroma-luminance)
-color space. The three dimension of the HCL color space have been shown
-to three perceptual dimensions of the human visual system very well, thus
-allowing for intuitive construction of color palettes using trajectories
-in this three-dimensional space. Using general strategies, three types of
-HCL-based palettes are implemented: Qualitative palettes for categorical
-data, sequential palettes for mapping ordered/numeric information, and
-diverging palettes for coding ordered/numeric data with a central neutral
-value. Besides a variety of predefined HCL-palettes, users can easily
-customize these palettes to their needs, allowing to easily implement
-additional trajectory-based palettes.
+One key feature is that the package provides a variety of color palettes based
+on the HCL (hue-chroma-luminance) color space, which has been shown to capture
+the three perceptual dimensions of the human visual system very well. Thus,
+allowing for intuitive construction of efficient color palettes using
+trajectories in the three-dimensional HCL space.
+Using general strategies, three main types of HCL-based palettes are
+implemented: Qualitative palettes for categorical data, sequential palettes for
+mapping ordered/numeric information, and diverging palettes for coding
+ordered/numeric data with a central neutral value. Besides a variety of
+predefined HCL-palettes, users can easily customize customize existing palettes
+or implement their own, and implement them in their existing Python workflow.
 
-Furthermore, _colorspace_ provides a variety of function
-to transform, adjust, manipulate and visualize any set of colors or color palette.
-This includes taking (existing) color palettes and emulate color vision
-deficiencies or calculate contrasts to ensure the set of colors is assessable
-for everyone. Overall, the lightweight _colorspace_ package supports all Python
-users in picking (and testing) custom and effective color maps to get the best
-out of any visualization.
+Furthermore, _colorspace_ provides a variety of function to visualize and
+assess (existing) sets of colors and color palettes. In particular allowing to
+emulate color vision deficiencies, or calculating contrasts to ensure the set
+of colors is accessible for everyone and works everywhere. Overall, the
+lightweight _colorspace_ package provides a comprehensive color toolbox going
+much further than just providing a series of color palettes.
 
 
 
@@ -89,29 +74,29 @@ Visualization and graphics are often used to communicate scientific results.
 However, inefficient color maps can easily break things and have to be
 chosen carefully [@Tufte:1990; @Brewer:1999; @Ware:2004; @Wilkinson:2005; @Wilke:2019; @Baum:2019; @Crameri:2020].
 Over the past years awareness has risen and many plotting libraries have
-changed their default color palette for the better. As one well-known example,
-`matplotlib 2.0` was released with an update on mostly all default colors
-[@matplotlib20:colors]. Most noticeably 'viridis' replaces the classical 'jet'
-color map, a color map very similar to the infamous RGB rainbow color palette,
-facing the same problems.
+changed their default color palette for the better. One well-known example is
+the release of Matplotlib version `2.0` with an update on mostly all default
+colors [@matplotlib20:colors]. Most noticeably 'viridis' replaces the classical
+'jet' color map, a color map very similar to the infamous RGB rainbow color
+palette infamous for causing all sorts of issues.
 
-One way to construct efficient color palettes with the desired properties is
-to construct palettes using a perceptual-based color model, a color space
-representing the way the human visual system processes this information.
-One such color model is the Hue-Chroma-Luminance (HCL) model, a three
-dimensional color space defined by the following three axis:
+One way to construct efficient color palettes with the desired properties is to
+use perceptual-based color model, a color space representing the way the human
+visual system processes color information. One such color model is the
+Hue-Chroma-Luminance (HCL) model, a three-dimensional color space defined by
+the following three axis:
 
 * **Hue:** The type of color
-* **Chroma:** Colorfullnes
+* **Chroma:** Colorfullness
 * **Luminance:** Brightness
 
-Given the three dimensions represent our perception, the HCL model makes it easy
-to construct efficient color palettes with the desired properties.
-The _colorspace_ package is not just a collection of fixed palettes, but rather
-a set of building blocks to easily create new hand-tailored perceptually-based
-palettes or adapt existing ones, by defining trajectories trough the HCL
-dimensions. These palettes can easily be employed with existing
-plotting and graphing libraries such as `maptlotlib`, `seaborn`, or `plotly`.
+As these dimensions represent human perception, it allows for an intuitive
+construction of a wide range of efficient and well-balanced color palettes. The
+_colorspace_ package is not just a collection of fixed palettes, but rather a
+set of building blocks to easily create new hand-tailored perceptually-based
+palettes or adapt existing ones, by defining trajectories (paths) trough the
+HCL space. These palettes can easily be employed with existing plotting and
+graphing libraries, thus be used in existing workflows.
 
 In addition, _colorspace_ provides a series of functions and classes for
 handling, transforming, manipulating and visualizing sets of color palettes
@@ -119,41 +104,22 @@ both, from _colorspace_ but also from any other package. In particular, this
 includes functionality to emulate color vision deficiencies to check whether or
 not a specific color palette is efficient and accessible by everyone.
 
-Overall, Python _colorspace_ - the Python implementation of the _R_ package
-[`colorspace`](https://colorspace.r-forge.r-project.org/) [@Zeileis:2020] - 
-is a comprehensive color toolbox going much further than just providing
-a series of color palettes.
+**RETO: Wuerde ich irgendwo gernen nennen, weiss aber nicht wo :)**
+
+Python _colorspace_ is the Python implementation of the well established
+_R_ package [`colorspace`](https://colorspace.r-forge.r-project.org/) [@Zeileis:2020].
 
 
 # Key functionality
 
-## Color spaces
+## Chosing and constructing color palettes
 
-At the core of the colorspace package are various utilities for computing with
-color spaces [@Wiki:Colorspace], as the name conveys. Thus, the package helps to
-map various three-dimensional representations of color to each other @Ihaka:2003.
-A particularly important mapping is the one from the perceptually-based
-and device-independent color model HCL (Hue-Chroma-Luminance; polar representation
-of the CIELUV color space) to standard
-Red-Green-Blue (sRGB) which is the basis for color specifications in many
-systems based on the corresponding hex codes [@Wiki:Webcolors], e.g., in HTML
-but also in Python. All color models supported by _colorspace_ and their interconnections
-are illustrated in Figure \autoref{fig-colorspaces}
-
-![Illustration of the different color spaces implemented in package and the connection between them. Color models that are (or try to be) perceptually-based are displayed with circles and models that are not are displayed with rectangles.\label{fig-colorspaces}](paper_assets/fig_colorspaces.png)
-
-
-
-
-
-## Chosing color palettes
-
-A key feature of _colorspace_ is to chose, modify, and create effective
-color maps in the HCL color space. These are not based on a fixed set of colors but
-define trajectories in the HCL space. When drawing a series of colors, these trajectories
-are evaluated and (if needed) converted to e.g., standard RGB or HEX colors (web colors)
-using the transformations shown in Figure \autofig{fig-palette-types}.
-The package provides three main classes of HCL-based color palettes:
+A key feature of _colorspace_ is to chose, modify, and create effective color
+maps in the HCL color space. As mentioned previously, these are not fixed sets
+of colors but define trajectories trough the HCL space. When drawing 'any'
+number of colors from a palette, these trajectories are evaluated and (if
+needed) converted to e.g., standard RGB or HEX colors (web colors). The package
+provides three main classes of HCL-based color palettes:
 
 * `qualitative_hcl`: Create qualitative HCL-based palettes, designed for coding
     categorical information, i.e., where no
@@ -168,13 +134,14 @@ The package provides three main classes of HCL-based color palettes:
 
 
 To show the flexibility, Figure \autoref{fig-chosing-palettes} shows a swatch
-plot with four HCL-based sequential color palettes. `pal1` is using a
-predefined color palette, the HCL-based 'viridis" palette, whilst `pal2` shows
-how this palette is constructed by hand, explicitly defining the properties of
-the trajectories. The remaining two start with the settings of the predefined
-palette but adjust certain properties. Whilst `pal3` overwrites the chroma
-trajectory with a triangular trajectory ending in lower chroma then the
-original, `pal4` limits the hue range towards the green-yellow sector.
+plot with four HCL-based sequential color palettes. The first palette (`pal1`)
+is the predefined sequential HCL palette 'viridis' as is the second one
+(`pal2`) but this time constructed by hand by specifying the properties of the
+trajectories.
+The remaining two start with 'viridis' settings but adjust certain properties.
+Whilst `pal3` overwrites the chroma trajectory with a triangular one ending in
+lower chroma than the original, `pal4` limits the hue range to the green-yellow
+range.
 
 ```{python}
 #| label: fig-chosing-palettes
@@ -194,9 +161,8 @@ swatchplot([palette(pal1(7), "By name"),
             figsize = (8, 1.75));
 ```
 
-As mentioned, these HCL-based palettes are not fixed sets of colors but
-a special class of object which carry along the definition of the trajectories
-which are only evaluated once the user draws a set of colors.
+The objects provide a series of methods to e.g., extract the settings of
+the trajectories, or to easily draw a set of $n$ HEX colors.
 
 ```{python}
 print(f"{pal1.settings}")
@@ -208,9 +174,8 @@ print(f"{pal1.settings}")
 
 
 Besides the HCL-based version of 'viridis', _colorspace_ comes with a wide
-range of color palettes which can be used directly or used as a starting point
-to create customized palettes as demonstrated above. Figure
-\autoref{fig-hcl-palettes} gives an overview of the available palettes.
+range of color palettes which can be used (and modified if needed).
+Figure \autoref{fig-hcl-palettes} gives an overview of the available palettes.
 
 ```{python}
 #| label: fig-hcl-palettes
@@ -222,20 +187,16 @@ hcl_palettes(plot = True, figsize = (20, 15))
 
 ## Assessing color maps
 
-**RETO: These two plots will be side-by-side, this is just not
-possible with specplot, so I'll do it manually in the final manuscript.**
-
-
 To demonstrate some of the functionality for palette assessment,
 Figure \autoref{fig-spectrum} shows a color spectrum plot (left) and
-a slice trough the HCL space (right) for color palette `pal4` as defined
+a slice through the HCL space (right) for color palette `pal4` as defined
 in the previous section.
 
-The lower panel of the spectrum plot shows the H, C, and L trajectories
-which `pal4` is based on, all monotonically changing from one end of the
-palette to the other. The minor kink in the chroma trajectory results from
-touching the outer perimeter of the HCL space. This is also visible in the
-slice across the HCL space, where the darker half of the palette scrapes
+The bottom panel of the spectrum plot shows the H, C, and L trajectories,
+which all change monotonically from one end of the
+palette to the other. The slight kink in the chroma trajectory results from
+touching the outer edge of the HCL space. This can also be seen in the
+slice through the HCL space, where the darker half of the palette scrapes
 along the outer edge.
 
 
@@ -261,17 +222,17 @@ pal4.hclplot(n = 7, figsize = (5, 5));
 
 Figure \autoref{fig-cvd} shows how badly inefficient color maps can break down.
 The figure shows the same data four times, once using a palette based on the 
-(in-)famous RGB rainbow (left) and once using the sequential HCL-based palette
-'Blue-Yellow' (right). Whilst the top row shows the original colors for people
-without visual constraints, the bottom row an emulation of how people with
-deteranomaly (colloquially known as 'red-green color blindness') perceive the
+RGB rainbow (left) and once using the sequential HCL palette
+'Blue-Yellow' (right). While the top row shows the original colors for people
+without visual constraints, the bottom row shows an emulation of how people with
+deuteranomaly (colloquially known as "red-green color blindness") perceive the
 same information.
 
-Tough this is an extreme example it illustrates how quickly inefficient color
-maps can break, making certain figures and results inaccessible to certain
-groups of people. Whilst many better alternatives to the RGB rainbow are easily
-available today, the RGB rainbow (and palettes with similar issues) has been
-used for decades with little caution, they are still found to be used today.
+This is admittedly an extreme example, but it illustrates how quickly inefficient color
+maps can break down, making certain figures and results inaccessible to certain
+groups of people. While many better alternatives to the RGB rainbow are readily
+available, the RGB rainbow and palettes with similar problems have been used
+for a long time with little caution and can still be found in use today.
 
 
 ```{python}
@@ -307,8 +268,8 @@ shows two small examples using a data set shipped with the package.
 
 The `matplotlib` figure (left) shows a 2-d histogram of daily minimum and maximum temperatures
 for a weather station in Germany, the `seaborn`-based plot (right) the distribution of the
-average daily temperature for the same location, separated into seasons.
-Whilst a 'cmap' (`.cmap()`; `LinearSegmentedColormap`) is used with `matplotlib, 
+average daily temperature for the same location, split into seasons.
+Whilst a 'cmap' (`.cmap()`; `LinearSegmentedColormap`) is used with `matplotlib`,
 `seaborn` just requires a list of HEX colors (`.colors(4)`).
 
 
@@ -351,30 +312,27 @@ plt.tight_layout()
 plt.show()
 ```
 
-Additional examples for `matplotlib`, `seaborn`, and plotly` as well as
-information about the data set used can be found in the
+Additional examples for `matplotlib`, `seaborn`, and `plotly` can be found in the
 [package documentation](https://retostauffer.github.io/python-colorspace/).
-
 
 
 
 # Dependencies and availability
 
-The _colorspace_ package in Python has been developed having a light-weight design
-in mind. For the core functionality, the only dependency is the widely used
-`numpy` package. For palette assessment (visualizations) `matplotlib` is required.
-In addition, `imageio` is needed when using the `cvd_emulator`, and `pandas` if
-one is using some of the data sets shipped with the package (see `datasets` documentation).
+With a light-weight design in mind, most core functionality only requires `numpy`.
+For full functionality, `matplotlib`, `imageio` and `pandas` will need to be installed.
 
-The package is available via PyPI (latest release candidate) as well as via GitHub
-(current development version). Bug reports, software contributions, as well as
-suggestions of additional features are welcome. More details can be found in the
-[package documentation](https://retostauffer.github.io/python-colorspace/).
+_colorspace_ is available via [PyPI](https://pypi.org/project/colorspace).
+[source code](https://github.com/retostauffer/python-colorspace) and
+[package documentation](https://retostauffer.github.io/python-colorspace/) are
+hosted on github, where bug reports, software contributions and feature requests
+are always welcome.
 
 
 # Acknowledgements
 
-**TODO**
+**RETO: Brauchen wir sowas? Haette sonst hier noch der alten R-colorspace-Gang
+gedankt, aber Platz ist eigentlich eh keiner.**
 
 
 # References
