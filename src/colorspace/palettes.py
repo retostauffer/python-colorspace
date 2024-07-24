@@ -1417,16 +1417,13 @@ class qualitative_hcl(hclpalette):
 
     Args:
         h (list, str): Hue values defining the 'color' or name of pre-defined
-            palette (`str`). Qualitative color
-            palettes require two hues. If more than two values are provided the first
-            two will be used while the rest is ignored.  If input `h` is a str this
-            argument acts like the `palette` argument (see `palette` input parameter).
-            Can also be lambda functions or a list of lambda functions which take up
-            one single argument `n` (number of colors; see default value).
-        c (int, float): Chroma value (colorfullness), a single numeric value. If
-            multiple values are provided only the first one will be used.
-        l (int, float): luminance value (lightness), a single numeric value. If
-            multiple values are provided only the first one will be used.
+            palette (`str`) or a list of two numeric values (float/int) defining
+            the hue on the two ends of the palette. If str, it acts as the
+            input argument `palette`.
+            Elements in list can also be lambda functions with one single input
+            argument `n` (number of colors; see default value).
+        c (int, float): Chroma value (colorfullness), a single numeric value.
+        l (int, float): luminance value (lightness), a single numeric value.
         fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
             values outside the defined RGB color space be corrected?
         palette (None, str): Can be used to load a default diverging color
@@ -1505,8 +1502,8 @@ class qualitative_hcl(hclpalette):
         # _checkinput_ parameters (in the correct order):
         # - dtype, length_min, length_max, recycle, nansallowed, **kwargs
         try:
-            c = self._checkinput_(int, 1, 2, False, c = c)
-            l = self._checkinput_(int, 1, 2, False, l = l)
+            c = self._checkinput_(int, 1, 1, False, c = c)
+            l = self._checkinput_(int, 1, 1, False, l = l)
         except Exception as e:
             raise ValueError(str(e))
 
@@ -1786,19 +1783,19 @@ class diverging_hcl(hclpalette):
     :py:class:`rainbow`.
 
     Args:
-        h (list of numerics): Hue values (color), diverging color palettes should
+        h (list, float, int): Hue values (color), diverging color palettes should
             have different hues for both ends of the palette. If only one value is
             present it will be recycled ending up in a diverging color palette with the
             same colors on both ends.  If more than two values are provided the first
             two will be used while the rest is ignored.  If input `h` is a str
             this argument acts like the `palette` argument (see `palette` input
             parameter).
-        c (numeric): Chroma value (colorfullness), a single numeric value. If two
+        c (float, int, list): Chroma value (colorfullness), a single numeric value. If two
             values are provided the first will be taken as `c1`, the second as `cmax`.
-        l (list of numerics): luminance values (lightness). The first value is for
+        l (float, int, list): luminance values (lightness). The first value is for
             the two ends of the color palette, the second one for the neutral center
             point. If only one value is given this value will be recycled.
-        power (float): Power parameter for non-linear behaviour of the color
+        power (float, int, list): Power parameter for non-linear behaviour of the color
             palette.
         fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
             values outside the defined RGB color space be corrected?
@@ -2043,28 +2040,29 @@ class divergingx_hcl(hclpalette):
     :py:class:`rainbow`.
 
     Args:
-        h (list of float or int): Hue values (color), divergingx color palettes should
-            have different hues for both ends and the center of the palette.
-            For this class three values must be provided. If input `h` is a str
-            this argument acts like the `palette` argument (see `palette` input
-            parameter).
-        c (list of float or int): Chroma value (colorfullness), list of floats. In case two
+        h (list): Hue values (color), list of three numerics. Divergingx color
+            palettes should have different hues for both ends and the center of the
+            palette. For this class three values must be provided. If input `h` is
+            a str this argument acts like the `palette` argument (see `palette`
+            input parameter).
+        c (list): Chroma value (colorfullness), list of floats. In case two
             values are provided the firt is taken as `c1` and `c3` while the second
             one is used for `c2` (center value). When three or more are provided
             the first three are used for `c1`, `c2`, and `c3`. `cmax1` and `cmax2`
             have to provided as extra arguments.
-        l (list of float or int): luminance values (lightness). In case two
-            values are provided the firt is taken as `c1` and `c3` while the second
-            one is used for `c2` (center value). When three or more are provided
-            the first three are used for `c1`, `c2`, and `c3`. `cmax1` and `cmax2`
-            have to provided as extra arguments.
-        power (list of float): Power parameters for non-linear behaviour of the color
-            palette. Up to four values can be provided for `p1`, `p2`, `p3`, `p4`.
+        l (list): Luminance values (lightness), list of float/int. In case two
+            values are provided the firt is taken as `l1` and `l3` while the second
+            one is used for `l2` (center value). When three are provided
+            they are used as `l1`, `l2`, and `l3` respectively.
+        power (list): Power parameters for non-linear behaviour of the color
+            palette, list of floats.
             If two values are provided `power[0]` will be used for `p1` and `p4`
-            while `power[1]` is used for `p2` and `p3` (symmetric).
-        cmax (list of float or int): Maximum chroma. If one value is provided this
-            will be used for both, `cmax1` and `cmax2`. Else the first two elements
-            will be used for `cmax1` and `cmax2` respectively.
+            while `power[1]` is used for `p2` and `p3` (symmetric). A list of length
+            four allows to specify `p1`, `p2`, `p3`, and `p4` individually. List
+            of length three acts like a list of length two, the last element is ignored.
+        cmax (float, int, list): Maximum chroma. If one value is provided this
+            will be used for both, `cmax1` and `cmax2`. Else the two numerics in the
+            list are used for `cmax1` and `cmax2` respectively.
         fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
             values outside the defined RGB color space be corrected?
         palette (str): Can be used to load a default diverging color palette
@@ -2392,12 +2390,15 @@ class sequential_hcl(hclpalette):
             is recycled which yields a single-hue sequential color palette.  If
             input `h` is a str this argument acts like the `palette` argument
             (see `palette` input parameter).
-        c (numeric list): Chroma values (colorfullness), numeric of length one
-            (linear to zero), two (linear in interval), or three (advanced; `[c1, cmax, c2]`).
-        l (numeric list): Luminance values (luminance), numeric of length two.
-            If multiple values are provided only the first one will be used.
-        power (numeric, numeric list): Power parameter for non-linear behaviour
-            of the color palette. One or two values can be provided.
+        c (float, int, list): Chroma values (colorfullness), int or float
+            (linear to zero), list of two numerics (linear in interval), =
+            or three numerics (advanced; `[c1, cmax, c2]`).
+        l (float, int, list): Luminance values (luminance). If float or int,
+            the element will be recycled, or a list of two numerics
+            (defining `[l1, l2]`).
+        power (float, int, list): Power parameter for non-linear behaviour
+            of the color palette. Single float or int, or a list of numerics
+            (defining `[p1, p2]`).
         fixup (bool): Only used when converting the HCL colors to hex.  Should
             RGB values outside the defined RGB color space be corrected?
         palette (str): Can be used to load a default diverging color palette

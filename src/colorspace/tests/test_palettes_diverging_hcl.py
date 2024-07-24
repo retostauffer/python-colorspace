@@ -239,4 +239,115 @@ def test_diverging_hcl_missing_colors_fixup():
     assert np.all(pal2[1:6] == pal1[1:6])
 
 
+# Testing argument 'palette'
+def test_diverging_hcl_argument_palette():
+
+    ref = hcl_palettes().get_palette("Green-Orange").get_settings()
+    
+    # By name
+    pal = diverging_hcl("Green-Orange")
+    assert ref == pal.settings
+    del pal
+    
+    # By name using palette argument
+    pal = diverging_hcl(palette = "Green-Orange")
+    assert ref == pal.settings
+    del pal
+
+# Testing argument 'h'
+def test_diverging_hcl_argument_h():
+
+    # Testing h: single int
+    settings = diverging_hcl(h = 30).settings
+    assert np.equal(settings["h1"], 30)
+    assert np.equal(settings["h2"], 30)
+    del settings
+    
+    settings = diverging_hcl(h = [30]).settings
+    assert np.equal(settings["h1"], 30)
+    assert np.equal(settings["h2"], 30)
+    del settings
+    
+    # Testing h: single float
+    settings = diverging_hcl(h = 30.5).settings
+    assert np.equal(settings["h1"], 30)
+    assert np.equal(settings["h2"], 30)
+    del settings
+    
+    # Testing h as list of [h1, h2]
+    settings = diverging_hcl(h = [40, 50]).settings
+    assert np.equal(settings["h1"], 40)
+    assert np.equal(settings["h2"], 50)
+    del settings
+
+# Testing argument 'c'
+def test_diverging_hcl_argument_c():
+
+    # Testing c: single numeric (linear to zero)
+    settings = diverging_hcl(c = 30.).settings
+    assert np.equal(settings["c1"], 30)
+    assert not "c2" in settings.keys() # no cmax
+    assert not "cmax" in settings.keys() # no cmax
+    del settings
+    
+    settings = diverging_hcl(c = [30.]).settings
+    assert np.equal(settings["c1"], 30)
+    assert not "c2" in settings.keys() # no cmax
+    assert not "cmax" in settings.keys() # no cmax
+    del settings
+    
+    # Testinc c: list of two numerics ([c1, cmax])
+    settings = diverging_hcl(c = [35, 45]).settings
+    assert np.equal(settings["c1"], 35)
+    assert np.equal(settings["cmax"], 45)
+    assert not "c2" in settings.keys() # no cmax
+    del settings
+
+
+# Testing argument 'l'
+def test_diverging_hcl_argument_l():
+
+    # Testing c: single numeric (linear to zero)
+    settings = diverging_hcl(l = 10.).settings
+    assert np.equal(settings["l1"], 10)
+    assert np.equal(settings["l2"], 10)
+    del settings
+    
+    settings = diverging_hcl(l = [10.]).settings
+    assert np.equal(settings["l1"], 10)
+    assert np.equal(settings["l2"], 10)
+    del settings
+    
+    # Testing c: single numeric (linear to zero)
+    settings = diverging_hcl(l = 20.).settings
+    assert np.equal(settings["l1"], 20)
+    assert np.equal(settings["l2"], 20)
+    del settings
+    
+    # Testing c: single numeric (linear to zero)
+    settings = diverging_hcl(l = [11, 12]).settings
+    assert np.equal(settings["l1"], 11)
+    assert np.equal(settings["l2"], 12)
+    del settings
+
+# Testing argument 'power'
+def test_diverging_hcl_argument_power():
+
+    # Testing power: single numeric (recycled)
+    settings = diverging_hcl(power = 1.1).settings
+    assert np.equal(settings["p1"], 1.1)
+    assert "p2" not in settings.keys()
+    del settings
+    
+    settings = diverging_hcl(power = [1.1]).settings
+    assert np.equal(settings["p1"], 1.1)
+    assert "p2" not in settings.keys()
+    del settings
+    
+    # Testing power: two numeric values
+    settings = diverging_hcl(power = [0.5, 0.7]).settings
+    assert np.equal(settings["p1"], 0.5)
+    assert np.equal(settings["p2"], 0.7)
+    del settings
+
 

@@ -257,4 +257,61 @@ def test_qualitative_hcl_missing_colors_fixup():
     assert np.all(pal2[5:] == pal1[5:])
 
 
+# Testing argument 'palette'
+def test_qualitative_hcl_argument_palette():
+
+    ref = hcl_palettes().get_palette("Warm").get_settings()
+    
+    # By name
+    pal = qualitative_hcl("Warm")
+    assert ref == pal.settings
+    del pal
+    
+    # By name using palette argument
+    pal = qualitative_hcl(palette = "Warm")
+    assert ref == pal.settings
+    del pal
+
+# Testing argument 'h'
+def test_qualitative_hcl_argument_h():
+
+    # Testing h: single int
+    settings = qualitative_hcl(h = [90, 270]).settings
+    assert np.equal(settings["h1"], 90)
+    assert np.equal(settings["h2"], 270)
+    del settings
+
+
+# Testing argument 'c'
+def test_qualitative_hcl_argument_c():
+
+    # Testing c: single numeric (linear to zero)
+    settings = qualitative_hcl(c = 30.).settings
+    assert np.equal(settings["c1"], 30)
+    assert not "c2" in settings.keys() # no cmax
+    assert not "cmax" in settings.keys() # no cmax
+    del settings
+    
+    settings = qualitative_hcl(c = [30.]).settings
+    assert np.equal(settings["c1"], 30)
+    assert not "c2" in settings.keys() # no cmax
+    assert not "cmax" in settings.keys() # no cmax
+    del settings
+
+
+# Testing argument 'l'
+def test_qualitative_hcl_argument_l():
+
+    # Testing c: single numeric (linear to zero)
+    settings = qualitative_hcl(l = 10.).settings
+    assert np.equal(settings["l1"], 10)
+    assert not "l2" in settings.keys()
+    del settings
+    
+    settings = qualitative_hcl(l = [10.]).settings
+    assert np.equal(settings["l1"], 10)
+    assert not "l2" in settings.keys()
+    del settings
+
+
 
