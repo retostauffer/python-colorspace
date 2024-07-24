@@ -64,7 +64,7 @@ However, inefficient color maps can easily break things and have to be
 chosen carefully [@Tufte:1990; @Brewer:1999; @Ware:2004; @Wilkinson:2005; @Wilke:2019; @Baum:2019; @Crameri:2020].
 Over the past years awareness has risen and many plotting libraries have
 changed their default color palette for the better. One well-known example is
-the release of Matplotlib version `2.0` with an update on mostly all default
+the release of Matplotlib `2.0` with an update on mostly all default
 colors [@matplotlib20:colors]. Most noticeably 'viridis' replaces the classical
 'jet' color map, a color map very similar to the infamous RGB rainbow color
 palette infamous for causing all sorts of issues.
@@ -122,7 +122,7 @@ provides three main classes of HCL-based color palettes:
     neutral value, i.e., where colors diverge from neutral to two extremes.
 
 
-To show the flexibility, Figure \autoref{fig:chosingpalettes} shows a swatch
+To show the flexibility, \autoref{fig:chosingpalettes} shows a swatch
 plot with four HCL-based sequential color palettes. The first palette (`pal1`)
 is the predefined sequential HCL palette 'viridis' as is the second one
 (`pal2`) but this time constructed by hand by specifying the properties of the
@@ -136,7 +136,8 @@ range.
 from colorspace import palette, sequential_hcl, swatchplot
 
 pal1 = sequential_hcl(palette = "viridis")
-pal2 = sequential_hcl(h = [300, 75], c = [40, 95], l = [15, 90], power = [1., 1.1])
+pal2 = sequential_hcl(h = [300, 75], c = [40, 95], l = [15, 90],
+                      power = [1., 1.1])
 pal3 = sequential_hcl(palette = "viridis", cmax = 90,  c2 = 20)
 pal4 = sequential_hcl(palette = "viridis", h1 = 200)
 
@@ -160,7 +161,7 @@ pal1.cmap()        # Get matplotlib colormap
 
 Besides the HCL-based version of 'viridis', _colorspace_ comes with a wide
 range of color palettes which can be used (and modified if needed).
-Figure \autoref{fig-hcl-palettes} gives an overview of the available palettes.
+\autoref{fig-hcl-palettes} gives an overview of the available palettes.
 
 ```
 from colorspace import hcl_palettes
@@ -173,7 +174,7 @@ hcl_palettes(plot = True, figsize = (20, 15))
 ## Assessing color maps
 
 To demonstrate some of the functionality for palette assessment,
-Figure \autoref{fig:specplothclplot} shows a color spectrum plot (left) and
+\autoref{fig:specplothclplot} shows a color spectrum plot (left) and
 a slice through the HCL space (right) for color palette `pal4` as defined
 in the previous section.
 
@@ -200,7 +201,7 @@ pal4.hclplot(n = 7, figsize = (5, 5));
 
 ## Color vision deficiency
 
-Figure \autoref{fig-cvd} shows how badly inefficient color maps can break down.
+\autoref{fig-cvd} shows how badly inefficient color maps can break down.
 The figure shows the same data four times, once using a palette based on the 
 RGB rainbow (left) and once using the sequential HCL palette
 'Blue-Yellow' (right). While the top row shows the original colors for people
@@ -225,7 +226,8 @@ col2 = sequential_hcl("Blue-Yellow", rev = True).colors(11)
 
 fig, ax = plt.subplots(2, 2, figsize = (10, 5))
 
-demoplot(col1, "Map", ax = ax[0,0], title = "(In-)famous Rainbow palette", ylabel = "original")
+demoplot(col1, "Map", ax = ax[0,0], title = "(In-)famous Rainbow palette",
+         ylabel = "original")
 demoplot(col2, "Map", ax = ax[0,1], title = "HCL-based Blue-Yellow")
 demoplot(deutan(col1), "Map", ax = ax[1,0], ylabel = "deuteranope")
 demoplot(deutan(col2), "Map", ax = ax[1,1])
@@ -242,7 +244,7 @@ on the [package documentation](https://retostauffer.github.io/python-colorspace/
 ## Use with existing plotting libraries
 
 Color palettes made accessible via the _colorspace_ package can easily
-be deployed with existing plotting or graphics libraries. Figure \autoref{fig-plotting}
+be deployed with existing plotting or graphics libraries. \autoref{fig-plotting}
 shows two small examples using a data set shipped with the package.
 
 The `matplotlib` figure (left) shows a 2-d histogram of daily minimum and maximum temperatures
