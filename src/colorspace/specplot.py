@@ -273,11 +273,11 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
             x = linspace(0., 1., len(R))
             linestyle = linestyles[count % len(linestyles)] 
             LR, = ax1.plot(x, R, color = rgbcols.colors()[0],
-                           linestyle = linestyle, label = "R")
+                           linestyle = linestyle, label = "R" if key == "x" else None)
             LG, = ax1.plot(x, G, color = rgbcols.colors()[1],
-                           linestyle = linestyle, label = "G")
+                           linestyle = linestyle, label = "G" if key == "x" else None)
             LB, = ax1.plot(x, B, color = rgbcols.colors()[2],
-                           linestyle = linestyle, label = "B")
+                           linestyle = linestyle, label = "B" if key == "x" else None)
             ax1.legend(loc = "upper left", ncols = 3, frameon = False,
                        handlelength = 1, borderpad = 0)
             count += 1
@@ -300,11 +300,11 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
             x = linspace(0., 1., len(H))
             linestyle = linestyles[count % len(linestyles)] 
             ax3.plot(x,  C, color = hclcols[1],
-                     linestyle = linestyle, label = "C")
+                     linestyle = linestyle, label = "C" if key == "x" else None)
             ax3.plot(x,  L, color = hclcols[2],
-                     linestyle = linestyle, label = "L")
+                     linestyle = linestyle, label = "L" if key == "x" else None)
             ax33.plot(x, H, color = hclcols[0],
-                     linestyle = linestyle, label = "H")
+                     linestyle = linestyle, label = "H" if key == "x" else None)
 
             ax3.legend(loc = "upper left", ncols = 3, frameon = False,
                        handlelength = 1, borderpad = 0)
