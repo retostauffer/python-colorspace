@@ -132,7 +132,7 @@ Whilst `pal3` overwrites the chroma trajectory with a triangular one ending in
 lower chroma than the original, `pal4` limits the hue range to the green-yellow
 range.
 
-```{python}
+```
 from colorspace import palette, sequential_hcl, swatchplot
 
 pal1 = sequential_hcl(palette = "viridis")
@@ -152,7 +152,7 @@ swatchplot([palette(pal1(7), "By name"),
 The objects provide a series of methods to e.g., extract the settings of
 the trajectories, get $n$ HEX colors, or a matplotlib color map.
 
-```{python}
+```
 pal1.settings      # Extracting settings
 pal1(3)            # Extracting 3 colors
 pal1.cmap()        # Get matplotlib colormap
@@ -162,7 +162,7 @@ Besides the HCL-based version of 'viridis', _colorspace_ comes with a wide
 range of color palettes which can be used (and modified if needed).
 Figure \autoref{fig-hcl-palettes} gives an overview of the available palettes.
 
-```{python}
+```
 from colorspace import hcl_palettes
 hcl_palettes(plot = True, figsize = (20, 15))
 ```
@@ -185,7 +185,7 @@ slice through the HCL space, where the darker half of the palette scrapes
 along the outer edge.
 
 
-```{python}
+```
 # Color spectrum (left subplot)
 pal4.specplot(figsize = (5, 5));
 
@@ -215,7 +215,7 @@ available, the RGB rainbow and palettes with similar problems have been used
 for a long time with little caution and can still be found in use today.
 
 
-```{python}
+```
 from colorspace import demoplot, rainbow, sequential_hcl, deutan
 from colorspace import diverging_hcl
 import matplotlib.pyplot as plt
@@ -252,7 +252,7 @@ Whilst a 'cmap' (`.cmap()`; `LinearSegmentedColormap`) is used with `matplotlib`
 `seaborn` just requires a list of HEX colors (`.colors(4)`).
 
 
-```{python}
+```
 from colorspace import dataset, qualitative_hcl
 import matplotlib.pyplot as plt
 import seaborn as sns
