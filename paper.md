@@ -122,7 +122,7 @@ provides three main classes of HCL-based color palettes:
     neutral value, i.e., where colors diverge from neutral to two extremes.
 
 
-To show the flexibility, Figure \autoref{fig-chosing-palettes} shows a swatch
+To show the flexibility, Figure \autoref{fig:chosingpalettes} shows a swatch
 plot with four HCL-based sequential color palettes. The first palette (`pal1`)
 is the predefined sequential HCL palette 'viridis' as is the second one
 (`pal2`) but this time constructed by hand by specifying the properties of the
@@ -147,7 +147,7 @@ swatchplot([palette(pal1(7), "By name"),
             figsize = (8, 1.75));
 ```
 
-![Swatches of four sequential palettes constructed using the HCL color space. (`pal1`) Predefined HCL-based viridis palette, (`pal2`) identical but created by hand, (`pal3`/`pal4`) are modified versions with triangular chroma trajectory and reduced hue range.\label{fig-chosing-palettes}](paper_assets/fig-chosing-palettes.png)
+![Swatches of four sequential palettes constructed using the HCL color space. (`pal1`) Predefined HCL-based viridis palette, (`pal2`) identical but created by hand, (`pal3`/`pal4`) are modified versions with triangular chroma trajectory and reduced hue range.\label{fig:chosingpalettes}](paper_assets/fig-chosing-palettes.png)
 
 The objects provide a series of methods to e.g., extract the settings of
 the trajectories, get $n$ HEX colors, or a matplotlib color map.
@@ -173,7 +173,7 @@ hcl_palettes(plot = True, figsize = (20, 15))
 ## Assessing color maps
 
 To demonstrate some of the functionality for palette assessment,
-Figure \autoref{fig-spectrum} shows a color spectrum plot (left) and
+Figure \autoref{fig:spectrumhclplot} shows a color spectrum plot (left) and
 a slice through the HCL space (right) for color palette `pal4` as defined
 in the previous section.
 
@@ -193,7 +193,7 @@ pal4.specplot(figsize = (5, 5));
 pal4.hclplot(n = 7, figsize = (5, 5));
 ```
 
-![Color spectrum plot (left) and slice across the HCL space for the custom sequential color palette `pal4`.\label{fig-specplot-hclplot}](paper_assets/fig-specplot-hclplot.png)
+![Color spectrum plot (left) and slice across the HCL space for the custom sequential color palette `pal4`.\label{fig:specplothclplot}](paper_assets/fig-specplot-hclplot.png)
 
 
 
