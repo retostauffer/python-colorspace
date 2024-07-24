@@ -52,7 +52,7 @@ See also: [qualitative_hcl](colorspace.palettes.qualitative_hcl.qmd), [sequentia
 
 <dl class="pyp-list param-list">
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.diverging_hcl:h">h</code><code class="argument-class">list of numerics</code>
+   <code id="colorspace.palettes.diverging_hcl:h">h</code><code class="argument-class">list, float, int</code>
   </dt>
  <dd>Hue values (color), diverging color palettes should
 have different hues for both ends of the palette. If only one value is
@@ -62,18 +62,18 @@ two will be used while the rest is ignored.  If input `h` is a str
 this argument acts like the `palette` argument (see `palette` input
 parameter).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.diverging_hcl:c">c</code><code class="argument-class">numeric</code>
+   <code id="colorspace.palettes.diverging_hcl:c">c</code><code class="argument-class">float, int, list</code>
   </dt>
  <dd>Chroma value (colorfullness), a single numeric value. If two
 values are provided the first will be taken as `c1`, the second as `cmax`.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.diverging_hcl:l">l</code><code class="argument-class">list of numerics</code>
+   <code id="colorspace.palettes.diverging_hcl:l">l</code><code class="argument-class">float, int, list</code>
   </dt>
  <dd>luminance values (lightness). The first value is for
 the two ends of the color palette, the second one for the neutral center
 point. If only one value is given this value will be recycled.</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.diverging_hcl:power">power</code><code class="argument-class">float</code>
+   <code id="colorspace.palettes.diverging_hcl:power">power</code><code class="argument-class">float, int, list</code>
   </dt>
  <dd>Power parameter for non-linear behaviour of the color
 palette.</dd>

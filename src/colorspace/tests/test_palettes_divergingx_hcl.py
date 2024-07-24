@@ -245,3 +245,123 @@ def test_divergingx_hcl_missing_colors_fixup():
 
     assert np.all(pal2[3:] == pal1[3:])
 
+# Testing argument 'palette'
+def test_divergingx_hcl_argument_palette():
+
+    ref = divergingx_palettes().get_palette("ArmyRose").get_settings()
+    
+    # By name
+    pal = divergingx_hcl("ArmyRose")
+    assert ref == pal.settings
+    del pal
+    
+    # By name using palette argument
+    pal = divergingx_hcl(palette = "ArmyRose")
+    assert ref == pal.settings
+    del pal
+
+
+# Testing argument 'h'
+def test_divergingx_hcl_argument_h():
+
+    # Testing h: Must be three values
+    settings = divergingx_hcl(h = [180, 90, 0]).settings
+    assert np.equal(settings["h1"], 180)
+    assert np.equal(settings["h2"], 90)
+    assert np.equal(settings["h3"], 0)
+    del settings
+
+
+# Testing argument 'cmax'
+def test_divergingx_hcl_argument_cmax():
+
+    # Testing cmax: Single value, used for cmax1 and cmax2
+    settings = divergingx_hcl(cmax = 30).settings
+    assert np.equal(settings["cmax1"], 30)
+    assert np.equal(settings["cmax2"], 30)
+    del settings
+    
+    settings = divergingx_hcl(cmax = [30.5]).settings
+    assert np.equal(settings["cmax1"], 30.5)
+    assert np.equal(settings["cmax2"], 30.5)
+    del settings
+    
+    # Testinc cmax: Two values, one for cmax1, one for cmax2
+    settings = divergingx_hcl(cmax = [20, 30]).settings
+    assert np.equal(settings["cmax1"], 20)
+    assert np.equal(settings["cmax2"], 30)
+    del settings
+    
+
+# Testing argument 'c'
+def test_divergingx_hcl_argument_c():
+
+    # Testing c: two values. First will be used as c1, c3, the second for c2
+    settings = divergingx_hcl(c = [50, 20]).settings
+    assert np.equal(settings["c1"], 50)
+    assert np.equal(settings["c2"], 20)
+    assert np.equal(settings["c3"], 50)
+    del settings
+    
+    # Testing c: three values [c1, c2, c3]
+    settings = divergingx_hcl(c = [30, 40, 50]).settings
+    assert np.equal(settings["c1"], 30)
+    assert np.equal(settings["c2"], 40)
+    assert np.equal(settings["c3"], 50)
+    del settings
+
+
+# Testing argument 'l'
+def test_divergingx_hcl_argument_l():
+
+    # Testing l: two values. First will be used as l1, l3, the second for l2
+    settings = divergingx_hcl(l = [50, 20]).settings
+    assert np.equal(settings["l1"], 50)
+    assert np.equal(settings["l2"], 20)
+    assert np.equal(settings["l3"], 50)
+    del settings
+    
+    # Testing l: three values [l1, l2, l3]
+    settings = divergingx_hcl(l = [30, 40, 50]).settings
+    assert np.equal(settings["l1"], 30)
+    assert np.equal(settings["l2"], 40)
+    assert np.equal(settings["l3"], 50)
+    del settings
+
+
+# Testing argument 'power'
+def test_divergingx_hcl_argument_power():
+
+    # Testing power: two values. First will be used as p1 and p4, the second for p2 and p3
+    settings = divergingx_hcl(power = [0.7, 1.2]).settings
+    assert np.equal(settings["p1"], 0.7)
+    assert np.equal(settings["p2"], 1.2)
+    assert np.equal(settings["p3"], 1.2)
+    assert np.equal(settings["p4"], 0.7)
+    del settings
+    
+    # Testing power: three values, acts like only two would be there
+    settings = divergingx_hcl(power = [0.7, 1.2, 1.8]).settings
+    assert np.equal(settings["p1"], 0.7)
+    assert np.equal(settings["p2"], 1.2)
+    assert np.equal(settings["p3"], 1.2)
+    assert np.equal(settings["p4"], 0.7)
+    del settings
+
+    # Testing power: four values [p1, p2, p3, p4]
+    settings = divergingx_hcl(power = [1.1, 1.2, 1.3, 1.4]).settings
+    assert np.equal(settings["p1"], 1.1)
+    assert np.equal(settings["p2"], 1.2)
+    assert np.equal(settings["p3"], 1.3)
+    assert np.equal(settings["p4"], 1.4)
+    del settings
+
+
+
+
+
+
+
+
+
+

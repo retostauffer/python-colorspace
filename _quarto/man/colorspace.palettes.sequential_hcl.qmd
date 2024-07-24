@@ -61,20 +61,23 @@ is recycled which yields a single-hue sequential color palette.  If
 input `h` is a str this argument acts like the `palette` argument
 (see `palette` input parameter).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.sequential_hcl:c">c</code><code class="argument-class">numeric list</code>
+   <code id="colorspace.palettes.sequential_hcl:c">c</code><code class="argument-class">float, int, list</code>
   </dt>
- <dd>Chroma values (colorfullness), numeric of length one
-(linear to zero), two (linear in interval), or three (advanced; [c1, c2, cmax]).</dd>
+ <dd>Chroma values (colorfullness), int or float
+(linear to zero), list of two numerics (linear in interval), =
+or three numerics (advanced; `[c1, cmax, c2]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.sequential_hcl:l">l</code><code class="argument-class">numeric list</code>
+   <code id="colorspace.palettes.sequential_hcl:l">l</code><code class="argument-class">float, int, list</code>
   </dt>
- <dd>Luminance values (luminance), numeric of length two.
-If multiple values are provided only the first one will be used.</dd>
+ <dd>Luminance values (luminance). If float or int,
+the element will be recycled, or a list of two numerics
+(defining `[l1, l2]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
-   <code id="colorspace.palettes.sequential_hcl:power">power</code><code class="argument-class">numeric, numeric list</code>
+   <code id="colorspace.palettes.sequential_hcl:power">power</code><code class="argument-class">float, int, list</code>
   </dt>
  <dd>Power parameter for non-linear behaviour
-of the color palette. One or two values can be provided.</dd>
+of the color palette. Single float or int, or a list of numerics
+(defining `[p1, p2]`).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.sequential_hcl:fixup">fixup</code><code class="argument-class">bool</code>
   </dt>

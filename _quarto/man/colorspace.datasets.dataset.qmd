@@ -15,6 +15,9 @@ Topographic information on Auckland's Maunga Whau Volcano on
 a 10m x 10m grid. Will return a two-dimensional `numpy.ndarray`
 of dimension 61x87 (int64).
 
+Digitized from a topographic map by Ross Ihaka.  These data should
+not be regarded as accurate.
+
 #### **HarzTraffic**: Daily Traffic Counts at Sonnenberg
 
 The data set provides daily traffic counts for bikes (motor bikes),
