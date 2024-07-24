@@ -72,7 +72,7 @@ palette, which is notorious for causing all sorts of problems.
 
 One way to construct efficient color palettes with the desired characteristics is to
 use a perceptual-based color model, a color model that represents the way the human
-visual system processes color information [@Kaiser:1996; @Knoblauch2002]. One such color model is the
+visual system processes color information [@Kaiser:1996; @Knoblauch:2002]. One such color model is the
 Hue-Chroma-Luminance (HCL) model, a three-dimensional color space defined by
 the following three axes:
 
@@ -254,6 +254,9 @@ for a weather station in Germany, the `seaborn`-based plot (right) the distribut
 average daily temperature for the same location, split into seasons.
 Whilst a 'cmap' (`.cmap()`; `LinearSegmentedColormap`) is used with `matplotlib`,
 `seaborn` just requires a list of HEX colors (`.colors(4)`).
+Additional examples for `matplotlib` [@Hunter:2007],
+`seaborn` [@Waskom:2021], and `plotly` [@plotly] can be found in the
+[package documentation](https://retostauffer.github.io/python-colorspace/).
 
 
 ```
@@ -291,9 +294,6 @@ plt.show()
 
 ![Example of a `matplotlib` 2D histogram and a `seaborn` distribution plot using custom HCL based colors.\label{fig-plotting}](paper_assets/fig-plotting.png)
 
-Additional examples for `matplotlib` [@Hunter:2007],
-`seaborn` [@Waskom:2021], and `plotly` [@plotly] can be found in the
-[package documentation](https://retostauffer.github.io/python-colorspace/).
 
 
 
