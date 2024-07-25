@@ -25,8 +25,8 @@ from .CVD import desaturate
 
 # Default HCL color palettes methods and
 # functions.
-from .palettes import hclpalettes
 from .palettes import palette
+from .palettes import hclpalettes
 from .palettes import qualitative_hcl
 from .palettes import diverging_hcl
 from .palettes import divergingx_hcl

@@ -142,6 +142,7 @@ swatchplot({"Diverging": [diverging_hcl(), diverging_hcl("Red-Green")],
 ### Raises
 
 <ul class="python-raises">
+<li><code class="text-warning">ImportError</code>: If `matplotlib` is not installed.
 <li><code class="text-warning">TypeError</code>: If `nrow` or `n` no int.
 <li><code class="text-warning">TypeError</code>: If `show_names` not bool.
 <li><code class="text-warning">ValueError</code>: If `nrow` or `n` are not positive.

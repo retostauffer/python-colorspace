@@ -210,6 +210,7 @@ plt.show();
 ### Raises
 
 <ul class="python-raises">
+<li><code class="text-warning">ImportError</code>: If `matplotlib` is not installed.
 <li><code class="text-warning">TypeError</code>: If argument `_type` is not None or str.
 <li><code class="text-warning">TypeError</code>: If argument `_type` is str but not one of the allowed types.
 <li><code class="text-warning">TypeError</code>: If argument `c`, and/or `l` are not None, str, or int.

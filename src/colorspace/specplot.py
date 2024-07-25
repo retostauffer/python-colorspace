@@ -13,7 +13,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
     suitably.
 
     If argument `x` is a `maplotlib.colors.LinearSegmentedColormap` or
-    `matplotlib.colors.ListedColrmap`, `256` distinct
+    `matplotlib.colors.ListedColormap`, `256` distinct
     colors across the color map are drawn and visualized.
 
     Args:
@@ -59,6 +59,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
        >>>          rgb = True, figsize = (8, 3));
 
     Raises:
+        ImportError: If `matplotlib` is not installed.
         TypeError: If `x` is not list or `matplotlib.colors.LinearSegmentedColormap`.
         TypeError: If `y` is neither a list nor `None`.
         ValueError: If `x` contains str which can not be converted to hex colors.
@@ -70,7 +71,14 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         TypeError: If 'title' is neither `None` nor `str`.
     """
 
+    # Requires matpotlib for plotting. If not available, throw ImportError
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError as e:
+        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
+
     from .utils import check_hex_colors
+    from matplotlib.colors import LinearSegmentedColormap, ListedColormap
 
     # Support function to draw the color map (the color strip)
     def cmap(ax, hex_, ylo = 0):
@@ -96,31 +104,18 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         if ylo > 0:
             ax.plot([0, 1], [ylo] * 2, ls = "-", c = "0")
 
-    # Trying to load matplotlib. If not possible, `x` must be a list.
-    # Else `x` can be either a list or a LinearSegmentedColormap. If the latter,
-    # 256 distinct colors will be extracted.
-    try:
-        from matplotlib.colors import LinearSegmentedColormap, ListedColormap
-        matplotlib_loaded = True
-    except:
-        matplotlib_loaded = False
-
     # Checking `x`
-    if not matplotlib_loaded:
-        if not isinstance(x, list):
-            raise TypeError("Argument `x` must be a list.")
-    else:
-        if not isinstance(x, (list, LinearSegmentedColormap, ListedColormap)):
-            raise TypeError("Argument `x` must be list, LinearSegmentedColormap or ListedColormap")
-        elif isinstance(x, (ListedColormap, LinearSegmentedColormap)):
-            from colorspace.cmap import cmap_to_sRGB
-            x = cmap_to_sRGB(x).colors()
+    if isinstance(x, (ListedColormap, LinearSegmentedColormap)):
+        from colorspace.cmap import cmap_to_sRGB
+        x = cmap_to_sRGB(x).colors()
+    elif not isinstance(x, list):
+        raise TypeError("argument `x` must be list or matplotlib colormap")
 
     # Checks if all entries are valid
     x = check_hex_colors(x)
 
     # Checking `y`
-    if matplotlib_loaded and isinstance(y, (LinearSegmentedColormap, ListedColormap)):
+    if isinstance(y, (LinearSegmentedColormap, ListedColormap)):
         # [!] Do not import as 'palette' (we have a variable called 'palette')
         from colorspace import palette as cp
         y = cp(y, n = len(x)).colors()

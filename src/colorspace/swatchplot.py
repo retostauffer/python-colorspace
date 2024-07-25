@@ -38,12 +38,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         **kwargs: forwarded to `matplotlib.pyplot.subplot`, can be used to control e.g.,
             `figsize`.
 
-    Raises:
-        TypeError: If `nrow` or `n` no int.
-        TypeError: If `show_names` not bool.
-        ValueError: If `nrow` or `n` are not positive.
-        ImportError: If `matplotlib.pyplot` cannot be imported, maybe `matplotlib` not installed?
-
     Example:
 
         >>> from colorspace import swatchplot, palette
@@ -82,7 +76,19 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
         >>>             "Others": [['#7FBFF5', '#2A4962', '#111111', '#633C39', '#F8A29E'],
         >>>                        pal, sequential_hcl("PuBu")]}, n = 15);
 
+    Raises:
+        ImportError: If `matplotlib` is not installed.
+        TypeError: If `nrow` or `n` no int.
+        TypeError: If `show_names` not bool.
+        ValueError: If `nrow` or `n` are not positive.
+        ImportError: If `matplotlib.pyplot` cannot be imported, maybe `matplotlib` not installed?
     """
+
+    # Requires matplotlib. If not available, throw ImportError
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError as e:
+        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
 
     from numpy import all
 
@@ -112,13 +118,6 @@ def swatchplot(pals, show_names = True, nrow = 20, n = 5, cvd = None, **kwargs):
     # ---------------------------------------------------------------
     # Setting up matplotlib for plotting
     # ---------------------------------------------------------------
-
-    # Requires matpotlib, a suggested package. If not avialable
-    # raise an import error.
-    try:
-        import matplotlib.pyplot as plt
-    except ImportError as e:
-        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
 
     # Allow the user to specify figure size if needed
     if "figsize" in kwargs:

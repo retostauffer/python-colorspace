@@ -13,7 +13,7 @@ jumps from `0` to `360` or vice versa, the hue coordinates are shifted
 suitably.
 
 If argument `x` is a `maplotlib.colors.LinearSegmentedColormap` or
-`matplotlib.colors.ListedColrmap`, `256` distinct
+`matplotlib.colors.ListedColormap`, `256` distinct
 colors across the color map are drawn and visualized.
 
 ### Usage
@@ -127,6 +127,7 @@ specplot(diverging_hcl("Green-Orange").colors(101),
 ### Raises
 
 <ul class="python-raises">
+<li><code class="text-warning">ImportError</code>: If `matplotlib` is not installed.
 <li><code class="text-warning">TypeError</code>: If `x` is not list or `matplotlib.colors.LinearSegmentedColormap`.
 <li><code class="text-warning">TypeError</code>: If `y` is neither a list nor `None`.
 <li><code class="text-warning">ValueError</code>: If `x` contains str which can not be converted to hex colors.

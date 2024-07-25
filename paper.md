@@ -292,8 +292,8 @@ plt.show()
 
 # Dependencies and availability
 
-With a light-weight design in mind, most core functionality only requires `numpy`.
-For full functionality, `matplotlib`, `imageio` [@imageio] and
+With a light-weight design in mind, most core functionality only requires `numpy`
+[@numpy]. For full functionality, `matplotlib`, `imageio` [@imageio] and
 `pandas` [@pandas] will need to be installed.
 
 _colorspace_ is available via [PyPI](https://pypi.org/project/colorspace).
