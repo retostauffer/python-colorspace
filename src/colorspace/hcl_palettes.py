@@ -66,8 +66,8 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
             function if `plot = True`.
 
     Returns:
-        None or hclpalettes: If `plot = True`
-        a plot will be created and `None` is returned. If `plot = False` (default)
+        Object of type `hclpalettes` or a `matplotlib.figure.Figure` object. If `plot = True`
+        a plot will be created and the figure handler returned. If `plot = False` (default)
         an object of class :py:class:`hclpalettes <colorspace.palettes.hclpalettes>` is returned.
 
     Raises:
@@ -204,8 +204,7 @@ def hcl_palettes(n = 5, type_ = None, name = None, plot = False, custom = None, 
         from .swatchplot import swatchplot
         from numpy import ceil
         nrow = int(ceil((pals.length() + len(pals.get_palette_types())) / ncol))
-        swatchplot(pals, nrow = nrow, n = n, **kwargs)
-        return
+        return swatchplot(pals, nrow = nrow, n = n, **kwargs)
 
 
 

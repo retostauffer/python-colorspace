@@ -218,7 +218,7 @@ class palette:
                 Note that `show_names` will always be set to `False`.
 
         Return:
-        Returns what :py:func:`colorspace.swatchplot.swatchplot` returns.
+            Returns what :py:func:`colorspace.swatchplot.swatchplot` returns.
 
         Example:
 
@@ -245,7 +245,7 @@ class palette:
             **kwargs: Forwarded to :py:func:`colorspace.specplot.specplot`.
 
         Return:
-        Returns what :py:func:`colorspace.specplot.specplot` returns.
+            Returns what :py:func:`colorspace.specplot.specplot` returns.
 
         Example:
 
@@ -272,7 +272,7 @@ class palette:
                 :py:func:`hclplot <colorspace.hclplot.hclplot>`.
 
         Return:
-        Returns what :py:func:`colorspace.hclplot.hclplot` returns.
+            Returns what :py:func:`colorspace.hclplot.hclplot` returns.
 
         Example:
 
@@ -918,6 +918,9 @@ class hclpalette:
             *args: Forwarded to :py:func:`colorspace.specplot.specplot`.
             **kwargs: Forwarded to :py:func:`colorspace.specplot.specplot`.
 
+        Return:
+            Returns what :py:func:`colorspace.specplot.specplot` returns.
+
         Example:
 
             >>> # Default diverging HCL palette
@@ -939,9 +942,7 @@ class hclpalette:
         """
 
         from .specplot import specplot
-        specplot(self.colors(n), *args, **kwargs)
-
-        return
+        return specplot(self.colors(n), *args, **kwargs)
 
     def swatchplot(self, n = 7, **kwargs):
         """Palette Swatch Plot
@@ -952,6 +953,9 @@ class hclpalette:
         Args:
             n (int): Number of colors, defaults to 7.
             **kwargs: forwarded to :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`.
+
+        Return:
+            Returns what :py:func:`colorspace.swatchplot.swatchplot` returns.
 
         Example:
 
@@ -971,7 +975,7 @@ class hclpalette:
         """
 
         from .swatchplot import swatchplot
-        swatchplot(self.colors(n), **kwargs)
+        return swatchplot(self.colors(n), **kwargs)
 
 
     def hclplot(self, n = 7, **kwargs):
@@ -986,6 +990,9 @@ class hclpalette:
             **kwargs: Additional named arguments forwarded to
                 :py:func:`hclplot <colorspace.hclplot.hclplot>`.
 
+        Return:
+            Returns what :py:func:`colorspace.hclplot.hclplot` returns.
+
         Example:
 
             >>> from colorspace import diverging_hcl
@@ -995,7 +1002,7 @@ class hclpalette:
         """
 
         from .hclplot import hclplot
-        hclplot(x = self.colors(n), **kwargs)
+        return hclplot(x = self.colors(n), **kwargs)
 
     def name(self):
         """Get Palette Name
