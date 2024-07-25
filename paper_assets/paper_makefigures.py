@@ -41,7 +41,7 @@ pal2 = sequential_hcl(h = [300, 75], c = [40, 95], l = [15, 90], power = [1., 1.
 pal3 = sequential_hcl(palette = "viridis", cmax = 90,  c2 = 20)
 pal4 = sequential_hcl(palette = "viridis", h1 = 200)
 
-fig = swatchplot({"Viridis": [
+fig = swatchplot({"Viridis (and altered versions of it)": [
                palette(pal1(7), "By name"),
                palette(pal2(7), "By hand"),
                palette(pal3(7), "With triangular chroma"),
