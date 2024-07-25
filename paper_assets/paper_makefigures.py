@@ -41,11 +41,12 @@ pal2 = sequential_hcl(h = [300, 75], c = [40, 95], l = [15, 90], power = [1., 1.
 pal3 = sequential_hcl(palette = "viridis", cmax = 90,  c2 = 20)
 pal4 = sequential_hcl(palette = "viridis", h1 = 200)
 
-fig = swatchplot([palette(pal1(7), "By name"),
-            palette(pal2(7), "By hand"),
-            palette(pal3(7), "With triangular chroma"),
-            palette(pal4(7), "With smaller hue range")],
-            figsize = (8, 1.75));
+fig = swatchplot({"Viridis": [
+               palette(pal1(7), "By name"),
+               palette(pal2(7), "By hand"),
+               palette(pal3(7), "With triangular chroma"),
+               palette(pal4(7), "With smaller hue range")
+            ]}, figsize = (8, 1.75));
 fig.savefig("fig-chosing-palettes.png", transparent = False, dpi = 200)
 plt.close()
 
@@ -87,22 +88,48 @@ plt.close()
 # Chosing/defining palettes
 # - Creates "fig-cvd.png"
 # ------------------------------------------------------
-from colorspace import demoplot, rainbow, sequential_hcl, deutan
-from colorspace import diverging_hcl
+
+# --------------- THIS IS THE MAP VERSION USED ORIGINALLY ---------------
+#from colorspace import demoplot, rainbow, sequential_hcl, deutan
+#import matplotlib.pyplot as plt
+#
+#col1 = rainbow(end = 1/3, rev = True).colors(11)
+#col2 = sequential_hcl("Blue-Yellow", rev = True).colors(11)
+#
+#fig, ax = plt.subplots(2, 2, figsize = (10, 5))
+#
+#demoplot(col1, "Map", ax = ax[0,0], title = "(In-)famous Rainbow palette", ylabel = "original")
+#demoplot(col2, "Map", ax = ax[0,1], title = "HCL-based Blue-Yellow")
+#demoplot(deutan(col1), "Map", ax = ax[1,0], ylabel = "deuteranope")
+#demoplot(deutan(col2), "Map", ax = ax[1,1])
+#
+#fig.savefig("fig-cvd.png", dpi = 150)
+#plt.close() # Importante
+# --------------- THIS IS THE MAP VERSION USED ORIGINALLY ---------------
+
+
+# --------------- THIS IS THE VOLCANO (HEATMAP) VERSION -----------------
+from colorspace import rainbow, sequential_hcl
+from colorspace import demoplot, deutan, desaturate
 import matplotlib.pyplot as plt
 
-col1 = rainbow(end = 1/3, rev = True).colors(11)
-col2 = sequential_hcl("Blue-Yellow", rev = True).colors(11)
+col1 = rainbow(end = 2/3, rev = True)(7)
+col2 = sequential_hcl("Blue-Yellow", rev = True)(7)
 
-fig, ax = plt.subplots(2, 2, figsize = (10, 5))
+fig, ax = plt.subplots(2, 3, figsize = (9, 4))
+plt.tight_layout()
 
-demoplot(col1, "Map", ax = ax[0,0], title = "(In-)famous Rainbow palette", ylabel = "original")
-demoplot(col2, "Map", ax = ax[0,1], title = "HCL-based Blue-Yellow")
-demoplot(deutan(col1), "Map", ax = ax[1,0], ylabel = "deuteranope")
-demoplot(deutan(col2), "Map", ax = ax[1,1])
+demoplot(col1, "Heatmap", ax = ax[0,0], ylabel = "Rainbow", title = "Original")
+demoplot(col2, "Heatmap", ax = ax[1,0], ylabel = "HCL (Blue-Yellow)")
+
+demoplot(deutan(col1), "Heatmap", ax = ax[0,1], title = "Deuteranope")
+demoplot(deutan(col2), "Heatmap", ax = ax[1,1])
+demoplot(desaturate(col1), "Heatmap", ax = ax[0,2], title = "Desaturated")
+demoplot(desaturate(col2), "Heatmap", ax = ax[1,2])
 
 fig.savefig("fig-cvd.png", dpi = 150)
 plt.close() # Importante
+# --------------- THIS IS THE VOLCANO (HEATMAP) VERSION -----------------
 
 
 # ------------------------------------------------------
