@@ -111,9 +111,6 @@ specplot(colormaps_sunset,
          title = "colormaps: sunset");
 ```
 
-<!--
-TODO(Reto): colormaps.sunset != ag_Sunset but lighter.
--->
 
 ```{python}
 #| echo: true
@@ -151,7 +148,4 @@ Also, they might be a reasonable alternative for qualitative palettes when
 grayscale printing should also work.
 
 
-<!--
-TODO(Reto): R colorspace article shows some more details here; think about adding it in the future.
--->
 
