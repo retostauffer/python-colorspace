@@ -50,6 +50,14 @@ provides a comprehensive color toolbox going much further than just providing a
 series of color palettes.
 
 
+**Dumping here**
+
+- `colormaps` [@colormaps]
+- `seaborn` [@seaborn]
+- `matplotlib` [@matplotlib]
+- `palettable` [@palettable]
+- `cmcrameri` [@cmcrameri]
+
 
 # Statement of need
 
@@ -80,7 +88,7 @@ of fixed palettes, but rather a set of building blocks to easily create new
 hand-tailored perceptually-based palettes or customize existing ones by
 defining trajectories (paths) trough the HCL space. These palettes can easily
 be integrated in existing workflows, using plotting and graphing libraries
-such as e.g., `matplotlib` [@Hunter:2007], `seaborn` [@Waskom:2021], or `plotly` [@plotly].
+such as e.g., `matplotlib` [@matplotlib], `seaborn` [@seaborn], or `plotly` [@plotly].
 
 In addition, _colorspace_ provides a set of functions and classes for
 handling, transforming, manipulating and visualizing color palettes
