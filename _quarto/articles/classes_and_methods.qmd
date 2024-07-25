@@ -13,7 +13,7 @@ the most important classes and main methods are outlined and described briefly.
 Series of functions which help to emulate different variations of color vision
 deficiencies. Accept a series of different objects as input.
 
-| function       | description |
+| Function       | Description |
 | -------------- | ------------------|
 | [`tritan()`](/man/colorspace.CVD.tritan.qmd) | Emulate tritanomaly |
 | [`protan()`](/man/colorspace.CVD.protan.qmd) | Emulate protanomaly |
@@ -33,7 +33,7 @@ deficiencies. Accept a series of different objects as input.
 The first three are functions used to visualize sets of colors or color palettes.
 They are also accessible via methods on many of the objects provided by _colorspace_.
 
-| function | description    |
+| Function | Description    |
 |----------|----------------|
 | [`swatchplot()`](/man/colorspace.swatchplot.swatchplot.qmd) | Crate color swatch(es) of colors or palettes |
 | [`specplot()`](/man/colorspace.specplot.specplot.qmd) | Plot HCL (and sRGB) spectrum of colors or palettes |
@@ -48,7 +48,7 @@ One of the core features of the _colorspace_ package is to provide easy
 access to a variety of HCL-based colorpalettes. These are handled by
 a series of functions based on the superclass `hclpalette`. Namely:
 
-| class  | description |
+| Class  | Description |
 |--------|--------------------------|
 | [`sequential_hcl`](/man/colorspace.palettes.sequential_hcl.qmd) | Sequential HCL color palettes |
 | [`heat_hcl`](/man/colorspace.palettes.heat_hcl.qmd) | Heat HCL palette; special case of a `sequential_hcl` |
@@ -66,7 +66,7 @@ These classes are not fixed sets of colors, but classes containing the
 specifications for trajectories trough the HCL color space (or sRGB for `rainbow`).
 Thus, users can draw (any) number of colors from the palette as needed.
 
-| method   | description |
+| Method   | Description |
 |----------|-----------------------------------|
 | `.colors()`     | Draw a number of colors from the palette |
 | `.cmap()`       | Create matplotlib compatible colormap |
@@ -85,7 +85,7 @@ the settings for the HCL palettes (see above). Returned by
 [`hcplaettes().get_palette()`](/man/colorspace.palettes.hclpalettes.get_palette.qmd)
 or [`hcl_palettes()`](/man/colorspace.hcl_palettes.hcl_palettes.qmd).
 
-| function | description |
+| Function | Description |
 |----------|-------------|
 | [`hcl_palettes()`](/man/colorspace.hcl_palettes.hcl_palettes.qmd) | Get pre-defined HCL palettes |
 
@@ -99,7 +99,7 @@ to construct custom (named) color palettes with a fixed set of
 colors. Supports the following methods:
 
 
-| method   | description |
+| Method   | Description |
 |----------|-----------------------------------|
 | [`.colors()`](/man/colorspace.palettes.palette.colors.qmd) | Extract colors |
 | [`.cmap()`](/man/colorspace.palettes.palette.cmap.qmd) | Create matplotlib compatible colormap |
@@ -137,7 +137,7 @@ models).
 
 All classes support the following main methods:
 
-| method   | description |
+| Method   | Description |
 |----------|-----------------------------------|
 | `.to()`         | Color transformation; convert a set of colors into another color space |
 | `.colors()`     | Extract HEX colors |
