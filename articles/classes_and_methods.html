@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Main Classes and Methods – colorspace</title>
+<title>Main Functions, Classes and Methods – colorspace</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,61 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -208,7 +154,7 @@ div.csl-indent {
   </li>  
         <li>
     <a class="dropdown-item" href="../articles/classes_and_methods.html">
- <span class="dropdown-text">Classes and Methods</span></a>
+ <span class="dropdown-text">Main Functions, Classes and Methods</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../articles/endrainbow.html">
@@ -238,7 +184,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Main Classes and Methods</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Main Functions, Classes and Methods</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -564,7 +510,12 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#emulating-color-vision-deficiencies-and-manipulation" id="toc-emulating-color-vision-deficiencies-and-manipulation" class="nav-link active" data-scroll-target="#emulating-color-vision-deficiencies-and-manipulation">Emulating color vision deficiencies and manipulation</a></li>
+  <li><a href="#palette-visualization-and-selection" id="toc-palette-visualization-and-selection" class="nav-link" data-scroll-target="#palette-visualization-and-selection">Palette visualization and selection</a></li>
+  <li><a href="#hcl-palette-superclass" id="toc-hcl-palette-superclass" class="nav-link" data-scroll-target="#hcl-palette-superclass">HCL Palette Superclass</a></li>
+  <li><a href="#defaultpalettes-pre-defined-palettes" id="toc-defaultpalettes-pre-defined-palettes" class="nav-link" data-scroll-target="#defaultpalettes-pre-defined-palettes">Defaultpalettes (pre-defined palettes)</a></li>
+  <li><a href="#custom-color-palette" id="toc-custom-color-palette" class="nav-link" data-scroll-target="#custom-color-palette">Custom color palette</a></li>
+  <li><a href="#superclass-for-all-color-objects" id="toc-superclass-for-all-color-objects" class="nav-link" data-scroll-target="#superclass-for-all-color-objects">Superclass for all color objects</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -575,7 +526,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Main Classes and Methods</h1>
+<h1 class="title">Main Functions, Classes and Methods</h1>
 </div>
 
 
@@ -592,59 +543,349 @@ div.csl-indent {
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>At the core of the <em>colorspace</em> package are various utilities for computing with color spaces <span class="citation" data-cites="color:Wiki+Colorspace">(<a href="#ref-color:Wiki+Colorspace" role="doc-biblioref">Wikipedia 2024a</a>)</span>, as the name conveys. Thus, the package helps to map various three-dimensional representations of color to each other (Ihaka 2003). A particularly important mapping is the one from the perceptually-based and device-independent color model HCL (Hue-Chroma-Luminance) to standard Red-Green-Blue (sRGB) which is the basis for color specifications in many systems based on the corresponding hex codes <span class="citation" data-cites="color:Wiki+Webcolors">(<a href="#ref-color:Wiki+Webcolors" role="doc-biblioref">Wikipedia 2024b</a>)</span>, e.g., in HTML but also in R. For completeness further standard color models are included as well in the package. Their connections are illustrated in the following graph:</p>
-<p><strong>TODO(Reto):</strong> Last article to be updated, describe core classes and design idea of the Python <em>colorspace</em> package, also used for JOSS submission.</p>
-<div id="b0e90803" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette([<span class="st">"#c3c3c3"</span>, <span class="st">"#DD0000"</span>], <span class="st">"Demo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li><p>hclpalettes</p></li>
-<li><p>palette</p></li>
-<li><p>qualitative_hcl</p></li>
-<li><p>diverging_hcl</p></li>
-<li><p>sequential_hcl</p></li>
-<li><p>rainbow_hcl</p></li>
-<li><p>heat_hcl</p></li>
-<li><p>terrain_hcl</p></li>
-<li><p>diverging_hsv</p></li>
-<li><p>tritan</p></li>
-<li><p>protan</p></li>
-<li><p>deutan</p></li>
-<li><p>desaturate</p></li>
-<li><p>hcl_palettes</p></li>
-<li><p>swatchplot</p></li>
-<li><p>specplot</p></li>
-<li><p>choose_palette</p></li>
-<li><p>cvd_emulator</p></li>
-</ul>
-<p><code>defaultpalette</code> not intended to be used by the user. Reads the config files (shipped with the Python package) and returns all available default palettes. Called by <a href="../man/colorspace.palettes.hclpalettes.html"><code>hclpalettes</code></a>.</p>
-<p><a href="../man/colorspace.palettes.hclpalettes.html"><code>hclpalettes</code></a> serves as the super class for the following color palettes.</p>
-<ul>
-<li><a href="../man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a>.</li>
-<li><a href="../man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a>.</li>
-<li><a href="../man/colorspace.palettes.divergingx_hcl.html"><code>divergingx_hcl</code></a>.</li>
-<li><a href="../man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a>.</li>
-<li><a href="../man/colorspace.palettes.rainbow_hcl.html"><code>rainbow_hcl</code></a>, a convenience palette for qualitative HCL rainbow.</li>
-<li><a href="../man/colorspace.palettes.heat_hcl.html"><code>heat_hcl</code></a> an HCL approximation of Rs old heat palette.</li>
-<li><a href="../man/colorspace.palettes.terrain_hcl.html"><code>terrain_hcl</code></a> an HCL approxmation of Rs terrain palette.</li>
-<li><a href="../man/colorspace.palettes.diverging_hsv.html"><code>diverging_hcl</code></a> an HSV based diverging color palette.</li>
-</ul>
-
+<p>The <em>colorspace</em> packages provides a series of classes for defining, handling, converting, and assessing sets of colors and color palettes. In the following, the most important classes and main methods are outlined and described briefly.</p>
+<section id="emulating-color-vision-deficiencies-and-manipulation" class="level2">
+<h2 class="anchored" data-anchor-id="emulating-color-vision-deficiencies-and-manipulation">Emulating color vision deficiencies and manipulation</h2>
+<p>Series of functions which help to emulate different variations of color vision deficiencies. Accept a series of different objects as input.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>function</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../man/colorspace.CVD.tritan.html"><code>tritan()</code></a></td>
+<td>Emulate tritanomaly</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.CVD.protan.html"><code>protan()</code></a></td>
+<td>Emulate protanomaly</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.CVD.deutan.html"><code>deutan()</code></a></td>
+<td>Emulate deuteranomaly</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.CVD.desaturate.html"><code>desaturate()</code></a></td>
+<td>Desaturate colors in HCL; full color blindness</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.cvd_emulator.cvd_emulator.html"><code>cvd_emulator()</code></a></td>
+<td>Check images (png, jpg, jpeg) for possible color contraints</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.utils.contrast_ratio.html"><code>contrast_ratio()</code></a></td>
+<td>Compute W3C contrast ratio of colors</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.utils.lighten.html"><code>lighten()</code></a></td>
+<td>Algorithmically lighten colors</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.utils.darken.html"><code>darken()</code></a></td>
+<td>Algorithmically darken colors</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.utils.mixcolor.html"><code>mixcolor()</code></a></td>
+<td>Compute the convex combination of two colors</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="palette-visualization-and-selection" class="level2">
+<h2 class="anchored" data-anchor-id="palette-visualization-and-selection">Palette visualization and selection</h2>
+<p>The first three are functions used to visualize sets of colors or color palettes. They are also accessible via methods on many of the objects provided by <em>colorspace</em>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>function</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../man/colorspace.swatchplot.swatchplot.html"><code>swatchplot()</code></a></td>
+<td>Crate color swatch(es) of colors or palettes</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.specplot.specplot.html"><code>specplot()</code></a></td>
+<td>Plot HCL (and sRGB) spectrum of colors or palettes</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.hclplot.hclplot.html"><code>hclplot()</code></a></td>
+<td>Create palette plot in HCL space</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.choose_palette.choose_palette.html"><code>choose_palette()</code></a></td>
+<td>Tcl/Tk (<code>tkinter</code>) based graphical user interface for selecting/designing custom HCL-based color palettes</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hcl-palette-superclass" class="level2">
+<h2 class="anchored" data-anchor-id="hcl-palette-superclass">HCL Palette Superclass</h2>
+<p>One of the core features of the <em>colorspace</em> package is to provide easy access to a variety of HCL-based colorpalettes. These are handled by a series of functions based on the superclass <code>hclpalette</code>. Namely:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>class</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a></td>
+<td>Sequential HCL color palettes</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.palettes.heat_hcl.html"><code>heat_hcl</code></a></td>
+<td>Heat HCL palette; special case of a <code>sequential_hcl</code></td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.terrain_hcl.html"><code>terrain_hcl</code></a></td>
+<td>Terrain HCL palette; special case of a <code>sequential_hcl</code></td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a></td>
+<td>Qualitative HCL color palettes</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a></td>
+<td>Diverging HCL color palettes</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.palettes.diverging_hcl.html"><code>divergingx_hcl</code></a></td>
+<td>Advanced diverging HCL color palettes</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.rainbow_hcl.html"><code>rainbow_hcl</code></a></td>
+<td>HCL based rainbow palette, special type of a qualitative color palette</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.palettes.diverging_hsv.html"><code>diverging_hsv</code></a></td>
+<td>Diverging HSV color palettes</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.rainbow.html"><code>rainbow</code></a></td>
+<td>(In-)famous RGB rainbow palette</td>
+</tr>
+</tbody>
+</table>
+<p>These classes are not fixed sets of colors, but classes containing the specifications for trajectories trough the HCL color space (or sRGB for <code>rainbow</code>). Thus, users can draw (any) number of colors from the palette as needed.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>method</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.colors()</code></td>
+<td>Draw a number of colors from the palette</td>
+</tr>
+<tr class="even">
+<td><code>.cmap()</code></td>
+<td>Create matplotlib compatible colormap</td>
+</tr>
+<tr class="odd">
+<td><code>.hclplot()</code></td>
+<td>Palette plot in HCL space</td>
+</tr>
+<tr class="even">
+<td><code>.specplot()</code></td>
+<td>Color spectrum plot</td>
+</tr>
+<tr class="odd">
+<td><code>.swatchplot()</code></td>
+<td>Palette swatch plot</td>
+</tr>
+<tr class="even">
+<td><code>.show_settings()</code></td>
+<td>Show palette settings (trajectory definition)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="defaultpalettes-pre-defined-palettes" class="level2">
+<h2 class="anchored" data-anchor-id="defaultpalettes-pre-defined-palettes">Defaultpalettes (pre-defined palettes)</h2>
+<p>Custom class used for the predefined HCL palettes. These objects only contain the settings for the HCL palettes (see above). Returned by <a href="../man/colorspace.palettes.hclpalettes.get_palette.html"><code>hcplaettes().get_palette()</code></a> or <a href="../man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes()</code></a>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>function</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes()</code></a></td>
+<td>Get pre-defined HCL palettes</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="custom-color-palette" class="level2">
+<h2 class="anchored" data-anchor-id="custom-color-palette">Custom color palette</h2>
+<p>The <a href="../man/colorspace.palettes.palette.html"><code>palette</code></a> class allows to construct custom (named) color palettes with a fixed set of colors. Supports the following methods:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>method</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.palette.colors.html"><code>.colors()</code></a></td>
+<td>Extract colors</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.palettes.palette.cmap.html"><code>.cmap()</code></a></td>
+<td>Create matplotlib compatible colormap</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.palette.hclplot.html"><code>.hclplot()</code></a></td>
+<td>Palette plot in HCL space</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.palettes.palette.specplot.html"><code>.specplot()</code></a></td>
+<td>Color spectrum plot</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.palettes.palette.swatchplot.html"><code>.swatchplot()</code></a></td>
+<td>Palette swatch plot</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="superclass-for-all-color-objects" class="level2">
+<h2 class="anchored" data-anchor-id="superclass-for-all-color-objects">Superclass for all color objects</h2>
+<p>The following colorspace classes are built uppon the <code>colorobject</code> superclass. Tough exported, they are not intended to be used by most users but can be used to create and handle custom sets of colors in all supported color spaces (or color models).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>class</th>
+<th>colorspace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>CIELAB</code></a></td>
+<td>CIELAB</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>CIELUV</code></a></td>
+<td>CIELUV</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>CIEXYZ</code></a></td>
+<td>CIEXYZ</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>hexcols</code></a></td>
+<td>HEX colors (or web colors)</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>HLS</code></a></td>
+<td>Hue-Lightness-Saturation</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>HSV</code></a></td>
+<td>Hue-Value-Saturation</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>polarLAB</code></a></td>
+<td>Polar representation of CIELAB</td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a></td>
+<td>Polar representation of CIELUV (=HCL)</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.colorlib.HCL.html"><code>HCL</code></a></td>
+<td>Copy of <code>polarLUV</code></td>
+</tr>
+<tr class="even">
+<td><a href="../man/colorspace.colorlib.RGB.html"><code>RGB</code></a></td>
+<td>Red-Green-Blue</td>
+</tr>
+<tr class="odd">
+<td><a href="../man/colorspace.colorlib.sRGB.html"><code>sRGB</code></a></td>
+<td>Standard Red-Green-Blue</td>
+</tr>
+</tbody>
+</table>
+<p>All classes support the following main methods:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>method</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.to()</code></td>
+<td>Color transformation; convert a set of colors into another color space</td>
+</tr>
+<tr class="even">
+<td><code>.colors()</code></td>
+<td>Extract HEX colors</td>
+</tr>
+<tr class="odd">
+<td><code>.hclplot()</code></td>
+<td>Palette plot in HCL space</td>
+</tr>
+<tr class="even">
+<td><code>.specplot()</code></td>
+<td>Color spectrum plot</td>
+</tr>
+<tr class="odd">
+<td><code>.swatchplot()</code></td>
+<td>Palette swatch plot</td>
+</tr>
+</tbody>
+</table>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-color:Wiki+Colorspace" class="csl-entry" role="listitem">
-Wikipedia. 2024a. <span>“Color Space — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/Color_space">https://en.wikipedia.org/wiki/Color_space</a>.
-</div>
-<div id="ref-color:Wiki+Webcolors" class="csl-entry" role="listitem">
-———. 2024b. <span>“Web Colors — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/Web_colors">https://en.wikipedia.org/wiki/Web_colors</a>.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

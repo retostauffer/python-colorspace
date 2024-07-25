@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../articles/classes_and_methods.html">
- <span class="dropdown-text">Classes and Methods</span></a>
+ <span class="dropdown-text">Main Functions, Classes and Methods</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../articles/endrainbow.html">
@@ -580,7 +580,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p>Visualization of color palettes (given as hex codes) in HCL and/or RGB coordinates.</p>
 <p>As the hues for low-chroma colors are not (or poorly) identified, by default a smoothing is applied to the hues (<code>fix = TRUE</code>). Also, to avoid jumps from <code>0</code> to <code>360</code> or vice versa, the hue coordinates are shifted suitably.</p>
-<p>If argument <code>x</code> is a <code>maplotlib.colors.LinearSegmentedColormap</code> or <code>matplotlib.colors.ListedColrmap</code>, <code>256</code> distinct colors across the color map are drawn and visualized.</p>
+<p>If argument <code>x</code> is a <code>maplotlib.colors.LinearSegmentedColormap</code> or <code>matplotlib.colors.ListedColormap</code>, <code>256</code> distinct colors across the color map are drawn and visualized.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -647,7 +647,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="3611916f" class="cell" data-execution_count="1">
+<div id="18d84f1e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl, diverging_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl()</span>
@@ -660,7 +660,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="0a3c0e2c" class="cell" data-execution_count="2">
+<div id="62a2fe6d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show spectrum in standard RGB space</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors(<span class="dv">21</span>), rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -671,7 +671,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="bd480c24" class="cell" data-execution_count="3">
+<div id="ac4da7bb" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduced number of colors.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Show sRGB spectrum, hide HCL spectrum</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and color palette swatch.</span></span>
@@ -685,7 +685,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="0f12ff3c" class="cell" data-execution_count="4">
+<div id="17bd8e91" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing full diverging_hcl() color spectrum to</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a LinearSegmentedColormap (cmap) with only 5 colors</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (an extreme example)</span></span>
@@ -700,7 +700,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="3d6c56bb" class="cell" data-execution_count="5">
+<div id="f76654e9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as above using .cmap() default with N = 256 colors</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>specplot(diverging_hcl(<span class="st">"Green-Orange"</span>).colors(<span class="dv">101</span>),</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         diverging_hcl(<span class="st">"Green-Orange"</span>).cmap(),</span>
@@ -718,6 +718,8 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 <h3 class="anchored" data-anchor-id="raises">Raises</h3>
 <ul class="python-raises">
 <li>
+<code class="text-warning">ImportError</code>: If <code>matplotlib</code> is not installed.
+</li><li>
 <code class="text-warning">TypeError</code>: If <code>x</code> is not list or <code>matplotlib.colors.LinearSegmentedColormap</code>.
 </li><li>
 <code class="text-warning">TypeError</code>: If <code>y</code> is neither a list nor <code>None</code>.

@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../articles/classes_and_methods.html">
- <span class="dropdown-text">Classes and Methods</span></a>
+ <span class="dropdown-text">Main Functions, Classes and Methods</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../articles/endrainbow.html">
@@ -602,7 +602,7 @@ Whether or not colors outside the defined rgb color space should be corrected if
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="f453d16e" class="cell" data-execution_count="1">
+<div id="b714911b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> HLS</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> HLS([<span class="dv">264</span>, <span class="dv">314</span>, <span class="dv">8</span>, <span class="dv">44</span>],</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">0.34</span>, <span class="fl">0.44</span>, <span class="fl">0.68</span>, <span class="fl">0.75</span>],</span>
@@ -617,13 +617,13 @@ Whether or not colors outside the defined rgb color space should be corrected if
         44.00    0.75    0.62</code></pre>
 </div>
 </div>
-<div id="c2494211" class="cell" data-execution_count="2">
+<div id="f81e202c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>colorspace.colorlib.HLS</code></pre>
 </div>
 </div>
-<div id="91195518" class="cell" data-execution_count="3">
+<div id="aa534e4a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert colors to HSV</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HSV"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -636,13 +636,13 @@ Whether or not colors outside the defined rgb color space should be corrected if
         44.00    0.34    0.91</code></pre>
 </div>
 </div>
-<div id="02471b1c" class="cell" data-execution_count="4">
+<div id="128730a3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>colorspace.colorlib.HSV</code></pre>
 </div>
 </div>
-<div id="fa5c95fb" class="cell" data-execution_count="5">
+<div id="0a7b98db" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert colors to HLS</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HLS"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -655,7 +655,7 @@ Whether or not colors outside the defined rgb color space should be corrected if
         44.00    0.75    0.62</code></pre>
 </div>
 </div>
-<div id="03403951" class="cell" data-execution_count="6">
+<div id="bdffd01b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting hex colors (returns list of str)</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
