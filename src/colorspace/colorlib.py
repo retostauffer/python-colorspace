@@ -1997,6 +1997,9 @@ class colorobject:
             **kwargs: Additional named arguments forwarded to
                 :py:func:`specplot <colorspace.specplot.specplot>`.
 
+        Return:
+            Returns what :py:func:`colorspace.specplot.specplot` returns.
+
         Example:
 
             >>> # Example using HCL colors
@@ -2016,9 +2019,8 @@ class colorobject:
         cols = copy(self)
         cols.to("hex")
 
-        if isinstance(cols, colorobject):
-            from .specplot import specplot
-            specplot(cols.colors(), **kwargs)
+        from .specplot import specplot
+        return specplot(cols.colors(), **kwargs)
 
 
     def swatchplot(self, **kwargs):
@@ -2032,6 +2034,9 @@ class colorobject:
         Args:
             **kwargs: Additional named arguments forwarded to
                 :py:func:`swatchplot <colorspace.swatchplot.swatchplot>`.
+
+        Return:
+            Returns what :py:func:`colorspace.swatchplot.swatchplot` returns.
 
         Example:
 
@@ -2051,7 +2056,7 @@ class colorobject:
         from .swatchplot import swatchplot
         if "show_names" in kwargs.keys():
             del kwargs["show_names"]
-        swatchplot(pals = self.colors(), show_names = False, **kwargs)
+        return swatchplot(pals = self.colors(), show_names = False, **kwargs)
 
 
     def hclplot(self, **kwargs):
@@ -2064,6 +2069,9 @@ class colorobject:
         Args:
             **kwargs: Additional named arguments forwarded to
                 :py:func:`hclplot <colorspace.hclplot.hclplot>`.
+
+        Return:
+            Returns what :py:func:`colorspace.hclplot.hclplot` returns.
 
         Example:
 
@@ -2081,7 +2089,7 @@ class colorobject:
         """
 
         from .hclplot import hclplot
-        hclplot(x = self.colors(), **kwargs)
+        return hclplot(x = self.colors(), **kwargs)
 
     def colors(self, fixup = True, rev = False):
         """Extract Hex Colors

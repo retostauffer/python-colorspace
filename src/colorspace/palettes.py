@@ -4,7 +4,7 @@ class palette:
     """Custom Color Palette
 
     Allows for the construction of custom (named) color palettes with a fixed
-    set of colors based on hex color inputs.
+    set of colors based on hex color inputs (or named matplotlib colors).
 
     Args:
         colors (str, list, colorspace.colorlib.colorobject, LinearSegmentedColormap):

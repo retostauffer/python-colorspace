@@ -67,8 +67,8 @@ function if `plot = True`.</dd>
 
 ### Return
 
-None or hclpalettes: If `plot = True`
-a plot will be created and `None` is returned. If `plot = False` (default)
+Object of type `hclpalettes` or a `matplotlib.figure.Figure` object. If `plot = True`
+a plot will be created and the figure handler returned. If `plot = False` (default)
 an object of class [hclpalettes](colorspace.palettes.hclpalettes.qmd) is returned.
 
 ### Examples

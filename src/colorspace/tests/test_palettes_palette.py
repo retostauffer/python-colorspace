@@ -224,12 +224,13 @@ def test_swatchplot():
     assert pal.name() == "test"
 
     # Plotting
-    fig =pal.swatchplot()
+    fig = pal.swatchplot()
     assert isinstance(fig, Figure)
     plt.close()
 
     # Different figure size
-    pal.swatchplot(figsize = (6, 2))
+    fig = pal.swatchplot(figsize = (6, 2))
+    assert isinstance(fig, Figure)
     plt.close()
 
     # Setting show_names; is deleted internally
@@ -248,6 +249,21 @@ def test_specplot():
 
     # Plotting
     fig = pal.specplot()
+    assert isinstance(fig, Figure)
+    plt.close()
+
+
+# ------------------------------------------
+# hclplot method
+# ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+@pytest.mark.mpl_image_compare
+def test_specplot():
+
+    pal = palette(diverging_hcl(5), "test")
+
+    # Plotting
+    fig = pal.hclplot()
     assert isinstance(fig, Figure)
     plt.close()
 

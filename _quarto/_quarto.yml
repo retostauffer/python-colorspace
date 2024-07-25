@@ -52,7 +52,7 @@ website:
       - file: articles/approximations.qmd
         text: Approximate Colors from Other Packages
       - file: articles/classes_and_methods.qmd
-        text: Classes and Methods
+        text: Main Functions, Classes and Methods
       - file: articles/endrainbow.qmd
         text: Somewhere over the Rainbow
       text: Articles

@@ -9,6 +9,7 @@ from colorspace import hexcols, polarLUV, diverging_hcl
 try:
     import matplotlib.pyplot as plt
     plt.switch_backend("Agg")
+    from matplotlib.figure import Figure
     _got_mpl = True
 except:
     _got_mpl = False
@@ -716,7 +717,9 @@ def test_misuse_whitepoint():
 def test_colorlib_specplot_method():
     # Create 'colorlib' based object
     cols = hexcols(diverging_hcl()(5))
-    cols.specplot()
+
+    fig = cols.specplot()
+    assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
@@ -724,11 +727,14 @@ def test_colorlib_specplot_method():
 def test_colorlib_swatchplot_method():
     # Create 'colorlib' based object
     cols = hexcols(diverging_hcl()(5))
-    cols.swatchplot()
+
+    fig = cols.swatchplot()
+    assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
     # If `show_names` is set, it will be deleted internally
-    cols.swatchplot(show_names = "something (will be ignored anyways")
+    fig = cols.swatchplot(show_names = "something (will be ignored anyways")
+    assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
@@ -736,7 +742,9 @@ def test_colorlib_swatchplot_method():
 def test_colorlib_hclplot_method():
     # Create 'colorlib' based object
     cols = hexcols(diverging_hcl()(5))
-    cols.hclplot()
+
+    fig = cols.hclplot()
+    assert isinstance(fig, Figure)
     plt.close() # Closing figure instance
 
 

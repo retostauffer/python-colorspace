@@ -10,6 +10,7 @@ import numpy as np
 try:
     import matplotlib.pyplot as plt
     from matplotlib.colors import LinearSegmentedColormap
+    from matplotlib.figure import Figure
     _got_mpl = True
 except:
     _got_mpl = False
@@ -236,26 +237,38 @@ def test_hclpalettes_plot_method():
 @pytest.mark.mpl_image_compare
 def test_colorlib_specplot_method():
     cols = colorspace.diverging_hcl()
-    cols.specplot()
+
+    fig = cols.specplot()
+    assert isinstance(fig, Figure)
     plt.close()
-    cols.specplot(n = 15)
+
+    fig = cols.specplot(n = 15)
+    assert isinstance(fig, Figure)
     plt.close()
 
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_swatchplot_method():
     cols = colorspace.diverging_hcl()
-    cols.swatchplot()
+
+    fig = cols.swatchplot()
+    assert isinstance(fig, Figure)
     plt.close()
-    cols.swatchplot(n = 15)
+
+    fig = cols.swatchplot(n = 15)
+    assert isinstance(fig, Figure)
     plt.close()
 
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
 @pytest.mark.mpl_image_compare
 def test_colorlib_hclplot_method():
     cols = colorspace.diverging_hcl()
-    cols.hclplot()
+
+    fig = cols.hclplot()
+    assert isinstance(fig, Figure)
     plt.close()
-    cols.hclplot(n = 15)
+
+    fig = cols.hclplot(n = 15)
+    assert isinstance(fig, Figure)
     plt.close()
 

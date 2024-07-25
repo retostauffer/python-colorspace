@@ -1,67 +1,149 @@
 ---
-title: "Main Classes and Methods"
+title: "Main Functions, Classes and Methods"
 bibliography: ../references.bib
 ---
 
-## Overview
-
-At the core of the *colorspace* package are various utilities for computing with
-color spaces [@color:Wiki+Colorspace], as the name conveys. Thus, the package helps to
-map various three-dimensional representations of color to each other (Ihaka
-2003). A particularly important mapping is the one from the perceptually-based
-and device-independent color model HCL (Hue-Chroma-Luminance) to standard
-Red-Green-Blue (sRGB) which is the basis for color specifications in many
-systems based on the corresponding hex codes [@color:Wiki+Webcolors], e.g., in HTML
-but also in R. For completeness further standard color models are included as
-well in the package. Their connections are illustrated in the following graph:
-
-**TODO(Reto):** Last article to be updated, describe core classes and design
-idea of the Python _colorspace_ package, also used for JOSS submission.
-
-```{python}
-#| echo: true
-
-from colorspace import palette
-pal = palette(["#c3c3c3", "#DD0000"], "Demo")
-```
+The _colorspace_ packages provides a series of classes for defining, handling,
+converting, and assessing sets of colors and color palettes. In the following,
+the most important classes and main methods are outlined and described briefly.
 
 
-* hclpalettes
-* palette
-* qualitative_hcl
-* diverging_hcl
-* sequential_hcl
-* rainbow_hcl
-* heat_hcl
-* terrain_hcl
-* diverging_hsv
+## Emulating color vision deficiencies and manipulation
 
-* tritan
-* protan
-* deutan
-* desaturate
+Series of functions which help to emulate different variations of color vision
+deficiencies. Accept a series of different objects as input.
 
-* hcl_palettes
-* swatchplot
-* specplot
-* choose_palette
-* cvd_emulator
+| function       | description |
+| -------------- | ------------------|
+| [`tritan()`](/man/colorspace.CVD.tritan.qmd) | Emulate tritanomaly |
+| [`protan()`](/man/colorspace.CVD.protan.qmd) | Emulate protanomaly |
+| [`deutan()`](/man/colorspace.CVD.deutan.qmd) | Emulate deuteranomaly |
+| [`desaturate()`](/man/colorspace.CVD.desaturate.qmd) | Desaturate colors in HCL; full color blindness |
+| [`cvd_emulator()`](/man/colorspace.cvd_emulator.cvd_emulator.qmd) | Check images (png, jpg, jpeg) for possible color contraints |
+| [`contrast_ratio()`](/man/colorspace.utils.contrast_ratio.qmd) | Compute W3C contrast ratio of colors |
+| [`lighten()`](/man/colorspace.utils.lighten.qmd) | Algorithmically lighten colors |
+| [`darken()`](/man/colorspace.utils.darken.qmd) | Algorithmically darken colors |
+| [`mixcolor()`](/man/colorspace.utils.mixcolor.qmd) | Compute the convex combination of two colors |
+
+: {tbl-colwidths="[30,70]"}
 
 
+## Palette visualization and selection
 
-`defaultpalette` not intended to be used by the user.
-Reads the config files (shipped with the Python package) and returns all available
-default palettes. Called by [`hclpalettes`](/man/colorspace.palettes.hclpalettes.qmd).
+The first three are functions used to visualize sets of colors or color palettes.
+They are also accessible via methods on many of the objects provided by _colorspace_.
 
-[`hclpalettes`](/man/colorspace.palettes.hclpalettes.qmd) serves as the super
-class for the following color palettes.
+| function | description    |
+|----------|----------------|
+| [`swatchplot()`](/man/colorspace.swatchplot.swatchplot.qmd) | Crate color swatch(es) of colors or palettes |
+| [`specplot()`](/man/colorspace.specplot.specplot.qmd) | Plot HCL (and sRGB) spectrum of colors or palettes |
+| [`hclplot()`](/man/colorspace.hclplot.hclplot.qmd) | Create palette plot in HCL space |
+| [`choose_palette()`](/man/colorspace.choose_palette.choose_palette.qmd) | Tcl/Tk (`tkinter`) based graphical user interface for selecting/designing custom HCL-based color palettes |
 
-* [`qualitative_hcl`](/man/colorspace.palettes.qualitative_hcl.qmd).
-* [`diverging_hcl`](/man/colorspace.palettes.diverging_hcl.qmd).
-* [`divergingx_hcl`](/man/colorspace.palettes.divergingx_hcl.qmd).
-* [`sequential_hcl`](/man/colorspace.palettes.sequential_hcl.qmd).
-* [`rainbow_hcl`](/man/colorspace.palettes.rainbow_hcl.qmd), a convenience palette for qualitative HCL rainbow.
-* [`heat_hcl`](/man/colorspace.palettes.heat_hcl.qmd) an HCL approximation of Rs old heat palette.
-* [`terrain_hcl`](/man/colorspace.palettes.terrain_hcl.qmd) an HCL approxmation of Rs terrain palette.
-* [`diverging_hcl`](/man/colorspace.palettes.diverging_hsv.qmd) an HSV based diverging color palette.
+: {tbl-colwidths="[30,70]"}
+
+## HCL Palette Superclass
+
+One of the core features of the _colorspace_ package is to provide easy
+access to a variety of HCL-based colorpalettes. These are handled by
+a series of functions based on the superclass `hclpalette`. Namely:
+
+| class  | description |
+|--------|--------------------------|
+| [`sequential_hcl`](/man/colorspace.palettes.sequential_hcl.qmd) | Sequential HCL color palettes |
+| [`heat_hcl`](/man/colorspace.palettes.heat_hcl.qmd) | Heat HCL palette; special case of a `sequential_hcl` |
+| [`terrain_hcl`](/man/colorspace.palettes.terrain_hcl.qmd) | Terrain HCL palette; special case of a `sequential_hcl` |
+| [`qualitative_hcl`](/man/colorspace.palettes.qualitative_hcl.qmd) | Qualitative HCL color palettes |
+| [`diverging_hcl`](/man/colorspace.palettes.diverging_hcl.qmd) | Diverging HCL color palettes |
+| [`divergingx_hcl`](/man/colorspace.palettes.diverging_hcl.qmd) | Advanced diverging HCL color palettes |
+| [`rainbow_hcl`](/man/colorspace.palettes.rainbow_hcl.qmd) | HCL based rainbow palette, special type of a qualitative color palette |
+| [`diverging_hsv`](/man/colorspace.palettes.diverging_hsv.qmd) | Diverging HSV color palettes |
+| [`rainbow`](/man/colorspace.palettes.rainbow.qmd) | (In-)famous RGB rainbow palette |
+
+: {tbl-colwidths="[25,75]"}
+
+These classes are not fixed sets of colors, but classes containing the
+specifications for trajectories trough the HCL color space (or sRGB for `rainbow`).
+Thus, users can draw (any) number of colors from the palette as needed.
+
+| method   | description |
+|----------|-----------------------------------|
+| `.colors()`     | Draw a number of colors from the palette |
+| `.cmap()`       | Create matplotlib compatible colormap |
+| `.hclplot()`    | Palette plot in HCL space |
+| `.specplot()`   | Color spectrum plot |
+| `.swatchplot()` | Palette swatch plot |
+| `.show_settings()` | Show palette settings (trajectory definition) |
+
+: {tbl-colwidths="[25,75]"}
+
+
+## Defaultpalettes (pre-defined palettes)
+
+Custom class used for the predefined HCL palettes. These objects only contain
+the settings for the HCL palettes (see above). Returned by 
+[`hcplaettes().get_palette()`](/man/colorspace.palettes.hclpalettes.get_palette.qmd)
+or [`hcl_palettes()`](/man/colorspace.hcl_palettes.hcl_palettes.qmd).
+
+| function | description |
+|----------|-------------|
+| [`hcl_palettes()`](/man/colorspace.hcl_palettes.hcl_palettes.qmd) | Get pre-defined HCL palettes |
+
+: {tbl-colwidths="[25,75]"}
+
+
+## Custom color palette
+
+The [`palette`](/man/colorspace.palettes.palette.qmd) class allows
+to construct custom (named) color palettes with a fixed set of
+colors. Supports the following methods:
+
+
+| method   | description |
+|----------|-----------------------------------|
+| [`.colors()`](/man/colorspace.palettes.palette.colors.qmd) | Extract colors |
+| [`.cmap()`](/man/colorspace.palettes.palette.cmap.qmd) | Create matplotlib compatible colormap |
+| [`.hclplot()`](/man/colorspace.palettes.palette.hclplot.qmd) | Palette plot in HCL space |
+| [`.specplot()`](/man/colorspace.palettes.palette.specplot.qmd) | Color spectrum plot |
+| [`.swatchplot()`](/man/colorspace.palettes.palette.swatchplot.qmd) | Palette swatch plot |
+
+: {tbl-colwidths="[25,75]"}
+
+
+
+
+## Superclass for all color objects
+
+The following colorspace classes are built uppon the `colorobject` superclass.
+Tough exported, they are not intended to be used by most users but can be used
+to create and handle custom sets of colors in all supported color spaces (or color
+models).
+
+| class    | colorspace |
+|----------|-----------------------------------|
+| [`CIELAB`](/man/colorspace.colorlib.HCL.qmd) | CIELAB |
+| [`CIELUV`](/man/colorspace.colorlib.HCL.qmd) | CIELUV |
+| [`CIEXYZ`](/man/colorspace.colorlib.HCL.qmd) | CIEXYZ |
+| [`hexcols`](/man/colorspace.colorlib.HCL.qmd) | HEX colors (or web colors) |
+| [`HLS`](/man/colorspace.colorlib.HCL.qmd) | Hue-Lightness-Saturation |
+| [`HSV`](/man/colorspace.colorlib.HCL.qmd) | Hue-Value-Saturation |
+| [`polarLAB`](/man/colorspace.colorlib.HCL.qmd) | Polar representation of CIELAB |
+| [`polarLUV`](/man/colorspace.colorlib.polarLUV.qmd) | Polar representation of CIELUV (=HCL) |
+| [`HCL`](/man/colorspace.colorlib.HCL.qmd) | Copy of `polarLUV` |
+| [`RGB`](/man/colorspace.colorlib.RGB.qmd) | Red-Green-Blue
+| [`sRGB`](/man/colorspace.colorlib.sRGB.qmd) | Standard Red-Green-Blue |
+
+: {tbl-colwidths="[25,75]"}
+
+All classes support the following main methods:
+
+| method   | description |
+|----------|-----------------------------------|
+| `.to()`         | Color transformation; convert a set of colors into another color space |
+| `.colors()`     | Extract HEX colors |
+| `.hclplot()`    | Palette plot in HCL space |
+| `.specplot()`   | Color spectrum plot |
+| `.swatchplot()` | Palette swatch plot |
+
+: {tbl-colwidths="[25,75]"}
 
