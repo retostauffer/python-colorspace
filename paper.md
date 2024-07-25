@@ -77,36 +77,39 @@ examples. It was inspired by the R packages with the same name [@Zeileis:2020].
 
 # Key functionality
 
-## Chosing and constructing color palettes
+## HCL-based color palettes
 
-A key feature of _colorspace_ is the ability to select, modify, and create effective color
-maps in the HCL color space. As mentioned above, these are not fixed sets
-of colors but define trajectories trough the HCL space. When drawing 'any'
-number of colors from a palette, these trajectories are evaluated and (if
-needed) converted to e.g., HEX colors (web colors). The package
-provides three main classes of HCL-based color palettes:
+The key functions and classes for constructing color palettes using
+hue-chroma-luminance paths (and then mapping these to hex codes) are:
 
-* `qualitative_hcl`: Create qualitative HCL-based palettes, designed for coding
-    categorical information, i.e., where no
-    particular ordering of categories is available and every color should
-    receive the same perceptual weight.
-* `sequential_hcl`: Create sequential HCL-based palettes, designed for coding
-    ordered/numeric information, i.e., going from
+* `qualitative_hcl`: For coding qualitative or categorical information,
+    i.e., where no particular ordering of categories is available and every
+    color should receive a similar perceptual weight.
+* `sequential_hcl`: For coding ordered/numeric information, i.e., going from
     high to low (or vice versa).
-* `diverging_hcl`: Create diverging HCL-based palettes, designed for coding
-    ordered/numeric information around a central
+* `diverging_hcl`: For coding ordered/numeric information around a central
     neutral value, i.e., where colors diverge from neutral to two extremes.
 
+All of these functions provide a range of named palettes inspired by
+well-established packages but actually implements them using their HCL
+paths. Additionally, these perceptual parameters can be modified or new
+palettes can be created from scratch.
 
-To show the flexibility, \autoref{fig:chosingpalettes} depicts color swatches
-for four HCL-based sequential palettes. The first (`pal1`)
-is the predefined sequential HCL-based 'viridis' palette as is the second one
-(`pal2`), but this time constructed by hand by specifying the properties of
-all three trajectories.
-The remaining two start with the 'viridis' settings, but adjust certain
-properties. While `pal3` overwrites the chroma trajectory with a triangular one
-ending in lower chroma than the original, `pal4` limits hue to the green-yellow
-range.
+As an example, \autoref{fig:chosingpalettes} depicts color swatches for
+four variations of viridis palettes. The first `pal1` simply sets up
+the palette from its name. It is actually identical to the second
+`pal2` which shows the HCL-based specification: The palette goes from
+purple (hue 300) to yellow (hue 75), increasing colorfulness (chroma)
+simultaneously from 40 to 95, and the changing the brightness from
+dark (luminance 15) to light (luminance 90). The `power` parameter
+chooses a linear change in chroma and a slight nonlinear power for luminance.
+
+The subsequent palettes then vary the perceptual properties of the palette:
+`pal3` uses the same HCL properties as `pal1` and `pal2` but uses a
+triangular chroma path from 40 via 90 to 20, yielding muted colors at
+the end of the palette. Instead, `pal4` just changes the starting hue
+for the palette to green (hue 200) instead of purple. All four palettes
+are visualized by the `swatchplot()` function from the package.
 
 ```
 from colorspace import palette, sequential_hcl, swatchplot
@@ -125,7 +128,7 @@ swatchplot({"Viridis": [
            ]}, figsize = (8, 1.75));
 ```
 
-![Swatches of four sequential palettes constructed using the HCL color space. (`pal1`) Predefined HCL-based viridis palette, (`pal2`) identical but created by hand, (`pal3`/`pal4`) are modified versions with triangular chroma trajectory and reduced hue range.\label{fig:chosingpalettes}](paper_assets/fig-chosing-palettes.png)
+![Swatches of four HCL-based sequential palettes: `pal1` is the predefined HCL-based viridis palette, `pal2` is identical to `pal2` but created "by hand" and `pal3` and `pal4` are modified versions with a triangular chroma paths and reduced hue range, respectively.\label{fig:chosingpalettes}](paper_assets/fig-chosing-palettes.png)
 
 The objects provide a series of methods to e.g., extract the settings of
 the trajectories, get $n$ HEX colors or a matplotlib color map, and more.
