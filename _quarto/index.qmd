@@ -30,7 +30,6 @@ is also available on [GitHub Pages](https://retostauffer.github.io/python-colors
 * [Color Vision Deficiency Emulation](articles/cvd.qmd)
 * [Color Manipulation and Utilities](articles/manipulation_utilities.qmd)
 * [Approximate Colors from Other Packages](articles/approximations.qmd)
-* [Classes and Methods](articles/classes_and_methods.qmd)
 * [Somewhere over the Rainbow](articles/endrainbow.qmd)
 
 
