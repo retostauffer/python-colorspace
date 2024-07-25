@@ -110,6 +110,10 @@ clean:
 	-rm -rf src/colorspace.egg-info
 	-find . -type d -name "__pycache__" -exec rm -rf {} \;
 
+.PHONY: dockerpdf
+dockerpdf:
+	docker run --rm -it -v ${PWD}:/data -u $(id -u):$(id -g) \
+	openjournals/inara -o pdf,crossref -p ./paper.md
 
 
 

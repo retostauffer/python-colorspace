@@ -134,6 +134,7 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
         >>> plt.show();
 
     Raises:
+        ImportError: If `matplotlib` is not installed.
         TypeError: If argument `_type` is not None or str.
         TypeError: If argument `_type` is str but not one of the allowed types.
         TypeError: If argument `c`, and/or `l` are not None, str, or int.
@@ -145,6 +146,13 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
         TypeError: If `s`, `linewidth` are not int, float, or None.
         ValueError: If `s`, `linewidth` are int/float but negative (`<0`).
     """
+
+    # Requires matpotlib for plotting. If not available, throw ImportError
+    try:
+        import matplotlib.pyplot as plt
+        from matplotlib.colors import LinearSegmentedColormap, ListedColormap
+    except ImportError as e:
+        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
 
     from .colorlib import hexcols
     from .statshelper import split, nprange, lm
@@ -211,6 +219,10 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
     # to extract the coordinates of the palette.
     if isinstance(x, (str, list)):
         cols = hexcols(x)
+    elif isinstance(x, (LinearSegmentedColormap, ListedColormap)):
+        from colorspace.cmap import cmap_to_sRGB
+        cols = cmap_to_sRGB(x, 11) # Currently defaulting to 11 colors (hardcoded)
+        cols.to("hex")
     else:
         cols = hexcols(x.colors())
     cols.to("HCL")
@@ -305,13 +317,6 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
     # ---------------------------------------------------------------
     # Preparing plot/axes
     # ---------------------------------------------------------------
-    # Requires matpotlib, a suggested package. If not avialable
-    # raise an import error.
-    try:
-        import matplotlib.pyplot as plt
-    except ImportError as e:
-        raise ImportError("problems importing matplotlib.pyplt (not installed?)")
-
     # If `ax` is specified, must be matplotlib.axes._axes.Axes
     if "ax" in kwargs.keys():
         from matplotlib import axes
