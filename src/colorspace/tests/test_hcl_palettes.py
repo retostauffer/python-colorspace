@@ -136,7 +136,9 @@ def test_hcl_palettes_custom_plot():
     # Visualize customized palettes
     res = hcl_palettes(type_ = "Custom", custom = [c1, c2],
                        plot = True, ncol = 1, figsize = (6, 1));
-    assert isinstance(res, type(None))
+
+    from matplotlib.figure import Figure
+    assert isinstance(res, Figure)
     plt.close()
 
 # ------------------------------------------
