@@ -13,7 +13,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     a figure of the same type and size as the input figure is created.
     When multiple `cvd`'s are specified, a multi-panel plot will be created.
 
-    Requires the python modules `matplotlib` and `imageio` to be installed.
+    Requires the Python modules `matplotlib` and `imageio` to be installed.
 
     Args:
         image (str): Name of the figure which should be converted
@@ -49,7 +49,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
         ValueError: If `cvd` is empty.
         ValueError: If no valid `cvd` method is provided.
         FileNotFounderror: If the file specified on `image` does not exist.
-        ImportError: When python module 'imageio' cannot be imported (not installed).
+        ImportError: When Python module 'imageio' cannot be imported (not installed).
         IOError: If file `image` cannot be read using `imageio.imread`.
         ImportError: If `matplotlib.pyplot` cannot be imported (`matplotlib` not installed?).
     """
@@ -88,7 +88,7 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
     try:
         import imageio
     except Exception as e:
-        raise ImportError(f"requires python module \"imageio\" which is not installed: {e}")
+        raise ImportError(f"requires Python module \"imageio\" which is not installed: {e}")
 
     # Read image data
     try:

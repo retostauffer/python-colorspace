@@ -489,8 +489,6 @@ class CVD(object):
 
         Returns:
             list: Returns a list of hex colors (str).
-
-        TODO: Alpha handling in CVD._simulate.
         """
 
 

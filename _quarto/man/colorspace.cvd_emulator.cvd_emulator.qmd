@@ -13,7 +13,7 @@ If only one color vision deficiency is defined (e.g., `cvd = "desaturate"`)
 a figure of the same type and size as the input figure is created.
 When multiple `cvd`'s are specified, a multi-panel plot will be created.
 
-Requires the python modules `matplotlib` and `imageio` to be installed.
+Requires the Python modules `matplotlib` and `imageio` to be installed.
 
 ### Usage
 
@@ -92,7 +92,7 @@ cvd_emulator("DEMO", ["original", "deutan", "protan"],
 <li><code class="text-warning">ValueError</code>: If `cvd` is empty.
 <li><code class="text-warning">ValueError</code>: If no valid `cvd` method is provided.
 <li><code class="text-warning">FileNotFounderror</code>: If the file specified on `image` does not exist.
-<li><code class="text-warning">ImportError</code>: When python module &#x27;imageio&#x27; cannot be imported (not installed).
+<li><code class="text-warning">ImportError</code>: When Python module &#x27;imageio&#x27; cannot be imported (not installed).
 <li><code class="text-warning">IOError</code>: If file `image` cannot be read using `imageio.imread`.
 <li><code class="text-warning">ImportError</code>: If `matplotlib.pyplot` cannot be imported (`matplotlib` not installed?).
 </ul>

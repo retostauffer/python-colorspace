@@ -355,7 +355,7 @@ class defaultpalette:
         method (str): Name of the method which has to be called to retrieve colors
             (e.g., :py:class:`colorspace.palettes.diverging_hcl`).
         name (str): Name of the color palette.
-        settings (dict): A python dictionary containing the parameter settings.
+        settings (dict): Dictionary containing the parameter settings.
 
     Returns:
         Object of class `colorspace.palettes.defaultpalette`.
@@ -849,6 +849,7 @@ class hclpalettes:
             return [None, None]
         else:
             return [palette_type, pals]
+
 
     def length(self):
         """Get Number of Palettes
@@ -1377,6 +1378,44 @@ class hclpalette:
         return C
 
 
+    def _get_seqhcl(self, n, ha, hb, ca, cb, la, lb, pa, pb, cmax):
+        """Get Sequential Palette Colors
+
+        Get 'one side' of a sequential palette. This is also used
+        by `divergingx_hcl` which is, per construction, nothing else
+        than a combination of two flexible sequential palettes meeting
+        in the center.
+
+        Args:
+            n (int): Number of colors to draw.
+            ha (float): Hue on end "A".
+            hb (float): Hue on end "B".
+            ca (float): Chroma on end "A".
+            cb (float): Chroma on end "B".
+            la (float): Luminance on end "A".
+            lb (float): Luminance on end "B".
+            pa (loat): Power parameter 1.
+            pb (loat): Power parameter 2.
+            cmax (float, None): Max chroma.
+
+        Return:
+            list: List of `H`, `C`, and `L` coordinates.
+        """
+        from numpy import linspace, power
+
+        # Calculate H/C/L
+        rval = linspace(1., 0., n)
+
+        # Hue and Luminance
+        H = hb - (hb - ha) * rval
+        L = lb - (lb - la) * power(rval, pb)
+
+        # Calculate the trajectory for the chroma dimension
+        i = linspace(1., 0., n)
+        C = self._chroma_trajectory(i, pa, ca, cb, cmax)
+
+        return [H, C, L]
+
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -1579,8 +1618,7 @@ class qualitative_hcl(hclpalette):
                 numpy array. If a list or array is provided it must be of length 1 or
                 of length `n` and be convertible to float, providing values
                 between `0.0` (full opacity) and `1.0` (full transparency)
-            **kwargs: If any `colorobject =` argument is specified, HCL colors
-                will be returned.
+            **kwargs: Currently allows for `rev = True` to reverse the colors.
 
         Returns:
             list: Returns a list of str with `n` colors from the
@@ -1593,8 +1631,6 @@ class qualitative_hcl(hclpalette):
             >>> # version of the qualitative HCL color palette
             >>> rainbow_hcl().colors(4)
 
-        TODO: Check kwargs and where the current version is used or if it is no
-        longer needed; else think about revamping this functionality.
         """
 
         from numpy import repeat, linspace, asarray
@@ -1621,10 +1657,6 @@ class qualitative_hcl(hclpalette):
 
         # Create new HCL color object
         HCL = HCL(H, C, L, alpha)
-
-        # If kwargs have a key "colorobject" return HCL colorobject
-        # TODO: What is the usecase for this?
-        if "colorobject" in kwargs.keys(): return HCL
 
         # Reversing colors
         rev = self._rev
@@ -1658,8 +1690,6 @@ class rainbow_hcl(qualitative_hcl):
         end (float, int, lambda): Hue (int) at which the rainbow should end or lambda function
             with one argument. By default a lambda function evaluated when
             drawing colors (`360 * (n - 1) / n`).
-        gamma (float): Gamma value used for transfiromation from/to sRGB.
-            @TODO implemented? Check!
         fixup (bool): Only used when converting the HCL colors to hex.  Should
             RGB values outside the defined RGB color space be corrected?
         rev (bool): Should the color map be reversed? Default `False`.
@@ -1696,7 +1726,7 @@ class rainbow_hcl(qualitative_hcl):
     _name = "Rainbow HCL"
 
     def __init__(self, c = 50, l = 70, start = 0, end = lambda n: 360 * (n - 1) / n,
-                 gamma = None, fixup = True, rev = False, *args, **kwargs):
+                 fixup = True, rev = False, *args, **kwargs):
 
         self._set_rev(rev)
         if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
@@ -1935,8 +1965,7 @@ class diverging_hcl(hclpalette):
                 numpy array. If a list or array is provided it must be of length 1 or
                 of length `n` and be convertible to float, providing values
                 between `0.0` (full opacity) and `1.0` (full transparency)
-            **kwargs: Currently allows for `rev = True` to reverse the colors and
-                `colorobject = 'anything'` to get HCL colors as return.
+            **kwargs: Currently allows for `rev = True` to reverse the colors.
 
         Returns:
             list: Returns a list of str with `n` colors from the
@@ -1952,8 +1981,6 @@ class diverging_hcl(hclpalette):
             >>> #:
             >>> hexcols(cols)
 
-        TODO: Alpha handling should work, thouhg at the end HCL.colors()
-        ignores the stored alpha values.
         """
 
         from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
@@ -1992,9 +2019,6 @@ class diverging_hcl(hclpalette):
 
         # Create new HCL color object
         HCL = HCL(H, C, L, alpha)
-
-        # If kwargs have a key "colorobject" return HCL colorobject
-        if "colorobject" in kwargs.keys(): return HCL
 
         # Reversing colors
         rev = self._rev
@@ -2258,21 +2282,13 @@ class divergingx_hcl(hclpalette):
                 numpy array. If a list or array is provided it must be of length 1 or
                 of length `n` and be convertible to float, providing values
                 between `0.0` (full opacity) and `1.0` (full transparency)
-            **kwargs: Currently allows for `rev = True` to reverse the colors and
-                `colorobject = 'anything'` to get HCL colors as return.
+            **kwargs: Currently allows for `rev = True` to reverse the colors.
 
 
         Returns:
             list: Returns a list of str with `n` colors from the
             color palette.
 
-        TODO: Check kwargs and where the current version is used or if it is no
-        longer needed; else think about revamping this functionality.
-
-        Todo:
-            Move the function `get_one_side` to the `hclpalette` class. Rename it
-            to `seqhcl` or something and also make use of this in sequential_hcl
-            as it is basically the same.
         """
 
         from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
@@ -2283,39 +2299,21 @@ class divergingx_hcl(hclpalette):
         alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
-        # Calculate H/C/L by basically calculating the sequential palette twice;
-        # once for each side.
-
-        # Helper function to get the two sides (multi-hue sequential)
-        def get_one_side(n, ha, hb, ca, cb, la, lb, pa, pb, cmax):
-            # Calculate H/C/L
-            rval = linspace(1., 0., n)
-
-            # Hue and Luminance
-            H = hb - (hb - ha) * rval
-            L = lb - (lb - la) * power(rval, pb)
-
-            # Calculate the trajectory for the chroma dimension
-            i = linspace(1., 0., n2)
-            C = self._chroma_trajectory(i, pa, ca, cb, cmax)
-
-            return [H, C, L]
-
         # n2 is half the number of colors, thus the number of colors on each of the two sides.
         n2 = int(ceil(n / 2))
 
         # Calculate H/C/L coordinates for both sides (called 'a' and 'b' not to get
         # confused with the numbering of the parameters).
-        Ha, Ca, La = get_one_side(n2, ha = self.get("h1"), hb = self.get("h2"), 
-                                      ca = self.get("c1"), cb = self.get("c2"),
-                                      la = self.get("l1"), lb = self.get("l2"),
-                                      pa = self.get("p1"), pb = self.get("p2"),
-                                      cmax = self.get("cmax1"))
-        Hb, Cb, Lb = get_one_side(n2, ha = self.get("h3"), hb = self.get("h2"), 
-                                      ca = self.get("c3"), cb = self.get("c2"),
-                                      la = self.get("l3"), lb = self.get("l2"),
-                                      pa = self.get("p3"), pb = self.get("p4"),
-                                      cmax = self.get("cmax2"))
+        Ha, Ca, La = self._get_seqhcl(n2, ha = self.get("h1"), hb = self.get("h2"), 
+                                          ca = self.get("c1"), cb = self.get("c2"),
+                                          la = self.get("l1"), lb = self.get("l2"),
+                                          pa = self.get("p1"), pb = self.get("p2"),
+                                          cmax = self.get("cmax1"))
+        Hb, Cb, Lb = self._get_seqhcl(n2, ha = self.get("h3"), hb = self.get("h2"), 
+                                          ca = self.get("c3"), cb = self.get("c2"),
+                                          la = self.get("l3"), lb = self.get("l2"),
+                                          pa = self.get("p3"), pb = self.get("p4"),
+                                          cmax = self.get("cmax2"))
 
         # In case the user requested an odd number of colors we need to
         # cut away one of one of the two sides (remove it from 'b').
@@ -2331,9 +2329,6 @@ class divergingx_hcl(hclpalette):
 
         # Create new HCL color object
         HCL = HCL(H, C, L, alpha)
-
-        # If kwargs have a key "colorobject" return HCL colorobject
-        if "colorobject" in kwargs.keys(): return HCL
 
         # Reversing colors
         rev = self._rev
@@ -2539,8 +2534,7 @@ class sequential_hcl(hclpalette):
                 numpy array. If a list or array is provided it must be of length 1 or
                 of length `n` and be convertible to float, providing values
                 between `0.0` (full opacity) and `1.0` (full transparency)
-            **kwargs: Currently allows for `rev = True` to reverse the colors and
-                `colorobject = 'anything'` to get HCL colors as return.
+            **kwargs: Currently allows for `rev = True` to reverse the colors.
 
         Returns:
             list: Returns a list of str with `n` colors from the
@@ -2555,8 +2549,6 @@ class sequential_hcl(hclpalette):
             >>> #:
             >>> hexcols(cols)
 
-        TODO: Check kwargs and where the current version is used or if it is no
-        longer needed; else think about revamping this functionality.
         """
 
         from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
@@ -2578,19 +2570,9 @@ class sequential_hcl(hclpalette):
         h1   = self.get("h1")
         h2   = h1 if self.get("h2") is None else self.get("h2")
 
-        # Hue and Luminance
-        H = h2 - (h2 - h1) * rval
-        L = l2 - (l2 - l1) * power(rval, p2)
-
-        # Calculate the trajectory for the chroma dimension
-        i = linspace(1., 0., n)
-        C = self._chroma_trajectory(i, p1, c1, c2, cmax)
-
-        # Create new HCL color object
+        # Get colors and create new HCL color object
+        [H, C, L] = self._get_seqhcl(n, h1, h2, c1, c2, l1, l2, p1, p2, cmax)
         HCL = HCL(H, C, L)
-
-        # If kwargs have a key "colorobject" return HCL colorobject
-        if "colorobject" in kwargs.keys(): return HCL
 
         # Reversing colors
         rev = self._rev
@@ -2619,8 +2601,6 @@ class heat_hcl(sequential_hcl):
         c (list of int): Chroma parameters (c1/c2).
         l (int): Luminance parameters (l1/l2).
         power (list of float): Power parameters (p1/p2).
-        gamma (float): Gamma value used for transfiromation from/to sRGB.
-            @TODO implemented? Check!
         fixup (bool): Only used when converting the HCL colors to hex.  Should
             RGB values outside the defined RGB color space be corrected?
         rev (bool): Should the color map be reversed.
@@ -2702,8 +2682,6 @@ class terrain_hcl(sequential_hcl):
         c (list of int): Chroma parameters (c1/c2).
         l (int): Luminance parameters (l1/l2).
         power (list of float): Power parameters (p1/p2).
-        gamma (float): Gamma value used for transfiromation from/to sRGB.
-            @TODO implemented? Check!
         fixup (bool): Only used when converting the HCL colors to hex.  Should
             RGB values outside the defined RGB color space be corrected?
         rev (bool): Should the color map be reversed.
@@ -2885,15 +2863,12 @@ class diverging_hsv(hclpalette):
                 numpy array. If a list or array is provided it must be of length 1 or
                 of length `n` and be convertible to float, providing values
                 between `0.0` (full opacity) and `1.0` (full transparency)
-            **kwargs: Currently allows for `rev = True` to reverse the colors and
-                `colorobject = 'anything'` to get HCL colors as return.
+            **kwargs: Currently allows for `rev = True` to reverse the colors.
 
         Returns:
             list: Returns a list of str with `n` colors from the
             color palette.
 
-        TODO: Check kwargs and where the current version is used or if it is no
-        longer needed; else think about revamping this functionality.
         """
 
         from numpy import linspace, power, abs, repeat, where
@@ -2914,9 +2889,6 @@ class diverging_hsv(hclpalette):
 
         # Generate color object
         HSV = HSV(H, S, V)
-
-        # If kwargs have a key "colorobject" return HCL colorobject
-        if "colorobject" in kwargs.keys(): return HSV
 
         # Reversing colors
         rev = self._rev
@@ -3043,8 +3015,7 @@ class rainbow(hclpalette):
                 numpy array. If a list or array is provided it must be of length 1 or
                 of length `n` and be convertible to float, providing values
                 between `0.0` (full opacity) and `1.0` (full transparency)
-            **kwargs: Currently allows for `rev = True` to reverse the colors and
-                `colorobject = 'anything'` to get HCL colors as return.
+            **kwargs: Currently allows for `rev = True` to reverse the colors.
 
         Returns:
             list: Returns a list of str with `n` colors from the
@@ -3053,9 +3024,6 @@ class rainbow(hclpalette):
         Examples:
             >>> from colorspace import rainbow
             >>> rainbow().colors(4)
-
-        TODO: Check kwargs and where the current version is used or if it is no
-        longer needed; else think about revamping this functionality.
 
         Raises:
             ValueError: If input `n` is not float/int or smaller than 1.

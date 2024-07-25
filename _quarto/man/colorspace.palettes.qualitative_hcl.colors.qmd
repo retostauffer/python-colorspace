@@ -35,8 +35,7 @@ between `0.0` (full opacity) and `1.0` (full transparency)</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.qualitative_hcl.colors:**kwargs">**kwargs</code>
   </dt>
- <dd>If any `colorobject =` argument is specified, HCL colors
-will be returned.</dd>
+ <dd>Currently allows for `rev = True` to reverse the colors.</dd>
 </dl>
 
 ### Return

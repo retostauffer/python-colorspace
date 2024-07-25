@@ -1,6 +1,6 @@
 # """
 # Copyright 2005, Ross Ihaka. All Rights Reserved.
-# Ported to python: Copyright 2018, Reto Stauffer.
+# Ported to Python by Reto Stauffer.
 # 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -3815,8 +3815,9 @@ def compare_colors(a, b, exact = False, _all = True, atol = None):
         res = [distance(a[i], b[i]) for i in range(0, a.length())]
         res = isclose(res, 0, atol = atol)
     # HCL or polarLUV (both return instance polarLUV)
-    # TODO: Calculating the Euclidean distance on HCL and (if available) alpha
-    #       which itself is in [0, 1]. Should be weighted differently (scaled distance)?
+    # TODO(enhancement): Calculating the Euclidean distance on HCL and (if
+    #   available) alpha which itself is in [0, 1]. Should be weighted
+    #   differently (scaled distance)?
     elif isinstance(a, polarLUV) or isinstance(a, CIELUV) or isinstance(a, CIELAB) or \
          isinstance(a, polarLAB) or isinstance(a, CIEXYZ):
 

@@ -35,8 +35,7 @@ between `0.0` (full opacity) and `1.0` (full transparency)</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.palettes.terrain_hcl.colors:**kwargs">**kwargs</code>
   </dt>
- <dd>Currently allows for `rev = True` to reverse the colors and
-`colorobject = 'anything'` to get HCL colors as return.</dd>
+ <dd>Currently allows for `rev = True` to reverse the colors.</dd>
 </dl>
 
 ### Return

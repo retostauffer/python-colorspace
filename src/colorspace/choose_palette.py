@@ -1076,12 +1076,12 @@ class gui(Tk):
     def _add_return_button(self):
         """Add Return Button
 
-        Adds the button to return to python, a `Tk.Button` element.
+        Adds the button to return to Python, a `Tk.Button` element.
         When clicked :py:func:`_return_to_python` is triggered (callback
         function for this button).
         """
 
-        but = Button(self, text = "Return to python",
+        but = Button(self, text = "Return to Python",
                 command = self._return_to_python, pady = 5, padx = 5)
         but.place(x = 10, y = self.HEIGHT - 40)
 
@@ -1159,7 +1159,7 @@ class gui(Tk):
 
             info = [""]
             info.append("To be able to run the demo plots")
-            info.append("the python matplotlib package has to be")
+            info.append("the Python matplotlib package has to be")
             info.append("installed.")
             info.append("")
             info.append("Install matplotlib and try again!")

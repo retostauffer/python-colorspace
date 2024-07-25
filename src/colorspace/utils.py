@@ -727,7 +727,7 @@ def max_chroma(H, L, floor = False):
     # Not very efficient. However, the best I came up for now :|
     # Reading/loading the json data set takes about half of the time, maybe
     # more efficient to directly code it rather than reading it from disc.
-    # TODO: Investigate this at some point; room for improvement.
+    # TODO(enhancement): Investigate this at some point; room for improvement.
     def get_max(a, b):
         res = []
         for i in range(len(a)):
@@ -890,8 +890,6 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     elif space == "HLS":
         tmp = _lighten_in_HLS(x.colors(), amount, method)
     else:
-        # TODO: Differs from colorspace. Reason is that we here
-        #       go to HSL and convert HLS to HCL I assume.
         tmp    = _lighten_in_HCL(x.colors(), amount, method) # Via HCL color space
         tmpHLS = _lighten_in_HLS(x.colors(), amount, method) # Via HLS color space
         tmpHLS.to("sRGB"); tmpHLS.to("HCL")

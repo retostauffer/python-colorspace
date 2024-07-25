@@ -403,10 +403,6 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
                     linewidth = 2, color = cols.colors(), zorder = 3)
 
         # Plot labels
-        # TODO(R): In R, the colors where C > 0 and L < 1 is TRUE are set to NA,
-        #          but not the `nd` object. Thus, the title contains the Hue range
-        #          from all the colors including those which got killed by fixup = TRUE.
-        #          Bug or feature?
         if "title" in kwargs.keys():
             title = kwargs["title"]
         elif len(np.unique(np.round(nd[0]))) == 1:
@@ -423,9 +419,13 @@ def hclplot(x, _type = None, h = None, c = None, l = None, axes = True,
         # TODO(R): When using the following sequence of colors in R
         # x <- c('#11C638', '#60CD6B', '#CCFF00', '#B0DAB3', '#D2E0D3',
         #        '#E7DAD2', '#EDC9B0', '#CCFF00', '#F1A860', '#EF9708')
-        # ... and plot it ...
         # hclplot(x, "diverging")
         # ... is that actually correct? To me, the Python version looks more reasonable.
+        #
+        # Compare to Python
+        # x = ['#11C638', '#60CD6B', '#CCFF00', '#B0DAB3', '#D2E0D3',
+        #      '#E7DAD2', '#EDC9B0', '#CCFF00', '#F1A860', '#EF9708']
+        # hclplot(x, "diverging")
 
         # Spanning grid, creates N x 5 array with H (np.nan), C, L, as well
         # as left (binary) and right (binary) based on C (negative C = left, else right)

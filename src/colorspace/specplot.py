@@ -164,7 +164,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
             if n > 49:
                 H = 1./3. * (H + np.append(H[0],H[0:-1]) + np.append(H[1:],H[n-1]))
 
-            # TODO Spline smoother not yet implemented
+            # TODO(enhancement): Spline smoother not yet implemented
 
         return [H, C, L]
 
