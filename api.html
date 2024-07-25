@@ -153,10 +153,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Approximate Colors from Other Packages</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./articles/classes_and_methods.html">
- <span class="dropdown-text">Main Functions, Classes and Methods</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./articles/endrainbow.html">
  <span class="dropdown-text">Somewhere over the Rainbow</span></a>
   </li>  
@@ -510,12 +506,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#color-palettes" id="toc-color-palettes" class="nav-link active" data-scroll-target="#color-palettes">Color palettes</a></li>
+  <li><a href="#color-spaces" id="toc-color-spaces" class="nav-link active" data-scroll-target="#color-spaces">Color spaces</a></li>
+  <li><a href="#hcl-based-palettes" id="toc-hcl-based-palettes" class="nav-link" data-scroll-target="#hcl-based-palettes">HCL-based palettes</a></li>
+  <li><a href="#custom-palettes" id="toc-custom-palettes" class="nav-link" data-scroll-target="#custom-palettes">Custom palettes</a></li>
+  <li><a href="#palette-visualization-and-assessment" id="toc-palette-visualization-and-assessment" class="nav-link" data-scroll-target="#palette-visualization-and-assessment">Palette visualization and assessment</a></li>
   <li><a href="#gui-for-choosing-color-palettes" id="toc-gui-for-choosing-color-palettes" class="nav-link" data-scroll-target="#gui-for-choosing-color-palettes">GUI for choosing color palettes</a></li>
-  <li><a href="#assessing-colors-and-palettes" id="toc-assessing-colors-and-palettes" class="nav-link" data-scroll-target="#assessing-colors-and-palettes">Assessing colors and palettes</a></li>
-  <li><a href="#color-vision-defficiency" id="toc-color-vision-defficiency" class="nav-link" data-scroll-target="#color-vision-defficiency">Color vision defficiency</a></li>
-  <li><a href="#color-manipulation" id="toc-color-manipulation" class="nav-link" data-scroll-target="#color-manipulation">Color manipulation</a></li>
-  <li><a href="#color-librarycolor-transformations" id="toc-color-librarycolor-transformations" class="nav-link" data-scroll-target="#color-librarycolor-transformations">Color library/color transformations</a></li>
+  <li><a href="#color-vision-defficiency-emulation" id="toc-color-vision-defficiency-emulation" class="nav-link" data-scroll-target="#color-vision-defficiency-emulation">Color vision defficiency emulation</a></li>
+  <li><a href="#color-manipulation-and-utilities" id="toc-color-manipulation-and-utilities" class="nav-link" data-scroll-target="#color-manipulation-and-utilities">Color manipulation and utilities</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
@@ -543,54 +540,281 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="color-palettes" class="level2">
-<h2 class="anchored" data-anchor-id="color-palettes">Color palettes</h2>
+<section id="color-spaces" class="level2">
+<h2 class="anchored" data-anchor-id="color-spaces">Color spaces</h2>
+<p>The <em>colorspace</em> package supports the following color spaces (see also <a href="./articles/color_spaces.html">Color Spaces: Classes and Utilities</a>). These classes all inherit from one superclass <code>colorobject</code> which provides a series of useful methods.</p>
 <div class="tbl-borderless">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 30%">
 <col style="width: 70%">
 </colgroup>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td><a href="./man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes</code></a></td>
-<td>Pre-Defined HCL Palettes</td>
+<td><a href="./man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a>, <a href="./man/colorspace.colorlib.HCL.html"><code>HCL</code></a></td>
+<td>Create polarLUV (=HCL) colors</td>
 </tr>
 <tr class="even">
+<td><a href="./man/colorspace.colorlib.CIELUV.html"><code>CIELUV</code></a></td>
+<td>Create CIELUV colors</td>
+</tr>
+<tr class="odd">
+<td><a href="./man/colorspace.colorlib.CIELAB.html"><code>CIELAB</code></a></td>
+<td>Create CIELAB colors</td>
+</tr>
+<tr class="even">
+<td><a href="./man/colorspace.colorlib.CIEXYZ.html"><code>CIEXYZ</code></a></td>
+<td>Create CIEXYZ colors</td>
+</tr>
+<tr class="odd">
+<td><a href="./man/colorspace.colorlib.RGB.html"><code>RGB</code></a></td>
+<td>Create RGB colors</td>
+</tr>
+<tr class="even">
+<td><a href="./man/colorspace.colorlib.sRGB.html"><code>sRGB</code></a></td>
+<td>Create sRGB colors</td>
+</tr>
+<tr class="odd">
+<td><a href="./man/colorspace.colorlib.HLS.html"><code>HLS</code></a></td>
+<td>Create HLS colors</td>
+</tr>
+<tr class="even">
+<td><a href="./man/colorspace.colorlib.HSV.html"><code>HSV</code></a></td>
+<td>Create HSV colors</td>
+</tr>
+<tr class="odd">
+<td><a href="./man/colorspace.colorlib.hexcols.html"><code>hexcols</code></a></td>
+<td>Create hex colors</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tbl-borderless">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.to()</code></td>
+<td>Convert colors between color spaces</td>
+</tr>
+<tr class="even">
+<td><code>.colors()</code></td>
+<td>Extract HEX colors</td>
+</tr>
+<tr class="odd">
+<td><code>.hclplot()</code></td>
+<td>Palette plot in HCL space</td>
+</tr>
+<tr class="even">
+<td><code>.specplot()</code></td>
+<td>Color spectrum plot</td>
+</tr>
+<tr class="odd">
+<td><code>.swatchplot()</code></td>
+<td>Palette swatch plot</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="hcl-based-palettes" class="level2">
+<h2 class="anchored" data-anchor-id="hcl-based-palettes">HCL-based palettes</h2>
+<p><em>colorspace</em> comes with a variety of pre-defined palettes (see <a href="./man/colorspace.hcl_palettes.hcl_palettes.html"><code>hcl_palettes</code></a> and <a href="./articles/hcl_palettes.html">HCL-Based Color Palettes</a>) which can either be used as is, or customized. In addition, fully customized palettes can be created/defined. All classes inherit from the superclass <code>hclpalette</code> providing the same functionality. The main methods are listed below.</p>
+<div class="tbl-borderless">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td><a href="./man/colorspace.palettes.qualitative_hcl.html"><code>qualitative_hcl</code></a></td>
 <td>Qualitative HCL Color Palettes</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="./man/colorspace.palettes.sequential_hcl.html"><code>sequential_hcl</code></a></td>
 <td>Sequential HCL Color Palettes</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="./man/colorspace.palettes.diverging_hcl.html"><code>diverging_hcl</code></a></td>
 <td>Diverging HCL Color Palettes</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="./man/colorspace.palettes.rainbow_hcl.html"><code>rainbow_hcl</code></a></td>
 <td>HCL Based Rainbow Palette</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="./man/colorspace.palettes.heat_hcl.html"><code>heat_hcl</code></a></td>
 <td>HCL Based Heat Color Palette</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="./man/colorspace.palettes.terrain_hcl.html"><code>terrain_hcl</code></a></td>
 <td>HCL Based Terrain Color Palette</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="./man/colorspace.palettes.diverging_hcl.html"><code>diverging_hsv</code></a></td>
 <td>Diverging HCL Color Palettes</td>
 </tr>
+</tbody>
+</table>
+</div>
+<div class="tbl-borderless">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td><a href="./man/colorspace.palettes.rainbow.html"><code>rainbow</code></a></td>
-<td>Infamous sRGB Rainbow Color Palette</td>
+<td><code>.colors()</code></td>
+<td>Draw colors from the palette</td>
 </tr>
 <tr class="even">
+<td><code>.cmap()</code></td>
+<td>Create matplotlib compatible colormap</td>
+</tr>
+<tr class="odd">
+<td><code>.hclplot()</code></td>
+<td>Palette plot in HCL space</td>
+</tr>
+<tr class="even">
+<td><code>.specplot()</code></td>
+<td>Color spectrum plot</td>
+</tr>
+<tr class="odd">
+<td><code>.swatchplot()</code></td>
+<td>Palette swatch plot</td>
+</tr>
+<tr class="even">
+<td><code>.show_settings()</code></td>
+<td>Show palette settings (trajectory definition)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="custom-palettes" class="level2">
+<h2 class="anchored" data-anchor-id="custom-palettes">Custom palettes</h2>
+<p>Besides HCL-based color palettes which are defined by their trajectories trough the HCL space (see <a href="./articles/hcl_palettes.html#construction-details">HCL-Based Color Palettes: Construction Details</a>), <em>colorspace</em> provides the <a href="./man/colorspace.palettes.palette.html"><code>palette</code></a> class to set up custom palettes based on a fixed number of colors, providing similar functionality as the HCL-based palettes. The main methods are listed below.</p>
+<div class="tbl-borderless">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td><a href="./man/colorspace.palettes.palette.html"><code>palette</code></a></td>
-<td>Custom Color Palette</td>
+<td>Create custom color palette</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tbl-borderless">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.colors()</code></td>
+<td>Draw colors from the palette</td>
+</tr>
+<tr class="even">
+<td><code>.cmap()</code></td>
+<td>Create matplotlib compatible colormap</td>
+</tr>
+<tr class="odd">
+<td><code>.hclplot()</code></td>
+<td>Palette plot in HCL space</td>
+</tr>
+<tr class="even">
+<td><code>.specplot()</code></td>
+<td>Color spectrum plot</td>
+</tr>
+<tr class="odd">
+<td><code>.swatchplot()</code></td>
+<td>Palette swatch plot</td>
+</tr>
+<tr class="even">
+<td><code>.show_settings()</code></td>
+<td>Show palette settings (trajectory definition)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="palette-visualization-and-assessment" class="level2">
+<h2 class="anchored" data-anchor-id="palette-visualization-and-assessment">Palette visualization and assessment</h2>
+<p>To visually assess sets of colors (or color palettes), <em>colorspace</em> provides a series of plotting function. These are also interfaced by the identically named methods of the different palette classes listed above.</p>
+<div class="tbl-borderless">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./man/colorspace.swatchplot.swatchplot.html"><code>swatchplot</code></a></td>
+<td>Palette Swatch Plot</td>
+</tr>
+<tr class="even">
+<td><a href="./man/colorspace.specplot.specplot.html"><code>specplot</code></a></td>
+<td>Color Spectrum Plot</td>
+</tr>
+<tr class="odd">
+<td><a href="./man/colorspace.demos.demoplot.html"><code>demoplot</code></a></td>
+<td>Create Demo Plots</td>
+</tr>
+<tr class="even">
+<td><a href="./man/colorspace.hclplot.hclplot.html"><code>hclplot</code></a></td>
+<td>Palette Plot in HCL Space</td>
 </tr>
 </tbody>
 </table>
@@ -613,8 +837,8 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </section>
-<section id="assessing-colors-and-palettes" class="level2">
-<h2 class="anchored" data-anchor-id="assessing-colors-and-palettes">Assessing colors and palettes</h2>
+<section id="color-vision-defficiency-emulation" class="level2">
+<h2 class="anchored" data-anchor-id="color-vision-defficiency-emulation">Color vision defficiency emulation</h2>
 <div class="tbl-borderless">
 <table class="caption-top table">
 <colgroup>
@@ -623,43 +847,10 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><a href="./man/colorspace.specplot.specplot.html"><code>specplot</code></a></td>
-<td>Color Spectrum Plot</td>
-</tr>
-<tr class="even">
-<td><a href="./man/colorspace.swatchplot.swatchplot.html"><code>swatchplot</code></a></td>
-<td>Palette Swatch Plot</td>
-</tr>
-<tr class="odd">
-<td><a href="./man/colorspace.demos.demoplot.html"><code>demoplot</code></a></td>
-<td>Create Demo Plots</td>
-</tr>
-<tr class="even">
-<td><a href="./man/colorspace.hclplot.hclplot.html"><code>hclplot</code></a></td>
-<td>Palette Plot in HCL Space</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="color-vision-defficiency" class="level2">
-<h2 class="anchored" data-anchor-id="color-vision-defficiency">Color vision defficiency</h2>
-<div class="tbl-borderless">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 70%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td><a href="./man/colorspace.CVD.desaturate.html"><code>desaturate</code></a></td>
-<td>Desaturate Colors by Chroma Removal in HCL Space</td>
-</tr>
-<tr class="even">
 <td><a href="./man/colorspace.CVD.deutan.html"><code>deutan</code></a>, <a href="./man/colorspace.CVD.protan.html"><code>protan</code></a>, <a href="./man/colorspace.CVD.tritan.html"><code>tritan</code></a></td>
 <td>Simulate Color Vision Deficiency</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="./man/colorspace.cvd_emulator.cvd_emulator.html"><code>cvd_emulator</code></a></td>
 <td>Check Images for Color Constraints</td>
 </tr>
@@ -667,99 +858,52 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </section>
-<section id="color-manipulation" class="level2">
-<h2 class="anchored" data-anchor-id="color-manipulation">Color manipulation</h2>
+<section id="color-manipulation-and-utilities" class="level2">
+<h2 class="anchored" data-anchor-id="color-manipulation-and-utilities">Color manipulation and utilities</h2>
 <div class="tbl-borderless">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 30%">
 <col style="width: 70%">
 </colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
+<td><a href="./man/colorspace.CVD.desaturate.html"><code>desaturate</code></a></td>
+<td>Desaturate Colors by Chroma Removal in HCL Space</td>
+</tr>
+<tr class="even">
 <td><a href="./man/colorspace.utils.max_chroma.html"><code>max_chroma</code></a></td>
 <td>Compute Maximum Chroma for Given Hue and Luminance in HCL</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="./man/colorspace.utils.contrast_ratio.html"><code>contrast_ratio</code></a></td>
 <td>W3C Contrast Ratio</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="./man/colorspace.colorlib.compare_colors.html"><code>compare_colors</code></a></td>
 <td>Compare colors/check for equality</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="man/colorspace.utils.check_hex_colors"><code>check_hex_colors</code></a></td>
 <td>Checking HEX Color Validity</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="./man/colorspace.utils.lighten.html"><code>lighten</code></a>, <a href="./man/colorspace.utils.darken.html"><code>darken</code></a></td>
 <td>Algorithmically Lighten or Darken Colors</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="./man/colorspace.utils.mixcolor.html"><code>mixcolor</code></a></td>
 <td>Compute the Convex Combination of Two Colors</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="./man/colorspace.utils.extract_transparency.html"><code>extract_transparency</code></a>, <a href="./man/colorspace.utils.adjust_transparency.html"><code>adjust_transparency</code></a></td>
 <td>Adjust or Extract Transparency of Colors</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="color-librarycolor-transformations" class="level2">
-<h2 class="anchored" data-anchor-id="color-librarycolor-transformations">Color library/color transformations</h2>
-<div class="tbl-borderless">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 70%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td><a href="./man/colorspace.colorlib.polarLUV.html"><code>polarLUV</code></a></td>
-<td>Create polarLUV (HCL) Colors</td>
-</tr>
-<tr class="even">
-<td><a href="./man/colorspace.colorlib.CIELUV.html"><code>CIELUV</code></a></td>
-<td>Create CIELUV Colors</td>
-</tr>
-<tr class="odd">
-<td><a href="./man/colorspace.colorlib.polarLAB.html"><code>polarLAB</code></a></td>
-<td>Create polarLAB Colors</td>
-</tr>
-<tr class="even">
-<td><a href="./man/colorspace.colorlib.CIELAB.html"><code>CIELAB</code></a></td>
-<td>Create CIELAB Colors</td>
-</tr>
-<tr class="odd">
-<td><a href="./man/colorspace.colorlib.CIEXYZ.html"><code>CIEXYZ</code></a></td>
-<td>Create CIEXYZ Colors</td>
-</tr>
-<tr class="even">
-<td><a href="./man/colorspace.colorlib.RGB.html"><code>RGB</code></a></td>
-<td>Create RGB Colors</td>
-</tr>
-<tr class="odd">
-<td><a href="./man/colorspace.colorlib.sRGB.html"><code>sRGB</code></a></td>
-<td>Create sRGB (standard RGB) Colors</td>
-</tr>
-<tr class="even">
-<td><a href="./man/colorspace.colorlib.HSV.html"><code>HSV</code></a></td>
-<td>Create Hue-Saturation-Value (HSV) Colors</td>
-</tr>
-<tr class="odd">
-<td><a href="./man/colorspace.colorlib.HLS.html"><code>HLS</code></a></td>
-<td>Create Hue-Lightness-Saturation (HLS) Colors</td>
-</tr>
-<tr class="even">
-<td><a href="./man/colorspace.colorlib.hexcols.html"><code>hexcols</code></a></td>
-<td>Create HEX Colors</td>
-</tr>
-<tr class="odd">
-<td><a href="./man/colorspace.colorlib.colorlib.html"><code>colorlib</code></a></td>
-<td>Color Handling Superclass</td>
 </tr>
 </tbody>
 </table>

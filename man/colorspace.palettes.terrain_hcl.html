@@ -187,10 +187,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Approximate Colors from Other Packages</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../articles/classes_and_methods.html">
- <span class="dropdown-text">Main Functions, Classes and Methods</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../articles/endrainbow.html">
  <span class="dropdown-text">Somewhere over the Rainbow</span></a>
   </li>  
@@ -614,12 +610,6 @@ Luminance parameters (l1/l2).
 Power parameters (p1/p2).
 </dd>
 <dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
-<code id="colorspace.palettes.terrain_hcl:gamma">gamma</code><code class="argument-class">float</code>
-</dt>
-<dd>
-Gamma value used for transfiromation from/to sRGB. <span class="citation" data-cites="TODO">@TODO</span> implemented? Check!
-</dd>
-<dt style="white-space: nowrap; font-family: monospace; vertical-align: top">
 <code id="colorspace.palettes.terrain_hcl:fixup">fixup</code><code class="argument-class">bool</code>
 </dt>
 <dd>
@@ -704,7 +694,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="d4a723f6" class="cell" data-execution_count="1">
+<div id="6788d5f3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> terrain_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> terrain_hcl()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -721,7 +711,7 @@ Palette Swatch Plot
  '#F1F1F1']</code></pre>
 </div>
 </div>
-<div id="d4b9eb8f" class="cell" data-execution_count="2">
+<div id="8c3b9b36" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -731,7 +721,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="8788e2f0" class="cell" data-execution_count="3">
+<div id="8138f5ca" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>terrain_hcl()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">

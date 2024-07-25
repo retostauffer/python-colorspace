@@ -187,10 +187,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Approximate Colors from Other Packages</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../articles/classes_and_methods.html">
- <span class="dropdown-text">Main Functions, Classes and Methods</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../articles/endrainbow.html">
  <span class="dropdown-text">Somewhere over the Rainbow</span></a>
   </li>  
@@ -581,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p>Simulate color deficiencies on png, jpg, and jpeg files. Takes an existing pixel image and simulates different color vision deficiencies.</p>
 <p>The function displays a matplotlib figure if <code>output = None</code>. If <code>output</code> is set, a new figure will be stored with simulated colors. If only one color vision deficiency is defined (e.g., <code>cvd = "desaturate"</code>) a figure of the same type and size as the input figure is created. When multiple <code>cvd</code>’s are specified, a multi-panel plot will be created.</p>
-<p>Requires the python modules <code>matplotlib</code> and <code>imageio</code> to be installed.</p>
+<p>Requires the Python modules <code>matplotlib</code> and <code>imageio</code> to be installed.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -628,7 +624,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="839841e7" class="cell" data-execution_count="1">
+<div id="ad5b46f8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> cvd_emulator</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"deutan"</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -639,7 +635,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </div>
 </div>
 </div>
-<div id="707301cb" class="cell" data-execution_count="2">
+<div id="2ed904fb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, <span class="st">"desaturate"</span>, <span class="fl">1.0</span>, <span class="st">"output.png"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -649,7 +645,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </div>
 </div>
 </div>
-<div id="cc0d37df" class="cell" data-execution_count="3">
+<div id="ed915760" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cvd_emulator(<span class="st">"DEMO"</span>, [<span class="st">"original"</span>, <span class="st">"deutan"</span>, <span class="st">"protan"</span>],</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.5</span>, dropalpha <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -671,7 +667,7 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </li><li>
 <code class="text-warning">FileNotFounderror</code>: If the file specified on <code>image</code> does not exist.
 </li><li>
-<code class="text-warning">ImportError</code>: When python module 'imageio' cannot be imported (not installed).
+<code class="text-warning">ImportError</code>: When Python module 'imageio' cannot be imported (not installed).
 </li><li>
 <code class="text-warning">IOError</code>: If file <code>image</code> cannot be read using <code>imageio.imread</code>.
 </li><li>
