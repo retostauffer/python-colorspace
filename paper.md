@@ -70,9 +70,10 @@ transforming, and visualizing color palettes (from any source). In particular,
 this includes the simulation of color vision deficiencies [@Machado:2009]
 but also contrast ratios, desaturation, lightening/darkening, etc.
 
-The _colorspace_ Python package comes with extensive documentation provided at
+The _colorspace_ Python package was inspired by the eponymous R package
+[@Zeileis:2020]. It comes with extensive documentation at
 <https://retostauffer.github.io/python-colorspace/>, including many practical
-examples. It was inspired by the R packages with the same name [@Zeileis:2020].
+examples. Selected highlights are presented in the following.
 
 
 # Key functionality
@@ -82,34 +83,37 @@ examples. It was inspired by the R packages with the same name [@Zeileis:2020].
 The key functions and classes for constructing color palettes using
 hue-chroma-luminance paths (and then mapping these to hex codes) are:
 
-* `qualitative_hcl`: For coding qualitative or categorical information,
-    i.e., where no particular ordering of categories is available and every
-    color should receive a similar perceptual weight.
-* `sequential_hcl`: For coding ordered/numeric information, i.e., going from
+* `qualitative_hcl`: For qualitative or unordered categorical information,
+    where every color should receive a similar perceptual weight.
+* `sequential_hcl`: For ordered/numeric information from
     high to low (or vice versa).
-* `diverging_hcl`: For coding ordered/numeric information around a central
-    neutral value, i.e., where colors diverge from neutral to two extremes.
+* `diverging_hcl`: For ordered/numeric information around a central
+    neutral value, where colors diverge from neutral to two extremes.
 
-All of these functions provide a range of named palettes inspired by
-well-established packages but actually implements them using their HCL
-paths. Additionally, these perceptual parameters can be modified or new
+These functions provide a range of named palettes inspired by
+well-established packages but actually implemented using HCL
+paths. Additionally, the HCL parameters can be modified or new
 palettes can be created from scratch.
 
 As an example, \autoref{fig:chosingpalettes} depicts color swatches for
-four variations of viridis palettes. The first `pal1` simply sets up
-the palette from its name. It is actually identical to the second
-`pal2` which shows the HCL-based specification: The palette goes from
-purple (hue 300) to yellow (hue 75), increasing colorfulness (chroma)
-simultaneously from 40 to 95, and the changing the brightness from
-dark (luminance 15) to light (luminance 90). The `power` parameter
-chooses a linear change in chroma and a slight nonlinear power for luminance.
+four viridis variations. The first `pal1` sets up
+the palette from its name. It is identical to the second
+`pal2` which employes the HCL specification directly: The hue ranges from
+purple (300) to yellow (75), colorfulness (chroma) increases
+from 40 to 95, and luminance (brightness) from dark (15) to light (90).
+The `power` parameter chooses a linear change in chroma and a slightly
+nonlinear path for luminance.
 
-The subsequent palettes then vary the perceptual properties of the palette:
-`pal3` uses the same HCL properties as `pal1` and `pal2` but uses a
-triangular chroma path from 40 via 90 to 20, yielding muted colors at
-the end of the palette. Instead, `pal4` just changes the starting hue
-for the palette to green (hue 200) instead of purple. All four palettes
+In `pal3` and `pal4` the most HCL properties are kept the same but some
+are modified: `pal3` uses a triangular chroma path from 40 via 90 to 20, yielding muted colors at
+the end of the palette. `pal4` just changes the starting hue
+for the palette to green (200) instead of purple. All four palettes
 are visualized by the `swatchplot` function from the package.
+
+The objects returned by the palette functions provide a series of
+methods, e.g., `pal1.settings` for displaying the HCL parameters,
+`pal1(3)` for obtaining a number of hex colors, or `pal1.cmap()`
+for setting up a _matplotlib_ color map, among others.
 
 ```
 from colorspace import palette, sequential_hcl, swatchplot
@@ -130,12 +134,6 @@ swatchplot({"Viridis (and altered versions of it)": [
 
 ![Swatches of four HCL-based sequential palettes: `pal1` is the predefined HCL-based viridis palette, `pal2` is identical to `pal2` but created "by hand" and `pal3` and `pal4` are modified versions with a triangular chroma paths and reduced hue range, respectively.\label{fig:chosingpalettes}](paper_assets/fig-chosing-palettes.png)
 
-The objects returned by the palette functions provide a series of
-methods, e.g., `pal1.settings` for displaying the HCL parameters,
-`pal1(3)` for obtaining a number of hex colors, or `pal1.cmap()`
-for setting up a _matplotlib_ color map, among others. Further methods
-are shown in the next section.
-
 An overview of the named HCL-based palettes in _colorspace_ is depicted in
 \autoref{fig-hcl-palettes}.
 
@@ -153,6 +151,13 @@ To better understand the properties of palette `pal4`, defined above,
 \autoref{fig:specplothclplot} shows its HCL spectrum (left) and the
 corresponding path through the HCL space (right).
 
+The spectrum in the first panel shows how the hue (right axis) changes from about 200 (green) to
+75 (yellow), while chroma and luminance (left axis) increase
+from about 20 to 95. Note that the kink in the chroma curve for the
+greenish colors occurs because such dark greens cannot have higher
+chromas when represented through RGB-based hex codes. The same is visible in the
+second panel where the path moves along the outer edge of the HCL space.
+
 ```
 pal4.specplot(figsize = (5, 5));
 pal4.hclplot(n = 7, figsize = (5, 5));
@@ -160,12 +165,6 @@ pal4.hclplot(n = 7, figsize = (5, 5));
 
 ![Hue-chroma-luminance spectrum plot (left) and corresponding path in the chroma-luminance coordinate system (where hue changes with luminance) for the custom sequential palette `pal4`.\label{fig:specplothclplot}](paper_assets/fig-specplot-hclplot.png)
 
-The spectrum in the first panel shows how the hue (right axis) changes from about 200 (green) to
-about 75 (yellow), while simultaneously chroma and luminance (left axis) increase
-from around 20 to about 95. Note that there is a kink in the chroma curve for the
-greenish colors because these cannot have higher chromas at these low luminances
-(at least when represented through RGB-based hex codes). The same is visible in the
-second panel where the path moves along the outer edge of the HCL space.
 
 
 ## Color vision deficiency
@@ -206,11 +205,6 @@ plt.show()
 ![Example of color vision deficiency emulation and color manipulation using a heatmap. Top/bottom: RGB rainbow based palette and HCL based sequential palette. Left to right: Original colors, deuteranope color vision, and desaturated representation.\label{fig-cvd}](paper_assets/fig-cvd.png)
 
 
-In addition to the `deutan` function for emulating deuteranomaly further color
-vision deficiencies can be assessed in _colorspace_ [based on @Machado:2009].
-See <https://retostauffer.github.io/python-colorspace/articles/cvd.html> for
-more details and worked examples.
-
 
 ## Integration with Python graphics packages
 
@@ -247,9 +241,6 @@ plt.show()
 ```
 
 ![Example of a `matplotlib` heatmap and a `seaborn` density using custom HCL-based colors.\label{fig-plotting}](paper_assets/fig-plotting.png)
-
-Further worked examples and details can be found in the package documentation
-at <https://retostauffer.github.io/python-colorspace/>.
 
 
 # Dependencies and availability
