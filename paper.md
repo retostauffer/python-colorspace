@@ -247,9 +247,9 @@ plt.show()
 
 The _colorspace_ is available from PyPI at <https://pypi.org/project/colorspace>.
 It is designed to be lightweight, requiring only _numpy_ [@numpy] for the core
-functionality. For full functionality, _matplotlib_, _imageio_ [@imageio], and
-_pandas_ [@pandas] are also needed.
-
+functionality. Only a few features rely on _matplotlib_, _imageio_ [@imageio], and
+_pandas_ [@pandas]. More information and an interactive interface can be found on
+<https://hclwizard.org/>.
 Package development is hosted on GitHub at
 <https://github.com/retostauffer/python-colorspace>. Bug reports, code
 contributions, and feature requests are warmly welcome.
