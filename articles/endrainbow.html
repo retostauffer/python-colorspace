@@ -596,7 +596,7 @@ div.csl-indent {
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>The go-to palette in many software packages is - or used to be until rather recently - the so-called rainbow: a palette created by changing the hue in highly-saturated RGB colors. This has been widely recognized as having a number of disadvantages including: abrupt shifts in brightness, misleading for viewers with color vision deficiencies, too flashy to look at for a longer time. See also the article on <a href="../articles/cvd.html">color vision deficiencies</a> which compares the infamous RGB <a href="../man/colorspace.palettes.rainbow.html">rainbow</a> with better HCL-based alternatives using <a href="../man/colorspace.demos.demoplot.html">demoplot</a>. Here, we provide further rainbow examples taken from actual publications (rather than simplified demos).</p>
-<p>For more details on the limitations of the rainbow palette and further pointers see “<a href="http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/">The End of the Rainbow</a>” by <span class="citation" data-cites="color:Hawkins+McNeall+Stephenson:2014">Hawkins et al. (<a href="#ref-color:Hawkins+McNeall+Stephenson:2014" role="doc-biblioref">2014</a>)</span>, “<a href="https://vdl.sci.utah.edu/publications/2019_eurovis_implicit-discretization/">Examining Implicit Discretization in Spectral Schemes</a>” by <span class="citation" data-cites="color:Quinan+Padilla+CreemRegehr:2019">Quinan et al. (<a href="#ref-color:Quinan+Padilla+CreemRegehr:2019" role="doc-biblioref">2019</a>)</span>, or “<a href="https://dx.doi.org/10.1175/BAMS-D-13-00155.1">Somewhere over the Rainbow: How to Make Effective Use of Colors in Meteorological Visualizations</a>” by <span class="citation" data-cites="color:Stauffer+Mayr+Dabernig:2015">Stauffer et al. (<a href="#ref-color:Stauffer+Mayr+Dabernig:2015" role="doc-biblioref">2015</a>)</span> as well as the <a href="https://twitter.com/hashtag/endrainbow"><code>#endrainbow</code></a> hashtag on X (twitter).</p>
+<p>For more details on the limitations of the rainbow palette and further pointers see “<a href="https://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/">The End of the Rainbow</a>” by <span class="citation" data-cites="color:Hawkins+McNeall+Stephenson:2014">Hawkins et al. (<a href="#ref-color:Hawkins+McNeall+Stephenson:2014" role="doc-biblioref">2014</a>)</span>, “<a href="https://vdl.sci.utah.edu/publications/2019_eurovis_implicit-discretization/">Examining Implicit Discretization in Spectral Schemes</a>” by <span class="citation" data-cites="color:Quinan+Padilla+CreemRegehr:2019">Quinan et al. (<a href="#ref-color:Quinan+Padilla+CreemRegehr:2019" role="doc-biblioref">2019</a>)</span>, or “<a href="https://dx.doi.org/10.1175/BAMS-D-13-00155.1">Somewhere over the Rainbow: How to Make Effective Use of Colors in Meteorological Visualizations</a>” by <span class="citation" data-cites="color:Stauffer+Mayr+Dabernig:2015">Stauffer et al. (<a href="#ref-color:Stauffer+Mayr+Dabernig:2015" role="doc-biblioref">2015</a>)</span> as well as the <a href="https://twitter.com/hashtag/endrainbow"><code>#endrainbow</code></a> hashtag on X (twitter).</p>
 <p>In a nutshell, the (in-)famous RGB rainbow palette is virtually always a poor choice and properly balanced qualitative, sequential, or diverging palettes - such as the <a href="../articles/hcl_palettes.html">HCL-Based Color Palettes</a> provided here - are preferable. Despite such alternatives becoming more and more widely available the rainbow palette is unfortunately still widely used. Below we illustrate some wild-caught examples, highlight their problems (e.g., by desaturation to grayscale or by emulating color vision deficiencies), and suggest better alternatives.</p>
 </section>
 <section id="would-bob-ross-approve" class="level2">
@@ -682,7 +682,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Another important difference between the two palettes is that the HCL-based alternative is completely balanced between the two “arms” of the palette while the rainbow is not. Specifically, the green arm has an almost flat luminance trajectory while the red arm reaches much lower luminances (i.e., darker colors).</p>
-<div id="f75ecdf8" class="cell" data-execution_count="1">
+<div id="93f05b0f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, specplot</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow(start <span class="op">=</span> <span class="dv">0</span>, end <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -694,7 +694,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="d4a0a090" class="cell" data-execution_count="2">
+<div id="dd4024fa" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, specplot</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hcl(<span class="st">"Purple-Green"</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -725,7 +725,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Depicting the hue/chroma/luminance trajectories of both palettes also shows the abrupt changes in the original palette which do not convey a continuous temperature scale. Instead, the HCL-based sunset palette is also built from a wide range of hues but changes hue, chroma, and luminance smoothly.</p>
-<div id="9a72b1a9" class="cell" data-execution_count="3">
+<div id="d79c1592" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> [<span class="st">"#F6C77B"</span>, <span class="st">"#A8373A"</span>, <span class="st">"#009BFF"</span>, <span class="st">"#D35252"</span>, <span class="st">"#0DD189"</span>, <span class="st">"#E3AF36"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"#9CE743"</span>, <span class="st">"#EE8130"</span>, <span class="st">"#FE9E23"</span>, <span class="st">"#E4E4E4"</span>, <span class="st">"#ACFBA4"</span>, <span class="st">"#4EF159"</span>,</span>
@@ -740,7 +740,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="61edb71c" class="cell" data-execution_count="4">
+<div id="54273629" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, specplot</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> sequential_hcl(<span class="st">"ag_Sunset"</span>).colors(<span class="dv">23</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>specplot(pal)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -826,7 +826,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Showing changes in hue/chroma/luminance across the two palettes also highlights the discontinuity vs.&nbsp;smoothness of the two palettes.</p>
-<div id="ed7bea66" class="cell" data-execution_count="5">
+<div id="9166ea74" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow, specplot</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow(end <span class="op">=</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -838,7 +838,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="945c6fc8" class="cell" data-execution_count="6">
+<div id="cfe0bbbe" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, specplot</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> sequential_hcl(<span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>specplot(pal(<span class="dv">99</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

@@ -673,7 +673,7 @@ window.Quarto = {
 <li>Yellow/blue contrasts (usually associated with our notion of warm/cold colors).</li>
 <li>Green/red contrasts (helpful for assessing the ripeness of fruit).</li>
 </ol>
-<p>See <span class="citation" data-cites="color:Kaiser+Boynton:1996">Kaiser and Boynton (<a href="#ref-color:Kaiser+Boynton:1996" role="doc-biblioref">1996</a>)</span>, <span class="citation" data-cites="color:Knoblauch:2002">Knoblauch (<a href="#ref-color:Knoblauch:2002" role="doc-biblioref">2002</a>)</span>, <span class="citation" data-cites="color:Ihaka:2003">Ihaka (<a href="#ref-color:Ihaka:2003" role="doc-biblioref">2003</a>)</span>, <span class="citation" data-cites="color:dichromat">Lumley (<a href="#ref-color:dichromat" role="doc-biblioref">2013</a>)</span> and/or <span class="citation" data-cites="color:Zeileis+Hornik+Murrell:2007">Zeileis, Hornik, and Murrell (<a href="#ref-color:Zeileis+Hornik+Murrell:2007" role="doc-biblioref">2007</a>)</span> for more details and references. Thus, colors can be described using a 3-dimensional space:</p>
+<p>See <span class="citation" data-cites="color:Kaiser+Boynton:1996">Kaiser and Boynton (<a href="#ref-color:Kaiser+Boynton:1996" role="doc-biblioref">1996</a>)</span>, <span class="citation" data-cites="color:Knoblauch:2002">Knoblauch (<a href="#ref-color:Knoblauch:2002" role="doc-biblioref">2002</a>)</span>, <span class="citation" data-cites="color:Ihaka:2003">Ihaka (<a href="#ref-color:Ihaka:2003" role="doc-biblioref">2003</a>)</span>, <span class="citation" data-cites="color:dichromat">Lumley (<a href="#ref-color:dichromat" role="doc-biblioref">2013</a>)</span> and/or <span class="citation" data-cites="color:Zeileis+Hornik+Murrell:2009">Zeileis, Hornik, and Murrell (<a href="#ref-color:Zeileis+Hornik+Murrell:2009" role="doc-biblioref">2009</a>)</span> for more details and references. Thus, colors can be described using a 3-dimensional space:</p>
 <p><img src="../images/human-axes.svg" class="img-fluid"></p>
 <p>However, for describing colors in such a space, it is more natural for humans to employ polar coordinates in the color plane (yellow/blue vs.&nbsp;green/red, visualized by the dashed circle above) plus a third light/dark axis. Hence, color models that attempt to capture these perceptual axes are also called perceptually-based color spaces. As already argued above, the HCL model captures these dimensions very well, calling them: hue, chroma, and luminance. The corresponding sRGB gamut, i.e., the HCL colors that can also be represented in sRGB, is visualized in the animation below <span class="citation" data-cites="color:Horvath+Lipka:2016">(<a href="#ref-color:Horvath+Lipka:2016" role="doc-biblioref">Horvath and Lipka 2016</a>)</span>.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/SRGB_gamut_within_CIELCHuv_color_space_mesh.webm/512px--SRGB_gamut_within_CIELCHuv_color_space_mesh.webm.jpg" class="img-fluid"></p>
@@ -682,7 +682,7 @@ window.Quarto = {
 <div>
 
 </div>
-<div id="393931f5" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
+<div id="b5a93f32" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="color_spaces_files/figure-html/cell-2-output-1.png" class="img-fluid" width="858"></p>
@@ -696,7 +696,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> HCL</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> HCL(H <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">120</span>, <span class="dv">240</span>], C <span class="op">=</span> [<span class="fl">50.</span>] <span class="op">*</span> <span class="dv">3</span>, L <span class="op">=</span> [<span class="fl">70.</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="e4df9246" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
+<div id="726cde1b" class="cell quarto-layout-panel" data-execution_count="2" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>polarLUV color object (3 colors)
@@ -707,7 +707,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="b39af14e" class="cell" data-execution_count="3">
+<div id="0b828e22" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 <ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
 <li style="width:5.75em;height:5.75em;padding:0.25em;display:inline-block;margin:0 0.25em 0 0;border:0.5px solid gray;color:black;background-color:#E495A5">#E495A5</li>
@@ -719,7 +719,7 @@ window.Quarto = {
 <p>The resulting three colors are pastel red (Hue = 0), green (Hue = 120), and blue (Hue = 240) with moderate chroma and luminance as shown above. For display in other systems an sRGB representation might be needed. Objects based on the internal <a href="../man/colorspace.colorlib.colorlib.html"><code>colorlib</code></a> can easily be transformed from one color space to another (see <a href="#overview">Overview</a>) using the <code>.to()</code> method.</p>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)    <span class="co"># Convert to sRGB coordinates</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="8a7856b3" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
+<div id="1ca6e91c" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>sRGB color object (3 colors)
@@ -734,7 +734,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from sRGB to HSV</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HSV"</span>) <span class="co"># Convert from sRGB to HSV</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="b2af32f3" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
+<div id="8f705bc3" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>HSV color object (3 colors)
@@ -745,7 +745,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="d2ae971b" class="cell" data-execution_count="6">
+<div id="d78d9782" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting saturation dimension</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x.get(<span class="st">"S"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -754,7 +754,7 @@ window.Quarto = {
 </div>
 <p>For display in many systems hex color codes based on the sRGB coordinates can be created:</p>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x.colors()   <span class="co"># Automatically converts to hex colors (list of str)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cbb817eb" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
+<div id="6a5c1568" class="cell quarto-layout-panel" data-execution_count="7" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>['#E495A5', '#86B875', '#7DB0DD']</code></pre>
@@ -775,7 +775,7 @@ window.Quarto = {
 <section id="matplotlib-color-maps" class="level2">
 <h2 class="anchored" data-anchor-id="matplotlib-color-maps">Matplotlib color maps</h2>
 <p>In addition many objects provided by the <em>colorspace</em> package allow to convert a series of colors (color palette) into a matplotlib “cmap” (<code>matplotlib.colors.LinearSegmentedColormap</code>) As an example using the object <code>x</code> from above:</p>
-<div id="c2a94cdf" class="cell" data-execution_count="8">
+<div id="9390a5cb" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> palette</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> palette(x, <span class="st">"custom cmap palette"</span>).cmap()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cmap.N <span class="co"># Number of colors the cmap is based on</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -784,7 +784,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="40cdce8f" class="cell quarto-layout-panel" data-execution_count="9" data-layout-ncol="1">
+<div id="bf92c4c2" class="cell quarto-layout-panel" data-execution_count="9" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div style="vertical-align: middle;"><strong>custom cmap palette</strong> </div><div class="cmap"><img alt="custom cmap palette colormap" title="custom cmap palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAInRFWHRUaXRsZQBjdXN0b20gY21hcCBwYWxldHRlIGNvbG9ybWFwsHZduQAAACh0RVh0RGVzY3JpcHRpb24AY3VzdG9tIGNtYXAgcGFsZXR0ZSBjb2xvcm1hcEbBm9kAAAAwdEVYdEF1dGhvcgBNYXRwbG90bGliIHYzLjkuMSwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ1R0cwAAAAAydEVYdFNvZnR3YXJlAE1hdHBsb3RsaWIgdjMuOS4xLCBodHRwczovL21hdHBsb3RsaWIub3JnetLsJwAAAdtJREFUeJzt1jtynEAAANHB9099BN/M90CBJZeWj2CEHfV7CbXAfGAJevn989c6xhjrWMef4xiff49lHJ7/+D2W7bj34/L3juPxy+uV2+N35zfjp+d93c/66crRvOv4evz8vJv3eXJ+N36zn6vx5/Nunmdy3vvfydm8x+/p8fe3Gz/3neznvfifL+f9N9/J69WZec/Gf1g2x7Pz371vOV5vfTrv1/etV/c/Xv/4/v26s+vP7eP8f/w/61++17v7uLn++ft8+N2crL8+fa7J9a+fb3Lem/v9MQCAHAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIEgAAECQAACAIAEAAEECAACCBAAABAkAAAgSAAAQJAAAIOgNwsuhiVplWhIAAAAASUVORK5CYII="></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#e495a5ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #e495a5ff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#7db0ddff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #7db0ddff;"></div></div>
@@ -793,7 +793,7 @@ window.Quarto = {
 </div>
 <p>Please note that matplotlib performs linear interpolation in the sRGB color space between the colors specified. This allows us to draw more than 3 colors from the color map above. However, this may result in skewed color gradients a shown in the example below.</p>
 <p>Two cmaps are defined (<code>cmap4</code>, <code>cmap</code>) where the first one is based on solely <span class="math inline">\(4\)</span> colors, the latter on <span class="math inline">\(101\)</span> colors (default) based on the same sequential palette. From both cmaps, <span class="math inline">\(50\)</span> equally distanced colors are drawn resulting in the following two sets of colors:</p>
-<div id="4fee79a7" class="cell" data-execution_count="10">
+<div id="cfd89fa5" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> arange</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> sequential_hcl, specplot</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> sRGB</span>
@@ -825,7 +825,7 @@ window.Quarto = {
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> pal.cmap()</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cmap.N)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>cmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="2be425ef" class="cell quarto-layout-panel" data-execution_count="11" data-layout-ncol="1">
+<div id="b1723e55" class="cell quarto-layout-panel" data-execution_count="11" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <pre><code>256</code></pre>
@@ -873,7 +873,7 @@ window.Quarto = {
 <span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> ax.contourf(X, Y, z, locator<span class="op">=</span>ticker.LogLocator(), cmap<span class="op">=</span>cmap)</span>
 <span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="9cbe389b" class="cell quarto-layout-panel" data-execution_count="12" data-layout-ncol="1">
+<div id="ed3397e2" class="cell quarto-layout-panel" data-execution_count="12" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <p><img src="color_spaces_files/figure-html/cell-13-output-1.png" class="img-fluid" width="586"></p>
@@ -922,8 +922,8 @@ Wikipedia. 2024a. <span>“<span>CIE</span> 1931 Color Space — <span>W</span>i
 <div id="ref-color:Wiki+Webcolors" class="csl-entry" role="listitem">
 ———. 2024g. <span>“Web Colors — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/Web_colors">https://en.wikipedia.org/wiki/Web_colors</a>.
 </div>
-<div id="ref-color:Zeileis+Hornik+Murrell:2007" class="csl-entry" role="listitem">
-Zeileis, Achim, Kurt Hornik, and Paul Murrell. 2007. <span>“Escaping <span>RGB</span>land: Selecting Colors for Statistical Graphics.”</span> Report 61. Department of Statistics; Mathematics, Wirtschaftsuniversität Wien, Research Report Series. <a href="http://epub.wu-wien.ac.at/">http://epub.wu-wien.ac.at/</a>.
+<div id="ref-color:Zeileis+Hornik+Murrell:2009" class="csl-entry" role="listitem">
+Zeileis, Achim, Kurt Hornik, and Paul Murrell. 2009. <span>“Escaping <span>RGB</span>land: Selecting Colors for Statistical Graphics.”</span> <em>Computational Statistics &amp; Data Analysis</em> 53: 3259–70. <a href="https://doi.org/10.1016/j.csda.2008.11.033">https://doi.org/10.1016/j.csda.2008.11.033</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

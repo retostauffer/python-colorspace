@@ -543,7 +543,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="availability" class="level2">
 <h2 class="anchored" data-anchor-id="availability">Availability</h2>
 <p>The software is developed under the GNU Public License (GPL-2 or GPL-3) on GitHub at <a href="https://github.com/retostauffer/python-colorspace" class="uri">https://github.com/retostauffer/python-colorspace</a> and published on PyPI at <a href="https://pypi.org/project/colorspace/" class="uri">https://pypi.org/project/colorspace/</a>.</p>
-<p>Please feel free to use, share, improve, and redistribute the software under the terms of the GPL. Moreover, bug reports and suggestions for improvement are very welcome via the GitHub issues.</p>
+<p>Please feel free to use, share, improve, and redistribute the software under the terms of the GPL. Moreover, bug reports and suggestions for improvement are very welcome via the GitHub issues (see <a href="./community.html">Community guidelines</a>).</p>
 </section>
 <section id="version-0.4.5-next-release" class="level2">
 <h2 class="anchored" data-anchor-id="version-0.4.5-next-release">Version 0.4.5 (next release)</h2>
@@ -554,7 +554,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Revamped handling of missing colors; color lists now allow for <code>None</code>, classes and methods will now also return <code>None</code> if a color is invalid (outside defined sRGB space if <code>fixup = True</code>).</li>
 <li>Removed matplitlib dependency in <code>check_hex_colors</code> if not needed.</li>
 <li>Running soft tests (only mandatory packages) and hard tests (additional packages for testing extended functionality).</li>
-<li>(ongoing) Extending pytests to adjust for changes in the software.</li>
+<li>Fixing a bug in <code>darken</code>, <code>lighten</code> when using <code>combined</code> mixing.</li>
+<li>Extending pytests to adjust for changes in the software.</li>
 </ul>
 </section>
 <section id="version-0.4.4-july-18-2024" class="level2">

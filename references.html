@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Python Toolbox for Manipulating and Assessing Colors and Palettes – colorspace</title>
+<title>References – colorspace</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -67,6 +87,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -88,7 +137,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -180,7 +229,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">A Python Toolbox for Manipulating and Assessing Colors and Palettes</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">References</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -502,15 +551,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
-  <li><a href="#community-guidelines" id="toc-community-guidelines" class="nav-link" data-scroll-target="#community-guidelines">Community guidelines</a></li>
-  <li><a href="#other-packages-and-further-reading" id="toc-other-packages-and-further-reading" class="nav-link" data-scroll-target="#other-packages-and-further-reading">Other packages and further reading</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+        
     <div class="quarto-margin-footer"><div class="margin-footer-item">
 <p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.1</code> and quarto <code>1.5.55</code> on GitHub.</p>
 </div></div></div>
@@ -519,7 +560,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">A Python Toolbox for Manipulating and Assessing Colors and Palettes</h1>
+<h1 class="title">References</h1>
 </div>
 
 
@@ -536,59 +577,300 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><em>colorspace</em> is a Python package to create and handle colors and color palettes in Python. Based on the Hue-Chroma-Luminance (HCL) color space effective color palettes can be designed and implemented in your own daily workflow.</p>
-<p>This package is based on the <a href="https://colorspace.R-Forge.R-project.org/"><em>R</em> colorspace</a> package to make the tools easily available for Python enthusiasts. More information and an interactive interface can also be found on <a href="https://hclwizard.org">HCLwizard.org</a>.</p>
-<p>The package itself can be found on <a href="https://github.com/retostauffer/python-colorspace%3E">GitHub</a> and this documentation is also available on <a href="https://retostauffer.github.io/python-colorspace/">GitHub Pages</a>.</p>
-<section id="contents" class="level2">
-<h2 class="anchored" data-anchor-id="contents">Contents</h2>
-<ul>
-<li><a href="./articles/color_spaces.html">Color spaces</a></li>
-<li><a href="./articles/hcl_palettes.html">HCL-Based Color Palettes</a></li>
-<li>HCL-Based Color Palettes for <a href="./articles/usewith_matplotlib.html">matplotlib</a>, <a href="./articles/usewith_seaborn.html">seaborn</a>, and <a href="./articles/usewith_plotly.html">plotly</a></li>
-<li><a href="./articles/palette_visualization.html">Palette Visualization and Assessment</a></li>
-<li><a href="./articles/choose_palette.html">App for Choosing Palettes Interactively</a></li>
-<li><a href="./articles/cvd.html">Color Vision Deficiency Emulation</a></li>
-<li><a href="./articles/manipulation_utilities.html">Color Manipulation and Utilities</a></li>
-<li><a href="./articles/approximations.html">Approximate Colors from Other Packages</a></li>
-<li><a href="./articles/endrainbow.html">Somewhere over the Rainbow</a></li>
-</ul>
-</section>
-<section id="community-guidelines" class="level2">
-<h2 class="anchored" data-anchor-id="community-guidelines">Community guidelines</h2>
-<p>Everyone is warmly welcome to contribute to Python <em>colorspace</em> by addressing existing issues, reporting bugs, or requesting new features. Please refer to our <a href="./community.html">Community guidelines</a> for more information.</p>
-</section>
-<section id="other-packages-and-further-reading" class="level2">
-<h2 class="anchored" data-anchor-id="other-packages-and-further-reading">Other packages and further reading</h2>
-<ul>
-<li><a href="https://hclwizard.org">HCLwizard.org</a>: More information about the HCL color space, introduction to the <em>colorspace</em> packages (available for <a href="https://cran.r-project.org/package=colorspace"><em>R</em></a> and <a href="https://pypi.org/project/colorspace/">Python</a>), and some interactive tools to define effective HCL-based color palettes, pick colors, and check existing plots and figures for possible problems in terms of color vision deficiencies.</li>
-<li><a href="./references.html">A list of scientific articles</a> which provide more detailed insights, e.g.,</li>
-<li><a href="https://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/">The end of the rainbow</a>: An open letter to the climate science community by Ed Hawkins, Doug McNeall, David Stephenson, Jonny Williams &amp; Dave Carlson.</li>
-<li><a href="https://betterfigures.org/">Better Figures</a>: Constructive criticism of the graphics of climate science by Doug McNeall.</li>
-</ul>
-<p>Scientific articles with more detailed insights:</p>
-<ul>
-<li>Zeileis, A., Fisher, J., Hornik, K., Ihaka, R., McWhite, C., Murrell, P., Stauffer, R., &amp; Wilke, C. (2020). <a href="https://doi.org/10.18637/jss.v096.i01">colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes</a>. Journal of Statistical Software, 96(1), 1–49, doi: <a href="https://doi.org/10.18637/jss.v096.i01">doi:10.18637/jss.v096.i01</a></li>
-<li>Stauffer, R., Mayr, G. J., Dabernig, M., &amp; Zeileis, A. (2015). <a href="https://doi.org/10.1175/BAMS-D-13-00155.1">Somewhere Over the Rainbow: How to Make Effective Use o f Colors in Meteorological Visualizations</a>. American Meteorological Society, 96(2), 203–216, <a href="https://doi.org/10.1175/BAMS-D-13-00155.1">doi:10.1175/BAMS-D-13-00155.1</a>. Zeileis, Achim, Kurt Hornik, and Paul Murrell. 2009. “Escaping RGBland: Selecting Colors for Statistical Graphics.” Computational Statistics &amp; Data Analysis 53: 3259–3270. <a href="https://doi.org/10.1016/j.csda.2008.11.033" class="uri">https://doi.org/10.1016/j.csda.2008.11.033</a>.</li>
-<li>Ihaka, Ross. 2003. “<a href="https://www.r-project.org/conferences/DSC-2003/Proceedings/Ihaka.pdf">Colour for Presentation Graphics.</a>” In Proceedings of the 3rd International Workshop on Distributed Statistical Computing, Vienna, Austria, edited by Kurt Hornik, Friedrich Leisch, and Achim Zeileis. <a href="https://www.r-project.org/conferences/DSC-2003/Proceedings/Ihaka.pdf" class="uri">https://www.r-project.org/conferences/DSC-2003/Proceedings/Ihaka.pdf</a>.</li>
-<li>Crameri, Fabio, Grace E. Shephard, and Philip J. Heron. 2020. “The Misuse of Colour in Science Communication.” <em>Nature Communications</em> 11 (5444): 1–10. <a href="https://doi.org/10.1038/s41467-020-19160-7" class="uri">https://doi.org/10.1038/s41467-020-19160-7</a>.</li>
-<li>… and others (<a href="./references.html">reference list</a>).</li>
-</ul>
-<p>Some other packages providing color maps in Python wich might be of interest:</p>
-<ul>
-<li><a href="https://matplotlib.org/">matplotlib</a>: Library for creating visualizations. Provides a range of (mostly) well specified color maps <a href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">colormaps</a>.</li>
-<li><a href="https://seaborn.pydata.org%3E">seaborn</a>: Statistical data visualization. The package also provides access to a range of (mostly) well specified <a href="https://seaborn.pydata.org/tutorial/color_palettes.html">color palettes</a>.</li>
-<li><a href="https://plotly.com/python">plotly</a>: Graphing library for interactive plots and figures which comes with a series of built-in and (mostly) well defined <a href="https://plotly.com/python/builtin-colorscales/">color scales</a>.</li>
-<li><a href="https://jiffyclub.github.io/palettable">palettable</a>: Color palettes for Python. Formely known as <code>brewer2mpl</code>. Provides a range of color palettes including “Brewer2” and “Carto” palettes.</li>
-<li><a href="https://pypi.org/project/cmcrameri/">cmcrameri</a>: Python package with a few series of sequential and diverging color palettes.</li>
-<li><a href="https://pypi.org/project/colormap/">colormap</a>: Python package providing access to a series of color palettes and functionality to create own (fixed-color) palettes.</li>
-<li><a href="https://pypi.org/project/colormaps/">colormaps</a>: Collection of color palettes for Python to be used with matplotlib (e.g., cartocolors, brewer palettes, …).</li>
-<li><a href="https://colorbrewer2.org">ColorBrewer2.org</a>: The source of the brewer colors, interactive web page by Cynthia Brewer, Mark Harrower, and The Pennsylvania State University.</li>
-</ul>
 
 
-</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-color:Aigner:2010" class="csl-entry" role="listitem">
+Aigner, Wolfgang. 2010. <span>“Perception and Visualization.”</span> <a href="http://www.ifs.tuwien.ac.at/~silvia/wien/vu-infovis/PDF-Files/02_perception-visualization_1up.pdf">http://www.ifs.tuwien.ac.at/~silvia/wien/vu-infovis/PDF-Files/02_perception-visualization_1up.pdf</a>.
+</div>
+<div id="ref-color:Azzalini+Bowman:1990" class="csl-entry" role="listitem">
+Azzalini, A., and A. W. Bowman. 1990. <span>“A Look at Some Data on the <span>O</span>ld <span>F</span>aithful Geyser.”</span> <em>Applied Statistics</em> 39: 357–65.
+</div>
+<div id="ref-color:Brettel+Vienot+Mollon:1997" class="csl-entry" role="listitem">
+Brettel, H, F Viénot, and J D Mollon. 1997. <span>“Computerized Simulation of Color Appearance for Dichromats.”</span> <em>Journal of the Optical Society of America A</em> 14: 2647–55. <a href="https://doi.org/10.1364/josaa.14.002647">https://doi.org/10.1364/josaa.14.002647</a>.
+</div>
+<div id="ref-color:Brewer:1999" class="csl-entry" role="listitem">
+Brewer, Cynthia A. 1999. <span>“Color Use Guidelines for Data Representation.”</span> In <em>Proceedings of the Section on Statistical Graphics, American Statistical Association</em>, 55–60. Alexandria, VA. <a href="http://www.personal.psu.edu/faculty/c/a/cab38/ColorSch/ASApaper.html">http://www.personal.psu.edu/faculty/c/a/cab38/ColorSch/ASApaper.html</a>.
+</div>
+<div id="ref-color:CARTO" class="csl-entry" role="listitem">
+CARTO. 2019. <span>“CARTOColors – Data-Driven Color Schemes.”</span> <a href="https://carto.com/carto-colors/">https://carto.com/carto-colors/</a>.
+</div>
+<div id="ref-color:Celeux+Hurn+Robert:2000" class="csl-entry" role="listitem">
+Celeux, Gilles, Merrilee Hurn, and Christian P. Robert. 2000. <span>“Computational and Inferential Difficulties with Mixture Posterior Distributions.”</span> <em>Journal of the American Statistical Association</em> 95 (451): 957–70.
+</div>
+<div id="ref-color:shiny" class="csl-entry" role="listitem">
+Chang, Winston, Joe Cheng, J. J. Allaire, Yihui Xie, and Jonathan McPherson. 2024. <em><em>Shiny</em>: Web Application Framework for <span class="sans-serif">r</span></em>. <a href="https://CRAN.R-project.org/package=shiny">https://CRAN.R-project.org/package=shiny</a>.
+</div>
+<div id="ref-color:Christ:1975" class="csl-entry" role="listitem">
+Christ, Richard E. 1975. <span>“Review and Analysis of Color Coding Research for Visual Displays.”</span> <em>Human Factors</em> 17 (6): 542–70.
+</div>
+<div id="ref-color:Ciechanowski:2019" class="csl-entry" role="listitem">
+Ciechanowski, Bartosz. 2019. <span>“Color Spaces.”</span> <a href="https://ciechanow.ski/color-spaces/">https://ciechanow.ski/color-spaces/</a>.
+</div>
+<div id="ref-color:Cleveland+McGill:1983" class="csl-entry" role="listitem">
+Cleveland, William S., and Robert McGill. 1983. <span>“A Color-Caused Optical Illusion on a Statistical Graph.”</span> <em>The American Statistician</em> 37: 101–5.
+</div>
+<div id="ref-color:CIE:2004" class="csl-entry" role="listitem">
+Commission Internationale de l’Éclairage. 2004. <em>Colorimetry</em>. 3rd ed. Vienna, Austria: Publication CIE 15:2004.
+</div>
+<div id="ref-color:Polychrome" class="csl-entry" role="listitem">
+Coombes, Kevin R., and Guy Brock. 2022. <em><em>Polychrome</em>: Qualitative Palettes with Many Colors</em>. <a href="https://CRAN.R-project.org/package=Polychrome">https://CRAN.R-project.org/package=Polychrome</a>.
+</div>
+<div id="ref-color:Polychrome2" class="csl-entry" role="listitem">
+Coombes, Kevin R., Guy Brock, Zachary B. Abrams, and Lynne V. Abruzzo. 2019. <span>“<em>Polychrome</em>: Creating and Assessing Qualitative Palettes with Many Colors.”</span> <em>Journal of Statistical Software, Code Snippets</em> 90 (1): 1–23. <a href="https://doi.org/10.18637/jss.v090.c01">https://doi.org/10.18637/jss.v090.c01</a>.
+</div>
+<div id="ref-color:Crameri:2018" class="csl-entry" role="listitem">
+Crameri, Fabio. 2018. <span>“Geodynamic Diagnostics, Scientific Visualisation and <em>StagLab</em>&nbsp;3.0.”</span> <em>Geoscientific Model Development</em> 11 (6): 2541–62. <a href="https://doi.org/10.5194/gmd-11-2541-2018">https://doi.org/10.5194/gmd-11-2541-2018</a>.
+</div>
+<div id="ref-color:Crameri:2020" class="csl-entry" role="listitem">
+Crameri, Fabio, Grace E. Shephard, and Philip J. Heron. 2020. <span>“The Misuse of Colour in Science Communication.”</span> <em>Nature Communications</em> 11 (5444): 1–10. <a href="https://doi.org/10.1038/s41467-020-19160-7">https://doi.org/10.1038/s41467-020-19160-7</a>.
+</div>
+<div id="ref-color:Ford+Roberts:1998" class="csl-entry" role="listitem">
+Ford, Adrian, and Alan Roberts. 1998. <span>“Colour Space Conversions.”</span> <a href="http://www.poynton.com/PDFs/coloureq.pdf">http://www.poynton.com/PDFs/coloureq.pdf</a>.
+</div>
+<div id="ref-color:Friendly:2002" class="csl-entry" role="listitem">
+Friendly, Michael. 2002. <span>“A Brief History of the Mosaic Display.”</span> <em>Journal of Computational and Graphical Statistics</em> 11 (1): 89–107.
+</div>
+<div id="ref-color:colorscience" class="csl-entry" role="listitem">
+Gama, Jose, and Glenn Davis. 2024. <em><em>Colorscience</em>: Color Science Methods and Data</em>. <a href="https://CRAN.R-project.org/package=colorscience">https://CRAN.R-project.org/package=colorscience</a>.
+</div>
+<div id="ref-color:viridis" class="csl-entry" role="listitem">
+Garnier, Simon. 2024. <em><em>Viridis</em>: Default Color Maps from <em>Matplotlib</em></em>. <a href="https://CRAN.R-project.org/package=viridis">https://CRAN.R-project.org/package=viridis</a>.
+</div>
+<div id="ref-color:Gelfand+Banerjee+Sirmans:2007" class="csl-entry" role="listitem">
+Gelfand, Alan E., Sudipto Banerjee, C. F. Sirmans, Yong Tu, and Seow Eng Ong. 2007. <span>“Multilevel Modeling Using Spatial Processes: Application to the <span>S</span>ingapore Housing Market.”</span> <em>Computational Statistics &amp; Data Analysis</em> 51: 3567–79. <a href="https://doi.org/10.1016/j.csda.2006.11.019">https://doi.org/10.1016/j.csda.2006.11.019</a>.
+</div>
+<div id="ref-color:Gneiting+Sevcikova+Percival:2006" class="csl-entry" role="listitem">
+Gneiting, Tilmann, Hana Ševčíková, Donald B. Percival, Martin Schlather, and Yindeng Jiang. 2006. <span>“Fast and Exact Simulation of Large Gaussian Lattice Systems in <span><span class="math inline">\(\mathbb{R}^2\)</span></span>: Exploring the Limits.”</span> <em>Journal of Computational and Graphical Statistics</em> 15 (3): 483–501. <a href="https://doi.org/10.1198/106186006X128551">https://doi.org/10.1198/106186006X128551</a>.
+</div>
+<div id="ref-color:Harezlak+Coull+Laird:2007" class="csl-entry" role="listitem">
+Harezlak, Jaroslaw, Brent A. Coull, Nan M. Laird, Shannon R. Magari, and David C. Christiani. 2007. <span>“Penalized Solutions to Functional Regression Problems.”</span> <em>Computational Statistics &amp; Data Analysis</em> 51: 4911–25. <a href="https://doi.org/10.1016/j.csda.2006.09.034">https://doi.org/10.1016/j.csda.2006.09.034</a>.
+</div>
+<div id="ref-color:Harrower+Brewer:2003" class="csl-entry" role="listitem">
+Harrower, Mark, and Cynthia A. Brewer. 2003. <span>“ColorBrewer.org: An Online Tool for Selecting Colour Schemes for Maps.”</span> <em>The Cartographic Journal</em> 40 (1): 27–37. <a href="https://doi.org/10.1179/000870403235002042">https://doi.org/10.1179/000870403235002042</a>.
+</div>
+<div id="ref-color:Hawkins+McNeall+Stephenson:2014" class="csl-entry" role="listitem">
+Hawkins, Ed, Doug McNeall, David Stephenson, Jonny Williams, and Dave Carlson. 2014. <span>“The End of the Rainbow – an Open Letter to the Climate Science Community.”</span> <a href="http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/">http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/</a>.
+</div>
+<div id="ref-color:Horvath+Lipka:2016" class="csl-entry" role="listitem">
+Horvath, Michael, and Christoph Lipka. 2016. <span>“<span class="nocase">sRGB</span> Gamut Within <span>CIELCHuv</span> Color Space Isosurface.”</span> <a href="https://commons.wikimedia.org/wiki/File:SRGB_gamut_within_CIELCHuv_color_space_isosurface.png">https://commons.wikimedia.org/wiki/File:SRGB_gamut_within_CIELCHuv_color_space_isosurface.png</a>.
+</div>
+<div id="ref-color:Horvath+Lipka:2017" class="csl-entry" role="listitem">
+———. 2017. <span>“<span class="nocase">sRGB</span> Gamut Within <span>CIELCHuv</span> Color Space Mesh.”</span> <a href="https://commons.wikimedia.org/w/index.php?title=File%3ASRGB_gamut_within_CIELCHuv_color_space_mesh.webm">https://commons.wikimedia.org/w/index.php?title=File%3ASRGB_gamut_within_CIELCHuv_color_space_mesh.webm</a>.
+</div>
+<div id="ref-color:paletteer" class="csl-entry" role="listitem">
+Hvitfeldt, Emil. 2024. <em><em>Paletteer</em>: Comprehensive Collection of Color Palettes</em>. <a href="https://CRAN.R-project.org/package=paletteer">https://CRAN.R-project.org/package=paletteer</a>.
+</div>
+<div id="ref-color:Ihaka:2003" class="csl-entry" role="listitem">
+Ihaka, Ross. 2003. <span>“Colour for Presentation Graphics.”</span> In <em>Proceedings of the 3rd International Workshop on Distributed Statistical Computing, Vienna, Austria</em>, edited by Kurt Hornik, Friedrich Leisch, and Achim Zeileis. <a href="https://www.r-project.org/conferences/DSC-2003/Proceedings/Ihaka.pdf">https://www.r-project.org/conferences/DSC-2003/Proceedings/Ihaka.pdf</a>.
+</div>
+<div id="ref-color:Kaiser+Boynton:1996" class="csl-entry" role="listitem">
+Kaiser, Peter K., and Robert M. Boynton. 1996. <em>Human Color Vision</em>. 2nd ed. Washington, DC: Optical Society of America.
+</div>
+<div id="ref-color:Kneib:2006" class="csl-entry" role="listitem">
+Kneib, Thomas. 2006. <span>“Mixed Model-Based Inference in Geoadditive Hazard Regression for Interval-Censored Survival Times.”</span> <em>Computational Statistics &amp; Data Analysis</em> 51: 777–92. <a href="https://doi.org/10.1016/j.csda.2006.06.019">https://doi.org/10.1016/j.csda.2006.06.019</a>.
+</div>
+<div id="ref-color:Knoblauch:2002" class="csl-entry" role="listitem">
+Knoblauch, Kenneth. 2002. <span>“Color Vision.”</span> In <em>Steven’s Handbook of Experimental Psychology – Sensation and Perception</em>, edited by Steven Yantis and Hal Pashler, Third, 1:41–75. New York: John Wiley &amp; Sons.
+</div>
+<div id="ref-color:Levkowitz+Herman:1992" class="csl-entry" role="listitem">
+Levkowitz, Haim, and Gabor T. Herman. 1992. <span>“Color Scales for Image Data.”</span> <em>IEEE Computer Graphics and Applications</em> 12 (1): 72–80. <a href="https://doi.org/10.1109/38.135886">https://doi.org/10.1109/38.135886</a>.
+</div>
+<div id="ref-color:Lindbloom" class="csl-entry" role="listitem">
+Lindbloom, Bruce. 2024. <span>“BruceLindbloom.com.”</span> <a href="http://www.BruceLindbloom.com/">http://www.BruceLindbloom.com/</a>.
+</div>
+<div id="ref-color:Lumley:2006" class="csl-entry" role="listitem">
+Lumley, Thomas. 2006. <span>“Color Coding and Color Blindness in Statistical Graphics.”</span> <em>ASA Statistical Computing &amp; Graphics Newsletter</em> 17 (2): 4–7. <a href="http://stat-computing.org/newsletter/issues/scgn-17-2.pdf">http://stat-computing.org/newsletter/issues/scgn-17-2.pdf</a>.
+</div>
+<div id="ref-color:dichromat" class="csl-entry" role="listitem">
+———. 2013. <em><em>Dichromat</em>: Color Schemes for Dichromats</em>. <a href="https://CRAN.R-project.org/package=dichromat">https://CRAN.R-project.org/package=dichromat</a>.
+</div>
+<div id="ref-color:MacAdam:1942" class="csl-entry" role="listitem">
+MacAdam, D. L. 1942. <span>“Visual Sensitivities to Color Differences in Daylight.”</span> <em>Journal of the Optical Society of America</em> 32 (5): 247–74.
+</div>
+<div id="ref-color:Machado+Oliveira+Fernandes:2009" class="csl-entry" role="listitem">
+Machado, Gustavo M., Manuel M. Oliveira, and Leandro A. F. Fernandes. 2009. <span>“A Physiologically-Based Model for Simulation of Color Vision Deficiency.”</span> <em>IEEE Transactions on Visualization and Computer Graphics</em> 15 (6): 1291–98. <a href="https://doi.org/10.1109/TVCG.2009.113">https://doi.org/10.1109/TVCG.2009.113</a>.
+</div>
+<div id="ref-color:Meier+Spalter+Karelitz:2004" class="csl-entry" role="listitem">
+Meier, Barbara J., Anne Morgan Spalter, and David B. Karelitz. 2004. <span>“Interactive Color Palette Tools.”</span> <em><span>IEEE</span> Computer Graphics and Applications</em> 24 (3): 64–72. <a href="http://graphics.cs.brown.edu/research/color/">http://graphics.cs.brown.edu/research/color/</a>.
+</div>
+<div id="ref-color:Meyer+Zeileis+Hornik:2006" class="csl-entry" role="listitem">
+Meyer, David, Achim Zeileis, and Kurt Hornik. 2006. <span>“The Strucplot Framework: Visualizing Multi-Way Contingency Tables with <em>Vcd</em>.”</span> <em>Journal of Statistical Software</em> 17 (3): 1–48. <a href="http://www.jstatsoft.org/v17/i03/">http://www.jstatsoft.org/v17/i03/</a>.
+</div>
+<div id="ref-color:Meyer+Zeileis+Hornik:2008a" class="csl-entry" role="listitem">
+———. 2008. <span>“Visualizing Contingency Tables.”</span> In <em>Handbook of Data Visualization</em>, edited by Chun-Houh Chen, Wolfang Härdle, and Antony Unwin, 589–616. Springer Handbooks of Computational Statistics. New York: Springer-Verlag.
+</div>
+<div id="ref-color:vcd" class="csl-entry" role="listitem">
+———. 2017. <em><em>Vcd</em>: Visualizing Categorical Data</em>. <a href="https://CRAN.R-project.org/package=vcd">https://CRAN.R-project.org/package=vcd</a>.
+</div>
+<div id="ref-color:Mollon:1995" class="csl-entry" role="listitem">
+Mollon, J. 1995. <span>“Seeing Color.”</span> In <em>Colour: Art and Science</em>, edited by T. Lamb and J. Bourriau. Cambridge Univesity Press.
+</div>
+<div id="ref-color:Moretti+Lyons:2002" class="csl-entry" role="listitem">
+Moretti, Giovanni, and Paul Lyons. 2002. <span>“Tools for the Selection of Colour Palettes.”</span> In <em>Proceedings of the New Zealand Symposium on Computer-Human Interaction (SIGCHI 2002)</em>. University of Waikato, New Zealand.
+</div>
+<div id="ref-color:Munsell:1905" class="csl-entry" role="listitem">
+Munsell, Albert H. 1905. <em>A Color Notation</em>. Boston, Massachusetts: Munsell Color Company.
+</div>
+<div id="ref-color:Murrell:2002" class="csl-entry" role="listitem">
+Murrell, Paul. 2002. <span>“The <em>Grid</em> Graphics Package.”</span> <em><span class="sans-serif">R</span> News</em> 2 (2): 14–19. <a href="https://CRAN.R-project.org/doc/Rnews/">https://CRAN.R-project.org/doc/Rnews/</a>.
+</div>
+<div id="ref-color:Murrell:2006" class="csl-entry" role="listitem">
+———. 2006. <em><span class="sans-serif">R</span> Graphics</em>. Boca Raton: Chapman &amp; Hall/CRC.
+</div>
+<div id="ref-color:roloc2" class="csl-entry" role="listitem">
+———. 2018. <span>“Generating Colour Names: The <em>Roloc</em> Package for <span class="sans-serif">r</span>.”</span> <a href="https://stattech.wordpress.fos.auckland.ac.nz/2018/01/25/2018-01-generating-colour-names-the-roloc-package-for-r/">https://stattech.wordpress.fos.auckland.ac.nz/2018/01/25/2018-01-generating-colour-names-the-roloc-package-for-r/</a>.
+</div>
+<div id="ref-color:roloc" class="csl-entry" role="listitem">
+———. 2024. <em><em>Roloc</em>: Convert Colour Specification to Colour Name</em>. <a href="https://CRAN.R-project.org/package=roloc">https://CRAN.R-project.org/package=roloc</a>.
+</div>
+<div id="ref-color:Nagy+Sanchez:1992" class="csl-entry" role="listitem">
+Nagy, Allen L., and Robert R. Sanchez. 1992. <span>“Chromaticity and Luminance as Coding Dimensions in Visual Search.”</span> <em>Human Factors</em> 34 (5): 601–14.
+</div>
+<div id="ref-color:RColorBrewer" class="csl-entry" role="listitem">
+Neuwirth, Erich. 2022. <em><em>RColorBrewer</em>: ColorBrewer Palettes</em>. <a href="https://CRAN.R-project.org/package=RColorBrewer">https://CRAN.R-project.org/package=RColorBrewer</a>.
+</div>
+<div id="ref-color:rcartocolor" class="csl-entry" role="listitem">
+Nowosad, Jakub. 2023. <em><em>Rcartocolor</em>: <span>“CARTOColors”</span> Palettes</em>. <a href="https://CRAN.R-project.org/package=rcartocolor">https://CRAN.R-project.org/package=rcartocolor</a>.
+</div>
+<div id="ref-color:Okabe+Ito:2008" class="csl-entry" role="listitem">
+Okabe, Masataka, and Kei Ito. 2008. <span>“Color Universal Design (CUD): How to Make Figures and Presentations That Are Friendly to Colorblind People.”</span> <a href="http://jfly.iam.u-tokyo.ac.jp/color/">http://jfly.iam.u-tokyo.ac.jp/color/</a>.
+</div>
+<div id="ref-color:Pascale:2003" class="csl-entry" role="listitem">
+Pascale, Danny. 2003. <span>“A Review of <span>RGB</span> Color Spaces ... From xyY to r’g’b’.”</span> <a href="https://babelcolor.com/index_htm_files/A%20review%20of%20RGB%20color%20spaces.pdf">https://babelcolor.com/index_htm_files/A%20review%20of%20RGB%20color%20spaces.pdf</a>.
+</div>
+<div id="ref-color:scico" class="csl-entry" role="listitem">
+Pedersen, Thomas Lin, and Fabio Crameri. 2023. <em><em>Scico</em>: Colour Palettes Based on the Scientific Colour-Maps</em>. <a href="https://CRAN.R-project.org/package=scico">https://CRAN.R-project.org/package=scico</a>.
+</div>
+<div id="ref-color:farver" class="csl-entry" role="listitem">
+Pedersen, Thomas Lin, Berendea Nicolae, and Romain François. 2024. <em><em>Farver</em>: Vectorised Colour Conversion and Comparison</em>. <a href="https://CRAN.R-project.org/package=farver">https://CRAN.R-project.org/package=farver</a>.
+</div>
+<div id="ref-color:Poynton" class="csl-entry" role="listitem">
+Poynton, Charles. 2009. <span>“Frequently-Asked Questions about Color.”</span> <a href="http://www.poynton.com/ColorFAQ.html">http://www.poynton.com/ColorFAQ.html</a>.
+</div>
+<div id="ref-color:Quinan+Padilla+CreemRegehr:2019" class="csl-entry" role="listitem">
+Quinan, P. S., L. M. Padilla, S. H. Creem-Regehr, and M. Meyer. 2019. <span>“Examining Implicit Discretization in Spectral Schemes.”</span> In <em>Eurographics Conference on Visualization (EuroVis) 2019</em>, edited by M. Gleicher, H. Leitte, and I. Viola, 38:3. John Wiley &amp; Sons. <a href="https://vdl.sci.utah.edu/publications/2019_eurovis_implicit-discretization/">https://vdl.sci.utah.edu/publications/2019_eurovis_implicit-discretization/</a>.
+</div>
+<div id="ref-color:R" class="csl-entry" role="listitem">
+R Core Team. 2019. <em><span class="sans-serif">R</span>: <span>A</span> Language and Environment for Statistical Computing</em>. Vienna, Austria: <span class="sans-serif">R</span> Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-color:wesanderson" class="csl-entry" role="listitem">
+Ram, Karthik, and Hadley Wickham. 2023. <em><em>Wesanderson</em>: A <span>W</span>es <span>A</span>nderson Palette Generator</em>. <a href="https://CRAN.R-project.org/package=wesanderson">https://CRAN.R-project.org/package=wesanderson</a>.
+</div>
+<div id="ref-color:Robertson+OCallaghan:1988" class="csl-entry" role="listitem">
+Robertson, Philip, and John O’Callaghan. 1986. <span>“The Generation of Color Sequences for Univariate and Bivariate Mapping.”</span> <em>IEEE Computer Graphics and Applications</em> 6 (2): 24–32. <a href="https://doi.org/10.1109/MCG.1986.276688">https://doi.org/10.1109/MCG.1986.276688</a>.
+</div>
+<div id="ref-color:Rost:2018" class="csl-entry" role="listitem">
+Rost, Lisa Charlotte. 2018. <span>“What to Consider When Choosing Colors for Data Visualization.”</span> <a href="https://blog.datawrapper.de/colors/">https://blog.datawrapper.de/colors/</a>.
+</div>
+<div id="ref-color:Smith:1978" class="csl-entry" role="listitem">
+Smith, Alvy Ray. 1978. <span>“Color Gamut Transform Pairs.”</span> <em>Computer Graphics</em> 12 (3): 12–19. <a href="http://www.alvyray.com/">http://www.alvyray.com/</a>.
+</div>
+<div id="ref-color:Smith+VanDerWalt:2015" class="csl-entry" role="listitem">
+Smith, Nathaniel, and Stéfan Van der Walt. 2015. <span>“A Better Default Colormap for <em>Matplotlib</em>.”</span> In <em>SciPy 2015 – Scientific Computing with <span class="sans-serif">Python</span></em>. Austin. <a href="https://www.youtube.com/watch?v=xAoljeRJ3lU">https://www.youtube.com/watch?v=xAoljeRJ3lU</a>.
+</div>
+<div id="ref-color:Stauffer+Mayr+Dabernig:2015" class="csl-entry" role="listitem">
+Stauffer, Reto, Georg J. Mayr, Markus Dabernig, and Achim Zeileis. 2015. <span>“Somewhere over the Rainbow: How to Make Effective Use of Colors in Meteorological Visualizations.”</span> <em>Bulletin of the American Meteorological Society</em> 96 (2): 203–16. <a href="https://doi.org/10.1175/BAMS-D-13-00155.1">https://doi.org/10.1175/BAMS-D-13-00155.1</a>.
+</div>
+<div id="ref-color:Tenenhaus+Giron+Viennet:2007" class="csl-entry" role="listitem">
+Tenenhaus, Arthur, Alain Giron, Emmanuel Viennet, Michel Béra, Gilbert Saporta, and Bernard Fertil. 2007. <span>“Kernel Logistic <span>PLS</span>: A Tool for Supervised Nonlinear Dimensionality Reduction and Binary Classification.”</span> <em>Computational Statistics &amp; Data Analysis</em> 51: 4083–4100. <a href="https://doi.org/10.1016/j.csda.2007.01.004">https://doi.org/10.1016/j.csda.2007.01.004</a>.
+</div>
+<div id="ref-color:Trumbo:1981" class="csl-entry" role="listitem">
+Trumbo, Bruce E. 1981. <span>“A Theory for Coloring Bivariate Statistical Maps.”</span> <em>The American Statistician</em> 35 (4): 220–26.
+</div>
+<div id="ref-color:Tufte:1990" class="csl-entry" role="listitem">
+Tufte, Edward R. 1990. <em>Envisioning Information</em>. Cheshire: Graphics Press.
+</div>
+<div id="ref-color:Vienot+Brettel+Mollon:1999" class="csl-entry" role="listitem">
+Viénot, F, H Brettel, and J D Mollon. 1999. <span>“Digital Video Colourmaps for Checking the Legibility of Displays by Dichromats.”</span> <em>Color Research and Application</em> 24 (4): 243–52. <a href="https://doi.org/10.1002/(sici)1520-6378(199908)24:4<243::aid-col5>3.3.co;2-v">https://doi.org/10.1002/(sici)1520-6378(199908)24:4&lt;243::aid-col5&gt;3.3.co;2-v</a>.
+</div>
+<div id="ref-color:Vienot+Brettel+Ott:1995" class="csl-entry" role="listitem">
+Viénot, F, H Brettel, L Ott, A B M’Barek, and J D Mollon. 1995. <span>“What Do Colour-Blind People See?”</span> <em>Nature</em> 376: 127–28. <a href="https://doi.org/10.1038/376127a0">https://doi.org/10.1038/376127a0</a>.
+</div>
+<div id="ref-color:Ware:1988" class="csl-entry" role="listitem">
+Ware, Colin. 1988. <span>“Color Sequences for Univariate Maps: Theory, Experiments and Principles.”</span> <em>IEEE Computer Graphics and Applications</em> 8 (5): 41–49. <a href="https://doi.org/10.1109/38.7760">https://doi.org/10.1109/38.7760</a>.
+</div>
+<div id="ref-color:Ware:2004" class="csl-entry" role="listitem">
+———. 2004. <span>“Color.”</span> In <em>Information Visualization: Perception for Design</em>, 103–49. Morgan Kaufmann Publishers Inc.
+</div>
+<div id="ref-color:ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <em><em>Ggplot2</em>: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer-Verlag. <a href="http://ggplot2.org/">http://ggplot2.org/</a>.
+</div>
+<div id="ref-color:ggplot2pkg" class="csl-entry" role="listitem">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus O. Wilke, Kara Woo, and Hiroaki Yutani. 2024. <em><em>Ggplot2</em>: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.
+</div>
+<div id="ref-color:Wiki+CIEXYZ" class="csl-entry" role="listitem">
+Wikipedia. 2024a. <span>“<span>CIE</span> 1931 Color Space — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/CIE_1931_color_space">https://en.wikipedia.org/wiki/CIE_1931_color_space</a>.
+</div>
+<div id="ref-color:Wiki+CIELAB" class="csl-entry" role="listitem">
+———. 2024b. <span>“<span>CIELAB</span> Color Space — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/CIELAB_color_space">https://en.wikipedia.org/wiki/CIELAB_color_space</a>.
+</div>
+<div id="ref-color:Wiki+CIELUV" class="csl-entry" role="listitem">
+———. 2024c. <span>“<span>CIELUV</span> — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/CIELUV">https://en.wikipedia.org/wiki/CIELUV</a>.
+</div>
+<div id="ref-color:Wiki+Colorspace" class="csl-entry" role="listitem">
+———. 2024d. <span>“Color Space — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/Color_space">https://en.wikipedia.org/wiki/Color_space</a>.
+</div>
+<div id="ref-color:Wiki+HCL" class="csl-entry" role="listitem">
+———. 2024e. <span>“<span>HCL</span> Color Space — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/HCL_color_space">https://en.wikipedia.org/wiki/HCL_color_space</a>.
+</div>
+<div id="ref-color:Wiki+HSV" class="csl-entry" role="listitem">
+———. 2024f. <span>“<span>HSL</span> and <span>HSV</span> — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a>.
+</div>
+<div id="ref-color:Wiki+RGB" class="csl-entry" role="listitem">
+———. 2024g. <span>“<span>RGB</span> Color Space — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/RGB_color_space">https://en.wikipedia.org/wiki/RGB_color_space</a>.
+</div>
+<div id="ref-color:Wiki+sRGB" class="csl-entry" role="listitem">
+———. 2024h. <span>“<span class="nocase">sRGB</span> — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/sRGB">https://en.wikipedia.org/wiki/sRGB</a>.
+</div>
+<div id="ref-color:Wiki+Webcolors" class="csl-entry" role="listitem">
+———. 2024i. <span>“Web Colors — <span>W</span>ikipedia<span>,</span> the Free Encyclopedia.”</span> <a href="https://en.wikipedia.org/wiki/Web_colors">https://en.wikipedia.org/wiki/Web_colors</a>.
+</div>
+<div id="ref-color:Wilke:2019" class="csl-entry" role="listitem">
+Wilke, Claus O. 2019. <em>Fundamentals of Data Visualization</em>. O’Reilly Media. <a href="https://clauswilke.com/dataviz/color-basics.html">https://clauswilke.com/dataviz/color-basics.html</a>.
+</div>
+<div id="ref-color:Wilkinson:2005" class="csl-entry" role="listitem">
+Wilkinson, Leland. 2005. <em>The Grammar of Graphics</em>. 2nd ed. Springer-Verlag.
+</div>
+<div id="ref-color:pals" class="csl-entry" role="listitem">
+Wright, Kevin. 2018. <em><em>Pals</em>: Color Palettes, Colormaps, and Tools to Evaluate Them</em>. <a href="https://CRAN.R-project.org/package=pals">https://CRAN.R-project.org/package=pals</a>.
+</div>
+<div id="ref-color:Wyszecki+Stiles:2000" class="csl-entry" role="listitem">
+Wyszecki, Günter, and W. S. Stiles. 2000. <em>Color Science</em>. 2nd ed. Wiley.
+</div>
+<div id="ref-color:Yang+Buckley+Dudoit:2002" class="csl-entry" role="listitem">
+Yang, Yee Hwa, Michael J. Buckley, Sandrine Dudoit, and Terence P. Speed. 2002. <span>“Comparison of Methods for Image Analysis on <span class="nocase">cDNA</span> Microarray Data.”</span> <em>Journal of Computational and Graphical Statistics</em> 11 (1): 108–36.
+</div>
+<div id="ref-color:Zeileis:2020" class="csl-entry" role="listitem">
+Zeileis, Achim, Jason C. Fisher, Kurt Hornik, Ross Ihaka, Claire D. McWhite, Paul Murrell, Reto Stauffer, and Claus O. Wilke. 2020a. <span>“Colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes.”</span> <em>Journal of Statistical Software</em> 96 (1): 1–49. <a href="https://doi.org/10.18637/jss.v096.i01">https://doi.org/10.18637/jss.v096.i01</a>.
+</div>
+<div id="ref-color:colorspace" class="csl-entry" role="listitem">
+———. 2020b. <span>“<em>Colorspace</em>: A Toolbox for Manipulating and Assessing Colors and Palettes.”</span> <em>Journal of Statistical Software, Articles</em> 96 (1): 1–49. <a href="https://doi.org/10.18637/jss.v096.i01">https://doi.org/10.18637/jss.v096.i01</a>.
+</div>
+<div id="ref-color:convertColor" class="csl-entry" role="listitem">
+Zeileis, Achim, Brodie Gaslam, Paul Murrell, and Thomas Lin Pedersen. 2018. <span>“Benchmarking Color Space Conversions.”</span> <a href="https://twitter.com/AchimZeileis/status/1076228936810590208">https://twitter.com/AchimZeileis/status/1076228936810590208</a>.
+</div>
+<div id="ref-color:Zeileis+Hornik:2006" class="csl-entry" role="listitem">
+Zeileis, Achim, and Kurt Hornik. 2006. <span>“Choosing Color Palettes for Statistical Graphics.”</span> Report 41. Department of Statistics; Mathematics, Wirtschaftsuniversität Wien, Research Report Series. <a href="http://epub.wu-wien.ac.at/">http://epub.wu-wien.ac.at/</a>.
+</div>
+<div id="ref-color:Zeileis+Hornik+Murrell:2009" class="csl-entry" role="listitem">
+Zeileis, Achim, Kurt Hornik, and Paul Murrell. 2009. <span>“Escaping <span>RGB</span>land: Selecting Colors for Statistical Graphics.”</span> <em>Computational Statistics &amp; Data Analysis</em> 53: 3259–70. <a href="https://doi.org/10.1016/j.csda.2008.11.033">https://doi.org/10.1016/j.csda.2008.11.033</a>.
+</div>
+<div id="ref-color:Zeileis+Meyer+Hornik:2007" class="csl-entry" role="listitem">
+Zeileis, Achim, David Meyer, and Kurt Hornik. 2007. <span>“Residual-Based Shadings for Visualizing (Conditional) Independence.”</span> <em>Journal of Computational and Graphical Statistics</em> 16 (3): 507–25. <a href="https://doi.org/10.1198/106186007X237856">https://doi.org/10.1198/106186007X237856</a>.
+</div>
+<div id="ref-color:grDevices" class="csl-entry" role="listitem">
+Zeileis, Achim, and Paul Murrell. 2019. <span>“<span>HCL</span>-Based Color Palettes in <span class="nocase">grDevices</span>.”</span> <a href="https://developer.R-project.org/Blog/public/2019/04/01/hcl-based-color-palettes-in-grdevices/">https://developer.R-project.org/Blog/public/2019/04/01/hcl-based-color-palettes-in-grdevices/</a>.
+</div>
+<div id="ref-color:Zhang+Montag:2006" class="csl-entry" role="listitem">
+Zhang, Hongqin, and Ethan D. Montag. 2006. <span>“How Well Can People Use Different Color Attributes?”</span> <em>Color Research &amp; Application</em> 31 (6): 445–57. <a href="https://doi.org/10.1002/col.20257">https://doi.org/10.1002/col.20257</a>.
+</div>
+<div id="ref-color:Zhang:2015" class="csl-entry" role="listitem">
+Zhang, Samantha. 2015. <span>“Finding the Right Color Palettes for Data Visualizations.”</span> <a href="https://blog.graphiq.com/finding-the-right-color-palettes-for-data-visualizations-fcd4e707a283">https://blog.graphiq.com/finding-the-right-color-palettes-for-data-visualizations-fcd4e707a283</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1014,4 +1296,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
