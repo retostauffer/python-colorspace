@@ -10,7 +10,8 @@ and published on PyPI at <https://pypi.org/project/colorspace/>.
 
 Please feel free to use, share, improve, and redistribute the
 software under the terms of the GPL. Moreover, bug reports and
-suggestions for improvement are very welcome via the GitHub issues.
+suggestions for improvement are very welcome via the GitHub issues
+(see [Community guidelines](/community.qmd)).
 
 
 ## Version 0.4.5 (next release)
@@ -24,7 +25,8 @@ suggestions for improvement are very welcome via the GitHub issues.
 * Removed matplitlib dependency in `check_hex_colors` if not needed.
 * Running soft tests (only mandatory packages) and hard tests (additional
     packages for testing extended functionality).
-* (ongoing) Extending pytests to adjust for changes in the software.
+* Fixing a bug in `darken`, `lighten` when using `combined` mixing.
+* Extending pytests to adjust for changes in the software.
 
 
 ## Version 0.4.4 (July 18, 2024)

@@ -33,7 +33,7 @@ is also available on [GitHub Pages](https://retostauffer.github.io/python-colors
 * [Somewhere over the Rainbow](articles/endrainbow.qmd)
 
 
-## Community Guidelines
+## Community guidelines
 
 Everyone is warmly welcome to contribute to Python _colorspace_
 by addressing existing issues, reporting bugs, or requesting
@@ -41,20 +41,18 @@ new features. Please refer to our [Community guidelines](community.qmd)
 for more information.
 
 
-## Other Packages and Further Reading
+## Other packages and further reading
 
-More information and further reading:
-
-* [HCLwizard.org](http://hclwizard.org): More information about the HCL color
+* [HCLwizard.org](https://hclwizard.org): More information about the HCL color
   space, introduction to the *colorspace* packages (available for
   [_R_](https://cran.r-project.org/package=colorspace) and
   [Python](https://pypi.org/project/colorspace/)), and some
   interactive tools to define effective HCL-based color palettes, pick colors,
   and check existing plots and figures for possible problems in terms of color
   vision deficiencies.
-* [A list of scientific articles](http://www.hclwizard.org/references/)
+* [A list of scientific articles](/references.qmd)
   which provide more detailed insights, e.g.,
-* [The end of the rainbow](http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/):
+* [The end of the rainbow](https://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/):
   An open letter to the climate science community by 
   Ed Hawkins, Doug McNeall, David Stephenson, Jonny Williams & Dave Carlson.
 * [Better Figures](https://betterfigures.org/): Constructive criticism of the
@@ -72,18 +70,18 @@ Scientific articles with more detailed insights:
   Visualizations](https://doi.org/10.1175/BAMS-D-13-00155.1).
   American Meteorological Society, 96(2), 203–216,
   [doi:10.1175/BAMS-D-13-00155.1](https://doi.org/10.1175/BAMS-D-13-00155.1).
-* Zeileis, A., Hornik, K., & Murrell, P. (2009). [Escaping RGBland: Selecting
-  colors for statistical graphics](https://doi.org/10.1016/j.csda.2008.11.033).
-  Computational Statistics & Data
-  Analysis, 53(9), 3259–3270,
-  [doi:10.1016/j.csda.2008.11.033](https://doi.org/10.1016/j.csda.2008.11.033).
-* Ihaka, R., 2003. [Colour for presentation graphics](http://www.ci.tuwien.ac.at/Conferences/DSC-2003/Proceedings/Ihaka.pdf.  In:
-  Hornik, K., Leisch, F., Zeileis, A. (Eds.), Proceedings of the 3rd
-  International Workshop on Distributed Statistical Computing, Vienna, Austria,
-  ISSN 1609-395X, URL:
-  <http://www.ci.tuwien.ac.at/Conferences/DSC-2003/Proceedings/Ihaka.pdf>.
-* [And others](http://www.hclwizard.org/references/)
-  ([HCLwizard.org](https://hclwizard.org) reference list).
+  Zeileis, Achim, Kurt Hornik, and Paul Murrell. 2009.
+  "Escaping RGBland: Selecting Colors for Statistical Graphics."
+  Computational Statistics & Data Analysis 53: 3259--3270.
+  <https://doi.org/10.1016/j.csda.2008.11.033>.
+* Ihaka, Ross. 2003. "[Colour for Presentation Graphics.](https://www.r-project.org/conferences/DSC-2003/Proceedings/Ihaka.pdf)"
+  In Proceedings of the 3rd International Workshop on Distributed Statistical Computing,
+  Vienna, Austria, edited by Kurt Hornik, Friedrich Leisch, and Achim Zeileis.
+  <https://www.r-project.org/conferences/DSC-2003/Proceedings/Ihaka.pdf>.
+* Crameri, Fabio, Grace E. Shephard, and Philip J. Heron. 2020.
+  "The Misuse of Colour in Science Communication." _Nature Communications_ 11 (5444): 1--10.
+  <https://doi.org/10.1038/s41467-020-19160-7>.
+* ... and others ([reference list](/references.qmd)).
 
 Some other packages providing color maps in Python
 wich might be of interest:
@@ -103,7 +101,12 @@ wich might be of interest:
   "Brewer2" and "Carto" palettes.
 * [cmcrameri](https://pypi.org/project/cmcrameri/): Python package with a few
   series of sequential and diverging color palettes.
-* [ColorBrewer2.org](http://colorbrewer2.org): The source of the brewer colors,
+* [colormap](https://pypi.org/project/colormap/): Python package providing
+  access to a series of color palettes and functionality to create own (fixed-color)
+  palettes.
+* [colormaps](https://pypi.org/project/colormaps/): Collection of color palettes
+  for Python to be used with matplotlib (e.g., cartocolors, brewer palettes, ...).
+* [ColorBrewer2.org](https://colorbrewer2.org): The source of the brewer colors,
   interactive web page by Cynthia Brewer, Mark Harrower, and The Pennsylvania
   State University.
 

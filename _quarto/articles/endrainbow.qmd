@@ -17,7 +17,7 @@ Here, we provide further rainbow examples taken from actual publications
 (rather than simplified demos).
 
 For more details on the limitations of the rainbow palette and further pointers
-see "[The End of the Rainbow](http://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/)"
+see "[The End of the Rainbow](https://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/)"
 by @color:Hawkins+McNeall+Stephenson:2014,
 "[Examining Implicit Discretization in Spectral Schemes](https://vdl.sci.utah.edu/publications/2019_eurovis_implicit-discretization/)"
 by @color:Quinan+Padilla+CreemRegehr:2019, or

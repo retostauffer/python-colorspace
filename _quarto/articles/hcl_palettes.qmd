@@ -181,7 +181,7 @@ hcl_palettes(7, "Sequential (single-hue)", plot = True,
              ncol = 1, figsize = (8, 5))
 ```
 
-All except the last are inspired by the [ColorBrewer.org](http://ColorBrewer.org)
+All except the last are inspired by the [ColorBrewer.org](https://ColorBrewer.org)
 palettes with the same base name [@color:Harrower+Brewer:2003] but
 restricted to a single hue only. They are intended for a white/light
 background. The last palette (Oslo) is taken from the scientific color maps of

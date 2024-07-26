@@ -108,7 +108,7 @@ It has been hypothesized that human color vision has evolved in three distinct s
 3. Green/red contrasts (helpful for assessing the ripeness of fruit).
 
 See @color:Kaiser+Boynton:1996, @color:Knoblauch:2002, @color:Ihaka:2003, @color:dichromat
-and/or @color:Zeileis+Hornik+Murrell:2007 for more details and references.
+and/or @color:Zeileis+Hornik+Murrell:2009 for more details and references.
 Thus, colors can be described using a 3-dimensional space:
 
 ![](/images/human-axes.svg)
