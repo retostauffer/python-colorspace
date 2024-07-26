@@ -56,9 +56,9 @@ website:
       text: Articles
     logo: logo-wide.png
     right:
-    - href: https://github.com/retostauffer/python-colorspace/tree/main
+    - href: https://github.com/retostauffer/python-colorspace/
       icon: github
-    - href: https://pypi.org
+    - href: https://pypi.org/project/colorspace
       text: '![](/python-logo.svg)'
     title: false
   repo-branch: main
