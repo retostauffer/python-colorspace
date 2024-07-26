@@ -109,7 +109,7 @@ The subsequent palettes then vary the perceptual properties of the palette:
 triangular chroma path from 40 via 90 to 20, yielding muted colors at
 the end of the palette. Instead, `pal4` just changes the starting hue
 for the palette to green (hue 200) instead of purple. All four palettes
-are visualized by the `swatchplot()` function from the package.
+are visualized by the `swatchplot` function from the package.
 
 ```
 from colorspace import palette, sequential_hcl, swatchplot
@@ -130,136 +130,114 @@ swatchplot({"Viridis": [
 
 ![Swatches of four HCL-based sequential palettes: `pal1` is the predefined HCL-based viridis palette, `pal2` is identical to `pal2` but created "by hand" and `pal3` and `pal4` are modified versions with a triangular chroma paths and reduced hue range, respectively.\label{fig:chosingpalettes}](paper_assets/fig-chosing-palettes.png)
 
-The objects provide a series of methods to e.g., extract the settings of
-the trajectories, get $n$ HEX colors or a matplotlib color map, and more.
+The objects returned by the palette functions provide a series of
+methods, e.g., `pal1.settings` for displaying the HCL parameters,
+`pal1(3)` for obtaining a number of hex colors, or `pal1.cmap()`
+for setting up a _matplotlib_ color map, among others. Further methods
+are shown in the next section.
 
-```
-pal1.settings      # Extracting settings
-pal1(3)            # Extracting 3 colors
-pal1.cmap()        # Get matplotlib colormap
-```
-
-Besides the HCL-based version of 'viridis', _colorspace_ comes with a wide
-range of color palettes which can be used and modified if needed
-(see \autoref{fig-hcl-palettes}).
+An overview of the named HCL-based palettes in _colorspace_ is depicted in
+\autoref{fig-hcl-palettes}.
 
 ```
 from colorspace import hcl_palettes
 hcl_palettes(plot = True, figsize = (20, 15))
 ```
 
-![Overview of all predefined (fully customizable) HCL color palettes.\label{fig-hcl-palettes}](paper_assets/fig-hcl-palettes.png)
+![Overview of the predefined (fully customizable) HCL color palettes.\label{fig-hcl-palettes}](paper_assets/fig-hcl-palettes.png)
 
 
-## Assessing color maps
+## Palette visualization and assessment
 
-To demonstrate some of the functionality for palette assessment,
-\autoref{fig:specplothclplot} shows a color spectrum plot (left) and
-a slice through the HCL space (right) for color palette `pal4` as defined
-in the previous section.
-
-The spectrum shows the H, C, and L trajectories,
-which all change monotonically from one end of the
-palette to the other. The slight kink in the chroma trajectory results from
-touching the outer edge of the HCL space. This can be seen in the
-slice through the HCL space, where the darker half of the palette scrapes
-along the outer edge of the defined space.
-
+To better understand the properties of palette `pal4`, defined above,
+\autoref{fig:specplothclplot} shows its HCL spectrum (left) and the
+corresponding path through the HCL space (right).
 
 ```
-# Color spectrum (left subplot)
 pal4.specplot(figsize = (5, 5));
-
-# Palette plot in HCL space (right subplot)
 pal4.hclplot(n = 7, figsize = (5, 5));
 ```
 
-![Color spectrum plot (left) and slice across the HCL space for the custom sequential color palette `pal4`.\label{fig:specplothclplot}](paper_assets/fig-specplot-hclplot.png)
+![Hue-chroma-luminance spectrum plot (left) and corresponding path in the chroma-luminance coordinate system (where hue changes with luminance) for the custom sequential palette `pal4`.\label{fig:specplothclplot}](paper_assets/fig-specplot-hclplot.png)
 
-
+The spectrum in the first panel shows how the hue (right axis) changes from about 200 (green) to
+about 75 (yellow), while simultaneously chroma and luminance (left axis) increase
+from around 20 to about 95. Note that there is a kink in the chroma curve for the
+greenish colors because these cannot have higher chromas at these low luminances
+(at least when represented through RGB-based hex codes). The same is visible in the
+second panel where the path moves along the outer edge of the HCL space.
 
 
 ## Color vision deficiency
 
-How badly inefficient color maps can break down is shown in \autoref{fig-cvd},
-showing the same information six times. While the top row uses an RGB rainbow
-based palette, the bottom row uses the sequential HCL palette 'Blue-Yellow'.
-The columns show the image for people without visual constraints,
-how by how people with deuteranomaly (colloquially known as "red-green color blindness)
-perceive the same information [@Vienot:1995; @Machado:2009; @Knoblauch:2002]
-followed by a desaturated (gray-scale) version.
+Another important assessment of a color palette is how well it works for viewers
+with color vision deficiencies. This is exemplified in \autoref{fig-cvd}
+depicting a demo plot (heatmap) under "normal" vision (left),
+deuteranomaly (colloquially known as "red-green color blindness", center), and
+desaturated (gray scale, right). The palette in the top row is the traditional
+fully-saturated RGB rainbow, deliberately selected here as a palette with poor
+perceptual properties. It is contrasted with a perceptually-based sequential
+blue-yellow HCL palette in the bottom row.
 
-This is admittedly an extreme example, but it illustrates how quickly inefficient color
-maps can break down, making certain figures and results inaccessible to certain
-groups of people or media. While many better alternatives to the RGB rainbow are readily
-available, carelessly applied RGB rainbow palette and palettes facing similar problems
-can still be found in use today.
-
+The sequential HCL palette is monotonic in luminance so that it is easy to
+distinguish high-density and low-density regions under deuteranomaly and
+desaturation. However, the rainbow is non-monotonic in luminance and parts of
+the red-green contrasts collapse under deuteranomaly, making it much harder to
+interpret correctly.
 
 ```
 from colorspace import rainbow, sequential_hcl
-from colorspace import demoplot, deutan, desaturate
-import matplotlib.pyplot as plt
-
-# Palettes to be used
 col1 = rainbow(end = 2/3, rev = True)(7)
 col2 = sequential_hcl("Blue-Yellow", rev = True)(7)
 
-fig, ax = plt.subplots(2, 3, figsize = (9, 4))
+from colorspace import demoplot, deutan, desaturate
+import matplotlib.pyplot as plt
 
+fig, ax = plt.subplots(2, 3, figsize = (9, 4))
 demoplot(col1, "Heatmap", ax = ax[0,0], ylabel = "Rainbow", title = "Original")
 demoplot(col2, "Heatmap", ax = ax[1,0], ylabel = "HCL (Blue-Yellow)")
 demoplot(deutan(col1), "Heatmap", ax = ax[0,1], title = "Deuteranope")
 demoplot(deutan(col2), "Heatmap", ax = ax[1,1])
 demoplot(desaturate(col1), "Heatmap", ax = ax[0,2], title = "Desaturated")
 demoplot(desaturate(col2), "Heatmap", ax = ax[1,2])
-
 plt.show()
 ```
 
 ![Example of color vision deficiency emulation and color manipulation using a heatmap. Top/bottom: RGB rainbow based palette and HCL based sequential palette. Left to right: Original colors, deuteranope color vision, and desaturated representation.\label{fig-cvd}](paper_assets/fig-cvd.png)
 
 
-Besides `deutan` (emulate deuteranomaly) _colorspace_ allows
-to emulate other color vision deficiencies. More details and examples can be found
-on the [package documentation](https://retostauffer.github.io/python-colorspace/).
+In addition to the `deutan` function for emulating deuteranomaly further color
+vision deficiencies can be assessed in _colorspace_ [based on @Machado:2009].
+See <https://retostauffer.github.io/python-colorspace/articles/cvd.html> for
+more details and worked examples.
 
 
-## Integration with existing plotting libraries
+## Integration with Python graphics packages
 
-\autoref{fig-plotting} demonstrates how _colorspace_ palettes can be integrated
-and deployed with existing plotting libraries. The left subplot shows a 2D
-`matplotlib` histogram (daily maximum/minimum temperature) 
-matplotlib colormap (`.cmap()`; `LinearSegmentedColormap`), the subplot
-on the right a `seaborn` multi-group histogram
-(daily mean temperature given season), requiring only a list of HEX colors
-(`.colors(4)`). Additional examples and detials about the data set can be found in the
-[package documentation](https://retostauffer.github.io/python-colorspace/).
-
+To illustrate that _colorspace_ can be easily combined with different graphics
+workflows in Python, \autoref{fig-plotting} shows a heatmap (two-dimensional
+histogram) from _matplotlib_ and multi-group density from `seaborn`. The code
+below employs an example data set from the package (using _pandas_) with daily
+maximum and minimum temperature. For _matplotlib_ the colormap (`.cmap()`;
+`LinearSegmentedColormap`) is extracted from the adapted viridis palette
+`pal3` defined above. For _seaborn_ the hex codes from a custom qualitative
+palette are extracted via `.colors(4)`.
 
 ```
 from colorspace import dataset, qualitative_hcl
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = dataset("HarzTraffic") # Loading data; requires pandas
+df = dataset("HarzTraffic")
 
-# Demoplot using `matplotlib`
 fig = plt.hist2d(df.tempmin, df.tempmax, bins = 20,
                  cmap = pal3.cmap().reversed())
-
 plt.title("Joint density daily min/max temperature")
 plt.xlabel("minimum temperature [deg C]")
 plt.ylabel("maximum temperature [deg C]")
 plt.show()
 
-# Demoplot using `seaborn`
-from colorspace import qualitative_hcl, dataset
-import seaborn as sns 
-
-# Color palette to be used
 pal = qualitative_hcl("Dark 3", h1 = -180, h2 = 100)
-
 g = sns.displot(data = df, x = "tempmax", hue = "season", fill = "season",   
                 kind = "kde", rug = True, height = 4, aspect = 1,
                 palette = pal.colors(4))
@@ -268,30 +246,23 @@ g.set(title = "Distribution of daily maximum temperature given season")
 plt.show()
 ```
 
-![Example of a `matplotlib` 2D histogram and a `seaborn` distribution plot using custom HCL based colors.\label{fig-plotting}](paper_assets/fig-plotting.png)
+![Example of a `matplotlib` heatmap and a `seaborn` density using custom HCL-based colors.\label{fig-plotting}](paper_assets/fig-plotting.png)
 
-
+Further worked examples and details can be found in the package documentation
+at <https://retostauffer.github.io/python-colorspace/>.
 
 
 # Dependencies and availability
 
-With a light-weight design in mind, most core functionality only requires `numpy`
-[@numpy]. For full functionality, `matplotlib`, `imageio` [@imageio] and
-`pandas` [@pandas] will need to be installed.
+The _colorspace_ is available from PyPI at <https://pypi.org/project/colorspace>.
+It is designed to be lightweight, requiring only _numpy_ [@numpy] for the core
+functionality. For full functionality, `matplotlib`, `imageio` [@imageio], and
+`pandas` [@pandas] are also needed.
 
-_colorspace_ is available via [PyPI](https://pypi.org/project/colorspace).
-[Source code](https://github.com/retostauffer/python-colorspace) and
-[documentation](https://retostauffer.github.io/python-colorspace/) are
-hosted on github, where bug reports, software contributions and feature requests
-are warmly welcome.
-
-
-# Acknowledgements
-
-**RETO: Brauchen wir sowas? Die JOSS Artikel die ich gesehen habe haben hier
-nur Projekte/Finanzierungen gelistet.**
+Package development is hosted on GitHub at
+<https://github.com/retostauffer/python-colorspace>. Bug reports, code
+contributions, and feature requests are warmly welcome.
 
 
 # References
-
 
