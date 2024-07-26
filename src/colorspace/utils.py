@@ -892,7 +892,7 @@ def lighten(col, amount = 0.1, method = "relative", space = "HCL", fixup = True)
     else:
         tmp    = _lighten_in_HCL(x.colors(), amount, method) # Via HCL color space
         tmpHLS = _lighten_in_HLS(x.colors(), amount, method) # Via HLS color space
-        tmpHLS.to("sRGB"); tmpHLS.to("HCL")
+        tmpHLS.to("RGB"); tmpHLS.to("HCL")
 
         # fix-up L and copy C over from HLS-converted color
         tmp.set(C = tmpHLS.get("C"))

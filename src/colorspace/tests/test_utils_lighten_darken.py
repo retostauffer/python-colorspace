@@ -68,12 +68,17 @@ def test_darken_relative_HLS(col = "#BB7784"):
 
 # ------------------------------------------
 # Combined lightening/darkening.
-# TODO: Differs from R (see function source code)
 def test_lighten_combined(col = "#BB7784"):
-    x = lighten(col = col, amount = 0.5, method = "relative", space = "combined")
-    assert isinstance(x, str) and len(x) == 7
-    x = lighten(col = col, amount = 0.5, method = "absolute", space = "combined")
-    assert isinstance(x, str) and len(x) == 7
+    tmp = {"#AF8D92": 0.1, "#B7999E": 0.2, "#D0BFC2": 0.5}
+    for sol,amount in tmp.items():
+        x = lighten(col = col, amount = amount, method = "relative", space = "combined")
+        assert x == sol
+    del tmp, x
+
+    tmp = {"#B99EA2": 0.1, "#CCBBBE": 0.2, "#FFFFFF": 0.5}
+    for sol,amount in tmp.items():
+        x = lighten(col = col, amount = amount, method = "absolute", space = "combined")
+        assert x == sol
 
 def test_darken_combined(col = "#BB7784"):
     x = darken(col = col, amount = 0.5, method = "relative", space = "combined")
