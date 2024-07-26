@@ -120,7 +120,7 @@ pal2 = sequential_hcl(h = [300, 75], c = [40, 95], l = [15, 90],
 pal3 = sequential_hcl(palette = "viridis", cmax = 90,  c2 = 20)
 pal4 = sequential_hcl(palette = "viridis", h1 = 200)
 
-swatchplot({"Viridis": [
+swatchplot({"Viridis (and altered versions of it)": [
                palette(pal1(7), "By name"), 
                palette(pal2(7), "By hand"),
                palette(pal3(7), "With triangular chroma"),
@@ -216,7 +216,7 @@ more details and worked examples.
 
 To illustrate that _colorspace_ can be easily combined with different graphics
 workflows in Python, \autoref{fig-plotting} shows a heatmap (two-dimensional
-histogram) from _matplotlib_ and multi-group density from `seaborn`. The code
+histogram) from _matplotlib_ and multi-group density from _seaborn_. The code
 below employs an example data set from the package (using _pandas_) with daily
 maximum and minimum temperature. For _matplotlib_ the colormap (`.cmap()`;
 `LinearSegmentedColormap`) is extracted from the adapted viridis palette
@@ -256,8 +256,8 @@ at <https://retostauffer.github.io/python-colorspace/>.
 
 The _colorspace_ is available from PyPI at <https://pypi.org/project/colorspace>.
 It is designed to be lightweight, requiring only _numpy_ [@numpy] for the core
-functionality. For full functionality, `matplotlib`, `imageio` [@imageio], and
-`pandas` [@pandas] are also needed.
+functionality. For full functionality, _matplotlib_, _imageio_ [@imageio], and
+_pandas_ [@pandas] are also needed.
 
 Package development is hosted on GitHub at
 <https://github.com/retostauffer/python-colorspace>. Bug reports, code

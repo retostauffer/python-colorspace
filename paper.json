@@ -7,21 +7,21 @@
           "@type": "Person",
           "email": "Reto.Stauffer@uibk.ac.at",
           "name": "Reto Stauffer",
-          "affiliation": "Department of Statistics and Digital Science Center, University of Innsbruck"
+          "affiliation": "Department of Statistics and Digital Science Center, Universität Innsbruck"
       },
       {
           "@id": "http://orcid.org/0000-0003-0918-3766",
           "@type": "Person",
           "email": "Achim.Zeileis@uibk.ac.at",
           "name": "Achim Zeileis",
-          "affiliation": "Department of Statistics, University of Innsbruck"
+          "affiliation": "Department of Statistics, Universität Innsbruck"
       }
   ],
   "identifier": "",
   "codeRepository": "https://github.com/retostauffer/python-colorspace",
-  "datePublished": "2024-07-22",
-  "dateModified": "2024-07-22",
-  "dateCreated": "2024-07-22",
+  "datePublished": "2024-07-26",
+  "dateModified": "2024-07-26",
+  "dateCreated": "2024-07-26",
   "description": "A Python toolbox for manipulating and assessing colors and palettes",
   "keywords": "Python, color palettes, color vision, visualization, assessment",
   "license": "GPL v2.0 | GPL v3.0",
