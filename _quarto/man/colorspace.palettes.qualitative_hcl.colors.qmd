@@ -57,6 +57,22 @@ qualitative_hcl("Dark 3").colors()
 #| echo: true
 #| warning: true
 #| error: true
+# Five colors with constant alpha of 0.3
+qualitative_hcl().colors(5, alpha = 0.3)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Three colors with variying alpha
+qualitative_hcl().colors(3, alpha = [0.2, 0.8, 0.3])
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
 # Same for rainbow_hcl which is a special
 # version of the qualitative HCL color palette
 rainbow_hcl().colors(4)

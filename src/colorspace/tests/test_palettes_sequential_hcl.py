@@ -355,6 +355,41 @@ def test_sequential_hcl_argument_power():
     del settings
 
 
+# Testing alpha handling
+def test_sequential_hcl_argument_alpha():
+
+    # First testing misuse
+    pal = sequential_hcl()
+    raises(TypeError, pal.colors, n = 2, alpha = "foo") # must be float
+    raises(TypeError, pal.colors, n = 2, alpha = 0) # must be float
+
+    raises(ValueError, pal.colors, n = 2, alpha = -0.0001) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  1.0001) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, 1.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [1.0001, 0.3]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, -0.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [-0.0001, 0.3]) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha = [0.1, 0.2, 0,3]) # length mismatch
+    raises(ValueError, pal.colors, n = 3, alpha = [0.1, 0.2]) # length mismatch
+
+    # 'R' is the solution from the same call in R to be compared against
+
+    # sequential_hcl, 5 colors, no alpha
+    x = sequential_hcl().colors(5)
+    R = ["#023FA5", "#6A76B2", "#A1A6C8", "#CBCDD9", "#E2E2E2"]
+    assert np.all(x == R)
+     
+    # sequential_hcl, 5 colors, constant alpha = 0.3
+    x = sequential_hcl().colors(5, alpha = 0.3)
+    R = ["#023FA54D", "#6A76B24D", "#A1A6C84D", "#CBCDD94D", "#E2E2E24D"]
+    assert np.all(x == R)
+    
+    # sequential_hcl, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    R = ["#023FA500", "#5D6CAE33", "#8C94BF66", "#B3B7CF99", "#D2D3DCCC", "#E2E2E2"]
+    x = sequential_hcl().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+    assert np.all(x == R)
 
 
 

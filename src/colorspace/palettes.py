@@ -1627,6 +1627,11 @@ class qualitative_hcl(hclpalette):
         Examples:
             >>> from colorspace import qualitative_hcl, rainbow_hcl
             >>> qualitative_hcl("Dark 3").colors()
+            >>> #: Five colors with constant alpha of 0.3
+            >>> qualitative_hcl().colors(5, alpha = 0.3)
+            >>> #: Three colors with variying alpha
+            >>> qualitative_hcl().colors(3, alpha = [0.2, 0.8, 0.3])
+            >>>
             >>> #: Same for rainbow_hcl which is a special
             >>> # version of the qualitative HCL color palette
             >>> rainbow_hcl().colors(4)
@@ -1980,6 +1985,10 @@ class diverging_hcl(hclpalette):
             >>> cols
             >>> #:
             >>> hexcols(cols)
+            >>> #: Five colors with constant alpha of 0.3
+            >>> diverging_hcl().colors(5, alpha = 0.3)
+            >>> #: Three colors with variying alpha
+            >>> diverging_hcl().colors(3, alpha = [0.2, 0.8, 0.3])
 
         """
 
@@ -2002,20 +2011,23 @@ class diverging_hcl(hclpalette):
         h1   = self.get("h1")
         h2   = h1 if self.get("h2") is None else self.get("h2")
 
+        # If n == 1 we do as we have 3 colors, but then only return the middle one
+        tmp_n = n if n > 1 else 3
+
         # Calculate H/C/L
-        rval = linspace(1., -1., n)
+        rval = linspace(1., -1., tmp_n)
 
         L = l2 - (l2 - l1) * power(abs(rval), p2)
-        H = ndarray(n, dtype = "float")
+        H = ndarray(tmp_n, dtype = "float")
         for i,val in ndenumerate(rval): H[i] = h1 if val > 0 else h2
 
         # Calculate the trajectory for the chroma dimension
-        i = fmax(0, arange(1., -1e-10, -2. / (n - 1.)))
+        i = fmax(0, arange(1., -1e-10, -2. / (tmp_n - 1.)))
         C = self._chroma_trajectory(i, p1, c1, c2, cmax)
         C = fmax(0., concatenate((C, flip(C))))
 
         # Non-even number of colors? We need to remove one.
-        if n % 2 == 1: C = delete(C, int(ceil(n / 2.)))
+        if tmp_n % 2 == 1: C = delete(C, int(ceil(tmp_n / 2.)))
 
         # Create new HCL color object
         HCL = HCL(H, C, L, alpha)
@@ -2025,7 +2037,8 @@ class diverging_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return HCL.colors(fixup = fixup, rev = rev)
+        cols = HCL.colors(fixup = fixup, rev = rev)
+        return [cols[1]] if n == 1 else cols
 
 
 
@@ -2299,8 +2312,11 @@ class divergingx_hcl(hclpalette):
         alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
+        # If n == 1 we do as we have 3 colors, but then only return the middle one
+        tmp_n = n if n > 1 else 3
+
         # n2 is half the number of colors, thus the number of colors on each of the two sides.
-        n2 = int(ceil(n / 2))
+        n2 = int(ceil(tmp_n / 2))
 
         # Calculate H/C/L coordinates for both sides (called 'a' and 'b' not to get
         # confused with the numbering of the parameters).
@@ -2317,7 +2333,7 @@ class divergingx_hcl(hclpalette):
 
         # In case the user requested an odd number of colors we need to
         # cut away one of one of the two sides (remove it from 'b').
-        if not n == (2 * n2):
+        if tmp_n % 2 == 1:
             Hb = Hb[:-1]
             Cb = Cb[:-1]
             Lb = Lb[:-1]
@@ -2335,7 +2351,8 @@ class divergingx_hcl(hclpalette):
         if "rev" in kwargs.keys(): rev = kwargs["rev"]
 
         # Return hex colors
-        return HCL.colors(fixup = fixup, rev = rev)
+        cols = HCL.colors(fixup = fixup, rev = rev)
+        return [cols[1]] if n == 1 else cols
 
 
 
@@ -2548,6 +2565,10 @@ class sequential_hcl(hclpalette):
             >>> cols
             >>> #:
             >>> hexcols(cols)
+            >>> #: Five colors with constant alpha of 0.3
+            >>> sequential_hcl().colors(5, alpha = 0.3)
+            >>> #: Three colors with variying alpha
+            >>> sequential_hcl().colors(3, alpha = [0.2, 0.8, 0.3])
 
         """
 
@@ -2572,7 +2593,7 @@ class sequential_hcl(hclpalette):
 
         # Get colors and create new HCL color object
         [H, C, L] = self._get_seqhcl(n, h1, h2, c1, c2, l1, l2, p1, p2, cmax)
-        HCL = HCL(H, C, L)
+        HCL = HCL(H, C, L, alpha)
 
         # Reversing colors
         rev = self._rev
@@ -2888,7 +2909,7 @@ class diverging_hsv(hclpalette):
         V = repeat(self.get("v"), n)
 
         # Generate color object
-        HSV = HSV(H, S, V)
+        HSV = HSV(H, S, V, alpha)
 
         # Reversing colors
         rev = self._rev
@@ -3050,7 +3071,7 @@ class rainbow(hclpalette):
         v = repeat(self.settings["v"], n)
 
         # Generate HSV colorobject
-        HSV = HSV(h * 360., s, v)
+        HSV = HSV(h * 360., s, v, alpha)
         # If kwargs have a key "colorobject" return HCL colorobject
         if "colorobject" in kwargs.keys(): return HSV
 

@@ -314,4 +314,40 @@ def test_qualitative_hcl_argument_l():
     del settings
 
 
+# Testing alpha handling
+def test_sequential_hcl_argument_alpha():
+
+    # First testing misuse
+    pal = qualitative_hcl()
+    raises(TypeError, pal.colors, n = 2, alpha = "foo") # must be float
+    raises(TypeError, pal.colors, n = 2, alpha = 0) # must be float
+
+    raises(ValueError, pal.colors, n = 2, alpha = -0.0001) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  1.0001) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, 1.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [1.0001, 0.3]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, -0.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [-0.0001, 0.3]) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha = [0.1, 0.2, 0,3]) # length mismatch
+    raises(ValueError, pal.colors, n = 3, alpha = [0.1, 0.2]) # length mismatch
+
+    # 'R' is the solution from the same call in R to be compared against
+
+    # qualitative_hcl, 5 colors, no alpha
+    x = qualitative_hcl().colors(5)
+    R = ["#E16A86", "#AA9000", "#00AA5A", "#00A6CA", "#B675E0"]
+    assert np.all(x == R)
+    
+    # qualitative_hcl, 5 colors, constant alpha = 0.3
+    x = qualitative_hcl().colors(5, alpha = 0.3)
+    R = ["#E16A864D", "#AA90004D", "#00AA5A4D", "#00A6CA4D", "#B675E04D"]
+    assert np.all(x == R)
+    
+    # qualitative_hcl, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    x = qualitative_hcl().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+    R = ["#E16A8600", "#B88A0033", "#50A31566", "#00AD9A99", "#009ADECC", "#C86DD7"]
+    assert np.all(x == R)
+
 

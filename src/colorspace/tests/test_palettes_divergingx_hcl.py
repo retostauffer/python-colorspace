@@ -357,7 +357,44 @@ def test_divergingx_hcl_argument_power():
     del settings
 
 
+# Testing alpha handling
+def test_divergingx_hcl_argument_alpha():
 
+    # First testing misuse
+    pal = divergingx_hcl()
+    raises(TypeError, pal.colors, n = 2, alpha = "foo") # must be float
+    raises(TypeError, pal.colors, n = 2, alpha = 0) # must be float
+
+    raises(ValueError, pal.colors, n = 2, alpha = -0.0001) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  1.0001) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, 1.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [1.0001, 0.3]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, -0.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [-0.0001, 0.3]) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha = [0.1, 0.2, 0,3]) # length mismatch
+    raises(ValueError, pal.colors, n = 3, alpha = [0.1, 0.2]) # length mismatch
+
+    # 'R' is the solution from the same call in R to be compared against
+
+    ## divergingx_hcl, 5 colors, no alpha
+    #x = divergingx_hcl().colors(5) 
+    #R = ["#008585", "#9BBAA0", "#FBF2C4", "#DEA868", "#C7522B"]
+    #assert np.all(x == R)
+    #
+    ## divergingx_hcl, 5 colors, constant alpha = 0.3
+    #x = divergingx_hcl().colors(5, alpha = 0.3) 
+    #R = ["#0085854D", "#9BBAA04D", "#FBF2C44D", "#DEA8684D", "#C7522B4D"]
+    #assert np.all(x == R)
+    #
+    ## divergingx_hcl, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    #x = divergingx_hcl().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]) 
+    #R = ["#00858500", "#85AF9733", "#D0DCB566", "#EDD59F99", "#DA9857CC", "#C7522B"]
+    #assert np.all(x == R)
+    
+    
+    
 
 
 

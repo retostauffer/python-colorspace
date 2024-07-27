@@ -28,6 +28,9 @@ suggestions for improvement are very welcome via the GitHub issues
 * Fixing a bug in `darken`, `lighten` when using `combined` mixing.
 * Extending pytests to adjust for changes in the software.
 * Renamed `cvd_emulator` to `cvd_image` to be consistent with _R_.
+* Fixing a bug in `diverging_hcl` and `divergingx_hcl` when only
+    one color is drawn from the palette.
+* Transparency handling for all palettes added and tested.
 
 
 ## Version 0.4.4 (July 18, 2024)

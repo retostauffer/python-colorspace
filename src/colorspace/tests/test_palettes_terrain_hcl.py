@@ -155,3 +155,42 @@ def test_terrain_hcl_missing_colors_fixup():
     assert pal2[4] is None
 
     assert np.all(pal2[:3] == pal1[:3])
+
+
+# Testing alpha handling
+def test_terrain_hcl_argument_alpha():
+
+    # First testing misuse
+    pal = terrain_hcl()
+    raises(TypeError, pal.colors, n = 2, alpha = "foo") # must be float
+    raises(TypeError, pal.colors, n = 2, alpha = 0) # must be float
+
+    raises(ValueError, pal.colors, n = 2, alpha = -0.0001) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  1.0001) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, 1.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [1.0001, 0.3]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, -0.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [-0.0001, 0.3]) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha = [0.1, 0.2, 0,3]) # length mismatch
+    raises(ValueError, pal.colors, n = 3, alpha = [0.1, 0.2]) # length mismatch
+
+    # 'R' is the solution from the same call in R to be compared against
+
+    ## terrain_hcl, 5 colors, no alpha
+    #x = terrain_hcl().colors(5) 
+    #R = ["#26A63A", "#9BB306", "#E1BB4E", "#FFC59E", "#F1F1F1"]
+    #assert np.all(x == R)
+    #
+    ## terrain_hcl, 5 colors, constant alpha = 0.3
+    #x = terrain_hcl().colors(5, alpha = 0.3) 
+    #R = ["#26A63A4D", "#9BB3064D", "#E1BB4E4D", "#FFC59E4D", "#F1F1F14D"]
+    #assert np.all(x == R)
+    #
+    ## terrain_hcl, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    #x = terrain_hcl().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]) 
+    #R = ["#26A63A00", "#8AB00933", "#C7B82F66", "#F9BF6E99", "#FFC7AECC", "#F1F1F1"]
+    #assert np.all(x == R)
+
+

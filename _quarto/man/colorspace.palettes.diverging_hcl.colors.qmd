@@ -69,5 +69,21 @@ cols
 hexcols(cols)
 ```
 
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Five colors with constant alpha of 0.3
+diverging_hcl().colors(5, alpha = 0.3)
+```
+
+```{python}
+#| echo: true
+#| warning: true
+#| error: true
+# Three colors with variying alpha
+diverging_hcl().colors(3, alpha = [0.2, 0.8, 0.3])
+```
+
 
 

@@ -157,3 +157,41 @@ def test_heat_hcl_missing_colors_fixup():
 
     assert np.all(pal2[:2] == pal1[:2])
 
+# Testing alpha handling
+def test_heat_hcl_argument_alpha():
+
+    # First testing misuse
+    pal = heat_hcl()
+    raises(TypeError, pal.colors, n = 2, alpha = "foo") # must be float
+    raises(TypeError, pal.colors, n = 2, alpha = 0) # must be float
+
+    raises(ValueError, pal.colors, n = 2, alpha = -0.0001) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  1.0001) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, 1.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [1.0001, 0.3]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [0.3, -0.0001]) # must be [0, 1]
+    raises(ValueError, pal.colors, n = 2, alpha =  [-0.0001, 0.3]) # must be [0, 1]
+
+    raises(ValueError, pal.colors, n = 2, alpha = [0.1, 0.2, 0,3]) # length mismatch
+    raises(ValueError, pal.colors, n = 3, alpha = [0.1, 0.2]) # length mismatch
+
+    # 'R' is the solution from the same call in R to be compared against
+
+    # heat_hcl, 5 colors, no alpha
+    x = heat_hcl().colors(5) 
+    R = ["#D33F6A", "#E1704C", "#E99A2C", "#E8C33C", "#E2E6BD"]
+    assert np.all(x == R)
+    
+    # heat_hcl, 5 colors, constant alpha = 0.3
+    x = heat_hcl().colors(5, alpha = 0.3) 
+    R = ["#D33F6A4D", "#E1704C4D", "#E99A2C4D", "#E8C33C4D", "#E2E6BD4D"]
+    assert np.all(x == R)
+    
+    # heat_hcl, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    x = heat_hcl().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]) 
+    R = ["#D33F6A00", "#DF675333", "#E78A3866", "#EAAB2899", "#E7CB47CC", "#E2E6BD"]
+    assert np.all(x == R)
+    
+    
+    
