@@ -31,7 +31,7 @@ Requires the Python modules `matplotlib` and `imageio` to be installed.
    <code id="colorspace.cvd_image.cvd_image:cvd">cvd</code><code class="argument-class">str, list</code>
   </dt>
  <dd>Color vision deficiency or deficiencies. Allowed types are
-`"deutanope"`, `"protanope"`, `"tritanope"`, `"desaturated"`,
+`"deutan"`, `"protan"`, `"tritan"`, `"desaturated"`,
 and `"original"` (unmodified).</dd>
   <dt style = "white-space: nowrap; font-family: monospace; vertical-align: top">
    <code id="colorspace.cvd_image.cvd_image:severity">severity</code><code class="argument-class">float</code>
