@@ -50,7 +50,7 @@ setup(name="colorspace",     # This is the package name
       project_urls = {
           "Documentation": "https://retostauffer.github.io/python-colorspace/",
           "Repository": "https://github.com/retostauffer/python-colorspace/",
-          "Issues": "https://github.com/retostauffer/python-colorspace",
+          "Issues": "https://github.com/retostauffer/python-colorspace/issues/",
           "HCL Wizard": "https://hclwizard.org/"
       },
       long_description = README(),

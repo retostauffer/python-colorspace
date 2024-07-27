@@ -77,8 +77,8 @@ website:
         text: compare_colors
       - file: man/colorspace.utils.contrast_ratio.qmd
         text: contrast_ratio
-      - file: man/colorspace.cvd_emulator.cvd_emulator.qmd
-        text: cvd_emulator
+      - file: man/colorspace.cvd_image.cvd_image.qmd
+        text: cvd_image
       - file: man/colorspace.utils.darken.qmd
         text: darken
       - file: man/colorspace.datasets.dataset.qmd

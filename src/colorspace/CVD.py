@@ -19,7 +19,7 @@ def deutan(cols, severity = 1., linear = True):
     weakness).
 
     See also :py:func:`protan`, :py:func:`tritan`, :py:func:`desaturate`, and
-    :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
+    :py:func:`cvd_image <colorspace.cvd_image.cvd_image>`.
 
     Args:
         cols (list, colorobject, matplotlib.colors.LinearSegmentedColormap):
@@ -82,7 +82,7 @@ def protan(cols, severity = 1., linear = True):
     returns simulated colors for protanope vision.
 
     See also :py:func:`deutan`, :py:func:`tritan`, :py:func:`desaturate`, and
-    :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
+    :py:func:`cvd_image <colorspace.cvd_image.cvd_image>`.
 
     Args:
         cols (list, colorobject, matplotlib.colors.LinearSegmentedColormap): A list of valid hex colors (str)
@@ -145,7 +145,7 @@ def tritan(cols, severity = 1., linear = True):
     and returns simulated colors for tritanope vision.
 
     See also :py:func:`deutan`, :py:func:`protan`, :py:func:`desaturate`, and
-    :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
+    :py:func:`cvd_image <colorspace.cvd_image.cvd_image>`.
 
     Args:
         cols (list, colorobject, matplotlib.colors.LinearSegmentedColormap):
@@ -583,7 +583,7 @@ def desaturate(cols, amount = 1.):
     color space.
 
     See also: :py:func:`deutan`, :py:func:`protan`, :py:func:`tritan`,
-    :py:func:`desaturate`, and :py:func:`cvd_emulator <colorspace.cvd_emulator.cvd_emulator>`.
+    :py:func:`desaturate`, and :py:func:`cvd_image <colorspace.cvd_image.cvd_image>`.
 
     Args:
         cols (str, list, matplotlib.colors.LinearSegmentedColormap, colorobject):

@@ -10,7 +10,7 @@ returns simulated colors for deuteranope vision (green-yellow-red
 weakness).
 
 See also [protan](colorspace.CVD.protan.qmd), [tritan](colorspace.CVD.tritan.qmd), [desaturate](colorspace.CVD.desaturate.qmd), and
-[cvd_emulator](colorspace.cvd_emulator.cvd_emulator.qmd).
+[cvd_image](colorspace.cvd_image.cvd_image.qmd).
 
 ### Usage
 

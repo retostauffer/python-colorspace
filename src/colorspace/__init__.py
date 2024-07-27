@@ -55,7 +55,7 @@ from .swatchplot import swatchplot
 from .specplot import specplot
 from .hclplot import hclplot
 from .choose_palette import choose_palette
-from .cvd_emulator import cvd_emulator
+from .cvd_image import cvd_image
 from .demos import demoplot
 from .datasets import dataset
 

@@ -220,13 +220,13 @@ Manipulating figures
 --------------------
 
 In addition of converting colors and palettes the function
-[`cvd_emulator`](/man/colorspace.cvd_emulator.cvd_emulator.qmd)
+[`cvd_image`](/man/colorspace.cvd_image.cvd_image.qmd)
 allows to take an existing pixel image (JPG, PNG) and emulate how people with 
 visual constraints will receive the same picture. This requires `imageio` to be
 installed (see [Installation](/installation.qmd)).
 
 The first argument of
-[`cvd_emulator`](/man/colorspace.cvd_emulator.cvd_emulator.qmd) can be a path
+[`cvd_image`](/man/colorspace.cvd_image.cvd_image.qmd) can be a path
 to any pixel image on your local computer *OR* the string `"DEMO"`. When
 `"DEMO"` is used a demo image included in the package will be used (thanks to
 [`@mariogogh`](https://unsplash.com/@mariogogh) on
@@ -239,11 +239,11 @@ transparency). The following shows the original (full color) image.
 #| layout-ncol: 1
 #| fig-align: center
 
-from colorspace import cvd_emulator
-cvd_emulator("DEMO", "original")
+from colorspace import cvd_image
+cvd_image("DEMO", "original")
 ```
 
-[`cvd_emulator`](/man/colorspace.cvd_emulator.cvd_emulator.qmd) allows
+[`cvd_image`](/man/colorspace.cvd_image.cvd_image.qmd) allows
 simulate deuteranope, protanope, tritanope, and desaturated versions with
 different severities (defaults to `severity = 1.0`). The function reads the
 RGB(+alpha) coordinates of the pixel image, creates an
@@ -259,8 +259,8 @@ image.
 #| layout-ncol: 1
 #| fig-align: center
 
-from colorspace import cvd_emulator
-cvd_emulator("DEMO", ["deutan", "protan", "tritan", "desaturate"])
+from colorspace import cvd_image
+cvd_image("DEMO", ["deutan", "protan", "tritan", "desaturate"])
 ```
 
 The additional argument `output` (path to file) can be used to store the result rather

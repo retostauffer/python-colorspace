@@ -31,7 +31,7 @@ The package provides a Python 3 version of the
 - **PyPI:** <https://pypi.org/project/colorspace/>
 - **GitHub:** <https://github.com/retostauffer/python-colorspace/>
 - **Documentation:** <https://retostauffer.github.io/python-colorspace/>
-- **Bug reports:** https://github.com/retostauffer/python-colorspace/issues  
+- **Bug reports:** <https://github.com/retostauffer/python-colorspace/issues>
   _Bug reports and suggestions are welcome and very much appreciated!_
 
 

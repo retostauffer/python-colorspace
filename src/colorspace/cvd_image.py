@@ -1,6 +1,6 @@
 
 
-def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
+def cvd_image(image = "DEMO", cvd = "desaturate", severity = 1.0,
         output = None, dropalpha = False):
     """Check Images for Color Constraints
 
@@ -37,12 +37,12 @@ def cvd_emulator(image = "DEMO", cvd = "desaturate", severity = 1.0,
 
     Example:
 
-        >>> from colorspace import cvd_emulator
-        >>> cvd_emulator("DEMO", "deutan", 0.5);
+        >>> from colorspace import cvd_image
+        >>> cvd_image("DEMO", "deutan", 0.5);
         >>> #:
-        >>> cvd_emulator("DEMO", "desaturate", 1.0, "output.png");
+        >>> cvd_image("DEMO", "desaturate", 1.0, "output.png");
         >>> #:
-        >>> cvd_emulator("DEMO", ["original", "deutan", "protan"],
+        >>> cvd_image("DEMO", ["original", "deutan", "protan"],
         >>>              0.5, dropalpha = True);
 
     Raises:

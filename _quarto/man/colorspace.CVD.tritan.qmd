@@ -9,7 +9,7 @@ on a CVD transform matrix. This function is an interface to the CVD object
 and returns simulated colors for tritanope vision.
 
 See also [deutan](colorspace.CVD.deutan.qmd), [protan](colorspace.CVD.protan.qmd), [desaturate](colorspace.CVD.desaturate.qmd), and
-[cvd_emulator](colorspace.cvd_emulator.cvd_emulator.qmd).
+[cvd_image](colorspace.cvd_image.cvd_image.qmd).
 
 ### Usage
 

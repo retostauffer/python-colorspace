@@ -12,7 +12,7 @@ A few requirements are needed to be able to use the package and all its features
 * [`numpy`](https://pypi.org/project/numpy/>)
 * [`matplotlib`](https://pypi.org/project/matplotlib/>) (optional; used for visualization)
 * [`imageio`](https://pypi.org/project/imageio/>) (optional; only used by
-    [`cvd_emulator()`](/man/colorspace.cvd_emulator.cvd_emulator.qmd))
+    [`cvd_image()`](/man/colorspace.cvd_image.cvd_image.qmd))
 * [`pandas`](https://pandas.pydata.org/) (optional; used by [`dataset()`](/man/colorspace.datasets.dataset.qmd))
 
 Please use the [GitHub issues](https://github.com/retostauffer/python-colorspace/issues>)

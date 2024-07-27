@@ -153,7 +153,7 @@ methods of the different palette classes listed above.
 |   |   |
 |---|---|
 | [`deutan`](man/colorspace.CVD.deutan.qmd), [`protan`](man/colorspace.CVD.protan.qmd), [`tritan`](man/colorspace.CVD.tritan.qmd) | Simulate Color Vision Deficiency |
-| [`cvd_emulator`](man/colorspace.cvd_emulator.cvd_emulator.qmd) | Check Images for Color Constraints |
+| [`cvd_image`](man/colorspace.cvd_image.cvd_image.qmd) | Check Images for Color Constraints |
 
 : {tbl-colwidths="[30,70]"}
 :::
