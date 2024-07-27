@@ -2132,7 +2132,7 @@ class colorobject:
         """
 
         from copy import copy
-        from numpy import ndarray
+        from numpy import ndarray, round
 
         x = copy(self)
         x.to("hex", fixup = fixup)
@@ -2141,7 +2141,7 @@ class colorobject:
             # Appending alpha if alpha < 1.0
             for i in range(0, len(res)):
                 if self._data_["alpha"][i] < 1.0:
-                    tmp = int(self._data_["alpha"][i] * 255)
+                    tmp = int(round(self._data_["alpha"][i] * 255. + 0.0001))
                     res[i] += f"{tmp:02X}"
             # Return hex with alpha
             colors = res
