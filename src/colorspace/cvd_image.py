@@ -19,7 +19,7 @@ def cvd_image(image = "DEMO", cvd = "desaturate", severity = 1.0,
         image (str): Name of the figure which should be converted
             (png/jpg/jpeg). If `image = "DEMO"` the package demo figure is used.
         cvd (str, list): Color vision deficiency or deficiencies. Allowed types are
-            `"deutanope"`, `"protanope"`, `"tritanope"`, `"desaturated"`,
+            `"deutan"`, `"protan"`, `"tritan"`, `"desaturated"`,
             and `"original"` (unmodified).
         severity (float): How severe the color vision deficiency is
             (`[0.,1.]`).  Also used as the amount of desaturation if `cvd`
