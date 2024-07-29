@@ -195,12 +195,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/retostauffer/python-colorspace/tree/main"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/retostauffer/python-colorspace/"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://pypi.org"> 
+    <a class="nav-link" href="https://pypi.org/project/colorspace"> 
 <span class="menu-text"><img src="../python-logo.svg" class="img-fluid"></span></a>
   </li>  
 </ul>
@@ -267,8 +267,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.cvd_emulator.cvd_emulator.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">cvd_emulator</span></a>
+  <a href="../man/colorspace.cvd_image.cvd_image.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cvd_image</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -643,7 +643,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="7793eb5f" class="cell" data-execution_count="1">
+<div id="b32cbf47" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl, diverging_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> rainbow_hcl()</span>
@@ -656,7 +656,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="7ca7f74f" class="cell" data-execution_count="2">
+<div id="4e847e92" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show spectrum in standard RGB space</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>specplot(pal.colors(<span class="dv">21</span>), rgb <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -667,7 +667,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="f47bf35c" class="cell" data-execution_count="3">
+<div id="73448246" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduced number of colors.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Show sRGB spectrum, hide HCL spectrum</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and color palette swatch.</span></span>
@@ -681,7 +681,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="5693afe3" class="cell" data-execution_count="4">
+<div id="2e91fe77" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing full diverging_hcl() color spectrum to</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a LinearSegmentedColormap (cmap) with only 5 colors</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (an extreme example)</span></span>
@@ -696,7 +696,7 @@ forwarded to <code>matplotlib.pyplot.subplot</code>. Only has an effect if <code
 </div>
 </div>
 </div>
-<div id="156626d7" class="cell" data-execution_count="5">
+<div id="11963b86" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as above using .cmap() default with N = 256 colors</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>specplot(diverging_hcl(<span class="st">"Green-Orange"</span>).colors(<span class="dv">101</span>),</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         diverging_hcl(<span class="st">"Green-Orange"</span>).cmap(),</span>

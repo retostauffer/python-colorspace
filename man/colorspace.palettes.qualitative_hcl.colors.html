@@ -195,12 +195,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/retostauffer/python-colorspace/tree/main"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/retostauffer/python-colorspace/"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://pypi.org"> 
+    <a class="nav-link" href="https://pypi.org/project/colorspace"> 
 <span class="menu-text"><img src="../python-logo.svg" class="img-fluid"></span></a>
   </li>  
 </ul>
@@ -267,8 +267,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../man/colorspace.cvd_emulator.cvd_emulator.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">cvd_emulator</span></a>
+  <a href="../man/colorspace.cvd_image.cvd_image.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cvd_image</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -615,7 +615,7 @@ Currently allows for <code>rev = True</code> to reverse the colors.
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="0df80064" class="cell" data-execution_count="2">
+<div id="f08145e5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> qualitative_hcl, rainbow_hcl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl(<span class="st">"Dark 3"</span>).colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
@@ -632,11 +632,25 @@ Currently allows for <code>rev = True</code> to reverse the colors.
  '#DE63B9']</code></pre>
 </div>
 </div>
-<div id="92fb608a" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same for rainbow_hcl which is a special</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># version of the qualitative HCL color palette</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>rainbow_hcl().colors(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8dfefa8f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Five colors with constant alpha of 0.3</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl().colors(<span class="dv">5</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>['#E16A864D', '#AA90004D', '#00AA5A4D', '#00A6CA4D', '#B675E04D']</code></pre>
+</div>
+</div>
+<div id="03d119ca" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Three colors with variying alpha</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>qualitative_hcl().colors(<span class="dv">3</span>, alpha <span class="op">=</span> [<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="fl">0.3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['#E16A8633', '#50A315CC', '#009ADE4D']</code></pre>
+</div>
+</div>
+<div id="eb101326" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same for rainbow_hcl which is a special</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># version of the qualitative HCL color palette</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rainbow_hcl().colors(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>['#E495A5', '#ABB065', '#39BEB1', '#ACA4E2']</code></pre>
 </div>
 </div>

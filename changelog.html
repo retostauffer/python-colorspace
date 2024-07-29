@@ -161,12 +161,12 @@ ul.task-list li input[type="checkbox"] {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/retostauffer/python-colorspace/tree/main"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/retostauffer/python-colorspace/"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://pypi.org"> 
+    <a class="nav-link" href="https://pypi.org/project/colorspace"> 
 <span class="menu-text"><img src="./python-logo.svg" class="img-fluid"></span></a>
   </li>  
 </ul>
@@ -233,8 +233,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./man/colorspace.cvd_emulator.cvd_emulator.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">cvd_emulator</span></a>
+  <a href="./man/colorspace.cvd_image.cvd_image.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cvd_image</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -556,6 +556,11 @@ ul.task-list li input[type="checkbox"] {
 <li>Running soft tests (only mandatory packages) and hard tests (additional packages for testing extended functionality).</li>
 <li>Fixing a bug in <code>darken</code>, <code>lighten</code> when using <code>combined</code> mixing.</li>
 <li>Extending pytests to adjust for changes in the software.</li>
+<li>Renamed <code>cvd_emulator</code> to <code>cvd_image</code> to be consistent with <em>R</em>.</li>
+<li>Fixing a bug in <code>diverging_hcl</code> and <code>divergingx_hcl</code> when only one color is drawn from the palette.</li>
+<li>Transparency handling for all palettes added and tested.</li>
+<li>Fixing a bug in <code>divergingx_hcl</code> where <code>cmax2</code> was overwritten by <code>cmax1</code> if not explicitly set.</li>
+<li>Fixing a bug in <code>diverging_hsv</code> which now goes correctly trough RGB to sRGB to hex not directly via sRGB to hex.</li>
 </ul>
 </section>
 <section id="version-0.4.4-july-18-2024" class="level2">
