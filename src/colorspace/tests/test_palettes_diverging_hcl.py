@@ -239,11 +239,19 @@ def test_diverging_hcl_missing_colors_fixup():
     assert np.all(pal2[1:6] == pal1[1:6])
 
 # Testing the edge case where we have only one color (n = 1)
+# Also testing n = 5, 4, 3, 2, 1 just to check that the center
+# color and the distance is as expected.
 def test_diverging_hcl_one_color_only():
+
+    R = ["#023FA5", "#A1A6C8", "#E2E2E2", "#CA9CA4", "#8E063B"]
+    assert np.all(diverging_hcl()(5) == R)
+
+    R = ["#023FA5", "#BEC1D4", "#D6BCC0", "#8E063B"]
+    assert np.all(diverging_hcl()(4) == R)
 
     R = ["#023FA5", "#E2E2E2", "#8E063B"]
     assert np.all(diverging_hcl()(3) == R)
-    
+
     R = ["#023FA5", "#8E063B"]
     assert np.all(diverging_hcl()(2) == R)
     

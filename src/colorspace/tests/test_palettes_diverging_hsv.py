@@ -134,19 +134,19 @@ def test_diverging_hsv_argument_alpha():
 
     # 'R' is the solution from the same call in R to be compared against
 
-    ## diverging_hsv, 5 colors, no alpha
-    #x = diverging_hsv().colors(5) 
-    #R = ["#0000FF", "#BCBCFF", "#FFFFFF", "#FFBCBC", "#FF0000"]
-    #assert np.all(x == R)
-    #
-    ## diverging_hsv, 5 colors, constant alpha = 0.3
-    #x = diverging_hsv().colors(5, alpha = 0.3) 
-    #R = ["#0000FF4D", "#BCBCFF4D", "#FFFFFF4D", "#FFBCBC4D", "#FF00004D"]
-    #assert np.all(x == R)
-    #
-    ## diverging_hsv, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
-    #x = diverging_hsv().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]) 
-    #R = ["#0000FF00", "#AAAAFF33", "#E7E7FF66", "#FFE7E799", "#FFAAAACC", "#FF0000"] 
-    #assert np.all(x == R)
+    # diverging_hsv, 5 colors, no alpha
+    x = diverging_hsv().colors(5) 
+    R = ["#0000FF", "#BCBCFF", "#FFFFFF", "#FFBCBC", "#FF0000"]
+    assert np.all(x == R)
+    
+    # diverging_hsv, 5 colors, constant alpha = 0.3
+    x = diverging_hsv().colors(5, alpha = 0.3) 
+    R = ["#0000FF4D", "#BCBCFF4D", "#FFFFFF4D", "#FFBCBC4D", "#FF00004D"]
+    assert np.all(x == R)
+    
+    # diverging_hsv, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    x = diverging_hsv().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]) 
+    R = ["#0000FF00", "#AAAAFF33", "#E7E7FF66", "#FFE7E799", "#FFAAAACC", "#FF0000"] 
+    assert np.all(x == R)
 
 

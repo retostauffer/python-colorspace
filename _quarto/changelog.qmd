@@ -33,6 +33,8 @@ suggestions for improvement are very welcome via the GitHub issues
 * Transparency handling for all palettes added and tested.
 * Fixing a bug in `divergingx_hcl` where `cmax2` was overwritten by `cmax1` if
     not explicitly set.
+* Fixing a bug in `diverging_hsv` which now goes correctly trough RGB to sRGB to hex
+    not directly via sRGB to hex.
 
 
 ## Version 0.4.4 (July 18, 2024)

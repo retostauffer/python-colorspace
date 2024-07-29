@@ -246,6 +246,27 @@ def test_divergingx_hcl_missing_colors_fixup():
 
     assert np.all(pal2[3:] == pal1[3:])
 
+
+# Testing the edge case where we have only one color (n = 1)
+# Also testing n = 5, 4, 3, 2, 1 just to check that the center
+# color and the distance is as expected.
+def test_divergingx_hcl_one_color_only():
+
+    R = ["#008585", "#9BBAA0", "#FBF2C4", "#DEA868", "#C7522B"]
+    assert np.all(divergingx_hcl()(5) == R)
+
+    R = ["#008585", "#B8CDAE", "#E6C186", "#C7522B"]
+    assert np.all(divergingx_hcl()(4) == R)
+
+    R = ["#008585", "#FBF2C4", "#C7522B"]
+    assert np.all(divergingx_hcl()(3) == R)
+
+    R = ["#008585", "#C7522B"]
+    assert np.all(divergingx_hcl()(2) == R)
+    
+    R = ["#FBF2C4"]
+    assert np.all(divergingx_hcl()(1) == R)
+
 # Testing argument 'palette'
 def test_divergingx_hcl_argument_palette():
 
@@ -420,20 +441,20 @@ def test_divergingx_hcl_argument_alpha():
 
     # 'R' is the solution from the same call in R to be compared against
 
-    ## divergingx_hcl, 5 colors, no alpha
-    #x = divergingx_hcl().colors(5) 
-    #R = ["#008585", "#9BBAA0", "#FBF2C4", "#DEA868", "#C7522B"]
-    #assert np.all(x == R)
-    #
-    ## divergingx_hcl, 5 colors, constant alpha = 0.3
-    #x = divergingx_hcl().colors(5, alpha = 0.3) 
-    #R = ["#0085854D", "#9BBAA04D", "#FBF2C44D", "#DEA8684D", "#C7522B4D"]
-    #assert np.all(x == R)
-    #
-    ## divergingx_hcl, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
-    #x = divergingx_hcl().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]) 
-    #R = ["#00858500", "#85AF9733", "#D0DCB566", "#EDD59F99", "#DA9857CC", "#C7522B"]
-    #assert np.all(x == R)
+    # divergingx_hcl, 5 colors, no alpha
+    x = divergingx_hcl().colors(5) 
+    R = ["#008585", "#9BBAA0", "#FBF2C4", "#DEA868", "#C7522B"]
+    assert np.all(x == R)
+    
+    # divergingx_hcl, 5 colors, constant alpha = 0.3
+    x = divergingx_hcl().colors(5, alpha = 0.3) 
+    R = ["#0085854D", "#9BBAA04D", "#FBF2C44D", "#DEA8684D", "#C7522B4D"]
+    assert np.all(x == R)
+    
+    # divergingx_hcl, 6 colors with alpha [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    x = divergingx_hcl().colors(6, alpha = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]) 
+    R = ["#00858500", "#85AF9733", "#D0DCB566", "#EDD59F99", "#DA9857CC", "#C7522B"]
+    assert np.all(x == R)
     
     
     

@@ -1379,7 +1379,7 @@ class hclpalette:
         return C
 
 
-    def _get_seqhcl(self, n, ha, hb, ca, cb, la, lb, pa, pb, cmax):
+    def _get_seqhcl(self, i, ha, hb, ca, cb, la, lb, pa, pb, cmax):
         """Get Sequential Palette Colors
 
         Get 'one side' of a sequential palette. This is also used
@@ -1388,7 +1388,9 @@ class hclpalette:
         in the center.
 
         Args:
-            n (int): Number of colors to draw.
+            i (numpy.ndarray): Sequence of floats in `[0, 1]` where to draw the
+                values from. Typically `linspace(1, 0, n)`, but for some palettes
+                (diverging palettes with an even number of colors) they do not meet at 0.
             ha (float): Hue on end "A".
             hb (float): Hue on end "B".
             ca (float): Chroma on end "A".
@@ -1402,17 +1404,13 @@ class hclpalette:
         Return:
             list: List of `H`, `C`, and `L` coordinates.
         """
-        from numpy import linspace, power
-
-        # Calculate H/C/L
-        rval = linspace(1., 0., n)
+        from numpy import power
 
         # Hue and Luminance
-        H = hb - (hb - ha) * rval
-        L = lb - (lb - la) * power(rval, pb)
+        H = hb - (hb - ha) * i
+        L = lb - (lb - la) * power(i, pb)
 
         # Calculate the trajectory for the chroma dimension
-        i = linspace(1., 0., n)
         C = self._chroma_trajectory(i, pa, ca, cb, cmax)
 
         return [H, C, L]
@@ -2329,9 +2327,7 @@ class divergingx_hcl(hclpalette):
 
         """
 
-        from numpy import abs, ceil, linspace, power, repeat, arange, fmax, delete
-        from numpy import asarray, ndarray, ndenumerate, concatenate, flip
-        from numpy import vstack, transpose
+        import numpy as np
         from .colorlib import HCL
 
         alpha = self._get_alpha_array(alpha, n)
@@ -2340,21 +2336,23 @@ class divergingx_hcl(hclpalette):
         # If n == 1 we do as we have 3 colors, but then only return the middle one
         tmp_n = n if n > 1 else 3
 
-        # n2 is half the number of colors, thus the number of colors on each of the two sides.
-        n2 = int(ceil(tmp_n / 2))
+        # Calculate where to evaluate the trajectories
+        # n2 is half the number of colors (n on either side of the palette)
+        n2   = int(np.ceil(tmp_n / 2))
+        rval = np.linspace(1., 0., n2) if n % 2 == 1 else np.linspace(1., 1. / (2 * n2 - 1), n2)
 
         # Calculate H/C/L coordinates for both sides (called 'a' and 'b' not to get
         # confused with the numbering of the parameters).
-        Ha, Ca, La = self._get_seqhcl(n2, ha = self.get("h1"), hb = self.get("h2"), 
-                                          ca = self.get("c1"), cb = self.get("c2"),
-                                          la = self.get("l1"), lb = self.get("l2"),
-                                          pa = self.get("p1"), pb = self.get("p2"),
-                                          cmax = self.get("cmax1"))
-        Hb, Cb, Lb = self._get_seqhcl(n2, ha = self.get("h3"), hb = self.get("h2"), 
-                                          ca = self.get("c3"), cb = self.get("c2"),
-                                          la = self.get("l3"), lb = self.get("l2"),
-                                          pa = self.get("p3"), pb = self.get("p4"),
-                                          cmax = self.get("cmax2"))
+        Ha, Ca, La = self._get_seqhcl(rval, ha = self.get("h1"), hb = self.get("h2"), 
+                                            ca = self.get("c1"), cb = self.get("c2"),
+                                            la = self.get("l1"), lb = self.get("l2"),
+                                            pa = self.get("p1"), pb = self.get("p2"),
+                                            cmax = self.get("cmax1"))
+        Hb, Cb, Lb = self._get_seqhcl(rval, ha = self.get("h3"), hb = self.get("h2"), 
+                                            ca = self.get("c3"), cb = self.get("c2"),
+                                            la = self.get("l3"), lb = self.get("l2"),
+                                            pa = self.get("p3"), pb = self.get("p4"),
+                                            cmax = self.get("cmax2"))
 
         # In case the user requested an odd number of colors we need to
         # cut away one of one of the two sides (remove it from 'b').
@@ -2364,9 +2362,9 @@ class divergingx_hcl(hclpalette):
             Lb = Lb[:-1]
 
         # Concatenate the two sides
-        H = concatenate((Ha, Hb[::-1]))
-        C = concatenate((Ca, Cb[::-1]))
-        L = concatenate((La, Lb[::-1]))
+        H = np.concatenate((Ha, Hb[::-1]))
+        C = np.concatenate((Ca, Cb[::-1]))
+        L = np.concatenate((La, Lb[::-1]))
 
         # Create new HCL color object
         HCL = HCL(H, C, L, alpha)
@@ -2597,15 +2595,13 @@ class sequential_hcl(hclpalette):
 
         """
 
-        from numpy import abs, linspace, power, asarray, ndarray, ndenumerate
-        from numpy import vstack, transpose, where
+        from numpy import linspace
         from .colorlib import HCL
 
         alpha = self._get_alpha_array(alpha, n)
         fixup = fixup if isinstance(fixup, bool) else self.settings["fixup"]
 
         # Calculate H/C/L
-        rval = linspace(1., 0., n)
         p1   = self.get("p1")
         p2   = p1 if self.get("p2") is None else self.get("p2")
         c1   = self.get("c1")
@@ -2617,7 +2613,7 @@ class sequential_hcl(hclpalette):
         h2   = h1 if self.get("h2") is None else self.get("h2")
 
         # Get colors and create new HCL color object
-        [H, C, L] = self._get_seqhcl(n, h1, h2, c1, c2, l1, l2, p1, p2, cmax)
+        [H, C, L] = self._get_seqhcl(linspace(1., 0., n), h1, h2, c1, c2, l1, l2, p1, p2, cmax)
         HCL = HCL(H, C, L, alpha)
 
         # Reversing colors
@@ -2928,13 +2924,14 @@ class diverging_hsv(hclpalette):
         rval = linspace(-self.get("s"), self.get("s"), n)
 
         # Calculate H, S, V coordinates
-        H    = repeat(self.get("h1"), n)
+        H = repeat(self.get("h1"), n)
         H[where(rval > 0)] = self.get("h2")
         S = power(abs(rval), self.get("power"))
         V = repeat(self.get("v"), n)
 
         # Generate color object
         HSV = HSV(H, S, V, alpha)
+        HSV.to("RGB") # Force to go trough RGB (not sRGB directly)
 
         # Reversing colors
         rev = self._rev
