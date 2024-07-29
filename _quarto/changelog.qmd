@@ -31,6 +31,8 @@ suggestions for improvement are very welcome via the GitHub issues
 * Fixing a bug in `diverging_hcl` and `divergingx_hcl` when only
     one color is drawn from the palette.
 * Transparency handling for all palettes added and tested.
+* Fixing a bug in `divergingx_hcl` where `cmax2` was overwritten by `cmax1` if
+    not explicitly set.
 
 
 ## Version 0.4.4 (July 18, 2024)

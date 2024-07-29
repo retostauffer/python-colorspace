@@ -16,13 +16,16 @@ _all_parameters = ["foo", "h1", "h2", "c1", "c2", "c3",
 def test_divergingx_hcl_defaults():
     expected_defaults = {"h1": 192, "h2": 77, "h3": 21,
                          "c1": 40, "c2": 35, "c3": 100,
-                         "cmax1": 20, "cmax2": 20,
+                         "cmax1": 20, "cmax2": np.nan,
                          "l1": 50, "l2": 95, "l3": 50,
                          "p1": 1.0, "p2": 1.0, "p3": 1.2, "p4": 1.0,
                          "fixup": True, "rev": False}
     pal = divergingx_hcl()
     for k,v in expected_defaults.items():
-        assert pal.get(k) == v
+        if np.isnan(v):
+            assert np.isnan(pal.get(k))
+        else:
+            assert pal.get(k) == v
 
 # ---------------------------------------------
 # Getting named palette via divergingx_hcl
@@ -66,14 +69,12 @@ def test_divergingx_hcl_wrong_usage_c():
 
 def test_divergingx_hcl_wrong_usage_cmax():
     # Testing argument 'cmax'
-    raises(ValueError, divergingx_hcl, cmax = "foo") # not numeric
-    raises(ValueError, divergingx_hcl, cmax = None) # None not allowed
-    raises(ValueError, divergingx_hcl, cmax = {1, 2}) # invalid type
+    raises(TypeError, divergingx_hcl, cmax = "foo") # invalid type
+    raises(TypeError, divergingx_hcl, cmax = {1, 2}) # invalid type
+    raises(ValueError, divergingx_hcl, cmax = []) # length < 1
     raises(ValueError, divergingx_hcl, cmax = [1, 2, 3]) # length > 2
     raises(ValueError, divergingx_hcl, cmax = np.asarray([1, 2, 3])) # length > 2
     raises(ValueError, divergingx_hcl, cmax = np.asarray([])) # length < 1
-    raises(ValueError, divergingx_hcl, cmax = np.asarray([np.nan])) # nan not allowed
-    raises(ValueError, divergingx_hcl, cmax = np.asarray([1, np.nan])) # nan not allowed
 
 def test_divergingx_hcl_wrong_usage_l():
     # Testing argument 'l'
@@ -275,21 +276,62 @@ def test_divergingx_hcl_argument_h():
 # Testing argument 'cmax'
 def test_divergingx_hcl_argument_cmax():
 
-    # Testing cmax: Single value, used for cmax1 and cmax2
-    settings = divergingx_hcl(cmax = 30).settings
-    assert np.equal(settings["cmax1"], 30)
-    assert np.equal(settings["cmax2"], 30)
+    # Default palette only has cmax1 = 20.
+    settings = divergingx_hcl().settings
+    assert np.equal(settings["cmax1"], 20.)
+    assert np.isnan(settings["cmax2"])
     del settings
-    
-    settings = divergingx_hcl(cmax = [30.5]).settings
-    assert np.equal(settings["cmax1"], 30.5)
-    assert np.equal(settings["cmax2"], 30.5)
+
+    # Single int: cmax1 = cmax, cmax2 is nan
+    settings = divergingx_hcl(cmax = 22).settings
+    assert np.equal(settings["cmax1"], 22.)
+    assert np.isnan(settings["cmax2"])
     del settings
-    
-    # Testinc cmax: Two values, one for cmax1, one for cmax2
-    settings = divergingx_hcl(cmax = [20, 30]).settings
-    assert np.equal(settings["cmax1"], 20)
-    assert np.equal(settings["cmax2"], 30)
+
+    # Single float: cmax1 = cmax, cmax2 is nan
+    settings = divergingx_hcl(cmax = 22.2).settings
+    assert np.equal(settings["cmax1"], 22.2)
+    assert np.isnan(settings["cmax2"])
+    del settings
+
+    # List of single int: cmax1 = cmax[0], cmax2 is nan
+    settings = divergingx_hcl(cmax = [33]).settings
+    assert np.equal(settings["cmax1"], 33.)
+    assert np.isnan(settings["cmax2"])
+    del settings
+
+    # List of single float: cmax1 = cmax[0], cmax2 is nan
+    settings = divergingx_hcl(cmax = [33.3]).settings
+    assert np.equal(settings["cmax1"], 33.3)
+    assert np.isnan(settings["cmax2"])
+    del settings
+
+    # If cmax = None, both are nan
+    settings = divergingx_hcl(cmax = None).settings
+    assert np.isnan(settings["cmax1"])
+    assert np.isnan(settings["cmax2"])
+    del settings
+
+    # List with mixed None and float
+    settings = divergingx_hcl(cmax = [None, 44.4]).settings
+    assert np.isnan(settings["cmax1"])
+    assert np.equal(settings["cmax2"], 44.4)
+    del settings
+
+    settings = divergingx_hcl(cmax = [55.5, None]).settings
+    assert np.equal(settings["cmax1"], 55.5)
+    assert np.isnan(settings["cmax2"])
+    del settings
+
+    # List with two values float/int
+    settings = divergingx_hcl(cmax = [66.6, 77]).settings
+    assert np.equal(settings["cmax1"], 66.6)
+    assert np.equal(settings["cmax2"], 77.0)
+    del settings
+
+    settings = divergingx_hcl(cmax = [88, 88.1]).settings
+    assert np.equal(settings["cmax1"], 88.0)
+    assert np.equal(settings["cmax2"], 88.1)
     del settings
     
 

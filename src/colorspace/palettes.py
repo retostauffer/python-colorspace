@@ -1348,11 +1348,12 @@ class hclpalette:
             p1 (float): Power parameter p1.
             c1 (float): Chroma value of the left end of the color palette.
             c2 (float): Chroma value of the right end of the color palette.
-            cmax (float or None): Max choma value.
+            cmax (float, None, np.nan): Max choma value.
 
         Returns:
             numpy array: Linear trajectory for the chroma color dimension.
         """
+        from numpy import isnan
 
         def _linear_trajectory(i, c1, c2):
             return c2 - (c2 - c1) * i
@@ -1365,7 +1366,7 @@ class hclpalette:
             #print(res)
             return res
 
-        if cmax is None:
+        if cmax is None or isnan(cmax):
             C = _linear_trajectory(i**p1, c1, c2)
         else:
             # Calculate the position of the triangle point
@@ -1396,7 +1397,7 @@ class hclpalette:
             lb (float): Luminance on end "B".
             pa (loat): Power parameter 1.
             pb (loat): Power parameter 2.
-            cmax (float, None): Max chroma.
+            cmax (float, None, np.nan): Max chroma.
 
         Return:
             list: List of `H`, `C`, and `L` coordinates.
@@ -2091,9 +2092,8 @@ class divergingx_hcl(hclpalette):
             input parameter).
         c (list): Chroma value (colorfullness), list of floats. In case two
             values are provided the firt is taken as `c1` and `c3` while the second
-            one is used for `c2` (center value). When three or more are provided
-            the first three are used for `c1`, `c2`, and `c3`. `cmax1` and `cmax2`
-            have to provided as extra arguments.
+            one is used for `c2` (center value). When three values are provided
+            they are used as `c1`, `c2`, and `c3` (see also `cmax`).
         l (list): Luminance values (lightness), list of float/int. In case two
             values are provided the firt is taken as `l1` and `l3` while the second
             one is used for `l2` (center value). When three are provided
@@ -2104,9 +2104,10 @@ class divergingx_hcl(hclpalette):
             while `power[1]` is used for `p2` and `p3` (symmetric). A list of length
             four allows to specify `p1`, `p2`, `p3`, and `p4` individually. List
             of length three acts like a list of length two, the last element is ignored.
-        cmax (float, int, list): Maximum chroma. If one value is provided this
-            will be used for both, `cmax1` and `cmax2`. Else the two numerics in the
-            list are used for `cmax1` and `cmax2` respectively.
+        cmax (None, float, int, list, numpy.ndarray): Maximum chroma for
+            triangular trajectory. Unused if set `Non`. If one value is provided it
+            is used for `cmax1`, if two values are provided they are used as
+            `cmax1` and `cmax2`, respectively.
         fixup (bool): Only used when converting the HCL colors to hex.  Should RGB
             values outside the defined RGB color space be corrected?
         palette (str): Can be used to load a default diverging color palette
@@ -2178,6 +2179,15 @@ class divergingx_hcl(hclpalette):
         >>> pal4 = divergingx_hcl("PRGn")
         >>> pal4.show_settings()
 
+    Raises:
+        TypeError: If `fixup` is not bool.
+        TypeError: If `palette` is not `None` or str.
+        TypeError: If `cmax` not `Non`, float, int, list, numpy.ndarray.
+        ValueError: If `cmax` is list of length `<1` or `>2`.
+        ValueError: If `h`, `c`, `l`, `power`, `cmax` contain unexpected types or values.
+        ValueError: If `palette` is string, but palette with this name cannot be found.
+        Exception: If `h3` is not specified.
+        ValueError: If `**kwargs` are provides which are not among the allowed ones.
     """
 
     _allowed_parameters = ["h1", "h2", "h3",
@@ -2189,6 +2199,7 @@ class divergingx_hcl(hclpalette):
                  power = [1.0, 1.0, 1.2, 1.0], cmax = 20, \
                  fixup = True, palette = None, rev = False, *args, **kwargs):
 
+        import numpy as np
 
         self._set_rev(rev)
         if not isinstance(fixup, bool): raise TypeError("argument `fixup` must be bool")
@@ -2201,6 +2212,21 @@ class divergingx_hcl(hclpalette):
         if isinstance(power, int) or isinstance(power, float):
             power   = [power]
 
+        # Handling cmax
+        if not isinstance(cmax, (type(None), float, int, list, np.ndarray)):
+            raise TypeError("argument `cmax` must be None, float, int, or list")
+        elif isinstance(cmax, (list, np.ndarray)) and (len(cmax) < 1 or len(cmax) > 2):
+            raise ValueError("if `cmax` is a list or numpy.ndarray it must be of lengt 1 or 2")
+        # If cmax is a numpy array: Reduce to list
+        if isinstance(cmax, np.ndarray): cmax = list(cmax)
+
+        if isinstance(cmax, list) and len(cmax) == 1:
+            cmax = cmax + [None]
+        elif cmax is None:
+            cmax = [None, None]  # Both set to None
+        elif isinstance(cmax, (float, int)):
+            cmax = [cmax, None]  # Use 'cmax' as 'cmax1'
+
         # _checkinput_ parameters (in the correct order):
         # dtype, length = None, recycle = False, nansallowed = False, **kwargs
         try:
@@ -2208,14 +2234,13 @@ class divergingx_hcl(hclpalette):
             c     = self._checkinput_(int,   2, 3, False, False, c = c)
             l     = self._checkinput_(int,   2, 3, False, False, l = l)
             power = self._checkinput_(float, 2, 4, False, False, power = power)
-            cmax  = self._checkinput_(float, 1, 2, False, False, cmax = cmax)
+            cmax  = self._checkinput_(float, 2, 2, False, True, cmax = cmax)
         except Exception as e:
             raise ValueError(str(e))
 
-        if len(c) == 2: c = [c[0], c[1], c[0]]
-        if len(l) == 2: l = [l[0], l[1], l[0]]
+        if len(c) == 2:    c = [c[0], c[1], c[0]]
+        if len(l) == 2:    l = [l[0], l[1], l[0]]
         if len(power) < 4: power = [power[0], power[1], power[1], power[0]]
-        if len(cmax) < 2:  cmax  = [cmax[0], cmax[0]]
 
         # If user selected a named palette: load palette settings
         if isinstance(palette, str):
