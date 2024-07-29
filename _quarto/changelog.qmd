@@ -14,7 +14,7 @@ suggestions for improvement are very welcome via the GitHub issues
 (see [Community guidelines](/community.qmd)).
 
 
-## Version 0.4.5 (next release)
+## Version 0.5.0 (July 29, 2024)
 
 * Leaving beta, changing to Development Status :: 5 - Production/Stable
 * Added swatchplot support for `matplotlib.colors.ListedColormap`s
