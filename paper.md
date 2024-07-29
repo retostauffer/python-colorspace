@@ -52,8 +52,8 @@ Python packages today, including _cmcramery_ [@cmcrameri], _colormap_ [@colormap
 _colormaps_ [@colormaps], _matplotlib_ [@matplotlib], _palettable_ [@palettable],
 or _seaborn_ [@seaborn].
 
-However, in most graphics packages colors are provided as a fixed set
-(typically in rgb notation). While this makes it easy to use them in different
+However, in most graphics packages colors are provided as a fixed set.
+While this makes it easy to use them in different
 applications, it is usually not easy to modify the perceptual properties or
 to set up new palettes following the same principles. The _colorspace_ package
 addresses this by supporting color descriptions using different color spaces
