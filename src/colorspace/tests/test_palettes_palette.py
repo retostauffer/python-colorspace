@@ -254,6 +254,21 @@ def test_specplot():
 
 
 # ------------------------------------------
+# swatchplot method
+# ------------------------------------------
+@pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")
+@pytest.mark.mpl_image_compare
+def test_specplot():
+
+    pal = palette(diverging_hcl(5), "test")
+
+    # Plotting
+    fig = pal.swatchplot()
+    assert isinstance(fig, Figure)
+    plt.close()
+
+
+# ------------------------------------------
 # hclplot method
 # ------------------------------------------
 @pytest.mark.skipif(not _got_mpl, reason = "Requires matplotlib")

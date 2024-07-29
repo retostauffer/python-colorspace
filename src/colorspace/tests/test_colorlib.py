@@ -5,6 +5,7 @@ from pytest import raises
 from colorspace.colorlib import *
 from copy import deepcopy
 from colorspace import hexcols, polarLUV, diverging_hcl
+import numpy as np
 
 try:
     import matplotlib.pyplot as plt
@@ -626,6 +627,12 @@ def test_get_and_set_method():
     assert x.get("G")[0] == 0.2
     assert x.get("B")[0] == 0.2
     assert x.get("alpha")[0] == 0.2
+
+    # Assumed to fail as it cannot be converted to float
+    raises(ValueError, x.set, R = "foo")
+    # Assumed to fail as it does not match the current dimension
+    raises(ValueError, x.set, R = [0.3, 0.5])
+    raises(ValueError, x.set, R = np.asarray([0.3, 0.5]))
 
 def test_get_coords():
     cols = hexcols(["#00ff0010", "#ff0033"])
