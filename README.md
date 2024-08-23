@@ -7,6 +7,7 @@
 [![Testing](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/pytest.yml)
 [![Coverage](https://github.com/retostauffer/python-colorspace/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/retostauffer/python-colorspace/actions/workflows/coverage.yml)
 [![](https://retostauffer.github.io/python-colorspace/coverage.svg)](https://retostauffer.github.io/python-colorspace/coverage/)
+[![status](https://joss.theoj.org/papers/94041eecfa4b186c7c07252875817578/status.svg)](https://joss.theoj.org/papers/94041eecfa4b186c7c07252875817578)
 
 The package provides a Python 3 version of the
 [R colorspace](http://colorspace.R-Forge.R-project.org/) package comprising:
