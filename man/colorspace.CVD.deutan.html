@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -551,7 +551,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.1</code> and quarto <code>1.5.55</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.1</code> and quarto <code>1.5.56</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -613,7 +613,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="23627208" class="cell" data-execution_count="1">
+<div id="e7edf831" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> rainbow_hcl, deutan, palette</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> specplot, swatchplot</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Drawing 100 colors along the HCL rainbow color palette</span></span>
@@ -627,7 +627,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="b5ba2c8e" class="cell" data-execution_count="2">
+<div id="b88075a4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>specplot(deutan(cols))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -637,7 +637,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="dc4b2de2" class="cell" data-execution_count="3">
+<div id="da728dce" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>specplot(deutan(cols, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -647,12 +647,12 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="b5e447dc" class="cell" data-execution_count="4">
+<div id="bb1ed9dc" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of (hex) colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"magenta"</span>, <span class="st">"red"</span>, <span class="st">"orange"</span>, <span class="st">"#F2F204"</span>, <span class="st">"#6BF204"</span>, <span class="st">"#4DA00D"</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>deutan(cols)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="00d213f6" class="cell" data-execution_count="5">
+<div id="5eae95b7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize original and simulated color swatches</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>swatchplot([cols, deutan(cols)],</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="dv">5</span>, <span class="fl">1.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -664,7 +664,7 @@ Should the color vision deficiency transformation be applied to the linearised R
 </div>
 </div>
 </div>
-<div id="f55cb8cb" class="cell" data-execution_count="6">
+<div id="e7b41c56" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From palette object</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> palette(cols, name <span class="op">=</span> <span class="st">"custom palette"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>deutan(pal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -672,16 +672,16 @@ Should the color vision deficiency transformation be applied to the linearised R
 <pre><code>['#689BFA', '#A39000', '#D9C10E', '#FFED2F', '#E9D137', '#9B8B25']</code></pre>
 </div>
 </div>
-<div id="02e9b34a" class="cell" data-execution_count="7">
+<div id="1dceedbc" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From cmap (returns cmap)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>deutan(pal.cmap())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<div style="vertical-align: middle;"><strong>custom palette</strong> </div><div class="cmap"><img alt="custom palette colormap" title="custom palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAHXRFWHRUaXRsZQBjdXN0b20gcGFsZXR0ZSBjb2xvcm1hcNz5HJEAAAAjdEVYdERlc2NyaXB0aW9uAGN1c3RvbSBwYWxldHRlIGNvbG9ybWFw2tL5YAAAADB0RVh0QXV0aG9yAE1hdHBsb3RsaWIgdjMuOS4xLCBodHRwczovL21hdHBsb3RsaWIub3JnVHRzAAAAADJ0RVh0U29mdHdhcmUATWF0cGxvdGxpYiB2My45LjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmd60uwnAAACC0lEQVR4nO3WQXbCIABFUchqu6futPXEDhRsMRhjnf17JzkkQIhOXv34/DqXUko9f5dSSqllch2eL7vzTtvz994zzLu95/Rw3vRc0/ed3nSu4XyTfZ4/V5vfvvei1vFaJ/f3nr+2bvnvvuU9513e9D2v/w7tH9meV/p4XN8nTN5Tfz++u9/fOtl3ur4cPN94v+ydb7K+jPN2vu/2gcfON/wf/QXnP5cH4zo8uA7P47w2rpv73K27G9fNfefr6sPn/Vyz/ffW9fH298zXHft927nW9XJjbfPG8fXa5vXxbP7ang/z17bf4/nPzpvu28fD/L5+e/78+w/u+9/f73pdCgAQRwAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBfgDCpOjKW5Tm9QAAAABJRU5ErkJggg=="></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#689bfaff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #689bfaff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#9b8b25ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #9b8b25ff;"></div></div>
+<div style="vertical-align: middle;"><strong>custom palette</strong> </div><div class="cmap"><img alt="custom palette colormap" title="custom palette" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAHXRFWHRUaXRsZQBjdXN0b20gcGFsZXR0ZSBjb2xvcm1hcNz5HJEAAAAjdEVYdERlc2NyaXB0aW9uAGN1c3RvbSBwYWxldHRlIGNvbG9ybWFw2tL5YAAAADB0RVh0QXV0aG9yAE1hdHBsb3RsaWIgdjMuOS4yLCBodHRwczovL21hdHBsb3RsaWIub3JnYZnFUwAAADJ0RVh0U29mdHdhcmUATWF0cGxvdGxpYiB2My45LjIsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmdPP1p0AAACC0lEQVR4nO3WQXbCIABFUchqu6futPXEDhRsMRhjnf17JzkkQIhOXv34/DqXUko9f5dSSqllch2eL7vzTtvz994zzLu95/Rw3vRc0/ed3nSu4XyTfZ4/V5vfvvei1vFaJ/f3nr+2bvnvvuU9513e9D2v/w7tH9meV/p4XN8nTN5Tfz++u9/fOtl3ur4cPN94v+ydb7K+jPN2vu/2gcfON/wf/QXnP5cH4zo8uA7P47w2rpv73K27G9fNfefr6sPn/Vyz/ffW9fH298zXHft927nW9XJjbfPG8fXa5vXxbP7ang/z17bf4/nPzpvu28fD/L5+e/78+w/u+9/f73pdCgAQRwAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBfgDCpOjKW5Tm9QAAAABJRU5ErkJggg=="></div><div style="vertical-align: middle; max-width: 514px; display: flex; justify-content: space-between;"><div style="float: left;"><div title="#689bfaff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #689bfaff;"></div> under</div><div style="margin: 0 auto; display: inline-block;">bad <div title="#00000000" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #00000000;"></div></div><div style="float: right;">over <div title="#9b8b25ff" style="display: inline-block; width: 1em; height: 1em; margin: 0; vertical-align: middle; border: 1px solid #555; background-color: #9b8b25ff;"></div></div></div>
 </div>
 </div>
 
 
-</div></section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
