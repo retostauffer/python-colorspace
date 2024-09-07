@@ -5,6 +5,7 @@ from pytest import raises
 from colorspace import hclpalettes
 import numpy as np
 from tempfile import NamedTemporaryFile
+import os
 
 # Content used below to create custom temporary palconfig files
 good_custom_div = """
@@ -77,11 +78,14 @@ def test_hclpalettes_custom_palconfig_wrong_usage():
 # ------------------------------------------
 def test_hclpalettes_custom_palconfig_good_custom_div():
 
-    tmpfile = NamedTemporaryFile()
+    tmpfile = NamedTemporaryFile(delete=False)
     with open(tmpfile.name, "w") as fid: fid.write(good_custom_div)
 
     pals1 = hclpalettes(files = tmpfile.name)
     pals2 = hclpalettes(files = [tmpfile.name])
+
+    tmpfile.close()
+    os.unlink(tmpfile.name)
 
     # Should both return the same, testing both
     for pals in [pals1, pals2]:
@@ -114,10 +118,13 @@ def test_hclpalettes_custom_palconfig_good_custom_div():
 # ------------------------------------------
 def test_hclpalettes_custom_palconfig_good_custom_seq():
 
-    tmpfile = NamedTemporaryFile()
+    tmpfile = NamedTemporaryFile(delete=False)
     with open(tmpfile.name, "w") as fid: fid.write(good_custom_seq)
 
     pals = hclpalettes(files = tmpfile.name)
+
+    tmpfile.close()
+    os.unlink(tmpfile.name)
 
     assert len(pals.get_palettes()) == 2
     pal = pals.get_palette("Darkwarmish")
@@ -131,13 +138,19 @@ def test_hclpalettes_custom_palconfig_good_custom_seq():
 def test_hclpalettes_custom_palconfig_good_custom_seq_and_div():
 
     # Write and read both files at once
-    tmpfile_div = NamedTemporaryFile()
+    tmpfile_div = NamedTemporaryFile(delete=False)
     with open(tmpfile_div.name, "w") as fid: fid.write(good_custom_div)
-    tmpfile_seq = NamedTemporaryFile()
+    tmpfile_seq = NamedTemporaryFile(delete=False)
     with open(tmpfile_seq.name, "w") as fid: fid.write(good_custom_seq)
 
     # Reading palette config
     pals = hclpalettes(files = [tmpfile_div.name, tmpfile_seq.name])
+
+    tmpfile_div.close()
+    os.unlink(tmpfile_div.name)
+
+    tmpfile_seq.close()
+    os.unlink(tmpfile_seq.name)
 
     ptypes = pals.get_palette_types()
     assert isinstance(ptypes, list)
@@ -226,7 +239,7 @@ gui   =    0
 
 def test_hclpalettes_custom_palconfig_broken_palconfig():
 
-    tmpfile = NamedTemporaryFile()
+    tmpfile = NamedTemporaryFile(delete=False)
 
     with open(tmpfile.name, "w") as fid: fid.write(bad_custom1)
     raises(Exception, hclpalettes, tmpfile.name)
@@ -244,6 +257,8 @@ def test_hclpalettes_custom_palconfig_broken_palconfig():
     raises(ValueError, hclpalettes, tmpfile.name)
     tmpfile.close()
 
+    os.unlink(tmpfile.name)
+
 
 empty_palconf = """
 
@@ -255,9 +270,13 @@ method = diverging_hcl
 
 def test_hclpalettes_custom_palconfig_empty_palconfig():
 
-    tmpfile = NamedTemporaryFile()
+    tmpfile = NamedTemporaryFile(delete=False)
     with open(tmpfile.name, "w") as fid: fid.write(empty_palconf)
     pals = hclpalettes(tmpfile.name)
+
+    tmpfile.close()
+    os.unlink(tmpfile.name)
+
     assert isinstance(pals.get_palettes(), list)
     assert len(pals.get_palettes()) == 0
 
