@@ -602,7 +602,7 @@ Whether or not colors outside the defined rgb color space should be corrected if
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="d39eb300" class="cell" data-execution_count="1">
+<div id="f4673e84" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> hexcols</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> hexcols([<span class="st">"#4B1D91"</span>, <span class="st">"#BF219A"</span>, <span class="st">"#F27B68"</span>, <span class="st">"#E7D39A"</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -615,13 +615,13 @@ Whether or not colors outside the defined rgb color space should be corrected if
 </ul>
 </div>
 </div>
-<div id="feef4b82" class="cell" data-execution_count="2">
+<div id="40f53d29" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>colorspace.colorlib.hexcols</code></pre>
 </div>
 </div>
-<div id="e16e2819" class="cell" data-execution_count="3">
+<div id="50d7ca9b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert colors to sRGB</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -634,13 +634,13 @@ Whether or not colors outside the defined rgb color space should be corrected if
          0.91    0.83    0.60</code></pre>
 </div>
 </div>
-<div id="4b105dc6" class="cell" data-execution_count="4">
+<div id="a5d4a42c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>colorspace.colorlib.sRGB</code></pre>
 </div>
 </div>
-<div id="109fcdfc" class="cell" data-execution_count="5">
+<div id="b9b5f0e4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from sRGB to HCL</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"HCL"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -653,7 +653,7 @@ Whether or not colors outside the defined rgb color space should be corrected if
         69.59   45.16   84.95</code></pre>
 </div>
 </div>
-<div id="ffea55aa" class="cell" data-execution_count="6">
+<div id="f63552c2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert back to hex colors.</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Round-off errors due to conversion to 'hex'.</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"hex"</span>)</span>
