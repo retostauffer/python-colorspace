@@ -37,7 +37,7 @@ jobs:
       # Run pytest coverage, write output folder 'htmlcov'
       - name: Coverage
         run: |
-          python setup.py install
+          pip install .
           pytest --cov=src/colorspace --cov-report html:htmlcov
 
       # Creating coverage badge (SVG; generated 'locally')

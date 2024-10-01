@@ -39,7 +39,7 @@ Alternatively, clone the git repository and install the package from there:
 
 ```
 git clone https://github.com/retostauffer/python-colorspace.git
-cd python-colorspace && python setup.py install
+cd python-colorspace && pip install .
 ```
 
 **Using a virtual environment**
