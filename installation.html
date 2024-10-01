@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -515,7 +515,7 @@ ul.task-list li input[type="checkbox"] {
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.9</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.1</code> and quarto <code>1.5.56</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.11.10</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.1</code> and quarto <code>1.5.57</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -594,14 +594,17 @@ pytest</code></pre>
 <pre><code># Cloning current main branch
 git clone https://github.com/retostauffer/python-colorspace.git
 
-# Creates a fresh `softvenv` virtual environment and runs soft tests
+# Changing directory
+cd python-colorspace
+
+# Creating a fresh `softvenv` virtual environment and running soft tests
 make softtest
 
 # Setting up virtual environment with all dependencies for full
 # tests as well as for creating the documentation, calculating
-# coverage etc., install Python colorspace, activate venv and
-# run full tests.
-make venv &amp;&amp; make install &amp;&amp; source venv/bin/activate &amp;&amp; make test</code></pre>
+# coverage etc., activating venv, installing Python colorspace, and
+# running full tests.
+make venv &amp;&amp; source venv/bin/activate &amp;&amp; make install &amp;&amp; make test</code></pre>
 </section>
 <section id="development" class="level3">
 <h3 class="anchored" data-anchor-id="development">Development</h3>
