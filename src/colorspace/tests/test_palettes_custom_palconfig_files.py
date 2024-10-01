@@ -1,11 +1,9 @@
-# ---------------------------------------------------
-# Note: To be complient with Windows file access
-# NamedTemporaryFiles are handled as follows:
-#
-# 1. Create named temporary file with delete = False
-# 2. Write content, flush and close file connection
-# 3. At the end, delete temporary file via os.remove
-# ---------------------------------------------------
+# -------------------------------------------------------
+# Note: To be complient with Windows, NamedTemporaryFiles
+# are closed and deleted manually to avoid file permission
+# errors (delete = False; manually .close() and os.remove()
+# them when no longer needed).
+# -------------------------------------------------------
 
 import os
 import pytest
@@ -88,8 +86,6 @@ def test_hclpalettes_custom_palconfig_good_custom_div():
     tmpfile = NamedTemporaryFile(delete = False)
     with open(tmpfile.name, "w") as fid:
         fid.write(good_custom_div)
-        fid.flush()
-        fid.close()
 
     pals1 = hclpalettes(files = tmpfile.name)
     pals2 = hclpalettes(files = [tmpfile.name])
@@ -116,8 +112,9 @@ def test_hclpalettes_custom_palconfig_good_custom_div():
             assert isinstance(tmp[k], type(v))
             assert tmp[k] == v
 
-    # Delete temporary file
-    if os.path.exists(tmpfile.name): os.remove(tmpfile.name)
+    # Closing file connection and delete temporary file
+    tmpfile.close()
+    os.remove(tmpfile.name)
 
 
 # ------------------------------------------
@@ -131,8 +128,6 @@ def test_hclpalettes_custom_palconfig_good_custom_seq():
     tmpfile = NamedTemporaryFile(delete = False)
     with open(tmpfile.name, "w") as fid:
         fid.write(good_custom_seq)
-        fid.flush()
-        fid.close()
 
     pals = hclpalettes(files = tmpfile.name)
 
@@ -141,8 +136,9 @@ def test_hclpalettes_custom_palconfig_good_custom_seq():
     assert callable(pal.get_settings()["h2"])
     assert pal.get_settings()["h2"](100) == -50.
 
-    # Delete temporary file
-    if os.path.exists(tmpfile.name): os.remove(tmpfile.name)
+    # Closing file connection and delete temporary file
+    tmpfile.close()
+    os.remove(tmpfile.name)
 
 # ------------------------------------------
 # Reading both at the same time
@@ -153,14 +149,9 @@ def test_hclpalettes_custom_palconfig_good_custom_seq_and_div():
     tmpfile_div = NamedTemporaryFile(delete = False)
     with open(tmpfile_div.name, "w") as fid:
         fid.write(good_custom_div)
-        fid.flush()
-        fid.close()
-
     tmpfile_seq = NamedTemporaryFile(delete = False)
     with open(tmpfile_seq.name, "w") as fid:
         fid.write(good_custom_seq)
-        fid.flush()
-        fid.close()
 
     # Reading palette config
     pals = hclpalettes(files = [tmpfile_div.name, tmpfile_seq.name])
@@ -179,9 +170,11 @@ def test_hclpalettes_custom_palconfig_good_custom_seq_and_div():
     assert isinstance(pals.get_palettes("Custom qualitative", exact = True), list)
     assert len(pals.get_palettes("Custom qualitative", exact = True)) == 2
 
-    # Delete temporary files
-    if os.path.exists(tmpfile_div.name): os.remove(tmpfile_div.name)
-    if os.path.exists(tmpfile_seq.name): os.remove(tmpfile_seq.name)
+    # Closing file connection and delete temporary file
+    tmpfile_div.close()
+    os.remove(tmpfile_div.name)
+    tmpfile_seq.close()
+    os.remove(tmpfile_seq.name)
 
 # ------------------------------------------
 # Bad custom palconfig file: Missing [main]
@@ -258,31 +251,26 @@ def test_hclpalettes_custom_palconfig_broken_palconfig():
 
     with open(tmpfile.name, "w") as fid:
         fid.write(bad_custom1)
-        fid.flush()
-        fid.close()
     raises(Exception, hclpalettes, tmpfile.name)
-    if os.path.exists(tmpfile.name): os.remove(tmpfile.name) # Delete temporary file
+    tmpfile.close() # Closing file connection
 
     with open(tmpfile.name, "w") as fid:
         fid.write(bad_custom2)
-        fid.flush()
-        fid.close()
     raises(Exception, hclpalettes, tmpfile.name)
-    if os.path.exists(tmpfile.name): os.remove(tmpfile.name) # Delete temporary file
+    tmpfile.close() # Closing file connection
 
     with open(tmpfile.name, "w") as fid:
         fid.write(bad_custom3)
-        fid.flush()
-        fid.close()
     raises(Exception, hclpalettes, tmpfile.name)
-    if os.path.exists(tmpfile.name): os.remove(tmpfile.name) # Delete temporary file
+    tmpfile.close() # Closing file connection
 
     with open(tmpfile.name, "w") as fid:
         fid.write(bad_custom4)
-        fid.flush()
-        fid.close()
     raises(ValueError, hclpalettes, tmpfile.name)
-    if os.path.exists(tmpfile.name): os.remove(tmpfile.name) # Delete temporary file
+    tmpfile.close() # Closing file connection
+
+    # Removing temporary file
+    os.remove(tmpfile.name)
 
 
 empty_palconf = """
@@ -298,10 +286,12 @@ def test_hclpalettes_custom_palconfig_empty_palconfig():
     tmpfile = NamedTemporaryFile(delete = False)
     with open(tmpfile.name, "w") as fid:
         fid.write(empty_palconf)
-        fid.flush()
-        fid.close()
+
     pals = hclpalettes(tmpfile.name)
     assert isinstance(pals.get_palettes(), list)
     assert len(pals.get_palettes()) == 0
-    if os.path.exists(tmpfile.name): os.remove(tmpfile.name) # Delete temporary file
+
+    # Closing file connection and delete temporary file
+    tmpfile.close()
+    os.remove(tmpfile.name)
 
