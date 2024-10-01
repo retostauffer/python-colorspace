@@ -16,7 +16,7 @@ def nprange(x):
     import numpy as np
     if not isinstance(x, np.ndarray):
         raise TypeError("argument `x` must be a numpy.array")
-    elif not np.issubdtype(x.dtype, np.float64) and not np.issubdtype(x.dtype, np.int64):
+    elif not np.issubdtype(x.dtype, np.floating) and not np.issubdtype(x.dtype, np.integer):
         raise TypeError("argument `x` must be float or int")
     elif not len(x) > 0 or len(x.shape) != 1:
         raise ValueError("argument `x` must be of length > 0 and 1D")
@@ -86,7 +86,7 @@ def natural_cubic_spline(x, y, xout):
         raise ValueError("length of `x` and `y` must be identical")
 
     def check(x):
-        return np.issubdtype(x.dtype, np.float64) or np.issubdtype(x.dtype, np.integer)
+        return np.issubdtype(x.dtype, np.floating) or np.issubdtype(x.dtype, np.integer)
     if not check(x):
         raise TypeError("argument `x` must be np.float or np.integer")
     if not check(y):
