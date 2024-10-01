@@ -1,14 +1,29 @@
 # -------------------------------------------------------------------
 # - NAME:        setup.py
 # - AUTHORS:     Reto Stauffer, Achim Zeileis
-# - LICENSE:     GPL-2 | GPL-3, Reto Stauffer, copyright 2022-2024
+# - LICENSE:     GPL-2 | GPL-3, Reto Stauffer and Achim Zeileis,
+#                copyright 2022-2024
 # -------------------------------------------------------------------
 # - DESCRIPTION: The python-colorpsace package.
 # -------------------------------------------------------------------
 
 
 import os
-from setuptools import setup, find_packages
+
+# Ensure setuptools is installed
+try:
+    from setuptools import setup, find_packages
+except ImportError as e:
+    raise ImportError(""""
+
+    ---------------------------------------------------------------
+    Installation from source requires `setuptools` to be installed.
+
+    To install `setuptools` call:
+    > pip install setuptools
+    ---------------------------------------------------------------
+    """)
+    
 
 ISRELEASED    = False
 VERSION       = "0.5.1"

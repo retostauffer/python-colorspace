@@ -3,32 +3,46 @@
 # Install and test the package
 # -------------------------------------------------------------------
 
-# Setting up a fresh virtualenv for running 'soft tests'.
-# Only installs colorspace and the mandatory dependencies
-# defined in setup.py (only `numpy`) plus `pytest` to run
-# the tests.
-.PHONY: softvenv
-softvenv:
-	-rm -rf softvenv
-	virtualenv -p 3 softvenv
-	softvenv/bin/pip install pytest
-	softvenv/bin/pip install setuptools
-	softvenv/bin/pip install -e .
+# Setting up a fresh virtualenv for running 'hard tests'. Only installs
+# colorspace and the mandatory dependencies (hard dependencies) defined in
+# setup.py (only `numpy`) plus `pytest` to run the tests.
+.PHONY: hardenv
+hardvenv:
+	-rm -rf hardvenv
+	virtualenv -p 3 hardvenv
+	hardvenv/bin/pip install pytest
+	hardvenv/bin/pip install setuptools
+	hardvenv/bin/pip install -e .
 
-# Running soft tests with minimal requirements.
-.PHONY: softtest
-softtest:
-	@echo "------ RUNNING TESTS WITH SOFT DEPENDENCIES -----"
-	make softvenv
-	softvenv/bin/pytest -s -m "not matplotlib and not pandas"
+# Running hard dependency tests with minimal requirements.
+.PHONY: hardtest
+hardtest: hardenv
+	@echo "------ RUNNING TESTS WITH HARD DEPENDENCIES -----"
+	hardvenv/bin/pytest -s -m "not matplotlib and not pandas"
 
 # Setting up virtual environment with all packages required
 # for development and rendering the documentation. This is
 # intended for developers only, not for 'users'.
-venv: requirements_devel.txt
+venv:
 	-rm -rf venv
 	virtualenv -p 3 venv
 	venv/bin/pip install -r requirements_devel.txt
+	venv/bin/pip install -e .
+
+# Running all tests (including soft dependencies; non-mandatory
+# packages/tests for full functionality).
+softtest: venv
+	@echo "------ RUNNING TESTS WITH SOFT DEPENDENCIES -----"
+	venv/bin/pytest -s
+
+
+# Running all tests. This rule first runs the 'hard tests'
+# (running tests with only required packages/dependencies)
+# followed by running the same tests with all suggested
+# packages/dependencies.
+test:
+	make hardtest
+	make softtest
 	
 # Install Python colorspace.
 install: setup.py
@@ -87,14 +101,6 @@ pypirelease:
 .PHONY: baseline
 baseline:
 	pytest --mpl-generate-path=baseline
-
-# Running tests. Will first run soft tests and then
-# the full tests with additional dependencies (matplotlib,
-# pandas).
-test:
-	make softtest
-	pip install -e .
-	pytest -s
 
 # Running pytest coverage analysis, creates coverage report
 # in `htmlcov`. Also used by GitHub Action.
