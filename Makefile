@@ -11,7 +11,7 @@ hardvenv:
 	-rm -rf hardvenv
 	virtualenv -p 3 hardvenv
 	hardvenv/bin/pip install pytest
-	hardvenv/bin/pip install setuptools
+	hardvenv/bin/pip install setuptools # Ensure setuptools is installed
 	hardvenv/bin/pip install -e .
 
 # Running hard dependency tests with minimal requirements.
