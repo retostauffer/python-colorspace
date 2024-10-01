@@ -1,3 +1,4 @@
+setuptools
 pytest
 pytest-mpl
 pytest-cov

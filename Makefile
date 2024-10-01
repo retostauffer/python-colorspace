@@ -12,6 +12,7 @@ softvenv:
 	-rm -rf softvenv
 	virtualenv -p 3 softvenv
 	softvenv/bin/pip install pytest
+	softvenv/bin/pip install setuptools
 	softvenv/bin/pip install -e .
 
 # Running soft tests with minimal requirements.
