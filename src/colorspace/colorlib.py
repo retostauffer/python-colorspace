@@ -233,6 +233,8 @@ class colorlib:
 
         __fname__ = inspect.stack()[0][3] # Name of this method
 
+        fmax = sys.float_info.max
+
         # Input check
         if isinstance(gamma, float): gamma = np.asarray([gamma])
         if len(gamma) == 1 and not len(gamma) == len(u):
@@ -243,8 +245,11 @@ class colorlib:
 
         # Transform
         for i,val in np.ndenumerate(u):
-            if val > 0.00304: u[i] = 1.055 * np.power(val, (1. / gamma[i])) - 0.055
-            else:             u[i] = 12.92 * val
+            # np.fmax to avoid overflow
+            if val > 0.00304:
+                u[i] = np.fmin(fmax, 1.055 * np.power(val, (1. / gamma[i])) - 0.055)
+            else:
+                u[i] = 12.92 * val
 
         return u
 
