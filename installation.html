@@ -582,8 +582,9 @@ git clone https://github.com/retostauffer/python-colorspace.git
 virtualenv my_venv
 source my_venv/bin/activate
 
-# Installing pytest and additional packages + pytest
-pip install -r requirements.txt pytest
+# Installing pytest and additional packages as well
+# as pytest and setuptools (to ensure it is installed)
+pip install -r requirements.txt pytest setuptools
 
 # Installing Python colorspace (from current main branch)
 pip install -e .
