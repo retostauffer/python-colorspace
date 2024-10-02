@@ -114,6 +114,8 @@ cov:
 .PHONY: clean
 clean:
 	-rm -rf src/colorspace.egg-info
+	-rm -rf hardvenv
+	-rm -rf venv
 	-find . -type d -name "__pycache__" -exec rm -rf {} \;
 
 .PHONY: joss
