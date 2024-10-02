@@ -6,7 +6,7 @@
 # Setting up a fresh virtualenv for running 'hard tests'. Only installs
 # colorspace and the mandatory dependencies (hard dependencies) defined in
 # setup.py (only `numpy`) plus `pytest` to run the tests.
-.PHONY: hardenv
+.PHONY: hardvenv
 hardvenv:
 	-rm -rf hardvenv
 	virtualenv -p 3 hardvenv
