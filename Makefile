@@ -16,7 +16,7 @@ hardvenv:
 
 # Running hard dependency tests with minimal requirements.
 .PHONY: hardtest
-hardtest: hardenv
+hardtest: hardvenv
 	@echo "------ RUNNING TESTS WITH HARD DEPENDENCIES -----"
 	hardvenv/bin/pytest -s -m "not matplotlib and not pandas"
 
