@@ -96,7 +96,7 @@ pytest
 ```
 
 For those using the GNU make utility, the package comes with
-a `Makefile` which includes rules for running soft (minimal dependencies)
+a `Makefile` which includes rules for running hard (minimal dependencies)
 and extended (additional dependencies) tests. 
 
 ```
@@ -106,13 +106,13 @@ git clone https://github.com/retostauffer/python-colorspace.git
 # Changing directory
 cd python-colorspace
 
-# Creating a fresh `softvenv` virtual environment and running soft tests
-make softtest
+# Creating a fresh `hardvenv` virtual environment and running hard tests only
+make hardtest
 
 # Setting up virtual environment with all dependencies for full
 # tests as well as for creating the documentation, calculating
 # coverage etc., activating venv, installing Python colorspace, and
-# running full tests.
+# running full tests (hard and extended tests)
 make venv && source venv/bin/activate && make install && make test
 ```
 
@@ -133,7 +133,8 @@ make venv && make install
 # Activate venv
 source venv/bin/activate
 
-# Running tests (runs 'soft tests' first)
+# Running tests: Runs 'hard tests' (minimal requirements) first followed
+# by extended tests (with additional requirements)
 make test
 
 # Create coverage report; tries to open report in firefox
