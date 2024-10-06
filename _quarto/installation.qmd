@@ -59,18 +59,24 @@ pip install colorspace
 pip install imageio matplotlib pandas
 ```
 
-[**Tcl/Tk support**]{#tkinter-support}
+## Tcl/Tk support {#tkinter-support}
 
-_colorspace_ provides an [App for Choosing Colors and Palettes Interactively](articles/choose_palette.qmd) leveraging the [`tkinter`](https://docs.python.org/3/library/tkinter.html)
-interface to the Tcl/Tk GUI toolkit. Although part of the standard library, it is
-not installed by default on all systems, particularely in certain Linux distributions.
+_colorspace_ provides an [interactive app](articles/choose_palette.qmd) for
+selecting colors and palettes, leveraging the
+[`tkinter`](https://docs.python.org/3/library/tkinter.html) interface which is
+part of Python's standard library. However, it is not installed by
+default on all systems, particularly on certain Linux distributions.
 
-If `tkinter` is missing, _colorspace_ will throw a `RuntimeError` where the
-package is required (when calling
-[`choose_palette`](man/colorspace.choose_palette.choose_palette.qmd)). Please
-read [Installing Tk](https://tkdocs.com/tutorial/install.html) on how to
-install `tkinter` on your system. Note that virtual environments may need to be
-re-created after installing `tkinter`.
+If [`tkinter`](https://docs.python.org/3/library/tkinter.html) is missing,
+_colorspace_ will raise a `RuntimeError` when the feature requiring it
+([`choose_palette`](man/colorspace.choose_palette.choose_palette.qmd)) is
+invoked. To resolve this, please follow the instructions on [Installing
+Tk](https://tkdocs.com/tutorial/install.html) to install
+[`tkinter`](https://docs.python.org/3/library/tkinter.html) on your system.
+
+_Note:_ If you're using a virtual environment, you may need to recreate it after
+installing [`tkinter`](https://docs.python.org/3/library/tkinter.html) to
+ensure the library is available.
 
 
 ## Test and development
@@ -94,12 +100,15 @@ required packages, and then run the test using `pytest`.
 # Cloning current main branch
 git clone https://github.com/retostauffer/python-colorspace.git
 
+# Changing directory
+cd python-colorspace
+
 # Setting up and activating virtual environment
 virtualenv my_venv
 source my_venv/bin/activate
 
 # Installing pytest and additional packages as well
-# as pytest and setuptools (to ensure it is installed)
+# as pytest and setuptools (to ensure both are installed)
 pip install -r requirements.txt pytest setuptools
 
 # Installing Python colorspace (from current main branch)
@@ -140,6 +149,9 @@ that the latter two require [`quarto`](https://quarto.org) to be installed.
 ```
 # Cloning current main branch
 git clone https://github.com/retostauffer/python-colorspace.git
+
+# Changing directory
+cd python-colorspace
 
 # Setting up virtualenv, installing colorspace (main)
 make venv && make install
