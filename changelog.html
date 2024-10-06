@@ -507,6 +507,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#availability" id="toc-availability" class="nav-link active" data-scroll-target="#availability">Availability</a></li>
+  <li><a href="#version-0.5.1-october-6-2024" id="toc-version-0.5.1-october-6-2024" class="nav-link" data-scroll-target="#version-0.5.1-october-6-2024">Version 0.5.1 (October 6, 2024)</a></li>
   <li><a href="#version-0.5.0-july-29-2024" id="toc-version-0.5.0-july-29-2024" class="nav-link" data-scroll-target="#version-0.5.0-july-29-2024">Version 0.5.0 (July 29, 2024)</a></li>
   <li><a href="#version-0.4.4-july-18-2024" id="toc-version-0.4.4-july-18-2024" class="nav-link" data-scroll-target="#version-0.4.4-july-18-2024">Version 0.4.4 (July 18, 2024)</a></li>
   <li><a href="#version-0.4.3-may-2024" id="toc-version-0.4.3-may-2024" class="nav-link" data-scroll-target="#version-0.4.3-may-2024">Version 0.4.3 (May 2024)</a></li>
@@ -544,6 +545,20 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="availability">Availability</h2>
 <p>The software is developed under the GNU Public License (GPL-2 or GPL-3) on GitHub at <a href="https://github.com/retostauffer/python-colorspace" class="uri">https://github.com/retostauffer/python-colorspace</a> and published on PyPI at <a href="https://pypi.org/project/colorspace/" class="uri">https://pypi.org/project/colorspace/</a>.</p>
 <p>Please feel free to use, share, improve, and redistribute the software under the terms of the GPL. Moreover, bug reports and suggestions for improvement are very welcome via the GitHub issues (see <a href="./community.html">Community guidelines</a>).</p>
+</section>
+<section id="version-0.5.1-october-6-2024" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.5.1-october-6-2024">Version 0.5.1 (October 6, 2024)</h2>
+<ul>
+<li>Fixed a few bugs causing issues on 32-bit systems (<code>statshelper.py</code>, <code>colorlib.py</code>).</li>
+<li>Adjusted <em>colorspace</em> to properly work even if the standard library <code>tkinter</code> is missing. Where required (<code>choose_palette</code>) an error with additional information is thrown. See also ‘Tcl/Tk support’ on the ‘Installation’ page (documentation).</li>
+<li>Fixed small visualization issue in <code>demos.Spectrum</code>.</li>
+</ul>
+<p><strong>For developers</strong></p>
+<ul>
+<li>Updated installation guide (documentation), Makefile, and <code>setup.py</code> to ensure <code>setuptools</code> is available when installing package from source.</li>
+<li>Fixed handling of temporary files in <code>test_palettes_custom_palconfig_files.py</code>, now properly working on Windows systems.</li>
+<li>Suppressing warnings about Markup syntax in docstrings and warnings when tests are run with matplotlib using the agg backend.</li>
+</ul>
 </section>
 <section id="version-0.5.0-july-29-2024" class="level2">
 <h2 class="anchored" data-anchor-id="version-0.5.0-july-29-2024">Version 0.5.0 (July 29, 2024)</h2>

@@ -507,6 +507,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#tkinter-support" id="toc-tkinter-support" class="nav-link" data-scroll-target="#tkinter-support">Tcl/Tk support</a></li>
   <li><a href="#test-and-development" id="toc-test-and-development" class="nav-link" data-scroll-target="#test-and-development">Test and development</a>
   <ul class="collapse">
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
@@ -568,6 +569,12 @@ pip install colorspace
 # Installing additional (optional) packages
 pip install imageio matplotlib pandas</code></pre>
 </section>
+<section id="tkinter-support" class="level2">
+<h2 class="anchored" data-anchor-id="tkinter-support">Tcl/Tk support</h2>
+<p><em>colorspace</em> provides an <a href="./articles/choose_palette.html">interactive app</a> for selecting colors and palettes, leveraging the <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> interface which is part of Python’s standard library. However, it is not installed by default on all systems, particularly on certain Linux distributions.</p>
+<p>If <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> is missing, <em>colorspace</em> will raise a <code>RuntimeError</code> when the feature requiring it (<a href="./man/colorspace.choose_palette.choose_palette.html"><code>choose_palette</code></a>) is invoked. To resolve this, please follow the instructions on <a href="https://tkdocs.com/tutorial/install.html">Installing Tk</a> to install <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> on your system.</p>
+<p><em>Note:</em> If you’re using a virtual environment, you may need to recreate it after installing <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> to ensure the library is available.</p>
+</section>
 <section id="test-and-development" class="level2">
 <h2 class="anchored" data-anchor-id="test-and-development">Test and development</h2>
 <p>The following sections are intended for developers, not for users, and gives some insights on how to run automated tests, create coverage reports, test examples, and render the documentation.</p>
@@ -578,12 +585,15 @@ pip install imageio matplotlib pandas</code></pre>
 <pre><code># Cloning current main branch
 git clone https://github.com/retostauffer/python-colorspace.git
 
+# Changing directory
+cd python-colorspace
+
 # Setting up and activating virtual environment
 virtualenv my_venv
 source my_venv/bin/activate
 
 # Installing pytest and additional packages as well
-# as pytest and setuptools (to ensure it is installed)
+# as pytest and setuptools (to ensure both are installed)
 pip install -r requirements.txt pytest setuptools
 
 # Installing Python colorspace (from current main branch)
@@ -591,20 +601,20 @@ pip install -e .
 
 # Run tests
 pytest</code></pre>
-<p>For those using the GNU make utility, the package comes with a <code>Makefile</code> which includes rules for running soft (minimal dependencies) and extended (additional dependencies) tests.</p>
+<p>For those using the GNU make utility, the package comes with a <code>Makefile</code> which includes rules for running hard (minimal dependencies) and extended (additional dependencies) tests.</p>
 <pre><code># Cloning current main branch
 git clone https://github.com/retostauffer/python-colorspace.git
 
 # Changing directory
 cd python-colorspace
 
-# Creating a fresh `softvenv` virtual environment and running soft tests
-make softtest
+# Creating a fresh `hardvenv` virtual environment and running hard tests only
+make hardtest
 
 # Setting up virtual environment with all dependencies for full
 # tests as well as for creating the documentation, calculating
 # coverage etc., activating venv, installing Python colorspace, and
-# running full tests.
+# running full tests (hard and extended tests)
 make venv &amp;&amp; source venv/bin/activate &amp;&amp; make install &amp;&amp; make test</code></pre>
 </section>
 <section id="development" class="level3">
@@ -613,13 +623,17 @@ make venv &amp;&amp; source venv/bin/activate &amp;&amp; make install &amp;&amp;
 <pre><code># Cloning current main branch
 git clone https://github.com/retostauffer/python-colorspace.git
 
+# Changing directory
+cd python-colorspace
+
 # Setting up virtualenv, installing colorspace (main)
 make venv &amp;&amp; make install
 
 # Activate venv
 source venv/bin/activate
 
-# Running tests (runs 'soft tests' first)
+# Running tests: Runs 'hard tests' (minimal requirements) first,
+# followed by extended tests (with additional requirements)
 make test
 
 # Create coverage report; tries to open report in firefox
