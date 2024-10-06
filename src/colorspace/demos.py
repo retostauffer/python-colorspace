@@ -685,7 +685,9 @@ def Spectrum(*args, **kwargs):
     Plotting example. Simply interfaces the specplot function.
 
     Args:
-        colors (list of str): List of hex colors.
+        *args (list of str): List of hex colors.
+        **kwargs: Additional arguments forwarded to `specplot()`,
+            typically `fig` (matplotlib Figure).
     """
 
     from colorspace import specplot

@@ -208,6 +208,7 @@ def specplot(x, y = None, hcl = True, palette = True, fix = True, rgb = False, \
         hfig = plt.figure(**figargs)
     else:
         hfig = fig
+        hfig.clf() # Clear existing axis
 
     # All three
     if rgb and hcl and palette:
