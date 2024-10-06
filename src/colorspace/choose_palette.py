@@ -26,10 +26,32 @@ if tkinter_available:
 else:
     class TkBaseclass:
         def __init__(self, *args, **kwargs):
-            raise RuntimeError("tkinter missing")
+            raise RuntimeError(
+                "tkinter is not available on this system.\n\n"
+                "Please ensure that tkinter is installed. "
+                "On most systems, you can install it using:\n"
+                "  - For Windows and macOS: tkinter comes pre-installed with Python.\n"
+                "  - For Linux: Install it using your package manager, e.g.,\n"
+                "    sudo apt-get install python3-tk (for Debian/Ubuntu)\n"
+                "    or\n"
+                "    sudo dnf install python3-tkinter (for Fedora).\n\n"
+                "For more details see \"Installing Tk\" (TkDocs):\n"
+                "  - https://tkdocs.com/tutorial/install.html\n"
+                )
     class FrameBaseclass:
         def __init__(self, *args, **kwargs):
-            raise RuntimeError("tkinter missing")
+            raise RuntimeError(
+                "tkinter is not available on this system.\n\n"
+                "Please ensure that tkinter is installed. "
+                "On most systems, you can install it using:\n"
+                "  - For Windows and macOS: tkinter comes pre-installed with Python.\n"
+                "  - For Linux: Install it using your package manager, e.g.,\n"
+                "    sudo apt-get install python3-tk (for Debian/Ubuntu)\n"
+                "    or\n"
+                "    sudo dnf install python3-tkinter (for Fedora).\n\n"
+                "For more details see \"Installing Tk\" (TkDocs):\n"
+                "  - https://tkdocs.com/tutorial/install.html\n"
+                )
 
 
 # -------------------------------------------------------------------
