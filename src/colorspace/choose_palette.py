@@ -1,6 +1,36 @@
 
 import sys
-from tkinter import *
+import warnings
+
+try:
+    from tkinter import Tk, Frame
+    tkinter_available = True
+except ImportError:
+    warnings.warn("tkinter is not available on this system. Functionality dependent on tkinter will not work.", ImportWarning)
+    tkinter_available = False
+
+
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# In case tkinter is installed on the system make a copy of tkinter.Tk and
+# tkinter.Frame onto TkBaseclass and FrameBaseclass; will be extended by `gui`
+# and `DemoApp`.
+if tkinter_available:
+    TkBaseclass = Tk
+    FrameBaseclass = Frame
+# If tkinter is not available on the users system initialize TkBaseclass
+# and FrameBaseclass as placeholder classes which, on initialization,
+# will throw a RuntimeError with some hints for the users what causes
+# the error and how to resolve (install tkinter).
+else:
+    class TkBaseclass:
+        def __init__(self, *args, **kwargs):
+            raise RuntimeError("tkinter missing")
+    class FrameBaseclass:
+        def __init__(self, *args, **kwargs):
+            raise RuntimeError("tkinter missing")
+
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
@@ -47,6 +77,10 @@ class Slider(object):
 
     def __init__(self, master, name, x, y, width, height, active,
                  type_, from_, to, resolution, **kwargs):
+
+        # Importing tkinter classes
+        from tkinter import IntVar, DoubleVar, Frame, Scale, Label, Entry
+        from tkinter import HORIZONTAL, CENTER, LEFT, RIGHT, INSERT
 
         if type_ == "int":
             self._Value = IntVar(master)
@@ -189,6 +223,8 @@ class Slider(object):
         return self._name
 
     def set(self, val):
+        from tkinter import IntVar, END
+
         # Ensure it is integer if slider only accepts integer
         if isinstance(self._Value, IntVar): val = int(val)
         # Setting slider
@@ -227,6 +263,7 @@ class Slider(object):
 
         Disables the current slider (the object).
         """
+        from tkinter import FLAT, END
 
         self._Scale.configure(state = "disabled",
                 relief = FLAT,
@@ -247,6 +284,7 @@ class Slider(object):
 
         Enables the current slider (the object).
         """
+        from tkinter import FLAT
 
         self._Scale.configure(state = "active",
                 bg = self.FGACTIVE,
@@ -303,6 +341,7 @@ class defaultpalettecanvas(object):
         self._draw_canvas(colors, xpos, figwidth, figheight)
 
     def _draw_canvas(self, colors, xpos, figwidth, figheight):
+        from tkinter import Canvas
 
         # Compute width and height of the color map
         offset = 0 # White frame around the palettes
@@ -366,6 +405,7 @@ class currentpalettecanvas:
     """
 
     def __init__(self, parent, x, y, width, height):
+        from tkinter import Canvas
 
         self.parent = parent
         self.x      = x
@@ -480,7 +520,7 @@ def choose_palette(**kwargs):
 # This is the GUI itself (called by choose_palette which is handling
 # the return).
 # -------------------------------------------------------------------
-class gui(Tk):
+class gui(TkBaseclass):
     """Graphical user interface to choose custom HCL-based color palettes
 
     Args:
@@ -598,6 +638,7 @@ class gui(Tk):
         Args:
             type_ (str): The default selected palette type on GUI initialization.
         """
+        from tkinter import StringVar, OptionMenu
 
         # Removing DivergingX class of HCL palettes; not included in choose_palette
         from re import match
@@ -675,6 +716,8 @@ class gui(Tk):
         (`Tk.Radiobutton`) elements. Color fixup, revert colors,
         and CVD options.
         """
+        from tkinter import Frame, StringVar, BooleanVar
+        from tkinter import Checkbutton, Radiobutton
         control = {}
 
         frame = Frame(self, height = 30, width = self.WIDTH - 20)
@@ -1055,6 +1098,8 @@ class gui(Tk):
 
         Adds a `Tk.Button` to open the demo plot window.
         """
+        from tkinter import Button, StringVar, OptionMenu
+
         but = Button(self, text = "Demo",
                 command = self._show_demo,
                 pady = 5, padx = 5)
@@ -1080,6 +1125,7 @@ class gui(Tk):
         When clicked :py:func:`_return_to_python` is triggered (callback
         function for this button).
         """
+        from tkinter import Button
 
         but = Button(self, text = "Return to Python",
                 command = self._return_to_python, pady = 5, padx = 5)
@@ -1174,7 +1220,7 @@ class gui(Tk):
 
 
 # Tcl/Tk helper class for demo plots
-class DemoApp(Frame):
+class DemoApp(FrameBaseclass):
     def __init__(self, master, fun, colors):
         from tkinter import Frame
         from matplotlib import pyplot as plt
