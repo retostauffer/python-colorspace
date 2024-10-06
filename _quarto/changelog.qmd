@@ -14,6 +14,26 @@ suggestions for improvement are very welcome via the GitHub issues
 (see [Community guidelines](/community.qmd)).
 
 
+## Version 0.5.1 (October 6, 2024)
+
+* Fixed a few bugs causing issues on 32-bit systems (`statshelper.py`,
+  `colorlib.py`).
+* Adjusted _colorspace_ to properly work even if the standard library `tkinter`
+  is missing. Where required (`choose_palette`) an error with additional
+  information is thrown. See also 'Tcl/Tk support' on the 'Installation' page
+  (documentation).
+* Fixed small visualization issue in `demos.Spectrum`.
+  
+**For developers**
+
+* Updated installation guide (documentation), Makefile, and `setup.py`
+  to ensure `setuptools` is available when installing package from source.
+* Fixed handling of temporary files in `test_palettes_custom_palconfig_files.py`,
+  now properly working on Windows systems.
+* Suppressing warnings about Markup syntax in docstrings and warnings
+  when tests are run with matplotlib using the agg backend.
+
+
 ## Version 0.5.0 (July 29, 2024)
 
 * Leaving beta, changing to Development Status :: 5 - Production/Stable
