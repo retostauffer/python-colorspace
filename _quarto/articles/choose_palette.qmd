@@ -15,6 +15,10 @@ choose_palette()
 
 ![](/images/img_gui.jpeg){fig-align="center" .img-padding-tb}
 
+If `tkinter` is missing, a `RuntimeError` will be thrown
+(see [Installation: Tcl/Tk support](../installation.qmd#tkinter-support)
+for details).
+
 
 Web App
 -------

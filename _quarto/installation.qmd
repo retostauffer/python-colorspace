@@ -59,6 +59,20 @@ pip install colorspace
 pip install imageio matplotlib pandas
 ```
 
+[**Tcl/Tk support**]{#tkinter-support}
+
+_colorspace_ provides an [App for Choosing Colors and Palettes Interactively](articles/choose_palette.qmd) leveraging the [`tkinter`](https://docs.python.org/3/library/tkinter.html)
+interface to the Tcl/Tk GUI toolkit. Although part of the standard library, it is
+not installed by default on all systems, particularely in certain Linux distributions.
+
+If `tkinter` is missing, _colorspace_ will throw a `RuntimeError` where the
+package is required (when calling
+[`choose_palette`](man/colorspace.choose_palette.choose_palette.qmd)). Please
+read [Installing Tk](https://tkdocs.com/tutorial/install.html) on how to
+install `tkinter` on your system. Note that virtual environments may need to be
+re-created after installing `tkinter`.
+
+
 ## Test and development
 
 The following sections are intended for developers, not for users,
