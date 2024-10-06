@@ -539,8 +539,9 @@ def choose_palette(**kwargs):
 
 
 # -------------------------------------------------------------------
-# This is the GUI itself (called by choose_palette which is handling
-# the return).
+# This is the GUI itself (called by choose_palette which is handling the
+# return). Will raise a RuntimeWarning (via TkBaseclass placeholder)
+# if tkinter is not available on the system.
 # -------------------------------------------------------------------
 class gui(TkBaseclass):
     """Graphical user interface to choose custom HCL-based color palettes
@@ -554,6 +555,9 @@ class gui(TkBaseclass):
     Example:
 
         >>> colorspace.choose_palette()
+
+    Raises:
+        RuntimeError: If `tkinter` is not available.
     """
 
     WIDTH = 400
@@ -1242,6 +1246,8 @@ class gui(TkBaseclass):
 
 
 # Tcl/Tk helper class for demo plots
+# Will raise a RuntimeWarning (via FrameBaseclass placeholder) if
+# tkinter is not available on the system.
 class DemoApp(FrameBaseclass):
     def __init__(self, master, fun, colors):
         from tkinter import Frame
