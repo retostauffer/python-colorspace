@@ -54,7 +54,7 @@ jobs:
     - name: Manipulate installation.qmd
       run: |
         ## Adding python versions we currently test for; .github/workflows/pytest.yml
-        PYTEST_VERSIONS=`grep -Po "(?!=(python-version:))\[.*\]" .github/workflows/pytest.yml | sed 's/\[//g' | sed 's/\]//g' | sed 's/\"/\`/g'`
+        PYTEST_VERSIONS=`grep -Po "(?!=(python-version:))\[.*\]" .github/workflows/pytest.yml | sed 's/\[//g' | sed 's/\]//g' | sed 's/\"//g'`
         sed -i "s/{{PYTEST_VERSIONS}}/${PYTEST_VERSIONS}/g" _quarto/installation.qmd
 
     - name: Render quarto documents

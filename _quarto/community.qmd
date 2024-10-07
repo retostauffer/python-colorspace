@@ -2,28 +2,50 @@
 title: "Community guidelines"
 ---
 
-## Reporting issues and bugs
+## Issues and bug reports
 
-In case you encounter issues or bugs, please report them via
+In case you encounter issues or bugs, please report them via the
 [GitHub issues](https://github.com/retostauffer/python-colorspace/issues).
-Before creating a new issue, please check for _existing issues_.
-If the problem has already be reported, you are more than welcome to
-_add a comment_ to report when/where you encountered the same problem.
+Before creating a new issue, please check whether a certain behavior of
+the package is already described in its
+[documentation](https://retostauffer.github.io/python-colorspace/)
+or whether the same problem has already been discussed in
+an existing GitHub issue.
 
-When opening (or commenting on) an issue it helps us a lot if you can
-include a minimal example to reproduce the problem (if possible) as well
-as the error thrown.
+**New issue:** To facilitate fixing a problem, a concise report
+along with a minimal reproducible example (including the error thrown)
+is most helpful.
 
-## Contribute
+**Existing issue:** Even if a problem has been reported before, it might
+be very helpful if you add a comment, especially if the details differ
+somewhat for you. If so, an additional minimal reproducible example
+is also appreciated.
 
-You are welcome to contribute to Python _colorspace_ via
-[GitHub](https://github.com/retostauffer/python-colorspace) as follows:
+
+## Feature requests
+
+Feature requests can be raised in the
+[GitHub issues](https://github.com/retostauffer/python-colorspace/issues
+as well but be aware that we aim to keep the [R version](https://colorspace.R-Forge.R-project.org/)
+and the [Python version](https://retostauffer.github.io/python-colorspace/)
+of the package in sync.
+
+
+## Pull requests
+
+You are welcome to contribute to Python _colorspace_ via pull requests on
+GitHub as follows:
 
 * **Create a fork:** Start by forking the [repository](https://github.com/retostauffer/python-colorspace).
 * **Create new branch:** Create a new branch for your feature request or bug fix.
     Please make changes against the current `main` branch.
 * **Make changes:** Make the required changes and push them to GitHub.
-* **Create pull request:** Create pull request.
+* **Test updated version:** If feasible, it is appreciated when the package's
+    [tests](installation.qmd#test-and-development) are run before proceeding
+    to the next step. The same tests are also run in a GitHub Action after the pull request.
+* **Create pull request:** Start a pull request on GitHub from your new
+    branch along with a concise description.
+
 
 Handling of pull requests:
 
@@ -33,16 +55,3 @@ Handling of pull requests:
 * **Make changes:** If changes are requested by the maintainers, please
     implement them and update your pull request accordingly.
 * **Merge:** If approved, your changes will be merged into the `main` branch.
-    Congrats and thank you for your contribution!
-
-## Support
-
-The first point of contact is our this documentation where you find a lot
-of examples on how to use the software. In case the documentation does not
-answer your question, feel free to reach out to us via
-[GitHub issues](https://github.com/retostauffer/python-colorspace/issues).
-
-
-
-
-
