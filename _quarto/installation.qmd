@@ -1,35 +1,45 @@
 ---
-title: Package Installation
+title: Installation
 ---
 
+## Availability and requirements
 
-This package is available via the
+The `colorspace` package is available via the
 [Python Package index (PyPI)](https://pypi.org/project/colorspace/) or via 
 [GitHub](https://github.com/retostauffer/python-colorspace).
-A few requirements are needed to be able to use the package and all its features.
 
-* Python, tested for versions {{PYTEST_VERSIONS}})
+It has the following requirements.
+
+* Python 3.8 or greater (GitHub Actions test for versions {{PYTEST_VERSIONS}})
 * [`numpy`](https://pypi.org/project/numpy/>)
 * [`matplotlib`](https://pypi.org/project/matplotlib/>) (optional; used for visualization)
 * [`imageio`](https://pypi.org/project/imageio/>) (optional; only used by
-    [`cvd_image()`](/man/colorspace.cvd_image.cvd_image.qmd))
-* [`pandas`](https://pandas.pydata.org/) (optional; used by [`dataset()`](/man/colorspace.datasets.dataset.qmd))
+    [`cvd_image`](/man/colorspace.cvd_image.cvd_image.qmd))
+* [`pandas`](https://pandas.pydata.org/) (optional; used by [`dataset`](/man/colorspace.datasets.dataset.qmd))
 
-Please use the [GitHub issues](https://github.com/retostauffer/python-colorspace/issues>)
-to report bugs and issues as well as feature requests. There is no
-guarantee that feature requests can be accommodated, especially as we try to
-keep both, the R and Python version of the package, around the same level.
+Additionally, Python's [`tkinter`](https://docs.python.org/3/library/tkinter.html) interface
+to Tcl/Tk is leveraged (optional, only used by the [interactive palette app](articles/choose_palette.qmd)).
+This is typically installed along with the base Python system but might not be available, e.g.,
+on certain Linux distributions. If so, a `RuntimeError` is raised when invoking the app with
+some comments for [installation](https://tkdocs.com/tutorial/install.html).
 
-## Installation
 
-The latest release can be directly installed from [PyPI](https://pypi.org/project/colorspace/)
+## Installation instructions
+
+The latest release version can be installed from [PyPI](https://pypi.org/project/colorspace/)
 using:
 
 ```
 pip install colorspace
 ```
 
-... or installing the last version (GitHub head branch) using:
+Similarly, the optional requirements (see above) can be installed using:
+
+```
+pip install imageio matplotlib pandas
+```
+
+The latest development version (GitHub head branch) can be installed using:
 
 ```
 pip install git+https://github.com/retostauffer/python-colorspace
@@ -42,53 +52,30 @@ git clone https://github.com/retostauffer/python-colorspace.git
 cd python-colorspace && pip install .
 ```
 
-**Using a virtual environment**
-
-Alternatively, a Python virtual environment can be used.
-The additional (optional) packages allow to use full _colorspace_
-functionality, but are optional and not required by most core features.
+To employ a Python virtual environment, say `my_venv`, you can
+initialize and activate it prior to the commands above using:
 
 ```
-# Initialize and activate new virtual env
 virtualenv my_venv && source my_venv/bin/activate
-
-# Installing colorspace
-pip install colorspace
-
-# Installing additional (optional) packages
-pip install imageio matplotlib pandas
 ```
 
-## Tcl/Tk support {#tkinter-support}
 
-_colorspace_ provides an [interactive app](articles/choose_palette.qmd) for
-selecting colors and palettes, leveraging the
-[`tkinter`](https://docs.python.org/3/library/tkinter.html) interface which is
-part of Python's standard library. However, it is not installed by
-default on all systems, particularly on certain Linux distributions.
+## Bug reports and feature requests
 
-If [`tkinter`](https://docs.python.org/3/library/tkinter.html) is missing,
-_colorspace_ will raise a `RuntimeError` when the feature requiring it
-([`choose_palette`](man/colorspace.choose_palette.choose_palette.qmd)) is
-invoked. To resolve this, please follow the instructions on [Installing
-Tk](https://tkdocs.com/tutorial/install.html) to install
-[`tkinter`](https://docs.python.org/3/library/tkinter.html) on your system.
+Please use the [GitHub issues](https://github.com/retostauffer/python-colorspace/issues)
+to report bugs and feature requests. See the [community guidelines](community.qmd)
+for details.
 
-_Note:_ If you're using a virtual environment, you may need to recreate it after
-installing [`tkinter`](https://docs.python.org/3/library/tkinter.html) to
-ensure the library is available.
+Pull requests or also possible in the GitHub repository. If feasible, it is
+appreciated when the package's tests (see below) are run prior to posting a
+pull request.
 
 
 ## Test and development
 
-The following sections are intended for developers, not for users,
+The following sections are intended for developers, rather than regular users,
 and gives some insights on how to run automated tests, create
 coverage reports, test examples, and render the documentation.
-
-If you encounter issues and bugs, or are interested to contribute
-to the Python _colorspace_ package, please read
-our [Community guidelines](community.qmd).
-
 
 ### Testing
 
@@ -172,14 +159,3 @@ make examples
 # Building documentation; requires pyp2qmd and quarto
 make render
 ```
-
-
-
-
-
-
-
-
-
-
-
