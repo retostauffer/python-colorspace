@@ -1198,6 +1198,8 @@ class gui(TkBaseclass):
 
                 Inspired by matplotlib source: lib/matplotlib/backends/backend_tkagg.py
                 """
+                from tkinter import FigureCanvasAgg, PhotoImage
+
                 figure_canvas_agg = FigureCanvasAgg(figure)
                 figure_canvas_agg.draw()
                 figure_x, figure_y, figure_w, figure_h = figure.bbox.bounds
@@ -1228,13 +1230,16 @@ class gui(TkBaseclass):
                 self._demoTk.plot(fun, self.get_colors())
 
         else:
+            from tkinter import Text, END
 
             info = [""]
             info.append("To be able to run the demo plots")
             info.append("the Python matplotlib package has to be")
             info.append("installed.")
             info.append("")
-            info.append("Install matplotlib and try again!")
+            info.append("Please install matplotlib and try again:")
+            info.append("")
+            info.append("> pip install matplotlib")
 
             txt = Text(self._demoTk, height=10, width=45)
             txt.pack()
