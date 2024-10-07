@@ -216,7 +216,7 @@ def test_get_volcano_data():
     x = get_volcano_data(array = True)
     assert isinstance(x, np.ndarray)
     assert x.shape == (61, 87)
-    assert x.dtype == np.int64
+    assert np.issubdtype(x.dtype, np.integer)
 
 
 

@@ -238,13 +238,19 @@ class colorlib:
         if len(gamma) == 1 and not len(gamma) == len(u):
             gamma = np.repeat(gamma, len(u))
 
+        # Convert input to float
+        u = np.asarray(u, dtype = "float")
+
         # Checking inputs
         self._check_input_arrays_(__fname__, u = u, gamma = gamma)
 
         # Transform
         for i,val in np.ndenumerate(u):
-            if val > 0.00304: u[i] = 1.055 * np.power(val, (1. / gamma[i])) - 0.055
-            else:             u[i] = 12.92 * val
+            # np.fmax to avoid overflow
+            if val > 0.00304:
+                u[i] = 1.055 * np.power(val, (1. / gamma[i])) - 0.055
+            else:
+                u[i] = 12.92 * val
 
         return u
 
@@ -277,6 +283,9 @@ class colorlib:
 
         # Checking inputs
         self._check_input_arrays_(__fname__, u = u, gamma = gamma)
+
+        # Convert input to float
+        u = np.asarray(u, dtype = "float")
 
         # Transform 
         for i,val in np.ndenumerate(u):

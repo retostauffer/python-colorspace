@@ -1,5 +1,11 @@
+# -------------------------------------------------------
+# Note: To be complient with Windows, NamedTemporaryFiles
+# are closed and deleted manually to avoid file permission
+# errors (delete = False; manually .close() and os.remove()
+# them when no longer needed).
+# -------------------------------------------------------
 
-
+import os
 import pytest
 from pytest import raises
 from colorspace import hclpalettes
@@ -78,7 +84,7 @@ def test_hclpalettes_custom_palconfig_wrong_usage():
 # ------------------------------------------
 def test_hclpalettes_custom_palconfig_good_custom_div():
 
-    tmpfile = NamedTemporaryFile(delete=False)
+    tmpfile = NamedTemporaryFile(delete = False)
     with open(tmpfile.name, "w") as fid: fid.write(good_custom_div)
 
     pals1 = hclpalettes(files = tmpfile.name)
@@ -109,6 +115,10 @@ def test_hclpalettes_custom_palconfig_good_custom_div():
             assert isinstance(tmp[k], type(v))
             assert tmp[k] == v
 
+    # Closing file connection and delete temporary file
+    tmpfile.close()
+    os.remove(tmpfile.name)
+
 
 # ------------------------------------------
 # We have tested a lot of things in custom_div, so we can
@@ -118,7 +128,7 @@ def test_hclpalettes_custom_palconfig_good_custom_div():
 # ------------------------------------------
 def test_hclpalettes_custom_palconfig_good_custom_seq():
 
-    tmpfile = NamedTemporaryFile(delete=False)
+    tmpfile = NamedTemporaryFile(delete = False)
     with open(tmpfile.name, "w") as fid: fid.write(good_custom_seq)
 
     pals = hclpalettes(files = tmpfile.name)
@@ -131,6 +141,9 @@ def test_hclpalettes_custom_palconfig_good_custom_seq():
     assert callable(pal.get_settings()["h2"])
     assert pal.get_settings()["h2"](100) == -50.
 
+    # Closing file connection and delete temporary file
+    tmpfile.close()
+    os.remove(tmpfile.name)
 
 # ------------------------------------------
 # Reading both at the same time
@@ -138,19 +151,13 @@ def test_hclpalettes_custom_palconfig_good_custom_seq():
 def test_hclpalettes_custom_palconfig_good_custom_seq_and_div():
 
     # Write and read both files at once
-    tmpfile_div = NamedTemporaryFile(delete=False)
+    tmpfile_div = NamedTemporaryFile(delete = False)
     with open(tmpfile_div.name, "w") as fid: fid.write(good_custom_div)
-    tmpfile_seq = NamedTemporaryFile(delete=False)
+    tmpfile_seq = NamedTemporaryFile(delete = False)
     with open(tmpfile_seq.name, "w") as fid: fid.write(good_custom_seq)
 
     # Reading palette config
     pals = hclpalettes(files = [tmpfile_div.name, tmpfile_seq.name])
-
-    tmpfile_div.close()
-    os.unlink(tmpfile_div.name)
-
-    tmpfile_seq.close()
-    os.unlink(tmpfile_seq.name)
 
     ptypes = pals.get_palette_types()
     assert isinstance(ptypes, list)
@@ -166,7 +173,11 @@ def test_hclpalettes_custom_palconfig_good_custom_seq_and_div():
     assert isinstance(pals.get_palettes("Custom qualitative", exact = True), list)
     assert len(pals.get_palettes("Custom qualitative", exact = True)) == 2
 
-
+    # Closing file connection and delete temporary file
+    tmpfile_div.close()
+    os.remove(tmpfile_div.name)
+    tmpfile_seq.close()
+    os.remove(tmpfile_seq.name)
 
 # ------------------------------------------
 # Bad custom palconfig file: Missing [main]
@@ -239,25 +250,29 @@ gui   =    0
 
 def test_hclpalettes_custom_palconfig_broken_palconfig():
 
-    tmpfile = NamedTemporaryFile(delete=False)
-
+    tmpfile = NamedTemporaryFile(delete = False)
     with open(tmpfile.name, "w") as fid: fid.write(bad_custom1)
-    raises(Exception, hclpalettes, tmpfile.name)
-    tmpfile.close()
 
-    with open(tmpfile.name, "w") as fid: fid.write(bad_custom2)
     raises(Exception, hclpalettes, tmpfile.name)
-    tmpfile.close()
+    tmpfile.close() # Closing file connection
 
-    with open(tmpfile.name, "w") as fid: fid.write(bad_custom3)
+    with open(tmpfile.name, "w") as fid:
+        fid.write(bad_custom2)
     raises(Exception, hclpalettes, tmpfile.name)
-    tmpfile.close()
+    tmpfile.close() # Closing file connection
 
-    with open(tmpfile.name, "w") as fid: fid.write(bad_custom4)
+    with open(tmpfile.name, "w") as fid:
+        fid.write(bad_custom3)
+    raises(Exception, hclpalettes, tmpfile.name)
+    tmpfile.close() # Closing file connection
+
+    with open(tmpfile.name, "w") as fid:
+        fid.write(bad_custom4)
     raises(ValueError, hclpalettes, tmpfile.name)
-    tmpfile.close()
 
-    os.unlink(tmpfile.name)
+    # Closing file connection and delete temporary file
+    tmpfile.close()
+    os.remove(tmpfile.name)
 
 
 empty_palconf = """
@@ -270,8 +285,9 @@ method = diverging_hcl
 
 def test_hclpalettes_custom_palconfig_empty_palconfig():
 
-    tmpfile = NamedTemporaryFile(delete=False)
+    tmpfile = NamedTemporaryFile(delete = False)
     with open(tmpfile.name, "w") as fid: fid.write(empty_palconf)
+
     pals = hclpalettes(tmpfile.name)
 
     tmpfile.close()
@@ -280,4 +296,7 @@ def test_hclpalettes_custom_palconfig_empty_palconfig():
     assert isinstance(pals.get_palettes(), list)
     assert len(pals.get_palettes()) == 0
 
+    # Closing file connection and delete temporary file
+    tmpfile.close()
+    os.remove(tmpfile.name)
 
