@@ -694,7 +694,7 @@ Palette Swatch Plot
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="eb2787bf" class="cell" data-execution_count="1">
+<div id="795f1a2d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hsv</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pal <span class="op">=</span> diverging_hsv()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pal.colors(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -711,7 +711,7 @@ Palette Swatch Plot
  '#FF0000']</code></pre>
 </div>
 </div>
-<div id="24dbb6d0" class="cell" data-execution_count="2">
+<div id="fa77f1bd" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pal.swatchplot(show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -721,7 +721,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="1486c876" class="cell" data-execution_count="3">
+<div id="54a3c699" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The standard call of the object also returns hex colors</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>diverging_hsv()(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -737,7 +737,7 @@ Palette Swatch Plot
  '#FF0000']</code></pre>
 </div>
 </div>
-<div id="f7122a37" class="cell" data-execution_count="4">
+<div id="446f5d4d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually modified palette from 'cyan' to 'orange'</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diverging_hsv(h <span class="op">=</span> [<span class="dv">180</span>, <span class="dv">30</span>]).swatchplot(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              n <span class="op">=</span> <span class="dv">7</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -756,7 +756,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="5d00e772" class="cell" data-execution_count="5">
+<div id="b4002285" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additionally, lower saturation on the two ends</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>diverging_hsv(h <span class="op">=</span> [<span class="dv">180</span>, <span class="dv">30</span>], s <span class="op">=</span> <span class="fl">0.4</span>).swatchplot(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>              n <span class="op">=</span> <span class="dv">7</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -775,7 +775,7 @@ Palette Swatch Plot
 </div>
 </div>
 </div>
-<div id="fb7b8f2f" class="cell" data-execution_count="6">
+<div id="899a8ad3" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lowering the value</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>diverging_hsv(h <span class="op">=</span> [<span class="dv">180</span>, <span class="dv">30</span>], s <span class="op">=</span> <span class="fl">0.4</span>, v <span class="op">=</span> <span class="fl">0.75</span>).swatchplot(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>              n <span class="op">=</span> <span class="dv">7</span>, show_names <span class="op">=</span> <span class="va">False</span>, figsize <span class="op">=</span> (<span class="fl">5.5</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
