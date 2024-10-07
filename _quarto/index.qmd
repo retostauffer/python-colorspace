@@ -15,7 +15,7 @@ and an interactive interface can also be found on
 [HCLwizard.org](https://hclwizard.org).
 
 The package itself can be found on
-[GitHub](https://github.com/retostauffer/python-colorspace>) and this documentation
+[GitHub](https://github.com/retostauffer/python-colorspace/) and this documentation
 is also available on [GitHub Pages](https://retostauffer.github.io/python-colorspace/).
 
 
