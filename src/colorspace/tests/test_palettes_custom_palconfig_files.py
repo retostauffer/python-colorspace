@@ -90,9 +90,6 @@ def test_hclpalettes_custom_palconfig_good_custom_div():
     pals1 = hclpalettes(files = tmpfile.name)
     pals2 = hclpalettes(files = [tmpfile.name])
 
-    tmpfile.close()
-    os.unlink(tmpfile.name)
-
     # Should both return the same, testing both
     for pals in [pals1, pals2]:
         assert isinstance(pals, hclpalettes)
@@ -132,9 +129,6 @@ def test_hclpalettes_custom_palconfig_good_custom_seq():
     with open(tmpfile.name, "w") as fid: fid.write(good_custom_seq)
 
     pals = hclpalettes(files = tmpfile.name)
-
-    tmpfile.close()
-    os.unlink(tmpfile.name)
 
     assert len(pals.get_palettes()) == 2
     pal = pals.get_palette("Darkwarmish")
@@ -289,9 +283,6 @@ def test_hclpalettes_custom_palconfig_empty_palconfig():
     with open(tmpfile.name, "w") as fid: fid.write(empty_palconf)
 
     pals = hclpalettes(tmpfile.name)
-
-    tmpfile.close()
-    os.unlink(tmpfile.name)
 
     assert isinstance(pals.get_palettes(), list)
     assert len(pals.get_palettes()) == 0
