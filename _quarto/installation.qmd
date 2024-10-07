@@ -42,6 +42,7 @@ pip install imageio matplotlib pandas
 The latest development version (GitHub head branch) can be installed using:
 
 ```
+pip install setuptools # Ensure setuptools installed
 pip install git+https://github.com/retostauffer/python-colorspace
 ```
 
@@ -49,7 +50,7 @@ Alternatively, clone the git repository and install the package from there:
 
 ```
 git clone https://github.com/retostauffer/python-colorspace.git
-cd python-colorspace && pip install .
+cd python-colorspace && pip install setuptools && pip install .
 ```
 
 To employ a Python virtual environment, say `my_venv`, you can
