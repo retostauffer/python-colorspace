@@ -41,6 +41,14 @@ The package provides a Python 3 version of the
 - [Reto Stauffer](https://retostauffer.org/) (_principal author & maintainer_), Universität Innsbruck, Austria
 - [Achim Zeileis](https://www.zeileis.org/), Universität Innsbruck, Austria
 
+We would like to thank the following individuals for their contributions to the
+review process for this software, as part of the submission to
+[The Journal of Open Source Software](https://joss.theoj.org/) (JOSS):
+[Julia Romanowska @jromanowska, Editor](https://github.com/jromanowska),
+[Daniel S. Katz @danielskatz, Editor](https://github.com/danielskatz),
+[Andrew Ting @hollowscene, Reviewer](https://github.com/hollowscene), and
+[David Reagan @dmreagan, Reviewer](https://github.com/dmreagan).
+
 Furthermore, the Python package implements the functionality from the R package
 that is co-written with
 [Ross Ihaka](https://www.stat.auckland.ac.nz/~ihaka/),
