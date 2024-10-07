@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Package Installation – colorspace</title>
+<title>Installation – colorspace</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -180,7 +180,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Package Installation</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Installation</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -506,8 +506,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#tkinter-support" id="toc-tkinter-support" class="nav-link" data-scroll-target="#tkinter-support">Tcl/Tk support</a></li>
+  <li><a href="#availability-and-requirements" id="toc-availability-and-requirements" class="nav-link active" data-scroll-target="#availability-and-requirements">Availability and requirements</a></li>
+  <li><a href="#installation-instructions" id="toc-installation-instructions" class="nav-link" data-scroll-target="#installation-instructions">Installation instructions</a></li>
+  <li><a href="#bug-reports-and-feature-requests" id="toc-bug-reports-and-feature-requests" class="nav-link" data-scroll-target="#bug-reports-and-feature-requests">Bug reports and feature requests</a></li>
   <li><a href="#test-and-development" id="toc-test-and-development" class="nav-link" data-scroll-target="#test-and-development">Test and development</a>
   <ul class="collapse">
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
@@ -523,7 +524,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Package Installation</h1>
+<h1 class="title">Installation</h1>
 </div>
 
 
@@ -540,45 +541,42 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This package is available via the <a href="https://pypi.org/project/colorspace/">Python Package index (PyPI)</a> or via <a href="https://github.com/retostauffer/python-colorspace">GitHub</a>. A few requirements are needed to be able to use the package and all its features.</p>
+<section id="availability-and-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="availability-and-requirements">Availability and requirements</h2>
+<p>The <code>colorspace</code> package is available via the <a href="https://pypi.org/project/colorspace/">Python Package index (PyPI)</a> or via <a href="https://github.com/retostauffer/python-colorspace">GitHub</a>.</p>
+<p>It has the following requirements.</p>
 <ul>
-<li>Python, tested for versions <code>3.8</code>, <code>3.9</code>, <code>3.10</code>, <code>3.11</code>, <code>3.12</code>)</li>
+<li>Python 3.8 or greater (GitHub Actions test for versions 3.8, 3.9, 3.10, 3.11, 3.12)</li>
 <li><a href="https://pypi.org/project/numpy/%3E"><code>numpy</code></a></li>
 <li><a href="https://pypi.org/project/matplotlib/%3E"><code>matplotlib</code></a> (optional; used for visualization)</li>
-<li><a href="https://pypi.org/project/imageio/%3E"><code>imageio</code></a> (optional; only used by <a href="./man/colorspace.cvd_image.cvd_image.html"><code>cvd_image()</code></a>)</li>
-<li><a href="https://pandas.pydata.org/"><code>pandas</code></a> (optional; used by <a href="./man/colorspace.datasets.dataset.html"><code>dataset()</code></a>)</li>
+<li><a href="https://pypi.org/project/imageio/%3E"><code>imageio</code></a> (optional; only used by <a href="./man/colorspace.cvd_image.cvd_image.html"><code>cvd_image</code></a>)</li>
+<li><a href="https://pandas.pydata.org/"><code>pandas</code></a> (optional; used by <a href="./man/colorspace.datasets.dataset.html"><code>dataset</code></a>)</li>
 </ul>
-<p>Please use the <a href="https://github.com/retostauffer/python-colorspace/issues%3E">GitHub issues</a> to report bugs and issues as well as feature requests. There is no guarantee that feature requests can be accommodated, especially as we try to keep both, the R and Python version of the package, around the same level.</p>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>The latest release can be directly installed from <a href="https://pypi.org/project/colorspace/">PyPI</a> using:</p>
+<p>Additionally, Python’s <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> interface to Tcl/Tk is leveraged (optional, only used by the <a href="./articles/choose_palette.html">interactive palette app</a>). This is typically installed along with the base Python system but might not be available, e.g., on certain Linux distributions. If so, a <code>RuntimeError</code> is raised when invoking the app with some comments for <a href="https://tkdocs.com/tutorial/install.html">installation</a>.</p>
+</section>
+<section id="installation-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="installation-instructions">Installation instructions</h2>
+<p>The latest release version can be installed from <a href="https://pypi.org/project/colorspace/">PyPI</a> using:</p>
 <pre><code>pip install colorspace</code></pre>
-<p>… or installing the last version (GitHub head branch) using:</p>
-<pre><code>pip install git+https://github.com/retostauffer/python-colorspace</code></pre>
+<p>Similarly, the optional requirements (see above) can be installed using:</p>
+<pre><code>pip install imageio matplotlib pandas</code></pre>
+<p>The latest development version (GitHub head branch) can be installed using:</p>
+<pre><code>pip install setuptools # Ensure setuptools installed
+pip install git+https://github.com/retostauffer/python-colorspace</code></pre>
 <p>Alternatively, clone the git repository and install the package from there:</p>
 <pre><code>git clone https://github.com/retostauffer/python-colorspace.git
-cd python-colorspace &amp;&amp; pip install .</code></pre>
-<p><strong>Using a virtual environment</strong></p>
-<p>Alternatively, a Python virtual environment can be used. The additional (optional) packages allow to use full <em>colorspace</em> functionality, but are optional and not required by most core features.</p>
-<pre><code># Initialize and activate new virtual env
-virtualenv my_venv &amp;&amp; source my_venv/bin/activate
-
-# Installing colorspace
-pip install colorspace
-
-# Installing additional (optional) packages
-pip install imageio matplotlib pandas</code></pre>
+cd python-colorspace &amp;&amp; pip install setuptools &amp;&amp; pip install .</code></pre>
+<p>To employ a Python virtual environment, say <code>my_venv</code>, you can initialize and activate it prior to the commands above using:</p>
+<pre><code>virtualenv my_venv &amp;&amp; source my_venv/bin/activate</code></pre>
 </section>
-<section id="tkinter-support" class="level2">
-<h2 class="anchored" data-anchor-id="tkinter-support">Tcl/Tk support</h2>
-<p><em>colorspace</em> provides an <a href="./articles/choose_palette.html">interactive app</a> for selecting colors and palettes, leveraging the <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> interface which is part of Python’s standard library. However, it is not installed by default on all systems, particularly on certain Linux distributions.</p>
-<p>If <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> is missing, <em>colorspace</em> will raise a <code>RuntimeError</code> when the feature requiring it (<a href="./man/colorspace.choose_palette.choose_palette.html"><code>choose_palette</code></a>) is invoked. To resolve this, please follow the instructions on <a href="https://tkdocs.com/tutorial/install.html">Installing Tk</a> to install <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> on your system.</p>
-<p><em>Note:</em> If you’re using a virtual environment, you may need to recreate it after installing <a href="https://docs.python.org/3/library/tkinter.html"><code>tkinter</code></a> to ensure the library is available.</p>
+<section id="bug-reports-and-feature-requests" class="level2">
+<h2 class="anchored" data-anchor-id="bug-reports-and-feature-requests">Bug reports and feature requests</h2>
+<p>Please use the <a href="https://github.com/retostauffer/python-colorspace/issues">GitHub issues</a> to report bugs and feature requests. See the <a href="./community.html">community guidelines</a> for details.</p>
+<p>Pull requests or also possible in the GitHub repository. If feasible, it is appreciated when the package’s tests (see below) are run prior to posting a pull request.</p>
 </section>
 <section id="test-and-development" class="level2">
 <h2 class="anchored" data-anchor-id="test-and-development">Test and development</h2>
-<p>The following sections are intended for developers, not for users, and gives some insights on how to run automated tests, create coverage reports, test examples, and render the documentation.</p>
-<p>If you encounter issues and bugs, or are interested to contribute to the Python <em>colorspace</em> package, please read our <a href="./community.html">Community guidelines</a>.</p>
+<p>The following sections are intended for developers, rather than regular users, and gives some insights on how to run automated tests, create coverage reports, test examples, and render the documentation.</p>
 <section id="testing" class="level3">
 <h3 class="anchored" data-anchor-id="testing">Testing</h3>
 <p>To run the automated tests with minimal requirements, we suggest to clone the repository, set up a virtual environment with the required packages, and then run the test using <code>pytest</code>.</p>
