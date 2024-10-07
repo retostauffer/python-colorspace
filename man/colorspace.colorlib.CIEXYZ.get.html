@@ -598,7 +598,7 @@ If <code>None</code> (default) values of all coordinates of the current color ob
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="dad94ae2" class="cell" data-execution_count="2">
+<div id="7fe0bb1f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> HCL, sRGB, hexcols</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using HCL color object with alpha channel</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> HCL([<span class="dv">260</span>, <span class="dv">80</span>, <span class="dv">30</span>], [<span class="dv">80</span>, <span class="dv">0</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">30</span>], [<span class="dv">1</span>, <span class="fl">0.6</span>, <span class="fl">0.2</span>])</span>
@@ -607,13 +607,13 @@ If <code>None</code> (default) values of all coordinates of the current color ob
 <pre><code>array([260.,  80.,  30.])</code></pre>
 </div>
 </div>
-<div id="58dd5946" class="cell" data-execution_count="3">
+<div id="7114a918" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"alpha"</span>) <span class="co"># Alpha (if existing)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>array([1. , 0.6, 0.2])</code></pre>
 </div>
 </div>
-<div id="ecd0b658" class="cell" data-execution_count="4">
+<div id="1b38406b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cols.get() <span class="co"># All dimensions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>{'H': array([260.,  80.,  30.]),
@@ -622,7 +622,7 @@ If <code>None</code> (default) values of all coordinates of the current color ob
  'alpha': array([1. , 0.6, 0.2])}</code></pre>
 </div>
 </div>
-<div id="8e228713" class="cell" data-execution_count="5">
+<div id="13acb503" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert colors to sRGB</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"sRGB"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"R"</span>) <span class="co"># Specific dimension</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -630,7 +630,7 @@ If <code>None</code> (default) values of all coordinates of the current color ob
 <pre><code>array([0.00691302, 0.88757039, 0.49625787])</code></pre>
 </div>
 </div>
-<div id="54de2d32" class="cell" data-execution_count="6">
+<div id="b7b18112" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cols.get() <span class="co"># All dimensions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>{'R': array([0.00691302, 0.88757039, 0.49625787]),
@@ -639,7 +639,7 @@ If <code>None</code> (default) values of all coordinates of the current color ob
  'alpha': array([1. , 0.6, 0.2])}</code></pre>
 </div>
 </div>
-<div id="687ef2c4" class="cell" data-execution_count="7">
+<div id="07ec3d3f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to hexcols</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cols.to(<span class="st">"hex"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cols.get(<span class="st">"hex_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
