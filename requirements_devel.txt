@@ -9,6 +9,7 @@ ipython
 imageio
 matplotlib
 numpy
+scipy
 pandas
 colormaps
 seaborn
