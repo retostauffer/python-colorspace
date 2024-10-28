@@ -688,7 +688,7 @@ Transform Color Space
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="109c7783" class="cell" data-execution_count="2">
+<div id="2c032dce" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> polarLUV, HCL</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing color object with one single color via float</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>polarLUV(<span class="fl">100.</span>, <span class="dv">30</span>, <span class="fl">50.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -698,7 +698,7 @@ Transform Color Space
   1:   100.00   30.00   50.00</code></pre>
 </div>
 </div>
-<div id="bc334585" class="cell" data-execution_count="3">
+<div id="233888ab" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># polarLUV is the HCL color space, this</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  is equivalent to the command above.</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>HCL(<span class="fl">100.</span>, <span class="dv">30</span>, <span class="fl">50.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -708,7 +708,7 @@ Transform Color Space
   1:   100.00   30.00   50.00</code></pre>
 </div>
 </div>
-<div id="271498fb" class="cell" data-execution_count="4">
+<div id="f3e05be8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing object via lists</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>HCL([<span class="dv">100</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">50</span>], [<span class="dv">30</span>, <span class="dv">80</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -718,7 +718,7 @@ Transform Color Space
         80.00   50.00   80.00</code></pre>
 </div>
 </div>
-<div id="ff71f761" class="cell" data-execution_count="5">
+<div id="baa5ed66" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing object via numpy arrays</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> asarray</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>HCL(asarray([<span class="dv">100</span>, <span class="dv">80</span>]), asarray([<span class="dv">30</span>, <span class="dv">50</span>]), asarray([<span class="dv">30</span>, <span class="dv">80</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
