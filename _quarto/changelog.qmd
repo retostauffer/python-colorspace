@@ -14,7 +14,13 @@ suggestions for improvement are very welcome via the GitHub issues
 (see [Community guidelines](/community.qmd)).
 
 
-## Version 0.5.1 (October 6, 2024)
+## Version 1.0.0 (October 28, 2024)
+
+* First major release: This version marks our initial stable release,
+  coinciding with our publication in
+  [The Journal Of Open Source Software](https://joss.theoj.org/).
+
+## Version 0.5.2 (October 7, 2024)
 
 * Fixed a few bugs causing issues on 32-bit systems (`statshelper.py`,
   `colorlib.py`).

@@ -14,11 +14,11 @@ authors:
     orcid: 0000-0003-0918-3766
     affiliation: 1
 affiliations:
- - name: Department of Statistics, Universität Innsbruck
+ - name: Department of Statistics, Universität Innsbruck, Austria
    index: 1
- - name: Digital Science Center, Universität Innsbruck
+ - name: Digital Science Center, Universität Innsbruck, Austria
    index: 2
-date: 26 July 2024
+date: 28 October 2024
 bibliography: paper_assets/paper.bib
 ---
 

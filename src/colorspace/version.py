@@ -1,3 +1,3 @@
-version = '0.5.2'
-short_version = '0.5.2'
+version = '1.0.0'
+short_version = '1.0.0'
 isreleased = False

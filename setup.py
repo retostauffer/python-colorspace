@@ -26,7 +26,7 @@ except ImportError as e:
     
 
 ISRELEASED    = False
-VERSION       = "0.5.2"
+VERSION       = "1.0.0"
 FULLVERSION   = VERSION
 WRITE_VERSION = True
 
