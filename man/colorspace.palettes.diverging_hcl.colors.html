@@ -618,7 +618,7 @@ Currently allows for <code>rev = True</code> to reverse the colors.
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="8f0ba0b8" class="cell" data-execution_count="1">
+<div id="bb10d71b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> diverging_hcl, hexcols</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>diverging_hcl().colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
@@ -635,7 +635,7 @@ Currently allows for <code>rev = True</code> to reverse the colors.
  '#8E063B']</code></pre>
 </div>
 </div>
-<div id="be066ee7" class="cell" data-execution_count="2">
+<div id="f975cf9c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different diverging palette</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> diverging_hcl(<span class="st">"Green-Orange"</span>).colors(<span class="dv">5</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -643,7 +643,7 @@ Currently allows for <code>rev = True</code> to reverse the colors.
 <pre><code>['#11C638', '#95D69A', '#E2E2E2', '#F0BC95', '#EF9708']</code></pre>
 </div>
 </div>
-<div id="9d102215" class="cell" data-execution_count="3">
+<div id="013bedd6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hexcols(cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <ul class="colorspace-hexcols" style="font-size:0.5em;list-style:none;display:flex;padding:0 0 0.5em 0;text-align:center">
@@ -655,14 +655,14 @@ Currently allows for <code>rev = True</code> to reverse the colors.
 </ul>
 </div>
 </div>
-<div id="f37ebf7e" class="cell" data-execution_count="4">
+<div id="d0369e58" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Five colors with constant alpha of 0.3</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diverging_hcl().colors(<span class="dv">5</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>['#023FA54D', '#A1A6C84D', '#E2E2E24D', '#CA9CA44D', '#8E063B4D']</code></pre>
 </div>
 </div>
-<div id="94ce631e" class="cell" data-execution_count="5">
+<div id="d5908214" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Three colors with variying alpha</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>diverging_hcl().colors(<span class="dv">3</span>, alpha <span class="op">=</span> [<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="fl">0.3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
