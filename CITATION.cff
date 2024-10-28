@@ -1,28 +1,11 @@
-cff-version: 1.2.0
+cff-version: 1.1.0
 message: "Please use the following citation if referencing this software."
-title: "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes"
 version: 1.0.0
 authors:
   - family-names: Stauffer
     given-names: Reto
-    affiliation: "Department of Statistics and Digital Science Center, Universität Innsbruck, Austria"
-    orcid: "https://orcid.org/0000-0002-3798-5507"
+    orcid: https://orcid.org/0000-0002-3798-5507
   - family-names: Zeileis
     given-names: Achim
-    affiliation: "Department of Statistics, Universität Innsbruck, Austria"
-    orcid: "https://orcid.org/0000-0003-0918-3766"
+    orcid: https://orcid.org/0000-0003-0918-3766
 date-released: 2024-10-28
-url: https://retostauffer.github.io/python-colorspace/
-repository-code: https://github.com/retostauffer/python-colorspace
-license:
-  - "GPL-2.0"
-  - "GPL-3.0"
-keywords:
-   - "colors"
-   - "color palettes"
-   - "color spaces"
-   - "manipulate colors"
-   - "HCL"
-   - "HCL colors"
-   - "color vision deficiencies"
-
