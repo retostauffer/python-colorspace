@@ -1,4 +1,4 @@
-cff-version: 1.2.0
+cff-version: 1.1.0
 message: "Please use the following citation if referencing this software."
 title: "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes"
 version: "1.0.0"
