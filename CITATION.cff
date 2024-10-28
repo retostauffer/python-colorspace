@@ -14,9 +14,7 @@ authors:
 date-released: "2023-10-28"
 url: "https://retostauffer.github.io/python-colorspace/"
 repository-code: "https://github.com/retostauffer/python-colorspace"
-license:
-  - "GPL-2.0"
-  - "GPL-3.0"
+license: "GPL-2.0 | GPL-3.0"
 keywords:
    - "colors"
    - "color palettes"
