@@ -26,7 +26,7 @@ bibliography: paper_assets/paper.bib
 # Summary
 
 The Python _colorspace_ package provides a toolbox for mapping between different color
-spaces which can then be used to generate a wide range of perceptually-based
+spaces, which can then be used to generate a wide range of perceptually-based
 color palettes for qualitative or quantitative (sequential or diverging)
 information. These palettes (as well as any other sets of colors) can be
 visualized, assessed, and manipulated in various ways, e.g., by color swatches,
@@ -46,21 +46,21 @@ carefully so that they support the information displayed for all viewers
 have been proposed in the literature [e.g., @Brewer:1999; @Ihaka:2003; @Crameri:2020]
 and many software packages transitioned to better color defaults over the last
 decade. A prominent example from the Python community is _matplotlib_ 2.0
-[@matplotlib20:colors] which replaced the classic "jet" palette (a variation
+[@matplotlib20:colors], which replaced the classic "jet" palette (a variation
 of the infamous "rainbow") by the perceptually-based "viridis" palette. Hence
 a wide range of useful palettes for different purposes is provided in a number of
 Python packages today, including _cmcramery_ [@cmcrameri], _colormap_ [@colormap],
 _colormaps_ [@colormaps], _matplotlib_ [@matplotlib], _palettable_ [@palettable],
-or _seaborn_ [@seaborn].
+and _seaborn_ [@seaborn].
 
-However, in most graphics packages colors are provided as a fixed set.
+However, colors are provided as a fixed set in most graphics packages.
 While this makes it easy to use them in different
 applications, it is usually not easy to modify the perceptual properties or
 to set up new palettes following the same principles. The _colorspace_ package
 addresses this by supporting color descriptions using different color spaces
 (hence the package name), including some that are based on human color perception.
-One notable example is the Hue-Chroma-Luminance (HCL) model which represents colors
-by coordinates on three perceptually-based axes: Hue (type of color), chroma
+One notable example is the Hue-Chroma-Luminance (HCL) model, which represents colors
+by coordinates on three perceptually-based axes: hue (type of color), chroma
 (colorfulness), and luminance (brightness). Selecting colors along paths along
 these axes allows for intuitive construction of palettes that closely match many
 of the palettes provided in the packages listed above.
@@ -100,15 +100,15 @@ paths. Additionally, the HCL parameters can be modified or new
 palettes can be created from scratch.
 
 As an example, \autoref{fig:chosingpalettes} depicts color swatches for
-four viridis variations. The first `pal1` sets up
-the palette from its name. It is identical to the second
-`pal2` which employes the HCL specification directly: The hue ranges from
+four viridis variations. The first, `pal1`, sets up
+the palette from its name. It is identical to the second,
+`pal2`, which employes the HCL specification directly: the hue ranges from
 purple (300) to yellow (75), colorfulness (chroma) increases
 from 40 to 95, and luminance (brightness) from dark (15) to light (90).
 The `power` parameter chooses a linear change in chroma and a slightly
 nonlinear path for luminance.
 
-In `pal3` and `pal4` the most HCL properties are kept the same but some
+In `pal3` and `pal4`, the most HCL properties are kept the same but some
 are modified: `pal3` uses a triangular chroma path from 40 via 90 to 20, yielding muted colors at
 the end of the palette. `pal4` just changes the starting hue
 for the palette to green (200) instead of purple. All four palettes
@@ -174,8 +174,8 @@ pal4.hclplot(n = 7, figsize = (5, 5));
 ## Color vision deficiency
 
 Another important assessment of a color palette is how well it works for viewers
-with color vision deficiencies. This is exemplified in \autoref{fig-cvd}
-depicting a demo plot (heatmap) under "normal" vision (left),
+with color vision deficiencies. This is exemplified in \autoref{fig-cvd},
+which depicts a demo plot (heatmap) under "normal" vision (left),
 deuteranomaly (colloquially known as "red-green color blindness", center), and
 desaturated (gray scale, right). The palette in the top row is the traditional
 fully-saturated RGB rainbow, deliberately selected here as a palette with poor
@@ -248,7 +248,7 @@ plt.show()
 
 # Dependencies and availability
 
-The _colorspace_ is available from PyPI at <https://pypi.org/project/colorspace>.
+The _colorspace_ package is available from PyPI at <https://pypi.org/project/colorspace>.
 It is designed to be lightweight, requiring only _numpy_ [@numpy] for the core
 functionality. Only a few features rely on _matplotlib_, _imageio_ [@imageio], and
 _pandas_ [@pandas]. More information and an interactive interface can be found on
