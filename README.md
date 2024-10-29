@@ -39,10 +39,10 @@ The package provides a Python 3 version of the
 ## Contributors
 
 - [Reto Stauffer](https://retostauffer.org/)
-  <a target="_new" href="https://orcid.org/0000-0002-3798-5507"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="1em" alt="ORCID iD"/></a>,
+  <a target="_new" href="https://orcid.org/0000-0002-3798-5507"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="18px" style="position: relative; top: 3px;" alt="ORCID iD"/></a>,
   (_principal author & maintainer_), Universität Innsbruck, Austria
 - [Achim Zeileis](https://www.zeileis.org/)
-  <a target="_new" href="https://orcid.org/0000-0003-0918-3766"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="1em" alt="ORCID iD"/></a>,
+  <a target="_new" href="https://orcid.org/0000-0003-0918-3766"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="18px" style="position: relative; top: 3px;" alt="ORCID iD"/></a>,
   Universität Innsbruck, Austria
 
 We would like to thank the following individuals for their contributions to the
@@ -57,23 +57,25 @@ Furthermore, the Python package implements the functionality from the R package
 that is co-written with
 [Ross Ihaka](https://www.stat.auckland.ac.nz/~ihaka/),
 [Paul Murrell](https://www.stat.auckland.ac.nz/~paul/)
-  <a target="_new" href="https://orcid.org/0000-0002-3224-8858"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="1em" alt="ORCID iD"/></a>,
+  <a target="_new" href="https://orcid.org/0000-0002-3224-8858"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="18px" style="position: relative; top: 3px;" alt="ORCID iD"/></a>,
 [Kurt Hornik](https://statmath.wu.ac.at/~hornik/)
-  <a target="_new" href="https://orcid.org/0000-0003-4198-9911"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="1em" alt="ORCID iD"/></a>,
+  <a target="_new" href="https://orcid.org/0000-0003-4198-9911"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="18px" style="position: relative; top: 3px;" alt="ORCID iD"/></a>,
 [Jason C. Fisher](https://www.usgs.gov/staff-profiles/jason-c-fisher)
-  <a target="_new" href="https://orcid.org/0000-0001-9032-8912"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="1em" alt="ORCID iD"/></a>,
+  <a target="_new" href="https://orcid.org/0000-0001-9032-8912"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="18px" style="position: relative; top: 3px;" alt="ORCID iD"/></a>,
 [Claus O. Wilke](https://clauswilke.com/)
-  <a target="_new" href="https://orcid.org/0000-0002-7470-9261"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="1em" alt="ORCID iD"/></a>,
+  <a target="_new" href="https://orcid.org/0000-0002-7470-9261"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="18px" style="position: relative; top: 3px;" alt="ORCID iD"/></a>,
 [Claire D. McWhite](https://clairemcwhite.github.io/)
-  <a target="_new" href="https://orcid.org/0000-0001-7346-3047"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="1em" alt="ORCID iD"/></a>.
+  <a target="_new" href="https://orcid.org/0000-0001-7346-3047"><img src="https://raw.githubusercontent.com/retostauffer/python-colorspace/main/_quarto/logo-orcid.svg" width="18px" style="position: relative; top: 3px;" alt="ORCID iD"/></a>.
 
 
-## Citation
+## Citations
 
-Stauffer R, Zeileis A (2024). "colorspace: A Python Toolbox for Manipulating
+Stauffer, R. and Zeileis A. (2024). "colorspace: A Python Toolbox for Manipulating
 and Assessing Colors and Palettes." _The Journal of Open Source Software_, pp.
 1-6. doi:[10.21105/joss.07120](https://doi.org/10.21105/joss.07120).
 
+Stauffer, R. and Zeileis, A. (2024). "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes (v1.0.0)". _Zenodo_.
+doi:[10.5281/zenodo.14004295](https://doi.org/10.5281/zenodo.14004295).
 
 ## Development notes
 

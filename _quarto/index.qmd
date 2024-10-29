@@ -41,6 +41,16 @@ new features. Please refer to our [Community guidelines](community.qmd)
 for more information.
 
 
+## Citations
+
+Stauffer, R. and Zeileis A. (2024). "colorspace: A Python Toolbox for Manipulating
+and Assessing Colors and Palettes." _The Journal of Open Source Software_, pp.
+1-6. doi:[10.21105/joss.07120](https://doi.org/10.21105/joss.07120).
+
+Stauffer, R. and Zeileis, A. (2024). "colorspace: A Python Toolbox for Manipulating and Assessing Colors and Palettes (v1.0.0)". _Zenodo_.
+doi:[10.5281/zenodo.14004295](https://doi.org/10.5281/zenodo.14004295).
+
+
 ## Other packages and further reading
 
 * [HCLwizard.org](https://hclwizard.org): More information about the HCL color
