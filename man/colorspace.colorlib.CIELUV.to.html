@@ -601,7 +601,7 @@ Whether or not colors outside the defined rgb color space should be corrected if
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="3df93b83" class="cell" data-execution_count="1">
+<div id="b1e53633" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> CIELUV</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> CIELUV([ <span class="dv">25</span>,  <span class="dv">45</span>, <span class="dv">65</span>, <span class="dv">85</span>],</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>           [  <span class="dv">6</span>,  <span class="dv">75</span>, <span class="dv">90</span>, <span class="dv">16</span>],</span>
@@ -616,13 +616,13 @@ Whether or not colors outside the defined rgb color space should be corrected if
         85.00   16.00   42.00</code></pre>
 </div>
 </div>
-<div id="4cb970e4" class="cell" data-execution_count="2">
+<div id="f929781c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>colorspace.colorlib.CIELUV</code></pre>
 </div>
 </div>
-<div id="521ba85e" class="cell" data-execution_count="3">
+<div id="19f03153" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert colors to sRGB</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"sRGB"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -635,13 +635,13 @@ Whether or not colors outside the defined rgb color space should be corrected if
          0.91    0.83    0.61</code></pre>
 </div>
 </div>
-<div id="e4765e63" class="cell" data-execution_count="4">
+<div id="b78fe7b7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>colorspace.colorlib.sRGB</code></pre>
 </div>
 </div>
-<div id="6254545d" class="cell" data-execution_count="5">
+<div id="1baaf3c2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from sRGB to hex</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"hex"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -654,7 +654,7 @@ Whether or not colors outside the defined rgb color space should be corrected if
 </ul>
 </div>
 </div>
-<div id="ecdc2f31" class="cell" data-execution_count="6">
+<div id="0ab0e1f7" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert back to CIELUV colors.</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Round-off errors due to conversion to 'hex'.</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>x.to(<span class="st">"CIELUV"</span>)</span>
@@ -668,7 +668,7 @@ Whether or not colors outside the defined rgb color space should be corrected if
         84.97   15.69   41.71</code></pre>
 </div>
 </div>
-<div id="44907d70" class="cell" data-execution_count="7">
+<div id="4934fd9d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting hex colors (returns list of str)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x.colors()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
