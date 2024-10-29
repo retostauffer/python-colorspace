@@ -623,7 +623,7 @@ Forwarded to the corresponding demo plot functions.
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="2d3793d2" class="cell" data-execution_count="1">
+<div id="9a932f2e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importing modules</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace.colorlib <span class="im">import</span> <span class="op">*</span></span>
@@ -634,7 +634,7 @@ Forwarded to the corresponding demo plot functions.
 <pre><code>['#BCBE57', '#DEDFC0', '#F1F1F1', '#F7D3E7', '#FB99D7']</code></pre>
 </div>
 </div>
-<div id="a47c7683" class="cell" data-execution_count="2">
+<div id="d79a8f75" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A (HCL based) colorobject with (n = 3)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>colorobj <span class="op">=</span> HCL([<span class="dv">0</span>, <span class="dv">90</span>, <span class="dv">180</span>], [<span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">60</span>], [<span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">60</span>])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>colorobj</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -646,15 +646,15 @@ Forwarded to the corresponding demo plot functions.
        180.00   60.00   60.00</code></pre>
 </div>
 </div>
-<div id="543aa0ea" class="cell" data-execution_count="3">
+<div id="91a2f1f7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default diverging HCL palette</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hclpalette <span class="op">=</span> diverging_hcl()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>hclpalette</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;colorspace.palettes.diverging_hcl at 0x7f570c55d110&gt;</code></pre>
+<pre><code>&lt;colorspace.palettes.diverging_hcl at 0x7ff80e250f10&gt;</code></pre>
 </div>
 </div>
-<div id="4cf21889" class="cell" data-execution_count="4">
+<div id="506bc27c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default color palette shipped with the package</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>berlin <span class="op">=</span> hcl_palettes(name <span class="op">=</span> <span class="st">"Berlin"</span>).get_palettes()[<span class="dv">0</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>berlin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -674,7 +674,7 @@ Forwarded to the corresponding demo plot functions.
          p2           1.5</code></pre>
 </div>
 </div>
-<div id="82216e0a" class="cell" data-execution_count="5">
+<div id="50e1f928" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Demoplots</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>demoplot(hexlist, <span class="st">"Bar"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -685,7 +685,7 @@ Forwarded to the corresponding demo plot functions.
 </div>
 </div>
 </div>
-<div id="d5873ff0" class="cell" data-execution_count="6">
+<div id="b4a08969" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>demoplot(colorobj, <span class="st">"Lines"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -695,7 +695,7 @@ Forwarded to the corresponding demo plot functions.
 </div>
 </div>
 </div>
-<div id="f6e3168e" class="cell" data-execution_count="7">
+<div id="ce35beb6" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>demoplot(hclpalette, <span class="st">"Pie"</span>, n <span class="op">=</span> <span class="dv">4</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -705,7 +705,7 @@ Forwarded to the corresponding demo plot functions.
 </div>
 </div>
 </div>
-<div id="74f44736" class="cell" data-execution_count="8">
+<div id="222224b9" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>demoplot(berlin.colors(), <span class="st">"Matrix"</span>, n <span class="op">=</span> <span class="dv">11</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -715,7 +715,7 @@ Forwarded to the corresponding demo plot functions.
 </div>
 </div>
 </div>
-<div id="9a1a7f87" class="cell" data-execution_count="9">
+<div id="01dda46b" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using custom subplots and plot titles</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> protan, deutan, desaturate</span>
