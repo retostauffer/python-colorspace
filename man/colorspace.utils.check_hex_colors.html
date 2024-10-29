@@ -598,44 +598,44 @@ str or list of str with colors. See function description for details. In case it
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="b0904fab" class="cell" data-execution_count="1">
+<div id="9b79db5c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> check_hex_colors</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>check_hex_colors(<span class="st">"#ff003311"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>['#FF003311']</code></pre>
 </div>
 </div>
-<div id="a26160f4" class="cell" data-execution_count="2">
+<div id="d5b090af" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>check_hex_colors(<span class="st">"#ff0033"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>['#FF0033']</code></pre>
 </div>
 </div>
-<div id="24642552" class="cell" data-execution_count="3">
+<div id="78fae2e9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>check_hex_colors(<span class="st">"#f03"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>['#FF0033']</code></pre>
 </div>
 </div>
-<div id="6ebebcb5" class="cell" data-execution_count="4">
+<div id="56e58d92" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>check_hex_colors([<span class="st">"#f0f"</span>, <span class="st">"#00F"</span>, <span class="st">"#00FFFF"</span>, <span class="st">"#ff003311"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>['#FF00FF', '#0000FF', '#00FFFF', '#FF003311']</code></pre>
 </div>
 </div>
-<div id="34c16750" class="cell" data-execution_count="5">
+<div id="c0eda457" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>check_hex_colors([<span class="st">"#FFF"</span>, <span class="st">"0"</span>, <span class="st">"black"</span>, <span class="st">"blue"</span>, <span class="st">"magenta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['#FFFFFF', '#000000', '#000000', '#0000FF', '#FF00FF']</code></pre>
 </div>
 </div>
-<div id="0e1adcf4" class="cell" data-execution_count="6">
+<div id="a7a1784b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>check_hex_colors([<span class="va">None</span>, <span class="st">"#ff0033"</span>, <span class="va">None</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>[None, '#FF0033', None]</code></pre>
 </div>
 </div>
-<div id="9b6b8e12" class="cell" data-execution_count="7">
+<div id="204a903e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> asarray</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>check_hex_colors(asarray([<span class="st">"#f0f"</span>, <span class="st">"#00F"</span>, <span class="st">"#00FFFF"</span>, <span class="st">"#ff003311"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
