@@ -553,7 +553,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/retostauffer/python-colorspace/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
-<p>Documentation built with Python <code>3.11.14</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.2</code> and quarto <code>1.8.27</code> on GitHub.</p>
+<p>Documentation built with Python <code>3.14.2</code>, <a href="https://github.com/retostauffer/pyp2qmd">pyp2qmd</a> <code>0.1.2</code> and quarto <code>1.8.27</code> on GitHub.</p>
 </div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -628,11 +628,11 @@ Drop alpha channel, defaults to <code>False</code>. Only useful for png figures 
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
-<div id="c9b61e81" class="cell" data-execution_count="1">
+<div id="5c66c7e3" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> colorspace <span class="im">import</span> cvd_image</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cvd_image(<span class="st">"DEMO"</span>, <span class="st">"deutan"</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages/colorspace/cvd_image.py:135: UserWarning:
+<pre><code>/opt/hostedtoolcache/Python/3.14.2/x64/lib/python3.14/site-packages/colorspace/cvd_image.py:135: UserWarning:
 
 Ignoring specified arguments in this call because figure with num: 1 already exists
 </code></pre>
@@ -645,7 +645,7 @@ Ignoring specified arguments in this call because figure with num: 1 already exi
 </div>
 </div>
 </div>
-<div id="2bc05393" class="cell" data-execution_count="2">
+<div id="746376b2" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cvd_image(<span class="st">"DEMO"</span>, <span class="st">"desaturate"</span>, <span class="fl">1.0</span>, <span class="st">"output.png"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -655,7 +655,7 @@ Ignoring specified arguments in this call because figure with num: 1 already exi
 </div>
 </div>
 </div>
-<div id="636236d4" class="cell" data-execution_count="3">
+<div id="f9de5c55" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cvd_image(<span class="st">"DEMO"</span>, [<span class="st">"original"</span>, <span class="st">"deutan"</span>, <span class="st">"protan"</span>],</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.5</span>, dropalpha <span class="op">=</span> <span class="va">True</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
